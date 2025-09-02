@@ -1,33 +1,58 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Overview of Gameball Developers Guide and REST API v4.0'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Gameball Developers Guide
 
-## Welcome
+Gameball is a customer engagement and loyalty platform that provides a ready‑made widget and REST APIs to power rewards, gamification, and retention across your apps and sites. Instead of building these capabilities from scratch, integrate the SDKs and APIs and customize via the Gameball Dashboard.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+<Callout>
+Looking for the full developer portal? Visit the Gameball Developers Guide.
+</Callout>
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+- **Current API version**: v4.0
+- **Platforms**:
+  - Web (customer widget, events, orders, redemptions, referrals)
+  - iOS, Android
+  - React Native, Flutter
+  - Generic mobile apps
+
+## REST API
+
+Gameball's REST API follows standard RESTful principles with resource‑oriented URLs, form‑encoded requests, and JSON responses. Use it to manage customers, track events and orders, process cashback and redemptions, handle transactions and coupons, configure rewards, and more.
+
+- **Key areas**:
+  - Customers (management, progress, tags, notifications)
+  - Events and Orders (tracking, rewards, history)
+  - Transactions (cashback, redemptions, holds, validation)
+  - Coupons
+  - Configurations (rewards, program, widget)
+  - Leaderboard, Batches
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Authenticate requests with a Bearer token. Provide the token in the `Authorization` header:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```http
+Authorization: Bearer <token>
 ```
+
+## Get started
+
+- Install and initialize the SDK for your platform (Web, iOS, Android, React Native, Flutter)
+- Track customer events and orders
+- Enable redemption and referrals
+- Configure rewards and programs via the dashboard
+
+## Explore the API
+
+Use the navigation on the left to browse endpoints and examples, or jump directly to the OpenAPI reference included in this repo.
+
+<Card
+  title="OpenAPI specification"
+  icon="code"
+  href="/api-reference/openapi.json"
+>
+  Explore the OpenAPI file used by this documentation.
+</Card>
