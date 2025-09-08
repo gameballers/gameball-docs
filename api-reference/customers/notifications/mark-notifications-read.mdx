@@ -1,0 +1,129 @@
+---
+title: "Mark as Read"
+description: "Mark one or more notifications as read for a customer."
+openapi: "POST /api/v4.0/integrations/customers/{customerId}/notifications/read"
+languages: ["curl", "javascript", "python", "csharp", "php"]
+---
+
+## Mark Notifications as Read
+
+Mark one or more notifications as read for the specified customer.
+
+<Info>
+Security: Provide both `apikey` and `secretkey` headers.
+</Info>
+
+<Note>
+Concepts and examples adapted from the official Gameball Customers documentation: https://developer.gameball.co/rest-api/customers
+</Note>
+
+---
+
+### Overview
+
+Use this endpoint to update notification read state and power badge counters.
+
+
+### Parameters
+
+Path
+
+<ParamField path="customerId" type="string" required>
+Unique identifier of the customer.
+</ParamField>
+
+Body
+
+<ParamField body="notificationIds" type="array[string]" required>
+List of notification IDs to mark as read.
+</ParamField>
+
+---
+
+### Request
+
+<RequestExample>
+```bash cURL
+curl -X POST "https://api.gameball.co/api/v4.0/integrations/customers/1848877205/notifications/read" \
+  -H "Content-Type: application/json" \
+  -H "apikey: YOUR_API_KEY" \
+  -H "secretkey: YOUR_SECRET_KEY" \
+  -d '{"notificationIds":["n_01HZYF8Q7N8R","n_01HZYF8Q7P2C"]}'
+```
+</RequestExample>
+
+### Response
+
+<ResponseExample>
+```json Success
+{ "success": true, "updated": 2 }
+```
+</ResponseExample>
+
+---
+
+### Code examples
+
+<CodeGroup>
+```javascript Node.js
+await fetch(`https://api.gameball.co/api/v4.0/integrations/customers/${customerId}/notifications/read`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    apikey: process.env.API_KEY,
+    secretkey: process.env.SECRET_KEY
+  },
+  body: JSON.stringify({ notificationIds: ["n_01HZYF8Q7N8R", "n_01HZYF8Q7P2C"] })
+});
+```
+
+```python Python
+import requests, os
+url = f"https://api.gameball.co/api/v4.0/integrations/customers/{customer_id}/notifications/read"
+headers = {"Content-Type":"application/json","apikey": os.environ["API_KEY"], "secretkey": os.environ["SECRET_KEY"]}
+resp = requests.post(url, json={"notificationIds":["n_01HZYF8Q7N8R","n_01HZYF8Q7P2C"]}, headers=headers)
+resp.raise_for_status()
+```
+
+```csharp C#
+using System.Net.Http;
+using System.Text;
+var client = new HttpClient();
+client.DefaultRequestHeaders.Add("apikey", Environment.GetEnvironmentVariable("API_KEY"));
+client.DefaultRequestHeaders.Add("secretkey", Environment.GetEnvironmentVariable("SECRET_KEY"));
+var content = new StringContent("{\"notificationIds\":[\"n_01HZYF8Q7N8R\",\"n_01HZYF8Q7P2C\"]}", Encoding.UTF8, "application/json");
+var response = await client.PostAsync($"https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/notifications/read", content);
+response.EnsureSuccessStatusCode();
+```
+
+```curl cURL
+curl -X POST "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/notifications/read" \
+  -H "Content-Type: application/json" \
+  -H "apikey: YOUR_API_KEY" \
+  -H "secretkey: YOUR_SECRET_KEY" \
+  -d '{"notificationIds":["n_01HZYF8Q7N8R","n_01HZYF8Q7P2C"]}'
+```
+
+```php PHP
+<?php
+$url = "https://api.gameball.co/api/v4.0/integrations/customers/{$customerId}/notifications/read";
+$payload = json_encode(["notificationIds" => ["n_01HZYF8Q7N8R", "n_01HZYF8Q7P2C"]]);
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_POST => true,
+  CURLOPT_HTTPHEADER => [
+    'Content-Type: application/json',
+    'apikey: ' . getenv('API_KEY'),
+    'secretkey: ' . getenv('SECRET_KEY')
+  ],
+  CURLOPT_POSTFIELDS => $payload,
+  CURLOPT_RETURNTRANSFER => true
+]);
+$resp = curl_exec($ch);
+if ($resp === false) throw new Exception(curl_error($ch));
+curl_close($ch);
+```
+</CodeGroup>
+
+
+

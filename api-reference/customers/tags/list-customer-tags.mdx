@@ -1,0 +1,133 @@
+---
+title: "List Customer Tags"
+description: "Fetch tags attached to a customer."
+openapi: "GET /api/v4.0/integrations/customers/{customerId}/tags"
+languages: ["curl", "javascript", "python", "csharp", "php"]
+---
+
+## List Customer Tags
+
+Get all tags attached to the specified customer.
+
+<Info>
+Security: Provide both `apikey` and `secretkey` headers.
+</Info>
+
+<Note>
+Concepts and examples adapted from the official Gameball Customers documentation: https://developer.gameball.co/rest-api/customers
+</Note>
+
+---
+
+### Overview
+
+Use this endpoint to retrieve tags for segmentation or conditional UI.
+
+
+### Parameters
+
+Path
+
+<ParamField path="customerId" type="string" required>
+Unique identifier of the customer.
+</ParamField>
+
+Query
+
+<ParamField query="limit" type="integer" default="50">
+Maximum number of tags to return.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+Pagination cursor returned from a previous call.
+</ParamField>
+
+---
+
+### Request
+
+<RequestExample>
+```bash cURL
+curl -X GET "https://api.gameball.co/api/v4.0/integrations/customers/1848877205/tags?limit=50" \
+  -H "apikey: YOUR_API_KEY" \
+  -H "secretkey: YOUR_SECRET_KEY"
+```
+</RequestExample>
+
+### Response
+
+<ResponseExample>
+```json Success
+{
+  "customerId": "1848877205",
+  "tags": ["vip", "wholesale", "newsletter"],
+  "nextCursor": null
+}
+```
+</ResponseExample>
+
+---
+
+### Code examples
+
+<CodeGroup>
+```curl cURL
+curl -X GET "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/tags" \
+  -H "apikey: YOUR_API_KEY" \
+  -H "secretkey: YOUR_SECRET_KEY"
+```
+
+```javascript Node.js
+const res = await fetch(`https://api.gameball.co/api/v4.0/integrations/customers/${customerId}/tags`, {
+  headers: { apikey: process.env.API_KEY, secretkey: process.env.SECRET_KEY }
+});
+const data = await res.json();
+```
+
+```python Python
+import requests, os
+
+url = f"https://api.gameball.co/api/v4.0/integrations/customers/{customer_id}/tags"
+headers = {"apikey": os.environ["API_KEY"], "secretkey": os.environ["SECRET_KEY"]}
+data = requests.get(url, headers=headers).json()
+```
+
+```csharp C#
+var client = new HttpClient();
+client.DefaultRequestHeaders.Add("apikey", Environment.GetEnvironmentVariable("API_KEY"));
+client.DefaultRequestHeaders.Add("secretkey", Environment.GetEnvironmentVariable("SECRET_KEY"));
+var resp = await client.GetAsync($"https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/tags");
+resp.EnsureSuccessStatusCode();
+```
+
+```php PHP
+<?php
+$url = "https://api.gameball.co/api/v4.0/integrations/customers/{$customerId}/tags";
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_HTTPHEADER => [
+    'apikey: ' . getenv('API_KEY'),
+    'secretkey: ' . getenv('SECRET_KEY')
+  ],
+  CURLOPT_RETURNTRANSFER => true
+]);
+$resp = curl_exec($ch);
+if ($resp === false) throw new Exception(curl_error($ch));
+curl_close($ch);
+$data = json_decode($resp, true);
+```
+</CodeGroup>
+
+---
+
+### Errors
+
+Common HTTP codes: 200, 400 (validation), 401 (auth), 404 (not found), 429 (rate limited).
+
+### See also
+
+- Customer Tags: Attach Customer Tags
+- Customer Tags: Remove Customer Tag
+
+
+

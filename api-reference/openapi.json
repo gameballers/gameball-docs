@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.gameball.co"
     }
   ],
   "security": [
@@ -19,6 +19,369 @@
     }
   ],
   "paths": {
+    "/api/v4.0/integrations/customers": {
+      "post": {
+        "description": "Create or update a customer profile in Gameball using a unique customerId.",
+        "security": [ { "apiKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Net.Http.Headers;\nusing System.Text;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar json = \"{\\\"customerId\\\":\\\"12345\\\",\\\"email\\\":\\\"john@example.com\\\"}\";\nvar content = new StringContent(json, Encoding.UTF8, \"application/json\");\nvar response = await client.PostAsync(\"/api/v4.0/integrations/customers\", content);\nresponse.EnsureSuccessStatusCode();"
+          }
+        ],
+        "requestBody": {
+          "description": "Customer payload containing identifiers and attributes.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpsertCustomerRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Customer upserted",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Success" }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "get": {
+        "description": "Retrieve a customer by customerId or external identifier.",
+        "security": [ { "apiKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers?customerId=12345\");\nresponse.EnsureSuccessStatusCode();\nvar body = await response.Content.ReadAsStringAsync();"
+          }
+        ],
+        "parameters": [
+          { "name": "customerId", "in": "query", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" }
+        ],
+        "responses": {
+          "200": { "description": "Customer found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } } },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}": {
+      "get": {
+        "description": "Retrieve a customer by path identifier.",
+        "security": [ { "apiKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345\");\nresponse.EnsureSuccessStatusCode();"
+          }
+        ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" }
+        ],
+        "responses": {
+          "200": { "description": "Customer found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } } },
+          "404": { "description": "Not found" }
+        }
+      },
+      "delete": {
+        "description": "Delete a customer by customerId.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar request = new HttpRequestMessage(HttpMethod.Delete, \"/api/v4.0/integrations/customers/12345\");\nvar response = await client.SendAsync(request);\nresponse.EnsureSuccessStatusCode();"
+          }
+        ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" }
+        ],
+        "responses": {
+          "204": { "description": "Deleted" },
+          "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/details": {
+      "get": {
+        "description": "Retrieve detailed profile information for a customer.",
+        "security": [ { "apiKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345/details\");\nresponse.EnsureSuccessStatusCode();"
+          }
+        ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Customer details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerDetails" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/coupons": {
+      "get": {
+        "description": "List coupons available for a customer.",
+        "security": [ { "apiKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345/coupons\");\nresponse.EnsureSuccessStatusCode();"
+          }
+        ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Coupons list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerCoupons" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/hash": {
+      "get": {
+        "description": "Generate a rotating hash for a customer.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345/hash\");\nresponse.EnsureSuccessStatusCode();"
+          }
+        ],
+        "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+        "responses": {
+          "200": { "description": "Hash generated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerHash" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/progress": {
+      "get": {
+        "operationId": "getCustomerProgress",
+        "description": "Retrieve customer loyalty progress including tier, points balance, and referrals.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "x-codeSamples": [
+          { "lang": "curl", "label": "cURL", "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/progress' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
+          { "lang": "javascript", "label": "JavaScript", "source": "const res = await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress', { headers: { apikey: 'YOUR_API_KEY', secretkey: 'YOUR_SECRET_KEY' } }); const data = await res.json();" },
+          { "lang": "python", "label": "Python", "source": "import requests\nresp = requests.get('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress', headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY'})\nprint(resp.json())" },
+          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar response = await client.GetAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/progress\");\nresponse.EnsureSuccessStatusCode();" },
+          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress');\\ncurl_setopt_array($ch, [CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
+        ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" },
+          { "name": "expand", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Comma-separated expansions: tier,referrals" }
+        ],
+        "responses": {
+          "200": { "description": "Customer progress", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerProgress" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/tags": {
+      "get": {
+        "operationId": "listCustomerTags",
+        "description": "List tags attached to a customer.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "format": "int32", "default": 50 } },
+          { "name": "cursor", "in": "query", "required": false, "schema": { "type": "string" } }
+        ],
+        "x-codeSamples": [
+          { "lang": "curl", "label": "cURL", "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/tags' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
+          { "lang": "javascript", "label": "JavaScript", "source": "const res = await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags', { headers: { apikey: 'YOUR_API_KEY', secretkey: 'YOUR_SECRET_KEY' } }); const data = await res.json();" },
+          { "lang": "python", "label": "Python", "source": "import requests\nresp = requests.get('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags', headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY'})\nprint(resp.json())" },
+          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar res = await client.GetAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/tags\");\nres.EnsureSuccessStatusCode();" },
+          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags');\\ncurl_setopt_array($ch, [CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
+        ],
+        "responses": {
+          "200": { "description": "Tags list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerTags" } } } }
+        }
+      },
+      "post": {
+        "operationId": "attachCustomerTags",
+        "description": "Attach one or more tags to a customer.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AttachTagsRequest" } } }
+        },
+        "x-codeSamples": [
+          { "lang": "curl", "label": "cURL", "source": "curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers/12345/tags' -H 'Content-Type: application/json' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY' -d '{\"tags\":[\"vip\",\"newsletter\"]}'" },
+          { "lang": "javascript", "label": "JavaScript", "source": "await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags',{method:'POST',headers:{'Content-Type':'application/json',apikey:'YOUR_API_KEY',secretkey:'YOUR_SECRET_KEY'},body:JSON.stringify({tags:['vip','newsletter']})});" },
+          { "lang": "python", "label": "Python", "source": "import requests\nrequests.post('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags', json={'tags':['vip','newsletter']}, headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY','Content-Type':'application/json'})" },
+          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http; using System.Text;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar content = new StringContent(\"{\\\"tags\\\":[\\\"vip\\\",\\\"newsletter\\\"]}\", Encoding.UTF8, \"application/json\");\nvar res = await client.PostAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/tags\", content);\nres.EnsureSuccessStatusCode();" },
+          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags');\\n$payload = json_encode(['tags'=>['vip','newsletter']]);\\ncurl_setopt_array($ch, [CURLOPT_POST=>true, CURLOPT_HTTPHEADER => ['Content-Type: application/json','apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_POSTFIELDS => $payload, CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
+        ],
+        "responses": {
+          "200": { "description": "Tags attached", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/tags/{tag}": {
+      "delete": {
+        "operationId": "removeCustomerTag",
+        "description": "Remove a tag from a customer.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "tag", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "x-codeSamples": [
+          { "lang": "curl", "label": "cURL", "source": "curl -X DELETE 'https://api.gameball.co/api/v4.0/integrations/customers/12345/tags/vip' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
+          { "lang": "javascript", "label": "JavaScript", "source": "await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags/vip',{method:'DELETE',headers:{apikey:'YOUR_API_KEY',secretkey:'YOUR_SECRET_KEY'}});" },
+          { "lang": "python", "label": "Python", "source": "import requests\nrequests.delete('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags/vip', headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY'})" },
+          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar res = await client.DeleteAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/tags/vip\");\nres.EnsureSuccessStatusCode();" },
+          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags/vip');\\ncurl_setopt_array($ch, [CURLOPT_CUSTOMREQUEST=>'DELETE', CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
+        ],
+        "responses": {
+          "200": { "description": "Tag removed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/notifications": {
+      "get": {
+        "operationId": "listCustomerNotifications",
+        "description": "List notifications for a customer.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "format": "int32", "default": 50 } },
+          { "name": "cursor", "in": "query", "required": false, "schema": { "type": "string" } }
+        ],
+        "x-codeSamples": [
+          { "lang": "curl", "label": "cURL", "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
+          { "lang": "javascript", "label": "JavaScript", "source": "const res = await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications',{ headers:{ apikey:'YOUR_API_KEY', secretkey:'YOUR_SECRET_KEY'}}); const data = await res.json();" },
+          { "lang": "python", "label": "Python", "source": "import requests\nresp = requests.get('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications', headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY'})\nprint(resp.json())" },
+          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar res = await client.GetAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications\");\nres.EnsureSuccessStatusCode();" },
+          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications');\\ncurl_setopt_array($ch, [CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
+        ],
+        "responses": {
+          "200": { "description": "Notifications list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerNotifications" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/notifications/read": {
+      "post": {
+        "operationId": "markNotificationsRead",
+        "description": "Mark one or more notifications as read.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MarkNotificationsReadRequest" } } }
+        },
+        "x-codeSamples": [
+          { "lang": "curl", "label": "cURL", "source": "curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications/read' -H 'Content-Type: application/json' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY' -d '{\"notificationIds\":[\"n_01\",\"n_02\"]}'" },
+          { "lang": "javascript", "label": "JavaScript", "source": "await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications/read',{method:'POST',headers:{'Content-Type':'application/json',apikey:'YOUR_API_KEY',secretkey:'YOUR_SECRET_KEY'},body:JSON.stringify({notificationIds:['n_01','n_02']})});" },
+          { "lang": "python", "label": "Python", "source": "import requests\nrequests.post('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications/read', json={'notificationIds':['n_01','n_02']}, headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY','Content-Type':'application/json'})" },
+          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http; using System.Text;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar content = new StringContent(\"{\\\"notificationIds\\\":[\\\"n_01\\\",\\\"n_02\\\"]}\", Encoding.UTF8, \"application/json\");\nvar res = await client.PostAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications/read\", content);\nres.EnsureSuccessStatusCode();" },
+          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications/read');\\n$payload = json_encode(['notificationIds'=>['n_01','n_02']]);\\ncurl_setopt_array($ch, [CURLOPT_POST=>true, CURLOPT_HTTPHEADER => ['Content-Type: application/json','apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_POSTFIELDS => $payload, CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
+        ],
+        "responses": {
+          "200": { "description": "Updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/referrals/validate": {
+      "get": {
+        "description": "Validate a referral code.",
+        "security": [ { "apiKey": [] } ],
+        "x-codeSamples": [
+          {
+            "lang": "C#",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/referrals/validate?referrerCode=CODE123&forCustomerId=12345\");\nresponse.EnsureSuccessStatusCode();\nvar body = await response.Content.ReadAsStringAsync();"
+          }
+        ],
+        "parameters": [
+          { "name": "referrerCode", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "forCustomerId", "in": "query", "required": false, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Validation result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReferralValidation" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/events": {
+      "post": {
+        "description": "Send events to capture customer actions, enabling targeted rewards and engagement.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "description": "Event payload containing the customerId and one or more events with metadata.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EventRequest" },
+              "examples": {
+                "sample": {
+                  "summary": "Sample request",
+                  "value": {
+                    "customerId": "1848877205",
+                    "events": {
+                      "write_review": {
+                        "product_id": "1653503260",
+                        "review": "5 Stars Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Events accepted",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Success" },
+                "examples": {
+                  "accepted": {
+                    "value": { "success": true, "message": "Events processed" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid API keys",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/plants": {
       "get": {
         "description": "Returns all plants from the system that the user has access to",
@@ -154,6 +517,135 @@
   },
   "components": {
     "schemas": {
+      "UpsertCustomerRequest": {
+        "type": "object",
+        "required": ["customerId"],
+        "properties": {
+          "customerId": { "type": "string" },
+          "email": { "type": "string" },
+          "mobile": { "type": "string" },
+          "deviceToken": { "type": "string" },
+          "osType": { "type": "string" },
+          "customerAttributes": { "type": "object", "additionalProperties": true },
+          "Custom": { "type": "object", "additionalProperties": true }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "string" },
+          "email": { "type": "string" },
+          "mobile": { "type": "string" },
+          "attributes": { "type": "object", "additionalProperties": true }
+        }
+      },
+      "CustomerDetails": {
+        "type": "object",
+        "properties": {
+          "customer": { "$ref": "#/components/schemas/Customer" },
+          "tier": { "type": "string" },
+          "pointsBalance": { "type": "number" }
+        }
+      },
+      "Coupon": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "code": { "type": "string" },
+          "value": { "type": "number" },
+          "type": { "type": "string" },
+          "target": { "type": "string" },
+          "currency": { "type": "string" },
+          "startDate": { "type": "string", "format": "date-time" },
+          "expiryDate": { "type": "string", "format": "date-time" },
+          "isExpired": { "type": "boolean" },
+          "isActive": { "type": "boolean" }
+        }
+      },
+      "CustomerCoupons": {
+        "type": "object",
+        "properties": {
+          "coupons": { "type": "array", "items": { "$ref": "#/components/schemas/Coupon" } }
+        }
+      },
+      "CustomerHash": {
+        "type": "object",
+        "properties": { "hash": { "type": "string" } }
+      },
+      "ReferralValidation": {
+        "type": "object",
+        "properties": { "isValid": { "type": "boolean" } }
+      },
+      "CustomerProgress": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "string" },
+          "pointsBalance": { "type": "number" },
+          "tier": { "type": "object", "properties": { "name": { "type": "string" }, "rank": { "type": "integer" } } },
+          "referrals": { "type": "object", "properties": { "total": { "type": "integer" }, "successful": { "type": "integer" } } }
+        }
+      },
+      "CustomerTags": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "nextCursor": { "type": ["string", "null"] }
+        }
+      },
+      "AttachTagsRequest": {
+        "type": "object",
+        "required": ["tags"],
+        "properties": {
+          "tags": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "CustomerNotifications": {
+        "type": "object",
+        "properties": {
+          "notifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "title": { "type": "string" },
+                "body": { "type": "string" },
+                "isRead": { "type": "boolean" },
+                "createdAt": { "type": "string", "format": "date-time" }
+              }
+            }
+          },
+          "nextCursor": { "type": ["string", "null"] }
+        }
+      },
+      "MarkNotificationsReadRequest": {
+        "type": "object",
+        "required": ["notificationIds"],
+        "properties": { "notificationIds": { "type": "array", "items": { "type": "string" } } }
+      },
+      "EventRequest": {
+        "type": "object",
+        "required": ["customerId", "events"],
+        "properties": {
+          "customerId": { "type": "string", "description": "Unique identifier for the customer" },
+          "events": {
+            "type": "object",
+            "description": "A mapping of event names to metadata objects",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "Success": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "message": { "type": "string" }
+        }
+      },
       "Plant": {
         "required": [
           "name"
@@ -208,6 +700,16 @@
       }
     },
     "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "apikey"
+      },
+      "secretKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "secretkey"
+      },
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"

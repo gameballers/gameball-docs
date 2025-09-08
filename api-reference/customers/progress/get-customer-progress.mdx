@@ -1,0 +1,145 @@
+---
+title: "Get Customer Progress"
+description: "Retrieve customer progress including tiers, points, and referrals."
+openapi: "GET /api/v4.0/integrations/customers/{customerId}/progress"
+languages: ["curl", "javascript", "python", "csharp", "php"]
+---
+
+## Get Customer Progress
+
+Retrieve loyalty progress, including current tier, points balance, and referral stats.
+
+<Info>
+Security: Provide both `apikey` and `secretkey` headers.
+</Info>
+
+<Note>
+Concepts and examples adapted from the official Gameball Customers documentation: https://developer.gameball.co/rest-api/customers
+</Note>
+
+---
+
+### Overview
+
+Use this endpoint to fetch a customer's program progress for building UI like balances, tiers, and referrals.
+
+
+### Parameters
+
+Path
+
+<ParamField path="customerId" type="string" required>
+Unique identifier of the customer.
+</ParamField>
+
+Query
+
+<ParamField query="expand" type="string" default="none">
+Optional comma-separated expansions. Supported: `tier`, `referrals`.
+</ParamField>
+
+---
+
+### Request
+
+<RequestExample>
+```bash cURL
+curl -X GET "https://api.gameball.co/api/v4.0/integrations/customers/1848877205/progress?expand=tier,referrals" \
+  -H "apikey: YOUR_API_KEY" \
+  -H "secretkey: YOUR_SECRET_KEY"
+```
+</RequestExample>
+
+### Response
+
+<ResponseExample>
+```json Success
+{
+  "customerId": "1848877205",
+  "pointsBalance": 1250,
+  "tier": {
+    "name": "Gold",
+    "rank": 3
+  },
+  "referrals": {
+    "total": 12,
+    "successful": 7
+  }
+}
+```
+</ResponseExample>
+
+---
+
+### Code examples
+
+<CodeGroup>
+```curl cURL
+curl -X GET "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/progress" \
+  -H "apikey: YOUR_API_KEY" \
+  -H "secretkey: YOUR_SECRET_KEY"
+```
+
+```javascript Node.js
+import fetch from 'node-fetch';
+
+const res = await fetch(
+  `https://api.gameball.co/api/v4.0/integrations/customers/${customerId}/progress`,
+  { headers: { apikey: process.env.API_KEY, secretkey: process.env.SECRET_KEY } }
+);
+const data = await res.json();
+```
+
+```python Python
+import requests, os
+
+url = f"https://api.gameball.co/api/v4.0/integrations/customers/{customer_id}/progress"
+headers = {"apikey": os.environ["API_KEY"], "secretkey": os.environ["SECRET_KEY"]}
+resp = requests.get(url, headers=headers)
+resp.raise_for_status()
+data = resp.json()
+```
+
+```csharp C#
+using System.Net.Http;
+using System.Threading.Tasks;
+
+var client = new HttpClient();
+client.DefaultRequestHeaders.Add("apikey", Environment.GetEnvironmentVariable("API_KEY"));
+client.DefaultRequestHeaders.Add("secretkey", Environment.GetEnvironmentVariable("SECRET_KEY"));
+var response = await client.GetAsync($"https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/progress");
+response.EnsureSuccessStatusCode();
+var body = await response.Content.ReadAsStringAsync();
+```
+
+```php PHP
+<?php
+$url = "https://api.gameball.co/api/v4.0/integrations/customers/{$customerId}/progress";
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_HTTPHEADER => [
+    'apikey: ' . getenv('API_KEY'),
+    'secretkey: ' . getenv('SECRET_KEY')
+  ],
+  CURLOPT_RETURNTRANSFER => true
+]);
+$resp = curl_exec($ch);
+if ($resp === false) throw new Exception(curl_error($ch));
+curl_close($ch);
+$data = json_decode($resp, true);
+```
+</CodeGroup>
+
+---
+
+### Errors
+
+Common HTTP codes: 200, 400 (validation), 401 (auth), 404 (not found), 429 (rate limited).
+
+### See also
+
+- Customer Management: Get Customer
+- Customer Management: Get Customer Details
+
+
+

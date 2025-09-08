@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Mint Starter Kit",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#FB5819",
+    "light": "#FFD800",
+    "dark": "#F5DB5B"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -57,12 +57,56 @@
             ]
           },
           {
+            "group": "Events",
+            "pages": [
+              "api-reference/events/send-events"
+            ]
+          },
+          {
             "group": "Endpoint examples",
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
               "api-reference/endpoint/delete",
               "api-reference/endpoint/webhook"
+            ]
+          }
+          ,
+          {
+            "group": "Customers — Management",
+            "pages": [
+              "api-reference/customers/management",
+              "api-reference/customers/management/create-customer",
+              "api-reference/customers/management/get-customer",
+              "api-reference/customers/management/get-customer-details",
+              "api-reference/customers/management/get-customer-coupons",
+              "api-reference/customers/management/delete-customer",
+              "api-reference/customers/management/get-customer-hash",
+              "api-reference/customers/management/validate-referrer-code"
+            ]
+          },
+          {
+            "group": "Customers — Progress",
+            "pages": [
+              "api-reference/customers/progress",
+              "api-reference/customers/progress/get-customer-progress"
+            ]
+          },
+          {
+            "group": "Customers — Tags",
+            "pages": [
+              "api-reference/customers/tags",
+              "api-reference/customers/tags/list-customer-tags",
+              "api-reference/customers/tags/attach-customer-tags",
+              "api-reference/customers/tags/remove-customer-tag"
+            ]
+          },
+          {
+            "group": "Customers — Notifications",
+            "pages": [
+              "api-reference/customers/notifications",
+              "api-reference/customers/notifications/list-customer-notifications",
+              "api-reference/customers/notifications/mark-notifications-read"
             ]
           }
         ]
@@ -130,6 +174,15 @@
         "rel": "stylesheet",
         "href": "/styles.css"
       }
+    ]
+  },
+  "api": {
+    "languages": [
+      "curl",
+      "javascript",
+      "python",
+      "csharp",
+      "php"
     ]
   }
 }
