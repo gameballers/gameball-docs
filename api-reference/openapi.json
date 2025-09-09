@@ -165,7 +165,6 @@
     },
     "/api/v4.0/integrations/customers/{customerId}/progress": {
       "get": {
-        "operationId": "getCustomerProgress",
         "description": "Retrieve customer loyalty progress including tier, points balance, and referrals.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "x-codeSamples": [

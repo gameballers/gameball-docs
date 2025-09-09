@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Gameball Developer Docs",
   "colors": {
     "primary": "#FB5819",
     "light": "#FFD800",
@@ -63,50 +63,64 @@
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Customers",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/customers/customers",
+              {
+                "group": "Customers — Management",
+                "pages": [
+                  "api-reference/customers/management/create-customer",
+                  "api-reference/customers/management/get-customer",
+                  "api-reference/customers/management/get-customer-details",
+                  "api-reference/customers/management/get-customer-coupons",
+                  "api-reference/customers/management/delete-customer",
+                  "api-reference/customers/management/get-customer-hash",
+                  "api-reference/customers/management/validate-referrer-code"
+                ]
+              },
+              {
+                "group": "Customers — Progress",
+                "pages": [
+                  "api-reference/customers/progress/get-customer-progress"
+                ]
+              },
+              {
+                "group": "Customers — Tags",
+                "pages": [
+                  "api-reference/customers/tags/list-customer-tags",
+                  "api-reference/customers/tags/attach-customer-tags",
+                  "api-reference/customers/tags/remove-customer-tag"
+                ]
+              },
+              {
+                "group": "Customers — Notifications",
+                "pages": [
+                  "api-reference/customers/notifications/list-customer-notifications",
+                  "api-reference/customers/notifications/mark-notifications-read"
+                ]
+              }
             ]
           }
-          ,
+        ]
+      },
+      {
+        "tab": "Tutorials",
+        "groups": [
           {
-            "group": "Customers — Management",
+            "group": "Getting started",
             "pages": [
-              "api-reference/customers/management",
-              "api-reference/customers/management/create-customer",
-              "api-reference/customers/management/get-customer",
-              "api-reference/customers/management/get-customer-details",
-              "api-reference/customers/management/get-customer-coupons",
-              "api-reference/customers/management/delete-customer",
-              "api-reference/customers/management/get-customer-hash",
-              "api-reference/customers/management/validate-referrer-code"
+              "tutorials/track-customer-events"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Product Updates",
+        "groups": [
           {
-            "group": "Customers — Progress",
+            "group": "Getting started",
             "pages": [
-              "api-reference/customers/progress",
-              "api-reference/customers/progress/get-customer-progress"
-            ]
-          },
-          {
-            "group": "Customers — Tags",
-            "pages": [
-              "api-reference/customers/tags",
-              "api-reference/customers/tags/list-customer-tags",
-              "api-reference/customers/tags/attach-customer-tags",
-              "api-reference/customers/tags/remove-customer-tag"
-            ]
-          },
-          {
-            "group": "Customers — Notifications",
-            "pages": [
-              "api-reference/customers/notifications",
-              "api-reference/customers/notifications/list-customer-notifications",
-              "api-reference/customers/notifications/mark-notifications-read"
+              "changelog/updates"
             ]
           }
         ]
@@ -151,15 +165,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
@@ -167,22 +181,5 @@
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
     }
-  },
-  "head": {
-    "links": [
-      {
-        "rel": "stylesheet",
-        "href": "/styles.css"
-      }
-    ]
-  },
-  "api": {
-    "languages": [
-      "curl",
-      "javascript",
-      "python",
-      "csharp",
-      "php"
-    ]
   }
 }
