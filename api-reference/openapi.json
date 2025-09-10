@@ -3,21 +3,11 @@
   "info": {
     "title": "OpenAPI Plant Store",
     "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
+    "license": { "name": "MIT" },
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "https://api.gameball.co"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  "servers": [ { "url": "https://api.gameball.co" } ],
+  "security": [ { "bearerAuth": [] } ],
   "paths": {
     "/api/v4.0/integrations/customers": {
       "post": {
@@ -67,6 +57,1885 @@
         "responses": {
           "200": { "description": "Customer found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } } },
           "404": { "description": "Not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/payments": {
+      "post": {
+        "description": "Track a new payment to reward customer transactions and manage loyalty accrual.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "paymentId", "paymentDate", "totalPaid"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "paymentId": { "type": "string" },
+                  "paymentDate": { "type": "string", "format": "date-time" },
+                  "totalPaid": { "type": "number" },
+                  "totalAmount": { "type": "number" },
+                  "totalDiscount": { "type": "number" },
+                  "totalProcessingFees": { "type": "number" },
+                  "totalTax": { "type": "number" },
+                  "paymentDetails": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "serviceId": { "type": "string" },
+                        "serviceName": { "type": "string" },
+                        "serviceProvider": { "type": "string" },
+                        "amount": { "type": "number" },
+                        "tax": { "type": "number" },
+                        "discount": { "type": "number" },
+                        "tags": { "type": "array", "items": { "type": "string" } },
+                        "category": { "type": "array", "items": { "type": "string" } },
+                        "extra": { "type": "object", "additionalProperties": true }
+                      }
+                    }
+                  },
+                  "redemption": {
+                    "type": "object",
+                    "properties": {
+                      "pointsHoldReference": { "type": "string" },
+                      "couponsLockReference": { "type": "string" },
+                      "couponCodes": { "type": "array", "items": { "type": "string" } }
+                    }
+                  },
+                  "extra": { "type": "object", "additionalProperties": true },
+                  "merchant": {
+                    "type": "object",
+                    "properties": {
+                      "uniqueId": { "type": "string" },
+                      "name": { "type": "string" },
+                      "branch": {
+                        "type": "object",
+                        "required": ["uniqueId"],
+                        "properties": {
+                          "uniqueId": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "guest": { "type": "boolean" },
+                  "channel": { "type": "string", "enum": ["mobile", "pos", "web", "callcenter"] },
+                  "cashbackConfigurations": {
+                    "type": "object",
+                    "properties": {
+                      "returnWindow": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment tracked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "customerId": { "type": "string" },
+                    "redeemedPoints": { "type": "number" },
+                    "rewardedPoints": { "type": "number" },
+                    "paymentDetails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "serviceId": { "type": "string" },
+                          "decimalPoints": { "type": "number" },
+                          "points": { "type": "number" },
+                          "score": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/redeem": {
+      "post": {
+        "description": "Redeem loyalty points as a payment method for customer transactions.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "points", "transactionId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "points": { "type": "number" },
+                  "transactionId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Points redeemed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "remainingPoints": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/cashback": {
+      "post": {
+        "description": "Issue cashback rewards to customers for their transactions.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "amount", "transactionId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "transactionId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cashback issued successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "newBalance": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/refund": {
+      "post": {
+        "description": "Process refunds for previous point redemption transactions.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "originalTransactionId", "refundAmount"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "originalTransactionId": { "type": "string" },
+                  "refundAmount": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refund processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "refundedPoints": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/hold": {
+      "post": {
+        "description": "Place points on hold before redemption to reserve them for a specific transaction.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "points", "holdReference"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "points": { "type": "number" },
+                  "holdReference": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Points placed on hold successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "holdReference": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/release": {
+      "post": {
+        "description": "Release held points for redemption or cancel the hold.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["holdReference", "action"],
+                "properties": {
+                  "holdReference": { "type": "string" },
+                  "action": { "type": "string", "enum": ["redeem", "cancel"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Hold released successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "pointsReleased": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/hold/{holdReference}": {
+      "get": {
+        "description": "Retrieve details of held points for a specific hold reference.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          {
+            "name": "holdReference",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hold details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "holdReference": { "type": "string" },
+                    "customerId": { "type": "string" },
+                    "pointsHeld": { "type": "number" },
+                    "holdDate": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions": {
+      "get": {
+        "description": "Retrieve customer transaction history with filtering and pagination options.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 20 }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": { "type": "integer", "default": 0 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactions": { "type": "array", "items": { "type": "object" } },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/manual": {
+      "post": {
+        "description": "Add manual point adjustments to customer accounts.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "points", "reason"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "points": { "type": "number" },
+                  "reason": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Manual transaction added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "newBalance": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/otp": {
+      "post": {
+        "description": "Generate one-time password for transaction verification.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "transactionId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "transactionId": { "type": "string" },
+                  "mobile": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "otpId": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/otp/validate": {
+      "post": {
+        "description": "Validate OTP to authorize transaction.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["otpId", "otpCode", "transactionId"],
+                "properties": {
+                  "otpId": { "type": "string" },
+                  "otpCode": { "type": "string" },
+                  "transactionId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP validated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "authorized": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/coupons/predefined": {
+      "post": {
+        "description": "Create a coupon based on predefined redemption rules.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "ruleId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "ruleId": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupon generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "startDate": { "type": "string", "format": "date-time" },
+                    "expiryDate": { "type": "string", "format": "date-time" },
+                    "url": { "type": "string" },
+                    "pin": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/coupons/{code}/validate": {
+      "post": {
+        "description": "Validate a single coupon and optionally lock it for exclusive use.",
+        "security": [ { "apiKey": [] } ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "lock": { "type": "boolean" },
+                  "pin": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupon validated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isValid": { "type": "boolean" },
+                    "lockReference": { "type": "string" },
+                    "discountAmount": { "type": "number" },
+                    "discountType": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/coupons/validate": {
+      "post": {
+        "description": "Validate multiple coupons at once and optionally lock them for exclusive use.",
+        "security": [ { "apiKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "coupons"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "coupons": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["code"],
+                      "properties": {
+                        "code": { "type": "string" },
+                        "pin": { "type": "string" }
+                      }
+                    }
+                  },
+                  "lock": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupons validated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "validCoupons": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": { "type": "string" },
+                          "lockReference": { "type": "string" },
+                          "discountAmount": { "type": "number" },
+                          "discountType": { "type": "string" }
+                        }
+                      }
+                    },
+                    "invalidCoupons": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": { "type": "string" },
+                          "error": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/coupons/{code}/burn": {
+      "post": {
+        "description": "Mark a coupon as used/consumed to prevent further usage.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "lockReference": { "type": "string" },
+                  "pin": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupon burned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "burnedAt": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/coupons/{lockReference}": {
+      "get": {
+        "description": "Retrieve details of locked coupons using the lock reference.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          {
+            "name": "lockReference",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lock details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "lockReference": { "type": "string" },
+                    "customerId": { "type": "string" },
+                    "lockedCoupons": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": { "type": "string" },
+                          "lockedAt": { "type": "string", "format": "date-time" },
+                          "expiresAt": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "delete": {
+        "description": "Release locked coupons to make them available for use again.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          {
+            "name": "lockReference",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Coupons released successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "releasedAt": { "type": "string", "format": "date-time" },
+                    "releasedCoupons": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/coupons/automatic": {
+      "post": {
+        "description": "Apply predefined automatic coupons based on specific promotional criteria.",
+        "security": [ { "apiKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "cartId"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "cartId": { "type": "string" },
+                  "totalPrice": { "type": "number" },
+                  "totalShipping": { "type": "number" },
+                  "lineItems": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": { "type": "string" },
+                        "quantity": { "type": "number" },
+                        "price": { "type": "number" },
+                        "sku": { "type": "string" },
+                        "tags": { "type": "array", "items": { "type": "string" } },
+                        "category": { "type": "array", "items": { "type": "string" } },
+                        "weight": { "type": "number" },
+                        "vendor": { "type": "string" },
+                        "collection": { "type": "array", "items": { "type": "string" } },
+                        "title": { "type": "string" },
+                        "taxes": { "type": "number" },
+                        "discount": { "type": "number" },
+                        "extra": { "type": "object", "additionalProperties": true }
+                      }
+                    }
+                  },
+                  "merchant": {
+                    "type": "object",
+                    "properties": {
+                      "uniqueId": { "type": "string" },
+                      "name": { "type": "string" },
+                      "branch": {
+                        "type": "object",
+                        "required": ["uniqueId"],
+                        "properties": {
+                          "uniqueId": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Automatic coupon applied successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isApplied": { "type": "boolean" },
+                    "couponName": { "type": "string" },
+                    "discountAmount": { "type": "number" },
+                    "discountType": { "type": "string", "enum": ["shipping", "fixed", "percentage", "product", "buyXgetY"] },
+                    "discountedItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": { "type": "string" },
+                          "quantity": { "type": "number" },
+                          "discount": { "type": "number" },
+                          "price": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/rewards/cashback": {
+      "get": {
+        "description": "Retrieve cashback configuration settings for the loyalty program.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "Cashback settings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rate": { "type": "number" },
+                    "minimumOrderValue": { "type": "number" },
+                    "maximumCashback": { "type": "number" },
+                    "enabled": { "type": "boolean" },
+                    "categories": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/rewards/redemption": {
+      "get": {
+        "description": "Retrieve point redemption configuration settings for the loyalty program.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "Redemption settings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "minimumPoints": { "type": "number" },
+                    "pointValue": { "type": "number" },
+                    "maximumRedemption": { "type": "number" },
+                    "enabled": { "type": "boolean" },
+                    "redemptionMethods": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/rewards/coupons": {
+      "get": {
+        "description": "Retrieve coupon system configuration settings for the loyalty program.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "Coupon settings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": { "type": "boolean" },
+                    "maximumCoupons": { "type": "number" },
+                    "couponTypes": { "type": "array", "items": { "type": "string" } },
+                    "expirationSettings": {
+                      "type": "object",
+                      "properties": {
+                        "defaultExpiryDays": { "type": "number" },
+                        "maxExpiryDays": { "type": "number" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "put": {
+        "description": "Update coupon system configuration settings for the loyalty program.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": { "type": "boolean" },
+                  "maximumCoupons": { "type": "number" },
+                  "couponTypes": { "type": "array", "items": { "type": "string" } },
+                  "expirationSettings": {
+                    "type": "object",
+                    "properties": {
+                      "defaultExpiryDays": { "type": "number" },
+                      "maxExpiryDays": { "type": "number" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Coupon settings updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/program/campaigns": {
+      "get": {
+        "description": "Retrieve active campaigns configuration for the loyalty program.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "Campaigns retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "campaigns": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "description": { "type": "string" },
+                          "startDate": { "type": "string", "format": "date-time" },
+                          "endDate": { "type": "string", "format": "date-time" },
+                          "isActive": { "type": "boolean" },
+                          "rewardType": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/program/tiers": {
+      "get": {
+        "description": "Retrieve VIP tier configurations for the loyalty program.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "VIP tiers retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tiers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "minimumPoints": { "type": "number" },
+                          "benefits": { "type": "array", "items": { "type": "string" } },
+                          "color": { "type": "string" },
+                          "isActive": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/program/referrals": {
+      "get": {
+        "description": "Retrieve referral program configuration for the loyalty program.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "Referral settings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": { "type": "boolean" },
+                    "referrerReward": { "type": "number" },
+                    "refereeReward": { "type": "number" },
+                    "minimumReferrals": { "type": "number" },
+                    "referralCodeLength": { "type": "number" },
+                    "expirationDays": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/configurations/widget": {
+      "get": {
+        "description": "Retrieve styling settings, including colors and other visual elements for the Gameball widget.",
+        "security": [ { "apiKey": [] } ],
+        "responses": {
+          "200": {
+            "description": "Widget configuration retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "colors": {
+                      "type": "object",
+                      "properties": {
+                        "primary": { "type": "string" },
+                        "secondary": { "type": "string" },
+                        "accent": { "type": "string" },
+                        "background": { "type": "string" },
+                        "text": { "type": "string" }
+                      }
+                    },
+                    "layout": {
+                      "type": "object",
+                      "properties": {
+                        "position": { "type": "string", "enum": ["bottom-right", "bottom-left", "top-right", "top-left"] },
+                        "size": { "type": "string", "enum": ["small", "medium", "large"] },
+                        "showOnMobile": { "type": "boolean" }
+                      }
+                    },
+                    "features": {
+                      "type": "object",
+                      "properties": {
+                        "showBalance": { "type": "boolean" },
+                        "showPoints": { "type": "boolean" },
+                        "showTier": { "type": "boolean" },
+                        "showNotifications": { "type": "boolean" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/leaderboard": {
+      "get": {
+        "description": "Retrieve leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The start date of the leaderboard range. If not provided, the leaderboard shows all-time data.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The end date of the leaderboard range. If not provided, the leaderboard shows all-time data.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. It is used to get the rank of this customer in the leaderboard.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rewardCampaignId",
+            "in": "query",
+            "description": "Filter leaderboard results based on a specific reward campaign.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "customerTag",
+            "in": "query",
+            "description": "Filter results by customers who are tagged with a specific tag.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rewardCampaignTag",
+            "in": "query",
+            "description": "Filter leaderboard results by reward campaign tags.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Leaderboard retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "leaderboard": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "displayName": { "type": "string" },
+                          "customerId": { "type": "string" },
+                          "progress": { "type": "number" },
+                          "rank": { "type": "number" },
+                          "tierName": { "type": "string" },
+                          "tierIcon": { "type": "string" }
+                        }
+                      }
+                    },
+                    "customerRank": { "type": "number" },
+                    "customersCount": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/customers": {
+      "post": {
+        "description": "Create or update multiple customer profiles in a single API call for bulk user imports and mass profile updates.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer." },
+                        "email": { "type": "string", "description": "Customer's email address. Required if your account uses email-based channel merging." },
+                        "mobile": { "type": "string", "description": "Customer's mobile number. Required if your account uses mobile-based channel merging." },
+                        "deviceToken": { "type": "string", "description": "Token used to identify the device." },
+                        "osType": { "type": "string", "description": "Operating system type of the device." },
+                        "customerAttributes": {
+                          "type": "object",
+                          "description": "Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.",
+                          "properties": {
+                            "displayName": { "type": "string" },
+                            "firstName": { "type": "string" },
+                            "lastName": { "type": "string" },
+                            "email": { "type": "string" },
+                            "gender": { "type": "string" },
+                            "mobile": { "type": "string" },
+                            "dateOfBirth": { "type": "string" },
+                            "joinDate": { "type": "string" },
+                            "country": { "type": "string" },
+                            "city": { "type": "string" },
+                            "zip": { "type": "string" },
+                            "preferredLanguage": { "type": "string" },
+                            "tags": { "type": "string" },
+                            "source": { "type": "string" },
+                            "utms": { "type": "array" },
+                            "devices": { "type": "array" },
+                            "paymentMethods": { "type": "array" },
+                            "totalSpent": { "type": "number" },
+                            "lastOrderDate": { "type": "string" },
+                            "totalOrders": { "type": "integer" },
+                            "avgOrderAmount": { "type": "number" },
+                            "channel": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch customer data processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/orders": {
+      "post": {
+        "description": "Register multiple orders for single or multiple customers in a single API call for efficient order management and tracking.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId", "orderId", "orderDate", "totalPaid"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer." },
+                        "orderId": { "type": "string", "description": "Unique identifier for the order." },
+                        "orderDate": { "type": "string", "format": "date-time", "description": "Date and time of the order." },
+                        "totalPaid": { "type": "number", "description": "Total amount paid for the order." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch order processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/balance-inquiry": {
+      "post": {
+        "description": "Retrieve customer loyalty balances for multiple customers in a single API call for efficient balance management.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch balance inquiry processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/balance-adjustment": {
+      "post": {
+        "description": "Adjust customer loyalty balances for multiple customers in a single API call for efficient balance management.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId", "amount"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer." },
+                        "amount": { "type": "number", "description": "Amount to adjust the balance by." },
+                        "reason": { "type": "string", "description": "Reason for the balance adjustment." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch balance adjustment processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/cashback": {
+      "post": {
+        "description": "Award loyalty points to customers through cashback program for multiple customers in a single API call.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId", "transactionId", "transactionTime", "amount"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime." },
+                        "email": { "type": "string", "description": "Customer's email address. Required if your account uses email-based channel merging." },
+                        "mobile": { "type": "string", "description": "Customer's mobile number. Required if your account uses mobile-based channel merging." },
+                        "transactionId": { "type": "string", "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number)." },
+                        "transactionTime": { "type": "string", "format": "date-time", "description": "The time of the transaction in your system." },
+                        "amount": { "type": "number", "description": "Monetary value of the transaction for which the customer will be rewarded." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch cashback reward processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/redeem": {
+      "post": {
+        "description": "Enable customers to redeem loyalty points as a payment method for multiple customers in a single API call.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId", "transactionId", "transactionTime"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime." },
+                        "email": { "type": "string", "description": "Customer's email address. Required if your account uses email-based channel merging." },
+                        "mobile": { "type": "string", "description": "Customer's mobile number. Required if your account uses mobile-based channel merging." },
+                        "transactionId": { "type": "string", "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number)." },
+                        "transactionTime": { "type": "string", "format": "date-time", "description": "The time of the transaction in your system." },
+                        "amount": { "type": "number", "description": "The actual monetary value the customer wants to redeem." },
+                        "points": { "type": "integer", "description": "The number of points the customer wants to redeem from their balance." },
+                        "holdReference": { "type": "string", "description": "A unique reference obtained from the Hold Points API." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch redemption processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batch/events": {
+      "post": {
+        "description": "Track multiple user actions or multiple actions for a single user in a single API call for efficient event tracking and analytics.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["customerId", "events"],
+                      "properties": {
+                        "customerId": { "type": "string", "description": "Unique identifier for the customer." },
+                        "events": {
+                          "type": "object",
+                          "description": "Object containing event names as keys and their metadata as values.",
+                          "additionalProperties": {
+                            "type": "object",
+                            "description": "Event metadata containing relevant attributes for the event."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch event processing initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batches/{batchId}/status": {
+      "get": {
+        "description": "Monitor batch job status and results for ongoing batch operations.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the batch operation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Batch status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "batchId": { "type": "string" },
+                    "status": { "type": "string", "enum": ["pending", "processing", "completed", "failed"] },
+                    "progress": { "type": "number" },
+                    "totalItems": { "type": "number" },
+                    "processedItems": { "type": "number" },
+                    "failedItems": { "type": "number" },
+                    "results": { "type": "array" },
+                    "errors": { "type": "array" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/batches/{batchId}/stop": {
+      "post": {
+        "description": "Stop ongoing batch operations when needed.",
+        "security": [
+          { "apiKey": [] },
+          { "secretKey": [] }
+        ],
+        "parameters": [
+          {
+            "name": "batchId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the batch operation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Batch operation stopped successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "batchId": { "type": "string" },
+                    "status": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/orders": {
+      "post": {
+        "description": "Track a new order to reward customer purchases and manage loyalty accrual.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "orderId", "orderDate", "totalPaid"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "orderId": { "type": "string" },
+                  "orderDate": { "type": "string", "format": "date-time" },
+                  "totalPaid": { "type": "number" },
+                  "totalPrice": { "type": "number" },
+                  "totalDiscount": { "type": "number" },
+                  "totalShipping": { "type": "number" },
+                  "totalTax": { "type": "number" },
+                  "lineItems": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": { "type": "string" },
+                        "quantity": { "type": "number" },
+                        "price": { "type": "number" },
+                        "sku": { "type": "string" },
+                        "tags": { "type": "array", "items": { "type": "string" } },
+                        "category": { "type": "array", "items": { "type": "string" } },
+                        "weight": { "type": "number" },
+                        "vendor": { "type": "string" },
+                        "collection": { "type": "array", "items": { "type": "string" } },
+                        "title": { "type": "string" },
+                        "taxes": { "type": "number" },
+                        "discount": { "type": "number" },
+                        "extra": { "type": "object", "additionalProperties": true }
+                      }
+                    }
+                  },
+                  "redemption": {
+                    "type": "object",
+                    "properties": {
+                      "pointsHoldReference": { "type": "string" },
+                      "couponsLockReference": { "type": "string" },
+                      "couponCodes": { "type": "array", "items": { "type": "string" } }
+                    }
+                  },
+                  "extra": { "type": "object", "additionalProperties": true },
+                  "merchant": {
+                    "type": "object",
+                    "properties": {
+                      "uniqueId": { "type": "string" },
+                      "name": { "type": "string" },
+                      "branch": {
+                        "type": "object",
+                        "properties": {
+                          "uniqueId": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "guest": { "type": "boolean" },
+                  "channel": { "type": "string", "enum": ["mobile", "pos", "web", "callcenter"] },
+                  "cartId": { "type": "string" },
+                  "cashbackConfigurations": {
+                    "type": "object",
+                    "properties": {
+                      "returnWindow": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order tracked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "customerId": { "type": "string" },
+                    "redeemedPoints": { "type": "number" },
+                    "rewardedPoints": { "type": "number" },
+                    "lineItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": { "type": "string" },
+                          "quantity": { "type": "number" },
+                          "decimalPoints": { "type": "number" },
+                          "points": { "type": "number" },
+                          "score": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/orders/cashback": {
+      "post": {
+        "description": "Calculate expected cashback points for an order.",
+        "security": [ { "apiKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["totalPaid"],
+                "properties": {
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "totalPaid": { "type": "number" },
+                  "totalPrice": { "type": "number" },
+                  "totalDiscount": { "type": "number" },
+                  "totalShipping": { "type": "number" },
+                  "lineItems": { "type": "array", "items": { "type": "object", "properties": { "productId": { "type": "string" }, "price": { "type": "number" }, "quantity": { "type": "number" }, "sku": { "type": "string" }, "tags": { "type": "array", "items": { "type": "string" } }, "category": { "type": "array", "items": { "type": "string" } }, "weight": { "type": "number" }, "vendor": { "type": "string" }, "collection": { "type": "array", "items": { "type": "string" } }, "title": { "type": "string" }, "taxes": { "type": "number" }, "discount": { "type": "number" }, "extra": { "type": "object", "additionalProperties": true } } } },
+                  "merchant": { "type": "object", "properties": { "uniqueId": { "type": "string" }, "name": { "type": "string" }, "branch": { "type": "object", "properties": { "uniqueId": { "type": "string" }, "name": { "type": "string" } } } } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cashback calculated",
+            "content": { "application/json": { "schema": { "type": "object", "properties": { "totalPoints": { "type": "number" }, "totalScore": { "type": "number" }, "lineItems": { "type": "array", "items": { "type": "object", "properties": { "productId": { "type": "string" }, "quantity": { "type": "number" }, "totalDecimalPoints": { "type": "number" }, "totalPoints": { "type": "number" }, "totalScore": { "type": "number" }, "rewardWalletFactor": { "type": "number" }, "campaignId": { "type": ["integer", "null"] }, "campaignName": { "type": ["string", "null"] }, "campaignEndDate": { "type": ["string", "null"] }, "campaignImpactWalletFactor": { "type": "number" }, "campaignImpactPoints": { "type": "number" } } } } } } } }
+          }
+        }
+      }
+    },
+    "/api/v4.0/integrations/orders/{orderId}/transactions": {
+      "get": {
+        "description": "Retrieve transactions for a specific order.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          { "name": "orderId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Order identifier" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactions": { "type": "array", "items": { "type": "object", "properties": { "transactionDate": { "type": "string", "format": "date-time" }, "gameballTransactionId": { "type": "integer" }, "transactionType": { "type": "string" }, "amount": { "type": "number" }, "transactionId": { "type": "string" }, "equivalentPoints": { "type": "number" } } } },
+                    "count": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },

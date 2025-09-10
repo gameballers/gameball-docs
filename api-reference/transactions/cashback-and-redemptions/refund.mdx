@@ -1,0 +1,38 @@
+---
+title: "Refund"
+description: "Process refunds for previous point redemption transactions."
+openapi: 'POST /api/v4.0/integrations/transactions/refund'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Refund
+
+Process refunds for previous point redemption transactions.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer.
+</ParamField>
+
+<ParamField path="originalTransactionId" type="string" required>
+ID of the original transaction to refund.
+</ParamField>
+
+<ParamField path="refundAmount" type="number" required>
+Amount of points to refund.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+Whether the refund was processed successfully.
+</ResponseField>
+
+<ResponseField name="refundedPoints" type="number">
+Number of points refunded to the customer.
+</ResponseField>

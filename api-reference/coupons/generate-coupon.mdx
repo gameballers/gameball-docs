@@ -1,0 +1,69 @@
+---
+title: "Generate Coupon"
+description: "Create a coupon based on predefined redemption rules."
+openapi: 'POST /api/v4.0/integrations/coupons/predefined'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Generate Coupon
+
+The API call creates a coupon based on predefined redemption rules. This endpoint allows for the generation of coupons that align with specific criteria and rewards structures, facilitating promotional efforts and customer engagement.
+
+<Info>
+**Channel Merging Available**  
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+
+For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField path="email" type="string">
+Customer's email address.
+
+<Info>
+This is required if your account uses email-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="mobile" type="string">
+Customer's mobile number.
+
+<Info>
+This is required if your account uses mobile-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="ruleId" type="integer" required>
+The ID of the redemption rule that will be applied to create the coupon. This rule dictates how the coupon will function, such as whether it grants a percentage discount, free shipping, a fixed-amount discount, or a free product. The `ruleId` is tied to a predefined redemption rule configured through the Gameball dashboard, ensuring the coupon adheres to the set conditions of that rule. Additionally, the redemption rule determines how many points will be redeemed to generate the coupon.
+
+You can retrieve your configured redemption rules and their associated IDs by using the **Redemption Configuration API**.
+</ParamField>
+
+## Response
+
+<ResponseField name="code" type="string">
+The generated coupon code that the customer will use during checkout or while making a purchase.
+</ResponseField>
+
+<ResponseField name="startDate" type="string">
+The date when the coupon becomes valid. If a start date is specified, the coupon cannot be used before this date.
+</ResponseField>
+
+<ResponseField name="expiryDate" type="string">
+The date when the coupon expires and can no longer be used. If no expiry date is set, the coupon will be valid indefinitely or until manually disabled.
+</ResponseField>
+
+<ResponseField name="url" type="string">
+A URL that directs the customer to a specific page or offer associated with the coupon. This is typically used to promote the coupon or give further instructions.
+
+**Example:** This URL `"https://www.example.com/special-offers/summer2024"` leads to a page where customers can learn more about the Summer 2024 special offer, including how to use the coupon code for discounts or rewards, view eligible products, and understand any restrictions or expiry dates.
+</ResponseField>
+
+<ResponseField name="pin" type="string">
+A pin code required in addition to the coupon code, often used for added security or limited access to specific coupons.
+</ResponseField>

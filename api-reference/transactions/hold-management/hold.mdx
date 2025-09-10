@@ -1,0 +1,38 @@
+---
+title: "Hold Points"
+description: "Place points on hold before redemption to reserve them for a specific transaction."
+openapi: 'POST /api/v4.0/integrations/transactions/hold'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Hold Points
+
+Place points on hold before redemption to reserve them for a specific transaction.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer.
+</ParamField>
+
+<ParamField path="points" type="number" required>
+Number of points to place on hold.
+</ParamField>
+
+<ParamField path="holdReference" type="string" required>
+Unique reference for this hold transaction.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+Whether the points were placed on hold successfully.
+</ResponseField>
+
+<ResponseField name="holdReference" type="string">
+Reference ID for the hold transaction.
+</ResponseField>

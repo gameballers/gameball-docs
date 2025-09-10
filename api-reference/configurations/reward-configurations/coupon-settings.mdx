@@ -1,0 +1,44 @@
+---
+title: "Coupon Configurations"
+description: "Retrieve coupon system configuration settings for the loyalty program."
+openapi: 'GET /api/v4.0/integrations/configurations/rewards/coupons'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Coupon Configurations
+
+Retrieve coupon system configuration settings for the loyalty program.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Response
+
+<ResponseField name="enabled" type="boolean">
+Whether the coupon system is enabled.
+</ResponseField>
+
+<ResponseField name="maximumCoupons" type="number">
+Maximum number of coupons that can be used per transaction.
+</ResponseField>
+
+<ResponseField name="couponTypes" type="array">
+Array of available coupon types.
+
+<ResponseField name="couponTypes[]" type="string">
+Available coupon type (e.g., "percentage", "fixed_amount", "free_shipping").
+</ResponseField>
+</ResponseField>
+
+<ResponseField name="expirationSettings" type="object">
+Coupon expiration configuration.
+
+<ResponseField name="expirationSettings.defaultExpiryDays" type="number">
+Default number of days before coupon expires.
+</ResponseField>
+
+<ResponseField name="expirationSettings.maxExpiryDays" type="number">
+Maximum number of days before coupon expires.
+</ResponseField>
+</ResponseField>

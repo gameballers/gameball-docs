@@ -1,0 +1,38 @@
+---
+title: "Redeem Points"
+description: "Redeem loyalty points as a payment method for customer transactions."
+openapi: 'POST /api/v4.0/integrations/transactions/redeem'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Redeem Points
+
+Redeem loyalty points as a payment method for customer transactions.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer.
+</ParamField>
+
+<ParamField path="points" type="number" required>
+Number of points to redeem.
+</ParamField>
+
+<ParamField path="transactionId" type="string" required>
+Unique identifier for the redemption transaction.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+Whether the redemption was successful.
+</ResponseField>
+
+<ResponseField name="remainingPoints" type="number">
+Customer's remaining point balance after redemption.
+</ResponseField>

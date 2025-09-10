@@ -1,0 +1,44 @@
+---
+title: "Update Coupon Configurations"
+description: "Update coupon system configuration settings for the loyalty program."
+openapi: 'PUT /api/v4.0/integrations/configurations/rewards/coupons'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Update Coupon Configurations
+
+Update coupon system configuration settings for the loyalty program.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Response
+
+<ResponseField name="rules" type="array">
+Array of reward rules configuration.
+
+<ResponseField name="rules[].id" type="string">
+Unique identifier for the reward rule.
+</ResponseField>
+
+<ResponseField name="rules[].name" type="string">
+Name of the reward rule.
+</ResponseField>
+
+<ResponseField name="rules[].type" type="string">
+Type of reward rule (e.g., "purchase", "referral", "signup").
+</ResponseField>
+
+<ResponseField name="rules[].points" type="number">
+Points awarded by this rule.
+</ResponseField>
+
+<ResponseField name="rules[].conditions" type="object">
+Conditions that must be met for this rule to apply.
+</ResponseField>
+
+<ResponseField name="rules[].isActive" type="boolean">
+Whether this reward rule is currently active.
+</ResponseField>
+</ResponseField>

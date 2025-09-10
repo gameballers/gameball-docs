@@ -1,0 +1,41 @@
+---
+title: "Batches"
+description: "The Batch API provides a set of powerful tools for efficiently processing multiple requests in a single operation."
+---
+
+## Batches
+
+The **Batch API** provides a set of powerful tools for efficiently processing multiple requests in a single operation. These APIs enable bulk creation, updates, and transactional operations while reducing network overhead. By using batch processing, you can streamline data synchronization, automate large-scale operations, and improve overall system performance.
+
+## Available Endpoints
+
+### Batch Creation
+Allows bulk processing of customer data, orders, balance inquiries, adjustments, cashback rewards, redemptions, and events. This improves efficiency by handling multiple records in a single request.
+
+- **[Batch Creation Overview](/api-reference/batches/batch-creation/index)** - Overview of batch creation capabilities
+- **[Customer Data](/api-reference/batches/batch-creation/customer-data)** - Bulk customer data processing
+- **[Orders](/api-reference/batches/batch-creation/orders)** - Bulk order processing
+- **[Balance Inquiries](/api-reference/batches/batch-creation/balance-inquiries)** - Bulk balance inquiry processing
+- **[Adjustments](/api-reference/batches/batch-creation/adjustments)** - Bulk balance adjustments
+- **[Cashback Rewards](/api-reference/batches/batch-creation/cashback-rewards)** - Bulk cashback reward processing
+- **[Redemptions](/api-reference/batches/batch-creation/redemptions)** - Bulk redemption processing
+- **[Events](/api-reference/batches/batch-creation/events)** - Bulk event processing
+
+### Batch Management
+Provides tools to monitor and control batch jobs. You can **check the status and results** of a batch operation or **stop an ongoing execution** if needed.
+
+- **[Batch Management Overview](/api-reference/batches/batch-management/index)** - Overview of batch management capabilities
+- **[Check Batch Status](/api-reference/batches/batch-management/check-status)** - Monitor batch job status and results
+- **[Stop Batch Execution](/api-reference/batches/batch-management/stop-execution)** - Stop ongoing batch operations
+
+## Key Benefits
+
+- **Efficiency**: Process multiple records in a single request
+- **Performance**: Reduce network overhead and improve system performance
+- **Scalability**: Handle large-scale operations with ease
+- **Automation**: Streamline data synchronization and bulk operations
+- **Monitoring**: Track batch job progress and manage execution
+
+<Info>
+**Note:** Batch operations require both `apikey` and `secretkey` headers for authentication.
+</Info>

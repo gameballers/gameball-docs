@@ -1,0 +1,76 @@
+---
+title: "Get Widget Configurations"
+description: "Retrieve styling settings, including colors and other visual elements for the Gameball widget."
+openapi: 'GET /api/v4.0/integrations/configurations/widget'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Get Widget Configurations
+
+Retrieve styling settings, including colors and other visual elements for the Gameball widget. The Widget Configuration API ensures the widget aligns with your brand's design, creating a cohesive look for your loyalty program's interface.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Response
+
+<ResponseField name="colors" type="object">
+Color scheme configuration for the widget.
+
+<ResponseField name="colors.primary" type="string">
+Primary color for the widget (hex code).
+</ResponseField>
+
+<ResponseField name="colors.secondary" type="string">
+Secondary color for the widget (hex code).
+</ResponseField>
+
+<ResponseField name="colors.accent" type="string">
+Accent color for the widget (hex code).
+</ResponseField>
+
+<ResponseField name="colors.background" type="string">
+Background color for the widget (hex code).
+</ResponseField>
+
+<ResponseField name="colors.text" type="string">
+Text color for the widget (hex code).
+</ResponseField>
+</ResponseField>
+
+<ResponseField name="layout" type="object">
+Layout configuration for the widget.
+
+<ResponseField name="layout.position" type="string">
+Position of the widget on the page (e.g., "bottom-right", "bottom-left").
+</ResponseField>
+
+<ResponseField name="layout.size" type="string">
+Size of the widget (e.g., "small", "medium", "large").
+</ResponseField>
+
+<ResponseField name="layout.showOnMobile" type="boolean">
+Whether to show the widget on mobile devices.
+</ResponseField>
+</ResponseField>
+
+<ResponseField name="features" type="object">
+Feature configuration for the widget.
+
+<ResponseField name="features.showBalance" type="boolean">
+Whether to show customer balance in the widget.
+</ResponseField>
+
+<ResponseField name="features.showPoints" type="boolean">
+Whether to show points in the widget.
+</ResponseField>
+
+<ResponseField name="features.showTier" type="boolean">
+Whether to show customer tier in the widget.
+</ResponseField>
+
+<ResponseField name="features.showNotifications" type="boolean">
+Whether to show notifications in the widget.
+</ResponseField>
+</ResponseField>

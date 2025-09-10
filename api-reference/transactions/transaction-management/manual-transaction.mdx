@@ -1,0 +1,38 @@
+---
+title: "Add Manual Transaction"
+description: "Add manual point adjustments to customer accounts."
+openapi: 'POST /api/v4.0/integrations/transactions/manual'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Add Manual Transaction
+
+Add manual point adjustments to customer accounts.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer.
+</ParamField>
+
+<ParamField path="points" type="number" required>
+Number of points to add (positive) or subtract (negative).
+</ParamField>
+
+<ParamField path="reason" type="string" required>
+Reason for the manual adjustment.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+Whether the manual transaction was added successfully.
+</ResponseField>
+
+<ResponseField name="newBalance" type="number">
+Customer's new point balance after the adjustment.
+</ResponseField>

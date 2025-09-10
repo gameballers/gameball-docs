@@ -1,0 +1,34 @@
+---
+title: "Release Hold"
+description: "Release held points for redemption or cancel the hold."
+openapi: 'POST /api/v4.0/integrations/transactions/release'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Release Hold
+
+Release held points for redemption or cancel the hold.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Request Body
+
+<ParamField path="holdReference" type="string" required>
+Reference ID of the hold to release.
+</ParamField>
+
+<ParamField path="action" type="string" required>
+Action to take: "redeem" or "cancel".
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+Whether the hold was released successfully.
+</ResponseField>
+
+<ResponseField name="pointsReleased" type="number">
+Number of points released from hold.
+</ResponseField>

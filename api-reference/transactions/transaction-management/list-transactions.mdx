@@ -1,0 +1,38 @@
+---
+title: "List Transactions"
+description: "Retrieve customer transaction history with filtering and pagination options."
+openapi: 'GET /api/v4.0/integrations/transactions'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## List Transactions
+
+Retrieve customer transaction history with filtering and pagination options.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Query Parameters
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer.
+</ParamField>
+
+<ParamField path="limit" type="integer">
+Number of transactions to return (default: 20).
+</ParamField>
+
+<ParamField path="offset" type="integer">
+Number of transactions to skip (default: 0).
+</ParamField>
+
+## Response
+
+<ResponseField name="transactions" type="array">
+Array of transaction objects.
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+Total number of transactions for the customer.
+</ResponseField>

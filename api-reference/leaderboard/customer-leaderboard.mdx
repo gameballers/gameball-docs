@@ -1,0 +1,107 @@
+---
+title: "Customer Leaderboard"
+description: "Retrieve leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time."
+openapi: 'GET /api/v4.0/integrations/leaderboard'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Customer Leaderboard
+
+This API retrieves the leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time. Results are ordered from the highest to the lowest rank, displaying each customer's rank, progress, and tier details.
+
+<Info>
+**Security:** Requires **apikey** and **secretkey** headers.
+</Info>
+
+## Query Parameters
+
+<ParamField query="from" type="datetime" required={false}>
+The start date of the leaderboard range. If not provided, the leaderboard shows all-time data.
+</ParamField>
+
+<ParamField query="to" type="datetime" required={false}>
+The end date of the leaderboard range. If not provided, the leaderboard shows all-time data.
+</ParamField>
+
+<ParamField query="customerId" type="string" required={false}>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. It is used to get the rank of this customer in the leaderboard.
+</ParamField>
+
+<ParamField query="rewardCampaignId" type="integer" required={false}>
+Filter leaderboard results based on a specific reward campaign.
+</ParamField>
+
+<ParamField query="customerTag" type="string" required={false}>
+Filter results by customers who are tagged with a specific tag.
+</ParamField>
+
+<ParamField query="rewardCampaignTag" type="string" required={false}>
+Filter leaderboard results by reward campaign tags.
+</ParamField>
+
+## Response
+
+<ResponseField name="leaderboard" type="array">
+An array of customers ranked on the leaderboard, sorted by their score. Each entry in the array includes details about each customer, providing a comprehensive overview of their standing within the entire customer base.
+
+<ResponseField name="leaderboard[].displayName" type="string">
+The display name of the customer on the leaderboard.
+</ResponseField>
+
+<ResponseField name="leaderboard[].customerId" type="string">
+Unique identifier for the customer that you can reference across the customer's whole lifetime.
+</ResponseField>
+
+<ResponseField name="leaderboard[].progress" type="number">
+The progress made by the customer, such as points earned.
+</ResponseField>
+
+<ResponseField name="leaderboard[].rank" type="number">
+The customer's position on the leaderboard, determined by their performance, such as points accumulated. The rank is typically higher for those with more points or progress.
+</ResponseField>
+
+<ResponseField name="leaderboard[].tierName" type="string">
+The name of the customer's current tier.
+</ResponseField>
+
+<ResponseField name="leaderboard[].tierIcon" type="string">
+URL for the icon representing the customer's current tier.
+</ResponseField>
+</ResponseField>
+
+<ResponseField name="customerRank" type="number">
+The position of the requested customer on the leaderboard, reflecting their rank relative to all other customers in your entire customer base. A lower rank number (e.g., 1) indicates a higher standing, typically based on points or achievements.
+</ResponseField>
+
+<ResponseField name="customersCount" type="number">
+The total number of customers on the leaderboard.
+</ResponseField>
+
+## Example Response
+
+<ResponseExample>
+```json Success
+{
+  "leaderboard": [
+    {
+      "displayName": "John Doe",
+      "customerId": "cust_12345",
+      "progress": 2500,
+      "rank": 1,
+      "tierName": "Gold",
+      "tierIcon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a1.webp"
+    },
+    {
+      "displayName": "Jane Smith",
+      "customerId": "cust_67890",
+      "progress": 1800,
+      "rank": 2,
+      "tierName": "Silver",
+      "tierIcon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a2.webp"
+    }
+  ],
+  "customerRank": 1,
+  "customersCount": 100
+}
+```
+</ResponseExample>

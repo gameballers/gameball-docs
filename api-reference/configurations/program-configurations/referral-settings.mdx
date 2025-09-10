@@ -1,0 +1,40 @@
+---
+title: "Referrals Configurations"
+description: "Retrieve referral program configuration for the loyalty program."
+openapi: 'GET /api/v4.0/integrations/configurations/program/referrals'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Referrals Configurations
+
+Retrieve referral program configuration for the loyalty program.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Response
+
+<ResponseField name="enabled" type="boolean">
+Whether the referral program is enabled.
+</ResponseField>
+
+<ResponseField name="referrerReward" type="number">
+Points awarded to the referrer.
+</ResponseField>
+
+<ResponseField name="refereeReward" type="number">
+Points awarded to the referee.
+</ResponseField>
+
+<ResponseField name="minimumReferrals" type="number">
+Minimum number of referrals required for rewards.
+</ResponseField>
+
+<ResponseField name="referralCodeLength" type="number">
+Length of generated referral codes.
+</ResponseField>
+
+<ResponseField name="expirationDays" type="number">
+Number of days before referral rewards expire.
+</ResponseField>

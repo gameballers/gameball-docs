@@ -1,0 +1,223 @@
+---
+title: "Payment Tracking"
+description: "Create payments in Gameball to award points for customer transactions."
+openapi: 'POST /api/v4.0/integrations/payments'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Payment Tracking
+
+Create payments in Gameball to award points for customer transactions. This API is used to track payments and reward customers for their completed transactions.
+
+The API call tracks new payments, specifically tailored for fintech solutions. It captures key payment details, ensuring accurate tracking of customer transactions.
+
+This API triggers the **"Payment Processed"** event, allowing you to automate follow-up actions such as initiating workflows, sending notifications, or rewarding customers with badges.
+
+The event includes all properties provided in the payload.
+
+<Info>
+**Channel Merging Available**  
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+
+For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField path="email" type="string">
+Customer's email address.
+
+<Info>
+This is required if your account uses email-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="mobile" type="string">
+Customer's mobile number.
+
+<Info>
+This is required if your account uses mobile-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="paymentId" type="string" required>
+Unique identifier for the payment on your system.
+</ParamField>
+
+<ParamField path="paymentDate" type="datetime" required>
+Timestamp of when the payment was occurred.
+</ParamField>
+
+<ParamField path="totalPaid" type="float" required>
+The actual amount paid by the customer for the payment, accounting for any discounts or coupons applied. Unlike `totalAmount`, which reflects the original cost of the payment, `totalPaid` represents the final amount the customer paid after all adjustments. This value is used for reward calculations in Gameball to determine the points or benefits earned from the payment.
+
+**Example:** A customer makes a **bill payment** for their **electricity bill** of $120, including taxes and processing fees. If a $20 coupon is applied, the `totalPaid` becomes $100, reflecting the discounted amount the customer paid. This is the value used to calculate any points or rewards earned from the payment.
+</ParamField>
+
+<ParamField path="totalAmount" type="float">
+The total cost of the payment, including all item prices, processing fees and taxes. This value does not account for any discounts or coupons applied and is not used for calculations in Gameball; it is solely saved as historical data linked to the payment. Must be a positive value.
+
+**Example:** A customer makes a **bill payment** for their **electricity bill** of $120, including taxes and processing fees. If a $20 coupon is applied, the **totalAmount** remains $120 as it represents the original cost of the payment before any discounts are applied.
+</ParamField>
+
+<ParamField path="totalDiscount" type="float">
+Total discount applied to the payment.
+</ParamField>
+
+<ParamField path="totalProcessingFees" type="float">
+Total processing fees associated with the payment.
+</ParamField>
+
+<ParamField path="totalTax" type="float">
+Total tax amount for the payment.
+</ParamField>
+
+<ParamField path="paymentDetails" type="array">
+An array containing details about each element in the payment bill. If not provided, the calculation will only consider the total payment values.
+
+<ParamField path="paymentDetails[].serviceId" type="string">
+Unique identifier for the service.
+</ParamField>
+
+<ParamField path="paymentDetails[].serviceName" type="string">
+Service title or name.
+</ParamField>
+
+<ParamField path="paymentDetails[].serviceProvider" type="string">
+Company or entity that provides the service being paid for. This could be a telecom operator, an electricity provider, a streaming platform, or any other service vendor.
+</ParamField>
+
+<ParamField path="paymentDetails[].amount" type="float">
+The original amount of a single service before any tax or discount is applied. This reflects the cost of the service, not the total for multiple quantities in a payment.
+</ParamField>
+
+<ParamField path="paymentDetails[].tax" type="float">
+The total amount of taxes applied to the service. This amount must be positive and reflects the total taxes.
+</ParamField>
+
+<ParamField path="paymentDetails[].discount" type="float">
+The total discount applied to this service, expressed as a positive value. This amount should reflect the total discounts.
+</ParamField>
+
+<ParamField path="paymentDetails[].tags" type="array">
+Tags associated with the service for categorization or promotional purposes.
+</ParamField>
+
+<ParamField path="paymentDetails[].category" type="array">
+Service category, such as Telecom top-up or electricity. It can include one or multiple categories. Example: `["Telecom Top-up", "Internet Bill", "Streaming Subscription"]`
+</ParamField>
+
+<ParamField path="paymentDetails[].extra" type="object">
+Key-value pairs containing any extra information about the service, such as size, color, or other custom attributes. The values must be of type `string` or `number`.
+</ParamField>
+</ParamField>
+
+<ParamField path="redemption" type="object">
+Redemption details for the payment, including points held for redemption.
+
+<ParamField path="redemption.pointsHoldReference" type="string">
+Reference from the Hold Points API for redeeming held points. For more details on how hold references are generated and utilized, refer to the **Transactions section**.
+</ParamField>
+
+<ParamField path="redemption.couponsLockReference" type="string">
+The lock reference for the coupon is a unique identifier used to "lock" a coupon for a specific customer or order. This prevents the coupon from being used by others or on multiple transactions. For more details on how to generate and use lock references, refer to the **Coupons section**.
+
+**Example:** If you lock a coupon for a specific transaction, the lockReference could look like `"lockReference": "abc123def456"`.
+</ParamField>
+
+<ParamField path="redemption.couponCodes" type="array">
+A list of coupon codes that were applied to the payment. Each code in the array represents a different discount or promotional coupon used during the checkout process. Coupon codes must be locked before they can be used for redemption.
+
+**Example:** If a customer applied two coupon codes, one for a 10% discount and another for free fees, the **couponCodes** array might look like this: `["DISCOUNT10", "FREEFEES2024"]`
+</ParamField>
+</ParamField>
+
+<ParamField path="merchant" type="object">
+This object contains details about the specific merchant involved in the transaction, which is particularly important for businesses managing multiple merchants or branches under the same Gameball account. This object can provide identifying information about both the main merchant and any associated branch where the transaction took place.
+
+<ParamField path="merchant.uniqueId" type="string">
+Unique identifier for the merchant.
+</ParamField>
+
+<ParamField path="merchant.name" type="string">
+Name of the merchant.
+</ParamField>
+
+<ParamField path="merchant.branch.uniqueId" type="string" required>
+Unique identifier for the branch where the payment took place.
+</ParamField>
+
+<ParamField path="merchant.branch.name" type="string">
+Name of the branch where the payment took place.
+</ParamField>
+</ParamField>
+
+<ParamField path="guest" type="boolean">
+Indicates whether the customer is a guest (not signed up). Set this to `true` for guest users; otherwise, they are treated as registered customers by default.
+</ParamField>
+
+<ParamField path="channel" type="string">
+The channel through which the payment was placed helps track the origin of the payment, particularly useful for systems that support multiple sales or communication channels. By identifying the channel, you can gain valuable insights into customer behavior, optimize channel-specific strategies, and ensure efficient handling of payments across platforms.
+
+**Possible values:**
+- `mobile`: The payment was placed through your mobile application.
+- `pos`: The payment was placed in person using a Point of Sale (POS) system, such as at a physical store or outlet.
+- `web`: The payment was placed through your website.
+- `callcenter`: The payment was placed over the phone by contacting a customer service representative or a call center.
+</ParamField>
+
+<ParamField path="cashbackConfigurations" type="object">
+This object contains configurations related to the cashback settings.
+
+<ParamField path="cashbackConfigurations.returnWindow" type="int">
+The number of days the cashback will stay in a **pending** state, typically aligning with the return window in e-commerce to account for potential order cancellations or refunds. The value should be between **0 and 7,300 days (20 years)**.
+</ParamField>
+</ParamField>
+
+<ParamField path="extra" type="object">
+Key-value pairs containing any extra information about the payment. The values must be of type string or number.
+
+**Example:** The `extra` attribute can store additional details like the billing address and payment status. For instance, when a customer completes a payment, the billing address ensures accurate invoicing by including details like the company name and tax identification number. At the same time, the payment status helps track the transaction—whether it's "Pending" for deferred payments or "Completed" when successfully processed—ensuring smooth order management and financial compliance.
+</ParamField>
+
+## Response
+
+<ResponseField name="customerId" type="string">
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ResponseField>
+
+<ResponseField name="redeemedPoints" type="number">
+Points redeemed by the customer for this payment, if applicable.
+
+**Example:** If a customer has accumulated 500 points and decides to redeem 100 points for a discount on their current payment, the `redeemedPoints` value for that transaction will be 100. This helps track how many points were used in the transaction and what benefits were applied to the payment based on the customer's redeemed points.
+</ResponseField>
+
+<ResponseField name="rewardedPoints" type="number">
+The total number of points rewarded to the customer for making this payment. These points are typically awarded based on your configured cashback rewards.
+
+**Example:** If the store rewards 10 points for every $1 spent, and a customer completes a payment worth $50, the **rewardedPoints** for this order would be 500 points.
+</ResponseField>
+
+<ResponseField name="paymentDetails" type="array">
+Details about each service in the payment, including points rewarded.
+
+<ResponseField name="paymentDetails[].serviceId" type="string">
+Unique identifier for the service.
+</ResponseField>
+
+<ResponseField name="paymentDetails[].decimalPoints" type="number">
+Fractional points rewarded for this line item.
+</ResponseField>
+
+<ResponseField name="paymentDetails[].points" type="number">
+Any points rewarded for this line item.
+</ResponseField>
+
+<ResponseField name="paymentDetails[].score" type="number">
+Any score awarded for the line item, if applicable.
+</ResponseField>
+</ResponseField>

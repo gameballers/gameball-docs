@@ -1,0 +1,89 @@
+---
+title: "Validate Multiple Coupons"
+description: "Validate multiple coupons at once and optionally lock them for exclusive use."
+openapi: 'POST /api/v4.0/integrations/coupons/validate'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Validate Multiple Coupons
+
+This API validates multiple coupons at once and checks their eligibility for use by a customer. It supports a locking feature where setting the `lock` flag to `True` reserves all valid coupons by creating lock references. This ensures the coupons cannot be used by others during the lock session, preventing conflicts or double usage.
+
+<Info>
+**Channel Merging Available**  
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+
+For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField path="email" type="string">
+Customer's email address.
+
+<Info>
+This is required if your account uses email-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="mobile" type="string">
+Customer's mobile number.
+
+<Info>
+This is required if your account uses mobile-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="coupons" type="array" required>
+Array of coupon objects to validate.
+
+<ParamField path="coupons[].code" type="string" required>
+The coupon code to validate.
+</ParamField>
+
+<ParamField path="coupons[].pin" type="string">
+Pin code required for the coupon, if applicable.
+</ParamField>
+</ParamField>
+
+<ParamField path="lock" type="boolean">
+Whether to lock valid coupons for exclusive use. When set to `true`, creates lock references to reserve the coupons.
+</ParamField>
+
+## Response
+
+<ResponseField name="validCoupons" type="array">
+Array of valid coupon objects with their details.
+
+<ResponseField name="validCoupons[].code" type="string">
+The validated coupon code.
+</ResponseField>
+
+<ResponseField name="validCoupons[].lockReference" type="string">
+Reference ID for the locked coupon, if locking was requested.
+</ResponseField>
+
+<ResponseField name="validCoupons[].discountAmount" type="number">
+The discount amount that will be applied.
+</ResponseField>
+
+<ResponseField name="validCoupons[].discountType" type="string">
+Type of discount (fixed, percentage, shipping, etc.).
+</ResponseField>
+</ResponseField>
+
+<ResponseField name="invalidCoupons" type="array">
+Array of invalid coupon codes with error messages.
+
+<ResponseField name="invalidCoupons[].code" type="string">
+The invalid coupon code.
+</ResponseField>
+
+<ResponseField name="invalidCoupons[].error" type="string">
+Error message explaining why the coupon is invalid.
+</ResponseField>
+</ResponseField>

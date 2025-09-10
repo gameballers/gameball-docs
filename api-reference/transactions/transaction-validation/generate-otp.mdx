@@ -1,0 +1,38 @@
+---
+title: "Generate OTP"
+description: "Generate one-time password for transaction verification."
+openapi: 'POST /api/v4.0/integrations/transactions/otp'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Generate OTP
+
+Generate one-time password for transaction verification.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer.
+</ParamField>
+
+<ParamField path="transactionId" type="string" required>
+Unique identifier for the transaction requiring OTP.
+</ParamField>
+
+<ParamField path="mobile" type="string">
+Customer's mobile number for OTP delivery.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+Whether the OTP was generated successfully.
+</ResponseField>
+
+<ResponseField name="otpId" type="string">
+Unique identifier for the generated OTP.
+</ResponseField>

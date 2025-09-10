@@ -1,0 +1,18 @@
+---
+title: "Redeem Batch Job"
+description: "Enable customers to redeem loyalty points as a payment method for multiple customers in a single API call."
+openapi: 'POST /api/v4.0/integrations/batch/redeem'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Redeem Batch Job
+
+The **Batch Redeem API** enables customers to redeem **loyalty points** as a payment method in Gameball, allowing them to use points instead of monetary value during transactions. This API supports bulk redemptions, making it efficient for handling multiple customer transactions in a single request.
+
+<Info>
+**Security:** Requires **apiKey** and **secretKey** headers.
+</Info>
+
+<Info>
+**Channel Merging Available:** If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+</Info>

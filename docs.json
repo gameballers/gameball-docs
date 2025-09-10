@@ -108,6 +108,140 @@
                 "pages": [
                   "api-reference/events/send-events"
                 ]
+              },
+              {
+                "group": "Order",
+                "pages": [
+                  "api-reference/order/order",
+                  "api-reference/order/order-tracking",
+                  {
+                    "group": "Order Rewards & History",
+                    "pages": [
+                      "api-reference/order/calculate-order-cashback",
+                      "api-reference/order/order-transactions"
+                    ] 
+                  }
+                ]
+              }
+              ,
+              {
+                "group": "Payment",
+                "pages": [
+                  "api-reference/payment/payment",
+                  "api-reference/payment/payment-tracking"
+                ]
+              },
+              {
+                "group": "Transactions",
+                "pages": [
+                  "api-reference/transactions/transactions",
+                  {
+                    "group": "Cashback & Redemptions",
+                    "pages": [
+                      "api-reference/transactions/cashback-and-redemptions/index",
+                      "api-reference/transactions/cashback-and-redemptions/redeem",
+                      "api-reference/transactions/cashback-and-redemptions/cashback",
+                      "api-reference/transactions/cashback-and-redemptions/refund"
+                    ]
+                  },
+                  {
+                    "group": "Hold Management",
+                    "pages": [
+                      "api-reference/transactions/hold-management/index",
+                      "api-reference/transactions/hold-management/hold",
+                      "api-reference/transactions/hold-management/release",
+                      "api-reference/transactions/hold-management/get-hold"
+                    ]
+                  },
+                  {
+                    "group": "Transaction Management",
+                    "pages": [
+                      "api-reference/transactions/transaction-management/index",
+                      "api-reference/transactions/transaction-management/list-transactions",
+                      "api-reference/transactions/transaction-management/manual-transaction"
+                    ]
+                  },
+                  {
+                    "group": "Transaction Validation",
+                    "pages": [
+                      "api-reference/transactions/transaction-validation/index",
+                      "api-reference/transactions/transaction-validation/generate-otp",
+                      "api-reference/transactions/transaction-validation/validate-otp"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Coupons",
+                "pages": [
+                  "api-reference/coupons/coupons",
+                  "api-reference/coupons/generate-coupon",
+                  "api-reference/coupons/validate-single-coupon",
+                  "api-reference/coupons/validate-multiple-coupons",
+                  "api-reference/coupons/burn-coupon",
+                  "api-reference/coupons/lock-details",
+                  "api-reference/coupons/release-coupons",
+                  "api-reference/coupons/automatic-coupons"
+                ]
+              },
+              {
+                "group": "Configurations",
+                "pages": [
+                  "api-reference/configurations/configurations",
+                  {
+                    "group": "Reward Configurations",
+                    "pages": [
+                      "api-reference/configurations/reward-configurations/index",
+                      "api-reference/configurations/reward-configurations/cashback-settings",
+                      "api-reference/configurations/reward-configurations/redemption-settings",
+                      "api-reference/configurations/reward-configurations/coupon-settings",
+                      "api-reference/configurations/reward-configurations/reward-rules"
+                    ]
+                  },
+                  {
+                    "group": "Program Configurations",
+                    "pages": [
+                      "api-reference/configurations/program-configurations/index",
+                      "api-reference/configurations/program-configurations/campaigns",
+                      "api-reference/configurations/program-configurations/vip-tiers",
+                      "api-reference/configurations/program-configurations/referral-settings"
+                    ]
+                  },
+                  "api-reference/configurations/widget-configuration/index"
+                ]
+              },
+              {
+                "group": "Leaderboard",
+                "pages": [
+                  "api-reference/leaderboard/customer-leaderboard"
+                ]
+              },
+              {
+                "group": "Batches",
+                "pages": [
+                  "api-reference/batches/batches",
+                  {
+                    "group": "Batch Creation",
+                    "pages": [
+                      "api-reference/batches/batch-creation/index",
+                      "api-reference/batches/batch-creation/customer-data",
+                      "api-reference/batches/batch-creation/orders",
+                      "api-reference/batches/batch-creation/balance-inquiries",
+                      "api-reference/batches/batch-creation/adjustments",
+                      "api-reference/batches/batch-creation/cashback-rewards",
+                      "api-reference/batches/batch-creation/redemptions",
+                      "api-reference/batches/batch-creation/events"
+                    ]
+                  },
+                  {
+                    "group": "Batch Management",
+                    "pages": [
+                      "api-reference/batches/batch-management/index",
+                      "api-reference/batches/batch-management/check-status",
+                      "api-reference/batches/batch-management/stop-execution"
+                    ]
+                  }
+                ]
               }
             ]
           }    

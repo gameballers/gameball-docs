@@ -1,0 +1,48 @@
+---
+title: "Tiers Configurations"
+description: "Retrieve VIP tier configurations for the loyalty program."
+openapi: 'GET /api/v4.0/integrations/configurations/program/tiers'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Tiers Configurations
+
+Retrieve VIP tier configurations for the loyalty program.
+
+<Info>
+**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+</Info>
+
+## Response
+
+<ResponseField name="tiers" type="array">
+Array of VIP tier configurations.
+
+<ResponseField name="tiers[].id" type="string">
+Unique identifier for the tier.
+</ResponseField>
+
+<ResponseField name="tiers[].name" type="string">
+Name of the tier.
+</ResponseField>
+
+<ResponseField name="tiers[].minimumPoints" type="number">
+Minimum points required to reach this tier.
+</ResponseField>
+
+<ResponseField name="tiers[].benefits" type="array">
+Array of benefits for this tier.
+
+<ResponseField name="tiers[].benefits[]" type="string">
+Benefit description for this tier.
+</ResponseField>
+</ResponseField>
+
+<ResponseField name="tiers[].color" type="string">
+Color associated with this tier (hex code).
+</ResponseField>
+
+<ResponseField name="tiers[].isActive" type="boolean">
+Whether this tier is currently active.
+</ResponseField>
+</ResponseField>

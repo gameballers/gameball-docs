@@ -1,0 +1,176 @@
+---
+title: "Automatic Coupons"
+description: "Apply predefined automatic coupons based on specific promotional criteria."
+openapi: 'POST /api/v4.0/integrations/coupons/automatic'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Automatic Coupons
+
+The API call applies a predefined automatic coupon that aligns with specific promotional criteria and reward structures. It enables seamless integration with promotional campaigns, ensuring coupons are issued based on predefined eligibility conditions, enhancing customer engagement and marketing efforts.
+
+<Info>
+**Channel Merging Available**  
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+
+For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
+</Info>
+
+## Request Body
+
+<ParamField path="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField path="email" type="string">
+Customer's email address.
+
+<Info>
+This is required if your account uses email-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="mobile" type="string">
+Customer's mobile number.
+
+<Info>
+This is required if your account uses mobile-based channel merging.
+</Info>
+</ParamField>
+
+<ParamField path="cartId" type="string" required>
+Identifier for the shopping cart associated with the order.
+</ParamField>
+
+<ParamField path="totalPrice" type="float">
+The total cost of the order, including all item prices, shipping, taxes, and tips. This value does not account for any discounts or coupons applied and is not used for calculations in Gameball; it is solely saved as historical data linked to the order. Must be a positive value.
+
+**Example:** A customer purchases items worth $120, including taxes and shipping. Even if a $20 coupon is applied, the **totalPrice** remains $120 as it represents the original cost of the order before any discounts are applied.
+</ParamField>
+
+<ParamField path="totalShipping" type="float">
+The total shipping cost associated with the order. This should be included when a **Free Shipping** promotion is configured in your account, enabling the system to calculate and apply the appropriate discount to the cart.
+</ParamField>
+
+<ParamField path="lineItems" type="array">
+An array containing details about each product in the order. If not provided, the calculation will only consider the total order values.
+
+<ParamField path="lineItems[].productId" type="string">
+Unique identifier for the product or service being purchased.
+</ParamField>
+
+<ParamField path="lineItems[].quantity" type="float">
+Number of units purchased for this product or service.
+</ParamField>
+
+<ParamField path="lineItems[].price" type="float">
+The original price of a single product before any tax or discount is applied. This reflects the cost of one unit of the item, not the total for multiple quantities in an order.
+
+**Example:** If the original price of a product is $50 and a customer buys two units, the **price** for each item would still be recorded as $50, regardless of quantity.
+</ParamField>
+
+<ParamField path="lineItems[].sku" type="string">
+Stock Keeping Unit (SKU) for the product.
+</ParamField>
+
+<ParamField path="lineItems[].tags" type="array">
+Tags associated with the product for categorization or promotional purposes.
+</ParamField>
+
+<ParamField path="lineItems[].category" type="array">
+Product category, such as fashion or electronics. It can include one or multiple categories. Example: `["natural", "cosmetics"]`
+</ParamField>
+
+<ParamField path="lineItems[].weight" type="float">
+Weight of the product.
+</ParamField>
+
+<ParamField path="lineItems[].vendor" type="string">
+Vendor or manufacturer of the product.
+</ParamField>
+
+<ParamField path="lineItems[].collection" type="array">
+Collection ID(s) to which the product belongs. It can include one or multiple collections. Example: `["14313", "4343"]`
+</ParamField>
+
+<ParamField path="lineItems[].title" type="string">
+Product title or name.
+</ParamField>
+
+<ParamField path="lineItems[].taxes" type="float">
+The total amount of taxes applied to the line item, expressed in the shop's currency. This amount must be positive and reflects the total taxes based on the quantity of the item.
+</ParamField>
+
+<ParamField path="lineItems[].discount" type="float">
+The total discount applied to this line item, expressed as a positive value. This amount should reflect the total discounts based on the quantity of the item.
+</ParamField>
+
+<ParamField path="lineItems[].extra" type="object">
+Key-value pairs containing any extra information about the product, such as size, color, or other custom attributes. The values must be of type `string` or `number`.
+</ParamField>
+</ParamField>
+
+<ParamField path="merchant" type="object">
+This object contains details about the specific merchant involved in the transaction, which is particularly important for businesses managing multiple merchants or branches under the same Gameball account. This object can provide identifying information about both the main merchant and any associated branch where the transaction took place.
+
+<ParamField path="merchant.uniqueId" type="string">
+Unique identifier for the merchant.
+</ParamField>
+
+<ParamField path="merchant.name" type="string">
+Name of the merchant.
+</ParamField>
+
+<ParamField path="merchant.branch.uniqueId" type="string" required>
+Unique identifier for the branch where the order took place.
+</ParamField>
+
+<ParamField path="merchant.branch.name" type="string">
+Name of the branch where the order took place.
+</ParamField>
+</ParamField>
+
+## Response
+
+<ResponseField name="isApplied" type="boolean">
+A boolean indicating whether a coupon was successfully applied to the order (`true` if applied, `false` otherwise).
+</ResponseField>
+
+<ResponseField name="couponName" type="string">
+The name of the applied coupon.
+</ResponseField>
+
+<ResponseField name="discountAmount" type="number">
+The total discount value applied to the order.
+</ResponseField>
+
+<ResponseField name="discountType" type="string">
+Type of the coupon, such as fixed amount, percentage discount, free shipping, or product-specific coupon.
+
+**Possible Values:**
+- `shipping`
+- `fixed`
+- `percentage`
+- `product`
+- `buyXgetY`
+</ResponseField>
+
+<ResponseField name="discountedItems" type="array">
+A list of affected items, detailing their price, quantity, and applied discount.
+
+<ResponseField name="discountedItems[].productId" type="string">
+Unique identifier for the product or service.
+</ResponseField>
+
+<ResponseField name="discountedItems[].quantity" type="number">
+Number of units purchased for this product or service.
+</ResponseField>
+
+<ResponseField name="discountedItems[].discount" type="float">
+The total discount applied to this line item.
+</ResponseField>
+
+<ResponseField name="discountedItems[].price" type="float">
+The original price of a single product.
+</ResponseField>
+</ResponseField>
