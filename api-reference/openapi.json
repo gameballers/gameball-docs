@@ -163,7 +163,79 @@
         }
       }
     },
-    "/api/v4.0/integrations/customers/{customerId}/progress": {
+    "/api/v4.0/integrations/customers/{customerId}/balance": {
+      "get": {
+        "description": "Retrieve customer loyalty progress including tier, points balance, and referrals.",
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "secretKey": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/progress' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript",
+            "source": "const res = await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress', { headers: { apikey: 'YOUR_API_KEY', secretkey: 'YOUR_SECRET_KEY' } }); const data = await res.json();"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\nresp = requests.get('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress', headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY'})\nprint(resp.json())"
+          },
+          {
+            "lang": "csharp",
+            "label": "C#",
+            "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar response = await client.GetAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/progress\");\nresponse.EnsureSuccessStatusCode();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP",
+            "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress');\\ncurl_setopt_array($ch, [CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique customer identifier"
+          },
+          {
+            "name": "expand",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated expansions: tier,referrals"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer progress",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProgress"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/tier-progress": {
       "get": {
         "description": "Retrieve customer loyalty progress including tier, points balance, and referrals.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],

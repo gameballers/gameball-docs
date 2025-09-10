@@ -1,0 +1,62 @@
+---
+title: "Authentication"
+description: "The Gameball API uses API keys to authenticate requests. You can view your API keys in the Gameball Dashboard."
+---
+
+**Gameball** APIs are secured using API Keys to add an additional layer of protection to your account.  
+Two types of keys are provided: the **API Key** and the **Secret Key** (also referred to as the transaction key).
+
+- The **API Key** is used for regular, non-sensitive endpoints.  
+- The **Secret Key** must be used along with the **API Key** when performing sensitive operations.
+
+<Warning>
+**Highly Important Note!**  
+Your API keys carry significant privileges, so it's essential to keep them secure.  
+Never share your **Secret Key** in publicly accessible areas, such as GitHub or client-side code.
+</Warning>
+
+For each API request, include your account's **API Key**, and in some cases, the **Secret Key** as well, in the request headers.  
+
+👉 For more details on how to retrieve your API Key and Secret Key, refer to our [Help Center](https://help.gameball.co/en/articles/3467114-get-your-account-integration-details-api-key-and-transaction-key).
+
+---
+
+## Example: Authentication with API Key
+
+```bash
+curl --request POST \
+  --url 'https://api.gameball.co/api/v4.0/integrations/event' \
+  --header 'APIKey: ue7eh32eiwlsncoko08u8b'
+```
+
+---
+
+## Example: Authentication with API Key and Secret Key
+
+```bash
+curl --request POST \
+  --url 'https://api.gameball.co/api/v4.0/integrations/transaction/cashback' \
+  --header 'APIKey: ue7eh32eiwlsncoko08u8b' \
+  --header 'SecretKey: kz7eh32eiwldlowbo08u5p'
+```
+
+---
+
+## High Security Mode (Optional)
+
+To enhance security across your integration, you can enable **High Security Mode** from your Gameball Dashboard.
+
+<Warning>
+**Highly Important Note!**  
+Send all requests from the **server-side** to prevent exposing the Secret Key on the client side.  
+Sending requests from the client-side could compromise your security, as the Secret Key could be exposed to users.
+</Warning>
+
+When this mode is enabled, **all API requests** — even those that typically require only the API Key — will also require the **Secret Key** in the request headers.
+
+This ensures that **every API call** is authenticated with both keys, offering a stricter level of protection against unauthorized access.
+
+<Note>
+**Recommendation**: Enabling High Security Mode is advised for clients with heightened security requirements.  
+Once activated, all integration endpoints will reject requests that do not include both `APIKey` and `SecretKey` headers.
+</Note>

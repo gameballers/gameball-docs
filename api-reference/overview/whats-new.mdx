@@ -1,0 +1,109 @@
+---
+title: "What's New in V4.0"
+description: >-
+  We’re excited to introduce V4 of our API, packed with powerful new features,
+  optimized performance, and a cleaner, more efficient experience.
+---
+
+**Table of content**
+
+* [Breaking Changes](#breaking-changes)
+* [What’s New](#whats-new)
+* [New Endpoints to Explore](#new-endpoints-to-explore)
+* [Improved Endpoints](#improved-endpoints)
+* [Batches - Beta](#batches-beta)
+
+## Breaking Changes
+
+Before diving into the exciting updates, here are a few changes you’ll need to be aware of as you transition to V4:
+
+<Note>
+### 👋 Goodbye **Player**, Hello **Customer**
+We're updating our terminology: **Player** is now called **Customer** across all APIs and docs.
+</Note>
+
+
+We’ve updated our terminology to make things clearer. Anywhere you previously saw the word "Player," you’ll now find "Customer" in V4. Be sure to update your integrations to reflect this change.
+
+### **RESTful Routing Redefined**
+
+In V4, we’ve aligned our API routes with best-practice RESTful principles. This means more predictable, clear, and consistent paths for every action you take—making integrations smoother than ever.
+
+### **Simplified Request and Response Bodies**
+
+To help you move data more efficiently, we’ve trimmed down the payload size in request and response bodies, focusing only on essential data. Less clutter means faster responses and easier processing on your end!
+
+***
+
+## **What’s New**
+
+V4 isn’t just about minor tweaks—it’s a major upgrade designed to help you work faster and more efficiently.
+
+### **Optimized Configuration APIs**&#x20;
+
+Manage your settings faster with improved configuration endpoints. Whether you're updating preferences or managing customer configurations, the speed and flexibility of these APIs will help you stay agile.
+
+### **Cleaner and Faster Endpoints**&#x20;
+
+We’ve taken a deep dive into our API structure to make everything leaner and more efficient. Expect quicker response times and a cleaner setup that’s easier to work with.
+
+### **Improved Error Handling**
+
+With V4, you'll have better visibility into what’s happening under the hood. We’ve added more informative HTTP status codes and detailed error messages, so troubleshooting is simpler and faster for you.
+
+
+
+***
+
+## **New Endpoints to Explore**
+
+V4 introduces several new endpoints that expand your ability to manage customers and coupons:
+
+### **Get Customer Activities**
+
+Retrieve detailed activity logs for your customers, giving you deeper insights into their engagement and behaviors.
+
+### **Get All Customer Details** (Secured)
+
+Securely access the full profile of any customer, including Personally identifiable information (PII), by providing the Secret Key in your request. Without the key, only non-sensitive data will be returned, ensuring your customer data remains safe.
+
+### **Get Coupon Configurations**
+
+Fetch the current configurations of your coupons, making it easy to keep track of discounts, expiration dates, and other settings.
+
+### **Update Coupon Configurations**
+
+Quickly update your coupon configurations to adjust your discount settings and coupon strategies with ease.
+
+
+
+***
+
+## **Improved Endpoints**
+
+We’ve also updated some existing endpoints to enhance functionality, security, and performance:
+
+### **Public Customer Details API**
+
+To ensure data security, only non-sensitive information will be available in the public customer details API. If you need access to sensitive information, such as personal details, you must include the Secret Key in your request.
+
+### **Simplified Configuration APIs**
+
+Configuration management is now simpler and more informative. We’ve made it easier to retrieve and update configurations, giving you more control with less complexity.
+
+### **Order Request Body Semantics**
+
+The request structure for orders has been improved, making it more intuitive and easier to work with, while retaining all the details needed for order processing, cashback, and discounts.
+
+
+
+***
+
+## Batches - Beta
+
+We’re excited to introduce powerful batch processing capabilities in V4 that will transform how you manage large volumes of data. With our upcoming bulk processing features, you’ll be able to perform numerous operations—like creating or updating customers, processing orders, and handling rewards—all in a single API call.
+
+This means you can process thousands of requests at once, significantly reducing the time and effort required to manage your operations. Whether you’re dealing with customer data, order fulfillment, or loyalty program updates, batch processing will streamline your workflows, enhance efficiency, and reduce the strain on your systems.
+
+
+

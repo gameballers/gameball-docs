@@ -1,0 +1,294 @@
+---
+title: "Status and Error Codes"
+description: "This section shows all Gameball common error codes and how to resolve them."
+---
+
+# Status and Error Codes
+
+## HTTP Status Codes
+
+Gameball uses [HTTP response status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) to indicate the success or failure of your API requests. If your request fails, Gameball returns an error using the appropriate status code.
+
+- ✅ <mark style={{ backgroundColor: "green", color: "white" }}>2XX</mark> codes indicate success and that the request worked as intended.  
+- ⚠️ <mark style={{ backgroundColor: "orange", color: "white" }}>4XX</mark> codes indicate errors due to mistakes in the request.  
+- ❌ <mark style={{ backgroundColor: "red", color: "white" }}>5XX</mark> codes indicate an error with Gameball's servers.
+
+---
+
+## Error Object
+
+The error response is returned whenever a request fails (non-2XX HTTP status code) due to issues such as authentication problems, incorrect payloads, or server-side errors.  
+It provides essential details to help you understand what went wrong and how to correct it.
+
+### Error Response Attributes
+
+- **code**: The specific [internal Gameball error code](#error-codes).  
+- **type**: A broad [category](#possible-error-categories) for the error (e.g., *Authentication Error*, *Payload Error*, *Server Error*).  
+- **message**: A clear explanation of what caused the error.  
+- **documentationUrl**: A URL linking to relevant Gameball documentation.  
+- **requestId**: A unique identifier for the request, helpful for tracking and debugging.
+
+### Example Error Response
+
+```json
+{
+  "code": 3000,
+  "type": "Payload Error",
+  "message": "An error occurred while processing your request. Please try again later.",
+  "documentationUrl": "https://developer.gameball.co/4.0/rest-api/api-reference",
+  "requestId": "12345abcde"
+}
+```
+
+---
+
+## Possible Error Categories
+
+- **AUTHENTICATION_ERROR (1XXX):** Missing or invalid authentication (e.g., invalid API key).  
+- **REQUEST_ERROR (2XXX):** Malformed requests (e.g., invalid parameters, bad URL).  
+- **PAYLOAD_ERROR (3XXX):** Invalid or incomplete request body (payload).  
+- **GENERAL_ERROR (4XXX):** Generic request failures with no detailed cause.  
+- **SERVER_ERROR (5XXX):** Internal server issues, timeouts, or downtime.  
+- **CONFIGURATIONS_ERROR (6XXX):** System or feature misconfigurations.  
+- **CUSTOMER_ERROR (7XXX):** Invalid or missing customer data.  
+- **SUBSCRIPTION_ERROR (8XXX):** Subscription/plan-related issues.  
+- **TRANSACTIONS_ERROR (9XXX):** Errors during financial transactions (e.g., insufficient balance).
+
+---
+
+## Error Codes
+
+Gameball sends an **error code** in the body of the response.  
+Each code has a corresponding message that describes what went wrong.
+
+---
+
+### Authentication Errors (1XXX)
+
+#### 1000: Unauthorized (`401 Unauthorized`)
+- **Description**: Unauthorized access.  
+- **Example**: Accessing a protected API without valid credentials.
+
+#### 1001: Secret Key Required (`401 Unauthorized`)
+- **Description**: A valid secret key is required.  
+- **Example**: Missing the required `SecretKey` header.
+
+#### 1002: Forbidden (`403 Forbidden`)
+- **Description**: No permission to access the resource.  
+- **Example**: Attempting an action requiring higher-level permissions.
+
+---
+
+### Request Errors (2XXX)
+
+#### 2000: Precondition Failed (`412 Precondition Failed`)
+- **Description**: A required condition was not met.  
+- **Example**: Submitting an order without `customerId`.
+
+#### 2001: Concurrent Request In Progress (`422 Unprocessable Entity`)
+- **Description**: Another request is already being processed for the same customer.  
+- **Example**: Sending multiple simultaneous requests for the same customer.
+
+---
+
+### Payload Errors (3XXX)
+
+#### 3000: Missing Arguments (`400 Bad Request`)
+- **Description**: Required arguments are missing.  
+- **Example**: Submitting without `customerId`.
+
+#### 3001: Null Arguments (`422 Unprocessable Entity`)
+- **Description**: Null passed for required arguments.  
+- **Example**: Sending `null` for `points`.
+
+#### 3002: Not Supported Extension (`415 Unsupported Media Type`)
+- **Description**: File extension is not supported.  
+- **Example**: Uploading `.txt` instead of `.csv`.
+
+#### 3003: Invalid Value (`422 Unprocessable Entity`)
+- **Description**: Provided value is invalid.  
+- **Example**: Invalid `transactionId` format.
+
+#### 3004: Not Achieved (`400 Bad Request`)
+- **Description**: Operation could not be achieved.  
+- **Example**: Applying a reward campaign not eligible for the customer.
+
+#### 3005: Body Hashed Invalid (`422 Unprocessable Entity`)
+- **Description**: Invalid hashed value in body.  
+- **Example**: `bodyHashed` mismatch.
+
+#### 3006: Name Length Invalid (`422 Unprocessable Entity`)
+- **Description**: Name too short/long.  
+- **Example**: Rule name exceeds character limit.
+
+#### 3007: Name Already Exists (`422 Unprocessable Entity`)
+- **Description**: Name already exists.  
+- **Example**: Creating a campaign with an existing name.
+
+#### 3008: Email Already Exists (`422 Unprocessable Entity`)
+- **Description**: Email already in use.  
+- **Example**: Registering a customer with an existing email.
+
+#### 3009: Inactive (`422 Unprocessable Entity`)
+- **Description**: Entity inactive.  
+- **Example**: Rewarding an inactive customer.
+
+#### 3010: Invalid Leveling Method (`422 Unprocessable Entity`)
+- **Description**: Leveling method invalid.  
+- **Example**: Updating tier with an unsupported method.
+
+#### 3011: Limit Exceed (`422 Unprocessable Entity`)
+- **Description**: Operation exceeds allowed limits.  
+- **Example**: Rewarding points beyond max allowed.
+
+#### 3012: Recaptcha Invalid (`422 Unprocessable Entity`)
+- **Description**: reCAPTCHA validation failed.  
+- **Example**: Invalid CAPTCHA submission.
+
+#### 3013: Not Supported (`415 Unsupported Media Type`)
+- **Description**: File/request type not supported.  
+- **Example**: Sending non-JSON where JSON is expected.
+
+#### 3014: Read Only (`423 Locked`)
+- **Description**: Resource is read-only.  
+- **Example**: Updating a read-only score field.
+
+#### 3015: Edit Required (`423 Locked`)
+- **Description**: Requires editing before use.  
+- **Example**: Applying an expired coupon.
+
+#### 3016: Invalid Payload (`400 Bad Request`)
+- **Description**: Payload invalid.  
+- **Example**: Malformed JSON body.
+
+#### 3017: Event Not Found (`404 Not Found`)
+- **Description**: Event not found.  
+- **Example**: Fetching a deleted event.
+
+---
+
+### General Errors (4XXX)
+
+#### 4000: Failed (`400 Bad Request`)
+- **Description**: Operation failed due to internal issue.  
+- **Example**: Redeeming an expired coupon.
+
+#### 4004: Not Found (`404 Not Found`)
+- **Description**: Resource not found.  
+- **Example**: Invalid `transactionId`.
+
+#### 4500: Something Wrong (`400 Bad Request`)
+- **Description**: General processing error.  
+- **Example**: Unexpected failure during transaction.
+
+---
+
+### Server Errors (5XXX)
+
+#### 5000: Internal Server Error (`500 Internal Server Error`)
+- **Description**: Unexpected server error.  
+- **Example**: Processing a transaction while server is down.
+
+#### 5003: Service Unavailable (`503 Service Unavailable`)
+- **Description**: Service temporarily unavailable.  
+- **Example**: Accessing API during maintenance.
+
+---
+
+### Configurations Errors (6XXX)
+
+#### 6000: Gameball Disabled (`422 Unprocessable Entity`)
+- **Description**: Gameball disabled for client.  
+- **Example**: Submitting a reward when disabled.
+
+#### 6001: Cashback Disabled (`422 Unprocessable Entity`)
+- **Description**: Cashback disabled.  
+- **Example**: Applying cashback while disabled.
+
+#### 6002: Default Language Not Set (`422 Unprocessable Entity`)
+- **Description**: No default language set.  
+- **Example**: Sending notification without language configured.
+
+#### 6003: Cannot Access Coupon Configurations (`403 Forbidden`)
+- **Description**: No access to coupon configurations.  
+- **Example**: Modifying coupons without permissions.
+
+---
+
+### Customer Errors (7XXX)
+
+#### 7000: Customer Not Found (`404 Not Found`)
+- **Description**: Customer not found.  
+- **Example**: Invalid `customerId`.
+
+#### 7001: Customer Already Exists (`422 Unprocessable Entity`)
+- **Description**: Customer already exists.  
+- **Example**: Duplicate external ID.
+
+#### 7002: Customer Already Referred (`422 Unprocessable Entity`)
+- **Description**: Already referred.  
+- **Example**: Referral attempt for already referred customer.
+
+#### 7003: Referral Code Not Found (`404 Not Found`)
+- **Description**: Invalid referral code.  
+- **Example**: Expired/invalid referral code.
+
+#### 7004: Guest Identifier Already Exists (`422 Unprocessable Entity`)
+- **Description**: Guest identifier exists.  
+- **Example**: Duplicate guest account.
+
+#### 7005: Customer Already Referred (`422 Unprocessable Entity`)
+- **Description**: Duplicate referral.  
+- **Example**: Referral attempt for already referred customer.
+
+#### 7006: Invalid Referral (`422 Unprocessable Entity`)
+- **Description**: Referral invalid.  
+- **Example**: Invalid referral details.
+
+---
+
+### Subscription Errors (8XXX)
+
+#### 8000: Feature Unavailable (`403 Forbidden`)
+- **Description**: Feature unavailable.  
+- **Example**: Using a premium feature without subscription.
+
+---
+
+### Transaction Errors (9XXX)
+
+#### 9000: Transaction Type Non-Reversible (`422 Unprocessable Entity`)
+- **Description**: Transaction type cannot be reversed.  
+- **Example**: Attempting to reverse non-reversible cashback.
+
+#### 9001: Transaction Already Cancelled (`422 Unprocessable Entity`)
+- **Description**: Transaction already cancelled.  
+- **Example**: Cancelling an already cancelled transaction.
+
+#### 9002: Transaction Not Found (`404 Not Found`)
+- **Description**: Transaction not found.  
+- **Example**: Invalid `transactionId`.
+
+#### 9003: Transaction Time Already Exists (`422 Unprocessable Entity`)
+- **Description**: Timestamp already exists.  
+- **Example**: Duplicate transaction timestamp.
+
+#### 9004: Transaction ID Already Exists (`422 Unprocessable Entity`)
+- **Description**: Transaction ID already exists.  
+- **Example**: Duplicate `transactionId`.
+
+#### 9005: Reversed Transaction Not Found (`404 Not Found`)
+- **Description**: Reversed transaction not found.  
+- **Example**: Invalid reversal ID.
+
+#### 9006: Transaction Hold Reference Not Found (`404 Not Found`)
+- **Description**: Hold reference not found.  
+- **Example**: Invalid/non-existent hold reference.
+
+#### 9007: Transaction Time Not Valid (`422 Unprocessable Entity`)
+- **Description**: Transaction time invalid.  
+- **Example**: Future timestamp.
+
+#### 9008: Insufficient Balance Points (`422 Unprocessable Entity`)
+- **Description**: Insufficient points.  
+- **Example**: Redeeming more points than available.

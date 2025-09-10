@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "aspen",
   "name": "Gameball Developer Docs",
   "colors": {
     "primary": "#FB5819",
@@ -53,54 +53,64 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Events",
-            "pages": [
-              "api-reference/events/send-events"
-            ]
-          },
-          {
-            "group": "Customers",
-            "pages": [
-              "api-reference/customers/customers",
+              "api-reference/introduction",
               {
-                "group": "Customers — Management",
+                "group": "Overview",
                 "pages": [
-                  "api-reference/customers/management/create-customer",
-                  "api-reference/customers/management/get-customer",
-                  "api-reference/customers/management/get-customer-details",
-                  "api-reference/customers/management/get-customer-coupons",
-                  "api-reference/customers/management/delete-customer",
-                  "api-reference/customers/management/get-customer-hash",
-                  "api-reference/customers/management/validate-referrer-code"
+                  "api-reference/overview/whats-new",
+                  "api-reference/overview/authentication",
+                  "api-reference/overview/rate-limiting",
+                  "api-reference/overview/status-error-codes"
                 ]
               },
               {
-                "group": "Customers — Progress",
+                "group": "Customers",
                 "pages": [
-                  "api-reference/customers/progress/get-customer-progress"
+                  "api-reference/customers/customers",
+                  {
+                    "group": "Customers — Management",
+                    "pages": [
+                      "api-reference/customers/management/create-customer",
+                      "api-reference/customers/management/get-customer",
+                      "api-reference/customers/management/get-customer-details",
+                      "api-reference/customers/management/get-customer-coupons",
+                      "api-reference/customers/management/delete-customer",
+                      "api-reference/customers/management/get-customer-hash",
+                      "api-reference/customers/management/validate-referrer-code"
+                    ]
+                  },
+                  {
+                    "group": "Customers — Progress",
+                    "pages": [
+                      "api-reference/customers/progress/get-customer-balance",
+                      "api-reference/customers/progress/get-customer-progress"
+                    ]
+                  },
+                  {
+                    "group": "Customers — Tags",
+                    "pages": [
+                      "api-reference/customers/tags/list-customer-tags",
+                      "api-reference/customers/tags/attach-customer-tags",
+                      "api-reference/customers/tags/remove-customer-tag"
+                    ]
+                  },
+                  {
+                    "group": "Customers — Notifications",
+                    "pages": [
+                      "api-reference/customers/notifications/list-customer-notifications",
+                      "api-reference/customers/notifications/mark-notifications-read"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Customers — Tags",
+                "group": "Events",
                 "pages": [
-                  "api-reference/customers/tags/list-customer-tags",
-                  "api-reference/customers/tags/attach-customer-tags",
-                  "api-reference/customers/tags/remove-customer-tag"
-                ]
-              },
-              {
-                "group": "Customers — Notifications",
-                "pages": [
-                  "api-reference/customers/notifications/list-customer-notifications",
-                  "api-reference/customers/notifications/mark-notifications-read"
+                  "api-reference/events/send-events"
                 ]
               }
             ]
-          }
+          }    
         ]
       },
       {
@@ -115,7 +125,7 @@
         ]
       },
       {
-        "tab": "Product Updates",
+        "tab": "API Updates",
         "groups": [
           {
             "group": "Getting started",
@@ -174,6 +184,19 @@
       "cursor",
       "vscode"
     ]
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "javascript",
+        "curl",
+        "python",
+        "csharp"
+      ]
+    }
   },
   "footer": {
     "socials": {

@@ -1,0 +1,62 @@
+---
+title: "Rate Limiting"
+---
+
+Gameball API employs safeguards to protect against sudden bursts of traffic, ensuring platform stability.  
+If you send too many requests in a short time, you may encounter error responses with status code **429 (Too Many Requests)**.
+
+---
+
+## Rate Limits
+
+Gameball uses two levels of rate limiting:
+
+- **Per-second limit:** A maximum number of read and write operations can be processed per second. This is the limit for concurrent requests handled at any given moment.  
+- **Per-30s quota:** The total number of requests allowed over a 30-second window. This acts as an overall cap to ensure the system remains stable during sustained activity.
+
+---
+
+## Rate Limits Overview
+
+Gameball API uses rate limiting to manage traffic across its endpoints.  
+Instead of applying a uniform limit, the system uses distinct rate and quota "buckets" for different API resources and operations.  
+This allows flexibility and ensures optimal system performance tailored to the specific needs of each resource.
+
+- The **rate** defines the maximum number of requests allowed per second for a resource.  
+- The **quota** specifies the total number of requests allowed within a 30-second window.  
+
+### Rate Limits Table
+
+| API Resource          | Method | Rate (requests/second) | Quota (requests/30 seconds) |
+| --------------------- | ------ | ---------------------- | --------------------------- |
+| **Transactions**      | GET    | 30                     | 360                         |
+|                       | POST   | 30                     | 360                         |
+| **Coupons**           | All    | 30                     | 360                         |
+|                       | POST   | 30                     | 360                         |
+| **Customers**         | GET    | 100                    | 1200                        |
+|                       | POST   | 30                     | 360                         |
+| **Events**            | Any    | 100                    | 1200                        |
+| **Orders** (Tracking) | Any    | 30                     | 360                         |
+| **Orders** (Cashback) | Any    | 1000                   | 15,000                      |
+| **Others**            | Any    | 30                     | 360                         |
+
+If the rate exceeds either the **per-second** or **per-30s limit**, a `429 Too Many Requests` error will be returned.
+
+<Info>
+💡 **Upcoming Feature**: To handle bulk operations and avoid hitting API rate limits, **batch APIs** will be released by the end of Q4 2024.  
+This will allow you to process multiple requests more efficiently.
+</Info>
+
+---
+
+## Common Causes and Mitigations
+
+Rate limiting can occur for several reasons. The most common scenarios include:
+
+- **High request volume in quick succession:**  
+  Sending many closely-timed requests, such as during large data analysis or migration, can lead to rate limiting.  
+  ✅ To avoid this, control the request rate from your side (see *Handling Rate Limiting Gracefully*).
+
+- **Sudden spikes in traffic (e.g., flash sales):**  
+  A sudden influx of requests, like during a flash sale, can cause rate limiting.  
+  While the API limits are designed to accommodate typical traffic, you may want to prepare in advance for events expected to generate a surge in requests.
