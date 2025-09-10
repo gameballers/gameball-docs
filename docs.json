@@ -153,7 +153,13 @@
               "tutorials/checkout-integration",
               "tutorials/previewing-potential-points-before-purchase",
               "tutorials/refund",
-              "tutorials/retail-pos-integration"
+              "tutorials/retail-pos-integration",
+              "tutorials/referral",
+              "tutorials/widget-deep-links",
+              "tutorials/batch-api-requests",
+              "tutorials/branch-io-integration",
+              "tutorials/adjust-integration",
+              "tutorials/managing-customers-coupons"
             ]
           }
         ]

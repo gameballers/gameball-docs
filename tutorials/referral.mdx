@@ -1,0 +1,153 @@
+---
+title: "Referrals"
+description: "Designing and implementing a customer referral program UI"
+---
+
+# Referrals
+
+Referral programs are a proven way to grow your customer base by rewarding both the referrer and the referred friend. This guide shows how to surface your referral configuration, visualize progress, and build UI that motivates sharing.
+
+***
+
+#### **What Is a Referral Program?**
+
+Imagine this: A loyal customer, Sarah, loves your brand. Sarah shares her unique referral link with her friend, Mike. Mike joins using her link, and both Sarah and Mike receive exciting rewards. Sarah feels valued, and Mike gets a warm welcome.
+
+***
+
+#### **How Referral Programs Work**
+
+Referral programs reward two parties:
+
+- **Referrer (Existing Customer)**: Earns points, coupons, or both when friends complete a qualifying action.
+- **Referred Friend (New Customer)**: Receives an incentive (e.g., discount coupon or bonus points) after their first action.
+
+You can customize rewards for both sides based on your goals.
+
+***
+
+#### **Key Features and Endpoints**
+
+1. **Retrieve Referral Program Configuration**
+
+   Use this endpoint to define how referrals are rewarded.
+
+   ```json
+   {
+       "referralMethod": "CustomerAndFriend",
+       "eventName": "place_order",
+       "eventMetaData": {
+           "name": "number_of_products",
+           "operator": "equals",
+           "value": "3"
+       },
+       "customerReward": {
+           "extraReward": {
+               "forEvery": 3,
+               "point": 500
+           },
+           "point": 200
+       },
+       "friendReward": {
+           "coupon": {
+               "couponType": "Percentage",
+               "discountValue": 10.0,
+               "minOrderValue": 50.0,
+               "expiryAfter": "2025-12-31",
+               "product": "Any"
+           }
+       }
+   }
+   ```
+
+   - **Referral Method**: Both Sarah and Mike get rewards.
+   - **Customer Reward**: Sarah earns 200 points plus 500 points for every 3 completed referrals.
+   - **Friend Reward**: Mike gets a 10% coupon valid for orders over $50.
+
+2. **Retrieve Customer Referral History**
+
+   Use this to display a customer’s referral progress.
+
+   ```json
+   {
+       "referredFriends": [
+           {
+               "customerId": "cust_12345abc",
+               "displayName": "John Doe",
+               "email": "johndoe@company.com",
+               "status": "Pending"
+           },
+           {
+               "customerId": "cust_67890xyz",
+               "displayName": "Blake Eaton",
+               "email": "blake@company.com",
+               "status": "Active"
+           }
+       ],
+       "count": 2
+   }
+   ```
+
+***
+
+#### **Scenarios to Explore**
+
+**Scenario 1: Mike Places His First Order**
+
+1. Sarah shares her referral link.
+2. Mike clicks the link, registers, and places his first order of $60.
+3. Based on the configuration:
+   - **Mike** gets a 10% coupon ($6 off).
+   - **Sarah** earns 200 points for referring Mike.
+
+**Scenario 2: Sarah Refers Multiple Friends**
+
+Sarah refers Jane and Mike. Her rewards over time:
+
+- **Day 1**: Mike registers and becomes active. Sarah earns 200 points.
+- **Day 3**: Jane registers but hasn’t placed an order yet (Pending).
+
+Using the history endpoint, Sarah sees:
+
+```json
+{
+  "referredFriends": [
+    { "displayName": "Mike", "status": "Active" },
+    { "displayName": "Jane", "status": "Pending" }
+  ]
+}
+```
+
+***
+
+#### **Visual Examples**
+
+- **Referral Popup (For New Users)**
+  A warm welcome with rewards mentioned upfront.
+
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FhkZgMIn3xdGvG5rMUn3I%2Fimage.png?alt=media&token=bb17a6b2-99f1-429e-91d7-74f459a9e635" alt="Referral popup example" />
+  </Frame>
+
+- **Referral History**
+  Show pending and active referrals in a neat interface.
+
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FGYPg6k45m4TSygFQUcGs%2Fimage.png?alt=media&token=fd97ccde-59b6-41be-8dbf-1a0abe8e464c" alt="Referral history UI" />
+  </Frame>
+
+- **Referral Sharing Widget**
+  Encourage sharing with a simple copy-and-paste link.
+
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FQos2e5d2iu8iFQrFWDil%2Fimage.png?alt=media&token=0d5c4a49-f385-456f-a4d0-0e212dd7517e" alt="Referral sharing widget" />
+  </Frame>
+
+***
+
+#### **Implementation Tips**
+
+- **Highlight rewards** prominently to drive engagement.
+- **Gamify** with badges or leaderboards for top referrers.
+- **Track performance** with analytics and iterate on rewards.
+

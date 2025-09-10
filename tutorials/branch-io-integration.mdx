@@ -1,0 +1,84 @@
+---
+description: Integrating Branch.io with Gameball
+---
+
+# Branch.io Integration
+
+### Overview
+
+Gameball supports **Branch.io** as a dynamic link provider for referral programs. This integration enables you to generate dynamic links that track referrals and enhance your user acquisition strategy.
+
+### Integration Steps
+
+Follow these steps to integrate **Branch.io** with Gameball:
+
+#### 1. Navigate to Admin Settings
+
+1. Log in to your **Gameball Dashboard**.
+2. Go to **Settings** > **Integrations** > **Mobile Integrations**.
+
+![Admin Settings](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FYa3HMwUZ9u9kBb2e3Lkz%2Fimage.png?alt=media&token=9feb5ae3-1132-4641-aa18-6ffcea85712b)
+
+#### 2. Add Your Application Desktop URL as the Referral Link
+
+1. In the **Gameball Dashboard**, locate the **Referral Link** field.  
+2. Enter your **application's desktop URL** (this will be used as the fallback when the referral link is opened on a desktop).  
+3. Click **Update Configurations** to apply the changes.
+
+![Referral Link](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2Fo3OrfN05nMHanw7L3hF1%2Fimage.png?alt=media&token=feb60f88-efad-42b0-9d90-08171efb1cef)
+
+#### 3. Select Branch.io as Your Dynamic Link Provider
+
+1. Locate the **Dynamic Link Provider** section.  
+2. Select **Branch.io** by clicking the radio button.
+
+![Dynamic Link Provider](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FMe2CzRL7HRLhhpOs9uOc%2Fimage.png?alt=media&token=dae27377-6f1b-412b-af55-181063dc17fb)
+
+#### 4. Retrieve Your Branch.io Credentials
+
+To complete the integration, you need two values from your **Branch.io** account:
+
+- **Branch Key**  
+- **Branch App ID**
+
+##### How to Find These Values in Branch.io
+
+1. Log in to your **Branch.io Dashboard**.  
+2. Navigate to **Settings** > **Account Settings**.  
+3. Locate the **Branch Key** and **Branch App ID** under the API Keys section.  
+4. Copy these values.  
+
+![Branch.io Credentials](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FojTp5qCuJgwG8ndzoiYt%2FUntitled%20design%20(3).png?alt=media&token=9a462d78-15d3-430f-9eb1-747a9582b534)
+
+#### 5. Enter Your Credentials in Gameball
+
+1. Return to **Gameball Dashboard**.  
+2. Enter the **Branch Key** into the `Branch Key` field and click **Update Branch** button.  
+
+![Branch Key](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FGqOZdWBkS9YtIKJnspaD%2Fimage.png?alt=media&token=11978944-9dd1-43c1-9f7f-2ca880f21738)
+
+3. Enter the **Branch App ID** into the `Branch App ID` field and click **Update Branch** button.  
+
+![Branch App ID](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F76OujaQN4hb4v7XUHErU%2Fimage.png?alt=media&token=bbd0c719-112c-40d6-b4be-77772e68515b)
+
+---
+
+### Notes
+
+Before proceeding with the integration, ensure that your application links are properly set up in your Branch.io account. You need to configure the following details:
+
+- Application Play Store link for Android  
+- Application Apple Store link for iOS  
+- Application default URL  
+
+These settings are essential to ensure that referral links redirect users correctly based on their device.
+
+![Branch App Setup](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FGWXatzuSQgLjVjTckniU%2Fimage.png?alt=media&token=2b2acd3d-be54-4150-8025-f469581f820e)
+
+:::danger
+You must send the Gameball referral code captured from the link as **GBReferral** parameter in the **registerPlayer** method.
+:::
+
+---
+
+Now your referral program is powered by **Branch.io dynamic links**! 🚀

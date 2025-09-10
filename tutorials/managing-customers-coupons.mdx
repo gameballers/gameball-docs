@@ -1,0 +1,207 @@
+# Managing Customer Coupons
+
+Gameball’s Couponing Engine gives businesses a powerful way to **reward, retain, and re-engage customers**. Coupons can be distributed as part of loyalty programs, triggered by automations, awarded when reaching a tier, or even created manually by the business.
+
+This guide walks through the **end-to-end lifecycle** of managing coupons in real-world scenarios:
+
+1. Retrieving a customer’s available and historical coupons.
+2. Validating and locking a coupon at checkout.
+3. Burning a coupon once it has been used.
+
+By following this flow, you can create a **seamless customer experience** while keeping full control of coupon eligibility and usage.
+
+---
+
+<Info>
+### Why This Matters for Businesses
+
+Coupons are more than just discounts—they are **engagement tools**. They can:
+
+- Encourage repeat purchases and increase customer lifetime value.
+- Incentivize behaviors such as signing up, referring a friend, or completing a challenge.
+- Reward loyal customers with exclusive perks.
+- Drive seasonal campaigns (e.g., “SUMMER20” or “Black Friday Sale”).
+- Allow targeted offers like free shipping or product-specific discounts.
+
+The key challenge businesses face is **tracking and controlling coupon usage**. Without proper controls, coupons may be overused, misused, or applied in unintended ways. Gameball solves this by providing clear data points like usage limits, customer-specific limits, and live validation.
+</Info>
+
+---
+
+### 1. Retrieve Customer Coupons
+
+To show a customer all their coupons—both active and historical—you can use:
+
+```http
+GET https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/coupons
+```
+
+This endpoint allows you to build a **“My Coupons”** page or section inside your app or website.
+
+#### What You’ll Get
+
+- Coupons the customer earned by redeeming points.
+- Coupons won from campaigns or by reaching new tiers.
+- Manually created coupons (if enabled).
+- Coupons that have already expired or been used (still visible for transparency).
+
+Each coupon object includes important usage metrics:
+
+- `usageLimit` → Maximum times the coupon can be used across all customers.
+- `limitPerCustomer` → Maximum times a single customer can use it.
+- `usedCount` → How many times the coupon has been used globally so far.
+- `customerUsedCount` → How many times this customer has used it.
+- `isAvailableToUse` → Whether this customer can currently apply the coupon.
+
+This helps you not just display the coupon, but **explain to customers why it is or isn’t available**.
+
+**Example Response**
+
+```json
+{
+  "coupons": [
+    {
+      "code": "WELCOME100",
+      "value": 100,
+      "type": "Fixed Discount",
+      "usageLimit": 1,
+      "limitPerCustomer": 1,
+      "usedCount": 0,
+      "customerUsedCount": 0,
+      "isAvailableToUse": true
+    },
+    {
+      "code": "SUMMER10",
+      "value": 10,
+      "type": "Percentage Discount",
+      "usageLimit": 100,
+      "limitPerCustomer": 1,
+      "usedCount": 87,
+      "customerUsedCount": 1,
+      "isAvailableToUse": false
+    }
+  ]
+}
+```
+
+👉 In this example:
+
+- `WELCOME100` is fresh and ready to use.
+- `SUMMER10` has already been used once by this customer, hitting their personal limit, so it is no longer available.
+
+From a business perspective, this transparency helps reduce **customer support inquiries** like “Why can’t I use my coupon?” and improves trust.
+
+---
+
+### 2. Validate and Lock a Coupon
+
+Once a customer enters a coupon code at checkout, you should **validate** that it is still active and eligible for use.
+
+```http
+POST https://api.gameball.co/api/v4.0/integrations/coupons/{code}/validate
+```
+
+This step ensures:
+
+- The coupon hasn’t expired.
+- It meets minimum order value requirements.
+- The customer hasn’t exceeded their personal usage limit.
+- The coupon is still within its global usage limit.
+
+You can also **lock the coupon** by setting `lock = true`. This temporarily reserves the coupon for the customer while they complete checkout. Locking is especially useful during:
+
+- Flash sales with limited coupon supply.
+- Exclusive promotions for VIP customers.
+- Any scenario where double-usage of a code must be avoided.
+
+**Example Request (with Lock)**
+
+```bash
+curl -X POST "https://api.gameball.co/api/v4.0/integrations/coupons/WELCOME100/validate" \
+  -H "Content-Type: application/json" \
+  -H "apiKey: YOUR_API_KEY" \
+  -H "secretKey: YOUR_SECRET_KEY" \
+  -d '{
+        "customerId": "customer_123",
+        "lock": true
+      }'
+```
+
+**Example Response**
+
+```json
+{
+  "valid": true,
+  "coupon": {
+    "code": "WELCOME100",
+    "value": 100,
+    "type": "Fixed Discount",
+    "isAvailableToUse": true
+  },
+  "lockReference": "f3ac814c-9131-456b-b6f1-abb9021cc2ef"
+}
+```
+
+Here:
+
+- The coupon is valid and locked.
+- The system returns a `lockReference` that can be tied to the order.
+
+---
+
+### 3. Burn the Coupon
+
+Once payment is completed, you need to **burn** the coupon to mark it as used.
+
+```http
+POST https://api.gameball.co/api/v4.0/integrations/coupons/burn
+```
+
+Burning updates both the **global usage count** and the **customer usage count**.
+
+**Example Request**
+
+```bash
+curl -X POST "https://api.gameball.co/api/v4.0/integrations/coupons/burn" \
+  -H "Content-Type: application/json" \
+  -H "apiKey: YOUR_API_KEY" \
+  -H "secretKey: YOUR_SECRET_KEY" \
+  -d '{
+        "customerId": "customer_123",
+        "code": "WELCOME100"
+      }'
+```
+
+This ensures that the coupon cannot be reused unless it still has remaining uses based on its `usageLimit` or `limitPerCustomer`.
+
+---
+
+### End-to-End Business Flow
+
+Let’s bring this together with a **customer journey example**:
+
+1. **Discovering Coupons** → Sarah opens the loyalty app and sees all her available and past coupons using `GET /customers/{customerId}/coupons`.
+   - She sees that she has `WELCOME100` (active) and `SUMMER10` (already used).
+2. **Applying at Checkout** → She decides to use `WELCOME100`. At checkout, your system calls `POST /coupons/{code}/validate` with `lock = true`.
+   - The system confirms it’s valid and locks it for Sarah.
+3. **Completing Payment** → After Sarah successfully pays, your system calls `POST /coupons/burn`.
+   - The coupon is marked as used.
+4. **Post-Purchase Transparency** → Next time Sarah visits “My Coupons,” she can clearly see that `WELCOME100` was used.
+
+This creates trust, avoids customer confusion, and ensures coupons are always applied **fairly and consistently**.
+
+---
+
+<Warning>
+### Key Takeaways
+
+- Coupons are powerful **engagement and retention tools** when managed correctly.
+- You can show both active and historical coupons for **customer transparency**.
+- Global and customer-specific usage limits (`usageLimit`, `limitPerCustomer`, `usedCount`, `customerUsedCount`) give businesses **fine-grained control**.
+- `isAvailableToUse` is your go-to flag for whether the coupon can be applied right now.
+- Validation and burning ensure coupons aren’t misused, while still giving customers a smooth redemption flow.
+</Warning>
+
+---
+
+👉 By combining retrieval, validation, and burning, businesses can **maximize the impact of coupons** while minimizing risks, creating a loyalty strategy that is both **customer-friendly** and **operationally secure**.
