@@ -138,6 +138,7 @@
               },
               "tutorials/build-your-own-notification-system",
               "tutorials/channel-merging-guide",
+              "tutorials/batch-apis-usage-example",
               {
                 "group": "Redemption Integration",
                 "pages": [
