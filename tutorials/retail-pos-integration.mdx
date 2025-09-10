@@ -1,0 +1,270 @@
+---
+title: "Retail & POS Integration with Gameball Loyalty Program"
+description: "Integrate Gameball loyalty into your POS: identify customers, link orders, and redeem points (with optional QR security)."
+---
+
+# Retail & POS Integration with Gameball Loyalty Program
+
+Integrating Gameball’s loyalty program into your store’s POS system allows you to enhance the customer experience by rewarding loyal shoppers with points, increasing engagement, and driving repeat purchases. Whether you have a mobile app for your customers or not, this integration is designed to accommodate all cases, ensuring that your customers benefit from the same rewarding experience.
+
+Gameball’s Retail & POS integration works seamlessly with your store’s existing system, providing a simple yet powerful way to track, reward, and engage your in-store customers. By embedding the loyalty program directly into your POS system, you eliminate the need for additional apps or platforms while ensuring a smooth and streamlined experience for both your store staff and customers.
+
+The integration enables you to:
+
+- **Create and manage customer accounts**: Easily register customers in the system either through manual entry or by linking their existing accounts. You can track loyalty points, purchases, and customer activity in real-time, ensuring accurate and up-to-date information.
+- **Link customer orders to their profiles**: When customers make purchases, you can link each order to their profile, awarding them loyalty points for every eligible transaction. This encourages customers to return to your store and continue earning rewards.
+- **Redeem loyalty points directly via POS**: Gameball’s integration with your POS system allows for seamless redemption of loyalty points at checkout, providing an instant reward to customers. The redemption process can be handled entirely by the POS clerk, without needing an app or a third-party system.
+
+> In this scenario, we will explore two methods of integration:
+>
+> 1. **Basic Integration without QR Codes** – This is for stores that wish to keep the process simple by identifying customers solely through a unique identifier (like a customer ID).
+> 2. **Advanced Integration with QR Codes for Enhanced Security** – This is ideal for stores that want an added layer of security, using a hash-generated QR code for customer verification.
+
+This guide will walk you through how to seamlessly incorporate Gameball’s loyalty program into your Retail & POS system, enabling you to:
+
+1. **Create and manage customer accounts** to track loyalty points.
+2. **Link customer orders** to their profiles, ensuring they earn points based on their purchases.
+3. **Redeem loyalty points** directly through your POS system at the counter, ensuring a smooth transaction process without requiring additional tools or apps.
+
+By the end of this guide, you’ll have the tools and knowledge to integrate the Gameball loyalty program into your POS system, allowing you to engage customers and offer rewards directly during their in-store visits.
+
+***
+
+### Step 1: Create a Customer Profile or Retrieve an Existing One
+
+The first thing a clerk needs to do when a customer is paying for an order is ask them for their unique identifier. This could be their email, mobile phone number, or any other identifier that works for your store. This identifier will help link the customer to their loyalty profile.
+
+**For New Customers:**
+
+If the customer is visiting your store for the first time, the POS system will need to create a new profile for them in Gameball. This can be done through a button on your POS system that calls the [Create Customer API](../../rest-api/customers/customer-management#post-create-customer) in the background. The clerk will input the customer's details (e.g., name, email, or phone number), and the system will automatically create a customer profile in the background.
+
+**Request Example:**
+
+```json
+{
+  "customerId": "customer_email_or_phone",
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+```
+
+**For Returning Customers:**
+
+If the customer is a returning one, simply retrieve their loyalty balance using the [Get Customer Balance API](../../rest-api/customers/customer-progress#get-customer-balance). This will display the available points the customer has earned, and the clerk can use this to check how many points the customer can redeem.
+
+**Response Example:**
+
+```json
+{
+  "totalPointsBalance": 1500,
+  "totalPointsValue": 150.0,
+  "availablePointsBalance": 1200,
+  "availablePointsValue": 120.0,
+  "pendingPoints": 300,
+  "pendingPointsValue": 30.0,
+  "currency": "USD",
+  "pointsName": "Reward Points",
+  "nextExpiringPointsAmount": 200,
+  "nextExpiringPointsValue": 10.0,
+  "nextExpiringPointsDate": "2024-12-01T00:00:00",
+  "totalEarnedPoints": 2500
+}
+```
+
+This response provides detailed insight into the customer’s reward status:
+
+- **Available Points Balance:** The customer currently has **1,200 points** (valued at $120) ready to use.
+- **Pending Points:** An additional **300 points** (valued at $30) are pending and will be available soon.
+- **Next Expiring Points:** The customer has **200 points** (valued at $20) set to expire on **December 1, 2024**.
+- **Total Earned Points:** So far, the customer has earned a total of **2,500 points** through purchases and activities.
+
+***
+
+#### Clerk Tip
+
+To make the experience engaging and motivate the customer, the clerk can highlight:
+
+- **Current Available Points:** “You have 1,200 points available now, valued at $120!”
+- **Expiring Points:** “Don’t miss out—200 of these points will expire by December 1, 2024. Would you like to redeem them today?”
+
+This not only encourages the customer to redeem points but also creates a sense of urgency, making them feel valued for their loyalty.
+
+***
+
+### Step 2: Link Orders to Customers
+
+Once the customer profile is retrieved or created, the next step is to link the order to that customer profile, ensuring that they can earn loyalty points for their purchase.
+
+**Steps to Follow:**
+
+- When the customer places an order, the clerk will link the order to the customer by using the [Create Order API](../../rest-api/order/order-tracking#post-track-order). This API needs the `customerId` to associate the order with the customer you already have on your system.
+- The system will automatically calculate the loyalty points based on the order value, and these points will be added to the customer’s profile.
+
+**Request Example:**
+
+```json
+{
+  "customerId": "cust_123456789",
+  "email": "john.doe@example.com",
+  "mobile": "+1234567890",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 300,
+  "totalPrice": 300,
+  "totalDiscount": 0,
+  "totalShipping": 10,
+  "totalTax": 15
+}
+```
+
+***
+
+### Step 3: Redeeming Loyalty Points at Checkout
+
+If the customer wants to use their loyalty points as a discount on their order, the clerk needs to check their available points and apply the redemption.
+
+**Steps to Follow:**
+
+1. **Get the Customer’s Points Balance:**  
+   Use the [Get Customer Balance API](../../rest-api/customers/customer-progress#get-customer-balance) again to display the available points the customer has to redeem.
+
+2. **Hold Points for Redemption:**  
+   Use the [Hold Points API](../../rest-api/transactions/hold-management#post-hold-points) to reserve the required number of points and prevent double-spend.
+
+**Request Example:**
+
+```json
+{
+  "customerId": "cust_abc12345xyz67890",
+  "transactionTime": "2024-10-11T16:15:15.071Z",
+  "pointsToHold": 50
+}
+```
+
+**Response Example:**
+
+```json
+{
+  "customerId": "cust_abc12345xyz67890",
+  "holdAmount": "5",
+  "holdEquivalentPoints": 50,
+  "holdReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+}
+```
+
+3. **Apply Points to Order:**  
+   Call the [Order API](../../rest-api/order/order-tracking#post-track-order) and include the `pointsHoldReference` to finalize redemption. Set `totalPaid` to reflect the discount; `totalPrice` remains original.
+
+**Request Example:**
+
+```json
+{
+  "customerId": "cust_123456789",
+  "email": "john.doe@example.com",
+  "mobile": "+1234567890",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 295,
+  "totalPrice": 300,
+  "totalShipping": 10,
+  "totalTax": 15,
+  "redemption": {
+    "pointsHoldReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+  }
+}
+```
+
+**Response Example:**
+
+```json
+{
+  "customerId": "cust_123456789",
+  "redeemedPoints": 50,
+  "rewardedPoints": 295
+}
+```
+
+***
+
+## Optional: Adding QR Code Verification (Enhanced Security)
+
+If you'd like to enhance security during customer verification or your store lacks a seamless way to identify customers, integrating QR code verification is an excellent option.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FASXP3VvHTxUS6wCUwJdy%2FQR%20COde.png?alt=media&token=bc4b7388-36df-4f24-a27a-94543de026b6" alt="QR verification flow" />
+</Frame>
+
+<Info>
+The QR code is generated on the customer’s side via the mobile app, not the clerk’s system. The QR code contains both the customer’s unique identifier and a secure rotating hash.
+</Info>
+
+### Show QR Using the Gameball Widget
+
+The widget automatically handles secure hash generation and display. No additional development is required.
+
+### Show QR Manually Using Gameball APIs
+
+1. **Generate the Customer’s Secure Hash** via [Generate Customer Hash API](../../rest-api/customers/customer-management#get-customer-hash).
+
+```json
+{ "hash": "123456" }
+```
+
+2. **Generate the QR Code in the App** by concatenating `customerId` and `hash` (e.g., `01000100010` + `123456` → `01000100010123456`).
+
+3. **Display the QR Code** in your app and optionally show redemption rules via [Get Redemption Configuration API](../../rest-api/configurations/reward-configurations#get-redemption-configurations).
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2Fec7rurZoLDpR5SLRDc3z%2Fmobile%20app.png?alt=media&token=3bc0c919-0c43-421f-8c8b-9f4385ae7903" alt="Mobile app QR display and options" />
+</Frame>
+
+### Scan the QR Code at Checkout
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FZHPdj2mTThJqfpSVzwWp%2Fclerk%20qr%20code%20with%20new%20logo.jpg?alt=media&token=ac62852b-215d-4304-82e2-1db2ec02c08f" alt="Scan QR at POS" />
+</Frame>
+
+**Parse and Verify:**
+
+```javascript
+var inputCode = '01000100010123456';
+var hash = inputCode.slice(-6);
+var customerId = inputCode.slice(0, -6);
+```
+
+Use `hash` with the Hold Points API to securely hold points for redemption.
+
+```json
+{
+  "customerId": "010001000101",
+  "transactionTime": "2024-10-11T16:15:15.071Z",
+  "pointsToHold": 1000,
+  "hash": "123456"
+}
+```
+
+***
+
+## Gameball’s Virtual Pass: In-store Engagement Without a Mobile App
+
+Gameball’s Virtual Pass offers a complete in-store identity and engagement solution without a custom mobile app.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FwIExWYniKu2QeT9s1xZ0%2Fapple%20wallet2.png?alt=media&token=5fb2a408-3a6c-4a1b-8cd3-48383ce19c27" alt="Apple Wallet virtual pass" />
+</Frame>
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FDcerF0bRhdReWB1CdB6J%2Fandoid%20wallet.png?alt=media&token=4ae24041-141a-4e6d-ac8e-65b02e22f407" alt="Android PassWallet integration" />
+</Frame>
+
+Features:
+
+- Custom branding
+- Push notifications
+- Program info and store updates
+
+***
+
+### Summary
+
+Integrating Gameball with your Retail & POS system is straightforward and enhances the customer experience. With just a few API calls, you can seamlessly create customer profiles, link orders, and manage loyalty points. Whether you’re using simple identifiers or adding an extra layer of security with QR codes, this integration offers a flexible solution for all types of stores.

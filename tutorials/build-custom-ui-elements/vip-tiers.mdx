@@ -1,0 +1,191 @@
+---
+description: Unlocking the Potential of VIP Tiers for Your Customers
+---
+
+# VIP Tiers
+
+VIP tiers are a fantastic way to reward your most loyal customers and keep them engaged. But to make the most of this feature, it’s important to give customers a clear and motivating way to see their progress and the benefits waiting for them as they move up the tiers.
+
+In this tutorial, we’ll walk you through how to combine two key APIs to create an engaging and informative experience for your customers:
+
+- [Get Tiers Configurations API](../../../rest-api/configurations/program-configurations#get-tiers-configurations): Fetch all the details about the available VIP tiers, including the benefits and requirements for each level.
+- [Get Customer Tier Progress API](../../../rest-api/customers/customer-progress#get-customer-tier-progress): Show customers their real-time progress and how close they are to reaching the next tier.
+
+Here’s what we’ll cover:
+
+1. How to display available VIP tiers with their benefits and requirements.
+2. How to show each customer’s progress toward the next tier.
+3. How to create a seamless and motivating experience that encourages customers to keep moving up the ranks.
+
+By the end, you’ll have the tools to build a feature that not only highlights your VIP program but also keeps your customers engaged and excited about reaching the next level. Let’s get started!
+
+***
+
+### **1️⃣ Step 1: Fetch All Available Tiers**
+
+To start, you need to call the [Tiers Configurations API](../../../rest-api/configurations/program-configurations#get-tiers-configurations) to fetch the available tiers and their associated benefits. This endpoint will return the details of each tier, including the **name**, **icon**, **minimum progress required**, and **benefits** for each tier.
+
+**Sample Response:**
+
+```json
+[
+    {
+        "name": "Basic",
+        "minProgress": 0,
+        "order": 1,
+        "icon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a1.webp",
+        "benefits": [
+            {
+                "type": "Entry Reward",
+                "rankReward": 0,
+                "walletReward": 0
+            }
+        ]
+    },
+    {
+        "name": "Bronze",
+        "minProgress": 30,
+        "order": 2,
+        "icon": "level-a2",
+        "benefits": [
+            {
+                "type": "Entry Reward",
+                "rankReward": 0,
+                "walletReward": 12,
+                "couponReward": {
+                    "couponType": "0",
+                    "discountValue": null,
+                    "minOrderValue": null,
+                    "product": null,
+                    "collections": [],
+                    "options": {
+                        "expiryAfter": null,
+                        "usageLimit": 1,
+                        "usedCount": 0,
+                        "capping": null,
+                        "minReward": null,
+                        "minOrderValue": null,
+                        "isCashback": null,
+                        "applyToFees": null,
+                        "combinesWith": {
+                            "orderDiscounts": false,
+                            "productDiscounts": false,
+                            "shippingDiscounts": false
+                        },
+                        "productId": null,
+                        "productName": null,
+                        "variantId": null,
+                        "variantName": null,
+                        "productDisplayName": null,
+                        "couponPrefix": null,
+                        "collections": [],
+                        "productDisplayNames": [],
+                        "hasCollections": false,
+                        "platforms": [],
+                        "redeemInstructions": [],
+                        "instructions": null,
+                        "source": null,
+                        "couponName": null
+                    }
+                }
+            },
+            {
+                "type": "Loyalty Points Earning Custom Configuration",
+                "rewardWalletFactor": 70.0
+            }
+        ]
+    },
+    {
+        "name": "Silver",
+        "minProgress": 700,
+        "order": 3,
+        "icon": "level-a1",
+        "benefits": []
+    },
+    {
+        "name": "Gold",
+        "minProgress": 6001,
+        "order": 4,
+        "icon": "level-a1",
+        "benefits": []
+    }
+]
+```
+
+#### **Visual Suggestion**:
+
+For a more engaging display, you can use **icons** for each tier to help customers visually distinguish between them. 
+
+**Icons**: Use small, recognizable images or symbols to represent each tier (e.g., a gold medal for the "Gold" tier).
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FIScZq0tQ1dOs2CgkETmC%2Fimage.png?alt=media&token=44b4950b-6dfe-49ef-a3f3-a3d95b57cc0e" alt="Tier icons example" />
+</Frame>
+
+***
+
+### **2️⃣ Step 2: Fetch Customer Progress for VIP Tiers**
+
+Once the tiers are fetched, the next step is to call the [Customer Tier Progress API](../../../rest-api/customers/customer-progress#get-customer-tier-progress)  to get the current progress of the logged-in customer.
+
+**Sample Response:**
+
+```json
+[
+  {
+    "tierName": "Gold",
+    "tierId": 1234,
+    "completionPercentage": 50.0,
+    "achievedPoints": 95,
+    "nextTierProgress": 190
+  },
+  {
+    "tierName": "Platinum",
+    "tierId": 5678,
+    "completionPercentage": 0.0,
+    "achievedPoints": 0,
+    "nextTierProgress": 500
+  }
+]
+```
+
+#### **Visual Suggestion**:
+
+The progress for each tier can be displayed in various ways:
+
+1. **Progress Bar**: For each tier, you can use a **progress bar** to show how much progress the user has made. For example, if the user is halfway to the "Gold" tier (50%), the progress bar would be filled up to 50% to visually represent this.
+2. **Completion Percentage**: Show the **completion percentage** next to each tier. For instance, "50% complete" for a user who has made halfway progress to the "Gold" tier.
+3. **Locked Tiers**: For tiers that the customer has not unlocked yet (e.g., "Platinum"), you could gray out the tier and add a small text overlay like **"Locked"** or **"Progress: 0/500 points"**.
+
+#### **3️⃣ Step 3: Combine Tiers and Progress for UI Display**
+
+After fetching both the tier configuration and the customer progress, you can combine the data to create an interactive and motivating display. Here’s how the combined data can be shown:
+
+**Completed Tiers:**
+
+For completed tiers (100% progress), show the **tier icon** and **tier name** with the progress bar fully filled. The benefits for completed tiers should also be clearly displayed, and you can highlight the rewards that the user has unlocked.
+
+- **Visual**: Use a **green progress bar** to indicate a completed tier and show the **"Claim Benefits"** button for the customer to redeem rewards.
+
+**In-Progress Tiers:**
+
+For in-progress tiers (e.g., 50% progress), show the **tier name**, **tier icon**, and a **progress bar** showing how far the customer has progressed. Add a motivating **call-to-action** like "Complete 50 more points to unlock Gold!" and display the available benefits for when the customer reaches this tier.
+
+- **Visual**: Use an **orange progress bar** for in-progress tiers, and show a button like **"Level Up"** or **"Keep Going!"** to encourage the customer to continue earning points.
+
+**Locked Tiers:**
+
+For locked tiers, simply show the **tier name**, **tier icon**, and a progress bar that is empty (0%). Additionally, you could display a **text overlay** like "This tier is locked" or "Earn more points to unlock".
+
+- **Visual**: Use a **gray progress bar** and show the message **"Locked"** in a faded style to indicate that the tier has not been reached.
+
+***
+
+#### **4️⃣ Key Visuals for VIP Tiers**:
+
+1. **Progress Bars**:
+   - Use **colored progress bars**: green for completed, orange for in-progress, and gray for locked.
+2. **Tier Icons**:
+   - Use **tier-specific icons** (golden badge, platinum badge) for easy recognition.
+3. **Benefits List**:
+   - Show a **list of benefits** for each tier, with any specific rewards and links to redeem or learn more about them.

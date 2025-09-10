@@ -1,0 +1,173 @@
+---
+title: "Gameball Couponing Engine"
+description: "Use Gameball’s built-in couponing engine: generate, validate, lock, burn, and release coupons."
+---
+
+# Gameball Couponing Engine
+
+Gameball’s couponing engine provides a streamlined way to handle coupon validation, locking, redemption (burning), and releasing. This guide walks you through the steps to integrate couponing into your system, allowing customers to seamlessly use coupons at checkout.
+
+Before using the couponing engine, make sure it’s set up in the Gameball dashboard. Configuration includes setting redemption rules, usage limits, discount types, and other eligibility criteria. Once configured, you can integrate Gameball’s coupon API for automated coupon management and redemption flows.
+
+<Info>
+To enable this feature, please contact our support team. Once requested, our team will assist in activating the feature for your account.
+</Info>
+
+***
+
+## Integration Walkthrough
+
+### 1. Generating a Coupon
+
+To generate a coupon, use the **Generate Coupon API**. This API call creates a coupon for the customer based on the redemption rule configured in Gameball. The redemption rule determines the number of points required to redeem the coupon, the discount type, and any minimum order requirements.
+
+**Example Use Case**
+
+_Generate a $10 Discount Coupon for a Loyal Customer_: You want to provide a $10 discount to a loyal customer. Use the `Generate Coupon API` with the customer’s ID and the applicable rule ID for the reward.
+
+```json
+{
+  "ruleId": "12345",
+  "customerId": "customer123",
+  "email": "customer@example.com",
+  "mobile": "+1234567890"
+}
+```
+
+The response provides details about the generated coupon, including the coupon code, validity period, usage limit, discount value, and any minimum order requirements.
+
+```json
+{
+  "code": "SAVE10",
+  "startDate": "2024-11-01T00:00:00Z",
+  "expiryDate": "2024-12-01T23:59:59Z",
+  "usageLimit": 1,
+  "discountValue": 10,
+  "minOrderValue": 50,
+  "type": "fixed"
+}
+```
+
+***
+
+### 2. Validating and Locking Coupons
+
+To validate and optionally lock a coupon, use the **Validate Single Coupon API** for a single coupon or the **Validate Multiple Coupons API** for multiple coupons. Setting the `lock` flag to `true` locks the coupon, reserving it for the customer until checkout. The system will return a `lockReference`, which will be needed in the next steps.
+
+**Example Use Cases**
+
+_Single Coupon Validation and Locking_: A customer applies the `SAVE10` coupon at checkout. Use the Validate Single Coupon API to validate and lock the coupon exclusively for this customer.
+
+```json
+{
+  "customerId": "customer123",
+  "mobile": "010XXXXXXXX",
+  "email": "customer@example.com",
+  "lock": true,
+  "lockReference": null
+}
+```
+
+The system will return a `lockReference` along with coupon details, which can be used in the next step.
+
+```json
+{
+  "lockReference": "74e20fc6bf7a4970ad3c125b1713194f",
+  "valid": true,
+  "coupon": {
+    "code": "SAVE10",
+    "type": "fixed",
+    "value": 10,
+    "usageLimit": 1,
+    "limitPerCustomer": 1,
+    "startDate": "2024-11-01T00:00:00Z",
+    "expiryDate": "2024-12-01T23:59:59Z"
+  }
+}
+```
+
+_Multiple Coupons Validation and Locking_: A customer uses two coupons, `SAVE10` and `FREESHIP`, for their order. Use the Validate Multiple Coupons API to validate and lock both coupons for this transaction.
+
+```json
+{
+  "customerId": "customer123",
+  "coupons": ["SAVE10", "FREESHIP"],
+  "lock": true,
+  "lockReference": null
+}
+```
+
+The system returns a `lockReference` and details for each validated coupon.
+
+```json
+{
+  "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e",
+  "valid": true,
+  "coupons": [
+    {
+      "code": "SAVE10",
+      "type": "fixed",
+      "value": 10
+    },
+    {
+      "code": "FREESHIP",
+      "type": "shipping",
+      "value": 0
+    }
+  ]
+}
+```
+
+***
+
+### 3. Burning or Releasing Locked Coupons
+
+Once a coupon is validated and locked, you have two possible actions depending on the outcome of the customer's transaction:
+
+#### ⚫ Burn the Coupon
+
+If the customer **completes the purchase**, you can mark the coupon as used in **one** of the following two ways:
+
+> **You only need to use one method**—either the **Burn Coupons API** or the **Order API**. Choose whichever is more convenient for your integration; there's **no need to use both**.
+
+***
+
+**Option 1: Burn the coupon using the Burn Coupons API**
+
+Send a request using the same `lockReference` to finalize the redemption and apply the discount.
+
+```json
+{
+  "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e"
+}
+```
+
+<Info>
+A successful request returns HTTP 204 No Content, confirming that the coupon has been burned and is no longer usable.
+</Info>
+
+***
+
+**Option 2: Link the coupon through the Order API**
+
+Instead of sending a separate burn request, you can include **either** the same `lockReference` **or** the locked coupon codes when placing the order through the Order API.
+
+This automatically links the reserved coupon to the transaction and marks it as used once the order is successfully placed.
+
+***
+
+#### ⚫ Release the Coupon
+
+If the transaction does not proceed, you should release the locked coupon(s) so they become available for future use. Use the Release Coupons API with the same `lockReference`.
+
+<Info>
+A successful release request returns HTTP 204 No Content, confirming that the coupon has been released and is available again.
+</Info>
+
+***
+
+### Additional Operations to Consider
+
+- **Reverse Lock**: If you need to release a locked coupon within the 10-minute window without redeeming it, use the **Reverse Lock API** to unlock the coupon.
+
+Gameball’s couponing engine ensures a smooth experience for managing and redeeming coupons. For additional details, refer to the **Coupon API documentation**. For a simpler and more secure approach, we recommend using the coupon system over direct redemption.

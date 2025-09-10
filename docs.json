@@ -119,7 +119,41 @@
           {
             "group": "Getting started",
             "pages": [
-              "tutorials/track-customer-events"
+              "tutorials/track-customer-events",
+              {
+                "group": "Build Custom UI Elements",
+                "pages": [
+                  "tutorials/build-custom-ui-elements/index",
+                  "tutorials/build-custom-ui-elements/reward-campaigns",
+                  "tutorials/build-custom-ui-elements/vip-tiers",
+                  "tutorials/build-custom-ui-elements/customer-balance",
+                  "tutorials/build-custom-ui-elements/widget-configurations",
+                  "tutorials/build-custom-ui-elements/coupons-cx",
+                  "tutorials/build-custom-ui-elements/customer-notifications",
+                  "tutorials/build-custom-ui-elements/customer-leaderboard"
+                ]
+              },
+              "tutorials/build-your-own-notification-system",
+              "tutorials/channel-merging-guide",
+              {
+                "group": "Redemption Integration",
+                "pages": [
+                  "tutorials/redemption/index",
+                  "tutorials/redemption/direct-debit",
+                  {
+                    "group": "Coupons Redemption",
+                    "pages": [
+                      "tutorials/redemption/coupons/index",
+                      "tutorials/redemption/coupons/your-engine",
+                      "tutorials/redemption/coupons/gameball-engine"
+                    ]
+                  }
+                ]
+              },
+              "tutorials/checkout-integration",
+              "tutorials/previewing-potential-points-before-purchase",
+              "tutorials/refund",
+              "tutorials/retail-pos-integration"
             ]
           }
         ]

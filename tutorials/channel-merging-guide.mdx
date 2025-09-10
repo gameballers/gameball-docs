@@ -1,0 +1,141 @@
+---
+title: "Channel Merging Guide"
+description: "Unify customer profiles across channels using email or mobile as merging identifiers."
+---
+
+# Channel Merging Guide
+
+## Introduction
+
+In multi-channel businesses, customers often interact through various touchpoints, such as websites, mobile apps, and physical stores. Each channel may assign different IDs to the same customer, making it difficult to maintain a cohesive loyalty experience. Gameball's **Channel Merging** feature addresses this by unifying customer activities across channels, creating a single, seamless profile for loyalty tracking.
+
+## Why Use Channel Merging?
+
+Without channel merging, customers engaging through different channels may appear as separate profiles if each channel assigns unique IDs. This fragmentation can disrupt loyalty programs, causing customers to miss out on rewards or see inconsistent profiles. Channel merging benefits include:
+
+- **Unified Experience**: Customers see consistent rewards and points across all channels.
+- **Improved Data Accuracy**: Centralized tracking creates a single view of each customer’s interactions.
+- **Simplified Loyalty Management**: Loyalty points, rewards, and engagement activities are consolidated into one profile.
+
+## When to Use Channel Merging
+
+Channel merging is ideal for:
+
+- **Businesses with multiple systems for online and offline interactions**, where customer IDs vary between systems.
+- **Omnichannel engagement**, where customers may engage with your brand on multiple platforms.
+- **Cross-platform financial or retail services**, where consistency across digital and in-person channels is crucial.
+
+## How Channel Merging Works
+
+With channel merging enabled, Gameball can recognize the same customer across different systems by using either **email** or **mobile number** as a secondary identifier, alongside the customer ID. Here’s how it works:
+
+1. **Configuration**: Choose either email or mobile as the merging identifier in Gameball’s settings.
+2. **Request Format**: Each system should include the merging identifier (email or mobile) along with the customerId in API requests.
+3. **Profile Unification**: Gameball merges activities based on the secondary identifier, providing a cohesive profile across systems.
+
+### Example Request for Merging Profiles
+
+**Scenario**
+
+John Doe makes a purchase through an online platform (System A), where his **customerId** is `cust_123456789`. Later, he visits a physical store (System B) and makes another purchase. System B assigns him a different **customerId**. However, both systems use John’s email, `john@example.com`, for merging.
+
+By including **email** along with **customerId** in API requests, Gameball unifies John's activities into a single profile.
+
+**Online Purchase (System A)**
+
+```json
+{
+  "customerId": "cust_123456789",
+  "email": "john@example.com",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 250.75,
+  "totalPrice": 300,
+  "totalDiscount": 50,
+  "totalShipping": 10,
+  "totalTax": 15,
+  "lineItems": [
+    {
+      "price": 100,
+      "quantity": 2,
+      "productId": "PROD98765",
+      "sku": "SKU98765",
+      "tags": ["electronics", "smartphone"],
+      "category": ["mobile phones"],
+      "weight": 0.5,
+      "vendor": "TechVendor",
+      "collection": ["latest gadgets"],
+      "title": "Smartphone XYZ",
+      "taxes": 7.5,
+      "discount": 25,
+      "extra": {
+        "subClass": "SUBCLASS123"
+      }
+    }
+  ]
+}
+```
+
+**In-Store Purchase (System B)**
+
+When John makes a purchase in-store, System B assigns him a different customer ID, `cust_POS987654`. However, by including his **email** in the API request, Gameball can recognize and merge his profile based on this identifier.
+
+```json
+{
+  "customerId": "cust_POS987654",
+  "email": "john@example.com",
+  "orderId": "ORD67890",
+  "orderDate": "2024-10-20T15:45:12.210Z",
+  "totalPaid": 150.00,
+  "totalPrice": 150,
+  "totalDiscount": 0,
+  "totalShipping": 0,
+  "totalTax": 10,
+  "lineItems": [
+    {
+      "price": 150,
+      "quantity": 1,
+      "productId": "PROD54321",
+      "sku": "SKU54321",
+      "tags": ["home appliances"],
+      "category": ["kitchen"],
+      "weight": 2,
+      "vendor": "HomeVendor",
+      "collection": ["new arrivals"],
+      "title": "Blender ABC",
+      "taxes": 10,
+      "discount": 0,
+      "extra": {
+        "subClass": "SUBCLASS456"
+      }
+    }
+  ]
+}
+```
+
+In this example:
+
+- **System A** (online) uses `cust_123456789` as John’s customer ID, while **System B** (in-store) uses `cust_POS987654`.
+- Both requests include John’s **email** (`john@example.com`), enabling Gameball to merge his profiles from both systems, providing a unified loyalty experience.
+
+## Business Use Cases
+
+### 1. Retail Chain with Online and Offline Stores
+
+A retail brand operates an online store and multiple physical locations. By enabling channel merging and using mobile numbers as the identifier, every transaction (whether online or offline) contributes to the customer’s unified loyalty profile, creating a seamless reward experience.
+
+### 2. Omnichannel Loyalty for Fintech Services
+
+A fintech company offers both a web application and a mobile app. By using email as the merging identifier, Gameball consolidates customer profiles across both platforms, allowing users to accumulate and redeem points from any interaction.
+
+### 3. Restaurant Chain with Delivery App and In-Store Dining
+
+A restaurant chain offers a mobile app for delivery and in-store dining. Using channel merging, they track all customer activities (online and in-store) under a single profile. This ensures customers receive consistent loyalty rewards regardless of how they interact with the brand.
+
+## Getting Started with Channel Merging
+
+1. **Enable Channel Merging**: Contact Gameball Support to enable channel merging, as it may be a premium feature.
+2. **Choose a Merging Identifier**: Select either **email** or **mobile number** as the merging identifier in Gameball’s settings.
+3. **Update API Requests**: Ensure each system (e.g., online, POS) includes the customerId and the chosen identifier (email or mobile) in every API request.
+
+This approach unifies customer data, enhances tracking, and ensures a seamless loyalty experience across channels. For further assistance, please refer to our API documentation or contact Gameball Support.

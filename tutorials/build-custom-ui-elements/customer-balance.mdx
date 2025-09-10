@@ -1,0 +1,57 @@
+---
+title: "Customer Balance"
+description: "Showcasing Customer Points for Better Engagement"
+---
+
+# Customer Balance
+
+Loyalty programs thrive when customers can easily see their rewards and understand their value. By using the [Get Customer Balance API](../../../rest-api/customers/customer-progress#get-customer-balance), you can create a clear and motivating view of a customer's points balance, helping them track their earnings and see how close they are to redeeming rewards.
+
+This guide will show you how to structure and present points data effectively, including key details like available points, pending points, and expiring points. With a thoughtful design, you can turn this information into a powerful tool that drives engagement and loyalty.
+
+***
+
+**Response Example**
+
+```json
+{
+    "totalPointsBalance": 1500,
+    "totalPointsValue": 75.0,
+    "availablePointsBalance": 1200,
+    "availablePointsValue": 60.0,
+    "pendingPoints": 300,
+    "pendingPointsValue": 15.0,
+    "currency": "USD",
+    "pointsName": "Reward Points",
+    "nextExpiringPointsAmount": 200,
+    "nextExpiringPointsValue": 10.0,
+    "nextExpiringPointsDate": "2024-12-01T00:00:00",
+    "totalEarnedPoints": 2500
+}
+```
+
+***
+
+#### **Ideas for Display**
+
+1. **Points Summary**
+   - Total Points: Highlight the total points balance and its equivalent monetary value.
+   - Available Points: Show points available for immediate use.
+   - Pending Points: Display points pending approval, along with their value.
+
+2. **Call-to-Action Section**
+   - Emphasize available points and their redemption potential (e.g., "Redeem 1200 points to save $60!").
+3. **Expiring Points Alert**
+   - Notify customers about upcoming expiring points and their expiration date.
+4. **Progress Indicator**
+   - Show a progress bar or similar visual element to indicate pending or expiring points relative to the total.
+5. **Points Breakdown**
+   - Provide a detailed breakdown of all categories, such as total earned points, available points, pending points, and expiring points.
+6. **Currency and Naming Information**
+   - Display the currency (e.g., USD) and configured name for the points (e.g., "Reward Points") for consistent branding.
+
+<Frame>
+<img src="https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/HVzwaotcmhU2lgEYAM6L/image.png" alt="Customer balance UI example" />
+</Frame>
+
+***

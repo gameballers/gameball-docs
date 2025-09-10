@@ -1,0 +1,154 @@
+---
+description: Engaging Customers with Reward Campaigns
+---
+
+# Reward Campaigns
+
+Reward campaigns are a great way to inspire and engage your customers. But to make them truly effective, customers need a simple and clear way to see what’s available and how they’re progressing. That’s where a thoughtful approach to displaying reward campaigns comes in.
+
+In this tutorial, we’ll show you how to use two essential APIs to create a user experience that’s both interactive and transparent:
+
+- [Get Reward Campaigns Configurations API](../../../rest-api/configurations/program-configurations#get-campaigns-configurations) :This gives you all the details about active campaigns—what they’re about, the rewards on offer, and who’s eligible.
+- [Get Customer Reward Campaigns Progress API](../../../rest-api/customers/customer-progress#get-customer-campaigns-progress) : With this, you can show real-time updates on how close someone is to earning their rewards.
+
+Here’s what we’ll walk through:
+
+1. How to display active campaigns with all the details customers care about.
+2. How to track progress so customers can see exactly where they stand.
+3. How to bring it all together in a way that’s easy to understand and engaging.
+
+By the end of this guide, you’ll know exactly how to give customers the information they need to stay motivated and excited about your reward campaigns. Let’s get started!
+
+***
+
+### 1️⃣ **Step 1: Fetch All Available Reward Campaigns**
+
+Use the [Get Reward Campaigns Configurations API](../../rest-api/configurations/reward-configurations)  endpoint to list all active and visible campaigns. This response provides:
+
+- **Campaign Name and Icon**: Display campaign names like "Join our family 👯‍♂️" and their corresponding icons to create a visually engaging list.
+- **Description**: Use descriptions to explain the campaign, e.g., "Welcome to the family! Check out your new reward for signing up 😉".
+- **Rewards**: Highlight the rewards customers will earn, such as double points (`walletRewardFactor: 2`).
+- **Visibility and Activation**: Ensure only visible and active campaigns are displayed based on `visibility` and `activation` fields.
+
+***
+
+**Example Campaign Data:**
+
+```json
+{
+    "id": 5858,
+    "name": "Join our family 👯‍♂️",
+    "description": "Welcome to the family! Check out your new reward for signing up 😉",
+    "rewards": [
+        {
+            "rankReward": 0,
+            "walletReward": 0,
+            "walletRewardFactor": null,
+            "couponReward": null
+        }
+    ],
+    "icon": "https://cdn.gameball.co/uploads/gb-library/general/signup.webp"
+}
+```
+
+**What Happens on the Frontend**:
+
+- Render the campaigns as a scrollable **grid or list**, with icons and descriptions.
+- Add a **“Check Your Rewards”** button using the `redirectionButtonText` and `redirectionButtonLink` fields.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FVd0yqGBkQ9wF8lt8EAhm%2Fimage.png?alt=media&token=7874bfb9-4b53-4809-8beb-f687b39046c0" alt="Campaigns grid example" />
+</Frame>
+
+***
+
+### 2️⃣ **Step 2: Fetch Customer Progress for Campaigns**
+
+To provide a personalized experience, fetch progress for the displayed campaigns using the `/customers/rewards-campaigns-progress` endpoint. This response includes:
+
+- **achievedCount**: Indicates how many times the customer has achieved the campaign.
+- **completionPercentage**: Shows progress for ongoing campaigns (e.g., 33% for "Third Order Campaign 🛍️").
+
+***
+
+**Example Progress Response:**
+
+```json
+[
+    {
+        "rewardsCampaignName": "Join our family 👯‍♂️",
+        "rewardsCampaignId": 5858,
+        "completionPercentage": 100.0,
+        "achievedCount": 1
+    },
+    {
+        "rewardsCampaignName": "Double points",
+        "rewardsCampaignId": 6652,
+        "completionPercentage": 50.0,
+        "achievedCount": 0
+    }
+]
+```
+
+**What Happens on the Frontend**:
+
+- Use **completionPercentage** to display progress as a **progress bar or circle**.
+- Highlight completed campaigns where `completionPercentage = 100` and dim or gray-out incomplete campaigns. 
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FvcJs6pmIn4DIFVpfqi5e%2FRecording%202024-11-24%20135131.gif?alt=media&token=9682323f-c1f1-4dd8-a3d2-b1fe9b75823a" alt="Progress visualization example" />
+</Frame>
+
+***
+
+#### 3️⃣ **Step 3: Integrating Rewards and Progress**
+
+Combine data from both endpoints to create a seamless user experience:
+
+**For Completed Campaigns:**
+
+- Use `achievedCount` and `completionPercentage = 100` to highlight campaigns.
+- Show rewards (e.g., "Sign-up bonus unlocked!") prominently for completed campaigns.
+
+**For Ongoing Campaigns:**
+
+- Use `completionPercentage` to display a progress bar (e.g., "50% complete").
+- Include a call-to-action, such as "Complete your next purchase to earn double points!" using the campaign description or custom text.
+
+**For Locked Campaigns:**
+
+- Dim or hide campaigns where `isUnlocked = false`.
+
+***
+
+**Visual Mockup Suggestion:**
+
+1. **Grid Layout of Campaigns**:
+   - Campaign name and icon at the top.
+   - Progress bar or circle beneath the name.
+   - Rewards displayed below the progress bar (e.g., "Earn 2x points!").
+2. **Color Coding**:
+   - Use green for completed campaigns, orange for in-progress, and gray for locked.
+3. **Actionable Buttons**:
+   - Include “Claim Reward” for completed campaigns or “Learn More” for ongoing ones.
+
+***
+
+#### Example UI Flow:
+
+1. **Step 1**: Sarah logs into her account and sees a list of reward campaigns:
+   - **"Join our family 👯‍♂️"**: Completed with a glowing green progress bar.
+   - **"Double points"**: 50% complete with an orange progress bar.
+   - **"Third Order Campaign 🛍️"**: Not started, dimmed icon.
+2. **Step 2**: Sarah clicks "Check Your Rewards" and sees detailed rewards for each campaign, including wallet rewards or coupon links.
+3. **Step 3**: Sarah is motivated to complete "Double points" by making another purchase.
+
+***
+
+#### Why This Matters:
+
+Combining the [Get Reward Campaigns Configurations API](../../rest-api/configurations/reward-configurations) and the [Get Customer Reward Campaigns Progress API](../../../rest-api/customers/customer-progress#get-customer-campaigns-progress) ensures:
+
+- **Personalized Experience**: Customers can track their progress and rewards in real time.
+- **Increased Engagement**: Clear visual indicators motivate customers to complete campaigns.
+- **Streamlined Interaction**: Integrated call-to-action buttons encourage immediate participation.

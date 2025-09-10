@@ -1,0 +1,95 @@
+---
+title: "Customer Leaderboard"
+description: "Displaying a Dynamic Customer Leaderboard"
+---
+
+# Customer Leaderboard
+
+A well-designed leaderboard can drive engagement by showcasing customer rankings, progress, and achievements. By using the [Leaderboard API](../../rest-api/leaderboard), you can create a dynamic and interactive leaderboard that highlights top-performing customers and keeps everyone motivated to level up.
+
+In this guide, we’ll walk you through how to use the API to:
+
+- **Fetch Customer Leaderboard Data**: Retrieve real-time rankings, tier information, and progress for your customers.
+- **Showcase Ranks and Achievements**: Display customer positions on the leaderboard along with their earned rewards and milestones.
+- **Highlight Progress**: Make it easy for users to track how close they are to the next rank or reward, motivating continued participation.
+
+By the end of this tutorial, you’ll be able to create an engaging leaderboard that not only highlights top customers but also encourages others to strive for the next tier.
+
+***
+
+#### **Response Example**
+
+```json
+{
+  "leaderboard": [
+    {
+      "displayName": "John Doe",
+      "customerId": "cust_12345",
+      "progress": 2500,
+      "rank": 1,
+      "tierName": "Gold",
+      "tierIcon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a1.webp"
+    },
+    {
+      "displayName": "Jane Smith",
+      "customerId": "cust_67890",
+      "progress": 1800,
+      "rank": 2,
+      "tierName": "Silver",
+      "tierIcon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a2.webp"
+    }
+  ],
+  "customerRank": 1,
+  "customersCount": 100
+}
+```
+
+***
+
+#### **Ideas for Display**
+
+1. **Leaderboard Overview**
+   - Display a ranked list of customers with:
+     - **Display Name:** Show customer names prominently (e.g., "John Doe").
+     - **Rank:** Indicate their rank in the leaderboard.
+     - **Progress:** Highlight points or progress contributing to their rank.
+
+<Frame>
+<img src="https://lh4.googleusercontent.com/0F5YwHdv0MTDyJtmalyFYca38pjMAWR6BOVn6vAI1dYCFXC1qWTI03_UPdrac330ADBP00PDdGdaGowcO8MSu9fGYdIPEfkCZ-ag3iR53RXrITRNEr0R7qVvGpe6SMWak35kb8My=s0" alt="Leaderboard overview example" />
+</Frame>
+
+2. **Customer-Specific Rank**
+   - Provide a personalized section for the logged-in customer:
+     - Highlight their rank, progress, and tier information.
+     - Mention the total number of customers participating (e.g., “Rank 1 out of 100”).
+3. **Tier Visualization**
+   - Display each customer's tier using their `tierIcon` alongside their name and rank for instant visual recognition.
+4. **Filters for Leaderboard View**
+   - Allow filtering options for customers to explore leaderboard results by specific time frames:
+     - **Today’s leaderboard:**
+
+       ```http
+       http://api.gameball.co/api/v4/integrations/leaderboard?from=2024-11-24 00:00
+       ```
+     - **Last month’s leaderboard:**
+
+       ```http
+       http://api.gameball.co/api/v4/integrations/leaderboard?from=2024-10-01 00:00&to=2024-10-31 23:59
+       ```
+     - **All-time leaderboard:** (No filters required)
+
+       ```http
+       http://api.gameball.co/api/v4/integrations/leaderboard
+       ```
+     - **Specific customer rank within a time frame:**
+
+       ```http
+       http://api.gameball.co/api/v4/integrations/leaderboard?from=2024-10-01 00:00&to=2024-10-31 23:59&playerUniqueId=player456
+       ```
+5. **Progress Indicators**
+   - Include a progress bar to visually represent each customer’s progress relative to the highest rank.
+   - Optionally, show percentage-based progress or milestones.
+6. **Call-to-Action for Engagement**
+   - Add actionable prompts, such as "Boost your rank by earning more points!" to encourage interaction.
+
+***

@@ -1,0 +1,220 @@
+---
+title: "Coupons Customer Experience"
+description: "Building a Seamless Couponing Experience"
+---
+
+# Coupons Customer Experience
+
+Once your coupon system is configured, the next step is to create intuitive UI components that allow customers to easily view their points and redeem them for coupons. A smooth, engaging couponing experience not only makes it easy for customers to track their progress but also encourages them to redeem their rewards, increasing customer satisfaction and loyalty.
+
+In this guide, we'll walk you through how to:
+
+- **Display Points and Rewards**: Show customers their current points balance and the value of those points in terms of available coupons.
+- **Create Redeemable Coupon Interfaces**: Design user-friendly components where customers can browse available coupons and easily redeem their points for rewards.
+- **Integrate Coupon Redemption Flow**: Ensure that the process of redeeming points for coupons is seamless, intuitive, and integrated within your existing app or website.
+
+By the end of this tutorial, you’ll have the knowledge to build a smooth and engaging coupon redemption experience that enhances your loyalty program and drives customer engagement.
+
+***
+
+## Using Gameball Widget
+
+**Overview:** The Gameball Widget is a pre-built interface that automatically handles the display and redemption of coupons. It simplifies the integration process by managing the UI and redemption flow for you.
+
+**Steps to Use Gameball Widget:**
+
+1. **Complete the Configuration Guide:**  
+   Ensure all necessary configurations for your coupon system are set up in the Gameball dashboard.
+2. **Initialize the Widget:**  
+   Integrate the widget into your web application by including the provided widget script. For mobile platforms, use the corresponding SDKs supported by Gameball (Android, iOS, React Native).
+3. **Expected UI After Initialization:**  
+   The widget will display available coupons and provide an option to create new coupons based on the customer's points balance.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FfvU1MUW1ZMEjXEqgAUOn%2Fimage.png?alt=media&token=e4f0bb01-7abb-40c9-9307-f453db0730d8" alt="Coupons in widget example" />
+</Frame>
+
+4. **Redeem Coupons:**  
+   Users can select a coupon to apply or redeem through the widget interface. The widget will automatically handle the balance deduction and order processing.
+
+5. **Monitor Transactions:**  
+   Track coupon redemption and user interactions in real-time on the Gameball dashboard.
+
+***
+
+## Building Your Own Redemption UI with Gameball
+
+While the Gameball widget offers a quick solution for managing coupon redemptions, some businesses may require more flexibility in design and user experience. If you prefer full control over the look, feel, and flow of the redemption process, building a custom UI is the way to go. This section covers core elements to implement.
+
+### Viewing Points Balance
+
+Allow customers to view their points for a seamless redemption experience. Call the Get Customer Balance API and render the response:
+
+```json
+{
+  "pointsBalance": 1330,
+  "pointsValue": 200,
+  "pendingPoints": 100,
+  "pendingPointsValue": 0,
+  "totalPositivePoints": 1230,
+  "totalPositivePendingPoints": 100,
+  "totalNegativePoints": 0,
+  "totalNegativePendingPoints": 0,
+  "currency": "EGP",
+  "pointsName": "Points"
+}
+```
+
+### Calculating Points Available for Redemption
+
+```text
+pointsAvailable = pointsBalance - pendingPoints
+```
+
+Example:
+
+```text
+pointsAvailable = 1330 - 100 = 1230
+```
+
+Display helpers:
+
+```html
+<p><span id="points-balance">{{pointsAvailable}}</span> Points</p>
+<p>Equals to <span id="points-value">{{pointsValue}} {{currency}}</span></p>
+```
+
+### Validating Redemption Requests
+
+<img src="https://developer.gameball.co/~gitbook/image?url=https%3A%2F%2F1167798217-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F-M3kSf4Ga0rOah5Au2jA-856047512%252Fuploads%252FBawXlUhpBsrdptbDLc3w%252Fimage.png%3Falt%3Dmedia%26token%3Db2ebd90d-1654-4d76-a4b7-6802beafd045&width=768&dpr=4&quality=100&sign=1ec392d4&sv=1" alt="Redemption validation example" />
+
+```javascript
+function getCustomerBalance(customerUniqueId) {
+  var customerBalanceResponse = {
+    "pointsBalance": 1330,
+    "pointsValue": 200,
+    "pendingPoints": 100,
+    "pendingPointsValue": 0,
+    "totalPositivePoints": 1230,
+    "totalPositivePendingPoints": 100,
+    "totalNegativePoints": 0,
+    "totalNegativePendingPoints": 0,
+    "currency": "EGP",
+    "pointsName": "Points"
+  };
+
+  var customerActualPoints = customerBalanceResponse["pointsBalance"];
+  var customerPointsToRedeem = 60; // Points the customer wishes to redeem
+  var minimumPointsRequiredToRedeem = 500; // Minimum points needed to redeem
+
+  if (customerPointsToRedeem >= customerActualPoints || customerPointsToRedeem < minimumPointsRequiredToRedeem) {
+    // Display an error message to the customer that they cannot redeem points.
+  }
+}
+```
+
+***
+
+### Allowing Customers to Redeem Points for Coupons
+
+Once customers can view their points, the next step is enabling them to redeem these points for discount coupons.
+
+**Creating a Redemption Page**  
+1. Set up a page where customers enter points to redeem.  
+2. Display available points and monetary equivalent.  
+3. Call the Create Coupon API with the calculated value:
+
+```json
+{
+  "value": 100,
+  "customerId": "customer@gmail.com"
+}
+```
+
+**Displaying the Discount Code**  
+After creating a coupon, show the generated code:
+
+```json
+{
+  "code": "FreeShippingOFF"
+}
+```
+
+### Showing Available Coupons to Customers
+
+Retrieve customer coupons and render a list:
+
+```json
+[
+  {
+    "code": "_nqjuejhuy",
+    "isUsed": false,
+    "value": 11.75,
+    "currency": "USD",
+    "creationDate": "2022-05-03T11:08:42.298758",
+    "couponType": "fixed_rate_settings"
+  },
+  {
+    "code": "1qol7apahr",
+    "isUsed": false,
+    "value": 10.0,
+    "currency": "USD",
+    "creationDate": "2022-05-03T11:07:22.718595",
+    "couponType": "fixed_rate_settings"
+  }
+]
+```
+
+### Free Shipping and Other Redemptions
+
+Use redemption rules to offer multiple coupon types. When a user selects an option, pass its `ruleId` to Create Coupon:
+
+```json
+{
+  "value": 0,
+  "customerId": "customer@gmail.com",
+  "ruleId": 1977
+}
+```
+
+Common rule types:
+
+- `general_setting` (flat rate)
+- `free_shipping_settings`
+- `percentage_discount_settings`
+- `free_product_settings`
+- `fixed_rate_settings`
+
+***
+
+### Applying Coupons at Checkout
+
+1. Check coupon validity (e.g., ensure `isUsed` is false).  
+2. Apply coupon logic to compute new totals.  
+3. Prepare and send Order API request with updated values.
+
+**Example JSON Request Body**
+
+```json
+{
+  "customerId": "customer456",
+  "orderId": "6253e03b",
+  "orderDate": "2023-05-5T16:53:28.190Z",
+  "totalPrice": "53.25",
+  "totalPaid": "65",
+  "totalDiscount": "11.75",
+  "totalShipping": "0",
+  "totalTax": "0",
+  "lineItems": [],
+  "discountCodes": ["_NQJUEJHUY"],
+  "extra": {
+    "paymentMethod": "credit card",
+    "billingAddress": "Alabama"
+  },
+  "redeemedAmount": 11.75,
+  "holdReference": null,
+  "guest": false
+}
+```
+
+***

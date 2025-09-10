@@ -1,0 +1,249 @@
+---
+title: "Refund"
+description: "Handle refunds precisely: adjust points, respect campaigns, and keep loyalty data accurate."
+---
+
+# Refund
+
+## Handling Refunds with Precision
+
+Refunding isn’t just about returning money; it’s about maintaining trust, ensuring fairness, and preserving your loyalty program's integrity. In a world where rewards play a critical role in customer retention, processing refunds accurately is essential to avoid losing loyalty points disproportionately or miscalculating campaign-specific bonuses.
+
+This guide will walk you through refund scenarios with vivid examples, detailed instructions, and diagrams for clarity. By the end, you’ll be equipped to handle refunds confidently, whether they involve simple cashback or complex reward multipliers tied to promotional campaigns.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F3XkROzLQeMeMzagugiNk%2F9f7e7bb2-c8bb-406f-9881-6376ec1e1662.jpeg?alt=media&token=3bd0e083-6db2-4ff4-89c0-ca31cb1d4511" alt="Refund overview" />
+</Frame>
+
+***
+
+### Why Refunds Demand Attention
+
+Refunds might seem straightforward, but they can have far-reaching consequences for your loyalty system:
+
+- **Campaign-specific Rewards**: Imagine running a double-points campaign. Without precise details, you risk refunding incorrect amounts or overlooking reward multipliers.
+- **Custom Cashback Rules**: Merchants often tailor cashback by product collections or categories. Proper refunds require knowing which products were returned.
+- **Customer Satisfaction**: Clear, accurate refunds that adjust points build customer trust and loyalty.
+
+**Key Insight**: Always include line items (`productId` & `quantity`) in refund requests. This ensures accurate calculations and prevents inconsistencies in your reward system.
+
+***
+
+### The Refund Workflow
+
+Refunding points and cashback involves three critical steps when using the [Refund API](../../rest-api/transactions/cashback-and-redemptions#post-refund):
+
+1. **Identify the Transaction**: Use the `reverseTransactionId` to link to the original transaction being refunded.
+2. **Specify the Refund**: Include the refunded amount, line items, and time of the transaction.
+
+***
+
+### Scenarios: Bringing Refunds to Life
+
+Let’s explore real-world refund cases to highlight how to process them accurately.
+
+***
+
+#### Case #1: Refund for One Product
+
+**Scenario:**
+
+Sarah bought a pair of running shoes for **$12.50**, earning **12 points** under a base points system (1 point = $1). Later, she decides to return the shoes. You must refund the money and deduct 12 points from her account.
+
+**Steps to Process**:
+
+1. **Link to the Original Transaction**: Use `reverseTransactionId` to connect this refund to Sarah’s original purchase.
+2. **Include Product Details**: Specify the `productId`, `quantity`, and `price` to ensure campaign or cashback rules are applied while sending the request to the [Refund API](../../rest-api/transactions/cashback-and-redemptions#post-refund).
+
+**Request Payload**:
+
+```json
+{
+  "customerId": "cust_sarah01",
+  "refundTransactionId": "txn_sarah001",
+  "reverseTransactionId": "ORDER-54321",
+  "transactionTime": "2024-12-15T10:30:00.000Z",
+  "refundAmount": 12.50,
+  "lineItems": [
+    {
+      "productId": "shoes001",
+      "quantity": 1,
+      "price": 12.50
+    }
+  ]
+}
+```
+
+**Response**:
+
+```json
+{
+  "gameballTransactionId": "refund_sarah01",
+  "refundTransactionId": "txn_sarah001",
+  "refundAmount": 12.50,
+  "refundEquivalentPoints": 12
+}
+```
+
+***
+
+#### Case #2: Full Refund for a product during an active campaign
+
+**Scenario:**
+
+John purchased a gaming console for **$25** under a triple-points campaign, earning **75 points**. After a week, he returns the console. Since it’s the last product in the order, this becomes a **full refund**, and you must deduct all associated points.
+
+**Steps to Process**:
+
+1. **Connect to the Order**: Use `reverseTransactionId` to identify the order being refunded.
+2. **Specify Product Details**: Include the console’s `productId`, `quantity`, and `price`.
+
+**Request Payload**:
+
+```json
+{
+  "customerId": "cust_john02",
+  "refundTransactionId": "txn_john002",
+  "reverseTransactionId": "ORDER-98765",
+  "transactionTime": "2024-12-15T11:00:00.000Z",
+  "refundAmount": 25.00,
+  "lineItems": [
+    {
+      "productId": "console001",
+      "quantity": 1,
+      "price": 25.00
+    }
+  ]
+}
+```
+
+**Response**:
+
+Here’s a detailed explanation of how the **`refundEquivalentPoints`** value of **75** is calculated:
+
+- **Base Points**: The product price was **$25**, and the base earning rate is **1 point per $1**. This gives:  
+  **Base Points = 25 × 1 = 25 points**
+- **Campaign Multiplier**: A **triple-points campaign** was active during the purchase. The multiplier is **3×**, so:  
+  **Total Campaign Points = Base Points × Multiplier = 25 × 3 = 75 points**
+- **Refund Scenario**: The refund is for the entire product. Therefore, the full **75 points** (base points + campaign multiplier) earned for this purchase are deducted.
+
+```json
+{
+  "gameballTransactionId": "refund_john02",
+  "refundTransactionId": "txn_john002",
+  "refundAmount": 25.00,
+  "refundEquivalentPoints": 75
+}
+```
+
+***
+
+#### Case #3: Refunding Without Line Items
+
+**Scenario:**
+
+Emma requests a refund for a $15 product but doesn’t provide specific product details (`lineItems`). In this case, you’ll refund only the **cashback value**. Campaign-specific points will not be refunded.
+
+**Steps to Process**:
+
+1. **Fallback on Cashback Rules**: Without line items, only the cashback value is refunded.
+
+**Request Payload**:
+
+```json
+{
+  "customerId": "cust_emma03",
+  "refundTransactionId": "txn_emma003",
+  "reverseTransactionId": "ORDER-11111",
+  "transactionTime": "2024-12-15T13:00:00.000Z",
+  "refundAmount": 15.00,
+  "lineItems": []
+}
+```
+
+**Response**:
+
+```json
+{
+  "gameballTransactionId": "refund_emma03",
+  "refundTransactionId": "txn_emma003",
+  "refundAmount": 15.00,
+  "refundEquivalentPoints": 0
+}
+```
+
+***
+
+#### Case #4: Partial Refund for One Product with Multiple Quantities
+
+**Scenario:**
+
+Lisa purchased **3 yoga mats** for **$10 each** and **2 water bottles** for **$5 each**. A double-points campaign was active at the time of purchase, granting **2 points per $1 spent**. This means:
+
+- **Yoga Mats Total Points**: $30 × 2 = **60 points**
+- **Water Bottles Total Points**: $10 × 2 = **20 points**
+- **Total Points Earned for the Order**: **80 points**
+
+Later, Lisa decides to return **2 yoga mats**, which cost **$20 total**. You need to refund the amount for the 2 mats and process the details for this partial refund.
+
+***
+
+**Steps to Process the Refund**
+
+1. **Identify the Transaction**: Use the `reverseTransactionId` to connect the refund to Lisa’s original purchase.
+2. **Include Line Items**: Specify the `productId`, `quantity` refunded, and the `price`.
+
+***
+
+**Request Payload**
+
+```json
+{
+  "customerId": "cust_lisa04",
+  "refundTransactionId": "txn_lisa004",
+  "reverseTransactionId": "ORDER-56789",
+  "transactionTime": "2024-12-15T14:00:00.000Z",
+  "refundAmount": 20.00,
+  "lineItems": [
+    {
+      "productId": "yoga_mat001",
+      "quantity": 2,
+      "price": 10.00
+    }
+  ]
+}
+```
+
+***
+
+**Response**
+
+**Points Calculation**
+
+- **Base Points for Refunded Mats**: $20 × 1 = 20 points
+- **Campaign Multiplier**: The double-points campaign applies, so:  
+  **Total Points for Refunded Mats = 20 × 2 = 40 points**
+
+Only the points for the refunded items (40 points) are deducted, leaving Lisa with the remaining points for the water bottles and the third yoga mat.
+
+```json
+{
+  "gameballTransactionId": "refund_lisa04",
+  "refundTransactionId": "txn_lisa004",
+  "refundAmount": 20.00,
+  "refundEquivalentPoints": 40
+}
+```
+
+***
+
+### Key Insights for Implementation
+
+- **Include Line Items**:  
+  Always specify `productId`, `quantity`, and `price` in refunds to ensure accurate point adjustments.
+- **Understand Campaigns**:  
+  Multiplier points or custom cashback configurations depend on detailed refund data.
+- **Fallback Mechanisms**:  
+  If line items are omitted, refunds default to cashback value only.
+
+***

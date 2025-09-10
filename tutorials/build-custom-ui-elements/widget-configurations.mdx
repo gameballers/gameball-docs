@@ -1,0 +1,66 @@
+---
+title: "Widget Configurations"
+description: "Building Adaptive UI Elements with the Configurations API"
+---
+
+# Widget Configurations
+
+When designing user interfaces for your app or website, it’s crucial that the UI adapts seamlessly to the changing configurations set within Gameball. Whether it’s temporarily disabling a feature like the cashback program during the financial year-end or adjusting to new business rules, having an adaptive UI ensures a smooth user experience without the need for frequent code updates or redeployments.
+
+With the [Widget Configurations API](../../../rest-api/configurations/widget-configuration#get-widget-configurations), you can dynamically update your UI elements based on real-time changes within the Gameball platform. This eliminates the need for manual updates each time there is a configuration change, offering a more efficient and responsive way to reflect business decisions.
+
+In this guide, we’ll explore how to:
+
+- **Dynamically Adapt UI Elements**: Automatically show or hide components like cashback options or leaderboards based on configuration changes.
+- **Retrieve Program Configurations**: Get real-time status updates of different Gameball programs and adjust your UI accordingly.
+- **Implement Business Decisions**: Reflect operational decisions, like disabling or enabling features (e.g., Cashback), without requiring a full redeployment of your UI.
+
+By the end of this tutorial, you’ll know how to use to create a more flexible and adaptable interface that responds to changes in real time, improving both the user experience and development efficiency.
+
+***
+
+#### Example: Widget Configurations API Response
+
+The Configurations API returns a set of configuration flags, which control the visibility and status of various Gameball programs. Below is a sample response from the [**Widget Configurations API**](../../rest-api/configurations/widget-configuration):
+
+```json
+{
+  "gameballEnabled": true,
+  "redemptionEnabled": true,
+  "cashbackEnabled": true,
+  "visitorProfileEnabled": true,
+  "userProfileEnabled": true,
+  "leaderboardEnabled": true,
+  "notificationsEnabled": true,
+  "currency": "EGP",
+  "programName": "Loyalty Program",
+  "rankPointsName": "Score",
+  "walletPointsName": "Points",
+  "botMainColor": "#E7633F"
+}
+```
+
+#### Adaptive UI Based on Flags:
+
+In this response, there are several flags that determine whether different Gameball features should be enabled or disabled in your app/webpage:
+
+- **gameballEnabled**: If `false`, all Gameball-related UI elements should be disabled or hidden.
+- **cashbackEnabled**: If `false`, elements related to the Cashback program (like cashback balance, cashback offers, etc.) should be hidden.
+- **notificationsEnabled**: If `false`, notifications should not be displayed.
+
+#### Example Scenario:
+
+Let’s consider a scenario where the `cashbackEnabled` flag is set to `false`. This means any UI elements related to the cashback program, such as cashback balances or offers, should be disabled or hidden. Similarly, when the `gameballEnabled` flag is `false`, all Gameball-related features (including Cashback, Profile, Leaderboards, etc.) should be hidden regardless of the individual program’s status.
+
+#### Steps to Integrate the Configurations API:
+
+1. **Make an API Request**: Call the **Configurations API** to retrieve the current settings and configurations.
+2. **Parse the Response**: Based on the response flags, conditionally render or hide UI components.
+3. **Reflect Business Decisions Dynamically**: Use the response to dynamically adapt the UI to reflect any changes, without requiring code redeployment.
+
+***
+
+#### Important Notes:
+
+- **Dynamic Business Decisions**: The configurations API ensures your UI remains consistent with any business decisions made through the Gameball dashboard without needing to redeploy your application.
+- **No Code Changes Required**: Simply use the flags returned by the API to control visibility in your UI, based on your current configuration.

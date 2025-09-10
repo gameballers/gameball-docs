@@ -1,0 +1,155 @@
+---
+title: "Direct Debit Redemption"
+description: "Implement direct debit redemption without coupons: balance, validation, hold, and finalize."
+---
+
+If you opt not to use the coupon system integration, you can implement redemption directly within your system using direct redemption. This guide will assist you in redeeming your customers' points through this method. However, we recommend following the coupon system integration guide as it provides a more straightforward, secure, and seamless experience.
+
+### Overview of Direct Redemption
+
+Through Gameball, customers can redeem and use their accumulated points as discounts during the checkout process on your website. This feature enhances customer engagement by facilitating a rewarding shopping experience. Let's go over how this can be done.
+
+## Integration Walkthrough
+
+### 1. View Customer Points Balance
+
+Enabling customers to view their points balance is crucial for an optimal redemption experience. This transparency helps customers track their progress toward rewards. You can retrieve a customer's current points balance using the [Get Customer Balance API](/api-reference/customers/progress/get-customer-balance).
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FiviHKZ73RrNUGIqBGKi0%2Fimage.png?alt=media&token=e6e358b3-a30f-4e8e-a5ae-6438b4ce7c73" alt="Customer balance example" />
+</Frame>
+
+```javascript
+var balanceResponse = {
+  "totalPointsBalance": 1500,
+  "totalPointsValue": 75.0,
+  "availablePointsBalance": 1200,
+  "availablePointsValue": 60.0,
+  "pendingPoints": 300,
+  "pendingPointsValue": 15.0,
+  "currency": "USD",
+  "pointsName": "Reward Points",
+  "nextExpiringPointsAmount": 200,
+  "nextExpiringPointsValue": 10.0,
+  "nextExpiringPointsDate": "2024-12-01T00:00:00",
+  "totalEarnedPoints": 2500
+}
+```
+
+***
+
+### 2. Validate Customer Balance
+
+You can use the result from the previous step to verify whether the points a customer wishes to redeem exceed their available points balance:
+
+```javascript
+var actualPoints = balanceResponse["availablePointsBalance"]
+var pointsToRedeem = 60 // points the customer wishes to redeem
+
+if (pointsToRedeem > actualPoints) {
+  // Display an error to the customer indicating insufficient points
+}
+```
+
+***
+
+### 3. Customer Redemption Scenarios
+
+- **Direct Redemption**  
+For scenarios where customers redeem points immediately, such as an instant reward, use the Redeem API. By calling this API and specifying the exact points or monetary amount to redeem, you can directly deduct the required points from the customer’s balance without delay. This method is ideal for situations where the customer completes the transaction in one continuous process and doesn’t require a temporary hold on points.
+
+```json
+{
+  "customerId": "cust_12345abc",
+  "transactionId": "txn98765",
+  "transactionTime": "2024-10-11T10:57:43.382Z",
+  "points": 100
+}
+```
+
+Upon successful redemption, the response will include:
+
+- **Equivalent Points Redeemed**: The actual points deducted from the customer’s balance.
+- **Redemption Amount**: The monetary value associated with the redeemed points, reflecting the discount or reward provided.
+
+_Example use case_: If a customer has accumulated 200 points and wishes to redeem 100 points immediately for a $10 instant reward, you would call the Redeem API, specify the **points** or **amount** to redeem, and the points would be deducted instantly, providing the customer with a real-time discount.
+
+```json
+{
+  "customerId": "cust_12345abc",
+  "gameballTransactionId": "11034734",
+  "transactionId": "txn98765",
+  "redeemAmount": 10,
+  "redeemEquivalentPoints": 100
+}
+```
+
+- **Holding Points for Later Redemption**  
+If the customer initiates a redemption but may take some time to finalize their order, such as during a lengthy checkout or when they are browsing further, it's recommended to **hold** the points temporarily. By using the Hold Points API, you can reserve a specific number of points from the customer’s balance for a limited period, ensuring these points are not redeemed elsewhere until the order is confirmed.
+
+```json
+{
+  "customerId": "cust_abc12345xyz67890",
+  "transactionTime": "2024-10-11T16:15:15.071Z",
+  "pointsToHold": 100
+}
+```
+
+This will return the response including:
+
+- **Hold Reference**: The API returns a unique `holdReference` identifier for the held points. This reference should be stored and used later when you want to finalize the redemption.
+
+This approach is particularly useful for preventing double usage of points. By holding points, you make sure the customer’s intended points for redemption remain available for the transaction they are initiating.
+
+```json
+{
+  "customerId": "cust_abc12345xyz67890",
+  "holdAmount": "10",
+  "holdEquivalentPoints": 100,
+  "holdReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+}
+```
+
+Once the customer is ready to confirm the redemption, you’ll use the previously returned `holdReference` to complete the transaction. You have two ways to finalize this redemption:
+
+- **Order API**: If the points redemption is part of a tracked order (such as an e-commerce purchase), pass the `holdReference` to the Order API to associate the hold with the specific order. This will deduct the held points from the customer’s balance and finalize the order.
+
+_Example use case_: A customer applies 100 points to their cart and then spends additional time selecting items. By using the Hold Points API, you reserve those 100 points for 10 minutes. When they finally check out, you call the Order API, providing the `holdReference` to finalize the redemption as part of their purchase.
+
+```json
+{
+  "customerId": "cust_123456789",
+  "email": "john.doe@example.com",
+  "mobile": "+1234567890",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 250.75,
+  "redemption": {
+    "pointsHoldReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+  }
+}
+```
+
+- **Redeem API** (Standalone Redemption): If there is no associated order, but you need to finalize the points redemption independently, you can call the Redeem API with the `holdReference`. This will complete the redemption, deducting the points without linking them to a specific order.
+
+_Example use case_: A customer applies points for a direct reward on your site but does not place an order. You can hold the points temporarily. When the customer decides to use the reward, you use the Redeem API with the `holdReference` to finalize the redemption independently.
+
+```json
+{
+  "customerId": "cust_123456789",
+  "transactionId": "txn98765",
+  "transactionTime": "2024-10-11T10:57:43.382Z",
+  "holdReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+}
+```
+
+***
+
+**Important Operations to Consider**
+
+- **Reverse Transaction:** If you need to cancel or refund a redeemed points transaction, store the original transaction ID and use the Reverse Transactions API.
+- **Reverse Hold Transaction:** If necessary, reverse the hold transaction within the 10-minute window using the Reverse Hold Transaction API.
+
+<Warning>
+We recommend that you follow the coupon system integration guide instead of using direct redemption since it is easier, safer and more smooth.
+</Warning>

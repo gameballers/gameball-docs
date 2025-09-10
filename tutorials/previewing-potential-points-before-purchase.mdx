@@ -1,0 +1,321 @@
+---
+title: "Previewing Potential Points Before Purchase"
+description: "Show potential loyalty points on product and cart pages to drive conversions."
+---
+
+# Previewing Potential Points Before Purchase
+
+This guide explains how to enhance your e-commerce experience by displaying potential loyalty points customers can earn for their purchases. By providing this transparency, you can encourage purchases, highlight ongoing reward campaigns, and create urgency to act before campaigns expire.
+
+***
+
+### Key Scenarios Addressed
+
+#### 1️⃣ Product-Specific Reward Visibility (No Campaigns)
+
+Display reward points for individual products on product pages when no reward campaign is active.
+
+#### 2️⃣ Stressing Base Points and Campaign Rewards
+
+Showcase the base points earned from regular purchases alongside additional points from active reward campaigns, emphasizing the campaign’s value.
+
+#### 3️⃣ Boosting Purchases with Expiry-Driven Campaigns
+
+Create urgency by showing customers the reward campaign’s expiry date to motivate purchases.
+
+***
+
+## Scenario 1️⃣: Product-Specific Reward Visibility (No Campaigns)
+
+#### Customer Journey
+
+Sarah visits the product page for a hand bag. She sees the potential base points she’ll earn for the purchase, with no campaign bonuses.
+
+***
+
+#### Flow
+
+1. When Sarah visits the product page:
+   - Your website calls **Gameball's Calculate Cashback API**, sending product details.
+2. The API calculates:
+   - Base loyalty points that will be rewarded for purchasing this product.
+3. Sarah sees:  
+   “Earn 149 points for buying this bag !”
+
+***
+
+#### Example API Interaction
+
+**Request**
+
+```json
+{
+  "customerId": "15327289462816",
+  "totalPaid": 149,
+  "lineItems": [
+    {
+      "productId": "Long_Purse_South_America",
+      "price": 149,
+      "quantity": 1,
+      "collection": ["Bags"]
+    }
+  ]
+}
+```
+
+**Response**
+
+```json
+{
+  "totalPoints": 149,
+  "lineItems": [
+    {
+      "productId": "COFFEE_MUG123",
+      "quantity": 1,
+      "totalPoints": 149,
+      "rewardWalletFactor": 1.0
+    }
+  ]
+}
+```
+
+***
+
+#### UI Suggestions
+
+- **Product Page:**
+  - Display a simple reward message below the product price:  
+    “Earn 149 points with this purchase!”
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FDm3a1rPBJ1ob36gEQTZR%2Fimage.png?alt=media&token=5e609652-4be1-4408-936c-48e72c1b1ee5" alt="Product page points preview" />
+</Frame>
+
+***
+
+## Scenario 2️⃣: Stressing Base Points and Campaign Rewards
+
+#### Customer Journey
+
+Sarah is in for a treat as she shops during your website's Anniversary Sale, a much-anticipated event that celebrates another successful year of business. To make the occasion even more exciting, your store is running a _Triple Points Campaign_, offering customers like Sarah the chance to earn three times the usual points on every purchase made during the sale.
+
+As Sarah browses through your collection, she eagerly adds several items to her cart. With each product she selects, she sees a breakdown of her rewards: the usual base points she earns from the purchase, plus the extra points she’ll collect thanks to the special anniversary offer.
+
+The display shows her exactly how much she’s gaining—her excitement grows as she realizes that by completing her purchase, she’ll be walking away with a significant reward!
+
+***
+
+#### Flow
+
+1. When Sarah views her cart:
+   - Your website calls the **Calculate Cashback API**, passing cart details.
+2. The API calculates:
+   - Total base points from the cart.
+   - Bonus points from the active reward campaign.
+3. Sarah sees:  
+   "You’ll earn 900 points (300 base points + 600 campaign bonus).”
+
+***
+
+#### Example API Interaction
+
+**Request**
+
+```json
+{
+  "customerId": "15327289462816",
+  "totalPaid": 300,
+  "lineItems": [
+    {
+      "productId": "PROD67890",
+      "price": 100,
+      "quantity": 1,
+      "collection": ["Accessories"]
+    },
+    {
+      "productId": "PROD12345",
+      "price": 100,
+      "quantity": 2,
+      "collection": ["Shoes"]
+    }
+  ]
+}
+```
+
+**Response**
+
+```json
+{
+    "totalPoints": 900,
+    "totalScore": 0,
+    "lineItems": [
+        {
+        
+        {
+            "productId": "PROD67890",
+            "quantity": 1,
+            "totalDecimalPoints": 300.0,
+            "totalPoints": 300,
+            "totalScore": 0,
+            "rewardWalletFactor": 1.0,
+            "campaignEndDate": "2024-12-05T05:39:00",
+            "campaignImpactWalletFactor": 3.0,
+            "campaignImpactPoints": 200.0,
+            "campaignName": "Triple Points",
+            "campaignId": 1866
+        },
+            "productId": "PROD12345",
+            "quantity": 2,
+            "totalDecimalPoints": 300.0,
+            "totalPoints": 300,
+            "totalScore": 0,
+            "rewardWalletFactor": 1.0,
+            "campaignEndDate": "2024-12-05T05:39:00",
+            "campaignImpactWalletFactor": 3.0,
+            "campaignImpactPoints": 200.0,
+            "campaignName": "Triple Points",
+            "campaignId": 1866
+        }
+    ]
+}
+```
+
+#### Response Breakdown: Points Calculation for Multiple Items
+
+**Single Item: Accessories (Product 1)**
+
+- **Price**: 100
+- **Collection**: ["Accessories"]
+
+**Base Points Calculation:**
+
+- For this product, the **base points** are **100 points** per unit.
+
+**Campaign Impact Points Calculation:**
+
+- The "Triple Points" campaign is active, so **200 points** are awarded as additional **campaign impact points** for this item.
+
+**Total Points for One Accessory (Before Quantity Multiplier):**
+
+- **Base Points**: 100 points
+- **Campaign Impact Points**: 200 points
+- **Total Points for One Unit**: 100 + 200 = **300 points**.
+
+**Quantity Consideration:**
+
+- Since Sarah is purchasing **1 unit of Accessories**, the total points for Accessories will be multiplied by the quantity:
+  - **300 points per unit * 1 unit** = **300 points** for Accessories.
+
+***
+
+**Single Item: Shoes (Product 2)**
+
+- **Price**: 100
+- **Collection**: ["Shoes"]
+
+**Base Points Calculation:**
+
+- For this product, the **base points** are **100 points** per unit.
+
+**Campaign Impact Points Calculation:**
+
+- The "Triple Points" campaign is active, so **200 points** are awarded as additional **campaign impact points** for this item.
+
+**Total Points for One Shoe (Before Quantity Multiplier):**
+
+- **Base Points**: 100 points
+- **Campaign Impact Points**: 200 points
+- **Total Points for One Unit**: 100 + 200 = **300 points**.
+
+**Quantity Consideration:**
+
+- Since Sarah is purchasing **2 units of Shoes**, the total points for Shoes will be multiplied by the quantity:
+  - **300 points per unit * 2 units** = **600 points** for Shoes.
+
+***
+
+#### Grand Total Points for the Cart:
+
+- **Accessories**: 300 points
+- **Shoes**: 600 points
+
+**Total Points Earned:**
+
+- **300 points (Accessories) + 600 points (Shoes) = 900 points**
+
+***
+
+## Scenario 3️⃣: Boosting Purchases with Expiry-Driven Campaigns
+
+#### Customer Journey
+
+As Sarah browses through her cart, a timely notification grabs her attention: **“Hurry! Your exclusive Triple Points reward campaign ends in just 2 days!”** Instantly, a sense of urgency kicks in. The thought of missing out on those extra points triggers her FOMO, and she’s determined not to let this opportunity slip away. With the clock ticking down, Sarah is more motivated than ever to finalize her purchase, making sure she earns every last reward before the campaign expires. The countdown amplifies the excitement, turning her routine shopping into a rush to secure the best deal before it’s gone.
+
+***
+
+#### Flow
+
+1. When Sarah views her cart:
+   - Your website calls the **Calculate Cashback API**, passing cart details.
+2. The API calculates:
+   - Total points for the cart and includes the campaign expiry date.
+3. Sarah sees:  
+   “Earn 2,500 points! Hurry—this campaign ends in 2 days (Dec 15, 2024).”
+
+***
+
+#### Example API Interaction
+
+**Request**
+
+```json
+{
+  "customerId": "15327289462816",
+  "totalPrice": 500,
+  "lineItems": [
+    {
+      "productId": "PROD78910",
+      "price": 250,
+      "quantity": 2,
+      "collection": ["Electronics"]
+    }
+  ]
+}
+```
+
+**Response**
+
+```json
+{
+  "totalPoints": 2500,
+  "lineItems": [
+    {
+      "productId": "PROD78910",
+      "quantity": 2,
+      "totalPoints": 2500,
+      "rewardWalletFactor": 2.0,
+      "campaignId": 6789,
+      "campaignName": "Holiday Bonus Campaign",
+      "campaignEndDate": "2024-12-15T23:59:59Z",
+      "campaignImpactPoints": 1500
+    }
+  ]
+}
+```
+
+***
+
+#### Visual Suggestions
+
+- **Cart Page Notification:**
+  - Add a red or orange banner on the cart page stating:  
+    “Earn 2,500 points! Act fast—Holiday Bonus Campaign ends Dec 15, 2024!”
+
+#### Why This Matters
+
+- Creates a sense of urgency to boost conversions.
+- Highlights time-sensitive opportunities for customers.
+
+***
+
+With these engaging scenarios and compelling visuals, your loyalty program will not only showcase the exciting potential rewards but also inspire your customers to take action and maximize their benefits! 🚀✨ Ready to turn everyday shopping into an irresistible experience? Let the rewards begin! 🎉
