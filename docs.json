@@ -132,6 +132,8 @@
                   "tutorials/build-custom-ui-elements/customer-notifications",
                   "tutorials/build-custom-ui-elements/customer-leaderboard",
                   "tutorials/build-custom-ui-elements/referrals"
+                  ,
+                  "tutorials/build-custom-ui-elements/widget-deep-links"
                 ]
               },
               "tutorials/build-your-own-notification-system",
