@@ -1,0 +1,171 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show Gameball customer profile in your iOS app"
+---
+
+# Initialize Gameball Customer Profile
+
+Show Gameball customer profile in your iOS app
+
+## Register Player
+
+To register a player and enable Gameball features, you need to call the `registerPlayer` method. This method requires the player's unique ID and optional attributes.
+
+```swift
+gameball?.registerPlayer(
+    playerUniqueId: "UNIQUE_PLAYER_ID",
+    playerAttributes: [
+        "displayName": "John Doe",
+        "email": "john@example.com",
+        "firstName": "John",
+        "lastName": "Doe",
+        "gender": "M",
+        "dateOfBirth": "1982-01-01",
+        "joinDate": "2024-10-23"
+    ]
+)
+```
+
+<ParamField body="playerUniqueId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="playerAttributes" type="dictionary">
+Optional player attributes to enrich the customer's profile:
+
+<Expandable title="Player Attributes">
+  <ParamField body="displayName" type="string">
+  The display name of the player.
+  </ParamField>
+  
+  <ParamField body="firstName" type="string">
+  The first name of the player.
+  </ParamField>
+  
+  <ParamField body="lastName" type="string">
+  The last name of the player.
+  </ParamField>
+  
+  <ParamField body="email" type="string">
+  The email address of the player.
+  </ParamField>
+  
+  <ParamField body="gender" type="string">
+  The gender of the player. Use "M" for male, "F" for female, or other identifiers as needed.
+  </ParamField>
+  
+  <ParamField body="dateOfBirth" type="string">
+  The player's date of birth in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="joinDate" type="string">
+  The date the player joined, in the format `YYYY-MM-DD`.
+  </ParamField>
+</Expandable>
+</ParamField>
+
+## Firebase Integration (Optional)
+
+If you want to enable push notifications, you need to integrate Firebase and get the FCM token:
+
+```swift
+// Based on latest Firebase documentation you can generate token by
+Messaging.messaging().token { token, error in
+    if let error = error {
+        print("Error fetching FCM registration token: \(error)")
+    } else if let token = token {
+        print("FCM registration token: \(token)")
+        // you can save the token anywhere then use it while launching Gameball
+    }
+}
+```
+
+Once you get the token, you can call the registration method to register and Launch Gameball.
+
+<Warning>
+**Choose an Unchangeable Player Unique ID**
+
+Gameball user profile gets created using the `playerUniqueId`. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+## Show the Widget
+
+To show the Gameball customer profile that contains the customer details, customer reward campaigns, and the leaderboard use the `showProfile` SDK function.
+
+```swift
+@IBAction func didTapLaunch(_ sender: UIButton) {
+    gameball?.showProfile(
+        playerUniqueId: "UNIQUE_PLAYER_ID",
+        openDetail: "custom_detail",
+        hideNavigation: false,
+        completion: { viewController, errorMessage in
+            guard let gameBallVC = viewController else {return}
+            gameBallVC.modalPresentationStyle = .fullScreen
+            self.present(gameBallVC, animated: true, completion: nil)
+        }
+    )
+}
+```
+
+Upon customer action, you can use `showProfile` function to show the widget. The `completion` block tells you that the `viewController` is ready and you can present it the way you want, for example by default if you don't explicitly specify `modalPresentationStyle`, it'll appear as modal. If you want it full screen, you can specify it like the above example.
+
+<ParamField body="playerUniqueId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+Specify if you want the widget to open on a specific view. See available values
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+Set to true to stop widget navigation otherwise leave as null
+</ParamField>
+
+<Note>
+You may also check the sample project here to view full implementation.
+</Note>
+
+## Implementation Flow
+
+<Steps>
+<Step title="Initialize SDK">
+  Initialize the Gameball SDK with your API key and configuration
+</Step>
+
+<Step title="Register Player">
+  Register the player with their unique ID and optional attributes
+</Step>
+
+<Step title="Show Profile">
+  Present the Gameball profile widget to the customer
+</Step>
+
+<Step title="Handle Interactions">
+  Handle customer interactions within the widget
+</Step>
+</Steps>
+
+## Best Practices
+
+<Steps>
+<Step title="Register After SDK Initialization">
+  Call `registerPlayer` after the completion block of the SDK initialization
+</Step>
+
+<Step title="Use Consistent Player ID">
+  Always use the same playerUniqueId for each customer across app sessions
+</Step>
+
+<Step title="Handle Errors Gracefully">
+  Implement proper error handling for registration and profile display
+</Step>
+
+<Step title="Test on Different Devices">
+  Test the widget on various iOS devices and screen sizes
+</Step>
+</Steps>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guide/ios/track-events)
+- [Track Orders & Cashback](/installation-guide/ios/track-orders)

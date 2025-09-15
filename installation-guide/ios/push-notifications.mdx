@@ -1,0 +1,101 @@
+---
+title: "Push Notifications"
+description: "Integrate Gameball push notifications to keep your customers informed about updates and rewards"
+---
+
+# Push Notifications
+
+Integrate your app with Gameball push notifications to keep your customers informed about updates, rewards, and other important activities. This direct communication channel enhances user engagement and retention.
+
+## Push Notification Features
+
+<CardGroup cols={2}>
+  <Card title="Reward Notifications" icon="gift">
+    Notify customers about earned points and rewards
+  </Card>
+
+  <Card title="Achievement Alerts" icon="trophy">
+    Alert customers about unlocked achievements
+  </Card>
+
+  <Card title="Referral Updates" icon="users">
+    Notify about referral activity and rewards
+  </Card>
+
+  <Card title="Campaign Notifications" icon="megaphone">
+    Send promotional and campaign updates
+  </Card>
+</CardGroup>
+
+## Firebase Integration
+
+To enable push notifications, you need to integrate Firebase Cloud Messaging (FCM):
+
+<Steps>
+<Step title="Install Firebase">
+  Add Firebase SDK to your iOS project
+</Step>
+
+<Step title="Configure APNs">
+  Set up Apple Push Notification service certificates
+</Step>
+
+<Step title="Get FCM Token">
+  Generate FCM registration token for the device
+</Step>
+
+<Step title="Register with Gameball">
+  Send the FCM token to Gameball for notification delivery
+</Step>
+</Steps>
+
+## Implementation
+
+<Steps>
+<Step title="Setup Firebase">
+  Configure Firebase in your iOS project
+</Step>
+
+<Step title="Get Registration Token">
+  Generate FCM token using Firebase SDK
+</Step>
+
+<Step title="Register Token">
+  Send the token to Gameball during player registration
+</Step>
+
+<Step title="Handle Notifications">
+  Implement notification handling in your app
+</Step>
+</Steps>
+
+## Best Practices
+
+<Steps>
+<Step title="Request Permissions">
+  Properly request notification permissions from users
+</Step>
+
+<Step title="Handle Token Refresh">
+  Update tokens when they change or refresh
+</Step>
+
+<Step title="Test Notifications">
+  Test push notifications on different devices and iOS versions
+</Step>
+
+<Step title="Monitor Delivery">
+  Track notification delivery and engagement rates
+</Step>
+</Steps>
+
+## Related Resources
+
+- [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
+- [Apple Push Notifications Documentation](https://developer.apple.com/documentation/usernotifications)
+- [Gameball Notifications API](/api-reference/customers/notifications/list-customer-notifications)
+
+## Next Steps
+
+- [Track Referrals](/installation-guide/ios/track-referrals)
+- [Go-Live Checklist](/installation-guide/ios/go-live-checklist)

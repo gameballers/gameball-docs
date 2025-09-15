@@ -1,0 +1,109 @@
+---
+title: "Android Integration"
+description: "Complete guide to integrate Gameball with your Android application using Kotlin/Java SDK"
+---
+
+# Android Integration
+
+The Android Integration guide provides comprehensive instructions to seamlessly integrate Gameball with your Android application using the Kotlin/Java SDK. This enables you to build engaging loyalty experiences for your Android users.
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/installation-guide/android/getting-started">
+    Set up the Gameball SDK and configure your Android project
+  </Card>
+
+  <Card title="Initialize Customer Profile" icon="user" href="/installation-guide/android/initialize-profile">
+    Set up customer identification and profile management
+  </Card>
+
+  <Card title="Track Customer Events" icon="chart-line" href="/installation-guide/android/track-events">
+    Send customer events from your Android app to Gameball
+  </Card>
+
+  <Card title="Track Orders & Cashback" icon="shopping-cart" href="/installation-guide/android/track-orders">
+    Monitor orders and provide cashback rewards in your Android app
+  </Card>
+
+  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/android/integrate-redemption">
+    Enable customers to redeem points directly in your Android app
+  </Card>
+
+  <Card title="Push Notifications" icon="bell" href="/installation-guide/android/push-notifications">
+    Set up push notifications for rewards and achievements
+  </Card>
+
+  <Card title="Go-Live Checklist" icon="check-circle" href="/installation-guide/android/go-live-checklist">
+    Comprehensive checklist for Android app launch
+  </Card>
+</CardGroup>
+
+## What you'll accomplish
+
+By completing this Android integration, you'll be able to:
+
+- **Enhance Customer Experience** - Provide a personalized loyalty experience through the Gameball Android SDK
+- **Reward Customer Actions** - Automatically track and reward customer behaviors like purchases and app interactions
+- **Drive Engagement** - Use cashback rewards and achievements to encourage repeat usage
+- **Enable Redemptions** - Allow customers to easily use their earned points within your app
+- **Grow Through Referrals** - Implement a referral system that rewards customers for bringing new users
+
+## Prerequisites
+
+Before starting your Android integration:
+
+- Have your Gameball API credentials ready (API Key and Transaction Key)
+- Android Studio Arctic Fox or later
+- Minimum SDK version 21 (Android 5.0)
+- Target SDK version 33 or later
+- Kotlin 1.7.0 or later
+- Familiarity with Android development and Kotlin/Java
+
+<Note>
+The Gameball Android SDK is compatible with Android 5.0+ and supports both Kotlin and Java projects.
+</Note>
+
+## Quick Start
+
+If you want to get up and running quickly:
+
+<Steps>
+<Step title="Install the SDK">
+  Add Gameball to your project using Gradle:
+  
+  ```gradle
+  // In your app-level build.gradle
+  dependencies {
+      implementation 'co.gameball:gameball-android-sdk:4.0.0'
+  }
+  ```
+</Step>
+
+<Step title="Initialize Gameball">
+  Initialize Gameball in your Application class:
+  
+  ```kotlin
+  import co.gameball.Gameball
+  
+  class MyApplication : Application() {
+      override fun onCreate() {
+          super.onCreate()
+          Gameball.configure(
+              apiKey = "YOUR_API_KEY",
+              transactionKey = "YOUR_TRANSACTION_KEY"
+          )
+      }
+  }
+  ```
+</Step>
+
+<Step title="Identify Customer">
+  Identify a customer when they log in:
+  
+  ```kotlin
+  Gameball.identify(customerId = "customer_123", email = "customer@example.com")
+  ```
+</Step>
+</Steps>
+
+Ready to dive deeper? Choose one of the integration guides above to get started with your specific use case.
+

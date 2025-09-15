@@ -1,0 +1,125 @@
+---
+title: "React Native Integration"
+description: "Complete guide to integrate Gameball with your React Native cross-platform application"
+---
+
+# React Native Integration
+
+The React Native Integration guide provides comprehensive instructions to seamlessly integrate Gameball with your React Native cross-platform application. This enables you to build engaging loyalty experiences across iOS and Android platforms.
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/installation-guide/react-native/getting-started">
+    Set up the Gameball SDK and configure your React Native project
+  </Card>
+
+  <Card title="Initialize Customer Profile" icon="user" href="/installation-guide/react-native/initialize-profile">
+    Set up customer identification and profile management
+  </Card>
+
+  <Card title="Track Customer Events" icon="chart-line" href="/installation-guide/react-native/track-events">
+    Send customer events from your React Native app to Gameball
+  </Card>
+
+  <Card title="Track Orders & Cashback" icon="shopping-cart" href="/installation-guide/react-native/track-orders">
+    Monitor orders and provide cashback rewards in your React Native app
+  </Card>
+
+  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/react-native/integrate-redemption">
+    Enable customers to redeem points directly in your React Native app
+  </Card>
+
+  <Card title="Track Referrals" icon="users" href="/installation-guide/react-native/track-referrals">
+    Implement referral tracking and rewards in your React Native app
+  </Card>
+
+  <Card title="Push Notifications" icon="bell" href="/installation-guide/react-native/push-notifications">
+    Set up push notifications for rewards and achievements
+  </Card>
+
+  <Card title="Go-Live Checklist" icon="check-circle" href="/installation-guide/react-native/go-live-checklist">
+    Comprehensive checklist for React Native app launch
+  </Card>
+</CardGroup>
+
+## What you'll accomplish
+
+By completing this React Native integration, you'll be able to:
+
+- **Enhance Customer Experience** - Provide a personalized loyalty experience through the Gameball React Native SDK
+- **Reward Customer Actions** - Automatically track and reward customer behaviors like purchases and app interactions
+- **Drive Engagement** - Use cashback rewards and achievements to encourage repeat usage
+- **Enable Redemptions** - Allow customers to easily use their earned points within your app
+- **Grow Through Referrals** - Implement a referral system that rewards customers for bringing new users
+
+## Prerequisites
+
+Before starting your React Native integration:
+
+- Have your Gameball API credentials ready (API Key and Transaction Key)
+- React Native 0.70.0 or later
+- Node.js 16.0 or later
+- iOS 13.0+ and Android 5.0+ deployment targets
+- Xcode 12.0+ (for iOS development)
+- Android Studio Arctic Fox+ (for Android development)
+- Familiarity with React Native development
+
+<Note>
+The Gameball React Native SDK provides a unified API that works across both iOS and Android platforms.
+</Note>
+
+## Quick Start
+
+If you want to get up and running quickly:
+
+<Steps>
+<Step title="Install the SDK">
+  Add Gameball to your React Native project:
+  
+  ```bash
+  npm install @gameball/react-native-sdk
+  # or
+  yarn add @gameball/react-native-sdk
+  ```
+</Step>
+
+<Step title="Link Native Dependencies">
+  Link the native dependencies (React Native 0.60+ auto-linking):
+  
+  ```bash
+  # For iOS
+  cd ios && pod install && cd ..
+  
+  # For Android - no additional steps needed
+  ```
+</Step>
+
+<Step title="Initialize Gameball">
+  Initialize Gameball in your App.js:
+  
+  ```javascript
+  import { Gameball } from '@gameball/react-native-sdk';
+  
+  // In your App component
+  useEffect(() => {
+    Gameball.configure({
+      apiKey: 'YOUR_API_KEY',
+      transactionKey: 'YOUR_TRANSACTION_KEY'
+    });
+  }, []);
+  ```
+</Step>
+
+<Step title="Identify Customer">
+  Identify a customer when they log in:
+  
+  ```javascript
+  Gameball.identify({
+    customerId: 'customer_123',
+    email: 'customer@example.com'
+  });
+  ```
+</Step>
+</Steps>
+
+Ready to dive deeper? Choose one of the integration guides above to get started with your specific use case.
+

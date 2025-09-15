@@ -11,38 +11,62 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Installation Guide",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Platform Integration",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "installation-guide/index",
+              {
+                "group": "Web",
+                "pages": [
+                  "installation-guide/web/index",
+                  "installation-guide/web/initialize-widget",
+                  "installation-guide/web/track-events", 
+                  "installation-guide/web/track-orders",
+                  "installation-guide/web/integrate-redemption",
+                  "installation-guide/web/track-referrals",
+                  "installation-guide/web/go-live-checklist"
+                ]
+              },
+              {
+                "group": "iOS",
+                "pages": [
+                  "installation-guide/ios/index",
+                  "installation-guide/ios/getting-started",
+                  "installation-guide/ios/initialize-profile",
+                  "installation-guide/ios/track-events",
+                  "installation-guide/ios/track-orders",
+                  "installation-guide/ios/integrate-redemption",
+                  "installation-guide/ios/push-notifications",
+                  "installation-guide/ios/track-referrals",
+                  "installation-guide/ios/go-live-checklist"
+                ]
+              },
+              {
+                "group": "Android",
+                "pages": [
+                  "installation-guide/android/index"
+                ]
+              },
+              {
+                "group": "React Native",
+                "pages": [
+                  "installation-guide/react-native/index"
+                ]
+              },
+              {
+                "group": "Flutter",
+                "pages": [
+                  "installation-guide/flutter/index"
+                ]
+              },
+              {
+                "group": "Generic Mobile App",
+                "pages": [
+                  "installation-guide/generic-mobile/index"
+                ]
+              }
             ]
           }
         ]
@@ -313,18 +337,13 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "anchor": "Help Center",
+          "href": "https://help.gameball.co",
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://www.gameball.co/blog",
           "icon": "newspaper"
         }
       ]
