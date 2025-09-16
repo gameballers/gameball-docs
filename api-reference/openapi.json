@@ -11,15 +11,10 @@
   "paths": {
     "/api/v4.0/integrations/customers": {
       "post": {
-        "description": "Create or update a customer profile in Gameball using a unique customerId.",
+        "summary": "Create Customer",
+        "description": "Create or update a customer profile in Gameball using a unique customerId. Serving as a consistent identity, this customerId allows you to track a customer's entire journey.",
+        "operationId": "createCustomer",
         "security": [ { "apiKey": [] } ],
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Net.Http.Headers;\nusing System.Text;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar json = \"{\\\"customerId\\\":\\\"12345\\\",\\\"email\\\":\\\"john@example.com\\\"}\";\nvar content = new StringContent(json, Encoding.UTF8, \"application/json\");\nvar response = await client.PostAsync(\"/api/v4.0/integrations/customers\", content);\nresponse.EnsureSuccessStatusCode();"
-          }
-        ],
         "requestBody": {
           "description": "Customer payload containing identifiers and attributes.",
           "required": true,
@@ -31,32 +26,179 @@
         },
         "responses": {
           "200": {
-            "description": "Customer upserted",
+            "description": "Customer created or updated successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Success" }
+                "schema": { "$ref": "#/components/schemas/UpsertCustomerResponse" }
               }
             }
           },
           "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
-      },
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}": {
       "get": {
-        "description": "Retrieve a customer by customerId or external identifier.",
-        "security": [ { "apiKey": [] } ],
-        "x-codeSamples": [
+        "summary": "Get Customer",
+        "description": "Retrieve essential customer information from Gameball using a unique customerId. Returns general customer info (no personal data) with the public key.",
+        "operationId": "getCustomer",
+        "security": [{ "apiKey": [] }],
+        "parameters": [
           {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers?customerId=12345\");\nresponse.EnsureSuccessStatusCode();\nvar body = await response.Content.ReadAsStringAsync();"
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Customer found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete Customer",
+        "description": "Remove a customer profile and associated data from the system.",
+        "operationId": "deleteCustomer",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
         "parameters": [
-          { "name": "customerId", "in": "query", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" }
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          }
         ],
         "responses": {
-          "200": { "description": "Customer found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } } },
-          "404": { "description": "Not found" }
+          "200": { "description": "Customer deleted successfully" },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/details": {
+      "get": {
+        "summary": "Get Customer Details",
+        "description": "Retrieve comprehensive customer information including personally identifiable information (PII).",
+        "operationId": "getCustomerDetails",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer details found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerDetailsResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/coupons": {
+      "get": {
+        "summary": "Get Customer Coupons",
+        "description": "Retrieve customer's available coupons with detailed information on each coupon's type, status, and usage.",
+        "operationId": "getCustomerCoupons",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer coupons found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerCouponsResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/hash": {
+      "get": {
+        "summary": "Get Customer Hash",
+        "description": "Generate a hash for an existing customer based on their unique customerId.",
+        "operationId": "getCustomerHash",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer hash generated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerHashResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/referrals/validate": {
+      "get": {
+        "summary": "Validate Referrer Code",
+        "description": "Validate whether a provided referral code is valid and eligible for use during customer signup.",
+        "operationId": "validateReferrerCode",
+        "security": [{ "apiKey": [] }],
+        "parameters": [
+          {
+            "name": "referrerCode",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The referral code to validate"
+          },
+          {
+            "name": "forCustomerId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Customer ID to prevent self-referral"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Referral code validation result",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ReferralValidationResponse" }
+              }
+            }
+          }
         }
       }
     },
@@ -1937,26 +2079,6 @@
             }
           }
         }
-      }
-    },
-    "/api/v4.0/integrations/customers/{customerId}": {
-      "get": {
-        "description": "Retrieve a customer by path identifier.",
-        "security": [ { "apiKey": [] } ],
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345\");\nresponse.EnsureSuccessStatusCode();"
-          }
-        ],
-        "parameters": [
-          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" }
-        ],
-        "responses": {
-          "200": { "description": "Customer found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } } },
-          "404": { "description": "Not found" }
-        }
       },
       "delete": {
         "description": "Delete a customer by customerId.",
@@ -1974,61 +2096,6 @@
         "responses": {
           "204": { "description": "Deleted" },
           "404": { "description": "Not found" }
-        }
-      }
-    },
-    "/api/v4.0/integrations/customers/{customerId}/details": {
-      "get": {
-        "description": "Retrieve detailed profile information for a customer.",
-        "security": [ { "apiKey": [] } ],
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345/details\");\nresponse.EnsureSuccessStatusCode();"
-          }
-        ],
-        "parameters": [
-          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "200": { "description": "Customer details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerDetails" } } } }
-        }
-      }
-    },
-    "/api/v4.0/integrations/customers/{customerId}/coupons": {
-      "get": {
-        "description": "List coupons available for a customer.",
-        "security": [ { "apiKey": [] } ],
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345/coupons\");\nresponse.EnsureSuccessStatusCode();"
-          }
-        ],
-        "parameters": [
-          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "200": { "description": "Coupons list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerCoupons" } } } }
-        }
-      }
-    },
-    "/api/v4.0/integrations/customers/{customerId}/hash": {
-      "get": {
-        "description": "Generate a rotating hash for a customer.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/customers/12345/hash\");\nresponse.EnsureSuccessStatusCode();"
-          }
-        ],
-        "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
-        "responses": {
-          "200": { "description": "Hash generated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerHash" } } } }
         }
       }
     },
@@ -2124,6 +2191,268 @@
         }
       }
     },
+    "/api/v4.0/integrations/customers/{customerId}/reward-campaigns-progress": {
+      "get": {
+        "summary": "Get Customer Campaigns Progress",
+        "description": "Retrieve customer's progress within Gameball's reward campaigns, providing insights into achievements and current status in each campaign.",
+        "operationId": "getCustomerCampaignsProgress",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer campaigns progress found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerCampaignsProgressResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/referrals": {
+      "get": {
+        "summary": "Get Customer Referrals",
+        "description": "Retrieve a list of customers referred by a specified customer, including each referral's join date and current status.",
+        "operationId": "getCustomerReferrals",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          },
+          {
+            "name": "startAfter",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int64", "default": 0 },
+            "description": "Specifies the page will start after which Gameball customer id"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 50, "maximum": 200 },
+            "description": "Number of referrals to return per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer referrals found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerReferralsResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/referrals/count": {
+      "get": {
+        "summary": "Get Customer Referrals Count",
+        "description": "Retrieve the total count of customers referred by a specified customer, providing the number of completed and pending referrals.",
+        "operationId": "getCustomerReferralsCount",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer referrals count found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerReferralsCountResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/activities": {
+      "get": {
+        "summary": "Get Customer Activities",
+        "description": "Retrieve a log of customer activities within Gameball, including tier changes, campaign rewards, referrals, redemptions, and more.",
+        "operationId": "getCustomerActivities",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          },
+          {
+            "name": "startAfter",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int64", "default": 0 },
+            "description": "Specifies the page will start after which activity id"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 50, "maximum": 200 },
+            "description": "Number of activities to return per page"
+          },
+          {
+            "name": "activityType",
+            "in": "query",
+            "required": false,
+            "schema": { 
+              "type": "string",
+              "enum": ["TierUpgraded", "TierDowngraded", "TierMigration", "CampaignRewarded", "SuccessfulAction", "Referral", "Referred", "ReferralBonusReward", "PaymentReward", "Refund", "Redemption", "Cancel", "Expiry", "Migration", "Lifetime", "Automation"]
+            },
+            "description": "Filter activities by specific type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer activities found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerActivitiesResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/activities/count": {
+      "get": {
+        "summary": "Get Customer Activities Count",
+        "description": "Retrieve the total count of customer activities within Gameball, with optional filtering by activity type.",
+        "operationId": "getCustomerActivitiesCount",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          },
+          {
+            "name": "activityType",
+            "in": "query",
+            "required": false,
+            "schema": { 
+              "type": "string",
+              "enum": ["TierUpgraded", "TierDowngraded", "TierMigration", "CampaignRewarded", "SuccessfulAction", "Referral", "Referred", "ReferralBonusReward", "PaymentReward", "Refund", "Redemption", "Cancel", "Expiry", "Migration", "Lifetime", "Automation"]
+            },
+            "description": "Filter activities by specific type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer activities count found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerActivitiesCountResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/automation": {
+      "get": {
+        "summary": "Get Customer Automation Campaigns",
+        "description": "Retrieve available automation campaigns for the customer, including onboarding journeys, engagement triggers, or milestone-based campaigns.",
+        "operationId": "getCustomerAutomationCampaigns",
+        "security": [{ "apiKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          },
+          {
+            "name": "campaignType",
+            "in": "query",
+            "required": false,
+            "schema": { 
+              "type": "string",
+              "enum": ["mission", "all"],
+              "default": "mission"
+            },
+            "description": "Filter automation steps by specific type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer automation campaigns found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerAutomationCampaignsResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/api/v4.0/integrations/customers/{customerId}/action-streak/{challengeId}": {
+      "get": {
+        "summary": "Get Customer Action Streak Progress",
+        "description": "Retrieve the progress of a specific customer within a particular Action Streak challenge.",
+        "operationId": "getCustomerActionStreakProgress",
+        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Unique identifier for the customer"
+          },
+          {
+            "name": "challengeId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Unique identifier of the Action Streak challenge"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer action streak progress found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerActionStreakProgressResponse" }
+              }
+            }
+          },
+          "404": { "description": "Customer or challenge not found" }
+        }
+      }
+    },
     "/api/v4.0/integrations/customers/{customerId}/tags": {
       "get": {
         "operationId": "listCustomerTags",
@@ -2190,12 +2519,15 @@
     "/api/v4.0/integrations/customers/{customerId}/notifications": {
       "get": {
         "operationId": "listCustomerNotifications",
-        "description": "List notifications for a customer.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "summary": "Get Customer Notifications",
+        "description": "Retrieve a paged list of notifications for a specific customer in Gameball, including details such as title, message content, read status, and timestamp.",
+        "security": [ { "apiKey": [] } ],
         "parameters": [
-          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } },
-          { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "format": "int32", "default": 50 } },
-          { "name": "cursor", "in": "query", "required": false, "schema": { "type": "string" } }
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" },
+          { "name": "startAfter", "in": "query", "required": false, "schema": { "type": "integer", "format": "int64", "default": 0 }, "description": "Specifies the page will start after which notification id" },
+          { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 50, "maximum": 200 }, "description": "Number of notifications to return per page" },
+          { "name": "isRead", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filter notifications based on their read status" },
+          { "name": "lang", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Language in which notifications will be retrieved" }
         ],
         "x-codeSamples": [
           { "lang": "curl", "label": "cURL", "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
@@ -2209,10 +2541,34 @@
         }
       }
     },
+    "/api/v4.0/integrations/customers/{customerId}/notifications/count": {
+      "get": {
+        "operationId": "getCustomerNotificationsCount",
+        "summary": "Get Customer Notifications Count",
+        "description": "Retrieve the total count of notifications for a specific customer in Gameball, providing the number of notifications matching the specified criteria.",
+        "security": [ { "apiKey": [] } ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" },
+          { "name": "isRead", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filter notifications based on their read status" },
+          { "name": "lang", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Language in which notifications will be retrieved" }
+        ],
+        "responses": {
+          "200": { 
+            "description": "Notifications count found", 
+            "content": { 
+              "application/json": { 
+                "schema": { "$ref": "#/components/schemas/CustomerNotificationsCountResponse" } 
+              } 
+            } 
+          }
+        }
+      }
+    },
     "/api/v4.0/integrations/customers/{customerId}/notifications/read": {
-      "post": {
+      "put": {
         "operationId": "markNotificationsRead",
-        "description": "Mark one or more notifications as read.",
+        "summary": "Mark Customer Notifications as Read",
+        "description": "Mark specific notifications as read for a customer in Gameball by providing notification IDs.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
         "requestBody": {
@@ -2228,26 +2584,6 @@
         ],
         "responses": {
           "200": { "description": "Updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }
-        }
-      }
-    },
-    "/api/v4.0/integrations/referrals/validate": {
-      "get": {
-        "description": "Validate a referral code.",
-        "security": [ { "apiKey": [] } ],
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "label": "C#",
-            "source": "using System.Net.Http;\nusing System.Threading.Tasks;\n\nvar client = new HttpClient();\nclient.BaseAddress = new System.Uri(\"https://api.gameball.co\");\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nvar response = await client.GetAsync(\"/api/v4.0/integrations/referrals/validate?referrerCode=CODE123&forCustomerId=12345\");\nresponse.EnsureSuccessStatusCode();\nvar body = await response.Content.ReadAsStringAsync();"
-          }
-        ],
-        "parameters": [
-          { "name": "referrerCode", "in": "query", "required": true, "schema": { "type": "string" } },
-          { "name": "forCustomerId", "in": "query", "required": false, "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "200": { "description": "Validation result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReferralValidation" } } } }
         }
       }
     },
@@ -2636,6 +2972,302 @@
           "message": {
             "type": "string"
           }
+        }
+      },
+      "CustomerResponse": {
+        "type": "object",
+        "properties": {
+          "gameballId": {
+            "type": "number",
+            "description": "The customer's unique ID within the Gameball system"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier for the customer"
+          },
+          "customerAttributes": {
+            "type": "object",
+            "description": "Customer attributes (minimized, excluding PII)"
+          },
+          "referralCode": {
+            "type": "string",
+            "description": "The referral code of the customer"
+          },
+          "referralLink": {
+            "type": "string",
+            "description": "The referral link generated for the customer"
+          },
+          "isReferred": {
+            "type": "boolean",
+            "description": "Boolean indicating if this customer was referred"
+          },
+          "dynamicReferralLink": {
+            "type": "string",
+            "description": "Dynamic referral link for mobile apps"
+          }
+        }
+      },
+      "CustomerDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier for the customer"
+          },
+          "gameballId": {
+            "type": "number",
+            "description": "The customer's unique ID within the Gameball system"
+          },
+          "customerAttributes": {
+            "type": "object",
+            "description": "Complete customer attributes including PII"
+          },
+          "referralCode": {
+            "type": "string",
+            "description": "The referral code of the customer"
+          },
+          "referralLink": {
+            "type": "string",
+            "description": "The referral link generated for the customer"
+          },
+          "isReferred": {
+            "type": "boolean",
+            "description": "Boolean indicating if this customer was referred"
+          },
+          "dynamicReferralLink": {
+            "type": "string",
+            "description": "Dynamic referral link for mobile apps"
+          }
+        }
+      },
+      "CustomerCouponsResponse": {
+        "type": "object",
+        "properties": {
+          "coupons": {
+            "type": "array",
+            "description": "List of coupon objects associated with the customer",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the coupon"
+                },
+                "code": {
+                  "type": "string",
+                  "description": "The coupon code that the customer will use"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "The monetary value or percentage value of the coupon"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Type of the coupon",
+                  "enum": ["Free Shipping", "Fixed Rate Discount", "Percentage", "Free Product", "Custom", "Percentage-based Fees Discount", "Percentage-based Cashback"]
+                },
+                "target": {
+                  "type": "string",
+                  "description": "How the coupon is associated with the customer",
+                  "enum": ["Online", "POS", "Permanent", "Reward", "Automation"]
+                },
+                "currency": {
+                  "type": "string",
+                  "description": "Currency code if the coupon has a fixed monetary value"
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date and time when the coupon becomes valid"
+                },
+                "expiryDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date and time when the coupon will expire"
+                },
+                "isExpired": {
+                  "type": "boolean",
+                  "description": "Indicates if the coupon has expired"
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "description": "Status of the coupon, whether it is active or not"
+                },
+                "usageLimit": {
+                  "type": "number",
+                  "description": "The total number of times the coupon can be used"
+                },
+                "limitPerCustomer": {
+                  "type": "number",
+                  "description": "The number of times a single customer can use the coupon"
+                },
+                "usedCount": {
+                  "type": "number",
+                  "description": "Number of times the coupon has been used"
+                },
+                "customerUsedCount": {
+                  "type": "number",
+                  "description": "Number of times the coupon has been used by this customer"
+                },
+                "isAvailableToUse": {
+                  "type": "boolean",
+                  "description": "Flag determining whether coupon can be used by customer at given time"
+                }
+              }
+            }
+          }
+        }
+      },
+      "CustomerHashResponse": {
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "string",
+            "description": "A unique, rotating identifier generated for each customer for secure verification"
+          }
+        }
+      },
+      "ReferralValidationResponse": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean",
+            "description": "Indicates whether the provided referral code is valid and eligible for use"
+          }
+        }
+      },
+      "UpsertCustomerResponse": {
+        "type": "object",
+        "properties": {
+          "gameballId": {
+            "type": "number",
+            "description": "The customer's unique ID within the Gameball system. This ID is used to store the customer in our database and is different from the customerId used in the dashboard."
+          }
+        }
+      },
+      "CustomerCampaignsProgressResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "rewardsCampaignName": { "type": "string", "description": "The name of the rewards campaign" },
+            "rewardsCampaignId": { "type": "number", "description": "The unique ID of the rewards campaign" },
+            "isUnlocked": { "type": "boolean", "description": "Indicates if the customer has unlocked the campaign" },
+            "completionPercentage": { "type": "number", "description": "The percentage of the campaign the customer has completed" },
+            "achievedCount": { "type": "number", "description": "The number of times the customer has achieved the campaign" },
+            "canAchieve": { "type": "boolean", "description": "Whether the customer is currently eligible to participate in the campaign" }
+          }
+        }
+      },
+      "CustomerReferralsResponse": {
+        "type": "object",
+        "properties": {
+          "referredFriends": {
+            "type": "array",
+            "description": "A list of friends referred by the customer",
+            "items": {
+              "type": "object",
+              "properties": {
+                "customerId": { "type": "string", "description": "Unique identifier for the referred friend" },
+                "displayName": { "type": "string", "description": "Display name of the referred friend" },
+                "email": { "type": "string", "description": "Email address of the referred friend" },
+                "mobileNumber": { "type": "string", "description": "Mobile number of the referred friend" },
+                "joinDate": { "type": "string", "description": "The date when the referred friend joined" },
+                "status": { "type": "string", "enum": ["Active", "Pending"], "description": "The current status of the referral" }
+              }
+            }
+          },
+          "count": { "type": "number", "description": "The total number of friends on the current page" },
+          "hasMore": { "type": "boolean", "description": "Whether there are additional friends to be fetched" }
+        }
+      },
+      "CustomerReferralsCountResponse": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "number", "description": "The total number of friends referred by the customer" },
+          "totalPending": { "type": "number", "description": "The total number of referred friends who have joined but not yet completed the referral criteria" },
+          "totalActive": { "type": "number", "description": "The total number of referred friends who have successfully completed the referral criteria" }
+        }
+      },
+      "CustomerActivitiesResponse": {
+        "type": "object",
+        "properties": {
+          "activities": {
+            "type": "array",
+            "description": "An array of activity records for the customer",
+            "items": {
+              "type": "object",
+              "properties": {
+                "activityId": { "type": "number", "description": "Unique identifier for the activity" },
+                "activityType": { "type": "string", "description": "The type of activity that occurred" },
+                "activityDay": { "type": "string", "description": "The day of the week when the activity took place" },
+                "activityDate": { "type": "string", "description": "The date of the activity" },
+                "activityTime": { "type": "string", "description": "The time when the activity occurred" },
+                "customerId": { "type": "string", "description": "The unique identifier of the customer" },
+                "email": { "type": "string", "description": "The email address of the customer" },
+                "transactionId": { "type": "string", "description": "A unique identifier for a transaction in your system" },
+                "isManualActivity": { "type": "boolean", "description": "Whether the activity was manually triggered" },
+                "points": { "type": "number", "description": "The number of points involved in the activity" },
+                "score": { "type": "number", "description": "The score involved in the activity" }
+              }
+            }
+          },
+          "count": { "type": "number", "description": "The total number of activities on the current page" },
+          "hasMore": { "type": "boolean", "description": "Whether there are additional logs to be fetched" }
+        }
+      },
+      "CustomerActivitiesCountResponse": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "number", "description": "The total number of activities available in Gameball system" }
+        }
+      },
+      "CustomerAutomationCampaignsResponse": {
+        "type": "object",
+        "properties": {
+          "campaigns": {
+            "type": "array",
+            "description": "A list of campaigns containing automation workflows",
+            "items": {
+              "type": "object",
+              "properties": {
+                "automation": {
+                  "type": "array",
+                  "description": "A list of automation workflows within a campaign",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "order": { "type": "number", "description": "The order in which this automation appears" },
+                      "name": { "type": "string", "description": "The internal name of the automation workflow" },
+                      "isUnlocked": { "type": "boolean", "description": "Whether this automation is unlocked" },
+                      "completed": { "type": "boolean", "description": "Whether the automation has been fully completed" },
+                      "completionPercentage": { "type": "number", "description": "Percentage of completion for the automation" }
+                    }
+                  }
+                },
+                "automationCount": { "type": "number", "description": "Total number of automations available within this campaign" }
+              }
+            }
+          },
+          "count": { "type": "number", "description": "The total number of automation campaigns available" }
+        }
+      },
+      "CustomerActionStreakProgressResponse": {
+        "type": "object",
+        "properties": {
+          "numberOfCompletedSteps": { "type": "number", "description": "The number of steps completed by the customer in the current challenge cycle" },
+          "numberOfTimesEarned": { "type": "number", "description": "The total number of times the customer has successfully completed the challenge" },
+          "canAchieveAgain": { "type": "boolean", "description": "Whether the customer is currently eligible to continue the challenge" },
+          "remainingTries": { "type": "number", "description": "The number of remaining allowed completions within the current time interval" },
+          "challengeEndDate": { "type": "string", "description": "The end date of the challenge in the client's local timezone" },
+          "rewardName": { "type": "string", "description": "The name of the reward as defined in the client's configured language" },
+          "couponName": { "type": "string", "description": "The name or value of the discount coupon assigned" }
+        }
+      },
+      "CustomerNotificationsCountResponse": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "number", "description": "The total number of notifications available for the customer in Gameball system" }
         }
       }
     },

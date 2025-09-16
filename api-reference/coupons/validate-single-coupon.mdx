@@ -5,8 +5,6 @@ openapi: 'POST /api/v4.0/integrations/coupons/{code}/validate'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-## Validate Single Coupon
-
 This API validates a single coupon identified by `{code}` and checks its eligibility for use by a customer. It also supports a locking feature, where setting the `lock` flag to `True` reserves the coupon by creating a lock reference. This ensures the coupon cannot be used by others during the lock session, preventing conflicts or double usage. By default, the `lock` flag is `False`, allowing only validation without reserving the coupon.
 
 <Info>

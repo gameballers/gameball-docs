@@ -1,15 +1,16 @@
 ---
 title: 'Delete Customer'
-description: 'Delete a customer record.'
+description: 'Remove a customer profile and associated data from the system.'
 openapi: 'DELETE /api/v4.0/integrations/customers/{customerId}'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
-## Delete Customer
 
-Delete a customer profile by unique identifier.
+The API call removes the customer identified by `customerId` from the system. This removes the customer profile and associated data.
 
 <Info>
-Security: Provide both `apikey` and `secretkey` headers.
+This API can also be accessed using the **POST** method for systems that do not support **DELETE**. In such cases, simply use **/customers/{customerId}/delete** endpoint to achieve the same functionality.
 </Info>
 
-
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>

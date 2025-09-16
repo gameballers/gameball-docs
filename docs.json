@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "almond",
   "name": "Gameball Developer Docs",
   "colors": {
     "primary": "#FB5819",
@@ -92,7 +92,7 @@
                 "pages": [
                   "api-reference/customers/customers",
                   {
-                    "group": "Customers — Management",
+                    "group": "Management",
                     "pages": [
                       "api-reference/customers/management/create-customer",
                       "api-reference/customers/management/get-customer",
@@ -103,15 +103,22 @@
                       "api-reference/customers/management/validate-referrer-code"
                     ]
                   },
+                   {
+                     "group": "Progress",
+                     "pages": [
+                       "api-reference/customers/progress/get-customer-balance",
+                       "api-reference/customers/progress/get-customer-progress",
+                       "api-reference/customers/progress/get-customer-campaigns-progress",
+                       "api-reference/customers/progress/get-customer-referrals",
+                       "api-reference/customers/progress/get-customer-referrals-count",
+                       "api-reference/customers/progress/get-customer-activities",
+                       "api-reference/customers/progress/get-customer-activities-count",
+                       "api-reference/customers/progress/get-customer-automation-campaigns",
+                       "api-reference/customers/progress/get-customer-action-streak-progress"
+                     ]
+                   },
                   {
-                    "group": "Customers — Progress",
-                    "pages": [
-                      "api-reference/customers/progress/get-customer-balance",
-                      "api-reference/customers/progress/get-customer-progress"
-                    ]
-                  },
-                  {
-                    "group": "Customers — Tags",
+                    "group": "Tags",
                     "pages": [
                       "api-reference/customers/tags/list-customer-tags",
                       "api-reference/customers/tags/attach-customer-tags",
@@ -119,9 +126,10 @@
                     ]
                   },
                   {
-                    "group": "Customers — Notifications",
+                    "group": "Notifications",
                     "pages": [
                       "api-reference/customers/notifications/list-customer-notifications",
+                      "api-reference/customers/notifications/get-customer-notifications-count",
                       "api-reference/customers/notifications/mark-notifications-read"
                     ]
                   }

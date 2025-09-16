@@ -1,18 +1,16 @@
 ---
 title: 'Get Customer'
-description: 'Retrieve a customer by unique identifier.'
+description: 'Retrieve essential customer information from Gameball using a unique customerId.'
 openapi: 'GET /api/v4.0/integrations/customers/{customerId}'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-## Get Customer
-
-Retrieve a customer profile by its unique identifier.
+This API allows you to retrieve essential customer information from Gameball using a unique `customerId`. While focused on providing key profile details, the response excludes personally identifiable information (PII), ensuring secure access to customer data for seamless integration and personalized engagement.
 
 <Info>
-Security: Provide both `apikey` and `secretkey` headers.
+This endpoint returns general customer info (no personal data) with the public key. To access PII, use [Get Customer Details](/api-reference/customers/management/get-customer-details) with the secret key.
 </Info>
 
-
-
-
+<Info>
+**Security**: Requires **apiKey** header.
+</Info>

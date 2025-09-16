@@ -1,15 +1,12 @@
 ---
 title: 'Validate Referrer Code'
-description: 'Validate a customer referral code.'
+description: 'Validate whether a provided referral code is valid and eligible for use during customer signup.'
 openapi: 'GET /api/v4.0/integrations/referrals/validate'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
-## Validate Referrer Code
 
-Validate a referral code and return its status.
+The API call validates whether a provided referral code is valid and eligible for use during customer signup. It optionally checks if the referral code belongs to a different customer to prevent self-referral. This allows clients to pre-validate referral codes before creating a customer record.
 
 <Info>
-Security: Provide both `apikey` and `secretkey` headers.
+**Security**: Requires **apiKey** header.
 </Info>
-
-

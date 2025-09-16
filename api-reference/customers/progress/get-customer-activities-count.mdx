@@ -1,0 +1,13 @@
+---
+title: "Customer Activities Count"
+description: "Retrieve the total count of customer activities within Gameball, with optional filtering by activity type."
+openapi: 'GET /api/v4.0/integrations/customers/{customerId}/activities/count'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+This API retrieves the total count of customer activities within Gameball, identified by `customerId`. It allows for filtering by specific activity types, such as `TierUpgraded`, `CampaignRewarded`, `ReferralBonusReward`, and `PaymentReward`, providing the number of activities matching the specified criteria without returning detailed activity logs.
+
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>
+

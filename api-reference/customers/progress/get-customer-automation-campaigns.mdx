@@ -1,0 +1,13 @@
+---
+title: "Customer Automation Campaigns"
+description: "Retrieve available automation campaigns for the customer, including onboarding journeys, engagement triggers, or milestone-based campaigns."
+openapi: 'GET /api/v4.0/integrations/customers/{customerId}/automation'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+This API retrieves the available automation campaigns for the customer, identified by `customerId`. The response includes details of campaigns currently active and applicable to the customer, such as onboarding journeys, engagement triggers, or milestone-based campaigns. Specific campaign types can be filtered, including campaigns like **Welcome Campaigns**, **Ramadan Campaign**, and **Custom Automations**, offering a comprehensive view of personalized campaigns available for the customer.
+
+<Info>
+**Security**: Requires **apikey** header.
+</Info>
+

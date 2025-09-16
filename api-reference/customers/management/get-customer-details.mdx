@@ -1,15 +1,12 @@
 ---
 title: 'Get Customer Details'
-description: 'Retrieve detailed customer profile information.'
+description: 'Retrieve comprehensive customer information in Gameball, including personally identifiable information (PII).'
 openapi: 'GET /api/v4.0/integrations/customers/{customerId}/details'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
-## Get Customer Details
 
-Retrieve enriched details for a customer profile.
+This API provides access to comprehensive customer information in Gameball, including personally identifiable information (PII), using a unique `customerId`. Secured by a secret key, this endpoint ensures that sensitive customer data remains protected, offering a complete view of the customer profile for more personalized and secure interactions.
 
-<Info>
-Security: Provide both `apikey` and `secretkey` headers.
-</Info>
-
-
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>

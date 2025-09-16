@@ -1,15 +1,12 @@
 ---
 title: 'Get Customer Hash'
-description: 'Retrieve hash for customer secure operations.'
+description: 'Generate a hash for an existing customer based on their unique customerId.'
 openapi: 'GET /api/v4.0/integrations/customers/{customerId}/hash'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
-## Get Customer Hash
 
-Retrieve a verification hash for the customer to secure client-side features.
+The API call generates a hash for an existing customer based on their unique customerId. This hash is used to securely redeem loyalty points during transactions.
 
-<Info>
-Security: Provide both `apikey` and `secretkey` headers.
-</Info>
-
-
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>

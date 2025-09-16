@@ -1,0 +1,13 @@
+---
+title: "Customer Action Streak Progress"
+description: "Retrieve the progress of a specific customer within a particular Action Streak challenge in Gameball."
+openapi: 'GET /api/v4.0/integrations/customers/{customerId}/action-streak/{challengeId}'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+This API retrieves the progress of a specific customer within a particular Action Streak challenge in Gameball. It returns how many steps the customer has completed, how many times they've earned the challenge reward, and whether they are eligible to continue.
+
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>
+

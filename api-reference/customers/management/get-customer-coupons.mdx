@@ -1,15 +1,12 @@
 ---
 title: 'Get Customer Coupons'
-description: 'Fetch customer coupons list.'
+description: 'Retrieve available coupons for a customer in Gameball with detailed information.'
 openapi: 'GET /api/v4.0/integrations/customers/{customerId}/coupons'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
-## Get Customer Coupons
 
-List all coupons available for a customer.
+This API retrieves a customer's available coupons in Gameball, offering detailed information on each coupon's type, status, and usage. Use this endpoint to access current coupon data associated with the customer for better engagement.
 
-<Info>
-Security: Provide both `apikey` and `secretkey` headers.
-</Info>
-
-
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>

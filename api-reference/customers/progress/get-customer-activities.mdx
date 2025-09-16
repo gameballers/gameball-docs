@@ -1,0 +1,13 @@
+---
+title: "Customer Activities"
+description: "Retrieve a log of customer activities within Gameball, including tier changes, campaign rewards, referrals, redemptions, and more."
+openapi: 'GET /api/v4.0/integrations/customers/{customerId}/activities'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+This API retrieves a log of customer activities within Gameball, identified by `customerId`. The logs detail various actions, such as tier changes, campaign rewards, referrals, redemptions, and more. Specific activity types can be filtered, including events like `TierUpgraded`, `CampaignRewarded`, `ReferralBonusReward`, and `PaymentReward`, providing comprehensive visibility into each customer's engagement history.
+
+<Warning>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Warning>
+
