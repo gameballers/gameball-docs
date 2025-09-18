@@ -371,7 +371,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.gameball.co/"
     }
   },
   "contextual": {
@@ -392,10 +392,13 @@
     },
     "examples": {
       "languages": [
-        "javascript",
         "curl",
+        "javascript",
         "python",
-        "csharp"
+        "csharp",
+        "go",
+        "php",
+        "java"
       ]
     }
   },

@@ -3057,6 +3057,48 @@
           { "apiKey": [] },
           { "secretKey": [] }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST 'https://api.gameball.co/api/v4.0/integrations/events' \\\n  -H 'Content-Type: application/json' \\\n  -H 'apikey: YOUR_API_KEY' \\\n  -H 'secretkey: YOUR_SECRET_KEY' \\\n  -d '{\n    \"customerId\": \"cust_123456789\",\n    \"events\": {\n      \"write_review\": {\n        \"product_id\": \"PROD123\",\n        \"rating\": 5\n      }\n    }\n  }'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript",
+            "source": "const response = await fetch('https://api.gameball.co/api/v4.0/integrations/events', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'apikey': 'YOUR_API_KEY',\n    'secretkey': 'YOUR_SECRET_KEY'\n  },\n  body: JSON.stringify({\n    customerId: 'cust_123456789',\n    events: {\n      write_review: {\n        product_id: 'PROD123',\n        rating: 5\n      }\n    }\n  })\n});"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\nimport json\n\nurl = 'https://api.gameball.co/api/v4.0/integrations/events'\nheaders = {\n    'Content-Type': 'application/json',\n    'apikey': 'YOUR_API_KEY',\n    'secretkey': 'YOUR_SECRET_KEY'\n}\ndata = {\n    'customerId': 'cust_123456789',\n    'events': {\n        'write_review': {\n            'product_id': 'PROD123',\n            'rating': 5\n        }\n    }\n}\n\nresponse = requests.post(url, headers=headers, json=data)"
+          },
+          {
+            "lang": "csharp",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Text;\nusing Newtonsoft.Json;\n\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\n\nvar payload = new {\n    customerId = \"cust_123456789\",\n    events = new {\n        write_review = new {\n            product_id = \"PROD123\",\n            rating = 5\n        }\n    }\n};\n\nvar json = JsonConvert.SerializeObject(payload);\nvar content = new StringContent(json, Encoding.UTF8, \"application/json\");\nvar response = await client.PostAsync(\"https://api.gameball.co/api/v4.0/integrations/events\", content);"
+          },
+          {
+            "lang": "php",
+            "label": "PHP",
+            "source": "<?php\n$url = 'https://api.gameball.co/api/v4.0/integrations/events';\n$data = [\n    'customerId' => 'cust_123456789',\n    'events' => [\n        'write_review' => [\n            'product_id' => 'PROD123',\n            'rating' => 5\n        ]\n    ]\n];\n\n$ch = curl_init($url);\ncurl_setopt_array($ch, [\n    CURLOPT_POST => true,\n    CURLOPT_HTTPHEADER => [\n        'Content-Type: application/json',\n        'apikey: YOUR_API_KEY',\n        'secretkey: YOUR_SECRET_KEY'\n    ],\n    CURLOPT_POSTFIELDS => json_encode($data),\n    CURLOPT_RETURNTRANSFER => true\n]);\n\n$response = curl_exec($ch);\ncurl_close($ch);\n?>"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"bytes\"\n    \"encoding/json\"\n    \"net/http\"\n)\n\nfunc main() {\n    url := \"https://api.gameball.co/api/v4.0/integrations/events\"\n    \n    payload := map[string]interface{}{\n        \"customerId\": \"cust_123456789\",\n        \"events\": map[string]interface{}{\n            \"write_review\": map[string]interface{}{\n                \"product_id\": \"PROD123\",\n                \"rating\":     5,\n            },\n        },\n    }\n    \n    jsonData, _ := json.Marshal(payload)\n    req, _ := http.NewRequest(\"POST\", url, bytes.NewBuffer(jsonData))\n    req.Header.Set(\"Content-Type\", \"application/json\")\n    req.Header.Set(\"apikey\", \"YOUR_API_KEY\")\n    req.Header.Set(\"secretkey\", \"YOUR_SECRET_KEY\")\n    \n    client := &http.Client{}\n    resp, _ := client.Do(req)\n    defer resp.Body.Close()\n}"
+          },
+          {
+            "lang": "java",
+            "label": "Java",
+            "source": "import java.net.http.HttpClient;\nimport java.net.http.HttpRequest;\nimport java.net.http.HttpResponse;\nimport java.net.URI;\n\nHttpClient client = HttpClient.newHttpClient();\n\nString json = \"{\\\"customerId\\\":\\\"cust_123456789\\\",\\\"events\\\":{\\\"write_review\\\":{\\\"product_id\\\":\\\"PROD123\\\",\\\"rating\\\":5}}}\";\n\nHttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create(\"https://api.gameball.co/api/v4.0/integrations/events\"))\n    .header(\"Content-Type\", \"application/json\")\n    .header(\"apikey\", \"YOUR_API_KEY\")\n    .header(\"secretkey\", \"YOUR_SECRET_KEY\")\n    .POST(HttpRequest.BodyPublishers.ofString(json))\n    .build();\n\nHttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());"
+          },
+          {
+            "lang": "ruby",
+            "label": "Ruby",
+            "source": "require 'net/http'\nrequire 'json'\n\nuri = URI('https://api.gameball.co/api/v4.0/integrations/events')\nhttp = Net::HTTP.new(uri.host, uri.port)\nhttp.use_ssl = true\n\nrequest = Net::HTTP::Post.new(uri)\nrequest['Content-Type'] = 'application/json'\nrequest['apikey'] = 'YOUR_API_KEY'\nrequest['secretkey'] = 'YOUR_SECRET_KEY'\n\nrequest.body = {\n  customerId: 'cust_123456789',\n  events: {\n    write_review: {\n      product_id: 'PROD123',\n      rating: 5\n    }\n  }\n}.to_json\n\nresponse = http.request(request)"
+          }
+        ],
         "requestBody": {
           "description": "Event payload containing the customerId and one or more events with metadata.",
           "required": true,
