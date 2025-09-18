@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "aspen",
   "name": "Gameball Developer Docs",
   "colors": {
     "primary": "#FB5819",
