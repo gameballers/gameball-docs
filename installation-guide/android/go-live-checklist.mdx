@@ -1,0 +1,242 @@
+---
+title: "Go-Live Checklist"
+description: "Comprehensive checklist to ensure a smooth transition when taking your Android integration live"
+---
+
+Use this comprehensive checklist to ensure a smooth transition when taking your Android integration live. It helps you verify all components are working correctly, providing a flawless experience for your customers from day one.
+
+## Pre-Launch Testing
+
+### ✅ SDK Installation & Initialization
+
+<Steps>
+<Step title="Verify SDK Installation">
+  - [ ] Gameball SDK is properly installed via Gradle
+  - [ ] All dependencies are resolved without conflicts
+  - [ ] SDK imports correctly in your activities
+  - [ ] No compilation errors or warnings
+</Step>
+
+<Step title="Test SDK Initialization">
+  - [ ] SDK initializes successfully with your API key
+  - [ ] Context is properly passed to GameballApp
+  - [ ] Language settings are configured correctly
+  - [ ] Platform parameters are set appropriately
+</Step>
+
+<Step title="Verify Customer Registration">
+  - [ ] Customer registration works with valid unique IDs
+  - [ ] Customer attributes are sent correctly
+  - [ ] Registration completion callbacks work properly
+  - [ ] Error handling works for invalid registrations
+</Step>
+</Steps>
+
+### ✅ Widget Integration
+
+<Steps>
+<Step title="Test Profile Widget">
+  - [ ] Widget displays correctly on different Android devices
+  - [ ] Widget appears properly on different screen sizes
+  - [ ] Activity context is handled correctly
+  - [ ] Navigation within widget functions correctly
+</Step>
+
+<Step title="Validate Widget Features">
+  - [ ] Customer profile information displays correctly
+  - [ ] Points and achievements show properly
+  - [ ] Referral links are generated and functional
+  - [ ] Widget interactions work smoothly
+</Step>
+</Steps>
+
+### ✅ Event Tracking
+
+<Steps>
+<Step title="Test Event API Integration">
+  - [ ] Events are sent to Gameball API successfully
+  - [ ] Event data is properly formatted and complete
+  - [ ] Error handling works for failed API calls
+  - [ ] Event tracking doesn't impact app performance
+</Step>
+
+<Step title="Verify Event Processing">
+  - [ ] Events appear in Gameball dashboard
+  - [ ] Event metadata is captured correctly
+  - [ ] Custom events are working as expected
+  - [ ] Event-based rewards are triggered properly
+</Step>
+</Steps>
+
+### ✅ Order Tracking & Cashback
+
+<Steps>
+<Step title="Test Order API Integration">
+  - [ ] Orders are tracked after successful payment
+  - [ ] Order data includes all required fields
+  - [ ] Cashback calculations are accurate
+  - [ ] Points are awarded correctly
+</Step>
+
+<Step title="Validate Cashback System">
+  - [ ] Cashback amounts match program configuration
+  - [ ] Points appear in customer accounts
+  - [ ] Refunds properly adjust point balances
+  - [ ] Order status updates work correctly
+</Step>
+</Steps>
+
+### ✅ Redemption System
+
+<Steps>
+<Step title="Test Redemption APIs">
+  - [ ] Coupon generation works correctly
+  - [ ] Direct debit requests are processed
+  - [ ] Redemption validation is working
+  - [ ] Point deductions are accurate
+</Step>
+
+<Step title="Verify Redemption Flow">
+  - [ ] Customers can view their point balance
+  - [ ] Redemption options are displayed correctly
+  - [ ] Redemption process is user-friendly
+  - [ ] Error handling works for failed redemptions
+</Step>
+</Steps>
+
+### ✅ Push Notifications
+
+<Steps>
+<Step title="Test Firebase/Huawei Integration">
+  - [ ] Firebase or Huawei SDK is properly integrated
+  - [ ] Push service certificates are configured correctly
+  - [ ] Registration tokens are generated successfully
+  - [ ] Tokens are registered with Gameball
+</Step>
+
+<Step title="Validate Notification Delivery">
+  - [ ] Push notifications are received on test devices
+  - [ ] Notification content displays correctly
+  - [ ] Deep links work properly
+  - [ ] Notification permissions are handled correctly
+</Step>
+</Steps>
+
+## Production Readiness
+
+### ✅ Technical Requirements
+
+<Steps>
+<Step title="API Configuration">
+  - [ ] Production API keys are configured
+  - [ ] API endpoints are pointing to production
+  - [ ] Rate limiting is properly configured
+  - [ ] SSL certificates are valid
+</Step>
+
+<Step title="Performance Testing">
+  - [ ] App launches quickly with Gameball integration
+  - [ ] SDK initialization doesn't block UI thread
+  - [ ] Memory usage is within acceptable limits
+  - [ ] No memory leaks in long-running sessions
+</Step>
+
+<Step title="Error Handling">
+  - [ ] Failed API calls are handled gracefully
+  - [ ] Error messages are user-friendly
+  - [ ] Fallback mechanisms are in place
+  - [ ] Crash reporting is configured
+</Step>
+</Steps>
+
+### ✅ Android-Specific Requirements
+
+<Steps>
+<Step title="Device Compatibility">
+  - [ ] App works on different Android devices and manufacturers
+  - [ ] App works on tablets
+  - [ ] Android version compatibility is verified (API 21+)
+  - [ ] Accessibility features work correctly
+</Step>
+
+<Step title="Google Play Compliance">
+  - [ ] Privacy policy includes Gameball data usage
+  - [ ] App permissions are properly requested
+  - [ ] Data collection is disclosed
+  - [ ] Google Play guidelines are followed
+</Step>
+
+<Step title="ProGuard Configuration">
+  - [ ] ProGuard rules exclude Gameball packages
+  - [ ] App works correctly with code obfuscation enabled
+  - [ ] No runtime crashes due to obfuscation
+</Step>
+</Steps>
+
+## Launch Day
+
+### ✅ Final Verification
+
+<Steps>
+<Step title="Last-Minute Checks">
+  - [ ] All systems are operational
+  - [ ] Support team is ready
+  - [ ] Documentation is accessible
+  - [ ] Backup procedures are in place
+</Step>
+
+<Step title="Go-Live Execution">
+  - [ ] Deploy to Google Play Store or internal testing
+  - [ ] Monitor app performance and crashes
+  - [ ] Verify all integrations are working
+  - [ ] Test with real customer data
+</Step>
+</Steps>
+
+## Post-Launch Monitoring
+
+### ✅ First 24 Hours
+
+<Steps>
+<Step title="System Monitoring">
+  - [ ] Monitor API response times
+  - [ ] Check crash reports for issues
+  - [ ] Verify customer transactions
+  - [ ] Monitor widget performance
+</Step>
+
+<Step title="Customer Support">
+  - [ ] Respond to customer inquiries
+  - [ ] Monitor support ticket volume
+  - [ ] Document any issues encountered
+  - [ ] Provide quick fixes for critical problems
+</Step>
+</Steps>
+
+## Troubleshooting Resources
+
+<AccordionGroup>
+<Accordion title="Common Android Issues">
+  - **Widget not loading**: Check SDK initialization and API key configuration
+  - **Events not tracking**: Verify API credentials and network connectivity
+  - **Push notifications not working**: Check Firebase/Huawei configuration and certificates
+  - **ProGuard issues**: Ensure Gameball packages are excluded from obfuscation
+</Accordion>
+
+<Accordion title="Support Contacts">
+  - **Technical Support**: [Your technical support contact]
+  - **Gameball Support**: [Gameball support contact]
+  - **Android Development Support**: [Your Android development team contact]
+</Accordion>
+
+<Accordion title="Documentation Links">
+  - [API Reference](/api-reference/introduction)
+  - [Status and Error Codes](/api-reference/overview/status-error-codes)
+  - [Rate Limiting](/api-reference/overview/rate-limiting)
+  - [What's New in V4.0](/api-reference/overview/whats-new)
+</Accordion>
+</AccordionGroup>
+
+<Check>
+Once you've completed all items in this checklist, your Android Gameball integration should be ready for production and provide a seamless experience for your customers.
+</Check>

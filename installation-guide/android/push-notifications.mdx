@@ -27,39 +27,39 @@ Integrate your app with Gameball push notifications to keep your customers infor
 
 ## Firebase Integration
 
-To enable push notifications, you need to integrate Firebase Cloud Messaging (FCM):
+To enable push notifications, you need to integrate Firebase Cloud Messaging (FCM) or Huawei Push Kit:
 
 <Steps>
-<Step title="Install Firebase">
-  Add Firebase SDK to your iOS project
+<Step title="Install Firebase/Huawei Dependencies">
+  Add Firebase or Huawei push notification dependencies to your project
 </Step>
 
-<Step title="Configure APNs">
-  Set up Apple Push Notification service certificates
+<Step title="Configure Push Service">
+  Set up FCM or Huawei Push Kit certificates and configuration
 </Step>
 
-<Step title="Get FCM Token">
-  Generate FCM registration token for the device
+<Step title="Get Registration Token">
+  Generate FCM or Huawei token for the device
 </Step>
 
 <Step title="Register with Gameball">
-  Send the FCM token to Gameball for notification delivery
+  Send the token to Gameball for notification delivery
 </Step>
 </Steps>
 
 ## Implementation
 
 <Steps>
-<Step title="Setup Firebase">
-  Configure Firebase in your iOS project
+<Step title="Setup Push Service">
+  Configure Firebase or Huawei push service in your Android project
 </Step>
 
 <Step title="Get Registration Token">
-  Generate FCM token using Firebase SDK
+  Generate push token using Firebase or Huawei SDK
 </Step>
 
 <Step title="Register Token">
-  Send the token to Gameball during player registration
+  Send the token to Gameball during customer registration
 </Step>
 
 <Step title="Handle Notifications">
@@ -79,7 +79,7 @@ To enable push notifications, you need to integrate Firebase Cloud Messaging (FC
 </Step>
 
 <Step title="Test Notifications">
-  Test push notifications on different devices and iOS versions
+  Test push notifications on different devices and Android versions
 </Step>
 
 <Step title="Monitor Delivery">
@@ -90,10 +90,9 @@ To enable push notifications, you need to integrate Firebase Cloud Messaging (FC
 ## Related Resources
 
 - [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
-- [Apple Push Notifications Documentation](https://developer.apple.com/documentation/usernotifications)
+- [Huawei Push Kit Documentation](https://developer.huawei.com/consumer/en/doc/development/HMS-Guides/push-introduction)
 - [Gameball Notifications API](/api-reference/customers/notifications/list-customer-notifications)
 
 ## Next Steps
 
-- [Track Referrals](/installation-guide/ios/track-referrals)
-- [Go-Live Checklist](/installation-guide/ios/go-live-checklist)
+- [Go-Live Checklist](/installation-guide/android/go-live-checklist)

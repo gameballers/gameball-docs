@@ -1,0 +1,157 @@
+---
+title: "Track Customer Events"
+description: "Send customer events from your Flutter app to Gameball"
+---
+
+Start sending your customers' events from your Flutter app to Gameball. By tracking actions such as purchases, sign-ups, and other key interactions, you can tailor rewards and communications to engage your customers more effectively.
+
+<Info>
+For detailed event tracking implementation, please refer to the [Tracking Customer Events tutorial](/tutorials/track-customer-events) and [Events API Reference](/api-reference/events/send-events).
+</Info>
+
+<CardGroup cols={2}>
+  <Card
+    title="App Events"
+    icon="phone"
+    href="/api-reference/events/send-events"
+  >
+    Track app-specific events like login, registration, and feature usage
+  </Card>
+  <Card
+    title="Purchase Events"
+    icon="dollar-sign"
+    href="/api-reference/events/send-events"
+  >
+    Track purchase events and transactions for reward calculations
+  </Card>
+  <Card
+    title="Engagement Events"
+    icon="heart"
+    href="/api-reference/events/send-events"
+  >
+    Track user engagement activities and interactions
+  </Card>
+  <Card
+    title="Custom Events"
+    icon="tag"
+    href="/api-reference/events/send-events"
+  >
+    Create custom events specific to your business needs
+  </Card>
+</CardGroup>
+
+## Event Tracking Implementation
+
+To track customer events in your Flutter app, you need to create an Event object and send it using the sendEvent method.
+
+### Create Event Object
+
+First, create an Event object with the customer ID and event data:
+
+```dart
+Event eventBody = Event(
+  customerId: "customer_id",
+  events: {
+    "event_name": {
+      "property1": "value1",
+      "property2": "value2"
+    }
+  }
+);
+```
+
+### Send the Event
+
+Using the previously created GameballApp instance or by creating a new one, call the **sendEvent()** method as shown below:
+
+```dart
+// SendEventCallback
+sendEventCallback(response, error){
+  if(error == null && response != null){
+    // TODO Handle on success result.
+  }
+  else{
+    // TODO Handle on failure result.
+  }
+}
+    
+gameballApp.sendEvent(eventBody, sendEventCallback);
+```
+
+## Event Types
+
+Gameball supports various event types that you can track:
+
+<Expandable title="Common Event Types">
+
+### App Events
+- **Login**: Track when customers log into your app
+- **Registration**: Track new customer registrations
+- **Profile Update**: Track profile information changes
+- **Feature Usage**: Track usage of specific app features
+
+### Purchase Events
+- **Purchase**: Track completed purchases
+- **Add to Cart**: Track items added to cart
+- **Remove from Cart**: Track items removed from cart
+- **View Product**: Track product page views
+
+### Engagement Events
+- **App Open**: Track app launch events
+- **Screen View**: Track screen navigation
+- **Button Click**: Track specific button interactions
+- **Search**: Track search activities
+
+### Custom Events
+- **Custom Action**: Track any custom business-specific actions
+- **Milestone**: Track achievement of specific milestones
+- **Survey Completion**: Track survey or feedback completion
+- **Social Share**: Track social media sharing activities
+
+</Expandable>
+
+## Best Practices
+
+<Steps>
+  <Step title="Consistent Event Naming">
+    Use consistent naming conventions for your events across all platforms (Web, iOS, Android, Flutter)
+  </Step>
+  <Step title="Include Relevant Properties">
+    Add relevant properties to events to provide context and enable better analytics
+  </Step>
+  <Step title="Handle Errors Gracefully">
+    Implement proper error handling in your event callback functions
+  </Step>
+  <Step title="Test Event Tracking">
+    Test event tracking in development before deploying to production
+  </Step>
+</Steps>
+
+## Event Properties
+
+When creating events, you can include various properties to provide context:
+
+```dart
+Event eventBody = Event(
+  customerId: "customer_123",
+  events: {
+    "purchase": {
+      "orderId": "ORD-12345",
+      "amount": 99.99,
+      "currency": "USD",
+      "products": [
+        {
+          "productId": "PROD-001",
+          "name": "Sample Product",
+          "price": 99.99,
+          "quantity": 1
+        }
+      ]
+    }
+  }
+);
+```
+
+<Info>
+For a complete list of supported event types and properties, refer to the [Events API Reference](/api-reference/events/send-events).
+</Info>

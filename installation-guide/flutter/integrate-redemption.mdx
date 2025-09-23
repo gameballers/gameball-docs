@@ -1,0 +1,289 @@
+---
+title: "Integrate Redemption"
+description: "Enable customers to redeem their earned points directly through your Flutter app"
+---
+
+Enable your customers to redeem their rewarded points.
+
+Through Gameball, you can allow your customers to redeem and use their collected points as discounts while placing new orders on your website. Those points are exchanged for discount coupons or free service/product vouchers during future purchases. Learn more about points redemption.
+
+For e-commerce businesses, points redemption is done with order placement using Order API. A pre-step to that would be checking the customer's balance - using Customer Points Balance API if there are enough points or not for the transaction; and showing the customer his balance.
+
+<CardGroup cols={2}>
+  <Card
+    title="Direct Debit"
+    icon="credit-card"
+    href="/tutorials/redemption-integration/direct-debit"
+  >
+    Redeem points directly as cash discounts
+  </Card>
+  <Card
+    title="Coupon Redemption"
+    icon="ticket"
+    href="/tutorials/redemption-integration/coupons"
+  >
+    Exchange points for discount coupons
+  </Card>
+  <Card
+    title="Reward Vouchers"
+    icon="gift"
+    href="/tutorials/redemption-integration/coupons"
+  >
+    Convert points to gift vouchers
+  </Card>
+  <Card
+    title="Custom Redemption"
+    icon="tag"
+    href="/api-reference/transactions/cashback-and-redemptions/redeem"
+  >
+    Create custom redemption options
+  </Card>
+</CardGroup>
+
+## Redemption Implementation Methods
+
+There are two main ways to implement redemption in your Flutter app:
+
+<Info>
+**Option 1**: Use Gameball's built-in redemption UI through the SDK
+**Option 2**: Build your own custom redemption interface using the Redemption API
+</Info>
+
+## Check Customer Balance
+
+Before allowing redemption, check the customer's available balance:
+
+<RequestExample>
+```http
+GET https://api.gameball.co/api/v3.0/integrations/customer/balance/{playerUniqueId}
+apiKey: your_api_key
+```
+</RequestExample>
+
+### Flutter Implementation
+
+```dart
+// Check customer balance
+Future<Map<String, dynamic>?> checkCustomerBalance(String customerId) async {
+  try {
+    final response = await http.get(
+      Uri.parse('${your_backend_url}/customer/$customerId/balance'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${customer_token}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final balance = jsonDecode(response.body);
+      return balance;
+    } else {
+      print('Failed to get balance: ${response.statusCode}');
+      return null;
+    }
+  } catch (e) {
+    print('Error getting balance: $e');
+    return null;
+  }
+}
+```
+
+## Direct Debit Redemption
+
+For direct debit redemption, customers can use their points as cash discounts:
+
+<Steps>
+  <Step title="Check Balance">
+    Verify customer has sufficient points for redemption
+  </Step>
+  <Step title="Calculate Discount">
+    Determine the discount amount based on point value
+  </Step>
+  <Step title="Apply to Order">
+    Apply the discount to the customer's order total
+  </Step>
+  <Step title="Update Balance">
+    Deduct the redeemed points from customer's balance
+  </Step>
+</Steps>
+
+### Implementation Example
+
+```dart
+// Process direct debit redemption
+Future<bool> processDirectDebitRedemption(
+  String customerId, 
+  double orderTotal, 
+  int pointsToRedeem
+) async {
+  try {
+    final response = await http.post(
+      Uri.parse('${your_backend_url}/redeem/direct-debit'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${customer_token}',
+      },
+      body: jsonEncode({
+        'customerId': customerId,
+        'orderTotal': orderTotal,
+        'pointsToRedeem': pointsToRedeem,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      // Handle successful redemption
+      return true;
+    } else {
+      print('Redemption failed: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error processing redemption: $e');
+    return false;
+  }
+}
+```
+
+## Coupon Redemption
+
+For coupon-based redemption, customers exchange points for discount coupons:
+
+<RequestExample>
+```http
+POST https://api.gameball.co/api/v3.0/integrations/transaction/redeem
+Content-Type: application/json
+apiKey: your_api_key
+
+{
+  "playerUniqueId": "customer_123",
+  "amount": 100,
+  "transactionId": "TXN-12345"
+}
+```
+</RequestExample>
+
+### Flutter Implementation
+
+```dart
+// Generate coupon from points
+Future<String?> generateCoupon(String customerId, int pointsToRedeem) async {
+  try {
+    final response = await http.post(
+      Uri.parse('${your_backend_url}/redeem/coupon'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${customer_token}',
+      },
+      body: jsonEncode({
+        'customerId': customerId,
+        'pointsToRedeem': pointsToRedeem,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      return result['couponCode'];
+    } else {
+      print('Coupon generation failed: ${response.statusCode}');
+      return null;
+    }
+  } catch (e) {
+    print('Error generating coupon: $e');
+    return null;
+  }
+}
+```
+
+## Redemption UI Integration
+
+### Show Redemption Options
+
+You can integrate redemption options into your Flutter app UI:
+
+```dart
+// Show redemption dialog
+void showRedemptionDialog(BuildContext context, String customerId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Redeem Points'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Choose how you want to redeem your points:'),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => processDirectDebitRedemption(customerId, 0, 0),
+              child: Text('Direct Debit'),
+            ),
+            ElevatedButton(
+              onPressed: () => generateCoupon(customerId, 0),
+              child: Text('Generate Coupon'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+```
+
+## Redemption Rules
+
+Configure redemption rules in your Gameball dashboard:
+
+<Expandable title="Common Redemption Rules">
+
+### Minimum Points Required
+- Set minimum points required for redemption
+- Prevent redemption of small amounts
+
+### Maximum Redemption Limit
+- Set daily/monthly redemption limits
+- Control cash flow and fraud prevention
+
+### Point Value Configuration
+- Define how many points equal 1 currency unit
+- Configure exchange rates for different currencies
+
+### Category Restrictions
+- Restrict redemption for specific product categories
+- Allow redemption only for eligible items
+
+### Time-based Restrictions
+- Set redemption windows (e.g., business hours only)
+- Implement seasonal redemption campaigns
+
+</Expandable>
+
+## Testing Redemption
+
+<Steps>
+  <Step title="Test Balance Check">
+    Verify customer balance API returns correct values
+  </Step>
+  <Step title="Test Redemption Process">
+    Test both direct debit and coupon redemption flows
+  </Step>
+  <Step title="Verify Point Deduction">
+    Ensure points are correctly deducted after redemption
+  </Step>
+  <Step title="Test Edge Cases">
+    Test with insufficient balance, maximum limits, and invalid requests
+  </Step>
+</Steps>
+
+## Best Practices
+
+<Info>
+- Always validate customer balance before allowing redemption
+- Implement proper error handling for failed redemption attempts
+- Provide clear feedback to customers about redemption status
+- Log all redemption transactions for audit purposes
+</Info>
+
+<Warning>
+Make sure to handle redemption failures gracefully. If the redemption API is unavailable, inform the customer and suggest retrying later.
+</Warning>

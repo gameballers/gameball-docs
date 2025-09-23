@@ -1,0 +1,161 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show Gameball customer profile in your Flutter app"
+---
+
+Show your customers' profile including all details and progress on your Flutter app.
+
+Showing the Gameball widget on your mobile application is slightly different than showing it on the website. You have two options; first, if you want to design your customer interface, you will use our set of REST APIs. To know more information, you can use the Configurations API 👑. The other option as this section elaborates, is through using our **Flutter SDK**.
+
+Using the SDK, you can open the Gameball customer profile with the magic of a press of button in your app, programmatically when someone does a specific action, or from a persistent button (ex: FAB) that sits over your app's UI.
+
+When you trigger the Gameball customer profile, your customer is presented with a default screen that is configurable inside Gameball to change the look and feel of it.
+
+From there, your customer can check their progress across different Gameball programs as per your configurations.
+
+## Showing Gameball Customer Profile
+
+To show the Gameball customer profile that contains their details, available reward campaigns, and the leaderboard use **showProfile()** SDK method.
+
+Gameball's views are accessible through the code below. You just need to use it on any button action.
+
+```dart
+gameballApp.showProfile(context, "{CUST_ID}", "{openDetail}", "{hideNavigation}");
+```
+
+<ParamField path="context" type="BuildContext" required>
+  BuildContext instance which will be
+</ParamField>
+
+<ParamField path="CustomerId" type="string" required>
+  Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField path="openDetail" type="string">
+  Specify if you want the widget to open on a specific view. See available values
+</ParamField>
+
+<ParamField path="hideNavigation" type="Boolean">
+  Set to true to stop widget navigation otherwise leave as null
+</ParamField>
+
+## Register/Update Customer
+
+To register your customers with Gameball, use **registerCustomer** method which can be used to create or update the customer details at Gameball. Ideally, it is called when your login or register network call is successful.
+
+<ParamField path="customerId" type="string" required>
+  Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField path="customerEmail" type="string">
+  Customer's unique Email address.
+</ParamField>
+
+<ParamField path="customerMobile" type="string">
+  Customer's unique Mobile number.
+</ParamField>
+
+<ParamField path="customerAttributes" type="object">
+  Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.
+</ParamField>
+
+<Expandable title="customerAttributes Object">
+
+<ParamField path="displayName" type="string">
+  The display name of the customer.
+</ParamField>
+
+<ParamField path="firstName" type="string">
+  The first name of the customer.
+</ParamField>
+
+<ParamField path="lastName" type="string">
+  The last name of the customer.
+</ParamField>
+
+<ParamField path="email" type="string">
+  Customer's unique Email address.
+</ParamField>
+
+<ParamField path="mobileNumber" type="string">
+  Customer's unique Mobile number.
+</ParamField>
+
+<ParamField path="gender" type="string">
+  The gender of the customer. Use "M" for male, "F" for female, or other identifiers as needed.
+</ParamField>
+
+<ParamField path="dateOfBirth" type="string">
+  The customer's date of birth in the format `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField path="joinDate" type="string">
+  The date the customer joined your system, in the format `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField path="preferredLanguage" type="string">
+  The language the customer prefers for receiving notifications.
+</ParamField>
+
+<ParamField path="customAttributes" type="Object">
+  Custom attributes related to the customer, defined by specific key-value pairs.
+</ParamField>
+
+</Expandable>
+
+<ParamField path="registerCallBack" type="function">
+  Callback is used for providing the developer with the response status and payload.
+</ParamField>
+
+<Info>
+Every time the **SDK** is initialized with a new **customerId**, the customer profile is created or updated on Gameball's side. You may consider enriching your Gameball's customer profile with attributes that are not available to the UI by using server side Create\Update Customer API
+</Info>
+
+<Warning>
+**Choose an Unchangeable CustomerId**
+
+Gameball customer gets created using the **customerId**. It is highly recommended to have the unique ID as an identifier that would **NEVER** be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer, hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use email address
+</Warning>
+
+Note that if you set a Preferred Language, it will override the language value provided in the **init** method.
+
+### An example to create CustomerAttributes object
+
+```dart
+CustomerAttributes customerAttributes = CustomerAttributes(
+  displayName: "John Doe",
+  firstName: "John",
+  lastName: "Doe",
+  mobileNumber: "0123456789",
+  preferredLanguage: "en",
+  customAttributes: {
+    "{key}": "{value}"
+  }
+);
+```
+
+The previous example will return an object of CustomerAttributes with the configured attributes.
+
+## Register the Customer
+
+Using the previously created GameballApp instance or by creating a new one, call the **registerCustomer()** method as shown below
+
+```dart
+// RegisterCallback
+customerRegistrationCallback(response, error) {
+  if(error == null && response != null){
+    // TODO Handle on success result.
+  }
+  else{
+    // TODO Handle on failure result.
+  }
+}
+    
+gameballApp.registerCustomer(
+  "{CUST_ID}",
+  "{customerEmail}",
+  "{customerMobile}",
+  customerAttributes, 
+  customerRegistrationCallback
+);
+```

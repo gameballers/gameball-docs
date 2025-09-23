@@ -1,0 +1,136 @@
+---
+title: "Getting Started"
+description: "Install the Gameball Flutter SDK into your app"
+---
+
+The Gameball SDK for Flutter enables you to use the show Gameball customer profile in your app, track app customer events, and integrate referrals.
+
+## Installation
+
+Follow the below steps to start installing Flutter SDK package to your app
+
+<Steps>
+  <Step title="Install the SDK package">
+    Install package using flutter:
+    
+    ```bash
+    $ flutter pub add gameball_sdk
+    ```
+    
+    This will add a line like this to your package's pubspec.yaml (and run an implicit `flutter pub get`):
+    
+    ```yaml
+    dependencies:
+      gameball_sdk: ^2.2.0
+    ```
+    
+    Alternatively, your editor might support `flutter pub get`. Check the docs for your editor to learn more.
+  </Step>
+  
+  <Step title="Add Internet Permission">
+    Make sure that you added the INTERNET permission in your application's **AndroidManifest.xml** and **info.plist** files
+  </Step>
+</Steps>
+
+### To install Firebase Google Play Services dependencies
+
+Firebase is an integral dependency to the sdk, you'll have to include the following dependencies in your project's **pubspec.yaml** file
+
+```bash
+$ flutter pub add firebase_core
+$ flutter pub add firebase_dynamic_links
+$ flutter pub add firebase_messaging
+```
+
+Then run the `flutter pub get` command.
+
+<Info>
+It is also required to have a Firebase project configured and linked to your project, follow this tutorial on how to integrate with Firebase.
+</Info>
+
+Now in your Dart code, you can use:
+
+```dart
+import 'package:gameball/gameball_sdk.dart';
+```
+
+## Initialization
+
+To create a GameballApp instance you need to call the **getInstance** method.
+
+```dart
+GameballApp gameballApp = GameballApp.getInstance();
+```
+
+<Warning>
+Note that you need to have an initialized Firebase App to be able to the use the Referral and Notifications features.
+</Warning>
+
+Make sure that you call the following code after connecting with your Firebase project.
+
+```dart
+await Firebase
+    .initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+    .then((response){});
+```
+
+## Initialize GameballApp Instance
+
+To initialize GameballApp instance in your application class, use the **init** method which takes the following parameters (replace the braces with your values)
+
+```dart
+// Using the Gameball instance created
+gameballApp.init("{api_key}", "{lang}", "{platform}", "{shop}");
+```
+
+<ParamField path="api_key" type="string" required>
+  The API key of the Client account
+</ParamField>
+
+<ParamField path="lang" type="string">
+  The language that the SDK should be initialized with (based on the Client's configuration)
+</ParamField>
+
+<ParamField path="shop" type="string">
+  Store name with myshopify.com domain. Used if your app is a mobile app for a Shopify store connected to Gameball
+</ParamField>
+
+<ParamField path="platform" type="string">
+  The platform you application used:
+  
+  - `Shopify`
+  - `Salla`
+  - `any`
+</ParamField>
+
+## Profile Languages
+
+For websites with multiple languages, how you can change **Gameball** widget language based on active website language. **Gameball** supports multiple languages for the customer profile widget. The widget language can be changed based on your customer's active language on the website.
+
+<Info>
+Learn how you can configure the languages on your Gameball account through this [article](https://help.gameball.co/en/articles/3464234).
+</Info>
+
+<Expandable title="Supported Languages & Codes">
+
+| Language | Code |
+|----------|------|
+| English | en |
+| Arabic | ar |
+| French | fr |
+| Spanish | es |
+| German | de |
+| Portuguese | pt |
+| Polish | pl |
+| Italian | it |
+| Hungarian | hu |
+| Chinese (Traditional, Taiwan) | zh-tw |
+| Dutch | nl |
+| Swedish | sv |
+| Norwegian | no |
+| Danish | dk |
+| Japanese | ja |
+
+</Expandable>
+
+In order to show the correct language of the widget based on the active language on the website, you just need to use the language code inside the `lang` variable in the code snippet.

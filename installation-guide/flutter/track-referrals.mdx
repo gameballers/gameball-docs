@@ -1,0 +1,339 @@
+---
+title: "Track Referrals"
+description: "Reward your customers for referring new users and help grow your business organically"
+---
+
+Reward your customers for referrals and grow your business.
+
+## Introduction
+
+One of the most effective ways to get new users is through user referrals. You can use Gameball referrals capabilities to encourage your users to invite their friends by offering rewards for successful referrals to both the referrer and the recipient.
+
+<CardGroup cols={2}>
+  <Card
+    title="Referral Links"
+    icon="link"
+    href="/tutorials/referral"
+  >
+    Generate unique referral links for each customer
+  </Card>
+  <Card
+    title="Referral Tracking"
+    icon="users"
+    href="/tutorials/referral"
+  >
+    Track successful referrals and reward both parties
+  </Card>
+  <Card
+    title="Referral Codes"
+    icon="hash"
+    href="/tutorials/referral"
+  >
+    Create and validate referral codes
+  </Card>
+  <Card
+    title="Referral Analytics"
+    icon="bar-chart"
+    href="/tutorials/referral"
+  >
+    Monitor referral performance and success rates
+  </Card>
+</CardGroup>
+
+## How Referrals Work
+
+<Steps>
+  <Step title="Customer Gets Referral Link">
+    Existing customer receives a unique referral link or code
+  </Step>
+  <Step title="Customer Shares Link">
+    Customer shares the referral link with friends and family
+  </Step>
+  <Step title="New Customer Registers">
+    New customer registers using the referral link
+  </Step>
+  <Step title="Rewards Are Awarded">
+    Both referrer and referee receive rewards as configured
+  </Step>
+</Steps>
+
+## Flutter Implementation
+
+### Generate Referral Link
+
+To generate a referral link for a customer, you'll typically call your backend API:
+
+```dart
+// Generate referral link for customer
+Future<String?> generateReferralLink(String customerId) async {
+  try {
+    final response = await http.post(
+      Uri.parse('${your_backend_url}/referral/generate-link'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${customer_token}',
+      },
+      body: jsonEncode({
+        'customerId': customerId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      return result['referralLink'];
+    } else {
+      print('Failed to generate referral link: ${response.statusCode}');
+      return null;
+    }
+  } catch (e) {
+    print('Error generating referral link: $e');
+    return null;
+  }
+}
+```
+
+### Validate Referral Code
+
+When a new customer registers, validate the referral code:
+
+```dart
+// Validate referral code
+Future<bool> validateReferralCode(String referralCode) async {
+  try {
+    final response = await http.post(
+      Uri.parse('${your_backend_url}/referral/validate'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'referralCode': referralCode,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      return result['isValid'] == true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    print('Error validating referral code: $e');
+    return false;
+  }
+}
+```
+
+### Process Referral Registration
+
+When a new customer registers with a referral code:
+
+```dart
+// Register customer with referral code
+Future<bool> registerWithReferral(
+  String customerId, 
+  String referralCode
+) async {
+  try {
+    final response = await http.post(
+      Uri.parse('${your_backend_url}/customer/register'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'customerId': customerId,
+        'referralCode': referralCode,
+        // ... other customer data
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      // Handle successful registration with referral
+      return true;
+    } else {
+      print('Registration failed: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error registering with referral: $e');
+    return false;
+  }
+}
+```
+
+## Referral UI Components
+
+### Share Referral Link
+
+Create a UI component for sharing referral links:
+
+```dart
+// Share referral link widget
+class ReferralShareWidget extends StatelessWidget {
+  final String referralLink;
+
+  const ReferralShareWidget({Key? key, required this.referralLink}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Invite Friends & Earn Rewards',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Share your referral link and earn rewards when friends join!',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: TextEditingController(text: referralLink),
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Your Referral Link',
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () => _copyToClipboard(context),
+                  child: Text('Copy'),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () => _shareViaSocial(context),
+                    icon: Icon(Icons.share),
+                    label: Text('Share'),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () => _showReferralHistory(context),
+                    icon: Icon(Icons.history),
+                    label: Text('History'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _copyToClipboard(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: referralLink));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Referral link copied to clipboard!')),
+    );
+  }
+
+  void _shareViaSocial(BuildContext context) {
+    // Implement social sharing
+    Share.share(referralLink);
+  }
+
+  void _showReferralHistory(BuildContext context) {
+    // Navigate to referral history screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ReferralHistoryScreen()),
+    );
+  }
+}
+```
+
+## Referral Configuration
+
+Configure referral rewards in your Gameball dashboard:
+
+<Expandable title="Referral Settings">
+
+### Referrer Rewards
+- Points awarded to the person making the referral
+- Can be fixed amount or percentage-based
+- May require referee to complete specific actions
+
+### Referee Rewards
+- Points awarded to the new customer being referred
+- Usually welcome bonus or signup reward
+- Can be immediate or conditional
+
+### Referral Limits
+- Maximum number of referrals per customer
+- Time-based limits (e.g., monthly referral caps)
+- Geographic or demographic restrictions
+
+### Referral Tracking
+- Track referral sources and conversion rates
+- Monitor referral program performance
+- A/B test different reward structures
+
+</Expandable>
+
+## Backend API Integration
+
+Your backend should integrate with Gameball's referral APIs:
+
+<RequestExample>
+```http
+POST https://api.gameball.co/api/v3.0/integrations/customer
+Content-Type: application/json
+apiKey: your_api_key
+
+{
+  "playerUniqueId": "new_customer_123",
+  "referralCode": "REF-ABC123",
+  "playerAttributes": {
+    "displayName": "John Doe",
+    "email": "john@example.com"
+  }
+}
+```
+</RequestExample>
+
+## Testing Referrals
+
+<Steps>
+  <Step title="Test Link Generation">
+    Verify referral links are generated correctly for each customer
+  </Step>
+  <Step title="Test Code Validation">
+    Test referral code validation with valid and invalid codes
+  </Step>
+  <Step title="Test Registration Flow">
+    Test complete registration flow with referral codes
+  </Step>
+  <Step title="Verify Rewards">
+    Ensure both referrer and referee receive correct rewards
+  </Step>
+</Steps>
+
+## Best Practices
+
+<Info>
+- Make referral links easy to share across different platforms
+- Provide clear instructions on how to use referral codes
+- Track referral performance and optimize based on data
+- Implement proper fraud prevention measures
+</Info>
+
+<Warning>
+Ensure referral codes are unique and cannot be easily guessed. Implement rate limiting to prevent abuse of the referral system.
+</Warning>

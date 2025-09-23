@@ -1,166 +1,51 @@
 ---
 title: "Generic Mobile App Integration"
-description: "Complete guide to integrate Gameball with any mobile application using REST API"
+description: "Framework-agnostic integration guide for mobile applications using Gameball's REST APIs and web widgets"
 ---
 
-The Generic Mobile App Integration guide provides comprehensive instructions to integrate Gameball with any mobile application using REST APIs. This approach gives you full control over the integration and works with any mobile platform or technology stack.
+This guide provides framework-agnostic instructions for integrating Gameball into any mobile application. Whether you're using Xamarin, Cordova, Ionic, or any other mobile framework, this guide will help you implement Gameball's loyalty features using REST APIs and web widgets.
 
 <CardGroup cols={2}>
-  <Card title="Initialize Customer Profile" icon="user" href="/installation-guide/generic-mobile/initialize-profile">
-    Set up customer identification and profile management using REST API
+  <Card
+    title="Initialize Gameball Customer Profile"
+    icon="user"
+    href="/installation-guide/generic-mobile/initialize-profile"
+  >
+    Sync customer profiles and display Gameball widgets using webviews
   </Card>
-
-  <Card title="Track Customer Events" icon="chart-line" href="/installation-guide/generic-mobile/track-events">
-    Send customer events from your mobile app to Gameball via REST API
+  <Card
+    title="Track Customer Events"
+    icon="phone"
+    href="/installation-guide/generic-mobile/track-events"
+  >
+    Send customer events to Gameball using REST APIs
   </Card>
-
-  <Card title="Track Orders & Cashback" icon="shopping-cart" href="/installation-guide/generic-mobile/track-orders">
-    Monitor orders and provide cashback rewards using REST API
+  <Card
+    title="Track Orders & Cashback Reward"
+    icon="dollar-sign"
+    href="/installation-guide/generic-mobile/track-orders"
+  >
+    Monitor customer orders and provide cashback rewards
   </Card>
-
-  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/generic-mobile/integrate-redemption">
-    Enable customers to redeem points directly through REST API
+  <Card
+    title="Integrate Redemption"
+    icon="credit-card"
+    href="/installation-guide/generic-mobile/integrate-redemption"
+  >
+    Enable customers to redeem their earned points
   </Card>
-
-  <Card title="Track Referrals" icon="users" href="/installation-guide/generic-mobile/track-referrals">
-    Implement referral tracking and rewards using REST API
+  <Card
+    title="Track Referrals"
+    icon="users"
+    href="/installation-guide/generic-mobile/track-referrals"
+  >
+    Reward customers for referring new users
   </Card>
-
-  <Card title="Push Notifications" icon="bell" href="/installation-guide/generic-mobile/push-notifications">
-    Set up push notifications for rewards and achievements
+  <Card
+    title="Push Notifications"
+    icon="bell"
+    href="/installation-guide/generic-mobile/push-notifications"
+  >
+    Set up push notifications for customer engagement
   </Card>
 </CardGroup>
-
-## What you'll accomplish
-
-By completing this generic mobile integration, you'll be able to:
-
-- **Full Control** - Complete control over the integration using REST APIs
-- **Platform Flexibility** - Works with any mobile platform (native iOS, Android, hybrid, or web-based apps)
-- **Custom Implementation** - Build custom loyalty features that fit your specific needs
-- **Reward Customer Actions** - Track and reward customer behaviors through API calls
-- **Enable Redemptions** - Allow customers to redeem points through your custom interface
-
-## Prerequisites
-
-Before starting your generic mobile integration:
-
-- Have your Gameball API credentials ready (API Key and Transaction Key)
-- Understanding of REST API concepts
-- Ability to make HTTP requests from your mobile application
-- Knowledge of JSON data format
-- Familiarity with your chosen mobile platform's networking capabilities
-
-<Note>
-This integration approach works with any mobile platform including native iOS/Android apps, React Native, Flutter, Xamarin, Cordova, or any other mobile development framework.
-</Note>
-
-## Quick Start
-
-If you want to get up and running quickly:
-
-<Steps>
-<Step title="Set up API Configuration">
-  Configure your API endpoints and authentication:
-  
-  ```javascript
-  // Example configuration
-  const gameballConfig = {
-    apiKey: 'YOUR_API_KEY',
-    transactionKey: 'YOUR_TRANSACTION_KEY',
-    baseUrl: 'https://api.gameball.co/v4.0',
-    headers: {
-      'Content-Type': 'application/json',
-      'APIKey': 'YOUR_API_KEY',
-      'TransactionKey': 'YOUR_TRANSACTION_KEY'
-    }
-  };
-  ```
-</Step>
-
-<Step title="Make Your First API Call">
-  Create a customer using the REST API:
-  
-  ```javascript
-  // Create customer
-  const createCustomer = async (customerData) => {
-    const response = await fetch(`${gameballConfig.baseUrl}/customers`, {
-      method: 'POST',
-      headers: gameballConfig.headers,
-      body: JSON.stringify({
-        uniqueId: customerData.customerId,
-        email: customerData.email,
-        firstName: customerData.firstName,
-        lastName: customerData.lastName
-      })
-    });
-    
-    return await response.json();
-  };
-  ```
-</Step>
-
-<Step title="Track an Event">
-  Track a customer event:
-  
-  ```javascript
-  // Track event
-  const trackEvent = async (customerId, eventName, eventData) => {
-    const response = await fetch(`${gameballConfig.baseUrl}/events`, {
-      method: 'POST',
-      headers: gameballConfig.headers,
-      body: JSON.stringify({
-        customerId: customerId,
-        eventName: eventName,
-        eventData: eventData
-      })
-    });
-    
-    return await response.json();
-  };
-  ```
-</Step>
-</Steps>
-
-## API Overview
-
-The Gameball REST API provides endpoints for:
-
-- **Customer Management** - Create, update, and retrieve customer information
-- **Event Tracking** - Send customer events and behaviors
-- **Order Management** - Track orders and calculate cashback rewards
-- **Redemption** - Handle point redemptions and coupon generation
-- **Referral Tracking** - Manage referral links and track referrals
-- **Notifications** - Send push notifications for rewards and achievements
-
-## Authentication
-
-All API requests require authentication using your API credentials:
-
-```http
-POST /api/endpoint HTTP/1.1
-Host: api.gameball.co
-Content-Type: application/json
-APIKey: YOUR_API_KEY
-TransactionKey: YOUR_TRANSACTION_KEY
-
-{
-  "data": "your request body"
-}
-```
-
-## Rate Limiting
-
-The API has rate limits to ensure fair usage:
-
-- **Standard Tier**: 1000 requests per hour
-- **Premium Tier**: 5000 requests per hour
-- **Enterprise Tier**: Custom limits based on agreement
-
-Rate limit headers are included in responses:
-- `X-RateLimit-Limit`: Maximum requests per hour
-- `X-RateLimit-Remaining`: Remaining requests in current hour
-- `X-RateLimit-Reset`: Time when the rate limit resets
-
-Ready to dive deeper? Choose one of the integration guides above to get started with your specific use case.
-

@@ -1,0 +1,186 @@
+---
+title: "Track Orders & Cashback Reward"
+description: "Monitor customer orders and provide cashback rewards in your Flutter app"
+---
+
+Track your customer's orders for cashback and achievements.
+
+Start tracking customer's orders on your platform upon order completion and successful payment. This enables rewarding the customer with cashback wallet points for paid amounts as per your cashback program configuration on Gameball.
+
+Cashback rewarding and order tracking can be done via server side Order API which is a tailored API to support **e-commerce** platforms.
+
+<CardGroup cols={2}>
+  <Card
+    title="Order API"
+    icon="server"
+    href="/api-reference/order/order-tracking"
+  >
+    Track completed orders and calculate rewards
+  </Card>
+  <Card
+    title="Cashback API"
+    icon="wallet"
+    href="/api-reference/transactions/cashback-and-redemptions/cashback"
+  >
+    Process cashback rewards for customers
+  </Card>
+  <Card
+    title="Automatic Rewards"
+    icon="gift"
+    href="/api-reference/order/order-rewards-history"
+  >
+    Automatically award points based on order value
+  </Card>
+  <Card
+    title="Achievement Tracking"
+    icon="star"
+    href="/api-reference/order/order-rewards-history"
+  >
+    Track customer achievements and milestones
+  </Card>
+</CardGroup>
+
+## Order Tracking Implementation
+
+To track orders and provide cashback rewards in your Flutter app, you'll need to integrate with the Order API on your backend server.
+
+### Backend Integration
+
+The order tracking is typically handled on your backend server using the Order API:
+
+<RequestExample>
+```http
+POST https://api.gameball.co/api/v3.0/integrations/order
+Content-Type: application/json
+apiKey: your_api_key
+
+{
+  "playerUniqueId": "customer_123",
+  "orderId": "ORD-12345",
+  "orderDate": "2024-01-15T10:30:00Z",
+  "orderTotal": 99.99,
+  "orderLineItems": [
+    {
+      "productId": "PROD-001",
+      "productName": "Sample Product",
+      "productPrice": 99.99,
+      "productQuantity": 1,
+      "productCategory": "Electronics"
+    }
+  ]
+}
+```
+</RequestExample>
+
+### Flutter Implementation
+
+In your Flutter app, you can track order completion by calling your backend API:
+
+```dart
+// Track order completion
+Future<void> trackOrderCompletion(String customerId, Map<String, dynamic> orderData) async {
+  try {
+    // Call your backend API to track the order
+    final response = await http.post(
+      Uri.parse('${your_backend_url}/track-order'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${customer_token}',
+      },
+      body: jsonEncode({
+        'customerId': customerId,
+        'orderData': orderData,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      // Handle successful order tracking
+      print('Order tracked successfully: ${result['orderId']}');
+    } else {
+      // Handle error
+      print('Failed to track order: ${response.statusCode}');
+    }
+  } catch (e) {
+    // Handle exception
+    print('Error tracking order: $e');
+  }
+}
+```
+
+## Cashback Configuration
+
+Configure cashback rewards in your Gameball dashboard:
+
+<Steps>
+  <Step title="Set Cashback Rate">
+    Configure the percentage of order value to be awarded as cashback
+  </Step>
+  <Step title="Define Minimum Order Value">
+    Set the minimum order amount required to earn cashback
+  </Step>
+  <Step title="Configure Maximum Cashback">
+    Set limits on maximum cashback amount per order
+  </Step>
+  <Step title="Enable Category-Based Rewards">
+    Configure different cashback rates for different product categories
+  </Step>
+</Steps>
+
+## Order Status Tracking
+
+Track different order statuses to provide appropriate rewards:
+
+<Expandable title="Order Statuses">
+
+### Completed Orders
+- Orders that have been successfully delivered
+- Full cashback rewards are awarded
+- Customer achievements are updated
+
+### Cancelled Orders
+- Orders that have been cancelled by customer or merchant
+- Cashback rewards are reversed if already awarded
+- Order history is maintained for analytics
+
+### Refunded Orders
+- Orders that have been refunded
+- Cashback rewards are reversed
+- Refund events are tracked for customer service
+
+### Partial Refunds
+- Orders with partial refunds
+- Cashback is recalculated based on final amount
+- Updated rewards are applied accordingly
+
+</Expandable>
+
+## Testing Order Tracking
+
+<Steps>
+  <Step title="Test Order Creation">
+    Create test orders with various amounts and products
+  </Step>
+  <Step title="Verify Cashback Calculation">
+    Ensure cashback is calculated correctly based on your configuration
+  </Step>
+  <Step title="Check Order History">
+    Verify that orders appear in customer's order history
+  </Step>
+  <Step title="Test Edge Cases">
+    Test with minimum order values, maximum cashback limits, and special categories
+  </Step>
+</Steps>
+
+## Best Practices
+
+<Info>
+- Always track orders after successful payment confirmation
+- Implement proper error handling for failed API calls
+- Store order tracking responses for debugging purposes
+- Test order tracking in your staging environment before going live
+</Info>
+
+<Warning>
+Make sure to handle order tracking failures gracefully. If the Gameball API is temporarily unavailable, you should retry the request or queue it for later processing.
+</Warning>

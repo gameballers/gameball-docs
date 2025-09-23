@@ -1,0 +1,121 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show your user's customer including all details, customer reward campaigns, and the leaderboard"
+---
+
+Show your user's customer including all details, customer reward campaigns, and the leaderboard.
+
+This guide is not framework specific. Below is a general high level guideline illustrating how to integrate Gameball with applicable mobile frameworks.
+
+## Gameball Customer Profile Sync
+
+The first touch point is the login/registration screen. This is where users create an account or sign in to an existing account in your app. Gameball requires customers' profiles to be synced to track their progress and reward them accordingly.
+
+Customer profiles can be synced using the Create Customer API method. Where it creates or updates the customer's profile with each call.
+
+It's recommended that the Create Customer API is called with every login or account update.
+
+Depending on your app design, profile sync API calls can be made from your backend system or from within the app.
+
+## Show Gameball Customer Profile
+
+The second touch point is to show the customer's loyalty profile from Gameball within your app. This is where customers can view their progress, points, and rewards.
+
+There are two ways to integrate Gameball loyalty profile into your mobile app:
+
+1. Using the out-of-the-box widget
+2. Using our extensive APIs to render your desired UI elements👑.
+
+Gameball offers pre-built widget that you can easily add to your mobile app if your framework supports Webviews.
+
+Let's illustrate the sequence to show Gameball profile widget using Webview:
+
+1. Add menu item to your app menu or customer's profile page.
+2. Upon click, open Webview that points to a self-hosted webpage with Gameball widget scripts embedded in it.
+3. Pass customer's data to Webview
+
+The first step is to create a blank HTML page and host it at your desirable domain path as below:
+
+`https://yourdomain.com/webview-address/index.html`
+
+This created empty page will be responsible to load Gameball widget for your mobile app user.
+
+On page header include Gameball widget loading script as described in Install Gameball Profile section:
+
+```html
+<script>
+    window.GbLoadInit = function(){
+        GbSdk.init({
+            playerUniqueId: '{{CUST_ID}}',
+            lang: 'en',
+            playerAttributes:{},
+            APIKey: '{{Your_API_Key}}'
+        });
+    };
+</script>
+<script defer src="https://assets.gameball.co/widget/js/gameball-init.min.js"></script>
+```
+
+For mobile app case, a new parameter must exist in the loading script:
+
+```javascript
+mobile:true
+```
+
+So the loading script would be as below:
+
+```html
+<script>
+    window.GbLoadInit = function(){
+        GbSdk.init({
+            playerUniqueId: '{{playerUniqueId}}',
+            lang: 'en',
+            playerAttributes:{},
+            APIKey: '{{Your_API_Key}}',
+            mobile:true
+        });
+    };
+</script>
+<script defer src="https://assets.gameball.co/widget/js/gameball-init.min.js"></script>
+```
+
+## Pass Customer Data to Your Webview
+
+The widget will display customer's profile depending on the passed parameters to the init script. In order to pass customer's data from your mobile app to Webview/Gameball's Widget, there are two options depending on your framework capabilities.
+
+If the used framework supports passing params/variables to Webview you can pass logged in customer profile data directly to the Webview and inject them to Gameball widget loading script.
+
+The other option is to pass customer's data to Gameball loading script via query strings while loading Webview as the example below:
+
+`https://yourdomain.com/webview-address?playerUniqueId={{playerUniqueId}}&displayName={{displayName}}`
+
+Once the data is added to the query string, you can use JavaScript to retrieve the data and pass it to the Gameball widget script. Here's an example of how you can do this:
+
+```html
+<script>
+    // Get the query string parameters
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    // Get the user's email and display name from the query string
+    const playerUniqueId = urlParams.get('CUST_ID');
+    const userDisplayName = urlParams.get('displayname');
+
+    window.GbLoadInit = function(){
+        GbSdk.init({
+            playerUniqueId: playerUniqueId,
+            mobile: true,
+            playerAttributes: {
+                displayName: userDisplayName
+            },
+            lang: 'en',
+            APIKey: '{{Your_API_Key}}'
+        });
+    };
+</script>
+<script defer src="https://assets.gameball.co/widget/js/gameball-init.min.js"></script>
+```
+
+By following the steps outlined above, you can easily pass customer data to the widget script and provide your users with a seamless and personalized experience.
+
+If you choose to go with using the pre-built widget in a Webview. You need to take care of the Webview interactions within your app. How the user can navigate from and to the Webview easily. We recommend showing the Webview as a modal with a back button on top.

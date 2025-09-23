@@ -1,125 +1,93 @@
 ---
 title: "Flutter Integration"
-description: "Complete guide to integrate Gameball with your Flutter cross-platform application"
+description: "Integrate Gameball into your Flutter application for customer engagement and loyalty management"
 ---
 
-The Flutter Integration guide provides comprehensive instructions to seamlessly integrate Gameball with your Flutter cross-platform application. This enables you to build engaging loyalty experiences across iOS and Android platforms using a single codebase.
+The Gameball Flutter SDK enables you to integrate customer loyalty features directly into your Flutter application. This comprehensive guide will walk you through the entire integration process, from initial setup to going live.
 
 <CardGroup cols={2}>
-  <Card title="Getting Started" icon="rocket" href="/installation-guide/flutter/getting-started">
-    Set up the Gameball SDK and configure your Flutter project
+  <Card
+    title="Getting Started"
+    icon="rocket"
+    href="/installation-guide/flutter/getting-started"
+  >
+    Install the Gameball Flutter SDK and initialize it in your app
   </Card>
-
-  <Card title="Initialize Customer Profile" icon="user" href="/installation-guide/flutter/initialize-profile">
-    Set up customer identification and profile management
+  <Card
+    title="Initialize Gameball Customer Profile"
+    icon="user"
+    href="/installation-guide/flutter/initialize-profile"
+  >
+    Register customers and show the Gameball customer profile widget
   </Card>
-
-  <Card title="Track Customer Events" icon="chart-line" href="/installation-guide/flutter/track-events">
-    Send customer events from your Flutter app to Gameball
+  <Card
+    title="Track Customer Events"
+    icon="phone"
+    href="/installation-guide/flutter/track-events"
+  >
+    Send customer events to Gameball for engagement tracking
   </Card>
-
-  <Card title="Track Orders & Cashback" icon="shopping-cart" href="/installation-guide/flutter/track-orders">
-    Monitor orders and provide cashback rewards in your Flutter app
+  <Card
+    title="Track Orders & Cashback Reward"
+    icon="dollar-sign"
+    href="/installation-guide/flutter/track-orders"
+  >
+    Monitor customer orders and provide cashback rewards
   </Card>
-
-  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/flutter/integrate-redemption">
-    Enable customers to redeem points directly in your Flutter app
+  <Card
+    title="Integrate Redemption"
+    icon="credit-card"
+    href="/installation-guide/flutter/integrate-redemption"
+  >
+    Enable customers to redeem their earned points
   </Card>
-
-  <Card title="Track Referrals" icon="users" href="/installation-guide/flutter/track-referrals">
-    Implement referral tracking and rewards in your Flutter app
+  <Card
+    title="Track Referrals"
+    icon="users"
+    href="/installation-guide/flutter/track-referrals"
+  >
+    Reward customers for referring new users
   </Card>
-
-  <Card title="Go-Live Checklist" icon="check-circle" href="/installation-guide/flutter/go-live-checklist">
-    Comprehensive checklist for Flutter app launch
+  <Card
+    title="Go-Live Checklist"
+    icon="check"
+    href="/installation-guide/flutter/go-live-checklist"
+  >
+    Comprehensive checklist for smooth deployment
   </Card>
 </CardGroup>
 
-## What you'll accomplish
+## What You'll Accomplish
 
-By completing this Flutter integration, you'll be able to:
+By following this Flutter integration guide, you'll be able to:
 
-- **Enhance Customer Experience** - Provide a personalized loyalty experience through the Gameball Flutter SDK
-- **Reward Customer Actions** - Automatically track and reward customer behaviors like purchases and app interactions
-- **Drive Engagement** - Use cashback rewards and achievements to encourage repeat usage
-- **Enable Redemptions** - Allow customers to easily use their earned points within your app
-- **Grow Through Referrals** - Implement a referral system that rewards customers for bringing new users
+- **Install and configure** the Gameball Flutter SDK
+- **Register customers** and display their loyalty profiles
+- **Track customer events** for engagement analysis
+- **Process orders** and award cashback rewards
+- **Enable point redemption** through various methods
+- **Implement referral programs** to grow your customer base
+- **Deploy confidently** with our go-live checklist
 
 ## Prerequisites
 
-Before starting your Flutter integration:
+Before starting the Flutter integration:
 
-- Have your Gameball API credentials ready (API Key and Transaction Key)
-- Flutter 3.0.0 or later
-- Dart 2.17.0 or later
-- iOS 13.0+ and Android 5.0+ deployment targets
-- Xcode 12.0+ (for iOS development)
-- Android Studio Arctic Fox+ (for Android development)
-- Familiarity with Flutter and Dart development
-
-<Note>
-The Gameball Flutter SDK provides a unified API that works across both iOS and Android platforms with native performance.
-</Note>
+- Flutter development environment set up
+- Firebase project configured for your Flutter app
+- Gameball account with API credentials
+- Basic knowledge of Flutter development
 
 ## Quick Start
 
-If you want to get up and running quickly:
+The fastest way to get started with Gameball Flutter integration:
 
-<Steps>
-<Step title="Install the SDK">
-  Add Gameball to your Flutter project:
-  
-  ```yaml
-  # In your pubspec.yaml
-  dependencies:
-    gameball_flutter: ^4.0.0
-  ```
-  
-  Then run:
-  ```bash
-  flutter pub get
-  ```
-</Step>
+1. **Install the SDK** using `flutter pub add gameball_sdk`
+2. **Initialize** the SDK with your API key
+3. **Register customers** using `registerCustomer()`
+4. **Show profiles** using `showProfile()`
+5. **Track events** using `sendEvent()`
 
-<Step title="Initialize Gameball">
-  Initialize Gameball in your main.dart:
-  
-  ```dart
-  import 'package:gameball_flutter/gameball_flutter.dart';
-  
-  void main() {
-    runApp(MyApp());
-  }
-  
-  class MyApp extends StatelessWidget {
-    @override
-    Widget build(BuildContext context) {
-      // Initialize Gameball
-      Gameball.configure(
-        apiKey: 'YOUR_API_KEY',
-        transactionKey: 'YOUR_TRANSACTION_KEY',
-      );
-      
-      return MaterialApp(
-        title: 'My App',
-        home: MyHomePage(),
-      );
-    }
-  }
-  ```
-</Step>
-
-<Step title="Identify Customer">
-  Identify a customer when they log in:
-  
-  ```dart
-  Gameball.identify(
-    customerId: 'customer_123',
-    email: 'customer@example.com',
-  );
-  ```
-</Step>
-</Steps>
-
-Ready to dive deeper? Choose one of the integration guides above to get started with your specific use case.
-
+<Note>
+This integration guide is based on the official [Gameball Flutter documentation](https://developer.gameball.co/installing-gameball/flutter/getting-started). All code examples and configurations are directly sourced from the official documentation.
+</Note>

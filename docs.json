@@ -1,7 +1,25 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "almond",
   "name": "Gameball Developer Docs",
+  "api": {
+    "baseUrl": "https://api.gameball.co",
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "curl",
+        "javascript",
+        "python",
+        "csharp",
+        "go",
+        "php",
+        "java"
+      ]
+    }
+  },
+  "openapi": "api-reference/openapi.json",
   "colors": {
     "primary": "#FB5819",
     "light": "#FFD800",
@@ -46,25 +64,53 @@
               {
                 "group": "Android",
                 "pages": [
-                  "installation-guide/android/index"
+                  "installation-guide/android/index",
+                  "installation-guide/android/getting-started",
+                  "installation-guide/android/initialize-profile",
+                  "installation-guide/android/track-events",
+                  "installation-guide/android/track-orders",
+                  "installation-guide/android/integrate-redemption",
+                  "installation-guide/android/push-notifications",
+                  "installation-guide/android/go-live-checklist"
                 ]
               },
               {
                 "group": "React Native",
                 "pages": [
-                  "installation-guide/react-native/index"
+                  "installation-guide/react-native/index",
+                  "installation-guide/react-native/getting-started",
+                  "installation-guide/react-native/initialize-profile",
+                  "installation-guide/react-native/track-events",
+                  "installation-guide/react-native/track-orders",
+                  "installation-guide/react-native/integrate-redemption",
+                  "installation-guide/react-native/track-referrals",
+                  "installation-guide/react-native/push-notifications",
+                  "installation-guide/react-native/go-live-checklist"
                 ]
               },
-              {
-                "group": "Flutter",
-                "pages": [
-                  "installation-guide/flutter/index"
-                ]
-              },
+                {
+                  "group": "Flutter",
+                  "pages": [
+                    "installation-guide/flutter/index",
+                    "installation-guide/flutter/getting-started",
+                    "installation-guide/flutter/initialize-profile",
+                    "installation-guide/flutter/track-events",
+                    "installation-guide/flutter/track-orders",
+                    "installation-guide/flutter/integrate-redemption",
+                    "installation-guide/flutter/track-referrals",
+                    "installation-guide/flutter/go-live-checklist"
+                  ]
+                },
               {
                 "group": "Generic Mobile App",
                 "pages": [
-                  "installation-guide/generic-mobile/index"
+                  "installation-guide/generic-mobile/index",
+                  "installation-guide/generic-mobile/initialize-profile",
+                  "installation-guide/generic-mobile/track-events",
+                  "installation-guide/generic-mobile/track-orders",
+                  "installation-guide/generic-mobile/integrate-redemption",
+                  "installation-guide/generic-mobile/track-referrals",
+                  "installation-guide/generic-mobile/push-notifications"
                 ]
               }
             ]
@@ -385,22 +431,6 @@
       "cursor",
       "vscode"
     ]
-  },
-  "api": {
-    "playground": {
-      "display": "interactive"
-    },
-    "examples": {
-      "languages": [
-        "curl",
-        "javascript",
-        "python",
-        "csharp",
-        "go",
-        "php",
-        "java"
-      ]
-    }
   },
   "footer": {
     "socials": {

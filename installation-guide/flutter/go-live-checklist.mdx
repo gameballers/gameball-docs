@@ -1,0 +1,256 @@
+---
+title: "Go-Live Checklist"
+description: "Comprehensive checklist to ensure a smooth transition when taking your Flutter integration live"
+---
+
+Use this comprehensive checklist to ensure a smooth transition when taking your Flutter integration live. It helps you verify all components are working correctly, providing a flawless experience for your customers from day one.
+
+## Pre-Launch Testing
+
+<Steps>
+  <Step title="SDK Installation & Initialization">
+    - [ ] Gameball Flutter SDK properly installed via `flutter pub add gameball_sdk`
+    - [ ] Firebase dependencies installed and configured
+    - [ ] SDK initialized with correct API key
+    - [ ] Internet permissions added to AndroidManifest.xml and Info.plist
+    - [ ] Firebase project properly linked to your Flutter app
+  </Step>
+  
+  <Step title="Customer Registration & Profile">
+    - [ ] Customer registration working correctly
+    - [ ] Customer profile widget displaying properly
+    - [ ] Customer attributes being sent correctly
+    - [ ] Unique customer IDs being used consistently
+    - [ ] Profile language settings working as expected
+  </Step>
+  
+  <Step title="Event Tracking">
+    - [ ] All customer events being tracked correctly
+    - [ ] Event properties being sent with proper data
+    - [ ] Custom events working as expected
+    - [ ] Event callbacks handling success/error responses
+    - [ ] Event tracking working across different app states
+  </Step>
+  
+  <Step title="Order & Cashback Tracking">
+    - [ ] Order completion tracking working
+    - [ ] Cashback calculations correct based on configuration
+    - [ ] Order API integration functioning properly
+    - [ ] Payment confirmation triggering order tracking
+    - [ ] Achievement tracking working for order milestones
+  </Step>
+  
+  <Step title="Redemption Integration">
+    - [ ] Customer balance API working correctly
+    - [ ] Direct debit redemption functioning
+    - [ ] Coupon generation working properly
+    - [ ] Redemption limits and rules being enforced
+    - [ ] Redemption UI components working smoothly
+  </Step>
+  
+  <Step title="Referral System">
+    - [ ] Referral link generation working
+    - [ ] Referral code validation functioning
+    - [ ] Referral registration flow complete
+    - [ ] Both referrer and referee rewards being awarded
+    - [ ] Referral sharing mechanisms working
+  </Step>
+</Steps>
+
+## Production Readiness
+
+<Steps>
+  <Step title="API Configuration">
+    - [ ] Production API keys configured
+    - [ ] Sandbox/Test environment properly separated
+    - [ ] API rate limits understood and handled
+    - [ ] Error handling implemented for API failures
+    - [ ] Retry mechanisms in place for failed requests
+  </Step>
+  
+  <Step title="Security & Privacy">
+    - [ ] Customer data being handled securely
+    - [ ] API keys not exposed in client-side code
+    - [ ] Proper authentication implemented
+    - [ ] GDPR/privacy compliance verified
+    - [ ] Data encryption in transit and at rest
+  </Step>
+  
+  <Step title="Performance & Monitoring">
+    - [ ] App performance impact assessed
+    - [ ] Memory usage optimized
+    - [ ] Network requests optimized
+    - [ ] Error logging and monitoring implemented
+    - [ ] Analytics tracking configured
+  </Step>
+  
+  <Step title="User Experience">
+    - [ ] UI/UX flows tested thoroughly
+    - [ ] Loading states and error messages implemented
+    - [ ] Offline scenarios handled gracefully
+    - [ ] App store compliance verified
+    - [ ] Accessibility features tested
+  </Step>
+</Steps>
+
+## Launch Day
+
+<Steps>
+  <Step title="Final Verification">
+    - [ ] All checklist items completed
+    - [ ] Production environment tested
+    - [ ] Customer support team trained
+    - [ ] Documentation updated and accessible
+    - [ ] Rollback plan prepared
+  </Step>
+  
+  <Step title="Monitoring Setup">
+    - [ ] Real-time monitoring active
+    - [ ] Error alerting configured
+    - [ ] Performance metrics being tracked
+    - [ ] Customer feedback channels open
+    - [ ] Support team ready for issues
+  </Step>
+  
+  <Step title="Launch Execution">
+    - [ ] Deployment completed successfully
+    - [ ] Initial customer interactions monitored
+    - [ ] Key metrics being tracked
+    - [ ] Issues addressed promptly
+    - [ ] Success criteria being met
+  </Step>
+</Steps>
+
+## Post-Launch Monitoring
+
+<Steps>
+  <Step title="Performance Monitoring">
+    - [ ] SDK performance metrics being tracked
+    - [ ] API response times within acceptable limits
+    - [ ] Error rates below threshold
+    - [ ] Customer satisfaction scores monitored
+    - [ ] App store ratings and reviews tracked
+  </Step>
+  
+  <Step title="Feature Usage Analytics">
+    - [ ] Event tracking usage patterns analyzed
+    - [ ] Redemption rates monitored
+    - [ ] Referral program performance tracked
+    - [ ] Customer engagement metrics reviewed
+    - [ ] ROI of loyalty program measured
+  </Step>
+  
+  <Step title="Ongoing Maintenance">
+    - [ ] Regular SDK updates planned
+    - [ ] Security patches applied promptly
+    - [ ] Performance optimizations implemented
+    - [ ] Customer feedback incorporated
+    - [ ] Documentation kept up to date
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="SDK Initialization Issues">
+    **Problem**: SDK fails to initialize or crashes on startup
+    
+    **Solutions**:
+    - Verify Firebase is properly initialized before Gameball SDK
+    - Check API key is correct and valid
+    - Ensure all required permissions are granted
+    - Verify internet connectivity
+    - Check for conflicting dependencies
+  </Accordion>
+  
+  <Accordion title="Event Tracking Failures">
+    **Problem**: Events not being tracked or sent to Gameball
+    
+    **Solutions**:
+    - Verify customer ID is set correctly
+    - Check event payload format and required fields
+    - Ensure network connectivity
+    - Review error callbacks for specific error messages
+    - Test with simple events first
+  </Accordion>
+  
+  <Accordion title="Profile Widget Issues">
+    **Problem**: Customer profile widget not displaying or showing errors
+    
+    **Solutions**:
+    - Verify customer is registered before showing profile
+    - Check context parameter is valid BuildContext
+    - Ensure customer ID exists in Gameball system
+    - Review widget parameters and options
+    - Test with different customer accounts
+  </Accordion>
+  
+  <Accordion title="Redemption Problems">
+    **Problem**: Points redemption not working correctly
+    
+    **Solutions**:
+    - Verify customer has sufficient balance
+    - Check redemption rules and limits
+    - Ensure API calls are using correct endpoints
+    - Review redemption configuration in dashboard
+    - Test with different redemption amounts
+  </Accordion>
+  
+  <Accordion title="Referral System Issues">
+    **Problem**: Referral links or codes not working
+    
+    **Solutions**:
+    - Verify referral code format and validity
+    - Check referral rules configuration
+    - Ensure proper API integration for referral tracking
+    - Review reward configuration for referrers and referees
+    - Test complete referral flow end-to-end
+  </Accordion>
+</AccordionGroup>
+
+## Success Metrics
+
+Track these key metrics to measure the success of your Gameball Flutter integration:
+
+<CardGroup cols={2}>
+  <Card
+    title="Customer Engagement"
+    icon="users"
+  >
+    - Customer registration rate
+    - Profile widget usage
+    - Event tracking volume
+    - Session duration increase
+  </Card>
+  <Card
+    title="Revenue Impact"
+    icon="trending-up"
+  >
+    - Order completion rate
+    - Average order value
+    - Customer lifetime value
+    - Repeat purchase rate
+  </Card>
+  <Card
+    title="Loyalty Program"
+    icon="award"
+  >
+    - Points earned per customer
+    - Redemption rate
+    - Referral conversion rate
+    - Program satisfaction score
+  </Card>
+  <Card
+    title="Technical Performance"
+    icon="activity"
+  >
+    - SDK performance impact
+    - API response times
+    - Error rates
+    - App store ratings
+  </Card>
+</CardGroup>
+
+<Info>
+Keep this checklist handy throughout your integration process. Regular reviews of these items will help ensure a successful launch and ongoing operation of your Gameball Flutter integration.
+</Info>

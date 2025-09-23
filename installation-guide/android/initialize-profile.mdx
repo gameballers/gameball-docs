@@ -1,0 +1,332 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show Gameball customer profile in your Android app"
+---
+
+Show your customer's profile including all details and progress on your Android app.
+
+Showing the Gameball widget on your mobile application is slightly different than showing it on the website. You have two options; first, if you want to design your customer interface, you will use our set of REST APIs. To know more information, you can use the [Configurations API](/api-reference/configurations/configurations) 👑. The other option as this section is describing is using the Android SDK to show the Gameball customer widget.
+
+## Showing Gameball Customer Profile
+
+To show the Gameball customer profile that contains the customer details, customer reward campaigns, and the leaderboard use the `showProfile` SDK function.
+
+<CodeGroup>
+```java Java
+gameballApp.showProfile(
+    this, // Activity context
+    "UNIQUE_PLAYER_ID", // Player unique ID
+    new Callback<PlayerProfileResponse>() {
+        @Override
+        public void onSuccess(PlayerProfileResponse playerProfileResponse) {
+            // TODO Handle on success result.
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.showProfile(
+    this, // Activity context
+    "UNIQUE_PLAYER_ID", // Player unique ID
+    object: Callback<PlayerProfileResponse> {
+        override fun onSuccess(playerProfileResponse: PlayerProfileResponse?) {
+            // TODO Handle on success result.
+        }
+
+        override fun onError(e: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+```
+</CodeGroup>
+
+<ParamField body="context" type="Activity" required>
+The current Activity context
+</ParamField>
+
+<ParamField body="playerUniqueId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="callback" type="Callback<PlayerProfileResponse>" required>
+Callback to handle the response from the API call
+</ParamField>
+
+## Change Customer Profile Widget language
+
+You can change the widget language by calling the `changeLanguage` method:
+
+<CodeGroup>
+```java Java
+gameballApp.changeLanguage("ar");
+```
+
+```kotlin Kotlin
+gameballApp.changeLanguage("ar")
+```
+</CodeGroup>
+
+## Register/Update Customer
+
+To register a customer and enable Gameball features, you need to call the `registerCustomer` method. This method requires the customer's unique ID and optional attributes.
+
+<CodeGroup>
+```java Java
+HashMap<String, Object> customerAttributes = new HashMap<>();
+customerAttributes.put("displayName", "john austin");
+customerAttributes.put("email", "example@example.com");
+customerAttributes.put("firstName", "john");
+customerAttributes.put("lastName", "austin");
+customerAttributes.put("gender", "M");
+customerAttributes.put("dateOfBirth", "1982-01-01");
+customerAttributes.put("joinDate", "2024-10-23");
+
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    new Callback<PlayerRegisterResponse>() {
+        @Override
+        public void onSuccess(PlayerRegisterResponse playerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+val customerAttributes = hashMapOf<String, Any>(
+    "displayName" to "john austin",
+    "email" to "example@example.com",
+    "firstName" to "john",
+    "lastName" to "austin",
+    "gender" to "M",
+    "dateOfBirth" to "1982-01-01",
+    "joinDate" to "2024-10-23"
+)
+
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    object: Callback<PlayerRegisterResponse> {
+        override fun onSuccess(t: PlayerRegisterResponse?) {
+            // TODO Handle on success result.
+        }
+
+        override fun onError(e: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+```
+</CodeGroup>
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="customerAttributes" type="HashMap<String, Object>">
+Optional customer attributes to enrich the customer's profile:
+
+<Expandable title="Customer Attributes">
+  <ParamField body="displayName" type="string">
+  The display name of the customer.
+  </ParamField>
+  
+  <ParamField body="firstName" type="string">
+  The first name of the customer.
+  </ParamField>
+  
+  <ParamField body="lastName" type="string">
+  The last name of the customer.
+  </ParamField>
+  
+  <ParamField body="email" type="string">
+  The email address of the customer.
+  </ParamField>
+  
+  <ParamField body="gender" type="string">
+  The gender of the customer. Use "M" for male, "F" for female, or other identifiers as needed.
+  </ParamField>
+  
+  <ParamField body="dateOfBirth" type="string">
+  The customer's date of birth in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="joinDate" type="string">
+  The date the customer joined, in the format `YYYY-MM-DD`.
+  </ParamField>
+</Expandable>
+</ParamField>
+
+<ParamField body="referralCode" type="string">
+Optional referral code if the customer was referred by another customer
+</ParamField>
+
+<ParamField body="isGuest" type="boolean">
+Set to true if this is a guest customer, false for registered customers
+</ParamField>
+
+<ParamField body="callback" type="Callback<PlayerRegisterResponse>" required>
+Callback to handle the response from the API call
+</ParamField>
+
+## Register the Customer
+
+### Overloaded with Email and Mobile Number
+
+<CodeGroup>
+```java Java
+gameballApp.registerCustomer(
+    "{playerUniqueId}",
+    "{playerEmail}",
+    "{playerMobile}",
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    new Callback<PlayerRegisterResponse>() {
+        @Override
+        public void onSuccess(PlayerRegisterResponse playerRegisterResponse) {
+            // TODO Handle on success result
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.registerCustomer(
+    "{playerUniqueId}",
+    "{playerEmail}",
+    "{playerMobile}",
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    object: Callback<PlayerRegisterResponse> {
+        override fun onSuccess(t: PlayerRegisterResponse?) {
+            // TODO Handle on success result
+        }
+
+        override fun onError(e: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+```
+</CodeGroup>
+
+<Warning>
+**Choose an Unchangeable Player Unique ID**
+
+Gameball user profile gets created using the `playerUniqueId`. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+<Info>
+**Deprecated Register Customer overloads**
+
+Due to the deprecation of Firebase Dynamic Links in the old manner, we've updated the usage approach. If you still need to use the old method, you'll have to use the alternative `handleFirebaseDynamicLink` method to retrieve the referral code as before.
+</Info>
+
+### handleFirebaseDynamicLink method
+
+<CodeGroup>
+```java Java
+gameballApp.handleFirebaseDynamicLink(
+    this, 
+    this.intent, 
+    new Callback<String>() {
+        @Override
+        public void onSuccess(String referralCode) {
+            // Capture the referral code using firebase dynamic link 
+            // and begin the registration flow using the newer overloads
+        }
+    
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.handleFirebaseDynamicLink(
+    this, 
+    this.intent, 
+    object: Callback<String>{
+        override fun onSuccess(p0: String?) {
+            // Capture the referral code using firebase dynamic link 
+            // and begin the registration flow using the newer overloads
+        }
+
+        override fun onError(p0: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+```
+</CodeGroup>
+
+## Implementation Flow
+
+<Steps>
+<Step title="Initialize SDK">
+  Initialize the Gameball SDK with your API key and configuration
+</Step>
+
+<Step title="Register Customer">
+  Register the customer with their unique ID and optional attributes
+</Step>
+
+<Step title="Show Profile">
+  Present the Gameball profile widget to the customer
+</Step>
+
+<Step title="Handle Interactions">
+  Handle customer interactions within the widget
+</Step>
+</Steps>
+
+## Best Practices
+
+<Steps>
+<Step title="Register After SDK Initialization">
+  Call `registerCustomer` after the SDK initialization
+</Step>
+
+<Step title="Use Consistent Customer ID">
+  Always use the same playerUniqueId for each customer across app sessions
+</Step>
+
+<Step title="Handle Errors Gracefully">
+  Implement proper error handling for registration and profile display
+</Step>
+
+<Step title="Test on Different Devices">
+  Test the widget on various Android devices and screen sizes
+</Step>
+</Steps>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guide/android/track-events)
+- [Track Orders & Cashback](/installation-guide/android/track-orders)

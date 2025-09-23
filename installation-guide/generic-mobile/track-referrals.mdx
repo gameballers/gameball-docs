@@ -1,0 +1,71 @@
+---
+title: "Track Referrals"
+description: "Reward your customers for referring new users and help grow your business organically"
+---
+
+# Track Referrals
+
+<Warning>
+Gameball uses Firebase to generate dynamic links to support referrals. Hence Firebase dependency must be used in your mobile app
+</Warning>
+
+Before you start, you must configure your Firebase on your Gameball account. Follow the steps in [Configure your Firebase account on Gameball for mobile friends referral links](https://help.gameball.co/en/articles/3486262-configure-your-firebase-account-on-gameball-for-mobile-friends-referral-links) article in our Help Center to configure your Firebase account on Gameball.
+
+<Info>
+Dynamic Links are smart URLs that allow you to send existing and potential users to any location within your app. They survive the app install process, so even new users see the content they're looking for when they open the app for the first time.
+</Info>
+
+Once you've configured Firebase within your Gameball dashboard, Gameball will automatically create a unique referral link for each customer. This referral link includes the customer's unique referral code and can be shared with friends to refer them to your mobile app.
+
+![Referral Link Example](https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/UNBGOX7MWYuYMqPgQP6i/62fc5889d52bd92a55188efd_Mj6pMaOcnhU6bPS6Om1qbcQ4fJKNSBiPv1aA9lF-Xdv59l-1iITLb79diFTzQpHY0bs8CHNnC1quJb2xjQ5cvBNDZOWQLxcfvJNPASGpAC-xeGUqmoLezKzK1u5OdB9ejAyKmwMhs8gP_2vremJ4aJE.jpg)
+
+This referral link is generated dynamically and can be accessed via Gameball profile widget. It can also be accessed programmatically using the Gameball [Get Customer API](https://developer.gameball.co/rest-api/customers/customer-management#get-customer) within its response as below snippet.
+
+```javascript
+{
+   "customerId":"CUST_ID",
+   ...
+   ....
+     "dynamicReferralLink":"https://yourapp.dynamiclink.link",
+   ....
+   ....
+   ...
+}
+```
+
+Depending on your desired experience. You can choose to show the referral link within profile page within your app so the users can locate it and share it within their network.
+
+Now that you have allowed your user locate and share their referral links. Below is a step by step guide on how to listen to referral registration and notify Gameball to track and reward.
+
+1. First, you'll need to set up Firebase within your mobile app.
+2. After setting Firebase within your app and configuring Firebase from Gameball's dashboard, you'll need to listen to deep links query parameters within your app. When a user clicks on a Firebase Dynamic Link that includes the **GBReferral** parameter, the **GBReferral** parameter will be included in the deep link query parameters. This parameter contains the referral information that you'll need to send to **Gameball** to track referrals.
+
+Here's an example of how you can listen to deep links query parameters and locate the **GBReferral** parameter in your mobile app:
+
+```swift
+// Listen for incoming Firebase Dynamic Links
+Firebase.dynamicLinks().getDynamicLink { (dynamicLink, error) in
+  guard let dynamicLink = dynamicLink,
+        let deepLink = dynamicLink.url,
+        let queryItems = URLComponents(url: deepLink, resolvingAgainstBaseURL: true)?.queryItems else {
+    return
+  }
+
+  // Locate the GBReferral parameter
+  if let gbReferral = queryItems.first(where: { $0.name == "GBReferral" })?.value {
+    // Track the referral in your Gameball account
+    // ...
+  }
+}
+```
+
+Once you have located the **GBReferral** parameter within a dynamic link. You will need to send its value and send along with the [Create Customer API](https://developer.gameball.co/rest-api/customers/customer-management#post-create-customer) that is being executed for the newly created referred customer.
+
+The below sample body for the [Create Customer API](https://developer.gameball.co/rest-api/customers/customer-management#post-create-customer) creates a new customer with playerUniqueId {referred_player_id} that has been referred by the customer who owns the code of 001122 captured form the dynamic link.
+
+```json
+{
+    "customerId":"referred_cust_id",
+    "referrerCode": "001122"
+}
+```

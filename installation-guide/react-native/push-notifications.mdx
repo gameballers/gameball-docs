@@ -1,0 +1,102 @@
+---
+title: "Push Notifications"
+description: "Integrate Gameball push notifications to keep your customers informed about updates and rewards"
+---
+
+Integrate your app with Gameball push notifications and interactive in-app messaging.
+
+Gameball uses Firebase to deliver maximum experience in your app.
+
+## Configure Gameball With Your Firebase
+
+Before you start, you must configure your Firebase on your Gameball account. Follow the steps in Configure your Firebase account on Gameball for mobile push notifications article from our Help Center related to push notifications.
+
+## Handling Push Notifications Integration
+
+For notifications handling, add this code to the `onNotification` function in your app:
+
+```javascript
+onNotification: (notification) => {
+    // you need to check the platform because firebase send the notification based on the platform
+    if (Platform.OS === 'android') { // Android
+        if (notification.isGB) {
+            // Handle Gameball notification for Android
+        }
+    }
+    else { // iOS
+        if (notification.data.isGB) {
+            // Handle Gameball notification for iOS
+        }
+    }
+}
+```
+
+## Push Notification Features
+
+<CardGroup cols={2}>
+  <Card title="Reward Notifications" icon="gift">
+    Notify customers about earned points and rewards
+  </Card>
+
+  <Card title="Achievement Alerts" icon="star">
+    Alert customers about unlocked achievements
+  </Card>
+
+  <Card title="Referral Updates" icon="users">
+    Notify about referral activity and rewards
+  </Card>
+
+  <Card title="Campaign Notifications" icon="megaphone">
+    Send promotional and campaign updates
+  </Card>
+</CardGroup>
+
+## Implementation
+
+<Steps>
+<Step title="Setup Firebase">
+  Configure Firebase in your React Native project
+</Step>
+
+<Step title="Configure Gameball">
+  Set up Firebase configuration in your Gameball account dashboard
+</Step>
+
+<Step title="Handle Notifications">
+  Implement notification handling in your app with platform-specific logic
+</Step>
+
+<Step title="Test Notifications">
+  Test push notifications on both iOS and Android devices
+</Step>
+</Steps>
+
+## Best Practices
+
+<Steps>
+<Step title="Request Permissions">
+  Properly request notification permissions from users
+</Step>
+
+<Step title="Handle Platform Differences">
+  Implement platform-specific logic for iOS and Android
+</Step>
+
+<Step title="Test on Both Platforms">
+  Test push notifications on both iOS and Android devices
+</Step>
+
+<Step title="Monitor Delivery">
+  Track notification delivery and engagement rates
+</Step>
+</Steps>
+
+## Related Resources
+
+- [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
+- [React Native Firebase Documentation](https://rnfirebase.io/)
+- [Gameball Notifications API](/api-reference/customers/notifications/list-customer-notifications)
+
+## Next Steps
+
+- [Go-Live Checklist](/installation-guide/react-native/go-live-checklist)

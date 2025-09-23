@@ -1,0 +1,165 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show Gameball customer profile in your React Native app"
+---
+
+Show your customer's profile including all details and progress on your React Native app.
+
+## Register Player
+
+To register a player and enable Gameball features, you need to call the `registerPlayer` method. This method requires the player's unique ID and optional attributes.
+
+```javascript
+GameballSDK.registerPlayer({
+  playerUniqueId: "{CUST_ID}",
+  deviceToken: "{deviceToken}",
+  referrerCode: "{referrerCode}",
+  playerAttributes: {
+    displayName: "{displayName}",
+    firstName: "{firstName}",
+    lastName: "{lastName}",
+    email: "{email}",
+    mobileNumber: "{mobileNumber}",
+    gender: "{gender}",
+    dateOfBirth: "{dateOfBirth}",
+    joinDate: "{joinDate}",
+    preferredLanguage: "{preferredLanguage}",
+    customAttributes: {
+      // custom key-value pairs
+    }
+  },
+})
+```
+
+<ParamField body="playerUniqueId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="deviceToken" type="string">
+Token used to identify the device.
+</ParamField>
+
+<ParamField body="referrerCode" type="string">
+The referral code of an existing customer who is referring the customer being created. This is required in the create customer request to process the referral. Check Track Referrals for more details
+</ParamField>
+
+<ParamField body="playerAttributes" type="object">
+Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.
+
+<Expandable title="Player Attributes">
+  <ParamField body="displayName" type="string">
+  The display name of the customer.
+  </ParamField>
+  
+  <ParamField body="firstName" type="string">
+  The first name of the customer.
+  </ParamField>
+  
+  <ParamField body="lastName" type="string">
+  The last name of the customer.
+  </ParamField>
+  
+  <ParamField body="email" type="string">
+  Customer's unique Email address.
+  </ParamField>
+  
+  <ParamField body="mobileNumber" type="string">
+  Customer's unique Mobile number.
+  </ParamField>
+  
+  <ParamField body="gender" type="string">
+  The gender of the customer. Use "M" for male, "F" for female, or other identifiers as needed.
+  </ParamField>
+  
+  <ParamField body="dateOfBirth" type="string">
+  The customer's date of birth in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="joinDate" type="string">
+  The date the customer joined your system, in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="preferredLanguage" type="string">
+  The language the customer prefers for receiving notifications.
+  </ParamField>
+  
+  <ParamField body="customAttributes" type="object">
+  Custom attributes related to the customer, defined by specific key-value pairs.
+  </ParamField>
+</Expandable>
+</ParamField>
+
+## Show the Widget
+
+To show the Gameball customer profile that contains the customer details, customer reward campaigns, and the leaderboard use the `showProfile` SDK function.
+
+```javascript
+GameballWidget.showProfile({
+  playerUniqueId: "{CUST_ID}",
+  openDetail: "{openDetail}",
+  hideNavigation: false
+})
+```
+
+<ParamField body="playerUniqueId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+Specify if you want the widget to open on a specific view. See available values
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+Set to true to stop widget navigation otherwise leave as null
+</ParamField>
+
+<Warning>
+**Choose an Unchangeable Player Unique ID**
+
+Gameball user profile gets created using the `playerUniqueId`. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+## Implementation Flow
+
+<Steps>
+<Step title="Initialize SDK">
+  Initialize the Gameball SDK with your API key and configuration
+</Step>
+
+<Step title="Register Player">
+  Register the player with their unique ID and optional attributes
+</Step>
+
+<Step title="Show Profile">
+  Present the Gameball profile widget to the customer
+</Step>
+
+<Step title="Handle Interactions">
+  Handle customer interactions within the widget
+</Step>
+</Steps>
+
+## Best Practices
+
+<Steps>
+<Step title="Register After SDK Initialization">
+  Call `registerPlayer` after the SDK initialization
+</Step>
+
+<Step title="Use Consistent Player ID">
+  Always use the same playerUniqueId for each customer across app sessions
+</Step>
+
+<Step title="Handle Errors Gracefully">
+  Implement proper error handling for registration and profile display
+</Step>
+
+<Step title="Test on Both Platforms">
+  Test the widget on both iOS and Android devices
+</Step>
+</Steps>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guide/react-native/track-events)
+- [Track Orders & Cashback](/installation-guide/react-native/track-orders)
