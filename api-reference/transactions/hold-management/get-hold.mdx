@@ -1,38 +1,11 @@
 ---
 title: "Get Hold Details"
 description: "Retrieve details of held points for a specific hold reference."
-openapi: 'GET /api/v4.0/integrations/transactions/hold/{holdReference}'
+openapi: 'GET /api/v4.0/integrations/transactions/hold/{holdReferenceId}'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-## Get Hold Details
-
-Retrieve details of held points for a specific hold reference.
-
 <Info>
-**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+Security: Provide both `apikey` and `secretkey` headers.
 </Info>
 
-## Path Parameters
-
-<ParamField path="holdReference" type="string" required>
-Reference ID of the hold to retrieve details for.
-</ParamField>
-
-## Response
-
-<ResponseField name="holdReference" type="string">
-Reference ID of the hold.
-</ResponseField>
-
-<ResponseField name="customerId" type="string">
-Customer ID associated with the hold.
-</ResponseField>
-
-<ResponseField name="pointsHeld" type="number">
-Number of points currently on hold.
-</ResponseField>
-
-<ResponseField name="holdDate" type="string">
-Date when the points were placed on hold.
-</ResponseField>

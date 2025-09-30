@@ -236,15 +236,17 @@
                     "pages": [
                       "api-reference/transactions/transaction-management/index",
                       "api-reference/transactions/transaction-management/list-transactions",
-                      "api-reference/transactions/transaction-management/manual-transaction"
+                      "api-reference/transactions/transaction-management/customer-view",
+                      "api-reference/transactions/transaction-management/count",
+                      "api-reference/transactions/transaction-management/manual-transaction",
+                      "api-reference/transactions/transaction-management/activate"
                     ]
                   },
                   {
                     "group": "Transaction Validation",
                     "pages": [
                       "api-reference/transactions/transaction-validation/index",
-                      "api-reference/transactions/transaction-validation/generate-otp",
-                      "api-reference/transactions/transaction-validation/validate-otp"
+                      "api-reference/transactions/transaction-validation/generate-otp"
                     ]
                   }
                 ]
@@ -273,7 +275,7 @@
                       "api-reference/configurations/reward-configurations/cashback-settings",
                       "api-reference/configurations/reward-configurations/redemption-settings",
                       "api-reference/configurations/reward-configurations/coupon-settings",
-                      "api-reference/configurations/reward-configurations/reward-rules"
+                      "api-reference/configurations/reward-configurations/update-coupon-settings"
                     ]
                   },
                   {

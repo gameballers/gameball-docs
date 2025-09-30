@@ -1,40 +1,14 @@
 ---
 title: "Redemption Configurations"
 description: "Retrieve point redemption configuration settings for the loyalty program."
-openapi: 'GET /api/v4.0/integrations/configurations/rewards/redemption'
+openapi: 'GET /api/v4.0/integrations/configurations/redemption'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
 ## Redemption Configurations
 
-Retrieve point redemption configuration settings for the loyalty program.
+This API retrieves the configurations and rules associated with how customers can redeem points for discounts, coupons, or other rewards.
 
 <Info>
-**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+**Security:** Requires **apikey** header.
 </Info>
-
-## Response
-
-<ResponseField name="minimumPoints" type="number">
-Minimum points required for redemption.
-</ResponseField>
-
-<ResponseField name="pointValue" type="number">
-Value of each point in currency units.
-</ResponseField>
-
-<ResponseField name="maximumRedemption" type="number">
-Maximum points that can be redeemed per transaction.
-</ResponseField>
-
-<ResponseField name="enabled" type="boolean">
-Whether point redemption is enabled.
-</ResponseField>
-
-<ResponseField name="redemptionMethods" type="array">
-Array of available redemption methods.
-
-<ResponseField name="redemptionMethods[]" type="string">
-Available redemption method (e.g., "direct_debit", "coupon", "gift_card").
-</ResponseField>
-</ResponseField>

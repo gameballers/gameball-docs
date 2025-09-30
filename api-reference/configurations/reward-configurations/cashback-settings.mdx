@@ -1,40 +1,14 @@
 ---
 title: "Cashback Configurations"
 description: "Retrieve cashback configuration settings for the loyalty program."
-openapi: 'GET /api/v4.0/integrations/configurations/rewards/cashback'
+openapi: 'GET /api/v4.0/integrations/configurations/cashback'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
 ## Cashback Configurations
 
-Retrieve cashback configuration settings for the loyalty program.
+This API call retrieves your cashback configurations, providing essential details about how cashback rewards are structured and managed in Gameball. If the customerId is provided, the API will return any special cashback rules associated with the customer's tier, including potential bonuses or customized reward factors specific to that customer.
 
 <Info>
-**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+**Security:** Requires **apikey** header.
 </Info>
-
-## Response
-
-<ResponseField name="rate" type="number">
-The cashback rate (e.g., 0.05 for 5% cashback).
-</ResponseField>
-
-<ResponseField name="minimumOrderValue" type="number">
-Minimum order value required to earn cashback.
-</ResponseField>
-
-<ResponseField name="maximumCashback" type="number">
-Maximum cashback amount per transaction.
-</ResponseField>
-
-<ResponseField name="enabled" type="boolean">
-Whether cashback rewards are enabled.
-</ResponseField>
-
-<ResponseField name="categories" type="array">
-Array of product categories eligible for cashback.
-
-<ResponseField name="categories[]" type="string">
-Category name eligible for cashback.
-</ResponseField>
-</ResponseField>

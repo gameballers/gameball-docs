@@ -1,0 +1,20 @@
+---
+title: "Activate Transaction"
+description: "Immediately activate loyalty points that are currently in a pending state."
+openapi: 'POST /api/v4.0/integrations/transactions/{transactionId}/activate'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Activate Transaction
+
+This API is used to immediately activate loyalty points that are currently in a pending state, bypassing the configured return window duration. This endpoint overrides that duration and activates the points immediately, making them available for use by the customer without waiting for the pending return window duration to elapse.
+
+This API is especially useful for scenarios where the client determines that the order is confirmed and the points can be safely activated ahead of schedule.
+
+<Info>
+**Note: Once points are activated, the action cannot be reversed via this API.**
+</Info>
+
+<Info>
+Security: Provide both `apikey` and `secretkey` headers.
+</Info>

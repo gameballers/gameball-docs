@@ -7,32 +7,19 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 ## Generate OTP
 
-Generate one-time password for transaction verification.
+The API call generates a new one-time password (OTP) for redeeming or holding loyalty points and sends it via SMS. This service ensuring that only authorized transactions can be completed with the provided OTP.
+
+<Warning>
+This API is effective only if SMS & OTP are enabled in your Gameball account. Contact support for more information.
+</Warning>
+
+<Note>
+**Channel Merging Available**
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+
+For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
+</Note>
 
 <Info>
-**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+**Security:** Provide both apikey and secretkey headers.
 </Info>
-
-## Request Body
-
-<ParamField path="customerId" type="string" required>
-Unique identifier for the customer.
-</ParamField>
-
-<ParamField path="transactionId" type="string" required>
-Unique identifier for the transaction requiring OTP.
-</ParamField>
-
-<ParamField path="mobile" type="string">
-Customer's mobile number for OTP delivery.
-</ParamField>
-
-## Response
-
-<ResponseField name="success" type="boolean">
-Whether the OTP was generated successfully.
-</ResponseField>
-
-<ResponseField name="otpId" type="string">
-Unique identifier for the generated OTP.
-</ResponseField>

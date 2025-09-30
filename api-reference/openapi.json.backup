@@ -32,7 +32,8 @@
                 "schema": { "$ref": "#/components/schemas/UpsertCustomerResponse" }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -59,7 +60,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       },
       "delete": {
@@ -77,7 +79,8 @@
           }
         ],
         "responses": {
-          "200": { "description": "Customer deleted successfully" }
+          "200": { "description": "Customer deleted successfully" },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -104,7 +107,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerDetailsResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -131,7 +135,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerCouponsResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -158,7 +163,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerHashResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -198,7 +204,7 @@
     },
     "/api/v4.0/integrations/payments": {
       "post": {
-        "description": "The API call tracks new payments, specifically tailored for fintech solutions. It captures key payment details, ensuring accurate tracking of customer transactions.\n\nThis API triggers the **\"Payment Processed\"** event, allowing you to automate follow-up actions such as initiating workflows, sending notifications, or rewarding customers with badges.\n\nThe event includes all properties provided in the payload.",
+        "description": "Track a new payment to reward customer transactions and manage loyalty accrual.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -208,193 +214,63 @@
                 "type": "object",
                 "required": ["customerId", "paymentId", "paymentDate", "totalPaid"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.",
-                    "example": "cust456"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "john.doe@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "paymentId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the payment on your system.",
-                    "example": "6253e03b"
-                  },
-                  "paymentDate": { 
-                    "type": "string", 
-                    "format": "date-time",
-                    "description": "Timestamp of when the payment was occurred.",
-                    "example": "2024-09-21T16:53:28.190Z"
-                  },
-                  "totalPaid": { 
-                    "type": "number",
-                    "description": "The actual amount paid by the customer for the payment, accounting for any discounts or coupons applied. Unlike totalAmount, which reflects the original cost of the payment, totalPaid represents the final amount the customer paid after all adjustments. This value is used for reward calculations in Gameball to determine the points or benefits earned from the payment. Example: A customer makes a bill payment for their electricity bill of $120, including taxes and processing fees. If a $20 coupon is applied, the totalPaid becomes $100, reflecting the discounted amount the customer paid.",
-                    "example": 100
-                  },
-                  "totalAmount": { 
-                    "type": "number",
-                    "description": "The total cost of the payment, including all item prices, processing fees and taxes. This value does not account for any discounts or coupons applied and is not used for calculations in Gameball; it is solely saved as historical data linked to the payment. Must be a positive value. Example: A customer makes a bill payment for their electricity bill of $120, including taxes and processing fees. If a $20 coupon is applied, the totalAmount remains $120 as it represents the original cost of the payment before any discounts are applied.",
-                    "example": 120
-                  },
-                  "totalDiscount": { 
-                    "type": "number",
-                    "description": "Total discount applied to the payment.",
-                    "example": 20
-                  },
-                  "totalProcessingFees": { 
-                    "type": "number",
-                    "description": "Total processing fees associated with the payment.",
-                    "example": 10
-                  },
-                  "totalTax": { 
-                    "type": "number",
-                    "description": "Total tax amount for the payment.",
-                    "example": 10
-                  },
+                  "customerId": { "type": "string" },
+                  "email": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "paymentId": { "type": "string" },
+                  "paymentDate": { "type": "string", "format": "date-time" },
+                  "totalPaid": { "type": "number" },
+                  "totalAmount": { "type": "number" },
+                  "totalDiscount": { "type": "number" },
+                  "totalProcessingFees": { "type": "number" },
+                  "totalTax": { "type": "number" },
                   "paymentDetails": {
                     "type": "array",
-                    "description": "An array containing details about each element in the payment bill. If not provided, the calculation will only consider the total payment values.",
                     "items": {
                       "type": "object",
                       "properties": {
-                        "serviceId": { 
-                          "type": "string",
-                          "description": "Unique identifier for the service.",
-                          "example": "s_1234"
-                        },
-                        "serviceName": { 
-                          "type": "string",
-                          "description": "Service title or name.",
-                          "example": "Vodafone Topup"
-                        },
-                        "serviceProvider": { 
-                          "type": "string",
-                          "description": "Company or entity that provides the service being paid for. This could be a telecom operator, an electricity provider, a streaming platform, or any other service vendor.",
-                          "example": "Vodafone"
-                        },
-                        "amount": { 
-                          "type": "number",
-                          "description": "The original amount of a single service before any tax or discount is applied. This reflects the cost of the service, not the total for multiple quantities in a payment.",
-                          "example": 100
-                        },
-                        "tax": { 
-                          "type": "number",
-                          "description": "The total amount of taxes applied to the service. This amount must be positive and reflects the total taxes.",
-                          "example": 10
-                        },
-                        "discount": { 
-                          "type": "number",
-                          "description": "The total discount applied to this service, expressed as a positive value. This amount should reflect the total discounts.",
-                          "example": 20
-                        },
-                        "tags": { 
-                          "type": "array", 
-                          "items": { "type": "string" },
-                          "description": "Tags associated with the service for categorization or promotional purposes.",
-                          "example": ["Telecom", "Topup"]
-                        },
-                        "category": { 
-                          "type": "array", 
-                          "items": { "type": "string" },
-                          "description": "Service category, such as Telecom top-up or electricity. It can include one or multiple categories. Example: [\"Telecom Top-up\", \"Internet Bill\", \"Streaming Subscription\"]",
-                          "example": ["Telecom Topup"]
-                        },
-                        "extra": { 
-                          "type": "object", 
-                          "additionalProperties": true,
-                          "description": "Key-value pairs containing any extra information about the service, such as size, color, or other custom attributes. The values must be of type string or number.",
-                          "example": {}
-                        }
+                        "serviceId": { "type": "string" },
+                        "serviceName": { "type": "string" },
+                        "serviceProvider": { "type": "string" },
+                        "amount": { "type": "number" },
+                        "tax": { "type": "number" },
+                        "discount": { "type": "number" },
+                        "tags": { "type": "array", "items": { "type": "string" } },
+                        "category": { "type": "array", "items": { "type": "string" } },
+                        "extra": { "type": "object", "additionalProperties": true }
                       }
                     }
                   },
                   "redemption": {
                     "type": "object",
-                    "description": "Redemption details for the payment, including points held for redemption.",
                     "properties": {
-                      "pointsHoldReference": { 
-                        "type": "string",
-                        "description": "Reference from the Hold Points API for redeeming held points. For more details on how hold references are generated and utilized, refer to the Transactions section.",
-                        "example": "HOLD123"
-                      },
-                      "couponsLockReference": { 
-                        "type": "string",
-                        "description": "The lock reference for the coupon is a unique identifier used to \"lock\" a coupon for a specific customer or order. This prevents the coupon from being used by others or on multiple transactions. For more details on how to generate and use lock references, refer to the Coupons section. Example: If you lock a coupon for a specific transaction, the lockReference could look like \"lockReference\": \"abc123def456\".",
-                        "example": "LOCK123"
-                      },
-                      "couponCodes": { 
-                        "type": "array", 
-                        "items": { "type": "string" },
-                        "description": "A list of coupon codes that were applied to the payment. Each code in the array represents a different discount or promotional coupon used during the checkout process. Coupon codes must be locked before they can be used for redemption. Example: If a customer applied two coupon codes, one for a 10% discount and another for free fees, the couponCodes array might look like this: [\"DISCOUNT10\", \"FREEFEES2024\"]",
-                        "example": ["DISCOUNT10"]
-                      }
+                      "pointsHoldReference": { "type": "string" },
+                      "couponsLockReference": { "type": "string" },
+                      "couponCodes": { "type": "array", "items": { "type": "string" } }
                     }
                   },
-                  "extra": { 
-                    "type": "object", 
-                    "additionalProperties": true,
-                    "description": "Key-value pairs containing any extra information about the payment. The values must be of type string or number. Example: The extra attribute can store additional details like the billing address and payment status. For instance, when a customer completes a payment, the billing address ensures accurate invoicing by including details like the company name and tax identification number. At the same time, the payment status helps track the transaction—whether it's \"Pending\" for deferred payments or \"Completed\" when successfully processed—ensuring smooth order management and financial compliance.",
-                    "example": {
-                      "billingAddress": "Jane Smith, Acme Corp, 456 Elm St, Springfield, IL 62704, USA, Tax ID: US987654321",
-                      "paymentStatus": "Pending"
-                    }
-                  },
+                  "extra": { "type": "object", "additionalProperties": true },
                   "merchant": {
                     "type": "object",
-                    "description": "This object contains details about the specific merchant involved in the transaction, which is particularly important for businesses managing multiple merchants or branches under the same Gameball account. This object can provide identifying information about both the main merchant and any associated branch where the transaction took place.",
                     "properties": {
-                      "uniqueId": { 
-                        "type": "string",
-                        "description": "Unique identifier for the merchant."
-                      },
-                      "name": { 
-                        "type": "string",
-                        "description": "Name of the merchant."
-                      },
+                      "uniqueId": { "type": "string" },
+                      "name": { "type": "string" },
                       "branch": {
                         "type": "object",
                         "required": ["uniqueId"],
                         "properties": {
-                          "uniqueId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the branch where the payment took place."
-                          },
-                          "name": { 
-                            "type": "string",
-                            "description": "Name of the branch where the payment took place."
-                          }
+                          "uniqueId": { "type": "string" },
+                          "name": { "type": "string" }
                         }
                       }
                     }
                   },
-                  "guest": { 
-                    "type": "boolean",
-                    "description": "Indicates whether the customer is a guest (not signed up). Set this to true for guest users; otherwise, they are treated as registered customers by default.",
-                    "example": false
-                  },
-                  "channel": { 
-                    "type": "string", 
-                    "enum": ["mobile", "pos", "web", "callcenter"],
-                    "description": "The channel through which the payment was placed helps track the origin of the payment, particularly useful for systems that support multiple sales or communication channels. By identifying the channel, you can gain valuable insights into customer behavior, optimize channel-specific strategies, and ensure efficient handling of payments across platforms. Possible values: mobile (The payment was placed through your mobile application), pos (The payment was placed in person using a Point of Sale system), web (The payment was placed through your website), callcenter (The payment was placed over the phone by contacting a customer service representative).",
-                    "example": "web"
-                  },
+                  "guest": { "type": "boolean" },
+                  "channel": { "type": "string", "enum": ["mobile", "pos", "web", "callcenter"] },
                   "cashbackConfigurations": {
                     "type": "object",
-                    "description": "This object contains configurations related to the cashback settings.",
                     "properties": {
-                      "returnWindow": { 
-                        "type": "integer",
-                        "description": "The number of days the cashback will stay in a pending state, typically aligning with the return window in e-commerce to account for potential order cancellations or refunds. The value should be between 0 and 7,300 days (20 years).",
-                        "example": 7
-                      }
+                      "returnWindow": { "type": "integer" }
                     }
                   }
                 }
@@ -410,46 +286,18 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.",
-                      "example": "cust_123456789"
-                    },
-                    "redeemedPoints": { 
-                      "type": "number",
-                      "description": "Points redeemed by the customer for this payment, if applicable. Example: If a customer has accumulated 500 points and decides to redeem 100 points for a discount on their current payment, the redeemedPoints value for that transaction will be 100. This helps track how many points were used in the transaction and what benefits were applied to the payment based on the customer's redeemed points.",
-                      "example": 1000
-                    },
-                    "rewardedPoints": { 
-                      "type": "number",
-                      "description": "The total number of points rewarded to the customer for making this payment. These points are typically awarded based on your configured cashback rewards. Example: If the store rewards 10 points for every $1 spent, and a customer completes a payment worth $50, the rewardedPoints for this order would be 500 points.",
-                      "example": 101
-                    },
+                    "customerId": { "type": "string" },
+                    "redeemedPoints": { "type": "number" },
+                    "rewardedPoints": { "type": "number" },
                     "paymentDetails": {
                       "type": "array",
-                      "description": "Details about each service in the payment, including points rewarded.",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "serviceId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the service.",
-                            "example": "service_123"
-                          },
-                          "decimalPoints": { 
-                            "type": "number",
-                            "description": "Fractional points rewarded for this line item.",
-                            "example": 91.25
-                          },
-                          "points": { 
-                            "type": "number",
-                            "description": "Any points rewarded for this line item.",
-                            "example": 91
-                          },
-                          "score": { 
-                            "type": "number",
-                            "description": "Any score awarded for the line item, if applicable.",
-                            "example": 0
+                          "serviceId": { "type": "string" },
+                          "decimalPoints": { "type": "number" },
+                          "points": { "type": "number" },
+                          "score": { "type": "number" }
                         }
                       }
                     }
@@ -457,14 +305,14 @@
                 }
               }
             }
-            }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions/redeem": {
       "post": {
-        "description": "This API enables customers to redeem loyalty points as a payment method in Gameball, allowing them to use points in place of monetary value during transactions. By providing details such as customerId and amount, this endpoint facilitates point-based redemptions within the purchase process.",
+        "description": "Redeem loyalty points as a payment method for customer transactions.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -472,92 +320,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId", "transactionId", "transactionTime"],
+                "required": ["customerId", "points", "transactionId"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                    "example": "cust_12345abc"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "john.doe@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "transactionId": { 
-                    "type": "string",
-                    "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any reward or redemption transactions in Gameball.",
-                    "example": "txn98765"
-                  },
-                  "transactionTime": { 
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
-                    "example": "2024-10-11T10:57:43.382Z"
-                  },
-                  "amount": { 
-                    "type": "number",
-                    "description": "The actual monetary value the customer wants to redeem. This will be deducted from their points balance based on the redemption factor. For instance, if the customer wants to redeem $10 and the redemption factor is 0.1, then 100 points will be deducted from their balance to cover this amount. Note: Only one of amount, points, or holdReference must be provided for the redemption.",
-                    "example": 10
-                  },
-                  "points": { 
-                    "type": "integer",
-                    "description": "The number of points the customer wants to redeem from their balance. This allows the customer to specify exactly how many points they wish to use. Note: Only one of amount, points, or holdReference must be provided for the redemption.",
-                    "example": 0
-                  },
-                  "holdReference": { 
-                    "type": "string",
-                    "description": "A unique reference obtained from the Hold Points API. If provided, the points in the hold will be used. It is used when points have been reserved previously, allowing the system to redeem the points that are on hold. Example: If you previously used the Hold Points API to hold 100 points, you would provide the holdReference obtained from that hold transaction to redeem the 100 points that were held. Note: Only one of amount, points, or holdReference must be provided for the redemption.",
-                    "example": null
-                  },
-                  "merchant": {
-                    "type": "object",
-                    "description": "This object contains details about the specific merchant involved in the transaction, which is particularly important for businesses managing multiple merchants or branches under the same Gameball account. This object can provide identifying information about both the main merchant and any associated branch where the transaction took place.",
-                    "properties": {
-                      "uniqueId": { 
-                        "type": "string",
-                        "description": "Unique identifier for the merchant."
-                      },
-                      "name": { 
-                        "type": "string",
-                        "description": "Name of the merchant."
-                      },
-                      "branch": {
-                        "type": "object",
-                        "required": ["uniqueId"],
-                        "properties": {
-                          "uniqueId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the branch where the transaction took place."
-                          },
-                          "name": { 
-                            "type": "string",
-                            "description": "Name of the branch where the transaction took place."
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "hash": { 
-                    "type": "string",
-                    "description": "A unique, rotating number generated for each customer, used as an additional layer of verification during redemptions. For more details on how the hash is generated and validated, refer to the Customer's Hash section.",
-                    "example": "HASH1234"
-                  },
-                  "otp": { 
-                    "type": "string",
-                    "description": "One-time password (OTP) required if OTP is enabled for the customer. This OTP serves as an additional layer of security for verifying the redemption request. For more details on how OTP works and when it is required, refer to the Transaction Validation section.",
-                    "example": "123456"
-                  },
-                  "ignoreOTP": { 
-                    "type": "boolean",
-                    "description": "This attribute allows you to skip OTP verification when set to true. If not provided or set to false, OTP verification will be required for accounts configured to use OTP.",
-                    "example": false
-                  }
+                  "customerId": { "type": "string" },
+                  "points": { "type": "number" },
+                  "transactionId": { "type": "string" }
                 }
               }
             }
@@ -571,42 +338,20 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                      "example": "cust_12345abc"
-                    },
-                    "gameballTransactionId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the transaction in the Gameball system.",
-                      "example": "11034734"
-                    },
-                    "transactionId": { 
-                      "type": "string",
-                      "description": "A unique identifier for the transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any reward or redemption transactions in Gameball.",
-                      "example": "txn98765"
-                    },
-                    "redeemAmount": { 
-                      "type": "number",
-                      "description": "The amount of money redeemed in the transaction, based on the points redeemed. Example: If a customer redeems points equivalent to $10 off their purchase, the redeemAmount will be 10.0.",
-                      "example": 10
-                    },
-                    "redeemEquivalentPoints": { 
-                      "type": "number",
-                      "description": "The number of points used to redeem the specified monetary value in the transaction. Example: If a customer uses 100 points to redeem $10, the redeemEquivalentPoints will be 100.",
-                      "example": 100
-                    }
+                    "success": { "type": "boolean" },
+                    "remainingPoints": { "type": "number" }
                   }
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions/cashback": {
       "post": {
-        "description": "This API awards loyalty points to customers in Gameball through a cashback program based on the amount.",
+        "description": "Issue cashback rewards to customers for their transactions.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -614,78 +359,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId", "amount", "transactionId", "transactionTime"],
+                "required": ["customerId", "amount", "transactionId"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.",
-                    "example": "cust_12345abc"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "john.doe@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "transactionId": { 
-                    "type": "string",
-                    "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number). This ID is critical for managing transaction lifecycle events such as reversals, cancellations, or refunds in Gameball.",
-                    "example": "TXN987654321"
-                  },
-                  "transactionTime": { 
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
-                    "example": "2024-10-11T10:48:56.719Z"
-                  },
-                  "amount": { 
-                    "type": "number",
-                    "description": "Monetary value of the transaction for which the customer will be rewarded, based on the Cashback program configuration.",
-                    "example": 150.75
-                  },
-                  "merchant": {
-                    "type": "object",
-                    "description": "This object contains details about the specific merchant involved in the transaction, which is particularly important for businesses managing multiple merchants or branches under the same Gameball account. This object can provide identifying information about both the main merchant and any associated branch where the transaction took place.",
-                    "properties": {
-                      "uniqueId": { 
-                        "type": "string",
-                        "description": "Unique identifier for the merchant."
-                      },
-                      "name": { 
-                        "type": "string",
-                        "description": "Name of the merchant."
-                      },
-                      "branch": {
-                        "type": "object",
-                        "required": ["uniqueId"],
-                        "properties": {
-                          "uniqueId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the branch where the transaction took place."
-                          },
-                          "name": { 
-                            "type": "string",
-                            "description": "Name of the branch where the transaction took place."
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "configurations": {
-                    "type": "object",
-                    "description": "This object contains configurations related to the cashback settings.",
-                    "properties": {
-                      "returnWindow": { 
-                        "type": "integer",
-                        "description": "The number of days the cashback will stay in a pending state, typically aligning with the return window in e-commerce to account for potential order cancellations or refunds. The value should be between 0 and 7,300 days (20 years).",
-                        "example": 7
-                      }
-                    }
-                  }
+                  "customerId": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "transactionId": { "type": "string" }
                 }
               }
             }
@@ -699,37 +377,20 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                      "example": "cust_12345abc"
-                    },
-                    "gameballTransactionId": { 
-                      "type": "number",
-                      "description": "Unique identifier for the transaction in the Gameball system.",
-                      "example": 11034733
-                    },
-                    "rewardAmount": { 
-                      "type": "number",
-                      "description": "The monetary value equivalent of the points rewarded to the customer for the transaction. Example: If the customer earns 50 points for their purchase and each point is worth $0.10, the rewardAmount will be $5.",
-                      "example": 150.75
-                    },
-                    "rewardEquivalentPoints": { 
-                      "type": "number",
-                      "description": "The number of points rewarded to the customer for the transaction. Example: If the customer earns 50 points for their purchase, the rewardEquivalentPoints will be 50.",
-                      "example": 0
-                    }
+                    "success": { "type": "boolean" },
+                    "newBalance": { "type": "number" }
                   }
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions/refund": {
       "post": {
-        "description": "This API processes refunds or cancellations of cashback and points redemption transactions in Gameball. By providing a reverseTransactionId, Gameball identifies the related cashback or redemption transaction and adjusts the customer's points balance accordingly to reflect the refunded or canceled transaction.",
+        "description": "Process refunds for previous point redemption transactions.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -737,137 +398,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId", "refundTransactionId", "reverseTransactionId", "transactionTime"],
+                "required": ["customerId", "originalTransactionId", "refundAmount"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                    "example": "cust_12345abc"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "john.doe@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "refundTransactionId": { 
-                    "type": "string",
-                    "description": "A unique identifier for the refund process transaction in your system (e.g., refund number or transaction ID). This ID helps track and reference the refund process itself. Example: If a refund is processed for an item, the refundTransactionId could be REFUND-98765, which refers to the specific new refund transaction.",
-                    "example": "txn987657111"
-                  },
-                  "reverseTransactionId": { 
-                    "type": "string",
-                    "description": "The unique transaction ID representing the original order being refunded, reversed, or canceled. This ID is sent as reverseTransactionId in the payload and links to the previous transaction. Example: If a customer requests a refund for an order previously made with transaction ID ORDER-12345, the reverseTransactionId will be ORDER-12345 to indicate which order is being refunded.",
-                    "example": "txn6342347194477"
-                  },
-                  "transactionTime": { 
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "The timestamp of the original transaction in your system (e.g., order datetime, invoice datetime).",
-                    "example": "2024-10-13T17:11:00.249Z"
-                  },
-                  "refundAmount": { 
-                    "type": "number",
-                    "description": "The amount to be refunded from the original transaction. The entire transaction is refunded if this field is not provided. Note: For a full refund, you can use any of the following approaches: Send the refund request without the refundAmount field, Send the refund request with refundAmount set to null, Send the refund request with refundAmount equal to the total paid in the original order.",
-                    "example": 15.00
-                  },
-                  "merchant": {
-                    "type": "object",
-                    "description": "This object contains details about the specific merchant involved in the transaction, which is particularly important for businesses managing multiple merchants or branches under the same Gameball account. This object can provide identifying information about both the main merchant and any associated branch where the transaction took place.",
-                    "properties": {
-                      "uniqueId": { 
-                        "type": "string",
-                        "description": "Unique identifier for the merchant."
-                      },
-                      "name": { 
-                        "type": "string",
-                        "description": "Name of the merchant."
-                      },
-                      "branch": {
-                        "type": "object",
-                        "required": ["uniqueId"],
-                        "properties": {
-                          "uniqueId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the branch where the transaction took place."
-                          },
-                          "name": { 
-                            "type": "string",
-                            "description": "Name of the branch where the transaction took place."
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "lineItems": {
-                    "type": "array",
-                    "description": "An array of items from the original transaction that are being refunded. If provided, only the items listed in this array will be refunded from the reverseTransactionId. If this field is not provided, the entire transaction specified by the reverseTransactionId will be refunded.",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "productId": { 
-                          "type": "string",
-                          "description": "Unique identifier for the product or service being purchased."
-                        },
-                        "quantity": { 
-                          "type": "number",
-                          "description": "Number of units purchased for this product or service."
-                        },
-                        "price": { 
-                          "type": "number",
-                          "description": "The original price of a single product before any tax or discount is applied. This reflects the cost of one unit of the item, not the total for multiple quantities in an order. Example: If the original price of a product is $50 and a customer buys two units, the price for each item would still be recorded as $50, regardless of quantity."
-                        },
-                        "sku": { 
-                          "type": "string",
-                          "description": "Stock Keeping Unit (SKU) for the product."
-                        },
-                        "tags": { 
-                          "type": "array", 
-                          "items": { "type": "string" },
-                          "description": "Tags associated with the product for categorization or promotional purposes."
-                        },
-                        "category": { 
-                          "type": "array", 
-                          "items": { "type": "string" },
-                          "description": "Product category, such as fashion or electronics. It can include one or multiple categories. Example: [\"natural\", \"cosmetics\"]"
-                        },
-                        "weight": { 
-                          "type": "number",
-                          "description": "Weight of the product."
-                        },
-                        "vendor": { 
-                          "type": "string",
-                          "description": "Vendor or manufacturer of the product."
-                        },
-                        "collection": { 
-                          "type": "array", 
-                          "items": { "type": "string" },
-                          "description": "Collection ID(s) to which the product belongs. It can include one or multiple collections. Example: [\"14313\", \"4343\"]"
-                        },
-                        "title": { 
-                          "type": "string",
-                          "description": "Product title or name."
-                        },
-                        "taxes": { 
-                          "type": "number",
-                          "description": "The total amount of taxes applied to the line item, expressed in the shop's currency. This amount must be positive and reflects the total taxes based on the quantity of the item."
-                        },
-                        "discount": { 
-                          "type": "number",
-                          "description": "The total discount applied to this line item, expressed as a positive value. This amount should reflect the total discounts based on the quantity of the item."
-                        },
-                        "extra": { 
-                          "type": "object", 
-                          "additionalProperties": true,
-                          "description": "Key-value pairs containing any extra information about the product, such as size, color, or other custom attributes. The values must be of type string or number."
-                        }
-                      }
-                    }
-                  }
+                  "customerId": { "type": "string" },
+                  "originalTransactionId": { "type": "string" },
+                  "refundAmount": { "type": "number" }
                 }
               }
             }
@@ -881,37 +416,20 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "gameballTransactionId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the refund transaction in the Gameball system.",
-                      "example": "11034735"
-                    },
-                    "refundTransactionId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the refund process transaction in your system (e.g., refund number or transaction ID). This ID helps track and reference the refund process itself. Example: If the refund process for an order has a transaction ID REFUND-54321, this ID will be used to track the refund operation.",
-                      "example": "txn987657111"
-                    },
-                    "refundAmount": { 
-                      "type": "number",
-                      "description": "The amount refunded from the original transaction. Example: If a customer was originally charged $100 and you refunded $40, the refundAmount will be 40.",
-                      "example": 15.00
-                    },
-                    "refundEquivalentPoints": { 
-                      "type": "number",
-                      "description": "The number of points equivalent to the monetary value refunded in the transaction. Example: If $40 is refunded and your points-to-currency ratio is 1 point = $0.10, then the refundEquivalentPoints would be 400 points.",
-                      "example": 150
-                    }
+                    "success": { "type": "boolean" },
+                    "refundedPoints": { "type": "number" }
                   }
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions/hold": {
       "post": {
-        "description": "This API holds loyalty points for a specified duration, reserving them until a redemption request is made through Order or Redeem. If no redemption occurs within the hold period, the points are released. The default hold time is 10 minutes, adjustable in the Gameball dashboard, with a maximum of 15 days and a minimum of 1 minute.",
+        "description": "Place points on hold before redemption to reserve them for a specific transaction.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -919,59 +437,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId", "transactionTime"],
+                "required": ["customerId", "points", "holdReference"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                    "example": "cust_abc12345xyz67890"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "john.doe@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "transactionTime": { 
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
-                    "example": "2024-10-11T16:15:15.071Z"
-                  },
-                  "otp": { 
-                    "type": "string",
-                    "description": "A one-time password (OTP) sent to the customer for authentication purposes. This is used only if your account has OTP configuration enabled. For more details on how the OTP is generated and validated, refer to the OTP Generation and Validation section.",
-                    "example": "654321"
-                  },
-                  "ignoreOTP": { 
-                    "type": "boolean",
-                    "description": "This attribute allows you to skip OTP verification when set to true. If not provided or set to false, OTP verification will be required for accounts configured to use OTP.",
-                    "example": false
-                  },
-                  "amountToHold": { 
-                    "type": "number",
-                    "description": "The monetary value (in the system's currency) that will be held from the customer's points balance. This allows you to reserve a specific monetary amount using the customer's points. Note: Only one of ruleId, amountToHold, or pointsToHold must be provided for the hold request to proceed.",
-                    "example": null
-                  },
-                  "pointsToHold": { 
-                    "type": "integer",
-                    "description": "The number of points to be held from the customer's points balance. This allows you to reserve a certain number of points for later use. Note: Only one of ruleId, amountToHold, or pointsToHold must be provided for the hold request to proceed.",
-                    "example": 50
-                  },
-                  "ruleId": { 
-                    "type": "string",
-                    "description": "The ID of a redemption rule configured within Gameball's system. Clients can create custom redemption rules through the Gameball dashboard to specify different redemption options. For example, a redemption rule may allow points to be redeemed for a free product, free shipping, percentage-based discounts, or fixed-amount discounts. You can retrieve your configured redemption rules and their associated IDs by using the Redemption Configuration API. Note: Only one of ruleId, amountToHold, or pointsToHold must be provided for the hold request to proceed.",
-                    "example": null
-                  },
-                  "hash": { 
-                    "type": "string",
-                    "description": "A unique, rotating number generated for each customer, used as an additional layer of verification during redemptions. This number changes with each transaction to ensure secure validation. For more details on how the hash is generated and validated, refer to the Customer's Hash section.",
-                    "example": "123456"
-                  }
+                  "customerId": { "type": "string" },
+                  "points": { "type": "number" },
+                  "holdReference": { "type": "string" }
                 }
               }
             }
@@ -985,45 +455,65 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                      "example": "cust_abc12345xyz67890"
-                    },
-                    "holdAmount": { 
-                      "type": "number",
-                      "description": "The monetary value that has been held from the customer's points balance. This value represents the amount reserved based on the customer's available points.",
-                      "example": "5"
-                    },
-                    "holdEquivalentPoints": { 
-                      "type": "number",
-                      "description": "The number of points that have been held from the customer's points balance. These points are reserved for future use or specific transactions.",
-                      "example": 50
-                    },
-                    "holdReference": { 
-                      "type": "string",
-                      "description": "A unique identifier for the hold transaction. This reference is used to track and manage the held points for future actions, such as redeeming the held points or canceling the hold. This hold reference can also be used in Order API to redeem the held points.",
-                      "example": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
-                    }
+                    "success": { "type": "boolean" },
+                    "holdReference": { "type": "string" }
                   }
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
-    "/api/v4.0/integrations/transactions/hold/{holdReferenceId}": {
+    "/api/v4.0/integrations/transactions/release": {
+      "post": {
+        "description": "Release held points for redemption or cancel the hold.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["holdReference", "action"],
+                "properties": {
+                  "holdReference": { "type": "string" },
+                  "action": { "type": "string", "enum": ["redeem", "cancel"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Hold released successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "pointsReleased": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/hold/{holdReference}": {
       "get": {
-        "description": "This API retrieves the details of a specific hold in Gameball using holdReferenceId. It returns information on the amount of loyalty points held, their monetary value, the hold's status (active, used, or expired), and the time remaining until expiration, supporting effective management and tracking of held points.",
+        "description": "Retrieve details of held points for a specific hold reference.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "parameters": [
           {
-            "name": "holdReferenceId",
+            "name": "holdReference",
             "in": "path",
-          "required": true,
-            "schema": { "type": "string" },
-            "description": "Unique identifier for the hold transaction, used to retrieve the details of the specific hold."
+            "required": true,
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -1034,111 +524,39 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                      "example": "cust_abc12345xyz67890"
-                    },
-                    "holdAmount": { 
-                      "type": "number",
-                      "description": "The monetary value held from the customer's points balance in this specific hold transaction. This is the amount that has been reserved and is associated with the holdReference provided. Example: If a customer has reserved $50 worth of points, the holdAmount in the response would be 50, representing the monetary value currently held under the specified hold reference.",
-                      "example": "2"
-                    },
-                    "holdEquivalentPoints": { 
-                      "type": "number",
-                      "description": "The number of points held from the customer's points balance for this specific hold transaction. This represents the exact quantity of points currently locked under the holdReference provided. Example: If the system has held 200 points from the customer's balance, the holdEquivalentPoints in the response would be 200, indicating the points associated with the provided hold reference that are currently unavailable for redemption until further action is taken (e.g., redemption or expiration).",
-                      "example": 20
-                    },
-                    "state": { 
-                      "type": "string",
-                      "description": "The current status of the hold: Active (The hold is currently in effect and the points or amount are locked), Expired (The hold has expired and the points or amount have been released), Used (The hold has been used, meaning the points or amount have been redeemed).",
-                      "example": "active"
-                    },
-                    "dateToExpire": { 
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "The date and time when the hold will expire. After this time, the hold reference will no longer be valid for usage.",
-                      "example": "2024-10-16T08:11:24.675401"
-                    }
+                    "holdReference": { "type": "string" },
+                    "customerId": { "type": "string" },
+                    "pointsHeld": { "type": "number" },
+                    "holdDate": { "type": "string", "format": "date-time" }
                   }
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "description": "This API cancels a specific hold on loyalty points in Gameball using the provided holdReferenceId. It releases the held points back into the customer's account, enabling flexibility in point management.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
-        "parameters": [
-          {
-            "name": "holdReferenceId",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "Unique identifier for the hold transaction, used to release the held points or amount."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Hold released successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { 
-                      "type": "boolean",
-                      "description": "Indicates whether the hold was successfully released.",
-                      "example": true
-                    },
-                    "message": { 
-                      "type": "string",
-                      "description": "Confirmation message indicating the hold has been released.",
-                      "example": "Hold released successfully"
-                    }
-                  }
-                }
-              }
-            }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions": {
       "get": {
-        "description": "This API retrieves a paged list of transactions from Gameball, allowing for optional filtering. Each transaction record includes details such as type, direction, points, amount, transaction time, and balance changes, providing a comprehensive view of customer activity.",
+        "description": "Retrieve customer transaction history with filtering and pagination options.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "parameters": [
           {
-            "name": "direction",
+            "name": "customerId",
             "in": "query",
-            "schema": { "type": "string" },
-            "description": "Direction of the transaction: + (Accumulation - points or rewards added to the customer), - (Deduction - points or rewards removed from the customer)."
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Represents the current status of the transaction. Possible values are: Active (The transaction is fully completed, and any points or rewards have been successfully added or redeemed), Pending (Points or rewards from the transaction are pending during the return window period), Blocked (The transaction has been flagged and blocked due to suspected fraud or other security concerns), Expired (The points or rewards earned in this transaction have expired and are no longer available for redemption or use)."
-          },
-          {
-            "name": "startAfter",
-            "in": "query",
-            "schema": { "type": "integer" },
-            "description": "Specifies the page will start after which transaction id. Defaults to 0."
+            "required": true,
+            "schema": { "type": "string" }
           },
           {
             "name": "limit",
             "in": "query",
-            "schema": { "type": "integer", "default": 50 },
-            "description": "Specifies the number of transactions to be returned per page. Defaults to 50, with a maximum limit of 200 transactions per page."
+            "schema": { "type": "integer", "default": 20 }
           },
           {
-            "name": "customerId",
+            "name": "offset",
             "in": "query",
-            "schema": { "type": "string" },
-            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer. This is used to filter the transactions of the specified customer."
+            "schema": { "type": "integer", "default": 0 }
           }
         ],
         "responses": {
@@ -1149,147 +567,20 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "transactions": { 
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "transactionId": { 
-                            "type": "string",
-                            "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any reward or redemption transactions in Gameball.",
-                            "example": "txn123456"
-                          },
-                          "gameballTransactionId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the transaction in the Gameball system.",
-                            "example": "11034736"
-                          },
-                          "type": { 
-                            "type": "string",
-                            "description": "Type of the transaction. Possible values: AchievementReward, PaymentReward, Refund, Redemption, Expiry, Cancel, Migration, ManualAccumulation, DiscountCode, ManualDeduction, ManualReward.",
-                            "example": "Cancel"
-                          },
-                          "direction": { 
-                            "type": "string",
-                            "description": "Direction of the transaction: + (Accumulation), - (Deduction).",
-                            "example": "-"
-                          },
-                          "customerId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.",
-                            "example": "cust_12345abc"
-                          },
-                          "points": { 
-                            "type": "number",
-                            "description": "Number of points involved in the transaction.",
-                            "example": 10
-                          },
-                          "amount": { 
-                            "type": "number",
-                            "description": "Monetary value associated with the transaction.",
-                            "example": 10.0
-                          },
-                          "transactionTime": { 
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
-                            "example": "2024-10-13T17:11:00.249"
-                          },
-                          "status": { 
-                            "type": "string",
-                            "description": "Status of the transaction: Active (The transaction is completed, and any rewards or points have been applied successfully), Pending (The points or rewards from the transaction are temporarily on hold during the return window or any other pending period), Blocked (The transaction was flagged for potential fraud or another issue and is currently blocked from processing), Expired (Points or rewards from the transaction have expired and are no longer available for use).",
-                            "example": "Active"
-                          },
-                          "couponCode": { 
-                            "type": "string",
-                            "description": "The code for the coupon that the customer has redeemed during the transaction. This value is present if the transaction represents a redemption process initiated by the customer.",
-                            "example": null
-                          },
-                          "isCouponUsed": { 
-                            "type": "boolean",
-                            "description": "Indicates whether the coupon redeemed in this transaction has been used by the customer. This flag signifies if the coupon applied in the redemption process has already been utilized or can be redeemed again.",
-                            "example": false
-                          },
-                          "couponType": { 
-                            "type": "string",
-                            "description": "The type of the coupon code that the customer has redeemed during the redemption transaction. Possible values: free_shipping, percentage_discount, fixed_discount, free_product, fixed_rate_discount, custom.",
-                            "example": null
-                          },
-                          "merchantName": { 
-                            "type": "string",
-                            "description": "Name of the merchant involved in the transaction, if any.",
-                            "example": "MERCH1234"
-                          },
-                          "branchName": { 
-                            "type": "string",
-                            "description": "Name of the branch involved in the transaction, if any.",
-                            "example": "BRANCH123"
-                          },
-                          "reason": { 
-                            "type": "string",
-                            "description": "Reason for the transaction, if applicable.",
-                            "example": "trx reason"
-                          },
-                          "achievementName": { 
-                            "type": "string",
-                            "description": "The name of the reward campaign associated with the transaction, indicating the specific achievement involved in the transaction, if applicable.",
-                            "example": null
-                          },
-                          "expiryDate": { 
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "Date when the points or rewards from the transaction will expire, if applicable.",
-                            "example": "2025-10-13T17:11:00.249"
-                          },
-                          "pointsBalanceBefore": { 
-                            "type": "number",
-                            "description": "The customer's points balance before the transaction occurred.",
-                            "example": 1164
-                          },
-                          "pointsBalanceAfter": { 
-                            "type": "number",
-                            "description": "The customer's points balance after the transaction is completed.",
-                            "example": 1154
-                          },
-                          "achievementType": { 
-                            "type": "string",
-                            "description": "Type of achievement earned during the transaction, if applicable.",
-                            "example": null
-                          },
-                          "achievedRewardCampaignId": { 
-                            "type": "string",
-                            "description": "The ID of the reward campaign associated with the transaction, indicating that the customer earned points in this transaction as a reward for achieving this campaign.",
-                            "example": null
-                          },
-                          "achievedTierId": { 
-                            "type": "number",
-                            "description": "The ID of the tier associated with the transaction, indicating that the customer earned this transaction as a reward for reaching this tier.",
-                            "example": null
-                          }
-                        }
-                      }
-                    },
-                    "count": { 
-                      "type": "number",
-                      "description": "The total number of transactions on the current page.",
-                      "example": 2
-                    },
-                    "hasMore": { 
-                      "type": "boolean",
-                      "description": "Indicating whether there are additional transactions to be fetched beyond the current page.",
-                      "example": true
-                    }
+                    "transactions": { "type": "array", "items": { "type": "object" } },
+                    "total": { "type": "integer" }
                   }
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions/manual": {
       "post": {
-        "description": "This API allows for the manual addition or deduction of points for a customer in Gameball. It provides flexibility in managing loyalty points, enabling adjustments based on specific needs or circumstances.",
+        "description": "Add manual point adjustments to customer accounts.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -1297,54 +588,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId", "transactionId", "transactionTime", "username", "reason", "points"],
+                "required": ["customerId", "points", "reason"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                    "example": "cust_abc12345xyz67890"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "john.doe@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "transactionId": { 
-                    "type": "string",
-                    "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any reward or redemption transactions in Gameball.",
-                    "example": "txn543211"
-                  },
-                  "transactionTime": { 
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
-                    "example": "2024-10-11T15:54:10.944Z"
-                  },
-                  "username": { 
-                    "type": "string",
-                    "description": "The username of the admin performing the manual transaction.",
-                    "example": "admin_user"
-                  },
-                  "reason": { 
-                    "type": "string",
-                    "description": "Reason for manually rewarding or deducting points (e.g., 'Referral bonus').",
-                    "example": "Referral bonus"
-                  },
-                  "points": { 
-                    "type": "integer",
-                    "description": "The number of points to be rewarded or deducted (should be positive for rewards and negative for deductions).",
-                    "example": 50
-                  },
-                  "amount": { 
-                    "type": "number",
-                    "description": "The monetary value (in system currency) associated with the transaction.",
-                    "example": 0
-                  }
+                  "customerId": { "type": "string" },
+                  "points": { "type": "number" },
+                  "reason": { "type": "string" }
                 }
               }
             }
@@ -1358,328 +606,20 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                      "example": "cust_abc12345xyz67890"
-                    },
-                    "gameballTransactionId": { 
-                      "type": "number",
-                      "description": "The unique identifier for the transaction within Gameball.",
-                      "example": 11035201
-                    },
-                    "transactionId": { 
-                      "type": "string",
-                      "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any reward or redemption transactions in Gameball.",
-                      "example": "txn54321221"
-                    },
-                    "points": { 
-                      "type": "number",
-                      "description": "The number of points rewarded or deducted in the transaction.",
-                      "example": 50
-                    },
-                    "amount": { 
-                      "type": "number",
-                      "description": "The monetary value processed in the transaction.",
-                      "example": 5.0
-                    }
+                    "success": { "type": "boolean" },
+                    "newBalance": { "type": "number" }
                   }
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/v4.0/integrations/transactions/customer-view": {
-      "get": {
-        "description": "This API retrieves a paged list of transactions from Gameball, with support for optional filtering. It provides the same comprehensive transaction data as the previous version — including type, direction, points, amount, transaction time, and balance changes — but with an important enhancement: Each transaction now includes associated customer details, such as: Customer Name, Customer Email, Customer Deletion Status. This allows for better traceability and visibility into who performed each transaction, even if the customer has since been deleted.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
-        "parameters": [
-          {
-            "name": "direction",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Direction of the transaction: + (Accumulation - points or rewards added to the customer), - (Deduction - points or rewards removed from the customer)."
           },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Represents the current status of the transaction. Possible values are: Active (The transaction is fully completed, and any points or rewards have been successfully added or redeemed), Pending (Points or rewards from the transaction are pending during the return window period), Blocked (The transaction has been flagged and blocked due to suspected fraud or other security concerns), Expired (The points or rewards earned in this transaction have expired and are no longer available for redemption or use)."
-          },
-          {
-            "name": "startAfter",
-            "in": "query",
-            "schema": { "type": "integer" },
-            "description": "Specifies the page will start after which transaction id. Defaults to 0."
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": { "type": "integer", "default": 50 },
-            "description": "Specifies the number of transactions to be returned per page. Defaults to 50, with a maximum limit of 200 transactions per page."
-          },
-          {
-            "name": "customerId",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer. This is used to filter the transactions of the specified customer."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transactions with customer data retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "transactions": { 
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "transactionId": { 
-                            "type": "string",
-                            "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any reward or redemption transactions in Gameball.",
-                            "example": "txn123456"
-                          },
-                          "gameballTransactionId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the transaction in the Gameball system.",
-                            "example": "11034736"
-                          },
-                          "type": { 
-                            "type": "string",
-                            "description": "Type of the transaction. Possible values: AchievementReward, PaymentReward, Refund, Redemption, Expiry, Cancel, Migration, ManualAccumulation, DiscountCode, ManualDeduction, ManualReward.",
-                            "example": "Cancel"
-                          },
-                          "direction": { 
-                            "type": "string",
-                            "description": "Direction of the transaction: + (Accumulation), - (Deduction).",
-                            "example": "-"
-                          },
-                          "customerId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.",
-                            "example": "cust_12345abc"
-                          },
-                          "customerName": { 
-                            "type": "string",
-                            "description": "The display name of the customer associated with this transaction.",
-                            "example": "John Doe"
-                          },
-                          "customerEmail": { 
-                            "type": "string",
-                            "description": "The email address of the customer associated with this transaction.",
-                            "example": "john.doe@example.com"
-                          },
-                          "isCustomerDeleted": { 
-                            "type": "boolean",
-                            "description": "Indicates whether the customer has been marked as deleted in our system and is an existing customer or not.",
-                            "example": false
-                          },
-                          "points": { 
-                            "type": "number",
-                            "description": "Number of points involved in the transaction.",
-                            "example": 10
-                          },
-                          "amount": { 
-                            "type": "number",
-                            "description": "Monetary value associated with the transaction.",
-                            "example": 10.0
-                          },
-                          "transactionTime": { 
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
-                            "example": "2024-10-13T17:11:00.249"
-                          },
-                          "status": { 
-                            "type": "string",
-                            "description": "Status of the transaction: Active (The transaction is completed, and any rewards or points have been applied successfully), Pending (The points or rewards from the transaction are temporarily on hold during the return window or any other pending period), Blocked (The transaction was flagged for potential fraud or another issue and is currently blocked from processing), Expired (Points or rewards from the transaction have expired and are no longer available for use).",
-                            "example": "Active"
-                          },
-                          "couponCode": { 
-                            "type": "string",
-                            "description": "The code for the coupon that the customer has redeemed during the transaction. This value is present if the transaction represents a redemption process initiated by the customer.",
-                            "example": null
-                          },
-                          "isCouponUsed": { 
-                            "type": "boolean",
-                            "description": "Indicates whether the coupon redeemed in this transaction has been used by the customer. This flag signifies if the coupon applied in the redemption process has already been utilized or can be redeemed again.",
-                            "example": false
-                          },
-                          "couponType": { 
-                            "type": "string",
-                            "description": "The type of the coupon code that the customer has redeemed during the redemption transaction. Possible values: free_shipping, percentage_discount, fixed_discount, free_product, fixed_rate_discount, custom.",
-                            "example": null
-                          },
-                          "merchantName": { 
-                            "type": "string",
-                            "description": "Name of the merchant involved in the transaction, if any.",
-                            "example": "MERCH1234"
-                          },
-                          "branchName": { 
-                            "type": "string",
-                            "description": "Name of the branch involved in the transaction, if any.",
-                            "example": "BRANCH123"
-                          },
-                          "reason": { 
-                            "type": "string",
-                            "description": "Reason for the transaction, if applicable.",
-                            "example": "trx reason"
-                          },
-                          "achievementName": { 
-                            "type": "string",
-                            "description": "The name of the reward campaign associated with the transaction, indicating the specific achievement involved in the transaction, if applicable.",
-                            "example": null
-                          },
-                          "expiryDate": { 
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "Date when the points or rewards from the transaction will expire, if applicable.",
-                            "example": "2025-10-13T17:11:00.249"
-                          },
-                          "pointsBalanceBefore": { 
-                            "type": "number",
-                            "description": "The customer's points balance before the transaction occurred.",
-                            "example": 1164
-                          },
-                          "pointsBalanceAfter": { 
-                            "type": "number",
-                            "description": "The customer's points balance after the transaction is completed.",
-                            "example": 1154
-                          },
-                          "achievementType": { 
-                            "type": "string",
-                            "description": "Type of achievement earned during the transaction, if applicable.",
-                            "example": null
-                          },
-                          "achievedRewardCampaignId": { 
-                            "type": "string",
-                            "description": "The ID of the reward campaign associated with the transaction, indicating that the customer earned points in this transaction as a reward for achieving this campaign.",
-                            "example": null
-                          },
-                          "achievedTierId": { 
-                            "type": "number",
-                            "description": "The ID of the tier associated with the transaction, indicating that the customer earned this transaction as a reward for reaching this tier.",
-                            "example": null
-                          }
-                        }
-                      }
-                    },
-                    "count": { 
-                      "type": "number",
-                      "description": "The total number of transactions on the current page.",
-                      "example": 2
-                    },
-                    "hasMore": { 
-                      "type": "boolean",
-                      "description": "Indicating whether there are additional transactions to be fetched beyond the current page.",
-                      "example": true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v4.0/integrations/transactions/count": {
-      "get": {
-        "description": "This API retrieves the total count of transactions from Gameball, allowing for optional filtering. It provides the number of transactions matching the specified criteria without returning detailed transaction records.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
-        "parameters": [
-          {
-            "name": "direction",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Direction of the transaction: + (Accumulation - points or rewards added to the customer), - (Deduction - points or rewards removed from the customer)."
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Represents the current status of the transaction. Possible values are: Active (The transaction is fully completed, and any points or rewards have been successfully added or redeemed), Pending (Points or rewards from the transaction are pending during the return window period), Blocked (The transaction has been flagged and blocked due to suspected fraud or other security concerns), Expired (The points or rewards earned in this transaction have expired and are no longer available for redemption or use)."
-          },
-          {
-            "name": "customerId",
-            "in": "query",
-            "schema": { "type": "string" },
-            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer. This is used to filter the transactions of the specified customer."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transaction count retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": { 
-                      "type": "number",
-                      "description": "The total number of transactions available in Gameball system.",
-                      "example": 240
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v4.0/integrations/transactions/{transactionId}/activate": {
-      "post": {
-        "description": "This API is used to immediately activate loyalty points that are currently in a pending state, bypassing the configured return window duration. This endpoint overrides that duration and activates the points immediately, making them available for use by the customer without waiting for the pending return window duration to elapse. This API is especially useful for scenarios where the client determines that the order is confirmed and the points can be safely activated ahead of schedule. Note: Once points are activated, the action cannot be reversed via this API.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
-        "parameters": [
-          {
-            "name": "transactionId",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "The transaction id on your system which you want to activate."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transaction activated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "pointsActivated": { 
-                      "type": "number",
-                      "description": "Number of points that has been successfully activated by the transaction",
-                      "example": 50
-                    },
-                    "gameballTransactionId": { 
-                      "type": "number",
-                      "description": "The unique identifier for the transaction within Gameball.",
-                      "example": 11035201
-                    },
-                    "clientTransactionId": { 
-                      "type": "string",
-                      "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number).",
-                      "example": "txn54321221"
-                    }
-                  }
-                }
-              }
-            }
-          }
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/transactions/otp": {
       "post": {
-        "description": "The API call generates a new one-time password (OTP) for redeeming or holding loyalty points and sends it via SMS. This service ensuring that only authorized transactions can be completed with the provided OTP. This API is effective only if SMS & OTP are enabled in your Gameball account.",
+        "description": "Generate one-time password for transaction verification.",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -1687,42 +627,71 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId"],
+                "required": ["customerId", "transactionId"],
                 "properties": {
-                  "customerId": { 
-                    "type": "string",
-                    "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.",
-                    "example": "cust_abc12345xyz67890"
-                  },
-                  "email": { 
-                    "type": "string",
-                    "description": "Customer's email address. This is required if your account uses email-based channel merging.",
-                    "example": "alex.jones@example.com"
-                  },
-                  "mobile": { 
-                    "type": "string",
-                    "description": "Customer's mobile number. This is required if your account uses mobile-based channel merging.",
-                    "example": "+1234567890"
-                  },
-                  "amount": { 
-                    "type": "number",
-                    "description": "The monetary value associated with the redemption or hold operation for which the OTP is being generated. This allows you to secure specific financial transactions by tying the OTP to an exact amount. Note: Only one of ruleId, points, or amount must be provided for the OTP request to proceed.",
-                    "example": 100.00
-                  },
-                  "points": { 
-                    "type": "integer",
-                    "description": "The number of loyalty points for which the OTP is being generated. This allows the customer to redeem or hold a specific quantity of points, adding an extra layer of security to the transaction. Note: Only one of ruleId, points, or amount must be provided for the OTP request to proceed.",
-                    "example": null
-                  },
-                  "ruleId": { 
-                    "type": "integer",
-                    "description": "The ID of a redemption rule configured within Gameball's system that the customer wants to use. Clients can create custom redemption rules through the Gameball dashboard to specify different redemption options. For example, a redemption rule may allow points to be redeemed for a free product, free shipping, percentage-based discounts, or fixed-amount discounts. You can retrieve your configured redemption rules and their associated IDs by using the Redemption Configuration API. Note: Only one of ruleId, points, or amount must be provided for the OTP request to proceed.",
-                    "example": null
-                  }
+                  "customerId": { "type": "string" },
+                  "transactionId": { "type": "string" },
+                  "mobile": { "type": "string" }
                 }
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "otpId": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/v4.0/integrations/transactions/otp/validate": {
+      "post": {
+        "description": "Validate OTP to authorize transaction.",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["otpId", "otpCode", "transactionId"],
+                "properties": {
+                  "otpId": { "type": "string" },
+                  "otpCode": { "type": "string" },
+                  "transactionId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP validated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "authorized": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -1764,7 +733,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -1814,7 +784,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -1884,7 +855,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -1932,7 +904,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -1973,7 +946,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       },
       "delete": {
@@ -2005,7 +979,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2096,7 +1071,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2121,7 +1097,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2146,7 +1123,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2176,7 +1154,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       },
       "put": {
@@ -2218,7 +1197,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2253,7 +1233,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2287,7 +1268,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2313,7 +1295,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -2360,13 +1343,14 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/api/v4.0/integrations/leaderboard": {
       "get": {
-        "description": "This API retrieves the leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time. Results are ordered from the highest to the lowest rank, displaying each customer's rank, progress, and tier details.",
+        "description": "Retrieve leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time.",
         "security": [
           { "apiKey": [] },
           { "secretKey": [] }
@@ -2439,653 +1423,26 @@
                   "properties": {
                     "leaderboard": {
                       "type": "array",
-                      "description": "An array of customers ranked on the leaderboard, sorted by their score. Each entry in the array includes details about each customer, providing a comprehensive overview of their standing within the entire customer base.",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "displayName": { 
-                            "type": "string",
-                            "description": "The display name of the customer on the leaderboard.",
-                            "example": "John Doe"
-                          },
-                          "customerId": { 
-                            "type": "string",
-                            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime.",
-                            "example": "cust_12345"
-                          },
-                          "progress": { 
-                            "type": "number",
-                            "description": "The progress made by the customer, such as points earned.",
-                            "example": 2500
-                          },
-                          "rank": { 
-                            "type": "number",
-                            "description": "The customer's position on the leaderboard, determined by their performance, such as points accumulated. The rank is typically higher for those with more points or progress.",
-                            "example": 1
-                          },
-                          "tierName": { 
-                            "type": "string",
-                            "description": "The name of the customer's current tier.",
-                            "example": "Gold"
-                          },
-                          "tierIcon": { 
-                            "type": "string",
-                            "description": "URL for the icon representing the customer's current tier.",
-                            "example": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a1.webp"
-                          }
+                          "displayName": { "type": "string" },
+                          "customerId": { "type": "string" },
+                          "progress": { "type": "number" },
+                          "rank": { "type": "number" },
+                          "tierName": { "type": "string" },
+                          "tierIcon": { "type": "string" }
                         }
                       }
                     },
-                    "customerRank": { 
-                      "type": "number",
-                      "description": "The position of the requested customer on the leaderboard, reflecting their rank relative to all other customers in your entire customer base. A lower rank number (e.g., 1) indicates a higher standing, typically based on points or achievements.",
-                      "example": 1
-                    },
-                    "customersCount": { 
-                      "type": "number",
-                      "description": "The total number of customers on the leaderboard.",
-                      "example": 100
-                    }
+                    "customerRank": { "type": "number" },
+                    "customersCount": { "type": "number" }
                   }
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/v4.0/integrations/configurations/cashback": {
-      "get": {
-        "description": "This API call retrieves your cashback configurations, providing essential details about how cashback rewards are structured and managed in Gameball. If the customerId is provided, the API will return any special cashback rules associated with the customer's tier, including potential bonuses or customized reward factors specific to that customer.",
-        "security": [{ "apiKey": [] }],
-        "parameters": [
-          {
-            "name": "customerId",
-            "in": "query",
-            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be database ID, random string, email or anything that uniquely identifies the customer. If provided, the response will return the cashback rules specific to this customer's tier, reflecting any special configurations or bonuses this customer is eligible for based on their tier cashback rules.",
-            "required": false,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Cashback configurations retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "defaultCashbackRule": {
-                      "type": "object",
-                      "description": "The default cashback rule applied to all customers if no tier-specific rules are available.",
-                      "properties": {
-                        "amountRewardThreshold": {
-                          "type": "number",
-                          "description": "The minimum amount that must be spent by the customer to qualify for a cashback reward. Transactions below this threshold will not earn any cashback, incentivizing higher spending. Example: If the amountRewardThreshold is set to $50, a customer must spend at least $50 to be eligible for cashback rewards.",
-                          "example": 1.0
-                        },
-                        "rewardWalletFactor": {
-                          "type": "number",
-                          "description": "The factor used to calculate the amount of loyalty points added to the customer's wallet based on the cashback amount earned from transactions. This factor determines how many points customers receive relative to the cashback they earn. Example: If a customer receives $10 in cashback and the rewardWalletFactor is 2, the customer will earn 20 loyalty points (2 times the cashback amount).",
-                          "example": 1.0
-                        },
-                        "rewardRankFactor": {
-                          "type": "number",
-                          "description": "In case your tiering-up method is based on score, this factor determines the score rewarded for each unit of currency your customer spends. It directly impacts how quickly customers can progress through tiers in your loyalty program. Example: If the rewardRankFactor is set to 2, the customer earns 2 score points for every 1 USD spent.",
-                          "example": 1.0
-                        },
-                        "rewardFactor": {
-                          "type": "number",
-                          "description": "It is a calculated value that determines the reward a customer earns relative to their spending. It considers the AmountRewardThreshold (Minimum Amount Required), RewardWalletFactor (Earning Rate), and RedemptionFactor (Monetary Value of Points). Formula: Reward Factor = (Amount Reward Threshold / Reward Wallet Factor) × Redemption Factor × 100. This indicates the percentage of what the customer earns as a cashback reward based on their spendings.",
-                          "example": 10.0
-                        }
-                      }
-                    },
-                    "tierCashbackRules": {
-                      "type": "array",
-                      "description": "A list of tier-specific cashback rules, which override the default cashback rule for customers in a specific tier.",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "tierName": {
-                            "type": "string",
-                            "description": "The name of the tier that has its own cashback rule.",
-                            "example": "Gold"
-                          },
-                          "amountRewardThreshold": {
-                            "type": "number",
-                            "description": "The minimum amount that must be spent by the customer to qualify for a cashback reward. Transactions below this threshold will not earn any cashback, incentivizing higher spending. Example: If the amountRewardThreshold is set to $50, a customer must spend at least $50 to be eligible for cashback rewards.",
-                            "example": 1.0
-                          },
-                          "rewardWalletFactor": {
-                            "type": "number",
-                            "description": "The factor used to calculate the amount of loyalty points added to the customer's wallet based on the cashback amount earned from transactions. This factor determines how many points customers receive relative to the cashback they earn. Example: If a customer receives $10 in cashback and the rewardWalletFactor is 2, the customer will earn 20 loyalty points (2 times the cashback amount).",
-                            "example": 20.0
-                          },
-                          "rewardRankFactor": {
-                            "type": "number",
-                            "description": "In case your tiering-up method is based on score, this factor determines the score rewarded for each unit of currency your customer spends. It directly impacts how quickly customers can progress through tiers in your loyalty program. Example: If the rewardRankFactor is set to 2, the customer earns 2 score points for every 1 USD spent.",
-                            "example": 1.0
-                          },
-                          "rewardFactor": {
-                            "type": "number",
-                            "description": "It is a calculated value that determines the reward a customer earns relative to their spending. It considers the AmountRewardThreshold (Minimum Amount Required), RewardWalletFactor (Earning Rate), and RedemptionFactor (Monetary Value of Points). Formula: Reward Factor = (Amount Reward Threshold / Reward Wallet Factor) × Redemption Factor × 100. This indicates the percentage of what the customer earns as a cashback reward based on their spendings.",
-                            "example": 0.0
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v4.0/integrations/configurations/redemption": {
-      "get": {
-        "description": "This API retrieves the configurations and rules associated with how customers can redeem points for discounts, coupons, or other rewards.",
-        "security": [{ "apiKey": [] }],
-        "parameters": [
-          {
-            "name": "customerId",
-            "in": "query",
-            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer. If provided, the API will return redemption configurations that match the customer based on various criteria, such as RFM, tiers, segments and specific customer attributes. This approach ensures that the redemption options are personalized and relevant to each customer's unique profile and engagement history.",
-            "required": false,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Redemption configurations retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "redemptionFactor": {
-                      "type": "number",
-                      "description": "This factor indicates the value of each loyalty point in terms of currency, defining how many currency units can be obtained by redeeming points. Example: If the redemptionFactor is set to 0.1, this means that a customer can redeem 10 points for 1 USD.",
-                      "example": 0.1
-                    },
-                    "redemptionRules": {
-                      "type": "array",
-                      "description": "A list of redemption rules that define how points can be redeemed for discounts and coupons. Defines the rules for redeeming points, including points required, value of points, applicable coupons, and eligibility criteria. Example: a redemption rule may allow points to be redeemed for a free product, free shipping, percentage-based discounts, or fixed-amount discounts.",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                            "description": "The unique identifier for the redemption rule.",
-                            "example": 2138
-                          },
-                          "pointsToRedeem": {
-                            "type": "number",
-                            "description": "The specific number of points needed for redemption. If null, the rule applies to all points.",
-                            "example": 100
-                          },
-                          "valueOfPoint": {
-                            "type": "number",
-                            "description": "The value of a single point in terms of monetary value for redemption.",
-                            "example": 25.0
-                          },
-                          "ruleType": {
-                            "type": "string",
-                            "description": "The type of rule governing the redemption. Possible values include: free_shipping_settings, percentage_discount_settings, free_product_settings, fixed_rate_settings.",
-                            "example": "percentage_discount_settings"
-                          },
-                          "coupon": {
-                            "type": "object",
-                            "description": "Defines the coupon associated with the redemption rule, if applicable.",
-                            "properties": {
-                              "couponType": {
-                                "type": "string",
-                                "description": "The type of coupon applied. Possible values include: free_shipping, percentage_discount, fixed_discount, fixed_rate_discount, free_product, custom.",
-                                "example": "percentage_discount"
-                              },
-                              "discountValue": {
-                                "type": "number",
-                                "description": "The value of the discount provided by the coupon in case the coupon type is fixed_discount, percentage_discount or fixed_rate_discount.",
-                                "example": 25.0
-                              },
-                              "product": {
-                                "type": "object",
-                                "description": "Product information for free product coupons.",
-                                "properties": {
-                                  "productId": {
-                                    "type": "string",
-                                    "description": "The unique identifier for the product."
-                                  },
-                                  "productName": {
-                                    "type": "string",
-                                    "description": "The name of the product."
-                                  },
-                                  "variantId": {
-                                    "type": "string",
-                                    "description": "The unique identifier for the product variant."
-                                  },
-                                  "variantName": {
-                                    "type": "string",
-                                    "description": "The name of the product variant."
-                                  },
-                                  "productDisplayName": {
-                                    "type": "string",
-                                    "description": "The display name associated with the product that configured on the dashboard based on required language."
-                                  }
-                                }
-                              },
-                              "collections": {
-                                "type": "array",
-                                "description": "A list of collection IDs that the coupon can be applied to.",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "collectionId": {
-                                      "type": "string",
-                                      "description": "The unique identifier for the collection.",
-                                      "example": "455218036961"
-                                    },
-                                    "collectionName": {
-                                      "type": "string",
-                                      "description": "The name for the collection.",
-                                      "example": "Automated Collection"
-                                    }
-                                  }
-                                }
-                              },
-                              "group": {
-                                "type": "object",
-                                "description": "Coupon group information.",
-                                "properties": {
-                                  "handle": {
-                                    "type": "string",
-                                    "description": "A unique identifier used to reference the coupon group in the system (only appears in the dashboard)."
-                                  },
-                                  "title": {
-                                    "type": "string",
-                                    "description": "The title of the coupon group."
-                                  },
-                                  "url": {
-                                    "type": "string",
-                                    "description": "The URL for the coupon group."
-                                  },
-                                  "iconPath": {
-                                    "type": "string",
-                                    "description": "The path to the icon of the coupon group."
-                                  },
-                                  "description": {
-                                    "type": "string",
-                                    "description": "A description of the coupon group."
-                                  },
-                                  "maxPerCustomer": {
-                                    "type": "number",
-                                    "description": "The maximum number of times a customer can use the coupon. Example: 5 indicates that each customer can redeem this coupon up to 5 times."
-                                  },
-                                  "startDate": {
-                                    "type": "string",
-                                    "format": "date-time",
-                                    "description": "The date when the coupons within this coupon group will become active and valid for redemption."
-                                  },
-                                  "expiryDate": {
-                                    "type": "string",
-                                    "format": "date-time",
-                                    "description": "The date when the coupons within this coupon group will expire and no longer be valid for redemption."
-                                  },
-                                  "isAvailable": {
-                                    "type": "boolean",
-                                    "description": "Indicates whether the coupon group is currently available."
-                                  },
-                                  "isActive": {
-                                    "type": "boolean",
-                                    "description": "Indicates whether the coupon group is currently active."
-                                  }
-                                }
-                              },
-                              "options": {
-                                "type": "object",
-                                "description": "Coupon options and settings.",
-                                "properties": {
-                                  "name": {
-                                    "type": "string",
-                                    "description": "The name of the redemption rule configured on the dashboard based on required language.",
-                                    "example": "Redemption Rule Name"
-                                  },
-                                  "expiryAfter": {
-                                    "type": "number",
-                                    "description": "The number of days after creation that the coupon will expire. Example: If a coupon expires after 14 days, the customer must use it within that period to receive the discount.",
-                                    "example": 14
-                                  },
-                                  "usageLimit": {
-                                    "type": "number",
-                                    "description": "The maximum number of times a single coupon can be used. Example: If a coupon has a usage limit of 5, it can be redeemed up to 5 times before it becomes invalid.",
-                                    "example": 2
-                                  },
-                                  "capping": {
-                                    "type": "number",
-                                    "description": "The maximum discount value a coupon can provide, regardless of the order amount. Example: If a coupon offers 20% off with a capping of $50, the discount will not exceed $50, even if 20% of the order total is higher.",
-                                    "example": 50
-                                  },
-                                  "minOrderValue": {
-                                    "type": "number",
-                                    "description": "The minimum order amount required to apply the coupon. Example: If a coupon has a minimum order value of $100, the customer must spend at least $100 to use the discount.",
-                                    "example": 150.0
-                                  },
-                                  "codePrefix": {
-                                    "type": "string",
-                                    "description": "The prefix that will be added to the beginning of the generated coupon code. Example: If the prefix is 'SUMMER', the generated coupon codes might look like 'SUMMER12345' or 'SUMMERDISCOUNT'.",
-                                    "example": "SUMMER"
-                                  },
-                                  "redeemInstructions": {
-                                    "type": "string",
-                                    "description": "The instructions on how the customer can redeem the coupon. Example: 'Enter the coupon code at checkout to apply the discount.'",
-                                    "example": "Enter the coupon code at checkout to apply the discount."
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          "image": {
-                            "type": "string",
-                            "description": "A URL or file path for an image representing the redemption rule.",
-                            "example": "https://s3.us-east-2.amazonaws.com/gameball.stg.uploads/uploads%2fClient_2933%2f936f65d8-e06d-4e28-b423-b5282999801bgameball.webp"
-                          },
-                          "creationDate": {
-                            "type": "string",
-                            "format": "date-time",
-                            "description": "The date when the redemption rule was created.",
-                            "example": "2025-02-10T10:12:16.783408"
-                          },
-                          "isActive": {
-                            "type": "boolean",
-                            "description": "Indicates whether the redemption rule is currently active and can be used to generate new coupons or not. true → The rule is active, and new coupons can be created and redeemed. false → The rule is inactive, meaning no new coupons can be generated. However, previously created coupons will still be valid and can be redeemed. Example: If isActive is false, customers cannot create new coupons, but any coupons generated before the rule became inactive can still be used.",
-                            "example": true
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v4.0/integrations/configurations/coupon": {
-      "get": {
-        "description": "This API call retrieves your coupon configurations, including details about how coupons are structured, authenticated, and mapped within Gameball.",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
-        "responses": {
-          "200": {
-            "description": "Coupon configurations retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "url": {
-                      "type": "string",
-                      "description": "The URL where the coupon configuration is applied.",
-                      "example": "https://api.mywebsite.com/coupons"
-                    },
-                    "method": {
-                      "type": "string",
-                      "description": "The HTTP method used for the coupon configuration process (e.g., POST, PUT or GET).",
-                      "example": "POST"
-                    },
-                    "queryParams": {
-                      "type": "array",
-                      "description": "List of query parameters used in the request.",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "key": {
-                            "type": "string",
-                            "description": "The key used in the query parameter.",
-                            "example": "appId"
-                          },
-                          "value": {
-                            "type": "string",
-                            "description": "The value of the query parameter.",
-                            "example": "12345"
-                          }
-                        }
-                      }
-                    },
-                    "headers": {
-                      "type": "array",
-                      "description": "List of headers used in the request.",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "key": {
-                            "type": "string",
-                            "description": "The header key.",
-                            "example": "Authorization"
-                          },
-                          "value": {
-                            "type": "string",
-                            "description": "The header value.",
-                            "example": "Bearer token"
-                          }
-                        }
-                      }
-                    },
-                    "payload": {
-                      "type": "string",
-                      "description": "The request payload format or template.",
-                      "example": "{ \"couponCode\": \"DISCOUNT10\" }"
-                    },
-                    "couponMapping": {
-                      "type": "object",
-                      "description": "A dictionary mapping coupon types to specific keys in your system.",
-                      "properties": {
-                        "fixed": {
-                          "type": "string",
-                          "description": "The internal naming for the fixed discount codes in your system.",
-                          "example": "fixed_discount"
-                        },
-                        "percentage": {
-                          "type": "string",
-                          "description": "The internal naming for the percentage discount codes in your system.",
-                          "example": "percentage_discount"
-                        },
-                        "freeProduct": {
-                          "type": "string",
-                          "description": "The internal naming for the free product discount codes in your system.",
-                          "example": "free_product"
-                        },
-                        "freeShipping": {
-                          "type": "string",
-                          "description": "The internal naming for the free shipping discount codes in your system.",
-                          "example": "free_delivery"
-                        }
-                      }
-                    },
-                    "enableFreeProduct": {
-                      "type": "boolean",
-                      "description": "Indicates whether free product coupons are enabled.",
-                      "example": true
-                    },
-                    "enableFixedRate": {
-                      "type": "boolean",
-                      "description": "Indicates whether fixed-rate discount coupons are enabled.",
-                      "example": true
-                    },
-                    "enableFreeShipping": {
-                      "type": "boolean",
-                      "description": "Indicates whether free shipping coupons are enabled.",
-                      "example": true
-                    },
-                    "enablePercentage": {
-                      "type": "boolean",
-                      "description": "Indicates whether percentage-based discount coupons are enabled.",
-                      "example": true
-                    },
-                    "platforms": {
-                      "type": "array",
-                      "description": "List of platforms for which the coupon configurations are applied.",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "displayName": {
-                            "type": "string",
-                            "description": "The display name of the platform."
-                          },
-                          "value": {
-                            "type": "string",
-                            "description": "The internal value used for the platform."
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "This API call updates your coupon configurations, allowing you to modify details about how coupons are structured, authenticated, and mapped within Gameball.",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["url", "method"],
-                "properties": {
-                  "url": {
-                    "type": "string",
-                    "description": "The URL of your API endpoint where coupons are created. Gameball will send requests to this endpoint whenever a coupon needs to be generated.",
-                    "example": "https://api.mywebsite.com/coupons"
-                  },
-                  "method": {
-                    "type": "string",
-                    "description": "The HTTP method used to send requests to the coupon creation endpoint. Allowed values are POST, PUT or GET.",
-                    "example": "POST"
-                  },
-                  "queryParams": {
-                    "type": "array",
-                    "description": "List of query parameters used in the request. Those that will be appended to the URL endpoint. These are used to pass specific parameters required by your coupon system as part of the URL itself, often for identification, filtering, or configuration purposes. Each query parameter is defined by a key-value pair, allowing you to tailor requests based on requirements in your API.",
-                    "items": {
-                      "type": "object",
-                      "required": ["key", "value"],
-                      "properties": {
-                        "key": {
-                          "type": "string",
-                          "description": "The key used in the query parameter.",
-                          "example": "appId"
-                        },
-                        "value": {
-                          "type": "string",
-                          "description": "The value of the query parameter.",
-                          "example": "12345"
-                        }
-                      }
-                    }
-                  },
-                  "headers": {
-                    "type": "array",
-                    "description": "List of headers used in the request.",
-                    "items": {
-                      "type": "object",
-                      "required": ["key", "value"],
-                      "properties": {
-                        "key": {
-                          "type": "string",
-                          "description": "The header key.",
-                          "example": "X-Client-Version"
-                        },
-                        "value": {
-                          "type": "string",
-                          "description": "The header value.",
-                          "example": "1.0"
-                        }
-                      }
-                    }
-                  },
-                  "payload": {
-                    "type": "string",
-                    "description": "This specifies the structure of the JSON body Gameball will send to your endpoint when creating a coupon. Since different systems may use varying parameter names and structures, you can customize this payload to align with your system's requirements. You should define the JSON payload with placeholders that Gameball will replace with actual data when sending the request. Example: { \"customerId\": \"{{playerUniqueId}}\", \"amount\": \"{{value}}\", \"code\": \"{{code}}\" }",
-                    "example": "{ \"couponCode\": \"DISCOUNT10\" }"
-                  },
-                  "couponMapping": {
-                    "type": "object",
-                    "description": "A dictionary mapping coupon attributes to specific keys in your system.",
-                    "properties": {
-                      "fixed": {
-                        "type": "string",
-                        "description": "The internal naming for the fixed discount codes in your system.",
-                        "example": "fixed_discount"
-                      },
-                      "percentage": {
-                        "type": "string",
-                        "description": "The internal naming for the percentage discount codes in your system.",
-                        "example": "percentage_discount"
-                      },
-                      "freeProduct": {
-                        "type": "string",
-                        "description": "The internal naming for the free product discount codes in your system.",
-                        "example": "free_product"
-                      },
-                      "freeShipping": {
-                        "type": "string",
-                        "description": "The internal naming for the free shipping discount codes in your system.",
-                        "example": "free_delivery"
-                      }
-                    }
-                  },
-                  "enableFreeProduct": {
-                    "type": "boolean",
-                    "description": "Indicates whether free product coupons are enabled.",
-                    "example": true
-                  },
-                  "enableFixedRate": {
-                    "type": "boolean",
-                    "description": "Indicates whether fixed-rate discount coupons are enabled.",
-                    "example": true
-                  },
-                  "enableFreeShipping": {
-                    "type": "boolean",
-                    "description": "Indicates whether free shipping coupons are enabled.",
-                    "example": true
-                  },
-                  "enablePercentage": {
-                    "type": "boolean",
-                    "description": "Indicates whether percentage-based discount coupons are enabled.",
-                    "example": true
-                  },
-                  "platforms": {
-                    "type": "array",
-                    "description": "List of platforms for which the coupon configurations are applied in your system.",
-                    "items": {
-                      "type": "object",
-                      "required": ["displayName", "value"],
-                      "properties": {
-                        "displayName": {
-                          "type": "string",
-                          "description": "The display name of the platform."
-                        },
-                        "value": {
-                          "type": "string",
-                          "description": "The internal value used for the platform."
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Coupon configurations updated successfully"
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3239,7 +1596,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3288,7 +1646,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3334,7 +1693,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3382,7 +1742,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3433,7 +1794,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3486,7 +1848,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3540,7 +1903,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3580,7 +1944,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3615,7 +1980,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -3919,7 +2285,8 @@
                 }
               }
             }
-          }
+          },
+          "400": { "description": "Bad request" }
         }
       }
     },
@@ -4266,6 +2633,8 @@
           { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique customer identifier" }
         ],
         "responses": {
+          "204": { "description": "Deleted" },
+          "404": { "description": "Not found" }
         }
       }
     },
@@ -4359,7 +2728,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerCampaignsProgressResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -4400,7 +2770,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerReferralsResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -4427,7 +2798,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerReferralsCountResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -4478,7 +2850,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerActivitiesResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -4515,7 +2888,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerActivitiesCountResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -4553,7 +2927,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerAutomationCampaignsResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer not found" }
         }
       }
     },
@@ -4587,7 +2962,8 @@
                 "schema": { "$ref": "#/components/schemas/CustomerActionStreakProgressResponse" }
               }
             }
-          }
+          },
+          "404": { "description": "Customer or challenge not found" }
         }
       }
     },
@@ -4769,6 +3145,30 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid API keys",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
           }
         }
       }
@@ -4800,6 +3200,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       },
@@ -4826,6 +3236,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -4846,6 +3266,20 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Plant deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
         }
       }
     }

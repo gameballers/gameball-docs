@@ -1,0 +1,19 @@
+---
+title: "Transactions with Customer Data"
+description: "Retrieve transactions with customer details including name, email, and deletion status."
+openapi: 'GET /api/v4.0/integrations/transactions/customer-view'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Transactions with Customer Data
+
+This API retrieves a paged list of transactions from Gameball, with support for optional filtering. It provides the same comprehensive transaction data as the previous version — including type, direction, points, amount, transaction time, and balance changes — but with an important enhancement: Each transaction now includes associated customer details, such as: Customer Name, Customer Email, Customer Deletion Status. This allows for better traceability and visibility into who performed each transaction, even if the customer has since been deleted.
+
+<Info>
+**Channel Merging Available**
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
+</Info>
+
+<Info>
+Security: Provide both `apikey` and `secretkey` headers.
+</Info>

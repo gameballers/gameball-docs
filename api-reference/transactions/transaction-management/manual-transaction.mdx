@@ -7,32 +7,13 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 ## Add Manual Transaction
 
-Add manual point adjustments to customer accounts.
+This API allows for the manual addition or deduction of points for a customer in Gameball. It provides flexibility in managing loyalty points, enabling adjustments based on specific needs or circumstances.
 
 <Info>
-**Note:** This endpoint needs the specific content from the old documentation. Please provide the request/response schemas and examples so I can create the complete OpenAPI-driven documentation.
+**Channel Merging Available**
+If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
 </Info>
 
-## Request Body
-
-<ParamField path="customerId" type="string" required>
-Unique identifier for the customer.
-</ParamField>
-
-<ParamField path="points" type="number" required>
-Number of points to add (positive) or subtract (negative).
-</ParamField>
-
-<ParamField path="reason" type="string" required>
-Reason for the manual adjustment.
-</ParamField>
-
-## Response
-
-<ResponseField name="success" type="boolean">
-Whether the manual transaction was added successfully.
-</ResponseField>
-
-<ResponseField name="newBalance" type="number">
-Customer's new point balance after the adjustment.
-</ResponseField>
+<Info>
+Security: Provide both `apikey` and `secretkey` headers.
+</Info>

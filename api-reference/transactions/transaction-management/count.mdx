@@ -1,13 +1,13 @@
 ---
-title: "List Transactions"
-description: "Retrieve customer transaction history with filtering and pagination options."
-openapi: 'GET /api/v4.0/integrations/transactions'
+title: "Transaction Count"
+description: "Retrieve the total count of transactions with optional filtering."
+openapi: 'GET /api/v4.0/integrations/transactions/count'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-## List Transactions
+## Transaction Count
 
-This API retrieves a paged list of transactions from Gameball, allowing for optional filtering. Each transaction record includes details such as type, direction, points, amount, transaction time, and balance changes, providing a comprehensive view of customer activity.
+This API retrieves the total count of transactions from Gameball, allowing for optional filtering. It provides the number of transactions matching the specified criteria without returning detailed transaction records.
 
 <Info>
 **Channel Merging Available**
