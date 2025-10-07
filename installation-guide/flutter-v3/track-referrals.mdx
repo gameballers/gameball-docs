@@ -1,0 +1,154 @@
+---
+title: "Track Referrals"
+description: "Implement referral tracking using Firebase Dynamic Links"
+---
+
+# Track Referrals
+
+Gameball referrals use Firebase Dynamic Links to track when customers invite their friends.
+
+## Setup
+
+<Steps>
+<Step title="Configure Firebase Dynamic Links">
+Set up Firebase Dynamic Links in your Firebase console.
+</Step>
+
+<Step title="Add Dependency">
+Add `firebase_dynamic_links` to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  firebase_dynamic_links: ^5.0.0
+```
+</Step>
+
+<Step title="Configure in Gameball Dashboard">
+Provide your Firebase Dynamic Links configuration in the Gameball dashboard.
+</Step>
+
+<Step title="Handle Dynamic Links">
+Call `handleDynamicLink` on app startup.
+</Step>
+</Steps>
+
+## Handle Dynamic Links
+
+Configure your app to listen for Firebase Dynamic Links:
+
+```dart
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
+  await Firebase.initializeApp();
+  
+  // Initialize Gameball SDK
+  final config = GameballConfig.builder()
+      .apiKey("your-api-key")
+      .lang("en")
+      .build();
+      
+  final gameballApp = GameballApp.getInstance();
+  gameballApp.init(config);
+  
+  // Initialize dynamic link handling
+  initDynamicLinks();
+  
+  runApp(MyApp());
+}
+```
+
+## How It Works
+
+When a customer shares their referral link and a new user clicks it:
+
+1. New user installs the app through the referral link
+2. App opens and captures the Firebase Dynamic Link
+3. `handleDynamicLink()` extracts the referral code
+4. When you call `registerPlayer`, the referral info is automatically attached
+5. Both referrer and referee receive rewards
+
+## Register Customer with Referral
+
+When registering a new customer with a referral code:
+
+```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+
+final attributes = CustomerAttributesBuilder()
+    .displayName("Jane Smith")
+    .email("newuser@example.com")
+    .mobile("+1234567890")
+    .build();
+
+final request = InitializeCustomerRequestBuilder()
+    .customerId("new-customer-456")
+    .customerAttributes(attributes)
+    .referralCode(gbReferralCode)  // Include captured referral code
+    .build();
+
+final gameballApp = GameballApp.getInstance();
+gameballApp.initializeCustomer(request, (response, error) {
+  if (error == null) {
+    print("Customer registered with referral");
+  } else {
+    print("Error: $error");
+  }
+});
+```
+
+## Manual Referral Code Handling
+
+If you need to manually handle referral codes:
+
+```dart
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
+void initDynamicLinks() async {
+  // Handle dynamic link when app is opened
+  final PendingDynamicLinkData? initialLink = 
+      await FirebaseDynamicLinks.instance.getInitialLink();
+  
+  if (initialLink != null) {
+    final Uri deepLink = initialLink.link;
+    final referralCode = deepLink.queryParameters['GBReferral'];
+    
+    if (referralCode != null) {
+      // Store referral code to use during registration
+      saveReferralCode(referralCode);
+    }
+  }
+
+  // Handle dynamic link when app is in background
+  FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+    final Uri deepLink = dynamicLinkData.link;
+    final referralCode = deepLink.queryParameters['GBReferral'];
+    
+    if (referralCode != null) {
+      saveReferralCode(referralCode);
+    }
+  });
+}
+```
+
+## Get Customer Referral Info
+
+Customers can get their referral link from the Gameball profile widget. The widget displays the referral information that customers can share with friends.
+
+<Info>
+Configure referral rewards and rules in your Gameball dashboard to determine how and when referrers and referees are rewarded.
+</Info>
+
+<Warning>
+Make sure Firebase Dynamic Links is properly configured in both Firebase console and Gameball dashboard for referrals to work correctly.
+</Warning>
+
+## Next Steps
+
+- [Go-Live Checklist](/installation-guide/flutter-v3/go-live-checklist)
+- [Migration Notes](/installation-guide/flutter-v3/migration-notes)
+

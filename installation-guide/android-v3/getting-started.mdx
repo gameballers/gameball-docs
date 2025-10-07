@@ -9,8 +9,8 @@ description: "Install and initialize Gameball Android SDK v3.1.0"
 
 - **Minimum SDK Version**: 21 (Android 5.0)
 - **Target SDK Version**: 34
-- **Kotlin**: 1.8+ (or as required by the branch)
-- **AndroidX**
+- **Kotlin**: 2.0.0+
+- **AndroidX**: Required
 - **Internet permission** in `AndroidManifest.xml`
 
 ```xml
@@ -70,9 +70,11 @@ class MyApplication : Application() {
 
         val config = GameballConfig.builder()
             .apiKey("your-api-key")      // Required
-            .lang("en")                 // Optional
-            .platform("android")        // Optional (defaults to android)
-            .shop("your-shop-id")       // Optional - your Gameball shop identifier
+            .lang("en")                  // Required
+            .platform("android")         // Optional (defaults to android)
+            .shop("your-shop-id")        // Optional
+            .gbToken("your-gb-token")    // Optional - for v4.1 endpoints
+            .apiPrefix("custom-prefix")  // Optional - custom API prefix
             .build()
 
         GameballApp.getInstance(this).init(config)
@@ -88,9 +90,11 @@ public class MyApplication extends Application {
 
         GameballConfig config = GameballConfig.builder()
             .apiKey("your-api-key")      // Required
-            .lang("en")                 // Optional
-            .platform("android")        // Optional (defaults to android)
-            .shop("your-shop-id")       // Optional - your Gameball shop identifier
+            .lang("en")                  // Required
+            .platform("android")         // Optional (defaults to android)
+            .shop("your-shop-id")        // Optional
+            .gbToken("your-gb-token")    // Optional - for v4.1 endpoints
+            .apiPrefix("custom-prefix")  // Optional - custom API prefix
             .build();
 
         GameballApp.getInstance(this).init(config);
@@ -102,11 +106,11 @@ public class MyApplication extends Application {
 ## Configuration Parameters
 
 <ParamField body="apiKey" type="string" required>
-The client API key available in your Gameball dashboard.
+The client API key available in your Gameball dashboard (required).
 </ParamField>
 
-<ParamField body="lang" type="string">
-The language code for SDK localization (e.g., "en", "ar", "fr").
+<ParamField body="lang" type="string" required>
+The language code for SDK localization (e.g., "en", "ar", "fr"). Required.
 </ParamField>
 
 <ParamField body="platform" type="string">
@@ -117,6 +121,14 @@ Platform identifier, defaults to "android".
 Your Gameball shop identifier for multi-shop configurations.
 </ParamField>
 
+<ParamField body="gbToken" type="string">
+GB Token for secure authentication (enables automatic v4.1 endpoint routing).
+</ParamField>
+
+<ParamField body="apiPrefix" type="string">
+Custom API endpoint prefix.
+</ParamField>
+
 <Tip>
 Make sure to register your Application class in AndroidManifest.xml:
 ```xml
@@ -125,6 +137,25 @@ Make sure to register your Application class in AndroidManifest.xml:
     ...>
 ```
 </Tip>
+
+## ProGuard/R8 Configuration
+
+If you're using code obfuscation, add these rules to your `proguard-rules.pro`:
+
+```proguard
+# Gameball SDK
+-keep class com.gameball.gameball.** { *; }
+-keep class com.gameball.gameball.model.** { *; }
+
+# Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+```
+
+<Info>
+The SDK automatically enables debug logging in debug builds. Network requests and responses are logged when `BuildConfig.DEBUG` is true.
+</Info>
 
 ## Next Steps
 

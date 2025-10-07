@@ -159,6 +159,21 @@
                       "installation-guide/android-v3/go-live-checklist",
                       "installation-guide/android-v3/migration-notes"
                     ]
+                  },
+                  {
+                    "group": "Flutter",
+                    "pages": [
+                      "installation-guide/flutter-v3/index",
+                      "installation-guide/flutter-v3/getting-started",
+                      "installation-guide/flutter-v3/initialize-sdk",
+                      "installation-guide/flutter-v3/initialize-profile",
+                      "installation-guide/flutter-v3/track-events",
+                      "installation-guide/flutter-v3/track-orders",
+                      "installation-guide/flutter-v3/integrate-redemption",
+                      "installation-guide/flutter-v3/track-referrals",
+                      "installation-guide/flutter-v3/go-live-checklist",
+                      "installation-guide/flutter-v3/migration-notes"
+                    ]
                   }
                 ]
               }

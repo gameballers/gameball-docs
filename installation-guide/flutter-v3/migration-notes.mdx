@@ -1,0 +1,220 @@
+---
+title: "Migration Notes"
+description: "Migrate from v2.X.X to v3.1.0"
+---
+
+# Migration Notes & Changelog
+
+This guide helps you migrate from Gameball Flutter SDK v2.X.X to v3.1.0.
+
+## What's New in v3.1.0
+
+<CardGroup cols={2}>
+<Card title="Improved API" icon="code">
+Cleaner API design with better error handling and null safety
+</Card>
+
+<Card title="Better Performance" icon="gauge-high">
+Optimized SDK initialization and reduced package size
+</Card>
+
+<Card title="Flutter 3.x Support" icon="flutter">
+Full compatibility with Flutter 3.x and latest Firebase plugins
+</Card>
+
+<Card title="Enhanced Type Safety" icon="shield">
+Better Dart null safety support and compile-time checks
+</Card>
+</CardGroup>
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2.X.X:**
+```dart
+Gameball.init(
+  "api-key",
+  "en",
+  "flutter",
+  "shop-id"
+);
+```
+
+**v3.1.0:**
+```dart
+final config = GameballConfig.builder()
+    .apiKey("api-key")
+    .lang("en")
+    .platform("flutter")
+    .shop("shop-id")
+    .build();
+
+final gameballApp = GameballApp.getInstance();
+gameballApp.init(config);
+```
+
+### 2. Customer Registration
+
+**v2.X.X:**
+```dart
+Gameball.registerPlayer(
+  playerId,
+  email,
+  mobile,
+  attributes,
+);
+```
+
+**v3.1.0:**
+```dart
+final attributes = CustomerAttributesBuilder()
+    .displayName("John Doe")
+    .email(email)
+    .mobile(mobile)
+    .build();
+
+final request = InitializeCustomerRequestBuilder()
+    .customerId(playerId)
+    .customerAttributes(attributes)
+    .build();
+
+GameballApp.getInstance().initializeCustomer(request, (response, error) {
+  // Handle response
+});
+```
+
+### 3. Event Tracking
+
+**v2.X.X:**
+```dart
+Gameball.sendEvent({
+  "playerId": "player-123",
+  "event": "purchase",
+  "metadata": {...}
+});
+```
+
+**v3.1.0:**
+```dart
+final event = EventBuilder()
+    .customerId("customer-123")
+    .eventName("purchase")
+    .eventMetaData("amount", 99.99)
+    .eventMetaData("currency", "USD")
+    .build();
+
+GameballApp.getInstance().sendEvent(event, (success, error) {
+  // Handle response
+});
+```
+
+### 4. Show Profile Widget
+
+**v2.X.X:**
+```dart
+Gameball.showProfile(context, "player-123");
+```
+
+**v3.1.0:**
+```dart
+final profileRequest = ShowProfileRequestBuilder()
+    .customerId("customer-123")
+    .showCloseButton(true)
+    .build();
+
+GameballApp.getInstance().showProfile(context, profileRequest);
+```
+
+## Migration Steps
+
+<Steps>
+<Step title="Update Dependency">
+Update your `pubspec.yaml` to use SDK v3.1.0:
+
+```yaml
+dependencies:
+  gameball_flutter: ^3.1.0
+```
+
+Run `flutter pub get` and `cd ios && pod install`.
+</Step>
+
+<Step title="Update Initialization">
+Replace initialization with `GameballConfig.builder()` pattern:
+```dart
+final config = GameballConfig.builder()
+    .apiKey("your-api-key")
+    .lang("en")
+    .platform("flutter")
+    .shop("your-shop-id")
+    .build();
+
+final gameballApp = GameballApp.getInstance();
+gameballApp.init(config);
+```
+</Step>
+
+<Step title="Update Customer Registration">
+Use `InitializeCustomerRequestBuilder` and `CustomerAttributesBuilder`:
+```dart
+final request = InitializeCustomerRequestBuilder()
+    .customerId("id")
+    .customerAttributes(attributes)
+    .build();
+```
+</Step>
+
+<Step title="Update Event Tracking">
+Use `EventBuilder` with chained methods:
+```dart
+final event = EventBuilder()
+    .customerId("id")
+    .eventName("purchase")
+    .eventMetaData("key", value)
+    .build();
+```
+</Step>
+
+<Step title="Update Show Profile">
+Use `ShowProfileRequestBuilder` for showing profile:
+```dart
+final request = ShowProfileRequestBuilder()
+    .customerId("id")
+    .build();
+```
+</Step>
+
+<Step title="Test Thoroughly">
+Test all Gameball functionality on both iOS and Android to ensure the migration is successful.
+</Step>
+</Steps>
+
+## Compatibility
+
+- **Minimum Flutter Version**: 1.17.0 (3.0+ recommended)
+- **Dart**: 3.4.4+
+- **Android**: API level 21+, targetSdkVersion 34
+- **iOS**: iOS 12.0+
+
+## Additional Resources
+
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-flutter/blob/release-3.1.0/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-flutter/blob/release-3.1.0/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-flutter/blob/release-3.1.0/RELEASE_NOTES.md) for v3.1.0 release details
+- Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
+
+<Warning>
+For v3.1.0-specific details, refer to the [gameball-flutter repository](https://github.com/gameballers/gameball-flutter/tree/release-3.1.0) on branch `release-3.1.0`.
+</Warning>
+
+<Tip>
+If you encounter any issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+
+## Next Steps
+
+- [Getting Started](/installation-guide/flutter-v3/getting-started)
+- [Initialize SDK](/installation-guide/flutter-v3/initialize-sdk)
+- [Go-Live Checklist](/installation-guide/flutter-v3/go-live-checklist)
+

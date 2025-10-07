@@ -1,0 +1,130 @@
+---
+title: "Track Customer Events"
+description: "Send events to power actions, campaigns and rewards"
+---
+
+# Track Customer Events
+
+Send events to Gameball when users perform important actions within your app. Events represent significant customer actions and can trigger rewards, campaigns, and engagement programs.
+
+```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+
+final event = EventBuilder()
+    .customerId("customer-123")
+    .email("john@example.com")
+    .mobile("+1234567890")
+    .eventName("purchase")
+    .eventMetaData("product_id", "12345")
+    .eventMetaData("amount", 99.99)
+    .eventMetaData("currency", "USD")
+    .build();
+
+final gameballApp = GameballApp.getInstance();
+gameballApp.sendEvent(event, (success, error) {
+  if (error == null) {
+    print("Event sent successfully");
+  } else {
+    print("Error sending event: $error");
+  }
+});
+```
+
+## Event Parameters
+
+<ParamField body="customerId" type="string" required>
+The unique identifier of the customer performing the event.
+</ParamField>
+
+<ParamField body="email" type="string">
+Customer's email address.
+</ParamField>
+
+<ParamField body="mobile" type="string">
+Customer's mobile number.
+</ParamField>
+
+<ParamField body="eventName" type="string" required>
+The name of the event (must be called before adding metadata).
+</ParamField>
+
+<ParamField body="eventMetaData" type="key-value">
+Metadata for the current event (can be String, Number, or Boolean values).
+</ParamField>
+
+## Best Practices
+
+<Steps>
+<Step title="Use Clear Event Names">
+Make event names human-readable and consistent (e.g., `purchase_completed`, `review_submitted`).
+</Step>
+
+<Step title="Send After Action Completion">
+Send events when an action is fully completed (e.g., after payment confirmation).
+</Step>
+
+<Step title="Include Relevant Metadata">
+Add metadata that will be useful for segmentation and campaign targeting.
+</Step>
+
+<Step title="Keep Keys Consistent">
+Use consistent metadata keys across similar events (e.g., always use `amount` not sometimes `price`).
+</Step>
+</Steps>
+
+## Common Event Examples
+
+### Purchase Event
+
+```dart
+final purchaseEvent = EventBuilder()
+    .customerId("customer-123")
+    .email("john@example.com")
+    .eventName("purchase_completed")
+    .eventMetaData("order_id", "ORD-12345")
+    .eventMetaData("amount", 149.99)
+    .eventMetaData("currency", "USD")
+    .eventMetaData("category", "electronics")
+    .build();
+
+GameballApp.getInstance().sendEvent(purchaseEvent, (success, error) {
+  // Handle response
+});
+```
+
+### Review Event
+
+```dart
+final reviewEvent = EventBuilder()
+    .customerId("customer-123")
+    .eventName("review_submitted")
+    .eventMetaData("product_id", "PROD-789")
+    .eventMetaData("rating", 5)
+    .build();
+```
+
+### Multiple Events
+
+You can chain multiple events using the builder:
+
+```dart
+final multipleEvents = EventBuilder()
+    .customerId("customer-123")
+    .eventName("add_to_cart")
+    .eventMetaData("product_id", "PROD-456")
+    .eventMetaData("quantity", 2)
+    .eventName("page_view")
+    .eventMetaData("page", "product_detail")
+    .eventMetaData("product_id", "PROD-456")
+    .build();
+```
+
+<Info>
+Events are the foundation of Gameball's reward and engagement system. Configure how events trigger rewards and actions in your Gameball dashboard.
+</Info>
+
+## Next Steps
+
+- [Track Orders & Cashback](/installation-guide/flutter-v3/track-orders)
+- [Integrate Redemption](/installation-guide/flutter-v3/integrate-redemption)
+

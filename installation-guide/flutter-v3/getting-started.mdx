@@ -1,0 +1,81 @@
+---
+title: "Getting Started"
+description: "Install Gameball Flutter SDK v3.1.0"
+---
+
+# Getting Started
+
+## Requirements
+
+- **Minimum Flutter Version**: 1.17.0
+- **Dart**: 3.4.4+
+- **Android**: API level 21+
+- **iOS**: iOS 12.0+
+
+## Install the SDK
+
+Add the dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  gameball_flutter: ^3.1.0
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
+
+## iOS Setup
+
+Make sure your iOS deployment target is at least 12.0. In your `ios/Podfile`:
+
+```ruby
+platform :ios, '12.0'
+```
+
+Run:
+
+```bash
+cd ios && pod install
+```
+
+<Info>
+After updating the Podfile, run `pod install` to ensure all iOS dependencies are properly configured.
+</Info>
+
+## Android Setup
+
+Ensure `INTERNET` permission is declared in `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+Your `android/app/build.gradle` should have minimum SDK version 21:
+
+```gradle
+android {
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+    }
+}
+```
+
+## Verify Installation
+
+After installing, import the package in your Dart code to verify:
+
+```dart
+import 'package:gameball_flutter/gameball_flutter.dart';
+```
+
+If there are no import errors, you're ready to initialize the SDK!
+
+## Next Steps
+
+- [Initialize SDK](/installation-guide/flutter-v3/initialize-sdk)
+- [Initialize Customer Profile](/installation-guide/flutter-v3/initialize-profile)
+

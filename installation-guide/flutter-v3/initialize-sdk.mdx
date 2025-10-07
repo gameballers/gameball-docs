@@ -1,0 +1,94 @@
+---
+title: "Initialize SDK"
+description: "Initialize Gameball Flutter SDK with your configuration"
+---
+
+# Initialize the SDK
+
+Initialize Gameball once, usually at app startup in your `main()` function:
+
+```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final config = GameballConfig.builder()
+      .apiKey("your-api-key")      // Required
+      .lang("en")                  // Optional
+      .platform("flutter")         // Optional
+      .shop("your-shop-id")        // Optional
+      .build();
+
+  final gameballApp = GameballApp.getInstance();
+  gameballApp.init(config);
+
+  runApp(MyApp());
+}
+```
+
+## Configuration Parameters
+
+<ParamField body="apiKey" type="string" required>
+The client API key available in your Gameball dashboard.
+</ParamField>
+
+<ParamField body="lang" type="string">
+The language code for SDK localization (e.g., "en", "ar", "fr"). Defaults to English if not specified.
+</ParamField>
+
+<ParamField body="platform" type="string">
+Platform identifier, defaults to "flutter".
+</ParamField>
+
+<ParamField body="shop" type="string">
+Your Gameball shop identifier for multi-shop configurations.
+</ParamField>
+
+## Example
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Gameball SDK
+  final config = GameballConfig.builder()
+      .apiKey("gb_live_xxxxxxxxxxxxxxxx")
+      .lang("en")
+      .platform("flutter")
+      .shop("myshop")
+      .build();
+
+  final gameballApp = GameballApp.getInstance();
+  gameballApp.init(config);
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Gameball Demo',
+      home: HomeScreen(),
+    );
+  }
+}
+```
+
+<Tip>
+Call `init()` before running your app to ensure the SDK is ready when your app starts.
+</Tip>
+
+<Warning>
+Make sure to use your actual API key from the Gameball dashboard. Test keys are for development, production keys are for live deployment.
+</Warning>
+
+## Next Steps
+
+- [Initialize Customer Profile](/installation-guide/flutter-v3/initialize-profile)
+- [Track Customer Events](/installation-guide/flutter-v3/track-events)
+

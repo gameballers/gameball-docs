@@ -98,7 +98,14 @@ For information, please check [Track Referrals](/installation-guide/android-v3/t
 ## Step 8: Production Readiness
 
 - [ ] Swap Test API Key to Production API Key
-- [ ] ProGuard rules exclude Gameball packages (`-keep class com.gameball.** { *; }`)
+- [ ] ProGuard/R8 rules added to `proguard-rules.pro`:
+  ```proguard
+  -keep class com.gameball.gameball.** { *; }
+  -keep class com.gameball.gameball.model.** { *; }
+  -keepattributes Signature
+  -keepattributes *Annotation*
+  -keep class com.google.gson.** { *; }
+  ```
 - [ ] App works correctly with code obfuscation enabled
 - [ ] Test on multiple Android devices and versions (API 21+)
 - [ ] Memory usage is within acceptable limits

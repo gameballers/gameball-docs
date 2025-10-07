@@ -35,7 +35,7 @@ GameballApp.getInstance(context).initializeCustomer(
 InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
     .customerId("customer-123")
     .email("customer@example.com")
-    .mobileNumber("+1234567890")
+    .mobile("+1234567890")
     .deviceToken("fcm-device-token")
     .pushProvider(PushProvider.Firebase)
     .build();
@@ -67,20 +67,32 @@ Unique identifier for the customer. This should never change for a given custome
 Customer's email address.
 </ParamField>
 
-<ParamField body="mobileNumber" type="string">
+<ParamField body="mobile" type="string">
 Customer's mobile number with country code.
 </ParamField>
 
 <ParamField body="deviceToken" type="string">
-Firebase or Huawei device token for push notifications.
+Push notification token (required if pushProvider is set).
 </ParamField>
 
 <ParamField body="pushProvider" type="PushProvider">
-Push notification provider: `PushProvider.Firebase` or `PushProvider.Huawei`.
+Push notification provider: `PushProvider.Firebase` or `PushProvider.Huawei` (required if deviceToken is set).
 </ParamField>
 
 <ParamField body="customerAttributes" type="CustomerAttributes">
 Additional customer attributes (name, DOB, custom fields, etc.).
+</ParamField>
+
+<ParamField body="referralCode" type="string">
+Referral code if customer was referred by another customer.
+</ParamField>
+
+<ParamField body="isGuest" type="boolean">
+Guest user flag (defaults to false).
+</ParamField>
+
+<ParamField body="osType" type="string">
+Operating system type (automatically set to "Android").
 </ParamField>
 
 ## Customer Attributes
@@ -93,14 +105,25 @@ val attributes = CustomerAttributes.builder()
     .displayName("John Doe")
     .firstName("John")
     .lastName("Doe")
+    .email("john@example.com")
+    .mobileNumber("+1234567890")
+    .gender("male")
     .dateOfBirth("1990-01-15")
-    .gender("M")
-    .customAttribute("vip_level", "gold")
+    .joinDate("2024-01-01")
+    .preferredLanguage("en")
+    .channel("mobile")
+    .addCustomAttribute("vip_level", "gold")
+    .addCustomAttribute("city", "New York")
+    .addAdditionalAttribute("segment", "premium")
     .build()
 
 val customerRequest = InitializeCustomerRequest.builder()
     .customerId("customer-123")
+    .email("john@example.com")
+    .mobile("+1234567890")
     .customerAttributes(attributes)
+    .referralCode("REF123")  // Optional
+    .isGuest(false)          // Optional
     .build()
 ```
 
@@ -109,17 +132,88 @@ CustomerAttributes attributes = CustomerAttributes.builder()
     .displayName("John Doe")
     .firstName("John")
     .lastName("Doe")
+    .email("john@example.com")
+    .mobileNumber("+1234567890")
+    .gender("male")
     .dateOfBirth("1990-01-15")
-    .gender("M")
-    .customAttribute("vip_level", "gold")
+    .joinDate("2024-01-01")
+    .preferredLanguage("en")
+    .channel("mobile")
+    .addCustomAttribute("vip_level", "gold")
+    .addCustomAttribute("city", "New York")
+    .addAdditionalAttribute("segment", "premium")
     .build();
 
 InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
     .customerId("customer-123")
+    .email("john@example.com")
+    .mobile("+1234567890")
     .customerAttributes(attributes)
+    .referralCode("REF123")  // Optional
+    .isGuest(false)          // Optional
     .build();
 ```
 </CodeGroup>
+
+## CustomerAttributes Builder
+
+<Expandable title="CustomerAttributes Builder Methods">
+  <ParamField body="displayName(String)" type="method">
+  Sets the customer's display name.
+  </ParamField>
+  
+  <ParamField body="firstName(String)" type="method">
+  Sets the customer's first name.
+  </ParamField>
+  
+  <ParamField body="lastName(String)" type="method">
+  Sets the customer's last name.
+  </ParamField>
+  
+  <ParamField body="email(String)" type="method">
+  Sets the customer's email address.
+  </ParamField>
+  
+  <ParamField body="mobileNumber(String)" type="method">
+  Sets the customer's mobile number.
+  </ParamField>
+  
+  <ParamField body="gender(String)" type="method">
+  Sets the customer's gender.
+  </ParamField>
+  
+  <ParamField body="dateOfBirth(String)" type="method">
+  Sets date of birth in `YYYY-MM-DD` format.
+  </ParamField>
+  
+  <ParamField body="joinDate(String)" type="method">
+  Sets the join date in `YYYY-MM-DD` format.
+  </ParamField>
+  
+  <ParamField body="preferredLanguage(String)" type="method">
+  Sets the preferred language code.
+  </ParamField>
+  
+  <ParamField body="channel(String)" type="method">
+  Sets the channel identifier (defaults to "mobile").
+  </ParamField>
+  
+  <ParamField body="addCustomAttribute(String, String)" type="method">
+  Adds a custom attribute key-value pair.
+  </ParamField>
+  
+  <ParamField body="customAttributes(Map)" type="method">
+  Sets all custom attributes at once.
+  </ParamField>
+  
+  <ParamField body="addAdditionalAttribute(String, String)" type="method">
+  Adds an additional attribute key-value pair.
+  </ParamField>
+  
+  <ParamField body="additionalAttributes(Map)" type="method">
+  Sets all additional attributes at once.
+  </ParamField>
+</Expandable>
 
 <Warning>
 **Choose an Unchangeable Customer ID**
