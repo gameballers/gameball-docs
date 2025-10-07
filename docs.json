@@ -144,6 +144,21 @@
                       "installation-guide/web/track-referrals",
                       "installation-guide/web/go-live-checklist"
                     ]
+                  },
+                  {
+                    "group": "Android",
+                    "pages": [
+                      "installation-guide/android-v3/index",
+                      "installation-guide/android-v3/getting-started",
+                      "installation-guide/android-v3/initialize-profile",
+                      "installation-guide/android-v3/track-events",
+                      "installation-guide/android-v3/track-orders",
+                      "installation-guide/android-v3/integrate-redemption",
+                      "installation-guide/android-v3/push-notifications",
+                      "installation-guide/android-v3/track-referrals",
+                      "installation-guide/android-v3/go-live-checklist",
+                      "installation-guide/android-v3/migration-notes"
+                    ]
                   }
                 ]
               }

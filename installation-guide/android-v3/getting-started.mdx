@@ -1,0 +1,133 @@
+---
+title: "Getting Started"
+description: "Install and initialize Gameball Android SDK v3.1.0"
+---
+
+# Getting Started
+
+## Requirements
+
+- **Minimum SDK Version**: 21 (Android 5.0)
+- **Target SDK Version**: 34
+- **Kotlin**: 1.8+ (or as required by the branch)
+- **AndroidX**
+- **Internet permission** in `AndroidManifest.xml`
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+## Install the SDK
+
+### Gradle (Recommended)
+
+Add required repositories to your project-level `settings.gradle` or `build.gradle`:
+
+```groovy
+dependencyResolutionManagement {
+  repositories {
+    google()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    maven { url 'https://developer.huawei.com/repo/' }
+  }
+}
+```
+
+Add the dependency to your app-level `build.gradle`:
+
+```groovy
+dependencies {
+  implementation 'com.gameball:gameball-sdk:3.1.0'
+}
+```
+
+<Info>
+If your project uses older Gradle settings, replace `dependencyResolutionManagement` usage accordingly.
+</Info>
+
+### Maven
+
+Add repositories to `pom.xml` then the dependency:
+
+```xml
+<dependency>
+  <groupId>com.gameball</groupId>
+  <artifactId>gameball-sdk</artifactId>
+  <version>3.1.0</version>
+</dependency>
+```
+
+## Initialize the SDK
+
+Create an application-level initialization so the SDK is available globally.
+
+<CodeGroup>
+```kotlin Kotlin
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        val config = GameballConfig.builder()
+            .apiKey("your-api-key")      // Required
+            .lang("en")                 // Optional
+            .platform("android")        // Optional (defaults to android)
+            .shop("your-shop-id")       // Optional - your Gameball shop identifier
+            .build()
+
+        GameballApp.getInstance(this).init(config)
+    }
+}
+```
+
+```java Java
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        GameballConfig config = GameballConfig.builder()
+            .apiKey("your-api-key")      // Required
+            .lang("en")                 // Optional
+            .platform("android")        // Optional (defaults to android)
+            .shop("your-shop-id")       // Optional - your Gameball shop identifier
+            .build();
+
+        GameballApp.getInstance(this).init(config);
+    }
+}
+```
+</CodeGroup>
+
+## Configuration Parameters
+
+<ParamField body="apiKey" type="string" required>
+The client API key available in your Gameball dashboard.
+</ParamField>
+
+<ParamField body="lang" type="string">
+The language code for SDK localization (e.g., "en", "ar", "fr").
+</ParamField>
+
+<ParamField body="platform" type="string">
+Platform identifier, defaults to "android".
+</ParamField>
+
+<ParamField body="shop" type="string">
+Your Gameball shop identifier for multi-shop configurations.
+</ParamField>
+
+<Tip>
+Make sure to register your Application class in AndroidManifest.xml:
+```xml
+<application
+    android:name=".MyApplication"
+    ...>
+```
+</Tip>
+
+## Next Steps
+
+- [Initialize Customer Profile](/installation-guide/android-v3/initialize-profile)
+- [Track Customer Events](/installation-guide/android-v3/track-events)
+

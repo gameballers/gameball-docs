@@ -1,0 +1,138 @@
+---
+title: "Initialize Customer Profile"
+description: "Register and identify customers in your Android app"
+---
+
+# Initialize Customer (Register/Identify)
+
+Register a customer whenever they log in or register in your app. This allows Gameball to attach events and rewards to the customer profile.
+
+<CodeGroup>
+```kotlin Kotlin
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .email("customer@example.com")
+    .mobileNumber("+1234567890")
+    .deviceToken("fcm-device-token")
+    .pushProvider(PushProvider.Firebase)
+    .build()
+
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    object : Callback<InitializeCustomerResponse> {
+        override fun onSuccess(response: InitializeCustomerResponse) {
+            // Customer initialized successfully
+        }
+
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    }
+)
+```
+
+```java Java
+InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .email("customer@example.com")
+    .mobileNumber("+1234567890")
+    .deviceToken("fcm-device-token")
+    .pushProvider(PushProvider.Firebase)
+    .build();
+
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    new Callback<InitializeCustomerResponse>() {
+        @Override
+        public void onSuccess(InitializeCustomerResponse response) {
+            // Customer initialized successfully
+        }
+
+        @Override
+        public void onError(Throwable error) {
+            // Handle error
+        }
+    }
+);
+```
+</CodeGroup>
+
+## Request Parameters
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer. This should never change for a given customer.
+</ParamField>
+
+<ParamField body="email" type="string">
+Customer's email address.
+</ParamField>
+
+<ParamField body="mobileNumber" type="string">
+Customer's mobile number with country code.
+</ParamField>
+
+<ParamField body="deviceToken" type="string">
+Firebase or Huawei device token for push notifications.
+</ParamField>
+
+<ParamField body="pushProvider" type="PushProvider">
+Push notification provider: `PushProvider.Firebase` or `PushProvider.Huawei`.
+</ParamField>
+
+<ParamField body="customerAttributes" type="CustomerAttributes">
+Additional customer attributes (name, DOB, custom fields, etc.).
+</ParamField>
+
+## Customer Attributes
+
+You can enrich customer profiles with additional attributes using the `CustomerAttributes` builder:
+
+<CodeGroup>
+```kotlin Kotlin
+val attributes = CustomerAttributes.builder()
+    .displayName("John Doe")
+    .firstName("John")
+    .lastName("Doe")
+    .dateOfBirth("1990-01-15")
+    .gender("M")
+    .customAttribute("vip_level", "gold")
+    .build()
+
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .customerAttributes(attributes)
+    .build()
+```
+
+```java Java
+CustomerAttributes attributes = CustomerAttributes.builder()
+    .displayName("John Doe")
+    .firstName("John")
+    .lastName("Doe")
+    .dateOfBirth("1990-01-15")
+    .gender("M")
+    .customAttribute("vip_level", "gold")
+    .build();
+
+InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .customerAttributes(attributes)
+    .build();
+```
+</CodeGroup>
+
+<Warning>
+**Choose an Unchangeable Customer ID**
+
+The `customerId` should be a permanent identifier that will NEVER change. Avoid using email or phone number as the customer ID since these can be updated by users.
+</Warning>
+
+<Tip>
+Call `initializeCustomer` after successful login or registration in your app to ensure the customer profile is up-to-date.
+</Tip>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guide/android-v3/track-events)
+- [Track Orders & Cashback](/installation-guide/android-v3/track-orders)
+

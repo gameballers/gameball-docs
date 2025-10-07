@@ -1,0 +1,185 @@
+---
+title: "Migration Notes"
+description: "Migrate from v2.X.X to v3.1.0"
+---
+
+# Migration Notes & Changelog
+
+This guide helps you migrate from Gameball Android SDK v2.X.X to v3.1.0.
+
+## What's New in v3.1.0
+
+<CardGroup cols={2}>
+<Card title="Improved API" icon="code">
+Streamlined API with better Kotlin support and cleaner method names
+</Card>
+
+<Card title="Better Performance" icon="gauge-high">
+Optimized SDK initialization and reduced memory footprint
+</Card>
+
+<Card title="Enhanced Type Safety" icon="shield">
+Stronger typing and better compile-time checks
+</Card>
+
+<Card title="Simplified Configuration" icon="sliders">
+Easier configuration with builder pattern throughout
+</Card>
+</CardGroup>
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2.X.X:**
+```kotlin
+GameballApp.getInstance(context).init(
+    "api-key",
+    "en",
+    "android",
+    "shop-id"
+)
+```
+
+**v3.1.0:**
+```kotlin
+val config = GameballConfig.builder()
+    .apiKey("api-key")
+    .lang("en")
+    .platform("android")
+    .shop("shop-id")
+    .build()
+
+GameballApp.getInstance(context).init(config)
+```
+
+### 2. Customer Registration
+
+**v2.X.X:**
+```kotlin
+gameballApp.registerCustomer(
+    customerId,
+    customerAttributes,
+    referralCode,
+    isGuest,
+    callback
+)
+```
+
+**v3.1.0:**
+```kotlin
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId(customerId)
+    .customerAttributes(customerAttributes)
+    .referralCode(referralCode)
+    .build()
+
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    callback
+)
+```
+
+### 3. Event Tracking
+
+**v2.X.X:**
+```kotlin
+val event = Event.Builder()
+    .AddUniquePlayerId("customer-123")
+    .AddEventName("purchase")
+    .build()
+```
+
+**v3.1.0:**
+```kotlin
+val event = Event.builder()
+    .customerId("customer-123")
+    .eventName("purchase")
+    .build()
+```
+
+### 4. Method Name Changes
+
+| v2.X.X | v3.1.0 |
+|--------|--------|
+| `registerCustomer()` | `initializeCustomer()` |
+| `AddUniquePlayerId()` | `customerId()` |
+| `AddEventName()` | `eventName()` |
+| `AddEventMetaData()` | `eventMetaData()` |
+| `PlayerAttributes` | `CustomerAttributes` |
+| `PlayerRegisterResponse` | `InitializeCustomerResponse` |
+
+### 5. Push Notifications
+
+**v2.X.X:**
+```kotlin
+gameballApp.initializeFirebase()
+```
+
+**v3.1.0:**
+```kotlin
+// Token is provided during customer initialization
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .deviceToken(fcmToken)
+    .pushProvider(PushProvider.Firebase)
+    .build()
+```
+
+## Migration Steps
+
+<Steps>
+<Step title="Update Dependency">
+Update your `build.gradle` to use SDK v3.1.0:
+
+```groovy
+dependencies {
+    implementation 'com.gameball:gameball-sdk:3.1.0'
+}
+```
+</Step>
+
+<Step title="Update Initialization">
+Replace your SDK initialization code with the new `GameballConfig` builder pattern.
+</Step>
+
+<Step title="Update Customer Registration">
+Replace `registerCustomer()` with `initializeCustomer()` using the new request builder.
+</Step>
+
+<Step title="Update Event Tracking">
+Update event creation to use lowercase builder methods (e.g., `.customerId()` instead of `.AddUniquePlayerId()`).
+</Step>
+
+<Step title="Update Push Notifications">
+Move device token registration to customer initialization instead of separate `initializeFirebase()` call.
+</Step>
+
+<Step title="Test Thoroughly">
+Test all Gameball functionality to ensure the migration is successful.
+</Step>
+</Steps>
+
+## Compatibility
+
+- **Minimum SDK**: Android API 21 (Android 5.0)
+- **Target SDK**: Android API 34
+- **Kotlin**: 1.8+
+- **AndroidX**: Required
+- **Gradle**: 7.0+
+
+## Additional Resources
+
+- Check the SDK repository's `CHANGELOG.md` for detailed version history
+- Review `MIGRATION.md` in the repository for more migration details
+- Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
+
+<Warning>
+If you encounter any issues during migration, please contact Gameball support or check the GitHub repository for known issues and solutions.
+</Warning>
+
+## Next Steps
+
+- [Getting Started](/installation-guide/android-v3/getting-started)
+- [Go-Live Checklist](/installation-guide/android-v3/go-live-checklist)
+
