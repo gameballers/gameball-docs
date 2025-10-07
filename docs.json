@@ -132,7 +132,7 @@
               {
                 "group": "Platform Integration",
                 "pages": [
-                  "installation-guide/index",
+                  "installation-guide/index-v3",
                   {
                     "group": "Web",
                     "pages": [
