@@ -36,87 +36,115 @@
     "tabs": [
       {
         "tab": "Installation Guide",
-        "groups": [
+        "versions": [
           {
-            "group": "Platform Integration",
-            "pages": [
-              "installation-guide/index",
+            "version": "SDK v2.X.X",
+            "groups": [
               {
-                "group": "Web",
+                "group": "Platform Integration",
                 "pages": [
-                  "installation-guide/web/index",
-                  "installation-guide/web/initialize-widget",
-                  "installation-guide/web/track-events",
-                  "installation-guide/web/track-orders",
-                  "installation-guide/web/integrate-redemption",
-                  "installation-guide/web/track-referrals",
-                  "installation-guide/web/go-live-checklist"
+                  "installation-guide/index",
+                  {
+                    "group": "Web",
+                    "pages": [
+                      "installation-guide/web/index",
+                      "installation-guide/web/initialize-widget",
+                      "installation-guide/web/track-events",
+                      "installation-guide/web/track-orders",
+                      "installation-guide/web/integrate-redemption",
+                      "installation-guide/web/track-referrals",
+                      "installation-guide/web/go-live-checklist"
+                    ]
+                  },
+                  {
+                    "group": "iOS",
+                    "pages": [
+                      "installation-guide/ios/index",
+                      "installation-guide/ios/getting-started",
+                      "installation-guide/ios/initialize-profile",
+                      "installation-guide/ios/track-events",
+                      "installation-guide/ios/track-orders",
+                      "installation-guide/ios/integrate-redemption",
+                      "installation-guide/ios/push-notifications",
+                      "installation-guide/ios/track-referrals",
+                      "installation-guide/ios/go-live-checklist"
+                    ]
+                  },
+                  {
+                    "group": "Android",
+                    "pages": [
+                      "installation-guide/android/index",
+                      "installation-guide/android/getting-started",
+                      "installation-guide/android/initialize-profile",
+                      "installation-guide/android/track-events",
+                      "installation-guide/android/track-orders",
+                      "installation-guide/android/integrate-redemption",
+                      "installation-guide/android/push-notifications",
+                      "installation-guide/android/go-live-checklist"
+                    ]
+                  },
+                  {
+                    "group": "React Native",
+                    "pages": [
+                      "installation-guide/react-native/index",
+                      "installation-guide/react-native/getting-started",
+                      "installation-guide/react-native/initialize-profile",
+                      "installation-guide/react-native/track-events",
+                      "installation-guide/react-native/track-orders",
+                      "installation-guide/react-native/integrate-redemption",
+                      "installation-guide/react-native/track-referrals",
+                      "installation-guide/react-native/push-notifications",
+                      "installation-guide/react-native/go-live-checklist"
+                    ]
+                  },
+                  {
+                    "group": "Flutter",
+                    "pages": [
+                      "installation-guide/flutter/index",
+                      "installation-guide/flutter/getting-started",
+                      "installation-guide/flutter/initialize-profile",
+                      "installation-guide/flutter/track-events",
+                      "installation-guide/flutter/track-orders",
+                      "installation-guide/flutter/integrate-redemption",
+                      "installation-guide/flutter/track-referrals",
+                      "installation-guide/flutter/go-live-checklist"
+                    ]
+                  },
+                  {
+                    "group": "Generic Mobile App",
+                    "pages": [
+                      "installation-guide/generic-mobile/index",
+                      "installation-guide/generic-mobile/initialize-profile",
+                      "installation-guide/generic-mobile/track-events",
+                      "installation-guide/generic-mobile/track-orders",
+                      "installation-guide/generic-mobile/integrate-redemption",
+                      "installation-guide/generic-mobile/track-referrals",
+                      "installation-guide/generic-mobile/push-notifications"
+                    ]
+                  }
                 ]
-              },
+              }
+            ]
+          },
+          {
+            "version": "SDK v3.X.X",
+            "groups": [
               {
-                "group": "iOS",
+                "group": "Platform Integration",
                 "pages": [
-                  "installation-guide/ios/index",
-                  "installation-guide/ios/getting-started",
-                  "installation-guide/ios/initialize-profile",
-                  "installation-guide/ios/track-events",
-                  "installation-guide/ios/track-orders",
-                  "installation-guide/ios/integrate-redemption",
-                  "installation-guide/ios/push-notifications",
-                  "installation-guide/ios/track-referrals",
-                  "installation-guide/ios/go-live-checklist"
-                ]
-              },
-              {
-                "group": "Android",
-                "pages": [
-                  "installation-guide/android/index",
-                  "installation-guide/android/getting-started",
-                  "installation-guide/android/initialize-profile",
-                  "installation-guide/android/track-events",
-                  "installation-guide/android/track-orders",
-                  "installation-guide/android/integrate-redemption",
-                  "installation-guide/android/push-notifications",
-                  "installation-guide/android/go-live-checklist"
-                ]
-              },
-              {
-                "group": "React Native",
-                "pages": [
-                  "installation-guide/react-native/index",
-                  "installation-guide/react-native/getting-started",
-                  "installation-guide/react-native/initialize-profile",
-                  "installation-guide/react-native/track-events",
-                  "installation-guide/react-native/track-orders",
-                  "installation-guide/react-native/integrate-redemption",
-                  "installation-guide/react-native/track-referrals",
-                  "installation-guide/react-native/push-notifications",
-                  "installation-guide/react-native/go-live-checklist"
-                ]
-              },
-              {
-                "group": "Flutter",
-                "pages": [
-                  "installation-guide/flutter/index",
-                  "installation-guide/flutter/getting-started",
-                  "installation-guide/flutter/initialize-profile",
-                  "installation-guide/flutter/track-events",
-                  "installation-guide/flutter/track-orders",
-                  "installation-guide/flutter/integrate-redemption",
-                  "installation-guide/flutter/track-referrals",
-                  "installation-guide/flutter/go-live-checklist"
-                ]
-              },
-              {
-                "group": "Generic Mobile App",
-                "pages": [
-                  "installation-guide/generic-mobile/index",
-                  "installation-guide/generic-mobile/initialize-profile",
-                  "installation-guide/generic-mobile/track-events",
-                  "installation-guide/generic-mobile/track-orders",
-                  "installation-guide/generic-mobile/integrate-redemption",
-                  "installation-guide/generic-mobile/track-referrals",
-                  "installation-guide/generic-mobile/push-notifications"
+                  "installation-guide/index",
+                  {
+                    "group": "Web",
+                    "pages": [
+                      "installation-guide/web/index",
+                      "installation-guide/web/initialize-widget",
+                      "installation-guide/web/track-events",
+                      "installation-guide/web/track-orders",
+                      "installation-guide/web/integrate-redemption",
+                      "installation-guide/web/track-referrals",
+                      "installation-guide/web/go-live-checklist"
+                    ]
+                  }
                 ]
               }
             ]
@@ -392,22 +420,13 @@
               {
                 "group": "API documentation",
                 "pages": [
-                  "api-reference/introduction",
-                  {
-                    "group": "Overview",
-                    "pages": [
-                      "api-reference/overview/whats-new",
-                      "api-reference/overview/authentication",
-                      "api-reference/overview/rate-limiting",
-                      "api-reference/overview/status-error-codes"
-                    ]
-                  }
+                  "api-reference/introduction-v4.1"
                 ]
               }
             ]
           }
         ]
-      }, 
+      },
       {
         "tab": "API Updates",
         "groups": [
@@ -437,9 +456,9 @@
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg",
-    "height": 500
+    "dark": "/logo/dark.svg"
   },
+  "customCSS": "styles.css",
   "navbar": {
     "links": [
       {

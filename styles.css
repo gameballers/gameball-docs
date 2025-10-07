@@ -1,0 +1,13 @@
+.nav-logo {
+  width: auto !important;
+  height: 40px !important;
+  max-height: 40px !important;
+}
+
+.nav-logo img {
+  width: auto !important;
+  height: 40px !important;
+  max-height: 40px !important;
+  object-fit: contain !important;
+}
+
