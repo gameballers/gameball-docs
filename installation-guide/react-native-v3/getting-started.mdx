@@ -1,0 +1,117 @@
+---
+title: "Getting Started"
+description: "Install Gameball React Native SDK v3.1.0"
+---
+
+# Getting Started
+
+## Requirements
+
+- **React Native**: 0.60+
+- **Node.js**: 16+
+- **TypeScript**: 4.0+ (optional but recommended)
+- **iOS**: iOS 12.0+
+- **Android**: API level 21+
+
+## Install the SDK
+
+Install the package using npm or yarn:
+
+<CodeGroup>
+```bash npm
+npm install gameball-react-native@^3.1.0
+```
+
+```bash yarn
+yarn add gameball-react-native@^3.1.0
+```
+</CodeGroup>
+
+## Install Dependencies
+
+The SDK depends on `react-native-webview` for the profile widget. Install it:
+
+<CodeGroup>
+```bash npm
+npm install react-native-webview
+```
+
+```bash yarn
+yarn add react-native-webview
+```
+</CodeGroup>
+
+## iOS Setup
+
+Navigate to the iOS folder and install pods:
+
+```bash
+cd ios && pod install && cd ..
+```
+
+Make sure your iOS deployment target is at least 12.0 in `ios/Podfile`:
+
+```ruby
+platform :ios, '12.0'
+```
+
+## Android Setup
+
+Ensure `INTERNET` permission is declared in `android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+Your `android/app/build.gradle` should have minimum SDK version 21:
+
+```gradle
+android {
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+    }
+}
+```
+
+## ProGuard Configuration (Android)
+
+If using ProGuard, add to `android/app/proguard-rules.pro`:
+
+```proguard
+-keep class com.gameballsdk.** { *; }
+-keepnames class * extends com.gameballsdk.**
+-dontwarn com.gameballsdk.**
+```
+
+## Metro Configuration
+
+Add to your `metro.config.js`:
+
+```javascript
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+
+const config = {
+  resolver: {
+    assetExts: ['bin', 'txt', 'jpg', 'png', 'json', 'woff', 'woff2', 'ttf', 'otf'],
+  },
+};
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+```
+
+## Verify Installation
+
+Import the package in your code to verify:
+
+```typescript
+import { GameballApp } from 'gameball-react-native';
+```
+
+If there are no import errors, you're ready to initialize the SDK!
+
+## Next Steps
+
+- [Initialize SDK](/installation-guide/react-native-v3/initialize-sdk)
+- [Initialize Customer Profile](/installation-guide/react-native-v3/initialize-profile)
+

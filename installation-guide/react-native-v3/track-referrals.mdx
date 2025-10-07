@@ -1,0 +1,126 @@
+---
+title: "Track Referrals"
+description: "Implement referral tracking using Firebase Dynamic Links"
+---
+
+# Track Referrals
+
+Gameball referrals use Firebase Dynamic Links to track when customers invite their friends.
+
+## Setup
+
+<Steps>
+<Step title="Install Firebase Dynamic Links">
+Install the Firebase Dynamic Links package:
+
+```bash
+npm install @react-native-firebase/dynamic-links
+```
+</Step>
+
+<Step title="Configure Firebase">
+Set up Firebase Dynamic Links in your Firebase console.
+</Step>
+
+<Step title="Configure in Gameball Dashboard">
+Provide your Firebase Dynamic Links configuration in the Gameball dashboard.
+</Step>
+</Steps>
+
+## Handle Dynamic Links
+
+Set up dynamic link handling in your app:
+
+```typescript
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import { GameballApp } from 'gameball-react-native';
+import { useEffect } from 'react';
+
+function App() {
+  useEffect(() => {
+    // Handle initial dynamic link (app was closed)
+    dynamicLinks()
+      .getInitialLink()
+      .then((link) => {
+        if (link?.url) {
+          handleDynamicLink(link.url);
+        }
+      });
+
+    // Handle dynamic link (app in background/foreground)
+    const unsubscribe = dynamicLinks().onLink(({ url }) => {
+      handleDynamicLink(url);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  function handleDynamicLink(url: string) {
+    const urlParams = new URLSearchParams(url.split('?')[1]);
+    const gbReferral = urlParams.get('GBReferral');
+    
+    if (gbReferral) {
+      // Store referral code to use during registration
+      saveReferralCode(gbReferral);
+    }
+  }
+
+  return (
+    // Your app components
+  );
+}
+```
+
+## Register Customer with Referral
+
+When registering a new customer with a referral code:
+
+```typescript
+import { GameballApp, InitializeCustomerRequest } from 'gameball-react-native';
+
+const request: InitializeCustomerRequest = {
+  customerId: 'new-customer-456',
+  email: 'newuser@example.com',
+  mobile: '+1234567890',
+  referralCode: gbReferralCode,  // Include captured referral code
+  customerAttributes: {
+    displayName: 'Jane Smith',
+  },
+};
+
+try {
+  const response = await GameballApp.getInstance().initializeCustomer(request);
+  console.log('Customer registered with referral');
+} catch (error) {
+  console.error('Error:', error);
+}
+```
+
+## How It Works
+
+When a customer shares their referral link and a new user clicks it:
+
+1. New user installs the app through the referral link
+2. App opens and captures the Firebase Dynamic Link
+3. Extract the `GBReferral` parameter from the URL
+4. Store the referral code
+5. Include it when calling `initializeCustomer`
+6. Both referrer and referee receive rewards
+
+## Get Customer Referral Info
+
+Customers can get their referral link from the Gameball profile widget. The widget displays the referral information that customers can share with friends.
+
+<Info>
+Configure referral rewards and rules in your Gameball dashboard to determine how and when referrers and referees are rewarded.
+</Info>
+
+<Warning>
+Make sure Firebase Dynamic Links is properly configured in both Firebase console and Gameball dashboard for referrals to work correctly.
+</Warning>
+
+## Next Steps
+
+- [Go-Live Checklist](/installation-guide/react-native-v3/go-live-checklist)
+- [Migration Notes](/installation-guide/react-native-v3/migration-notes)
+

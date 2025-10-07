@@ -1,0 +1,213 @@
+---
+title: "Migration Notes"
+description: "Migrate from v2.X.X to v3.1.0"
+---
+
+# Migration Notes & Changelog
+
+This guide helps you migrate from Gameball React Native SDK v2.X.X to v3.1.0.
+
+## What's New in v3.1.0
+
+<CardGroup cols={2}>
+<Card title="TypeScript Support" icon="code">
+Full TypeScript support with type definitions and interfaces
+</Card>
+
+<Card title="Async/Await" icon="clock">
+Modern async/await support alongside callback pattern
+</Card>
+
+<Card title="Better Error Handling" icon="triangle-exclamation">
+Improved error messages and validation
+</Card>
+
+<Card title="Simplified API" icon="sliders">
+Cleaner API design with consistent patterns
+</Card>
+</CardGroup>
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2.X.X:**
+```typescript
+import {GameballSDK} from 'react-native-gameball';
+
+GameballSDK.init("api-key", "en", "platform", "shop");
+```
+
+**v3.1.0:**
+```typescript
+import { GameballApp, GameballConfig } from 'gameball-react-native';
+
+const config: GameballConfig = {
+  apiKey: 'api-key',
+  lang: 'en',
+  platform: 'react-native',
+  shop: 'shop-id',
+};
+
+GameballApp.getInstance().init(config);
+```
+
+### 2. Customer Registration
+
+**v2.X.X:**
+```typescript
+GameballSDK.registerPlayer({
+  playerUniqueId: "customer-123",
+  deviceToken: "token",
+  referrerCode: "ref",
+  playerAttributes: {...}
+});
+```
+
+**v3.1.0:**
+```typescript
+const request: InitializeCustomerRequest = {
+  customerId: 'customer-123',
+  deviceToken: 'token',
+  referralCode: 'ref',
+  customerAttributes: {...},
+};
+
+await GameballApp.getInstance().initializeCustomer(request);
+```
+
+### 3. Event Tracking
+
+**v2.X.X:**
+```typescript
+GameballSdk.sendEvent({"review": {}})
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
+```
+
+**v3.1.0:**
+```typescript
+const event: Event = {
+  customerId: 'customer-123',
+  events: {
+    review: {
+      rating: 5
+    }
+  },
+};
+
+await GameballApp.getInstance().sendEvent(event);
+```
+
+### 4. Show Profile Widget
+
+**v2.X.X:**
+```typescript
+import {GameballWidget} from 'react-native-gameball';
+
+<GameballWidget 
+  modal={true}
+  ref={ref}
+/>
+```
+
+**v3.1.0:**
+```typescript
+import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+
+const profileRequest: ShowProfileRequest = {
+  customerId: 'customer-123',
+  showCloseButton: true,
+};
+
+await GameballApp.getInstance().showProfile(profileRequest);
+```
+
+### 5. Key Naming Changes
+
+| v2.X.X | v3.1.0 |
+|--------|--------|
+| `playerUniqueId` | `customerId` |
+| `playerAttributes` | `customerAttributes` |
+| `referrerCode` | `referralCode` |
+| `GameballSDK` | `GameballApp.getInstance()` |
+| `GameballSdk.sendEvent` | `GameballApp.getInstance().sendEvent` |
+
+## Migration Steps
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.0:
+
+```json
+{
+  "dependencies": {
+    "gameball-react-native": "^3.1.0"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="Update Imports">
+Change all imports from `react-native-gameball` to `gameball-react-native`:
+```typescript
+import { GameballApp } from 'gameball-react-native';
+```
+</Step>
+
+<Step title="Update Initialization">
+Replace SDK initialization with the new config object pattern.
+</Step>
+
+<Step title="Update Customer Registration">
+Replace `registerPlayer` with `initializeCustomer` using the new request structure.
+</Step>
+
+<Step title="Update Event Tracking">
+Update event structure to use `events` object with nested properties.
+</Step>
+
+<Step title="Update Profile Widget">
+Replace `GameballWidget` component with `showProfile` method calls.
+</Step>
+
+<Step title="Add Type Definitions">
+If using TypeScript, add type annotations to leverage full type safety.
+</Step>
+
+<Step title="Test on Both Platforms">
+Test all Gameball functionality on both iOS and Android to ensure the migration is successful.
+</Step>
+</Steps>
+
+## Compatibility
+
+- **React Native**: 0.60+
+- **Node.js**: 16+
+- **TypeScript**: 4.0+ (optional)
+- **iOS**: iOS 12.0+
+- **Android**: API level 21+
+
+## Additional Resources
+
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.0/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.0/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.0/RELEASE_NOTES.md) for v3.1.0 release details
+- Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
+
+<Warning>
+For v3.1.0-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.0) on branch `release-3.1.0`.
+</Warning>
+
+<Tip>
+If you encounter any issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+
+## Next Steps
+
+- [Getting Started](/installation-guide/react-native-v3/getting-started)
+- [Initialize SDK](/installation-guide/react-native-v3/initialize-sdk)
+- [Go-Live Checklist](/installation-guide/react-native-v3/go-live-checklist)
+

@@ -1,0 +1,209 @@
+---
+title: "Initialize Customer Profile"
+description: "Register customers and show the Gameball profile widget"
+---
+
+# Initialize Customer (Register/Identify)
+
+Register or update a customer whenever they log in or register in your app.
+
+```typescript
+import { GameballApp, InitializeCustomerRequest, CustomerAttributes } from 'gameball-react-native';
+
+const attributes: CustomerAttributes = {
+  displayName: 'John Doe',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john@example.com',
+  mobile: '+1234567890',
+  gender: 'M',
+  dateOfBirth: '1990-01-15',
+  joinDate: '2024-01-01',
+  preferredLanguage: 'en',
+  customAttributes: {
+    loyaltyTier: 'gold',
+    city: 'New York',
+  },
+  additionalAttributes: {
+    segment: 'premium',
+  },
+};
+
+const request: InitializeCustomerRequest = {
+  customerId: 'customer-123',
+  email: 'john@example.com',
+  mobile: '+1234567890',
+  customerAttributes: attributes,
+  referralCode: 'REF123',  // Optional
+  isGuest: false,          // Optional
+};
+
+// Using async/await
+try {
+  const response = await GameballApp.getInstance().initializeCustomer(request);
+  console.log('Customer initialized:', response.gameballId);
+} catch (error) {
+  console.error('Error:', error.message);
+}
+
+// Using callbacks (backward compatibility)
+GameballApp.getInstance().initializeCustomer(request, {
+  onSuccess: (response) => {
+    console.log('Success:', response.gameballId);
+  },
+  onError: (error) => {
+    console.error('Error:', error.message);
+  }
+});
+```
+
+## Request Parameters
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer. This should never change for a given customer.
+</ParamField>
+
+<ParamField body="email" type="string">
+Customer's email address.
+</ParamField>
+
+<ParamField body="mobile" type="string">
+Customer's mobile number with country code.
+</ParamField>
+
+<ParamField body="deviceToken" type="string">
+Push notification token (required if pushProvider is set).
+</ParamField>
+
+<ParamField body="pushProvider" type="'Firebase' | 'Huawei'">
+Push notification provider (required if deviceToken is set).
+</ParamField>
+
+<ParamField body="customerAttributes" type="CustomerAttributes">
+Additional customer attributes.
+</ParamField>
+
+<ParamField body="referralCode" type="string">
+Referral code if customer was referred by another customer.
+</ParamField>
+
+<ParamField body="isGuest" type="boolean">
+Guest user flag (defaults to false).
+</ParamField>
+
+## CustomerAttributes
+
+<Expandable title="CustomerAttributes Fields">
+  <ParamField body="displayName" type="string">
+  Customer's display name.
+  </ParamField>
+  
+  <ParamField body="firstName" type="string">
+  Customer's first name.
+  </ParamField>
+  
+  <ParamField body="lastName" type="string">
+  Customer's last name.
+  </ParamField>
+  
+  <ParamField body="email" type="string">
+  Customer's email address.
+  </ParamField>
+  
+  <ParamField body="mobile" type="string">
+  Customer's mobile number.
+  </ParamField>
+  
+  <ParamField body="gender" type="string">
+  Gender: 'M' or 'F'.
+  </ParamField>
+  
+  <ParamField body="dateOfBirth" type="string">
+  Date of birth in `YYYY-MM-DD` format.
+  </ParamField>
+  
+  <ParamField body="joinDate" type="string">
+  Join date in `YYYY-MM-DD` format.
+  </ParamField>
+  
+  <ParamField body="preferredLanguage" type="string">
+  Preferred language code.
+  </ParamField>
+  
+  <ParamField body="customAttributes" type="Record<string, string>">
+  Custom key-value pairs for additional customer data.
+  </ParamField>
+  
+  <ParamField body="additionalAttributes" type="Record<string, string>">
+  Additional key-value pairs for metadata.
+  </ParamField>
+</Expandable>
+
+<Warning>
+**Choose an Unchangeable Customer ID**
+
+The `customerId` should be a permanent identifier that will NEVER change. Avoid using email or phone number as the customer ID since these can be updated by users.
+</Warning>
+
+## Show Customer Profile Widget
+
+Display the Gameball customer profile widget:
+
+```typescript
+import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+
+const profileRequest: ShowProfileRequest = {
+  customerId: 'customer-123',
+  showCloseButton: true,           // Optional
+  openDetail: 'rewards',           // Optional
+  hideNavigation: false,           // Optional
+  closeButtonColor: '#FF6B6B',     // Optional
+};
+
+// Using async/await
+try {
+  await GameballApp.getInstance().showProfile(profileRequest);
+} catch (error) {
+  console.error('Error showing profile:', error);
+}
+
+// Using callbacks
+GameballApp.getInstance().showProfile(profileRequest, {
+  onSuccess: () => console.log('Profile shown'),
+  onError: (error) => console.error('Error:', error.message)
+});
+```
+
+<ParamField body="customerId" type="string" required>
+The customer's unique identifier.
+</ParamField>
+
+<ParamField body="showCloseButton" type="boolean">
+Show close button in widget.
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+Widget section to open: 'profile', 'achievements', 'rewards'.
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+Hide widget navigation.
+</ParamField>
+
+<ParamField body="closeButtonColor" type="string">
+Close button color in hex format (e.g., '#FF0000').
+</ParamField>
+
+<ParamField body="widgetUrlPrefix" type="string">
+Custom widget URL prefix.
+</ParamField>
+
+<Tip>
+Call `initializeCustomer` when the user logs in or registers to ensure their profile is up-to-date before showing the widget.
+</Tip>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guide/react-native-v3/track-events)
+- [Track Orders & Cashback](/installation-guide/react-native-v3/track-orders)
+

@@ -1,0 +1,94 @@
+---
+title: "Initialize SDK"
+description: "Initialize Gameball React Native SDK with your configuration"
+---
+
+# Initialize the SDK
+
+Initialize Gameball at app startup, typically in your root component or `App.tsx`:
+
+```typescript
+import { GameballApp, GameballConfig } from 'gameball-react-native';
+import { useEffect } from 'react';
+
+function App() {
+  useEffect(() => {
+    const config: GameballConfig = {
+      apiKey: 'your-api-key',      // Required
+      lang: 'en',                  // Required ('en' or 'ar')
+      shop: 'your-shop-id',        // Optional
+      platform: 'react-native',    // Optional
+      gbToken: 'your-gb-token',    // Optional - for v4.1 endpoints
+      apiPrefix: 'custom-prefix',  // Optional - custom API URL
+    };
+
+    GameballApp.getInstance().init(config);
+  }, []);
+
+  return (
+    // Your app components
+  );
+}
+```
+
+## Configuration Parameters
+
+<ParamField body="apiKey" type="string" required>
+The client API key available in your Gameball dashboard (required).
+</ParamField>
+
+<ParamField body="lang" type="string" required>
+Language code: 'en' or 'ar' (required).
+</ParamField>
+
+<ParamField body="shop" type="string">
+Your Gameball shop identifier for multi-shop configurations.
+</ParamField>
+
+<ParamField body="platform" type="string">
+Platform identifier, defaults to "react-native".
+</ParamField>
+
+<ParamField body="gbToken" type="string">
+GB Token for secure authentication (enables automatic v4.1 endpoint routing).
+</ParamField>
+
+<ParamField body="apiPrefix" type="string">
+Custom API base URL for enterprise configurations.
+</ParamField>
+
+## Using Async/Await
+
+You can use async/await for initialization if needed:
+
+```typescript
+import { GameballApp } from 'gameball-react-native';
+
+async function initializeGameball() {
+  try {
+    const config = {
+      apiKey: 'your-api-key',
+      lang: 'en',
+    };
+
+    await GameballApp.getInstance().init(config);
+    console.log('Gameball SDK initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize Gameball:', error);
+  }
+}
+```
+
+<Tip>
+Initialize the SDK as early as possible in your app's lifecycle to ensure it's ready when you need to track events or show the profile widget.
+</Tip>
+
+<Warning>
+Make sure to use your actual API key from the Gameball dashboard. Test keys are for development, production keys are for live deployment.
+</Warning>
+
+## Next Steps
+
+- [Initialize Customer Profile](/installation-guide/react-native-v3/initialize-profile)
+- [Track Customer Events](/installation-guide/react-native-v3/track-events)
+
