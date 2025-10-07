@@ -1,0 +1,103 @@
+---
+title: "Customer Profile Updates"
+description: "This webhook is triggered every time there's an update to a customer's profile, ensuring your app stays in sync with the latest changes."
+---
+
+
+**Common Use Cases:**
+
+* **Sync Customer Points and VIP Tier:** Keep your CRM system up-to-date with the latest customer points and VIP tier information.
+* **Track Profile Changes:** Automatically update other systems or services when customer profile details change.
+
+This webhook ensures that your systems reflect the most accurate and up-to-date customer information.
+
+## Customer Profile Webhook POST Data
+
+```json
+{
+  "event": "customer.profile.updated",
+  "client_id": "2155",
+  "customer_id": "webhook-test",
+  "gb_customer_id": 1234,
+  "created_at": "2024-11-19T17:34:42.297Z",
+  "data": {
+    "email": "customer@example.com",
+    "mobile_number": "+XX-XXXX-XXXX",
+    "tier_name": "basic",
+    "tier_order": 1,
+    "referral_code": "referral_123",
+    "referral_link": "www.example.com",
+    "activated_points": 90,
+    "pending_points": 10,
+    "total_points": 100
+  }
+}
+```
+
+## Webhook Fields
+
+<ResponseField name="event" type="string" required>
+This indicates that the event triggering the webhook is related to a customer profile update
+</ResponseField>
+
+<ResponseField name="client_id" type="string" required>
+The unique identifier for the client (your app) that's receiving the webhook.
+</ResponseField>
+
+<ResponseField name="customer_id" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.
+</ResponseField>
+
+<ResponseField name="gb_customer_id" type="number" required>
+The Gameball internal identifier for the customer.
+</ResponseField>
+
+<ResponseField name="created_at" type="string" required>
+The timestamp when the webhook event was created, formatted in ISO 8601.
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+This contains the updated customer profile data.
+
+<Expandable title="Customer Profile Object">
+
+<ResponseField name="email" type="string">
+The customer's email address.
+</ResponseField>
+
+<ResponseField name="mobile_number" type="string">
+The customer's mobile number.
+</ResponseField>
+
+<ResponseField name="tier_name" type="string">
+The customer's current loyalty tier name.
+</ResponseField>
+
+<ResponseField name="tier_order" type="number">
+The order/level of the customer's current loyalty tier.
+</ResponseField>
+
+<ResponseField name="referral_code" type="string">
+A referral code associated with the customer.
+</ResponseField>
+
+<ResponseField name="referral_link" type="string">
+A referral link for the customer.
+</ResponseField>
+
+<ResponseField name="activated_points" type="number">
+The points the customer has currently activated and can use.
+</ResponseField>
+
+<ResponseField name="pending_points" type="number">
+Points that are pending and will be activated later.
+</ResponseField>
+
+<ResponseField name="total_points" type="number">
+The customer's total accumulated points, including both activated and pending points.
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+

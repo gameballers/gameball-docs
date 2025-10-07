@@ -411,6 +411,21 @@
                     ]
                   }
                 ]
+              },
+              {
+                "group": "Webhooks",
+                "pages": [
+                  "api-reference/webhooks/overview",
+                  "api-reference/webhooks/subscribing",
+                  {
+                    "group": "Webhook Topics",
+                    "pages": [
+                      "api-reference/webhooks/webhook-topics",
+                      "api-reference/webhooks/webhook-topics/notifications",
+                      "api-reference/webhooks/webhook-topics/profile-updates"
+                    ]
+                  }
+                ]
               }
             ]
           },

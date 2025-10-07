@@ -1,0 +1,93 @@
+---
+title: 'Subscribing to Webhooks'
+description: 'Webhooks allow your app to receive near-real-time updates about events happening in Gameball. By setting up a webhook, you can stay informed and take immediate action when specific events occur.'
+---
+
+
+
+## Creating an Endpoint for Webhooks
+
+Your webhook endpoint must be an HTTP address capable of processing event notifications. Ensure you implement verification to confirm that requests are coming from Gameball.
+
+### Configuring Webhooks
+
+To subscribe to webhooks through the **Gameball Dashboard**, follow these steps:
+
+1. **Navigate to the Settings**:
+   * Go to **Admin Settings > Account Integration**.
+2. **Edit the Webhooks Section**:
+   * In the **Webhooks** section, click **Edit**.
+3. **Enter the Endpoint URL**:
+   * Provide the URL where you want to receive event notifications.
+4. **Select the Webhook Version**:
+   * Choose **V4** from the version dropdown.
+
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FOB3GyqZyoKENnAJMmEmt%2Fimage.png?alt=media&token=bcb92a03-033e-4074-ae89-3a336503da3e" alt="Configuring Webhooks in Gameball Dashboard" />
+
+### Receiving a Webhook
+
+After registering your webhook URL, Gameball will send an HTTP POST request with JSON data to your specified endpoint whenever the event occurs.
+
+#### Example Webhook Payload:
+
+```json
+{
+  "event": "customer.notification.push",
+  "client_id": "2155",
+  "customer_id": "webhook-test",
+  "gb_customer_id": 1234,
+  "created_at": "2024-11-12T19:02:24.631Z",
+  "data": [
+    {
+      "local": "en",
+      "icon": "https://example.com/image.webp",
+      "body": "Your recent activities have been amazing! Keep up the great work and enjoy your rewards!",
+      "title": "Well Done!"
+    },
+    {
+      "local": "fr",
+      "icon": "https://example.com/image.webp",
+      "body": "Félicitations pour vos réalisations récentes! Continuez comme ça et profitez de vos récompenses!",
+      "title": "Bravo!"
+    }
+  ]
+}
+```
+
+## Verifying Webhooks
+
+<Warning>
+To ensure the webhook request is from Gameball, verify the `X-GB-Signature` header. This signature is a SHA1 hash of the payload and your **SecretKey**.
+</Warning>
+
+By comparing the computed hash with the signature header, you can confirm the request's authenticity.
+
+### Example Verification Code
+
+Here's how to verify a webhook signature using Node.js:
+
+```javascript
+const crypto = require("crypto");
+
+function verifySignature(req) {
+    const SECRET_KEY = process.env.SECRET_KEY;
+    // Get the signature from the header
+    const signature = req.headers["x-gb-signature"];
+    if (!signature) return false;
+
+    // Compute the signature using the payload and secret key
+    const payload = JSON.stringify(req.body);
+    const computedSignature = crypto
+        .createHash("sha1")
+        .update(payload + ":" + SECRET_KEY)
+        .digest("hex");
+
+    // Compare the signatures
+    return computedSignature === signature;
+}
+```
+
+<Tip>
+Always verify webhook signatures before processing the payload to ensure the security and authenticity of the requests.
+</Tip>
+

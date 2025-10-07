@@ -1,0 +1,83 @@
+---
+title: 'Overview'
+description: 'Learn how to use Gameball webhooks to receive real-time updates'
+---
+
+Want to stay updated on events happening in Gameball? Webhooks are the way to go! They let your app automatically receive real-time updates whenever something important happens.
+With Gameball webhooks, you can:
+
+* Keep your app synced when a customer's profile is updated.
+* Trigger notifications to keep customers engaged.
+
+This guide will walk you through the basics of using webhooks, with clear explanations and tips to help you get started.
+
+## Examples of when your app might use webhooks
+
+* **Notify customers about profile updates**: Send alerts when something in a customer's profile changes.
+* **Forward notifications**: Keep customers informed by sending messages triggered by their actions in Gameball.
+* **Update loyalty points**: Adjust a customer's points balance when their profile is updated.
+
+## APIs for continuous polling vs. Webhooks for events data
+
+Let's look at how they differ, using the `customer.notification.push` webhook topic as an example:
+
+* **Polling APIs:** Your app constantly asks Gameball, "Did anything happen yet?" This can lead to unnecessary API calls, increased server load, and delayed updates.
+* **Webhooks:** Gameball tells your app, "Here's the latest event!" This approach is faster, more efficient, and delivers data as soon as the event occurs.
+
+By subscribing to a webhook like `customer.notification.push`, your app receives event data instantly, without the hassle of repetitive API requests.
+
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F559XrRD9D9XuinCfgQGZ%2Fpolling_webhook.png?alt=media&token=76ecee12-2b3d-4553-ba76-9d45e90b04bc" alt="Polling vs Webhooks diagram" />
+
+### How it works
+
+1. Your app subscribes to the **`customer.notification.push`** topic and listens for new notification push events.
+2. Your app specifies a **`POST`** endpoint to receive webhooks for the **`customer.notification.push`** topic. This endpoint is where the app listens for webhooks.
+3. Suppose now that a notification is pushed from Gameball system.
+4. This triggers a webhook to be published to the **`customer.notification.push`** topic.
+5. Gameball sends that webhook, which includes headers and an order payload, to the specified subscription endpoint.
+
+## Key terminology
+
+### Topic
+
+Webhooks are grouped into topics, and your app subscribes to one or more of these topics to receive specific event updates.
+
+#### What It Does
+
+A webhook topic determines the type of event messages your app will receive. For instance, subscribing to the `customer.profile.updated` topic lets your app get notified whenever a customer's profile is updated.
+
+#### Why It Matters
+
+The topic name clearly identifies the kind of event, helping your app stay focused on relevant updates.
+
+### Headers
+
+Each webhook includes **headers** and a **payload**. The headers provide important metadata about the webhook.
+
+```http
+X-GB-Signature: '3fcb4a3b2d96e6f8363d3b5594290111d02139df'
+X-GB-Webhook-Version: 'v4'
+```
+
+**`X-GB-Signature`**  
+A security signature used to verify that the webhook is authentic and originates from Gameball.
+
+**`X-GB-Webhook-Version`**  
+Indicates the version of the webhook being used.
+
+## Webhooks Retry Policy
+
+<Warning>
+If Gameball receives a non-2XX status code in response to a webhook, it will retry delivery up to three times.
+</Warning>
+
+The retry schedule is as follows:
+
+* **1st Retry**: After 5 minutes
+* **2nd Retry**: After 20 minutes  
+* **3rd Retry**: After 60 minutes
+
+<Note>
+If all retries fail, the webhook request will be discarded.
+</Note>
+

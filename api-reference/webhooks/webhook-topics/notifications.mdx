@@ -1,0 +1,93 @@
+---
+title: "Customer Notifications"
+description: "The notifications webhook is triggered every time Gameball generates a notification for a customer. As soon as the notification is created, its details and content are sent through the webhook to your app."
+---
+
+**Common Use Cases:**
+
+* **Push Notifications:** Deliver updates or messages directly to your customers' devices.
+* **SMS Notifications:** Send important notifications to customers via SMS.
+
+This webhook ensures your app can instantly act on notifications, keeping your customers informed and engaged.
+
+<Tip>
+Get to know how to enable or disable Real-Time Notifications for Referrals and other events [**here**](https://help.gameball.co/en/articles/3736259-send-real-time-notifications-for-referrals).
+</Tip>
+
+## Notifications Webhook POST Data
+
+```json
+{
+  "event": "customer.notification.push",
+  "client_id": "2155",
+  "customer_id": "webhook-test",
+  "gb_customer_id": 1234,
+  "created_at": "2024-11-12T19:02:24.631Z",
+  "data": [
+    {
+      "local": "en",
+      "icon": "https://example.com/image.webp",
+      "body": "Your recent activities have been amazing! Keep up the great work and enjoy your rewards!",
+      "title": "Well Done!"
+    },
+    {
+      "local": "fr",
+      "icon": "https://example.com/image.webp",
+      "body": "Félicitations pour vos réalisations récentes! Continuez comme ça et profitez de vos récompenses!",
+      "title": "Bravo!"
+    }
+  ]
+}
+```
+
+## Webhook Fields
+
+<ResponseField name="event" type="string" required>
+This indicates that the event triggering the webhook is related to sending a push notification for a customer
+</ResponseField>
+
+<ResponseField name="client_id" type="string" required>
+The unique identifier for the client (your app) that's receiving the webhook.
+</ResponseField>
+
+<ResponseField name="customer_id" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer.
+</ResponseField>
+
+<ResponseField name="gb_customer_id" type="number" required>
+The Gameball internal identifier for the customer.
+</ResponseField>
+
+<ResponseField name="created_at" type="string" required>
+The timestamp when the webhook event was created, formatted in ISO 8601.
+</ResponseField>
+
+<ResponseField name="data" type="array" required>
+This contains an array of notification data in multiple languages.
+
+<Expandable title="Notification Object">
+
+<ResponseField name="local" type="string">
+Language code for the notification content.
+</ResponseField>
+
+<ResponseField name="icon" type="string">
+A URL to the icon image associated with the notification.
+</ResponseField>
+
+<ResponseField name="title" type="string">
+The title of the notification.
+</ResponseField>
+
+<ResponseField name="body" type="string">
+The content of the notification. It's the message being sent to the customer.
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+---
+
+You can now enjoy notifications on selected events that you have subscribed to.
+
