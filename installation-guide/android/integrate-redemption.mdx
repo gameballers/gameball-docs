@@ -3,77 +3,11 @@ title: "Integrate Redemption"
 description: "Enable customers to redeem their earned points directly through your Android app"
 ---
 
-Enable your customers to redeem their earned points directly through your Android app. This seamless integration makes it easy for customers to use their rewards, promoting continued engagement and satisfaction.
+Through Gameball, you can allow your customers to redeem and use their collected points as discounts while placing new orders on your website. Those points are exchanged for discount coupons or free service/product vouchers during future purchases. [Learn more about points redemption](https://help.gameball.co/en/articles/9229592-launch-and-configure-your-earn-pointing-system).
 
-## Redemption Options
+For e-commerce businesses, points redemption is done with order placement using [Order API](/api-reference/order/order). A pre-step to that would be checking the customer's balance - using [Customer Points Balance API](/api-reference/customers/progress/get-customer-balance) if there are enough points or not for the transaction; and showing the customer his balance.
 
-<CardGroup cols={2}>
-  <Card title="Direct Debit Redemption" icon="credit-card" href="/tutorials/redemption/direct-debit">
-    Transfer points directly to customer bank accounts
-  </Card>
-
-  <Card title="Coupon Redemption" icon="ticket" href="/tutorials/redemption/coupons/index">
-    Generate discount coupons from earned points
-  </Card>
-
-  <Card title="Product Redemption" icon="gift">
-    Allow customers to redeem points for products or services
-  </Card>
-
-  <Card title="Custom Redemption" icon="tag">
-    Implement custom redemption flows for your business needs
-  </Card>
-</CardGroup>
-
-## Implementation Methods
-
-### Option 1: Use Your Own Couponing Engine
-
-If you have an existing coupon system, you can integrate it with Gameball to allow customers to redeem points for coupons.
-
-<Info>
-For detailed implementation, refer to [Use Your Own Couponing Engine](/tutorials/redemption/coupons/your-engine).
-</Info>
-
-### Option 2: Use Gameball Couponing Engine
-
-Let Gameball handle the coupon generation and management for you.
-
-<Info>
-For detailed implementation, refer to [Gameball Couponing Engine](/tutorials/redemption/coupons/gameball-engine).
-</Info>
-
-### Option 3: Direct Debit Redemption
-
-Enable customers to transfer their points directly to their bank accounts.
-
-<Info>
-For detailed implementation, refer to [Direct Debit Redemption](/tutorials/redemption/direct-debit).
-</Info>
-
-## Implementation Steps
-
-<Steps>
-<Step title="Choose Redemption Method">
-  Select the redemption method that best fits your business model
-</Step>
-
-<Step title="Configure Redemption Rules">
-  Set up redemption rules and point values in your Gameball account
-</Step>
-
-<Step title="Integrate SDK Methods">
-  Use the appropriate Android SDK methods for your chosen redemption method
-</Step>
-
-<Step title="Create User Interface">
-  Build a user-friendly interface for customers to redeem their points
-</Step>
-
-<Step title="Test Redemption Flow">
-  Thoroughly test the redemption process on Android devices
-</Step>
-</Steps>
+If you're going to use points redemption in scenarios other than e-commerce, you can use the [Redeem API](/api-reference/transactions/cashback-and-redemptions/redeem).
 
 ## Related Resources
 
@@ -83,8 +17,9 @@ For detailed implementation, refer to [Direct Debit Redemption](/tutorials/redem
 - [Use Your Own Couponing Engine](/tutorials/redemption/coupons/your-engine)
 - [Gameball Couponing Engine](/tutorials/redemption/coupons/gameball-engine)
 - [Managing Customer Coupons](/tutorials/managing-customers-coupons)
-- [Transactions API Reference](/api-reference/transactions/transactions)
-- [Cashback & Redemptions API](/api-reference/transactions/cashback-and-redemptions/index)
+- [Order API Reference](/api-reference/order/order)
+- [Customer Points Balance API](/api-reference/customers/progress/get-customer-balance)
+- [Redeem API](/api-reference/transactions/cashback-and-redemptions/redeem)
 
 ## Next Steps
 

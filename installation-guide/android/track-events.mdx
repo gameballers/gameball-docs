@@ -3,52 +3,105 @@ title: "Track Customer Events"
 description: "Send customer events from your Android app to Gameball"
 ---
 
-Start sending your customers' events from your Android app to Gameball. By tracking actions such as purchases, sign-ups, and other key interactions, you can tailor rewards and communications to engage your customers more effectively.
+Start sending your customers' **events** on your app to Gameball, along with any **metadata** that describes the event. Depending on your Gameball programs configuration, the customer can be rewarded based upon the sent events.
 
-<Info>
-For detailed event tracking implementation, please refer to the [Tracking Customer Events tutorial](/tutorials/track-customer-events) and [Events API Reference](/api-reference/events/send-events).
-</Info>
+Tracked **events** can be app events or server-side events depending on how you would like to design your programs. App **events** can be sent via the available SDK interface and server-side **events** can be sent to Gameball via the [Track Events API](/api-reference/events/send-events).
 
-## Event Tracking Overview
+Every `Track Event` call records a single customer action which we call "**events**". We recommend that you make your event names human-readable, so that everyone can figure them out instantly.
 
-<CardGroup cols={2}>
-  <Card title="App Events" icon="phone">
-    Track user interactions within your Android app
-  </Card>
+**Event metadata** are extra pieces of information you can tie to events you track. They can be anything that will be useful while designing your program.
 
-  <Card title="Purchase Events" icon="dollar-sign">
-    Monitor customer purchases and transactions
-  </Card>
+To send Customer events from your app to Gameball, you can use the **`sendEvent`** method as shown below.
 
-  <Card title="Engagement Events" icon="heart">
-    Track user engagement and app usage patterns
-  </Card>
+## Parameters
 
-  <Card title="Custom Events" icon="tag">
-    Define and track business-specific events
-  </Card>
-</CardGroup>
+<ParamField body="event" type="object" required>
+Event body that is being sent to Gameball.
 
-## Implementation
+<Expandable title="Event Object">
 
-<Steps>
-<Step title="Initialize Event Tracking">
-  Set up event tracking after SDK initialization
-</Step>
+<ParamField body="withCustomerId" type="string" required>
+The customer's unique identifier.
+</ParamField>
 
-<Step title="Track Events">
-  Send events to Gameball using the Android SDK methods
-</Step>
+<ParamField body="withEmail" type="string">
+Customer's unique Email address.
+</ParamField>
 
-<Step title="Handle Responses">
-  Process success and error responses from the API
-</Step>
-</Steps>
+<ParamField body="withMobile" type="string">
+Customer's unique Mobile number.
+</ParamField>
 
-## Related Resources
+<ParamField body="withEventName" type="string" required>
+String representing the event name (e.g., `write_review`, `place_order`, etc.), where each key is the event name.
+</ParamField>
 
-- [Events API Reference](/api-reference/events/send-events)
-- [Tracking Customer Events Tutorial](/tutorials/track-customer-events)
+<ParamField body="withEventMetadata" type="object">
+An object containing metadata related to the event. The structure of the event object can vary depending on the specific event being recorded. Events can be any significant action a customer performs, such as making a purchase, writing a review, adding to cart, etc.
+</ParamField>
+
+</Expandable>
+</ParamField>
+
+<ParamField body="callback" type="function">
+Callback is used for providing the developer with the status of the request as a boolean whether it succeeded or not or with an error if any.
+</ParamField>
+
+## Create Event Object
+
+<CodeGroup>
+```java Java
+Event event = new Event.Builder()
+        .withCustomerId("customer123")
+        .withEventName("purchase_completed")
+        .withEmail("jack@domain.com")
+        .withMobile("0123456789")
+        .withEventMetaData("purchase_price", 19.99)
+        .build();
+```
+
+```kotlin Kotlin
+val event = Event.Builder()
+    .withCustomerId("customer123")
+    .withEventName("purchase_completed")
+    .withEmail("jack@domain.com")
+    .withMobile("0123456789")
+    .withEventMetaData("purchase_price", 19.99)
+    .build()
+```
+</CodeGroup>
+
+## Send the Event
+
+Using the previously created GameballApp instance or by creating a new one, call the ***sendEvent()*** method as shown below.
+
+<CodeGroup>
+```java Java
+gameballApp.sendEvent(event, new Callback<Boolean>() {
+    @Override
+    public void onSuccess(Boolean aBoolean) {
+        // TODO Handle on success result
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        // TODO Handle on failure result
+    }
+});
+```
+
+```kotlin Kotlin
+gameballApp.sendEvent(event, object : Callback<Boolean?> {
+    override fun onSuccess(aBoolean: Boolean?) {
+        // TODO Handle on success result
+    }
+
+    override fun onError(e: Throwable) {
+        // TODO Handle on failure result
+    }
+})
+```
+</CodeGroup>
 
 ## Next Steps
 

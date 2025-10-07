@@ -9,200 +9,236 @@ Showing the Gameball widget on your mobile application is slightly different tha
 
 ## Showing Gameball Customer Profile
 
-To show the Gameball customer profile that contains the customer details, customer reward campaigns, and the leaderboard use the `showProfile` SDK function.
+To show the Gameball customer profile that contains the customer details, available reward campaigns, and the leaderboard use the `showProfile()` SDK method.
+
+Using the SDK, you can open the Gameball customer profile with the magic of a press of button in your app, programmatically when someone does a specific action, or from a persistent button (ex: [FAB](https://developer.android.com/develop/ui/views/components/floating-action-button)) that sits over your app's UI.
+
+When you trigger the Gameball customer profile, your customer is presented with a default screen that is configurable inside Gameball to change the look and feel of it.
+
+From there, your customer can check their progress across different Gameball programs as per your configurations.
 
 <CodeGroup>
 ```java Java
-gameballApp.showProfile(
-    this, // Activity context
-    "UNIQUE_PLAYER_ID", // Player unique ID
-    new Callback<PlayerProfileResponse>() {
-        @Override
-        public void onSuccess(PlayerProfileResponse playerProfileResponse) {
-            // TODO Handle on success result.
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            // TODO Handle on failure result.
-        }
-    }
-);
+gameballApp.showProfile(this, "{CUST_ID}", "{openDetail}", "{hideNavigation}");
 ```
 
 ```kotlin Kotlin
-gameballApp.showProfile(
-    this, // Activity context
-    "UNIQUE_PLAYER_ID", // Player unique ID
-    object: Callback<PlayerProfileResponse> {
-        override fun onSuccess(playerProfileResponse: PlayerProfileResponse?) {
-            // TODO Handle on success result.
-        }
-
-        override fun onError(e: Throwable?) {
-            // TODO Handle on failure result.
-        }
-    }
-)
+gameballApp.showProfile(this, "{CUST_ID}", "{openDetail}", "{hideNavigation}")
 ```
 </CodeGroup>
 
-<ParamField body="context" type="Activity" required>
-The current Activity context
+<Info>
+Use showProfile with a button and call this method in the onClick() method of this button to show the customer profile.
+</Info>
+
+<ParamField body="activity" type="Activity" required>
+Current activity instance holding the GameballApp which will be used in showing the customer's profile.
 </ParamField>
-
-<ParamField body="playerUniqueId" type="string" required>
-Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
-</ParamField>
-
-<ParamField body="callback" type="Callback<PlayerProfileResponse>" required>
-Callback to handle the response from the API call
-</ParamField>
-
-## Change Customer Profile Widget language
-
-You can change the widget language by calling the `changeLanguage` method:
-
-<CodeGroup>
-```java Java
-gameballApp.changeLanguage("ar");
-```
-
-```kotlin Kotlin
-gameballApp.changeLanguage("ar")
-```
-</CodeGroup>
-
-## Register/Update Customer
-
-To register a customer and enable Gameball features, you need to call the `registerCustomer` method. This method requires the customer's unique ID and optional attributes.
-
-<CodeGroup>
-```java Java
-HashMap<String, Object> customerAttributes = new HashMap<>();
-customerAttributes.put("displayName", "john austin");
-customerAttributes.put("email", "example@example.com");
-customerAttributes.put("firstName", "john");
-customerAttributes.put("lastName", "austin");
-customerAttributes.put("gender", "M");
-customerAttributes.put("dateOfBirth", "1982-01-01");
-customerAttributes.put("joinDate", "2024-10-23");
-
-gameballApp.registerCustomer(
-    "{customerId}", 
-    customerAttributes,
-    "{referralCode}",
-    false, //isGuest
-    new Callback<PlayerRegisterResponse>() {
-        @Override
-        public void onSuccess(PlayerRegisterResponse playerRegisterResponse) {
-            // TODO Handle on success result.
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            // TODO Handle on failure result.
-        }
-    }
-);
-```
-
-```kotlin Kotlin
-val customerAttributes = hashMapOf<String, Any>(
-    "displayName" to "john austin",
-    "email" to "example@example.com",
-    "firstName" to "john",
-    "lastName" to "austin",
-    "gender" to "M",
-    "dateOfBirth" to "1982-01-01",
-    "joinDate" to "2024-10-23"
-)
-
-gameballApp.registerCustomer(
-    "{customerId}", 
-    customerAttributes,
-    "{referralCode}",
-    false, //isGuest
-    object: Callback<PlayerRegisterResponse> {
-        override fun onSuccess(t: PlayerRegisterResponse?) {
-            // TODO Handle on success result.
-        }
-
-        override fun onError(e: Throwable?) {
-            // TODO Handle on failure result.
-        }
-    }
-)
-```
-</CodeGroup>
 
 <ParamField body="customerId" type="string" required>
 Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
 </ParamField>
 
-<ParamField body="customerAttributes" type="HashMap<String, Object>">
-Optional customer attributes to enrich the customer's profile:
+<ParamField body="openDetail" type="string">
+Specify if you want the widget to open on a specific view. [See available values](/tutorials/widget-deep-links#id-4.-using-the-sdk-mobile-apps)
+</ParamField>
 
-<Expandable title="Customer Attributes">
-  <ParamField body="displayName" type="string">
+<ParamField body="hideNavigation" type="boolean">
+Set to true to stop widget navigation, otherwise leave as null
+</ParamField>
+
+## Change Customer Profile Widget language
+
+***`changeLanguage(String language)`***
+
+Use `changeLanguage` SDK method to change the widget language. The language provided should be as per configured languages in your account. If not provided the Gameball profile widget will be shown with your account default language.
+
+**Example:** `"en"`, `"fr"`, `"ar"`
+
+<CodeGroup>
+```java Java
+gameballApp.changeLanguage("en");
+```
+
+```kotlin Kotlin
+gameballApp.changeLanguage("en")
+```
+</CodeGroup>
+
+## Register/Update Customer
+
+To register your customers with Gameball, use **`registerCustomer`** method which can be used to create or update the customer details at Gameball. Ideally, it is called when your login or register network call is successful.
+
+<ParamField body="activity" type="Activity" deprecated>
+Current activity instance holding the GameballApp which will be used in showing the customer's profile.
+</ParamField>
+
+<ParamField body="intent" type="Intent" deprecated>
+An intent instance that will be used in combination with the Activity to detect the referral code from the dynamic link.
+</ParamField>
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="customerEmail" type="string">
+Customer's unique Email address.
+</ParamField>
+
+<ParamField body="customerMobile" type="string">
+Customer's unique Mobile number.
+</ParamField>
+
+<ParamField body="customerAttributes" type="object">
+Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.
+
+<Expandable title="customerAttributes Object">
+  <ParamField body="withDisplayName" type="string">
   The display name of the customer.
   </ParamField>
   
-  <ParamField body="firstName" type="string">
+  <ParamField body="withFirstName" type="string">
   The first name of the customer.
   </ParamField>
   
-  <ParamField body="lastName" type="string">
+  <ParamField body="withLastName" type="string">
   The last name of the customer.
   </ParamField>
   
-  <ParamField body="email" type="string">
-  The email address of the customer.
+  <ParamField body="withEmail" type="string">
+  Customer's unique Email address.
   </ParamField>
   
-  <ParamField body="gender" type="string">
+  <ParamField body="withMobileNumber" type="string">
+  Customer's unique Mobile number.
+  </ParamField>
+  
+  <ParamField body="withGender" type="string">
   The gender of the customer. Use "M" for male, "F" for female, or other identifiers as needed.
   </ParamField>
   
-  <ParamField body="dateOfBirth" type="string">
+  <ParamField body="withDateOfBirth" type="string">
   The customer's date of birth in the format `YYYY-MM-DD`.
   </ParamField>
   
-  <ParamField body="joinDate" type="string">
-  The date the customer joined, in the format `YYYY-MM-DD`.
+  <ParamField body="withJoinDate" type="string">
+  The date the customer joined your system, in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="withPreferredLanguage" type="string">
+  The language the customer prefers for receiving notifications.
+  </ParamField>
+  
+  <ParamField body="withCustomAttribute" type="object">
+  Custom attributes related to the customer, defined by specific key-value pairs.
+  </ParamField>
+  
+  <ParamField body="withAdditionalAttribute" type="object">
+  Any additional attributes related to the customer, defined by specific key-value pairs.
   </ParamField>
 </Expandable>
 </ParamField>
 
 <ParamField body="referralCode" type="string">
-Optional referral code if the customer was referred by another customer
+Customer's referrer's referral code
 </ParamField>
 
 <ParamField body="isGuest" type="boolean">
-Set to true if this is a guest customer, false for registered customers
+Flag indicating the customer is guest or not (if null, isGuest is set to false by default)
 </ParamField>
 
-<ParamField body="callback" type="Callback<PlayerRegisterResponse>" required>
-Callback to handle the response from the API call
+<ParamField body="callback" type="function">
+Callback is used for providing the developer with the response status and payload.
 </ParamField>
+
+<Tip>
+Every time the **SDK** is initialized with a new customerId, the customer profile is created or updated on Gameball side. You may consider enriching your Gameball customer profile with attributes that are not available to the UI by using server side [Create/Update Customer API](/api-reference/customers/management/create-customer)
+</Tip>
+
+<Warning>
+**Choose an Unchangeable Customer ID**
+
+Gameball user profile gets created using the **`customerId`**. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+<Warning>
+Note that if you set a Preferred Language, it will override the language value provided in the ***init*** method. If neither were provided, the device's default locale will be used.
+</Warning>
+
+<Info>
+You can find the complete list of Customer Attributes [here](/api-reference/customers/management/create-customer#customerattributes-object), if its not included in the **CustomerAttributes** builder you can add them as Key/Value pairs using ***withAdditionalAttribute*** builder method and it will automatically added upon request.
+</Info>
+
+### An example to create CustomerAttributes object
+
+<CodeGroup>
+```java Java
+CustomerAttributes customerAttributes = new CustomerAttributes.Builder()
+        .withDisplayName("John Doe")
+        .withFirstName("John")
+        .withLastName("Doe")
+        .withMobileNumber("0123456789")
+        .withPreferredLanguage("en")
+        .withCustomAttribute("{key}", "{Value}")
+        .withAdditionalAttribute("{key}", "{Value}")
+        .build();
+```
+
+```kotlin Kotlin
+val customerAttributes = CustomerAttributes.Builder()
+    .withDisplayName("John Doe")
+    .withFirstName("John")
+    .withLastName("Doe")
+    .withMobileNumber("0123456789")
+    .withPreferredLanguage("en")
+    .withCustomAttribute("{key}", "{Value}")
+    .withAdditionalAttribute("{key}", "{Value}")
+    .build()
+```
+</CodeGroup>
+
+The previous example will return an object of CustomerAttributes with the configured attributes.
 
 ## Register the Customer
 
-### Overloaded with Email and Mobile Number
+Using the previously created GameballApp instance or by creating a new one, call the ***registerCustomer()*** method as shown below
+
+<Info>
+Since Firebase Dynamic Links will soon be deprecated, we've deprecated its usage on our side, and started depending on either Branch.io or Adjust providers to provide for referral links, depending on your implementation, you should be able to fetch the referralCode from the sent query param `GBReferral` and provide it to the register customer method.
+</Info>
 
 <CodeGroup>
 ```java Java
 gameballApp.registerCustomer(
-    "{playerUniqueId}",
-    "{playerEmail}",
-    "{playerMobile}",
+    "{customerId}", 
     customerAttributes,
     "{referralCode}",
     false, //isGuest
-    new Callback<PlayerRegisterResponse>() {
+    new Callback<CustomerRegisterResponse>() {
         @Override
-        public void onSuccess(PlayerRegisterResponse playerRegisterResponse) {
-            // TODO Handle on success result
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+    
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}", 
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes, 
+    "{referralCode}",
+    false, //isGuest
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
         }
 
         @Override
@@ -215,15 +251,118 @@ gameballApp.registerCustomer(
 
 ```kotlin Kotlin
 gameballApp.registerCustomer(
-    "{playerUniqueId}",
-    "{playerEmail}",
-    "{playerMobile}",
+    "{customerId}", 
     customerAttributes,
     "{referralCode}",
     false, //isGuest
-    object: Callback<PlayerRegisterResponse> {
-        override fun onSuccess(t: PlayerRegisterResponse?) {
-            // TODO Handle on success result
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+            // TODO Handle on success result.
+        }
+
+        override fun onError(e: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}",
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+                // TODO Handle on success result
+            }
+
+            override fun onError(e: Throwable?) {
+                 // TODO Handle on failure result.
+            }
+    }
+)
+```
+</CodeGroup>
+
+### Deprecated Register Customer overloads
+
+<Warning>
+Due to the deprecation of Firebase Dynamic Links in the old manner, we've updated the usage approach. If you still need to use the old method, you'll have to use the alternative `handleFirebaseDynamicLink` method to retrieve the referral code as before.
+</Warning>
+
+<CodeGroup>
+```java Java
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes, 
+    this, 
+    this.getIntent(), 
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+    
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}", 
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes,
+    this, 
+    this.getIntent(), 
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes, 
+    this, 
+    this.getIntent(), 
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+                // TODO Handle on success result.
+            }
+
+            override fun onError(e: Throwable?) {
+                 // TODO Handle on failure result.
+            }
+    }
+)
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}", 
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes,
+    this, 
+    this.getIntent(), 
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+                // TODO Handle on success result.
         }
 
         override fun onError(e: Throwable?) {
@@ -233,18 +372,6 @@ gameballApp.registerCustomer(
 )
 ```
 </CodeGroup>
-
-<Warning>
-**Choose an Unchangeable Player Unique ID**
-
-Gameball user profile gets created using the `playerUniqueId`. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
-</Warning>
-
-<Info>
-**Deprecated Register Customer overloads**
-
-Due to the deprecation of Firebase Dynamic Links in the old manner, we've updated the usage approach. If you still need to use the old method, you'll have to use the alternative `handleFirebaseDynamicLink` method to retrieve the referral code as before.
-</Info>
 
 ### handleFirebaseDynamicLink method
 
@@ -272,8 +399,8 @@ gameballApp.handleFirebaseDynamicLink(
 gameballApp.handleFirebaseDynamicLink(
     this, 
     this.intent, 
-    object: Callback<String>{
-        override fun onSuccess(p0: String?) {
+    object: Callback<String> {
+        override fun onSuccess(referralCode: String?) {
             // Capture the referral code using firebase dynamic link 
             // and begin the registration flow using the newer overloads
         }
@@ -286,47 +413,8 @@ gameballApp.handleFirebaseDynamicLink(
 ```
 </CodeGroup>
 
-## Implementation Flow
-
-<Steps>
-<Step title="Initialize SDK">
-  Initialize the Gameball SDK with your API key and configuration
-</Step>
-
-<Step title="Register Customer">
-  Register the customer with their unique ID and optional attributes
-</Step>
-
-<Step title="Show Profile">
-  Present the Gameball profile widget to the customer
-</Step>
-
-<Step title="Handle Interactions">
-  Handle customer interactions within the widget
-</Step>
-</Steps>
-
-## Best Practices
-
-<Steps>
-<Step title="Register After SDK Initialization">
-  Call `registerCustomer` after the SDK initialization
-</Step>
-
-<Step title="Use Consistent Customer ID">
-  Always use the same playerUniqueId for each customer across app sessions
-</Step>
-
-<Step title="Handle Errors Gracefully">
-  Implement proper error handling for registration and profile display
-</Step>
-
-<Step title="Test on Different Devices">
-  Test the widget on various Android devices and screen sizes
-</Step>
-</Steps>
-
 ## Next Steps
 
 - [Track Customer Events](/installation-guide/android/track-events)
 - [Track Orders & Cashback](/installation-guide/android/track-orders)
+- [Integrate Redemption](/installation-guide/android/integrate-redemption)

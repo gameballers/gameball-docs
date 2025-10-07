@@ -3,51 +3,11 @@ title: "Track Orders & Cashback Reward"
 description: "Monitor customer orders and provide cashback rewards in your Android app"
 ---
 
-Monitor your customers' orders to provide cashback rewards and recognize achievements. This encourages repeat purchases and builds customer loyalty by rewarding them for their activities within your app.
+Start tracking customer's orders on your platform upon order completion and successful payment. This enables rewarding the customer with cashback wallet points for paid amounts as per your cashback program configuration on Gameball.
 
-<Info>
-For detailed order tracking implementation, please refer to the [Checkout Integration tutorial](/tutorials/checkout-integration) and [Previewing Potential Points Before Purchase](/tutorials/previewing-potential-points-before-purchase).
-</Info>
+Cashback rewarding and order tracking can be done via server side [Order API](/api-reference/order/order-tracking) which is a tailored API to support **e-commerce** platforms.
 
-## Order Tracking Overview
-
-<CardGroup cols={2}>
-  <Card title="Order API" icon="server">
-    Use the Order API for e-commerce order tracking
-  </Card>
-
-  <Card title="Cashback API" icon="wallet">
-    Use the Cashback API for custom reward scenarios
-  </Card>
-
-  <Card title="Automatic Rewards" icon="gift">
-    Automatically calculate and award cashback points
-  </Card>
-
-  <Card title="Achievement Tracking" icon="star">
-    Track customer achievements and milestones
-  </Card>
-</CardGroup>
-
-## Implementation
-
-<Steps>
-<Step title="Track Order Completion">
-  Send order data to Gameball after successful payment
-</Step>
-
-<Step title="Calculate Cashback">
-  Let Gameball calculate cashback based on your program rules
-</Step>
-
-<Step title="Award Points">
-  Automatically award points to customer accounts
-</Step>
-
-<Step title="Handle Refunds">
-  Properly adjust points when orders are refunded
-</Step>
-</Steps>
+In case you want to reward your customer with cashback wallet points for scenarios other than e-commerce order placement, you can use [Cashback API](/api-reference/transactions/cashback-and-redemptions/cashback) based on your use case.
 
 ## Related Resources
 
