@@ -3,68 +3,55 @@ title: "Track Referrals"
 description: "Reward your customers for referring new users and help grow your business organically"
 ---
 
-Reward your customers for referrals and grow your business.
-
 ## Introduction
 
 One of the most effective ways to get new users is through user referrals. You can use Gameball referrals capabilities to encourage your users to invite their friends by offering rewards for successful referrals to both the referrer and the recipient.
 
 Gameball referrals uses **Firebase Dynamic** Links in the background to generate customers' referral links and track referrals. Dynamic Links are smart URLs (deep links) that survive the app install process, so new referred users via referral links will be easily tracked when they open the app for the first time.
 
-Gameball and its SDK provides hassle free integration to track referrals where you will only need to
+Gameball and its SDK provides hassle free integration to track referrals where you will only need to:
 
 1. Provide your firebase info through Gameball dashboard to generate referral links to your customers.
 2. Send referral code (if any) with every new account creation through your app.
 
-Your customers will be able to get and share their referral link from Gameball Customer Widget 
+<img src="https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/UNBGOX7MWYuYMqPgQP6i/62fc5889d52bd92a55188efd_Mj6pMaOcnhU6bPS6Om1qbcQ4fJKNSBiPv1aA9lF-Xdv59l-1iITLb79diFTzQpHY0bs8CHNnC1quJb2xjQ5cvBNDZOWQLxcfvJNPASGpAC-xeGUqmoLezKzK1u5OdB9ejAyKmwMhs8gP_2vremJ4aJE.jpg" alt="Referral Flow Diagram" />
 
+Your customers will be able to get and share their referral link from [Gameball Customer Widget](/installation-guide/react-native/initialize-profile).
+
+<Warning>
 Tracking referral requires Firebase and Firebase Dynamic Links SDKs installed into your app.
+</Warning>
 
 ## Integration Steps
 
-To integrate and track referrals you need to perform two main steps
+To integrate and track referrals you need to perform two main steps:
 
-<Steps>
-<Step title="Configure Firebase">
-  Configure your Firebase dynamic links settings from your firebase console
-</Step>
-
-<Step title="Configure Gameball">
-  Configure Firebase on your App and Gameball account dashboard
-</Step>
-
-<Step title="Invoke SDK Method">
-  Invoke SDK Referral method within your App user registration flow
-</Step>
-</Steps>
+1. Configure your Firebase dynamic links settings from your firebase console
+2. Configure Firebase on your App and Gameball account dashboard
+3. Invoke SDK Referral method within your App user registration flow
 
 ## Integration Details
 
 Below is a step by step guide on how to listen to referral registration and notify Gameball to track and reward.
 
-<Steps>
-<Step title="Set up Firebase">
-  First, you'll need to set up Firebase within your mobile app.
-</Step>
+1. First, you'll need to set up Firebase within your mobile app.
+2. After setting Firebase deep links within your app and configuring Firebase from Gameball's dashboard, you'll need to listen to deep links query parameters within your app. When a user clicks on a Firebase Dynamic Link that includes the **GBReferral** parameter, the **GBReferral** parameter will be included in the deep link query parameters. This parameter contains the referral information that you'll need to send to **Gameball** to track referrals.
 
-<Step title="Listen to Deep Links">
-  After setting Firebase deep links within your app and configuring Firebase from Gameball's dashboard, you'll need to listen to deep links query parameters within your app. When a user clicks on a Firebase Dynamic Link that includes the **GBReferral** parameter, the **GBReferral** parameter will be included in the deep link query parameters.
-</Step>
-
-<Step title="Extract Referral Code">
-  This parameter contains the referral information that you'll need to send to **Gameball** to track referrals.
-</Step>
-
-<Step title="Register with Referral">
-  Once you have located the **GBReferral** parameter within a dynamic link, you will need to send its value along with the registerPlayer SDK call that is being executed for the newly created referred customer.
-</Step>
-</Steps>
-
-## Code Example
-
-Here's an example of how you can listen to deep links query parameters and locate the **GBReferral** parameter in your React Native app:
+Here's an example of how you can listen to deep links query parameters and locate the **GBReferral** parameter in your mobile app:
 
 ```javascript
+// Listen for incoming Firebase Dynamic Links
+Firebase.dynamicLinks().getDynamicLink { (dynamicLink, error) in
+  guard let dynamicLink = dynamicLink,
+        let deepLink = dynamicLink.url,
+        let queryItems = URLComponents(url: deepLink, resolvingAgainstBaseURL: true)?.queryItems else {
+    return
+  }
+
+  // Locate the GBReferral parameter
+  if let gbReferral = queryItems.first(where: { $0.name == "GBReferral" })?.value {
+    // Track the referral in your Gameball account
+    // ...
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 dynamicLinks()
@@ -81,11 +68,13 @@ dynamicLinks()
   .catch((error) => console.error('Dynamic Link error:', error));
 ```
 
-You have full flexibility to choose Firebase dependency packages to be used for dynamic link extraction while keeping Gameball SDK focused solely on Gameball.
+<Info>
+You have full flexibility to choose Firebase dependency packages to be used for dynamic link extraction while keeping Gameball SDK focused solely on Gameball
+</Info>
 
-Once you have located the **GBReferral** parameter within a dynamic link, you will need to send its value and send along with the registerPlayer SDK call that is being executed for the newly created referred customer.
+Once you have located the **GBReferral** parameter within a dynamic link, you will need to send its value and send along with the [registerPlayer](/installation-guide/react-native/initialize-profile#register-customer) SDK call that is being executed for the newly created referred customer.
 
-```javascript
+```typescript
 GameballSDK.registerPlayer({
   playerUniqueId: "{CUST_ID}",
   deviceToken: "{deviceToken}",
@@ -98,13 +87,6 @@ GameballSDK.registerPlayer({
   },
 })
 ```
-
-## Related Resources
-
-- [Referrals Tutorial](/tutorials/referral)
-- [Referral Settings Configuration](/api-reference/configurations/program-configurations/referral-settings)
-- [Customer Management](/api-reference/customers/customers)
-- [Customer Validation API](/api-reference/customers/management/validate-referrer-code)
 
 ## Next Steps
 

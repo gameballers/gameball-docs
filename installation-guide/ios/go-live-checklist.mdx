@@ -3,252 +3,78 @@ title: "Go-Live Checklist"
 description: "Comprehensive checklist to ensure a smooth transition when taking your iOS integration live"
 ---
 
-Use this comprehensive checklist to ensure a smooth transition when taking your iOS integration live. It helps you verify all components are working correctly, providing a flawless experience for your customers from day one.
+If you are a developer, or had a developer perform an integration for you between your web application and Gameball, you should also consider the following items before going live.
 
-## Pre-Launch Testing
+<Info>
+During development, you can use your account Test Key to authenticate your requests. Once integration is completed and validated you can swap to Production API Key.
+</Info>
 
-### ✅ SDK Installation & Initialization
+## Step 1: Install Gameball SDK
 
-<Steps>
-<Step title="Verify SDK Installation">
-  - [ ] Gameball SDK is properly installed via CocoaPods or Swift Package Manager
-  - [ ] All dependencies are resolved without conflicts
-  - [ ] SDK imports correctly in your view controllers
-  - [ ] No compilation errors or warnings
-</Step>
+- [ ] Install and import Gameball SDK into your App
+- [ ] Initialize Gameball SDK
 
-<Step title="Test SDK Initialization">
-  - [ ] SDK initializes successfully with your API key
-  - [ ] Completion block executes without errors
-  - [ ] Language settings are configured correctly
-  - [ ] Platform parameters are set appropriately
-</Step>
+<Tip>
+For information please read more at [Getting Started](/installation-guide/ios/getting-started)
+</Tip>
 
-<Step title="Verify Player Registration">
-  - [ ] Player registration works with valid unique IDs
-  - [ ] Player attributes are sent correctly
-  - [ ] Registration completion handlers work properly
-  - [ ] Error handling works for invalid registrations
-</Step>
-</Steps>
+## Step 2: Register Your Customer
 
-### ✅ Widget Integration
+- [ ] Send customer data to Gameball within your login/registration flows.
 
-<Steps>
-<Step title="Test Profile Widget">
-  - [ ] Widget displays correctly on different iOS devices
-  - [ ] Widget appears properly on different screen sizes
-  - [ ] Modal presentation works as expected
-  - [ ] Navigation within widget functions correctly
-</Step>
+## Step 3: Gameball Customer Widget Integration
 
-<Step title="Validate Widget Features">
-  - [ ] Customer profile information displays correctly
-  - [ ] Points and achievements show properly
-  - [ ] Referral links are generated and functional
-  - [ ] Widget interactions work smoothly
-</Step>
-</Steps>
+- [ ] Show Gameball customer profile widget within your App experience
 
-### ✅ Event Tracking
+👑 *If you're building your own UI components to maintain your branding*
 
-<Steps>
-<Step title="Test Event API Integration">
-  - [ ] Events are sent to Gameball API successfully
-  - [ ] Event data is properly formatted and complete
-  - [ ] Error handling works for failed API calls
-  - [ ] Event tracking doesn't impact app performance
-</Step>
+- [ ] Custom UI components are built and integrated with Gameball within your App UI
 
-<Step title="Verify Event Processing">
-  - [ ] Events appear in Gameball dashboard
-  - [ ] Event metadata is captured correctly
-  - [ ] Custom events are working as expected
-  - [ ] Event-based rewards are triggered properly
-</Step>
-</Steps>
+<Tip>
+For information please read more at [Initialize Gameball Customer Profile](/installation-guide/ios/initialize-profile).
+</Tip>
 
-### ✅ Order Tracking & Cashback
+## Step 4: Tracking Customer Events
 
-<Steps>
-<Step title="Test Order API Integration">
-  - [ ] Orders are tracked after successful payment
-  - [ ] Order data includes all required fields
-  - [ ] Cashback calculations are accurate
-  - [ ] Points are awarded correctly
-</Step>
+- [ ] Customer events are sent to Gameball with correspondent metadata and properties to track UI events within your App
+- [ ] Customer events are sent to Gameball with correspondent metadata and properties to track server-side events related to the player
 
-<Step title="Validate Cashback System">
-  - [ ] Cashback amounts match program configuration
-  - [ ] Points appear in customer accounts
-  - [ ] Refunds properly adjust point balances
-  - [ ] Order status updates work correctly
-</Step>
-</Steps>
+<Tip>
+For information, please read more at [Tracking Customer Events](/installation-guide/ios/track-events).
+</Tip>
 
-### ✅ Redemption System
+## Step 5: Tracking Orders/Payments for Cashback Rewards
 
-<Steps>
-<Step title="Test Redemption APIs">
-  - [ ] Coupon generation works correctly
-  - [ ] Direct debit requests are processed
-  - [ ] Redemption validation is working
-  - [ ] Point deductions are accurate
-</Step>
+- [ ] Completed/Paid orders are tracked and sent to Gameball with all order data you wish to track within Gameball.
 
-<Step title="Verify Redemption Flow">
-  - [ ] Customers can view their point balance
-  - [ ] Redemption options are displayed correctly
-  - [ ] Redemption process is user-friendly
-  - [ ] Error handling works for failed redemptions
-</Step>
-</Steps>
+<Tip>
+For more information, please read more at [Track Orders & Cashback Rewards](/installation-guide/ios/track-orders).
+</Tip>
 
-### ✅ Push Notifications
+## Step 6: Redemption is Integrated
 
-<Steps>
-<Step title="Test Firebase Integration">
-  - [ ] Firebase SDK is properly integrated
-  - [ ] APNs certificates are configured correctly
-  - [ ] FCM tokens are generated successfully
-  - [ ] Tokens are registered with Gameball
-</Step>
+- [ ] Customers can view their wallet points balance within your experience.
+- [ ] Customers can redeem their Gameball wallet points within your experience.
 
-<Step title="Validate Notification Delivery">
-  - [ ] Push notifications are received on test devices
-  - [ ] Notification content displays correctly
-  - [ ] Deep links work properly
-  - [ ] Notification permissions are handled correctly
-</Step>
-</Steps>
+<Tip>
+For more information, please read more at [Integrate Redemption](/installation-guide/ios/integrate-redemption).
+</Tip>
 
-### ✅ Referral System
+## Step 7: Integrate Notifications
 
-<Steps>
-<Step title="Test Referral Generation">
-  - [ ] Referral links are generated correctly
-  - [ ] Referral codes are unique and valid
-  - [ ] iOS sharing integration works properly
-  - [ ] Referral tracking is accurate
-</Step>
+- [ ] Add the Firebase dependency to your project.
+- [ ] Add SDK code snippet to show in-app notifications.
 
-<Step title="Validate Referral Rewards">
-  - [ ] Referrer rewards are awarded correctly
-  - [ ] Referee rewards are awarded correctly
-  - [ ] Referral limits are enforced
-  - [ ] Referral fraud prevention is working
-</Step>
-</Steps>
+<Tip>
+For more information, please read more at [Push Notifications](/installation-guide/ios/push-notifications).
+</Tip>
 
-## Production Readiness
+## Step 8: Referrals Tracking
 
-### ✅ Technical Requirements
+- [ ] Add the Firebase dynamic links dependency to your project.
+- [ ] Configure your Firebase dynamic links settings from your Firebase console and add it to your Gameball account dashboard.
+- [ ] Invoke SDK referral method upon successful customer registration.
 
-<Steps>
-<Step title="API Configuration">
-  - [ ] Production API keys are configured
-  - [ ] API endpoints are pointing to production
-  - [ ] Rate limiting is properly configured
-  - [ ] SSL certificates are valid
-</Step>
-
-<Step title="Performance Testing">
-  - [ ] App launches quickly with Gameball integration
-  - [ ] SDK initialization doesn't block UI
-  - [ ] Memory usage is within acceptable limits
-  - [ ] No memory leaks in long-running sessions
-</Step>
-
-<Step title="Error Handling">
-  - [ ] Failed API calls are handled gracefully
-  - [ ] Error messages are user-friendly
-  - [ ] Fallback mechanisms are in place
-  - [ ] Crash reporting is configured
-</Step>
-</Steps>
-
-### ✅ iOS-Specific Requirements
-
-<Steps>
-<Step title="Device Compatibility">
-  - [ ] App works on iPhone (all sizes)
-  - [ ] App works on iPad
-  - [ ] iOS version compatibility is verified
-  - [ ] Accessibility features work correctly
-</Step>
-
-<Step title="App Store Compliance">
-  - [ ] Privacy policy includes Gameball data usage
-  - [ ] App permissions are properly requested
-  - [ ] Data collection is disclosed
-  - [ ] App Store guidelines are followed
-</Step>
-</Steps>
-
-## Launch Day
-
-### ✅ Final Verification
-
-<Steps>
-<Step title="Last-Minute Checks">
-  - [ ] All systems are operational
-  - [ ] Support team is ready
-  - [ ] Documentation is accessible
-  - [ ] Backup procedures are in place
-</Step>
-
-<Step title="Go-Live Execution">
-  - [ ] Deploy to App Store or TestFlight
-  - [ ] Monitor app performance and crashes
-  - [ ] Verify all integrations are working
-  - [ ] Test with real customer data
-</Step>
-</Steps>
-
-## Post-Launch Monitoring
-
-### ✅ First 24 Hours
-
-<Steps>
-<Step title="System Monitoring">
-  - [ ] Monitor API response times
-  - [ ] Check crash reports for issues
-  - [ ] Verify customer transactions
-  - [ ] Monitor widget performance
-</Step>
-
-<Step title="Customer Support">
-  - [ ] Respond to customer inquiries
-  - [ ] Monitor support ticket volume
-  - [ ] Document any issues encountered
-  - [ ] Provide quick fixes for critical problems
-</Step>
-</Steps>
-
-## Troubleshooting Resources
-
-<AccordionGroup>
-<Accordion title="Common iOS Issues">
-  - **Widget not loading**: Check SDK initialization and API key configuration
-  - **Events not tracking**: Verify API credentials and network connectivity
-  - **Push notifications not working**: Check Firebase configuration and APNs certificates
-  - **Referral links not sharing**: Verify iOS sharing integration and permissions
-</Accordion>
-
-<Accordion title="Support Contacts">
-  - **Technical Support**: [Your technical support contact]
-  - **Gameball Support**: [Gameball support contact]
-  - **iOS Development Support**: [Your iOS development team contact]
-</Accordion>
-
-<Accordion title="Documentation Links">
-  - [API Reference](/api-reference/introduction)
-  - [Status and Error Codes](/api-reference/overview/status-error-codes)
-  - [Rate Limiting](/api-reference/overview/rate-limiting)
-  - [What's New in V4.0](/api-reference/overview/whats-new)
-</Accordion>
-</AccordionGroup>
-
-<Check>
-Once you've completed all items in this checklist, your iOS Gameball integration should be ready for production and provide a seamless experience for your customers.
-</Check>
+<Tip>
+For information please check [Track Referrals](/installation-guide/ios/track-referrals).
+</Tip>

@@ -3,98 +3,118 @@ title: "Track Referrals"
 description: "Reward your customers for referring new users and help grow your business organically"
 ---
 
-Reward your customers for referring new users and help grow your business organically. By tracking referral activities, you can incentivize customers to spread the word, expanding your user base through word-of-mouth marketing.
+## Introduction
 
-## Referral System Features
+One of the most effective ways to get new users is through user referrals. You can use Gameball referrals capabilities to encourage your users to invite their friends by offering rewards for successful referrals to both the referrer and the recipient.
 
-<CardGroup cols={2}>
-  <Card title="Referral Links" icon="link">
-    Generate unique referral links for each customer
-  </Card>
+Gameball referrals uses Firebase Dynamic Links in the background to generate customers' referral links and track referrals. Dynamic Links are smart URLs (deep links) that survive the app install process, so new referred users via referral links will be easily tracked when they open the app for the first time.
 
-  <Card title="Referral Tracking" icon="chart-line">
-    Track referral clicks, sign-ups, and conversions
-  </Card>
+Gameball and its SDK provides hassle free integration to track referrals where you will only need to:
 
-  <Card title="Reward Distribution" icon="gift">
-    Automatically reward both referrer and referee
-  </Card>
+1. Provide your firebase info through Gameball dashboard to generate referral links to your customers.
+2. Invoke referral method with every new account creation through your app.
 
-  <Card title="Referral Analytics" icon="chart-bar">
-    Monitor referral performance and conversion rates
-  </Card>
-</CardGroup>
+<img src="https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/UNBGOX7MWYuYMqPgQP6i/62fc5889d52bd92a55188efd_Mj6pMaOcnhU6bPS6Om1qbcQ4fJKNSBiPv1aA9lF-Xdv59l-1iITLb79diFTzQpHY0bs8CHNnC1quJb2xjQ5cvBNDZOWQLxcfvJNPASGpAC-xeGUqmoLezKzK1u5OdB9ejAyKmwMhs8gP_2vremJ4aJE.jpg" alt="Referral Flow Diagram" />
 
-## How Referral System Works
+Your customers will be able to get and share their referral link from [Gameball Customer Widget](/installation-guide/ios/initialize-profile).
 
-<Steps>
-<Step title="Generate Referral Link">
-  Create a unique referral link for each customer through the Gameball system
-</Step>
+<Warning>
+Tracking referral requires Firebase and Firebase Dynamic Links SDKs installed into your app.
+</Warning>
 
-<Step title="Share Referral Link">
-  Customer shares their referral link with friends, family, or on social media
-</Step>
+## Sending Referral
 
-<Step title="Track Referral Clicks">
-  Gameball tracks when someone clicks on a referral link
-</Step>
+Referral information can be submitted to Gameball using two methods. The first option involves relying on automatic detection, which is triggered when the `register player` method is called. Alternatively, you can explicitly use the `friend referral`. Both approaches yield the desired outcome, and the choice between them depends on your specific scenarios.
 
-<Step title="Monitor Sign-ups">
-  Track when referred users create accounts or make purchases
-</Step>
+### Automatic Detection
 
-<Step title="Award Rewards">
-  Both the referrer and referee receive rewards based on your program configuration
-</Step>
-</Steps>
+After setting up the necessary [Firebase dependencies](#firebase-deeplinks-integration) and adding your Firebase details to Gameball's dashboard, when register player SDK method is called, the system will automatically detect if there is a referral code. If a referral code is found, it will be included in the registration request. This allows the newly registered customer to be linked with the referral code.
 
-## iOS Implementation
+### Using Friend Referral Method
 
-<Steps>
-<Step title="Generate Referral Links">
-  Use the iOS SDK to generate referral links for customers
-</Step>
+**`friendReferral`** should be called after your customer registration, hence a new customer is created. It basically detects if the customer has registered using a referral code or not.
 
-<Step title="Share Integration">
-  Integrate with iOS sharing capabilities (Share Sheet, AirDrop, etc.)
-</Step>
+If you need to use a referral method to sign up a new customer using a referral link, call the function below to use the referral module. Best use case is in the success of the registration API of your app.
 
-<Step title="Track Referral Activities">
-  Monitor referral performance using Gameball analytics
-</Step>
+```swift
+let playerAttributes: [String : Any] = [
+    "displayName": "John Snow",
+    "email": "example@example.com"
+]
+self.gameballApp?.friendReferral(
+    playerUniqueId: "{CUST_ID}",
+    playerAttributes: playerAttributes,
+    completion: { result in
+        print(result)
+    }
+)
+```
 
-<Step title="Handle Rewards">
-  Display referral rewards and achievements in your app
-</Step>
-</Steps>
+The **playerAttributes** is optional, so if you haven't created it yet then call the method like this with only the new playerUniqueId.
 
-## Best Practices
+```swift
+self.gameballApp?.friendReferral(
+    playerUniqueId: "{CUST_ID}",
+    completion: { result in
+        print(result)
+    }
+)
+```
 
-<Steps>
-<Step title="Make Sharing Easy">
-  Integrate with iOS native sharing features for easy link sharing
-</Step>
+## Firebase Deeplinks Integration
 
-<Step title="Clear Reward Structure">
-  Clearly communicate what rewards both parties will receive
-</Step>
+To integrate and track referrals you need to perform two main steps:
 
-<Step title="Track Performance">
-  Monitor referral metrics to optimize your program
-</Step>
+1. Configure your Firebase dynamic links settings from your firebase console
+2. Configure Firebase on your App and Gameball account dashboard
+3. Invoke SDK Referral method within your App user registration flow
 
-<Step title="Prevent Fraud">
-  Implement safeguards to prevent referral fraud and abuse
-</Step>
-</Steps>
+### 1. Firebase Configuration
 
-## Related Resources
+Set up a new Firebase project and install the Dynamic Links SDK into your app. Installing the Dynamic Links SDK allows Firebase to pass along data about the Dynamic Link to the app, including after the user installs the app.
 
-- [Referrals Tutorial](/tutorials/referral)
-- [Referral Settings Configuration](/api-reference/configurations/program-configurations/referral-settings)
-- [Customer Management](/api-reference/customers/customers)
-- [Customer Validation API](/api-reference/customers/management/validate-referrer-code)
+**Import Firebase in AppDelegate File**
+
+```swift
+import Firebase
+```
+
+**Copy this code in your AppDelegate**
+
+```swift
+func handleIncommingDynamicLink(_ dynamicLink: DynamicLink){
+    guard let url  = dynamicLink.url else {
+        return
+    }
+    self.gameballApp?.recievedDynamicLink(url: url)
+}
+
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    if let incommingURL = userActivity.webpageURL {
+        let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incommingURL) { (dynamicLink, error) in
+            guard error == nil else {
+                return
+            }
+            if let dynamicLink = dynamicLink {
+                self.handleIncommingDynamicLink(dynamicLink)
+            }
+        }
+        return linkHandled
+    }
+    return false
+}
+
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url){
+        self.handleIncommingDynamicLink(dynamicLink)
+        return true
+    } else {
+        return false
+    }
+}
+```
+
+**Configure Firebase information on your [Gameball's account dashboard](https://help.gameball.co/en/articles/3486262-configure-your-firebase-account-for-referrals-on-mobile).**
 
 ## Next Steps
 

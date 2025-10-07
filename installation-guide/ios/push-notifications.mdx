@@ -3,95 +3,64 @@ title: "Push Notifications"
 description: "Integrate Gameball push notifications to keep your customers informed about updates and rewards"
 ---
 
-Integrate your app with Gameball push notifications to keep your customers informed about updates, rewards, and other important activities. This direct communication channel enhances user engagement and retention.
+Gameball uses Firebase to deliver maximum experience in your app. This includes push notifications and referrals support.
 
-## Push Notification Features
+## Configure Gameball with Your Firebase
 
-<CardGroup cols={2}>
-  <Card title="Reward Notifications" icon="gift">
-    Notify customers about earned points and rewards
-  </Card>
+Before you start, you must configure your Firebase on your Gameball account. Follow the steps in [Configure your Firebase account on Gameball for mobile push notifications](https://help.gameball.co/en/articles/3522353-configure-your-firebase-account-on-gameball-for-mobile-push-notifications) article from our Help Center related to push notifications.
 
-  <Card title="Achievement Alerts" icon="star">
-    Alert customers about unlocked achievements
-  </Card>
+## Handling Push Notifications Integration
 
-  <Card title="Referral Updates" icon="users">
-    Notify about referral activity and rewards
-  </Card>
+Configure notifications as usual and add two more methods using our SDK. This is normal integration for general firebase notifications configuration, so here is a how-to guide.
 
-  <Card title="Campaign Notifications" icon="megaphone">
-    Send promotional and campaign updates
-  </Card>
-</CardGroup>
+### 1. Add to AppDelegate Class
 
-## Firebase Integration
+```swift
+// Inherit protocols
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+    var gameballApp: Gameball?
+    // ...
+}
+```
 
-To enable push notifications, you need to integrate Firebase Cloud Messaging (FCM):
+### 2. Configure in didFinishLaunchingWithOptions
 
-<Steps>
-<Step title="Install Firebase">
-  Add Firebase SDK to your iOS project
-</Step>
+Put these lines in **didFinishLaunchingWithOptions()** in **AppDelegate**:
 
-<Step title="Configure APNs">
-  Set up Apple Push Notification service certificates
-</Step>
+```swift
+FirebaseApp.configure()
+registerForPushNotifications()
+```
 
-<Step title="Get FCM Token">
-  Generate FCM registration token for the device
-</Step>
+### 3. Add Registration Methods to AppDelegate
 
-<Step title="Register with Gameball">
-  Send the FCM token to Gameball for notification delivery
-</Step>
-</Steps>
+Add these stack of lines to the **AppDelegate** class:
 
-## Implementation
+```swift
+func registerForPushNotifications() {
+    UNUserNotificationCenter.current()
+        .requestAuthorization(options: [.alert, .sound, .badge]) {
+            [weak self] granted, error in
+            UNUserNotificationCenter.current().delegate = self
+            Messaging.messaging().delegate = self
+            guard granted else { return }
+            self?.getNotificationSettings()
+    }
+}
 
-<Steps>
-<Step title="Setup Firebase">
-  Configure Firebase in your iOS project
-</Step>
+func getNotificationSettings() {
+    UNUserNotificationCenter.current().getNotificationSettings { settings in
+        guard settings.authorizationStatus == .authorized else { return }
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+}
+```
 
-<Step title="Get Registration Token">
-  Generate FCM token using Firebase SDK
-</Step>
+### 4. Register Token to Gameball
 
-<Step title="Register Token">
-  Send the token to Gameball during player registration
-</Step>
-
-<Step title="Handle Notifications">
-  Implement notification handling in your app
-</Step>
-</Steps>
-
-## Best Practices
-
-<Steps>
-<Step title="Request Permissions">
-  Properly request notification permissions from users
-</Step>
-
-<Step title="Handle Token Refresh">
-  Update tokens when they change or refresh
-</Step>
-
-<Step title="Test Notifications">
-  Test push notifications on different devices and iOS versions
-</Step>
-
-<Step title="Monitor Delivery">
-  Track notification delivery and engagement rates
-</Step>
-</Steps>
-
-## Related Resources
-
-- [Firebase Cloud Messaging Documentation](https://firebase.google.com/docs/cloud-messaging)
-- [Apple Push Notifications Documentation](https://developer.apple.com/documentation/usernotifications)
-- [Gameball Notifications API](/api-reference/customers/notifications/list-customer-notifications)
+Here we need to add this method to register token to Gameball. Follow this guide on [how to access the registration token](https://firebase.google.com/docs/cloud-messaging/ios/client#access_the_registration_token) and pass it to the **`gameballApp.registerDevice`**.
 
 ## Next Steps
 

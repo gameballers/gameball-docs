@@ -3,52 +3,46 @@ title: "Track Customer Events"
 description: "Send customer events from your React Native app to Gameball"
 ---
 
-Start sending your customers' events from your React Native app to Gameball. By tracking actions such as purchases, sign-ups, and other key interactions, you can tailor rewards and communications to engage your customers more effectively.
+Start sending your customer's **events** on your app or platform to Gameball, along with any **metadata** that describes the event. Depending on your Gameball programs configuration, the customer can be rewarded based on the sent events.
 
-<Info>
-For detailed event tracking implementation, please refer to the [Tracking Customer Events tutorial](/tutorials/track-customer-events) and [Events API Reference](/api-reference/events/send-events).
-</Info>
+Every `Track Event` call records a single customer action. We call these "**events**". We recommend that you make your event names human-readable, so that everyone can know what they mean instantly.
 
-## Event Tracking Overview
+**Event metadata** are extra pieces of information you can tie to events you track. They can be anything that will be useful while designing your program.
 
-<CardGroup cols={2}>
-  <Card title="App Events" icon="phone">
-    Track user interactions within your React Native app
-  </Card>
+Tracked **events** can be app events or server-side events depending on how you would like to design your programs. App events can be sent to Gameball via the methods available in the SDK below. For server-side events you can use [Track Events API](/api-reference/events/send-events).
 
-  <Card title="Purchase Events" icon="dollar-sign">
-    Monitor customer purchases and transactions
-  </Card>
+<Tip>
+For more information about events and usage examples, check [Tracking Customer Events](/tutorials/track-customer-events) tutorial
+</Tip>
 
-  <Card title="Engagement Events" icon="heart">
-    Track user engagement and app usage patterns
-  </Card>
+To send Customer events from your app to Gameball, you can use the **`sendEvent`** SDK interface as below.
 
-  <Card title="Custom Events" icon="tag">
-    Define and track business-specific events
-  </Card>
-</CardGroup>
+Import **Gameball SDK**
 
-## Implementation
+```typescript
+import {GameballSdk} from 'react-native-gameball';
+```
 
-<Steps>
-<Step title="Initialize Event Tracking">
-  Set up event tracking after SDK initialization
-</Step>
+Sending event without metadata in the form {String: any}
 
-<Step title="Track Events">
-  Send events to Gameball using the React Native SDK methods
-</Step>
+```typescript
+GameballSdk.sendEvent({"review": {}})
+    .then(response => console.log(response)) // on success
+    .catch(error => console.log(error)) // on error
+```
 
-<Step title="Handle Responses">
-  Process success and error responses from the API
-</Step>
-</Steps>
+Sending event with different metadata in the form {String: {String: any}}
 
-## Related Resources
-
-- [Events API Reference](/api-reference/events/send-events)
-- [Tracking Customer Events Tutorial](/tutorials/track-customer-events)
+```typescript
+GameballSdk.sendEvent({
+  "place_order": {
+    "amount": "100",
+    "type": "Electronics"
+  }
+})
+  .then(response => console.log(response)) // on success
+  .catch(error => console.log(error)) // on error
+```
 
 ## Next Steps
 
