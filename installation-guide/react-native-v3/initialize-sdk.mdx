@@ -14,12 +14,12 @@ import { useEffect } from 'react';
 function App() {
   useEffect(() => {
     const config: GameballConfig = {
-      apiKey: 'your-api-key',      // Required
-      lang: 'en',                  // Required ('en' or 'ar')
-      shop: 'your-shop-id',        // Optional
-      platform: 'react-native',    // Optional
-      gbToken: 'your-gb-token',    // Optional - for v4.1 endpoints
-      apiPrefix: 'custom-prefix',  // Optional - custom API URL
+      apiKey: 'your-api-key',          // Required
+      lang: 'en',                      // Required ('en' or 'ar')
+      shop: 'your-shop-id',            // Optional
+      platform: 'react-native',        // Optional
+      sessionToken: 'your-session-token', // Optional - for v4.1 endpoints
+      apiPrefix: 'custom-prefix',      // Optional - custom API URL
     };
 
     GameballApp.getInstance().init(config);
@@ -49,13 +49,19 @@ Your Gameball shop identifier for multi-shop configurations.
 Platform identifier, defaults to "react-native".
 </ParamField>
 
-<ParamField body="gbToken" type="string">
-GB Token for secure authentication (enables automatic v4.1 endpoint routing).
+<ParamField body="sessionToken" type="string">
+Session Token for secure authentication (enables automatic v4.1 endpoint routing).
 </ParamField>
 
 <ParamField body="apiPrefix" type="string">
 Custom API base URL for enterprise configurations.
 </ParamField>
+
+### Validation Rules
+
+**GameballConfig requires:**
+- API key is required (cannot be null)
+- Language is required (cannot be null)
 
 ## Using Async/Await
 

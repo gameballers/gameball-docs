@@ -110,6 +110,77 @@ import { GameballApp } from 'gameball-react-native';
 
 If there are no import errors, you're ready to initialize the SDK!
 
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+<Accordion title="Widget Not Displaying">
+**Symptoms:** Profile widget doesn't appear when called
+
+**Solutions:**
+- Ensure `react-native-webview` is properly installed and linked
+- Check that the API key is valid and the customer is initialized
+- Verify network connectivity
+- Check console for error messages
+</Accordion>
+
+<Accordion title="Build Errors on iOS">
+**Symptoms:** Pod installation or build failures
+
+**Solutions:**
+- Clean build folder: `cd ios && xcodebuild clean`
+- Reinstall pods: `cd ios && pod install --repo-update`
+- Ensure iOS deployment target is at least 12.0
+- Try `pod deintegrate && pod install`
+</Accordion>
+
+<Accordion title="Build Errors on Android">
+**Symptoms:** Gradle build failures
+
+**Solutions:**
+- Clean gradle cache: `cd android && ./gradlew clean`
+- Verify minimum SDK version is 21
+- Check React Native version compatibility
+- Ensure all dependencies are properly installed
+</Accordion>
+
+<Accordion title="TypeScript Errors">
+**Symptoms:** Type definition errors
+
+**Solutions:**
+- Ensure TypeScript version is 4.0+
+- Run `npx tsc --noEmit` to check type errors
+- Verify type definitions are imported correctly
+- Clear TypeScript cache if needed
+</Accordion>
+
+<Accordion title="Metro Bundler Issues">
+**Symptoms:** Asset loading errors or bundling failures
+
+**Solutions:**
+- Clear Metro cache: `npx react-native start --reset-cache`
+- Ensure Metro configuration includes necessary asset extensions
+- Check `metro.config.js` configuration
+</Accordion>
+</AccordionGroup>
+
+### Debug Logging
+
+For detailed debug logging during development:
+
+```bash
+# iOS
+npx react-native run-ios --verbose
+
+# Android
+npx react-native run-android --verbose
+```
+
+<Tip>
+Use the `--verbose` flag when running your app to see detailed SDK logs and network operations during development.
+</Tip>
+
 ## Next Steps
 
 - [Initialize SDK](/installation-guide/react-native-v3/initialize-sdk)

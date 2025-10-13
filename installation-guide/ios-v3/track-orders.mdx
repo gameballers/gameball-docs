@@ -1,0 +1,129 @@
+---
+title: "Track Orders & Cashback"
+description: "Track orders and enable cashback rewards"
+---
+
+# Track Orders & Cashback Reward
+
+Use the SDK methods for order-tracking and cashback updates when your platform registers paid orders.
+
+<CodeGroup>
+```swift Swift
+import Gameball
+
+let order = OrderRequest(
+    orderId: "order-123",
+    customerId: "customer-123",
+    amount: 99.99,
+    currency: "USD",
+    status: "paid"
+)
+
+Gameball.shared.sendOrder(order) { result in
+    switch result {
+    case .success:
+        print("Order tracked successfully")
+    case .failure(let error):
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+```swift Swift (Async/Await)
+import Gameball
+
+Task {
+    do {
+        let order = OrderRequest(
+            orderId: "order-123",
+            customerId: "customer-123",
+            amount: 99.99,
+            currency: "USD",
+            status: "paid"
+        )
+        
+        try await Gameball.shared.sendOrder(order)
+        print("Order tracked successfully")
+    } catch {
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+</CodeGroup>
+
+## Order Parameters
+
+<ParamField body="orderId" type="String" required>
+Unique identifier for the order.
+</ParamField>
+
+<ParamField body="customerId" type="String" required>
+The customer who placed the order.
+</ParamField>
+
+<ParamField body="amount" type="Double" required>
+Total order amount.
+</ParamField>
+
+<ParamField body="currency" type="String" required>
+Currency code (e.g., "USD", "EUR", "GBP").
+</ParamField>
+
+<ParamField body="status" type="String" required>
+Order status: "paid", "pending", "cancelled", "refunded".
+</ParamField>
+
+<ParamField body="lineItems" type="[OrderLineItem]">
+List of products/items in the order.
+</ParamField>
+
+<Warning>
+**Important**: It's recommended to call order/cashback APIs when the order is actually paid to avoid incorrect reward assignment. For COD (Cash on Delivery) orders, wait until payment is captured before tracking.
+</Warning>
+
+## Order with Line Items
+
+```swift
+let lineItem1 = OrderLineItem(
+    productId: "PROD-123",
+    productName: "Wireless Headphones",
+    quantity: 1,
+    price: 79.99
+)
+
+let lineItem2 = OrderLineItem(
+    productId: "PROD-456",
+    productName: "Phone Case",
+    quantity: 2,
+    price: 19.99
+)
+
+let order = OrderRequest(
+    orderId: "order-123",
+    customerId: "customer-123",
+    amount: 119.97,
+    currency: "USD",
+    status: "paid",
+    lineItems: [lineItem1, lineItem2]
+)
+
+Gameball.shared.sendOrder(order) { result in
+    // Handle result
+}
+```
+
+## Cashback Rewards
+
+Cashback is automatically calculated based on your Gameball program configuration. Ensure your cashback rules are properly set up in the Gameball dashboard to reward customers for their purchases.
+
+<Info>
+For more advanced order tracking scenarios, you can also use the server-side [Order API](/api-reference/order/order-tracking) for better control and security.
+</Info>
+
+## Next Steps
+
+- [Integrate Redemption](/installation-guide/ios-v3/integrate-redemption)
+- [Show Profile Widget](/installation-guide/ios-v3/show-profile)
+- [Push Notifications](/installation-guide/ios-v3/push-notifications)
+
+

@@ -8,7 +8,7 @@ description: "Register customers and show the Gameball profile widget"
 Register or update a customer whenever they log in or register in your app. This allows Gameball to attach events and rewards to the customer profile.
 
 ```dart
-import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_flutter/gameball_flutter.dart';
 
 final attributes = CustomerAttributesBuilder()
     .displayName("John Doe")
@@ -53,6 +53,13 @@ Device token for push notifications (FCM or HMS).
 <ParamField body="pushProvider" type="PushProvider">
 Push notification provider: `PushProvider.Firebase` or `PushProvider.Huawei`.
 </ParamField>
+
+### Validation Rules
+
+**InitializeCustomerRequest requires:**
+- `customerId` cannot be null or empty
+- If `deviceToken` is provided, `pushProvider` must also be specified
+- If `pushProvider` is specified, `deviceToken` must also be provided
 
 ## CustomerAttributesBuilder Methods
 
@@ -123,7 +130,7 @@ The customer ID should be a permanent identifier that will NEVER change. Avoid u
 Display the Gameball customer profile widget to show rewards, campaigns, and leaderboards:
 
 ```dart
-import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_flutter/gameball_flutter.dart';
 
 final profileRequest = ShowProfileRequestBuilder()
     .customerId("customer-123")
@@ -131,6 +138,7 @@ final profileRequest = ShowProfileRequestBuilder()
     .hideNavigation(false)              // optional
     .showCloseButton(true)              // optional
     .closeButtonColor("#FF6B6B")        // optional
+    .widgetUrlPrefix("custom-prefix")   // optional
     .build();
 
 final gameballApp = GameballApp.getInstance();
@@ -164,6 +172,12 @@ Close button color in hex format (e.g., "#FF0000").
 <ParamField body="widgetUrlPrefix" type="string">
 Custom widget URL prefix.
 </ParamField>
+
+### Validation Rules
+
+**ShowProfileRequest requires:**
+- `customerId` cannot be null or empty
+- `closeButtonColor` must be in hex format (#RRGGBB) if provided
 
 ## Full Example
 

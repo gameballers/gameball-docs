@@ -1,0 +1,159 @@
+---
+title: "Getting Started"
+description: "Install and set up Gameball iOS SDK v3.0.0"
+---
+
+# Getting Started
+
+## Requirements
+
+- **Minimum iOS Version**: iOS 13.0+
+- **Xcode**: 14.0+
+- **Swift**: 5.7+
+- **CocoaPods**: 1.11+ or Swift Package Manager
+
+## Install the SDK
+
+You can install the Gameball iOS SDK using CocoaPods or Swift Package Manager.
+
+### CocoaPods (Recommended)
+
+Add to your `Podfile`:
+
+```ruby
+platform :ios, '13.0'
+use_frameworks!
+
+target 'YourApp' do
+  pod 'Gameball', '~> 3.0.0'
+end
+```
+
+Then run:
+
+```bash
+pod install
+```
+
+<Info>
+After installation, always open your project using the `.xcworkspace` file, not the `.xcodeproj` file.
+</Info>
+
+### Swift Package Manager
+
+1. In Xcode, select **File → Add Packages...**
+2. Enter the repository URL:
+   ```
+   https://github.com/gameballers/gameball-ios.git
+   ```
+3. Select version **3.0.0** or **Up to Next Major Version** from 3.0.0
+4. Click **Add Package**
+
+## Import the SDK
+
+Import Gameball in your Swift files:
+
+```swift
+import Gameball
+```
+
+## Verify Installation
+
+Build your project to verify the SDK is properly installed:
+
+```bash
+# Using Xcode
+⌘ + B
+
+# Using command line
+xcodebuild -workspace YourApp.xcworkspace \
+           -scheme YourApp \
+           -sdk iphonesimulator \
+           -configuration Debug build
+```
+
+If the build succeeds without errors, you're ready to initialize the SDK!
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+<Accordion title="CocoaPods Installation Fails">
+**Error:** `Unable to find a specification for Gameball`
+
+**Solutions:**
+- Update CocoaPods repo: `pod repo update`
+- Clean CocoaPods cache: `pod cache clean --all`
+- Verify your Podfile has the correct syntax
+- Ensure your CocoaPods version is 1.11+
+</Accordion>
+
+<Accordion title="Swift Package Manager Errors">
+**Error:** `No such module 'Gameball'`
+
+**Solutions:**
+- Clean build folder: Product → Clean Build Folder (⇧⌘K)
+- Reset package caches: File → Packages → Reset Package Caches
+- Verify the package is added to your target's frameworks
+- Restart Xcode
+</Accordion>
+
+<Accordion title="Build Errors on Older iOS Versions">
+**Error:** Deployment target warnings or API availability errors
+
+**Solutions:**
+- Ensure minimum deployment target is iOS 13.0+
+- Update `Info.plist` if needed
+- Check Xcode version is 14.0+
+- Verify Swift version is 5.7+
+</Accordion>
+
+<Accordion title="Framework Not Found">
+**Error:** `dyld: Library not loaded` or similar framework errors
+
+**Solutions:**
+- For CocoaPods: Run `pod install` again
+- For SPM: Remove and re-add the package
+- Clean derived data: `rm -rf ~/Library/Developer/Xcode/DerivedData`
+- Ensure framework is embedded in your app target
+</Accordion>
+
+<Accordion title="Compile Errors After Update">
+**Symptoms:** Build errors after updating the SDK
+
+**Solutions:**
+- Clean build folder (⇧⌘K)
+- Delete derived data
+- Run `pod deintegrate && pod install` for CocoaPods
+- Check migration notes for breaking changes
+</Accordion>
+</AccordionGroup>
+
+### Debug Logging
+
+The SDK includes built-in logging for development. Logs will appear in Xcode console during debug builds.
+
+To filter SDK logs in Xcode console:
+
+```
+# Filter by subsystem
+Gameball
+
+# Common log categories
+- Initialization
+- Network
+- Events
+- Profile
+```
+
+<Tip>
+Use Xcode's console filtering to show only Gameball-related logs during development. This helps identify integration issues quickly.
+</Tip>
+
+## Next Steps
+
+- [Initialize SDK](/installation-guide/ios-v3/initialize-sdk)
+- [Initialize Customer Profile](/installation-guide/ios-v3/initialize-profile)
+
+

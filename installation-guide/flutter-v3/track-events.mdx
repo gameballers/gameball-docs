@@ -8,7 +8,7 @@ description: "Send events to power actions, campaigns and rewards"
 Send events to Gameball when users perform important actions within your app. Events represent significant customer actions and can trigger rewards, campaigns, and engagement programs.
 
 ```dart
-import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_flutter/gameball_flutter.dart';
 
 final event = EventBuilder()
     .customerId("customer-123")
@@ -51,6 +51,14 @@ The name of the event (must be called before adding metadata).
 <ParamField body="eventMetaData" type="key-value">
 Metadata for the current event (can be String, Number, or Boolean values).
 </ParamField>
+
+### Validation Rules
+
+**Event requires:**
+- `customerId` cannot be null or empty
+- At least one event must be specified
+- Event names should be meaningful and descriptive
+- Event metadata values can be String, Number, or Boolean
 
 ## Best Practices
 

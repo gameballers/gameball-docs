@@ -14,10 +14,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final config = GameballConfig.builder()
-      .apiKey("your-api-key")      // Required
-      .lang("en")                  // Optional
-      .platform("flutter")         // Optional
-      .shop("your-shop-id")        // Optional
+      .apiKey("your-api-key")          // Required
+      .lang("en")                      // Required
+      .platform("flutter")             // Optional
+      .shop("your-shop-id")            // Optional
+      .sessionToken("your-session-token") // Optional - for v4.1 endpoints
+      .apiPrefix("custom-prefix")      // Optional
       .build();
 
   final gameballApp = GameballApp.getInstance();
@@ -30,11 +32,11 @@ void main() async {
 ## Configuration Parameters
 
 <ParamField body="apiKey" type="string" required>
-The client API key available in your Gameball dashboard.
+The client API key available in your Gameball dashboard (required).
 </ParamField>
 
-<ParamField body="lang" type="string">
-The language code for SDK localization (e.g., "en", "ar", "fr"). Defaults to English if not specified.
+<ParamField body="lang" type="string" required>
+The language code for SDK localization (e.g., "en", "ar", "fr"). Required.
 </ParamField>
 
 <ParamField body="platform" type="string">
@@ -44,6 +46,20 @@ Platform identifier, defaults to "flutter".
 <ParamField body="shop" type="string">
 Your Gameball shop identifier for multi-shop configurations.
 </ParamField>
+
+<ParamField body="sessionToken" type="string">
+Session Token for secure authentication (enables automatic v4.1 endpoint routing).
+</ParamField>
+
+<ParamField body="apiPrefix" type="string">
+Custom API endpoint prefix for advanced configurations.
+</ParamField>
+
+### Validation Rules
+
+**GameballConfig requires:**
+- API key is required (cannot be null)
+- Language is required (cannot be null)
 
 ## Example
 
@@ -60,6 +76,7 @@ void main() async {
       .lang("en")
       .platform("flutter")
       .shop("myshop")
+      .sessionToken("your-session-token")  // Optional
       .build();
 
   final gameballApp = GameballApp.getInstance();

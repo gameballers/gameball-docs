@@ -1,0 +1,268 @@
+---
+title: "Migration Notes"
+description: "Migrate from v2.X.X to v3.0.0"
+---
+
+# Migration Notes & Changelog
+
+This guide helps you migrate from Gameball iOS SDK v2.X.X to v3.0.0.
+
+## What's New in v3.0.0
+
+<CardGroup cols={2}>
+<Card title="Modern Swift API" icon="code">
+Native Swift API with improved type safety and better Swift idioms
+</Card>
+
+<Card title="Async/Await Support" icon="bolt">
+Full async/await support alongside traditional callback-based APIs
+</Card>
+
+<Card title="Enhanced Type Safety" icon="shield">
+Stronger typing and better compile-time checks with Swift generics
+</Card>
+
+<Card title="Improved Performance" icon="gauge-high">
+Optimized SDK initialization and reduced memory footprint
+</Card>
+</CardGroup>
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2.X.X:**
+```swift
+Gameball.configure(
+    apiKey: "api-key",
+    lang: "en",
+    platform: "ios",
+    shop: "shop-id"
+)
+```
+
+**v3.0.0:**
+```swift
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    platform: "ios",
+    shop: "shop-id",
+    sessionToken: "session-token"  // New in v3
+)
+
+Gameball.shared.initialize(with: config)
+```
+
+### 2. Customer Registration
+
+**v2.X.X:**
+```swift
+Gameball.registerPlayer(
+    customerId: "customer-123",
+    attributes: attributes,
+    referralCode: "REF123",
+    isGuest: false
+) { success in
+    // Handle response
+}
+```
+
+**v3.0.0:**
+```swift
+let request = InitializeCustomerRequest(
+    customerId: "customer-123",
+    customerAttributes: attributes,
+    referralCode: "REF123",
+    isGuest: false
+)
+
+Gameball.shared.initializeCustomer(with: request) { result in
+    switch result {
+    case .success(let response):
+        // Handle success
+    case .failure(let error):
+        // Handle error
+    }
+}
+```
+
+### 3. Event Tracking
+
+**v2.X.X:**
+```swift
+let event = GameballEvent()
+event.customerId = "customer-123"
+event.eventName = "purchase"
+event.metadata = ["amount": 99.99]
+
+Gameball.sendEvent(event) { success in
+    // Handle response
+}
+```
+
+**v3.0.0:**
+```swift
+let event = GameballEvent(customerId: "customer-123")
+event.addEvent(
+    name: "purchase",
+    metadata: ["amount": 99.99]
+)
+
+Gameball.shared.sendEvent(event) { result in
+    switch result {
+    case .success:
+        // Handle success
+    case .failure(let error):
+        // Handle error
+    }
+}
+```
+
+### 4. Method Name Changes
+
+| v2.X.X | v3.0.0 |
+|--------|--------|
+| `Gameball.configure()` | `Gameball.shared.initialize(with:)` |
+| `Gameball.registerPlayer()` | `Gameball.shared.initializeCustomer(with:)` |
+| `Gameball.sendEvent()` | `Gameball.shared.sendEvent(_:completion:)` |
+| `Gameball.sendOrder()` | `Gameball.shared.sendOrder(_:completion:)` |
+| `PlayerAttributes` | `CustomerAttributes` |
+| `PlayerRegisterResponse` | `InitializeCustomerResponse` |
+
+### 5. Show Profile Widget
+
+**v2.X.X:**
+```swift
+Gameball.showProfile(
+    customerId: "customer-123",
+    from: self
+)
+```
+
+**v3.0.0:**
+```swift
+let profileRequest = ShowProfileRequest(
+    customerId: "customer-123",
+    showCloseButton: true,
+    closeButtonColor: "#FF6B6B"
+)
+
+Gameball.shared.showProfile(with: profileRequest, from: self) { result in
+    // Handle result
+}
+```
+
+### 6. Error Handling
+
+**v2.X.X:**
+```swift
+Gameball.sendEvent(event) { success in
+    if success {
+        // Success
+    } else {
+        // Error (no details)
+    }
+}
+```
+
+**v3.0.0:**
+```swift
+Gameball.shared.sendEvent(event) { result in
+    switch result {
+    case .success:
+        // Success
+    case .failure(let error):
+        // Detailed error information
+        print(error.localizedDescription)
+    }
+}
+```
+
+### 7. Async/Await Support (New in v3.0.0)
+
+```swift
+// Traditional callback
+Gameball.shared.initializeCustomer(with: request) { result in
+    // Handle result
+}
+
+// Async/await (v3.0.0)
+Task {
+    do {
+        let response = try await Gameball.shared.initializeCustomer(with: request)
+        // Handle success
+    } catch {
+        // Handle error
+    }
+}
+```
+
+## Migration Steps
+
+<Steps>
+<Step title="Update Dependency">
+Update your `Podfile` or Swift Package Manager to use SDK v3.0.0:
+
+**CocoaPods:**
+```ruby
+pod 'Gameball', '~> 3.0.0'
+```
+
+**SPM:**
+Update to version 3.0.0 in Xcode package dependencies
+</Step>
+
+<Step title="Update Initialization">
+Replace `Gameball.configure()` with the new `GameballConfig` and `initialize(with:)` pattern.
+</Step>
+
+<Step title="Update Customer Registration">
+Replace `registerPlayer()` with `initializeCustomer()` using the new request builder.
+</Step>
+
+<Step title="Update Event Tracking">
+Update event creation to use the new `GameballEvent` API with `addEvent()` method.
+</Step>
+
+<Step title="Update Error Handling">
+Replace boolean success handlers with Result-based completion handlers.
+</Step>
+
+<Step title="Update Show Profile">
+Use the new `ShowProfileRequest` for displaying the profile widget.
+</Step>
+
+<Step title="Test Thoroughly">
+Test all Gameball functionality to ensure the migration is successful.
+</Step>
+</Steps>
+
+## Compatibility
+
+- **Minimum iOS**: iOS 13.0+
+- **Xcode**: 14.0+
+- **Swift**: 5.7+
+- **CocoaPods**: 1.11+
+
+## Additional Resources
+
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-ios/blob/release-3.0.0/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-ios/blob/release-3.0.0/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-ios/blob/release-3.0.0/RELEASE_NOTES.md) for v3.0.0 release details
+- Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
+
+<Warning>
+For v3.0.0-specific details, refer to the [gameball-ios repository](https://github.com/gameballers/gameball-ios/tree/release-3.0.0) on branch `release-3.0.0`.
+</Warning>
+
+<Tip>
+If you encounter any issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+
+## Next Steps
+
+- [Getting Started](/installation-guide/ios-v3/getting-started)
+- [Go-Live Checklist](/installation-guide/ios-v3/go-live-checklist)
+
+

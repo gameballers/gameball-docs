@@ -1,0 +1,302 @@
+---
+title: "Show Profile Widget"
+description: "Display the Gameball customer profile widget in your Android app"
+---
+
+# Show Profile Widget
+
+Display the Gameball customer profile widget that contains customer details, available reward campaigns, leaderboard, and more.
+
+## Basic Usage
+
+<CodeGroup>
+```kotlin Kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .build()
+
+GameballApp.getInstance(context).showProfile(
+    profileRequest,
+    object : Callback<Boolean> {
+        override fun onSuccess(success: Boolean) {
+            // Profile widget displayed successfully
+        }
+        
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    }
+)
+```
+
+```java Java
+ShowProfileRequest profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .build();
+
+GameballApp.getInstance(context).showProfile(
+    profileRequest,
+    new Callback<Boolean>() {
+        @Override
+        public void onSuccess(Boolean success) {
+            // Profile widget displayed successfully
+        }
+        
+        @Override
+        public void onError(Throwable error) {
+            // Handle error
+        }
+    }
+);
+```
+</CodeGroup>
+
+## Request Parameters
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer whose profile to display.
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+Specific detail section to open (e.g., "details_earn", "details_redeem"). Opens the main view by default.
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+Hide the navigation bar in the profile widget. Defaults to `false`.
+</ParamField>
+
+<ParamField body="showCloseButton" type="boolean">
+Show a close button in the profile widget. Defaults to `false`.
+</ParamField>
+
+<ParamField body="closeButtonColor" type="string">
+Close button color in hex format (e.g., "#FF5733"). Only applies if `showCloseButton` is `true`.
+</ParamField>
+
+<ParamField body="widgetUrlPrefix" type="string">
+Custom widget URL prefix for advanced widget customization.
+</ParamField>
+
+<ParamField body="capturedLinkCallback" type="Callback">
+Callback function to handle captured links from within the widget.
+</ParamField>
+
+### Validation Rules
+
+**ShowProfileRequest requires:**
+- Customer ID cannot be empty
+
+## Advanced Configuration
+
+### Open Specific Section
+
+Open a specific section of the profile widget directly:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .openDetail("details_earn")  // Open the earn points section
+    .build()
+```
+
+### Custom Close Button
+
+Add a custom-styled close button:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .showCloseButton(true)
+    .closeButtonColor("#FF5733")
+    .build()
+```
+
+### Hide Navigation
+
+Display the widget without navigation controls:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .hideNavigation(true)
+    .build()
+```
+
+### Capture Widget Links
+
+Handle link clicks from within the widget:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .capturedLinkCallback(object : Callback<String> {
+        override fun onSuccess(url: String) {
+            // Handle captured URL
+            Log.d("GameballWidget", "Link clicked: $url")
+            // Navigate to custom screen or handle deep link
+        }
+        
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    })
+    .build()
+```
+
+## Implementation Examples
+
+### Show Profile Button
+
+Display the profile widget when user clicks a button:
+
+<CodeGroup>
+```kotlin Kotlin
+class MainActivity : AppCompatActivity() {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        
+        findViewById<Button>(R.id.btnShowProfile).setOnClickListener {
+            showCustomerProfile()
+        }
+    }
+    
+    private fun showCustomerProfile() {
+        val profileRequest = ShowProfileRequest.builder()
+            .customerId("customer-123")
+            .build()
+            
+        GameballApp.getInstance(this).showProfile(
+            profileRequest,
+            object : Callback<Boolean> {
+                override fun onSuccess(success: Boolean) {
+                    // Profile displayed
+                }
+                
+                override fun onError(error: Throwable) {
+                    Toast.makeText(this@MainActivity, 
+                        "Error: ${error.message}", 
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+    }
+}
+```
+
+```java Java
+public class MainActivity extends AppCompatActivity {
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        findViewById(R.id.btnShowProfile).setOnClickListener(v -> {
+            showCustomerProfile();
+        });
+    }
+    
+    private void showCustomerProfile() {
+        ShowProfileRequest profileRequest = ShowProfileRequest.builder()
+            .customerId("customer-123")
+            .build();
+            
+        GameballApp.getInstance(this).showProfile(
+            profileRequest,
+            new Callback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean success) {
+                    // Profile displayed
+                }
+                
+                @Override
+                public void onError(Throwable error) {
+                    Toast.makeText(MainActivity.this, 
+                        "Error: " + error.getMessage(), 
+                        Toast.LENGTH_SHORT).show();
+                }
+            }
+        );
+    }
+}
+```
+</CodeGroup>
+
+### Bottom Navigation Integration
+
+Integrate with bottom navigation:
+
+```kotlin
+bottomNavigationView.setOnItemSelectedListener { item ->
+    when (item.itemId) {
+        R.id.nav_rewards -> {
+            val profileRequest = ShowProfileRequest.builder()
+                .customerId(getCurrentCustomerId())
+                .build()
+                
+            GameballApp.getInstance(this).showProfile(profileRequest, callback)
+            true
+        }
+        else -> false
+    }
+}
+```
+
+## Widget Content
+
+The profile widget displays:
+
+<CardGroup cols={2}>
+<Card title="Customer Info" icon="user">
+Display name, points balance, tier level
+</Card>
+
+<Card title="Reward Campaigns" icon="gift">
+Available rewards and how to earn them
+</Card>
+
+<Card title="Leaderboard" icon="trophy">
+Customer ranking and top performers
+</Card>
+
+<Card title="Transaction History" icon="clock-rotate-left">
+Points earned and redeemed history
+</Card>
+</CardGroup>
+
+<Info>
+The widget content and design can be customized from your Gameball dashboard.
+</Info>
+
+## Best Practices
+
+<Steps>
+<Step title="Prominent Access">
+Place the profile widget button in an easily accessible location (e.g., main navigation, profile screen).
+</Step>
+
+<Step title="Badge Indicators">
+Show badge notifications when customers earn new rewards or achievements.
+</Step>
+
+<Step title="Deep Linking">
+Use `openDetail` parameter to deep link to specific sections based on user context.
+</Step>
+
+<Step title="Error Handling">
+Always implement error callbacks to handle network issues gracefully.
+</Step>
+</Steps>
+
+<Tip>
+Consider showing the profile widget after a customer earns points to increase engagement and encourage repeat purchases.
+</Tip>
+
+## Next Steps
+
+- [Integrate Redemption](/installation-guide/android-v3/integrate-redemption)
+- [Push Notifications](/installation-guide/android-v3/push-notifications)
+- [Track Referrals](/installation-guide/android-v3/track-referrals)
+

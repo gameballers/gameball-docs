@@ -1,0 +1,275 @@
+---
+title: "Push Notifications"
+description: "Set up APNs push notifications for customer engagement"
+---
+
+# Push Notifications (In-app & Push)
+
+Gameball supports push notifications through Apple Push Notification service (APNs), allowing you to engage customers with timely updates about rewards, achievements, and promotions.
+
+## Setup APNs
+
+### 1. Enable Push Notifications
+
+In Xcode, select your target → **Signing & Capabilities** → **+ Capability** → **Push Notifications**
+
+### 2. Request Permission
+
+Request notification permission from users:
+
+```swift
+import UserNotifications
+
+func requestNotificationPermission() {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+        if granted {
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+}
+```
+
+### 3. Get Device Token
+
+Implement the APNs delegate methods in your `AppDelegate`:
+
+```swift
+import UIKit
+import Gameball
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        
+        // Request notification permission
+        requestNotificationPermission()
+        
+        return true
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        
+        // Send token to Gameball
+        let request = InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .apns
+        )
+        
+        Gameball.shared.initializeCustomer(with: request) { result in
+            switch result {
+            case .success:
+                print("Device token registered")
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+        print("Failed to register: \(error.localizedDescription)")
+    }
+    
+    func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+    }
+}
+```
+
+## Handle Notifications
+
+Implement notification handling:
+
+```swift
+import UserNotifications
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        // ... rest of initialization
+        
+        return true
+    }
+    
+    // Notification received while app is in foreground
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let userInfo = notification.request.content.userInfo
+        
+        // Check if notification is from Gameball
+        if let source = userInfo["source"] as? String, source == "gameball" {
+            // Handle Gameball notification
+            print("Gameball notification received")
+            completionHandler([.banner, .sound, .badge])
+        } else {
+            completionHandler([])
+        }
+    }
+    
+    // User tapped on notification
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        // Check if notification is from Gameball
+        if let source = userInfo["source"] as? String, source == "gameball" {
+            // Handle notification tap
+            handleGameballNotification(userInfo)
+        }
+        
+        completionHandler()
+    }
+    
+    func handleGameballNotification(_ userInfo: [AnyHashable: Any]) {
+        // Navigate to relevant screen or show profile
+        if let deepLink = userInfo["deep_link"] as? String {
+            // Handle deep link
+            navigateToDeepLink(deepLink)
+        }
+    }
+    
+    func navigateToDeepLink(_ deepLink: String) {
+        // Implement your deep link navigation
+    }
+}
+```
+
+## Configure APNs Certificate
+
+1. Create an APNs certificate in Apple Developer Portal
+2. Upload the certificate to your Gameball dashboard
+3. Configure your app's push notification settings
+
+<Info>
+Follow these guides for detailed APNs setup:
+- [Creating APNs Certificates](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_certificate-based_connection_to_apns)
+- [Handling Notifications](https://developer.apple.com/documentation/usernotifications/handling_notifications_and_notification-related_actions)
+</Info>
+
+## SwiftUI Implementation
+
+For SwiftUI apps, handle notifications in your App struct:
+
+```swift
+import SwiftUI
+import UserNotifications
+
+@main
+struct YourApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Request permission
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+        
+        return true
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        
+        // Register with Gameball
+        let request = InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .apns
+        )
+        
+        Gameball.shared.initializeCustomer(with: request) { _ in }
+    }
+    
+    // ... implement UNUserNotificationCenterDelegate methods
+}
+```
+
+## In-App Messages
+
+The SDK supports in-app message display through:
+
+- Profile widget popups
+- Native in-app notifications
+- Custom message templates
+
+Configure message templates and campaign rules from the Gameball dashboard.
+
+## Best Practices
+
+<Steps>
+<Step title="Request Permissions">
+Request notification permissions at an appropriate time, not immediately on app launch.
+</Step>
+
+<Step title="Handle Token Refresh">
+Always update the device token when it changes or refreshes.
+</Step>
+
+<Step title="Test Notifications">
+Test push notifications on physical devices (simulator doesn't support APNs).
+</Step>
+
+<Step title="Provide Value">
+Only send relevant, valuable notifications to maintain user engagement.
+</Step>
+</Steps>
+
+## Next Steps
+
+- [Track Referrals](/installation-guide/ios-v3/track-referrals)
+- [Go-Live Checklist](/installation-guide/ios-v3/go-live-checklist)
+
+

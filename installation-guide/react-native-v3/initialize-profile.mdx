@@ -91,6 +91,13 @@ Referral code if customer was referred by another customer.
 Guest user flag (defaults to false).
 </ParamField>
 
+### Validation Rules
+
+**InitializeCustomerRequest requires:**
+- `customerId` cannot be empty or whitespace
+- If `deviceToken` is provided, `pushProvider` must also be specified
+- If `pushProvider` is specified, `deviceToken` must also be provided
+
 ## CustomerAttributes
 
 <Expandable title="CustomerAttributes Fields">
@@ -197,6 +204,11 @@ Close button color in hex format (e.g., '#FF0000').
 <ParamField body="widgetUrlPrefix" type="string">
 Custom widget URL prefix.
 </ParamField>
+
+### Validation Rules
+
+**ShowProfileRequest requires:**
+- `customerId` cannot be empty or whitespace
 
 <Tip>
 Call `initializeCustomer` when the user logs in or registers to ensure their profile is up-to-date before showing the widget.

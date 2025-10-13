@@ -73,7 +73,7 @@ class MyApplication : Application() {
             .lang("en")                  // Required
             .platform("android")         // Optional (defaults to android)
             .shop("your-shop-id")        // Optional
-            .gbToken("your-gb-token")    // Optional - for v4.1 endpoints
+            .sessionToken("your-session-token")    // Optional - for v4.1 endpoints
             .apiPrefix("custom-prefix")  // Optional - custom API prefix
             .build()
 
@@ -93,7 +93,7 @@ public class MyApplication extends Application {
             .lang("en")                  // Required
             .platform("android")         // Optional (defaults to android)
             .shop("your-shop-id")        // Optional
-            .gbToken("your-gb-token")    // Optional - for v4.1 endpoints
+            .sessionToken("your-session-token")    // Optional - for v4.1 endpoints
             .apiPrefix("custom-prefix")  // Optional - custom API prefix
             .build();
 
@@ -121,13 +121,19 @@ Platform identifier, defaults to "android".
 Your Gameball shop identifier for multi-shop configurations.
 </ParamField>
 
-<ParamField body="gbToken" type="string">
-GB Token for secure authentication (enables automatic v4.1 endpoint routing).
+<ParamField body="sessionToken" type="string">
+Session Token for secure authentication (enables automatic v4.1 endpoint routing).
 </ParamField>
 
 <ParamField body="apiPrefix" type="string">
 Custom API endpoint prefix.
 </ParamField>
+
+### Validation Rules
+
+**GameballConfig requires:**
+- API key is required (cannot be null)
+- Language is required (cannot be null)
 
 <Tip>
 Make sure to register your Application class in AndroidManifest.xml:
@@ -156,6 +162,63 @@ If you're using code obfuscation, add these rules to your `proguard-rules.pro`:
 <Info>
 The SDK automatically enables debug logging in debug builds. Network requests and responses are logged when `BuildConfig.DEBUG` is true.
 </Info>
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+<Accordion title="SDK Not Initialized Error">
+**Error:** `API key is required for customer initialization`
+
+**Solution:** Ensure you call `GameballApp.getInstance(context).init(config)` before other SDK methods, preferably in your Application class's `onCreate()` method.
+</Accordion>
+
+<Accordion title="Invalid Customer ID Error">
+**Error:** `Customer ID cannot be blank`
+
+**Solution:** Provide a non-empty customer ID when building requests. The customer ID should be a permanent identifier for the user.
+</Accordion>
+
+<Accordion title="Network Errors">
+**Symptoms:** Requests failing or timing out
+
+**Solutions:**
+- Check your internet connection
+- Verify your API key is correct in the Gameball dashboard
+- Ensure your server can reach Gameball endpoints
+- Check if your app has `INTERNET` permission in AndroidManifest.xml
+</Accordion>
+
+<Accordion title="Push Notifications Not Working">
+**Symptoms:** Device token not registered or notifications not received
+
+**Solutions:**
+- Verify both `deviceToken` and `pushProvider` are set during customer initialization
+- Ensure Firebase/Huawei credentials are configured in Gameball dashboard
+- Check that your Firebase/Huawei configuration is correct
+- Test on a physical device (emulators may not receive push notifications)
+</Accordion>
+</AccordionGroup>
+
+### Debug Logging
+
+The SDK automatically enables debug logging in debug builds. To view SDK logs, filter by these tags:
+
+| Log Tag | Purpose |
+|---------|---------|
+| `GameballApp` | General SDK operations and initialization |
+| `LoggingInterceptor` | Network requests and responses |
+| `HeaderInterceptor` | Request headers and authentication |
+
+**Example using Logcat:**
+```bash
+adb logcat -s GameballApp LoggingInterceptor HeaderInterceptor
+```
+
+<Tip>
+Network requests and responses are automatically logged when `BuildConfig.DEBUG` is true in your app. No additional configuration needed.
+</Tip>
 
 ## Next Steps
 

@@ -153,6 +153,7 @@
                       "installation-guide/android-v3/initialize-profile",
                       "installation-guide/android-v3/track-events",
                       "installation-guide/android-v3/track-orders",
+                      "installation-guide/android-v3/show-profile",
                       "installation-guide/android-v3/integrate-redemption",
                       "installation-guide/android-v3/push-notifications",
                       "installation-guide/android-v3/track-referrals",
@@ -169,6 +170,7 @@
                       "installation-guide/flutter-v3/initialize-profile",
                       "installation-guide/flutter-v3/track-events",
                       "installation-guide/flutter-v3/track-orders",
+                      "installation-guide/flutter-v3/show-profile",
                       "installation-guide/flutter-v3/integrate-redemption",
                       "installation-guide/flutter-v3/track-referrals",
                       "installation-guide/flutter-v3/go-live-checklist",
@@ -184,10 +186,28 @@
                       "installation-guide/react-native-v3/initialize-profile",
                       "installation-guide/react-native-v3/track-events",
                       "installation-guide/react-native-v3/track-orders",
+                      "installation-guide/react-native-v3/show-profile",
                       "installation-guide/react-native-v3/integrate-redemption",
                       "installation-guide/react-native-v3/track-referrals",
                       "installation-guide/react-native-v3/go-live-checklist",
                       "installation-guide/react-native-v3/migration-notes"
+                    ]
+                  },
+                  {
+                    "group": "iOS",
+                    "pages": [
+                      "installation-guide/ios-v3/index",
+                      "installation-guide/ios-v3/getting-started",
+                      "installation-guide/ios-v3/initialize-sdk",
+                      "installation-guide/ios-v3/initialize-profile",
+                      "installation-guide/ios-v3/track-events",
+                      "installation-guide/ios-v3/track-orders",
+                      "installation-guide/ios-v3/show-profile",
+                      "installation-guide/ios-v3/integrate-redemption",
+                      "installation-guide/ios-v3/push-notifications",
+                      "installation-guide/ios-v3/track-referrals",
+                      "installation-guide/ios-v3/go-live-checklist",
+                      "installation-guide/ios-v3/migration-notes"
                     ]
                   }
                 ]
