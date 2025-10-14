@@ -1,11 +1,11 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2.X.X to v3.1.0"
+description: "Migrate from v2 to v3.1.0"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball Android SDK v2.X.X to v3.1.0.
+This guide helps you migrate from Gameball Android SDK v2 to v3.1.0.
 
 ## What's New in v3.1.0
 
@@ -31,7 +31,7 @@ Easier configuration with builder pattern throughout
 
 ### 1. SDK Initialization
 
-**v2.X.X:**
+**v2:**
 ```kotlin
 GameballApp.getInstance(context).init(
     "api-key",
@@ -55,7 +55,7 @@ GameballApp.getInstance(context).init(config)
 
 ### 2. Customer Registration
 
-**v2.X.X:**
+**v2:**
 ```kotlin
 gameballApp.registerCustomer(
     customerId,
@@ -82,7 +82,7 @@ GameballApp.getInstance(context).initializeCustomer(
 
 ### 3. Event Tracking
 
-**v2.X.X:**
+**v2:**
 ```kotlin
 val event = Event.Builder()
     .AddUniquePlayerId("customer-123")
@@ -100,7 +100,7 @@ val event = Event.builder()
 
 ### 4. Method Name Changes
 
-| v2.X.X | v3.1.0 |
+| v2 | v3.1.0 |
 |--------|--------|
 | `registerCustomer()` | `initializeCustomer()` |
 | `AddUniquePlayerId()` | `customerId()` |
@@ -111,7 +111,7 @@ val event = Event.builder()
 
 ### 5. Push Notifications
 
-**v2.X.X:**
+**v2:**
 ```kotlin
 gameballApp.initializeFirebase()
 ```

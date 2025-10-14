@@ -23,7 +23,7 @@ Import **Gameball SDK**
 import {GameballSdk} from 'react-native-gameball';
 ```
 
-Sending event without metadata in the form {String: any}
+Sending event without metadata in the form `{String: any}`
 
 ```typescript
 GameballSdk.sendEvent({"review": {}})
@@ -31,7 +31,7 @@ GameballSdk.sendEvent({"review": {}})
     .catch(error => console.log(error)) // on error
 ```
 
-Sending event with different metadata in the form {String: {String: any}}
+Sending event with different metadata in the form `{String: {String: any}}`
 
 ```typescript
 GameballSdk.sendEvent({

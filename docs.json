@@ -38,7 +38,7 @@
         "tab": "Installation Guide",
         "versions": [
           {
-            "version": "SDK v2.X.X",
+            "version": "SDK v2",
             "groups": [
               {
                 "group": "Platform Integration",
@@ -127,7 +127,7 @@
             ]
           },
           {
-            "version": "SDK v3.X.X",
+            "version": "SDK v3",
             "groups": [
               {
                 "group": "Platform Integration",

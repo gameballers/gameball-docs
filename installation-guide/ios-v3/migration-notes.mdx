@@ -1,11 +1,11 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2.X.X to v3.0.0"
+description: "Migrate from v2 to v3.0.0"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball iOS SDK v2.X.X to v3.0.0.
+This guide helps you migrate from Gameball iOS SDK v2 to v3.0.0.
 
 ## What's New in v3.0.0
 
@@ -31,7 +31,7 @@ Optimized SDK initialization and reduced memory footprint
 
 ### 1. SDK Initialization
 
-**v2.X.X:**
+**v2:**
 ```swift
 Gameball.configure(
     apiKey: "api-key",
@@ -56,7 +56,7 @@ Gameball.shared.initialize(with: config)
 
 ### 2. Customer Registration
 
-**v2.X.X:**
+**v2:**
 ```swift
 Gameball.registerPlayer(
     customerId: "customer-123",
@@ -89,7 +89,7 @@ Gameball.shared.initializeCustomer(with: request) { result in
 
 ### 3. Event Tracking
 
-**v2.X.X:**
+**v2:**
 ```swift
 let event = GameballEvent()
 event.customerId = "customer-123"
@@ -121,7 +121,7 @@ Gameball.shared.sendEvent(event) { result in
 
 ### 4. Method Name Changes
 
-| v2.X.X | v3.0.0 |
+| v2 | v3.0.0 |
 |--------|--------|
 | `Gameball.configure()` | `Gameball.shared.initialize(with:)` |
 | `Gameball.registerPlayer()` | `Gameball.shared.initializeCustomer(with:)` |
@@ -132,7 +132,7 @@ Gameball.shared.sendEvent(event) { result in
 
 ### 5. Show Profile Widget
 
-**v2.X.X:**
+**v2:**
 ```swift
 Gameball.showProfile(
     customerId: "customer-123",
@@ -155,7 +155,7 @@ Gameball.shared.showProfile(with: profileRequest, from: self) { result in
 
 ### 6. Error Handling
 
-**v2.X.X:**
+**v2:**
 ```swift
 Gameball.sendEvent(event) { success in
     if success {

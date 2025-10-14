@@ -1,11 +1,11 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2.X.X to v3.1.0"
+description: "Migrate from v2 to v3.1.0"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball React Native SDK v2.X.X to v3.1.0.
+This guide helps you migrate from Gameball React Native SDK v2 to v3.1.0.
 
 ## What's New in v3.1.0
 
@@ -31,7 +31,7 @@ Cleaner API design with consistent patterns
 
 ### 1. SDK Initialization
 
-**v2.X.X:**
+**v2:**
 ```typescript
 import {GameballSDK} from 'react-native-gameball';
 
@@ -54,7 +54,7 @@ GameballApp.getInstance().init(config);
 
 ### 2. Customer Registration
 
-**v2.X.X:**
+**v2:**
 ```typescript
 GameballSDK.registerPlayer({
   playerUniqueId: "customer-123",
@@ -78,7 +78,7 @@ await GameballApp.getInstance().initializeCustomer(request);
 
 ### 3. Event Tracking
 
-**v2.X.X:**
+**v2:**
 ```typescript
 GameballSdk.sendEvent({"review": {}})
     .then(response => console.log(response))
@@ -101,7 +101,7 @@ await GameballApp.getInstance().sendEvent(event);
 
 ### 4. Show Profile Widget
 
-**v2.X.X:**
+**v2:**
 ```typescript
 import {GameballWidget} from 'react-native-gameball';
 
@@ -125,7 +125,7 @@ await GameballApp.getInstance().showProfile(profileRequest);
 
 ### 5. Key Naming Changes
 
-| v2.X.X | v3.1.0 |
+| v2 | v3.1.0 |
 |--------|--------|
 | `playerUniqueId` | `customerId` |
 | `playerAttributes` | `customerAttributes` |
