@@ -220,6 +220,119 @@
         "tab": "Tutorials",
         "groups": [
           {
+            "group": "General",
+            "pages": [
+              "tutorials-new/general/index",
+              {
+                "group": "Entities",
+                "pages": [
+                  "tutorials-new/general/entities/index",
+                  "tutorials-new/general/entities/attributes",
+                  "tutorials-new/general/entities/events",
+                  "tutorials-new/general/entities/coupon",
+                  "tutorials-new/general/entities/promotion",
+                  "tutorials-new/general/entities/orders",
+                  "tutorials-new/general/entities/payments"
+                ]
+              },
+              "tutorials-new/general/environments/index"
+            ]
+          },
+          {
+            "group": "Experiences",
+            "pages": [
+              "tutorials-new/experiences/index",
+              "tutorials-new/experiences/tracking-events/index",
+              {
+                "group": "Order Handling for Commerce",
+                "pages": [
+                  "tutorials-new/experiences/order-handling/index",
+                  "tutorials-new/experiences/order-handling/preview-points",
+                  "tutorials-new/experiences/order-handling/submit-order",
+                  {
+                    "group": "Special Use Cases",
+                    "pages": [
+                      "tutorials-new/experiences/order-handling/special-use-cases/index",
+                      "tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning",
+                      "tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
+                      "tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Points Redemption",
+                "pages": [
+                  "tutorials-new/experiences/points-redemption/index",
+                  "tutorials-new/experiences/points-redemption/show-balance",
+                  "tutorials-new/experiences/points-redemption/pay-with-points",
+                  {
+                    "group": "Convert Points to Coupons",
+                    "pages": [
+                      "tutorials-new/experiences/points-redemption/convert-points-to-coupons/index",
+                      "tutorials-new/experiences/points-redemption/convert-points-to-coupons/your-engine",
+                      "tutorials-new/experiences/points-redemption/convert-points-to-coupons/gameball-engine"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Gameball Discounts Engine",
+                "pages": [
+                  "tutorials-new/experiences/gameball-discounts-engine/index",
+                  {
+                    "group": "Coupons",
+                    "pages": [
+                      "tutorials-new/experiences/gameball-discounts-engine/coupons/index",
+                      "tutorials-new/experiences/gameball-discounts-engine/coupons/retrieve",
+                      "tutorials-new/experiences/gameball-discounts-engine/coupons/validate-lock",
+                      "tutorials-new/experiences/gameball-discounts-engine/coupons/burn",
+                      "tutorials-new/experiences/gameball-discounts-engine/coupons/release"
+                    ]
+                  },
+                  {
+                    "group": "Promos",
+                    "pages": [
+                      "tutorials-new/experiences/gameball-discounts-engine/promos/index",
+                      "tutorials-new/experiences/gameball-discounts-engine/promos/retrieve",
+                      "tutorials-new/experiences/gameball-discounts-engine/promos/apply-automatically",
+                      "tutorials-new/experiences/gameball-discounts-engine/promos/burn-submit"
+                    ]
+                  }
+                ]
+              },
+              "tutorials-new/experiences/refund-handling/index",
+              {
+                "group": "Referral",
+                "pages": [
+                  "tutorials-new/experiences/referral/index",
+                  "tutorials-new/experiences/referral/multi-step"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "More",
+            "pages": [
+              "tutorials-new/experiences/more/index",
+              "tutorials-new/experiences/more/payment-handling",
+              "tutorials-new/experiences/more/push-notifications",
+              "tutorials-new/experiences/more/cashback-api",
+              "tutorials-new/experiences/more/omni-channel",
+              "tutorials-new/experiences/more/abandoned-cart",
+              "tutorials-new/experiences/more/family-wallet",
+              "tutorials-new/experiences/more/widget-deep-links",
+              "tutorials-new/experiences/more/build-your-own-ui",
+              "tutorials-new/experiences/more/build-your-own-notifications",
+              "tutorials-new/experiences/more/batch-apis"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Old Tutorials",
+        "groups": [
+          {
             "group": "Getting started",
             "pages": [
               "tutorials/track-customer-events",
