@@ -1,16 +1,97 @@
 ---
-title: 'Taxes and Shipping Exclusion'
-description: 'Exclude taxes and shipping from point calculations'
+title: "Taxes and Shipping Exclusion"
+description: "Exclude taxes and shipping from point calculations"
 ---
 
-# Taxes and Shipping Exclusion
+# Overview
 
-Configure your order submissions to exclude taxes and shipping costs from point calculations.
+Some businesses prefer to reward customers only on the **actual product value**, excluding **shipping fees** and **taxes** from the rewardable amount.\
+Gameball supports this behavior through a configurable setting.
 
-## Overview
+If enabled, Gameball will automatically **subtract tax and shipping values** before calculating the reward amount.
 
-Most businesses prefer to:
-- Calculate points only on product value
-- Exclude shipping fees
-- Exclude taxes and duties
+---
+
+## Why This Matters
+
+Let’s say your customer pays \$100, but \$20 of that is tax and shipping. If you don’t exclude these values, your loyalty program will over-reward, giving points for money not actually spent on products.
+
+That’s why, if you choose to exclude tax and shipping, it’s critical to send **complete and accurate values** in the [**Order API**](https://gameball.mintlify.app/api-reference/order/order-tracking), including:
+
+- `totalShipping`: The total shipping fee paid by the customer
+- `totalTax`: The total tax across all items
+- `taxes`: At the item level, represents the total tax for each product line (`price × quantity`)
+
+<Tip>
+  Even though the API doesn’t enforce these fields, they become mandatory when **tax and shipping exclusions** are turned on.
+</Tip>
+
+---
+
+### Example Scenario:
+
+Let’s say a customer places this order:
+
+- 2 × Moisturizer at **\$200 each** → **Subtotal = \$400**
+- 1 × Tote Bag at **\$150**
+- Shipping Fee = **\$50**
+- Tax on Moisturizer = **10 = \$20**
+- Tax on Tote Bag = **\$15**
+- Total Tax = **15 = \$35**
+- **Total Paid = 150 + 35 = \$635**
+
+### Your API Payload
+
+```json
+{
+  "orderId": "ORD-10001",
+  "customerId": "CUST_56789",
+  "totalPaid": 635,
+  "totalPrice": 635,
+  "totalShipping": 50,
+  "totalTax": 35,
+  "lineItems": [
+    {
+      "productId": "PROD_MOISTURIZER",
+      "price": 200,
+      "quantity": 2,
+      "collection": ["Skin Care"],
+      "taxes": 20
+    },
+    {
+      "productId": "PROD_TOTE_BAG",
+      "price": 150,
+      "quantity": 1,
+      "collection": ["Accessories"],
+      "taxes": 15
+    }
+  ]
+}
+```
+
+## How Gameball Calculates Rewards
+
+With **tax and shipping exclusions** turned on, Gameball calculates the **rewardable amount** as follows:
+
+1. **Start with:** `totalPaid = $635`
+2. **Subtract shipping:** `$635 – $50 = $585`
+3. **Subtract tax:** `$585 – $35 = $550`
+
+<Info>
+  Gameball rewards will be calculated based on **\$550** — the actual product value.
+</Info>
+
+---
+
+## Key Takeaways
+
+<Note>
+    Gameball ensures customers are rewarded accurately, only for the**true value of products** .
+</Note>
+
+**Remember to:**
+
+- Include `totalShipping`, `totalTax`, and per-line `taxes` when this feature is active
+- Ensure the `taxes` field in each `lineItem` represents the **total tax for that product line** (`unit tax × quantity`)
+- Keep your data complete and consistent to guarantee precise reward calculations
 

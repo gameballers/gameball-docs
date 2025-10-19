@@ -1,16 +1,152 @@
 ---
-title: 'Collection Based Earning Rules'
-description: 'Configure rewards based on product collections or categories'
+title: "Collection Based Earning Rules"
+description: "Configure rewards based on product collections or categories"
 ---
 
-# Collection Based Earning Rules
+# Collection-Based Earning Rules
 
-Set up earning rules that apply to specific product collections or categories.
+## What Are Collection-Based Earning Rules?
 
-## Overview
+<Info>
+  Gameball allows you to configure **campaigns that reward customers based on specific product collections.** These collections can represent different product groups or promotional categories that align with your loyalty strategy.
+</Info>
 
-Collection-based rules allow you to:
-- Reward different point amounts for different product categories
-- Create special campaigns for specific collections
-- Exclude certain products from earning
+### Examples of Collection Types
+
+- **Evergreen categories:** “T-Shirts,” “Accessories,” “Face Products”
+- **Seasonal or promotional groups:** “Holiday Bundles,” “Clearance Items”
+
+### Campaign Examples
+
+- “Earn **50 bonus points** on every purchase from the _T-Shirts_ collection.”
+- “Get **10% cashback** when buying items from the _Premium Skincare_ line.”
+
+These **targeted campaigns** help personalize the reward experience and align loyalty incentives with your overall product strategy.
+
+---
+
+## Why It Matters
+
+<Warning>
+  When a campaign targets specific collections, Gameball must know **which collection each product belongs to**. If the collection data isn’t sent in the API payload, Gameball applies the **default earning rule** instead.
+</Warning>
+
+This means:
+
+- The product **won’t qualify** for the intended collection-specific reward,
+- Even if it technically belongs to that collection in your catalog.
+
+This can affect both **customer experience** and **campaign performance**, since customers may not receive the rewards you planned for those product groups.
+
+---
+
+## How to Implement It
+
+When sending an order using the [Track Order API](https://gameball.mintlify.app/api-reference/order/order-tracking), make sure to populate the `lineItems` array with detailed product data.\
+For each item, include its `collection` value so Gameball can correctly evaluate reward eligibility and apply campaign logic.
+
+<Tip>
+  Adding collection data ensures Gameball matches each product to its relevant **campaign rules** during evaluation.
+</Tip>
+
+---
+
+### Example
+
+Let’s say you’ve configured a campaign:
+
+> **“Earn 50 bonus points for every product purchased from the ‘T-Shirts’ collection.”**
+
+Here’s how your `Track Order` API payload should look:
+
+```json
+{
+  "customerId": "12345",
+  "orderId": "ORD-1001",
+  "orderDate": "2025-10-16T13:06:34.967Z",
+  "totalPaid": 1702.01,
+  "lineItems": [
+    {
+      "productId": "TSH-001",
+      "productName": "Classic T-Shirt",
+      "quantity": 2,
+      "price": 25,
+      "collection": "T-Shirts"
+    },
+    {
+      "productId": "SKN-010",
+      "productName": "Premium Face Cream",
+      "quantity": 1,
+      "price": 120,
+      "collection": "Premium Skincare"
+    },
+    {
+      "productId": "ACC-008",
+      "productName": "Basic Belt",
+      "quantity": 1,
+      "price": 20
+      // No collection provided here
+    }
+  ],
+  "channel": "web"
+}
+```
+
+<Info>
+  If a product belongs to a campaign-targeted collection, include the `collection`
+
+  field. If it’s omitted (as in the third item), only the default earning rule applies.
+</Info>
+
+---
+
+## What Happens Here?
+
+<Info>
+  This section illustrates how Gameball evaluates products during a transaction when different collections and campaign rules are in play.
+</Info>
+
+<Accordion title="🧢 Product 1: T-Shirts (quantity 2)">
+  <div style={{ paddingLeft:"12px" }}>
+  The campaign applies **50 points × 2 = 100 bonus points**.\
+  Each item in the same collection inherits the same reward logic, so multiplying by quantity gives the total bonus applied for this product line.
+
+  </div>
+</Accordion>
+
+<Accordion title="🧴 Product 2: Premium Skincare (quantity 1)">
+  <div style={{ paddingLeft:"12px" }}>
+  If there’s a **separate campaign** targeting this collection — for example, a **cashback offer** — Gameball evaluates and applies that rule independently.\
+  This allows overlapping campaigns across collections without conflict.
+
+  </div>
+</Accordion>
+
+<Accordion title="📦 Product 3: No Collection Sent">
+  <div style={{ paddingLeft:"12px" }}>
+  When no collection information is provided, **Gameball falls back to the default earning rule**.\
+  Even if the product technically belongs to a targeted collection in your catalog, it won’t inherit those rules unless the collection reference is included in the request.
+
+  </div>
+</Accordion>
+
+<Tip>
+  To ensure campaigns apply correctly, always include **collection data** in your order or item payloads.\\
+
+  This helps Gameball evaluate all active rules precisely.
+</Tip>
+
+---
+
+## Key Takeaway
+
+<Info>
+  Whenever you run **collection-based campaigns**, make sure each product’s `collection` value is included in the order payload.
+</Info>
+
+It’s a small but crucial detail that ensures:
+
+- **Accurate reward calculation**: every product earns the right amount of points
+- **Reliable campaign performance tracking**: results reflect real customer behavior
+- **A smoother, fairer loyalty experience**: customers get rewarded exactly as intended
 
