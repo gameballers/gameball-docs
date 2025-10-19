@@ -1,27 +1,204 @@
 ---
-title: 'Live/Test Environments'
-description: 'Managing development and production environments'
+title: 'Test and Live Environments'
+description: 'Separate environments for safe development and production deployment'
 ---
 
-# Live and Test Environments
+# Test and Live Environments
 
-Gameball provides separate environments for testing and production to ensure safe development and deployment of your loyalty program.
+Gameball provides **separate test and live environments** to enable safe development and testing before deploying to production. Both environments share the same configurations but maintain completely isolated data.
 
-## Test Environment
+---
 
-Use the test environment for:
-- Development and integration
-- Testing new features
-- QA and staging
+## API Keys
 
-## Live Environment
+You have access to three keys in your Gameball Dashboard (**Settings → Admin Settings → Account Integration**):
 
-The live environment is for:
-- Production deployment
-- Real customer interactions
-- Actual point accrual and redemptions
+| Key | Purpose | Usage |
+|-----|---------|-------|
+| **Test API Key** | Development & staging | Use in UAT/staging environments during integration |
+| **Live API Key** | Production | Use in production once you go live |
+| **Secret Key** | Point transactions & high security | Required for sensitive operations (same key works for both test/live) |
 
-## Switching Between Environments
+<Note>
+**Same Base URL**: Both test and live use `https://api.gameball.co/api/v4.0` — you only change the API key.
+</Note>
 
-Learn how to configure your API keys and SDK initialization for different environments.
+---
 
+## What's Shared vs Separated
+
+### Shared (Mirrored Configurations)
+These apply to both test and live:
+- Tiers and VIP levels
+- Campaign rules and logic
+- Widget configuration
+- Point earning/redemption rules
+- Experience design
+
+### Separated (Isolated Data)
+Test and live maintain separate:
+- **Customers list**: Test customers don't appear in live
+- **Analytics**: Separate reporting for test vs live
+- **Point transactions**: Test points isolated from live points
+- **Achievements**: Customer progress tracked separately
+
+<Tip>
+Configure your campaigns and tiers once—they automatically work in both environments. Only the customer data differs.
+</Tip>
+
+---
+
+## Dashboard Toggle
+
+Switch between test and live views in the Gameball Dashboard:
+
+1. Look for the toggle at the **top left** of any dashboard page
+2. Select **Test** to view test data or **Live** to view production data
+3. Analytics, customer lists, and transactions update based on your selection
+
+This lets you inspect test behavior before deploying to production.
+
+---
+
+## Development Workflow
+
+<Steps>
+<Step title="Configure in Dashboard">
+  Set up tiers, campaigns, point logic, and widget behavior. These configurations apply to both test and live.
+</Step>
+
+<Step title="Integrate with Test Key">
+  Use the **Test API Key** in your staging/UAT environment. Build your integration and test thoroughly.
+</Step>
+
+<Step title="Validate Test Data">
+  Switch dashboard to **Test mode** and verify:
+  - Customer registration works
+  - Points accrue correctly
+  - Campaigns trigger as expected
+  - Redemption flows function properly
+</Step>
+
+<Step title="QA & Edge Cases">
+  Test edge cases, error handling, concurrent operations, and campaign expirations using test environment.
+</Step>
+
+<Step title="Switch to Live Key">
+  Replace **Test API Key** with **Live API Key** in your production application. Live customers and data will now be tracked.
+</Step>
+
+<Step title="Monitor Live Environment">
+  Switch dashboard to **Live mode** and monitor real customers, transactions, and analytics.
+</Step>
+</Steps>
+
+---
+
+## Key Points
+
+<CardGroup cols={2}>
+  <Card title="Data Isolation" icon="shield-check">
+    Test and live data never mix. Test customers, points, and transactions are completely separate.
+  </Card>
+  <Card title="No Migration" icon="ban">
+    Test data is disposable. You cannot migrate test customers or transactions to live.
+  </Card>
+  <Card title="Fresh Start" icon="sparkles">
+    When you go live, start with a clean slate. All live data begins from scratch.
+  </Card>
+  <Card title="Key Rotation" icon="rotate">
+    Gameball supports key rotation without disrupting existing integrations.
+  </Card>
+</CardGroup>
+
+---
+
+## Example: Switching Environments
+
+### Test Environment (Staging)
+```javascript
+// staging.config.js
+const GAMEBALL_API_KEY = "test_ue7eh32eiwlsncoko08u8b";
+const GAMEBALL_SECRET_KEY = "kz7eh32eiwldlowbo08u5p";
+```
+
+### Live Environment (Production)
+```javascript
+// production.config.js
+const GAMEBALL_API_KEY = "live_8x4mh92kwjancblp07r9d";
+const GAMEBALL_SECRET_KEY = "kz7eh32eiwldlowbo08u5p"; // Same secret key
+```
+
+<Warning>
+**Never expose your Live API Key or Secret Key** in client-side code or public repositories. Keep them secure in environment variables or server-side configuration.
+</Warning>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Environment Variables" icon="key">
+    Store API keys in environment variables, not hardcoded:
+    ```bash
+    # .env.staging
+    GAMEBALL_API_KEY=test_ue7eh32eiwlsncoko08u8b
+    
+    # .env.production
+    GAMEBALL_API_KEY=live_8x4mh92kwjancblp07r9d
+    ```
+  </Accordion>
+  
+  <Accordion title="Test Thoroughly Before Live" icon="vial">
+    - Test all integration points with test key
+    - Verify campaign triggers and point calculations
+    - Test redemption flows and edge cases
+    - Validate error handling and retry logic
+  </Accordion>
+  
+  <Accordion title="Treat Test Data as Disposable" icon="trash">
+    - Don't worry about cleaning up test customers or transactions
+    - Test data has no impact on live environment
+    - Start fresh when switching to live
+  </Accordion>
+  
+  <Accordion title="Monitor Both Environments" icon="chart-line">
+    - Use dashboard toggle to check test behavior during development
+    - Monitor live analytics once in production
+    - Compare test vs live to validate expected behavior
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## High Security Mode
+
+Enable **High Security Mode** in dashboard to require **Secret Key** for all API requests (not just point transactions).
+
+When enabled:
+- All endpoints require both `APIKey` and `SecretKey` headers
+- Provides additional protection against unauthorized access
+- Recommended for high-security requirements
+
+<Warning>
+With High Security Mode enabled, send all requests from **server-side** to prevent exposing the Secret Key.
+</Warning>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Authentication Guide" icon="key" href="/api-reference/overview/authentication">
+    Complete guide to API keys and authentication
+  </Card>
+  <Card title="Go-Live Checklist" icon="check-circle" href="/installation-guide/web/go-live-checklist">
+    Ensure smooth transition to production
+  </Card>
+  <Card title="Get Your API Keys" icon="book-open" href="https://help.gameball.co/en/articles/3467114-get-your-account-integration-details-api-key-and-transaction-key">
+    Help Center guide for retrieving keys
+  </Card>
+  <Card title="Test and Live Data" icon="database" href="https://help.gameball.co">
+    Gameball Help Center article
+  </Card>
+</CardGroup>

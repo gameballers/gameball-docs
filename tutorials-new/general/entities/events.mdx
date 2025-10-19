@@ -1,9 +1,94 @@
 ---
 title: 'Events'
-description: 'Understanding customer events and actions'
+description: 'Customer actions that trigger rewards, campaigns, and personalized experiences'
 ---
 
 # Events
 
-Events represent customer actions and behaviors that can trigger rewards, challenges, and other program mechanics.
+**Events** represent customer actions tracked in Gameball. Every meaningful action—adding items to cart, watching a video, completing a purchase—can be captured as an event with optional metadata to power reward campaigns and personalized messaging.
 
+---
+
+## Event Structure
+
+An event consists of:
+1. **Event Name**: Identifies the action (e.g., `add_to_cart`, `song_liked`)
+2. **Event Metadata**: Optional details about the action
+
+### Basic Event
+```json
+{
+  "events": {
+    "profile_completed": {}
+  },
+  "customerId": "customer_123"
+}
+```
+
+### Event with Metadata
+```json
+{
+  "events": {
+    "add_to_cart": {
+      "product_id": "231402",
+      "product_title": "iPhone 12",
+      "price": 1350.00,
+      "category": "Mobile Phones",
+      "vendor": "Apple"
+    }
+  },
+  "customerId": "customer_123"
+}
+```
+
+---
+
+## Common Metadata Fields
+
+| Field | Purpose | Example |
+|-------|---------|---------|
+| `product_id` | Identify specific products | `"PROD_123"` |
+| `category` | Group items or actions | `["Electronics", "Mobile"]` |
+| `price` | Track monetary values | `1350.00` |
+| `quantity` | Count items | `2` |
+| `title` | Human-readable name | `"iPhone 12"` |
+| `vendor` | Brand or supplier | `"Apple"` |
+| `tags` | Flexible categorization | `["Featured", "Sale"]` |
+
+<Tip>
+Include metadata that enables targeted campaigns. For example, tracking `vendor` allows campaigns like "Reward 3 Apple product purchases."
+</Tip>
+
+---
+
+## Events vs Orders
+
+<Note>
+**Orders are special events.** When you use the Orders API, Gameball automatically creates a `place_order` event. You don't need to manually track order events.
+</Note>
+
+**Use Events API for**: Custom actions (likes, shares, views), non-purchase interactions  
+**Use Orders API for**: E-commerce purchases, cashback, redemption
+
+---
+
+## Event-Based Campaigns
+
+Events power campaigns through the Gameball dashboard:
+
+- **Reward Campaigns**: "Award 100 points for first `add_to_cart` event"
+- **Communication Campaigns**: "Send message when `add_to_cart` includes specific category"
+- **Event Engine Operators**: Equals, Different Values, Accumulative Total, Repeated Value
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Tracking Events Tutorial" icon="book-open" href="/tutorials-new/experiences/tracking-events">
+    Implementation guide with examples
+  </Card>
+  <Card title="Send Events API" icon="code" href="/api-reference/events/send-events">
+    API endpoint documentation
+  </Card>
+</CardGroup>

@@ -1,9 +1,136 @@
 ---
 title: 'Promotions'
-description: 'Understanding promotions and offers'
+description: 'Automatic discounts that apply based on cart conditions without requiring codes'
 ---
 
 # Promotions
 
-Promotions are special offers and campaigns that can be automatically or manually applied to customer orders.
+**Promotions** (automatic coupons) are discounts that apply automatically based on cart contents, order value, or customer eligibility—without requiring customers to enter a code.
 
+---
+
+## Promotion Types
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `percentage` | Percentage discount | 20% off |
+| `fixed` | Fixed amount off | $50 off |
+| `shipping` | Free shipping | Waive shipping |
+| `product` | Discount specific products | 30% off sale items |
+| `buyXgetY` | Bundle deals | Buy 2, Get 1 Free |
+
+---
+
+## Promotions vs Coupons
+
+| Aspect | Promotions | Coupons |
+|--------|-----------|---------|
+| **Activation** | Automatic | Customer enters code |
+| **User Action** | None required | Must input code |
+| **Use Case** | Cart-based offers, flash sales | Targeted rewards, campaigns |
+| **Distribution** | System applies | Earned or shared |
+
+---
+
+## Promotion Response
+
+```json
+{
+  "isApplied": true,
+  "couponName": "Summer Sale - 20% Off",
+  "discountType": "percentage",
+  "discountAmount": 24.00,
+  "discountedItems": [
+    {
+      "productId": "PROD_123",
+      "quantity": 1,
+      "price": 120.00,
+      "discount": 24.00
+    }
+  ]
+}
+```
+
+---
+
+## Checking for Promotions
+
+```json
+POST /api/v4.0/integrations/coupons/automatic
+{
+  "customerId": "customer_123",
+  "cartId": "cart_456",
+  "totalPrice": 150.00,
+  "totalShipping": 10.00,
+  "lineItems": [
+    {
+      "productId": "PROD_789",
+      "title": "Summer Dress",
+      "price": 50.00,
+      "quantity": 3,
+      "collection": ["summer_2024"]
+    }
+  ]
+}
+```
+
+<Tip>
+Call this API whenever cart contents change to check if promotions apply.
+</Tip>
+
+---
+
+## Promotion Conditions
+
+Configured in Gameball dashboard:
+
+### Cart-Based
+- Minimum cart value
+- Product collections
+- Product categories
+- Quantity requirements
+
+### Customer-Based
+- Customer segments (VIP, first-time)
+- Location
+- Loyalty tier
+- Purchase history
+
+### Time-Based
+- Date range
+- Flash sales
+- Recurring (weekly, monthly)
+- Event-based (holidays)
+
+---
+
+## Common Scenarios
+
+| Scenario | Description |
+|----------|-------------|
+| **Flash Sale** | "20% Off Everything - Today Only" |
+| **Free Shipping** | "Free Shipping on Orders Over $50" |
+| **Collection Promo** | "Summer Collection - Buy 2 Get 1 Free" |
+| **First Order** | "15% Off Your First Purchase" |
+| **VIP Exclusive** | "VIP Members: Extra 10% Off Sale Items" |
+
+---
+
+## Configuration
+
+<Info>
+Promotions are configured in the **Gameball Dashboard** under Campaigns → Promotions. Once active, the Automatic Coupons API evaluates all eligible promotions against cart data.
+</Info>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Automatic Coupons API" icon="code" href="/api-reference/coupons/automatic-coupons">
+    API endpoint documentation
+  </Card>
+  <Card title="Promotions Tutorial" icon="book-open" href="/tutorials-new/experiences/gameball-discounts-engine/promos">
+    Implementation guide
+  </Card>
+</CardGroup>

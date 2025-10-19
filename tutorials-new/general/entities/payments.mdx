@@ -1,9 +1,102 @@
 ---
 title: 'Payments'
-description: 'Understanding payment tracking for non-commerce businesses'
+description: 'Non-commerce transactions for fintech, SaaS, and service-based businesses'
 ---
 
 # Payments
 
-Payments are used for tracking transactions in non-commerce businesses such as subscription services, SaaS platforms, or service providers.
+**Payments** track monetary transactions in non-commerce systems like fintech platforms, SaaS subscriptions, bill payments, and service providers. Unlike orders (products), payments handle service-based transactions.
 
+---
+
+## Payment Structure
+
+### Core Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `customerId` | String | Unique customer identifier |
+| `paymentId` | String | Your unique payment/transaction ID |
+| `paymentDate` | String (ISO 8601) | When payment was processed |
+| `totalPaid` | Number | Final amount paid (after discounts) |
+| `totalAmount` | Number | Original amount (before discounts) |
+| `totalDiscount` | Number | Total discount applied |
+| `totalProcessingFees` | Number | Processing/transaction fees |
+| `totalTax` | Number | Tax amount |
+| `channel` | String | Source: mobile, web, pos, callcenter |
+
+### Payment Details (Services)
+
+Array of services:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `serviceId` | String | Unique service identifier |
+| `serviceName` | String | Human-readable service name |
+| `serviceProvider` | String | Company providing the service |
+| `amount` | Number | Service cost before tax/discount |
+| `tax` | Number | Tax on this service |
+| `discount` | Number | Discount on this service |
+| `category` | Array | Service categories |
+| `tags` | Array | Service tags |
+
+---
+
+## Example Payment
+
+```json
+{
+  "customerId": "customer_123",
+  "paymentId": "PAY_456789",
+  "paymentDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 100.00,
+  "totalAmount": 120.00,
+  "totalDiscount": 20.00,
+  "paymentDetails": [
+    {
+      "serviceId": "ELEC_001",
+      "serviceName": "Electricity Bill",
+      "serviceProvider": "PowerCo",
+      "amount": 100.00,
+      "category": ["Utilities"]
+    }
+  ]
+}
+```
+
+---
+
+## Payments vs Orders
+
+| Aspect | Payments | Orders |
+|--------|----------|--------|
+| **Use Case** | Bill payments, subscriptions, services | Product purchases, e-commerce |
+| **Structure** | `paymentDetails` (services) | `lineItems` (products) |
+| **Industries** | Fintech, SaaS, utilities | E-commerce, retail |
+| **Common Fields** | `serviceProvider`, `processingFees` | `sku`, `vendor`, `shipping` |
+
+---
+
+## Redemption During Payments
+
+### Redeem Points
+```json
+{
+  "redemption": {
+    "pointsHoldReference": "hold_ref_abc123"
+  }
+}
+```
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Payment Tracking API" icon="code" href="/api-reference/payment/payment-tracking">
+    API endpoint documentation
+  </Card>
+  <Card title="Payment Handling Tutorial" icon="book-open" href="/tutorials-new/experiences/more/payment-handling">
+    Implementation guide
+  </Card>
+</CardGroup>

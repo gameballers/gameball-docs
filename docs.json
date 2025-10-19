@@ -220,9 +220,14 @@
         "tab": "Tutorials",
         "groups": [
           {
+            "group": "Getting Started",
+            "pages": [
+              "tutorials-new/general/welcome"
+            ]
+          },
+          {
             "group": "General",
             "pages": [
-              "tutorials-new/general/index",
               {
                 "group": "Entities",
                 "pages": [

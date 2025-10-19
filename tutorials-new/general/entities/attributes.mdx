@@ -1,9 +1,104 @@
 ---
 title: 'Attributes'
-description: 'Customer attributes and custom properties'
+description: 'Customer profile data that powers personalization and segmentation'
 ---
 
 # Attributes
 
-Customer attributes allow you to store custom properties and data points for each customer in your loyalty program.
+**Attributes** are data points stored about each customer—their name, email, purchase history, and custom business-specific information. These enable personalized campaigns, targeted messaging, and customer segmentation.
 
+---
+
+## Attribute Types
+
+### Standard Attributes
+Built-in fields recognized across Gameball:
+
+| Attribute | Type | Purpose |
+|-----------|------|---------|
+| `displayName` | String | Name shown in leaderboards and UI |
+| `firstName` | String | Customer's first name |
+| `lastName` | String | Customer's last name |
+| `email` | String | Email address (required for email-based merging) |
+| `mobile` | String | Phone number (required for mobile-based merging) |
+| `dateOfBirth` | String | Birth date for age-based campaigns |
+| `gender` | String | Gender for demographic targeting |
+| `city` | String | City for location-based campaigns |
+| `country` | String | Country for regional targeting |
+| `zip` | String | Postal code |
+| `preferredLanguage` | String | Language preference for communications |
+| `joinDate` | String | When customer joined |
+| `channel` | String | Acquisition channel (mobile, web, pos, callcenter) |
+
+### Purchase History Attributes
+Automatically tracked when using the Orders API:
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `totalSpent` | Number | Lifetime spending total |
+| `totalOrders` | Integer | Number of orders placed |
+| `avgOrderAmount` | Number | Average order value |
+| `lastOrderDate` | String | Date of most recent purchase |
+
+### Custom Attributes
+Flexible key-value pairs for business-specific data:
+
+```json
+{
+  "customerId": "customer_123",
+  "customerAttributes": {
+    "displayName": "Sarah Johnson",
+    "email": "sarah@example.com",
+    "custom": {
+      "vip_status": "Gold",
+      "subscription_tier": "Premium",
+      "favorite_category": "Electronics"
+    }
+  }
+}
+```
+
+---
+
+## Setting Attributes
+
+```json
+POST /api/v4.0/integrations/customers
+{
+  "customerId": "customer_123",
+  "customerAttributes": {
+    "displayName": "Sarah Johnson",
+    "email": "sarah@example.com",
+    "city": "New York",
+    "custom": {
+      "membership_level": "Gold"
+    }
+  }
+}
+```
+
+<Tip>
+Updating a customer **merges** the data—existing attributes not included remain unchanged.
+</Tip>
+
+---
+
+## Use Cases
+
+- **Personalization**: Use names and preferences for tailored experiences
+- **Segmentation**: Target campaigns by demographics, location, or purchase history
+- **Channel Merging**: Email/mobile attributes unify profiles across channels
+- **Campaign Conditions**: "Reward VIP customers in NYC with 2x points"
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Create/Update Customer" icon="code" href="/api-reference/customers/management/create-customer">
+    API endpoint for setting attributes
+  </Card>
+  <Card title="Channel Merging Guide" icon="code-merge" href="/tutorials/channel-merging-guide">
+    Unify customer profiles across channels
+  </Card>
+</CardGroup>

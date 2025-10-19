@@ -1,9 +1,122 @@
 ---
 title: 'Orders'
-description: 'Understanding order tracking and processing'
+description: 'E-commerce purchase transactions that trigger rewards and cashback'
 ---
 
 # Orders
 
-Orders represent purchase transactions in your e-commerce system that trigger cashback rewards and point accrual.
+**Orders** represent e-commerce purchase transactions. The Order API tracks purchases, automatically triggers loyalty campaigns, calculates cashback, and awards points in a single unified operation.
 
+---
+
+## Order Structure
+
+### Core Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `customerId` | String | Unique customer identifier |
+| `orderId` | String | Your unique order/transaction ID |
+| `orderDate` | String (ISO 8601) | When the order was placed |
+| `totalPaid` | Number | Final amount customer paid |
+| `totalPrice` | Number | Order total before discounts |
+| `totalDiscount` | Number | Total discount applied |
+| `totalShipping` | Number | Shipping cost |
+
+### Line Items
+
+Array of purchased items:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `productId` | String | Unique product identifier |
+| `sku` | String | Stock keeping unit |
+| `title` | String | Product name |
+| `price` | Number | Item price |
+| `quantity` | Number | Quantity purchased |
+| `category` | Array | Product categories |
+| `collection` | Array | Product collections |
+| `vendor` | String | Brand or supplier |
+| `weight` | Number | Item weight |
+| `tag` | Array | Product tags |
+
+---
+
+## Example Order
+
+```json
+{
+  "customerId": "customer_123",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 500.00,
+  "totalPrice": 500.00,
+  "totalShipping": 10.00,
+  "lineItems": [
+    {
+      "productId": "PROD98765",
+      "sku": "SKU98765",
+      "title": "Black Sneakers",
+      "price": 500.00,
+      "quantity": 1,
+      "category": ["Shoes"],
+      "collection": ["Summer2024"]
+    }
+  ]
+}
+```
+
+---
+
+## Orders vs Events vs Payments
+
+<Note>
+- **Orders**: E-commerce with products/SKUs
+- **Events**: Custom user actions
+- **Payments**: Non-commerce transactions (bills, subscriptions)
+</Note>
+
+---
+
+## Redemption During Orders
+
+### Redeem Points
+```json
+{
+  "redemption": {
+    "pointsHoldReference": "hold_ref_123"
+  }
+}
+```
+
+### Apply Coupons
+```json
+{
+  "redemption": {
+    "couponsLockReference": "lock_ref_456"
+  }
+}
+```
+
+---
+
+## Order Features
+
+| Feature | API | Purpose |
+|---------|-----|---------|
+| **Order Tracking** | `POST /api/v4.0/integrations/orders` | Submit orders and award points |
+| **Calculate Cashback** | `POST /api/v4.0/integrations/orders/calculate` | Preview points before checkout |
+| **Order Transactions** | `GET /api/v4.0/integrations/orders/{orderId}/transactions` | Retrieve order history |
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Submit Orders Tutorial" icon="book-open" href="/tutorials-new/experiences/order-handling/submit-order">
+    Complete implementation guide
+  </Card>
+  <Card title="Order Tracking API" icon="code" href="/api-reference/order/order-tracking">
+    API endpoint documentation
+  </Card>
+</CardGroup>
