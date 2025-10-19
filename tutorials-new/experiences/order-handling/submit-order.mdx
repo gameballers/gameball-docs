@@ -1,17 +1,501 @@
 ---
-title: 'Submit Order'
-description: 'Track customer orders and trigger rewards'
+title: "Submitting Orders"
+description: "Integrate Gameball loyalty into order submission: earn points, redeem rewards, and apply coupons seamlessly."
 ---
 
-# Submit Order
+This guide provides a detailed walkthrough of how to integrate Gameball's loyalty and rewards features into your order submission process. The integration covers various scenarios to enhance your customers' shopping experience, including loyalty point accumulation, coupon usage, and seamless redemption.
 
-Submit customer orders to Gameball to trigger cashback rewards and point accrual.
+<Info>
+The key scenarios addressed in this guide include:
 
-## Order Submission
+- **Earning Loyalty Points**: Automatically calculate and assign loyalty points based on a customer's order
+- **Redeeming Loyalty Points During Order Submission**: Allow customers to use their loyalty points to reduce the total amount
+- **Using Coupons in the Order**: Enable customers to apply coupon codes for specific discounts or benefits
+</Info>
 
-Learn how to properly format and submit orders with all necessary details including:
-- Customer information
-- Line items
-- Totals and pricing
-- Metadata
+Each scenario outlines a practical process that focuses on customer interactions, ensuring they can easily navigate loyalty rewards, coupons, and promotions as they complete their purchases.
 
+***
+
+## Submitting an Order
+
+Let's explore how the **Orders API** works, starting with what your customers experience and how their actions on your e-commerce platform interact with Gameball to trigger rewards and campaigns.
+
+***
+
+### Customer Journey
+
+<Steps>
+<Step title="Customer browses and adds items">
+  A customer, Sarah, visits your e-commerce website and adds items to her cart.
+</Step>
+
+<Step title="Customer completes checkout">
+  At checkout, she places an order for a pair of sneakers worth $500 and pays successfully.
+</Step>
+
+<Step title="Order is confirmed">
+  Sarah's order is confirmed and your system communicates with Gameball.
+</Step>
+</Steps>
+
+***
+
+### What Happens in the Background
+
+<Info>
+**Order Details Sent to Gameball**
+
+The moment Sarah's order is completed, your website communicates with Gameball through the **Orders API**. This triggers a `place_order` event in the background, sending details like:
+
+**Order Information:**
+```json
+{
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 500.4,
+  "totalPrice": 500.4,
+  "totalShipping": 0.4
+}
+```
+
+**Products Purchased:**
+```json
+{
+  "lineItems": [
+    {
+      "price": 120,
+      "quantity": 1,
+      "productId": "PROD98765",
+      "sku": "SKU98765",
+      "title": "Black Sneakers",
+      "category": ["Shoes"],
+      "collection": ["Summer2024"]
+    }
+  ]
+}
+```
+
+**Customer Information:**
+```json
+{
+  "customerId": "15327289462816"
+}
+```
+
+**Complete Order Request:**
+```json
+{
+  "customerId": "15327289462816",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 500.4,
+  "totalPrice": 500.4,
+  "totalShipping": 0.4,
+  "lineItems": [
+    {
+      "price": 500,
+      "quantity": 1,
+      "productId": "PROD98765",
+      "sku": "SKU98765",
+      "title": "Black Sneakers",
+      "category": ["Shoes"],
+      "collection": ["Summer2024"]
+    }
+  ]
+}
+```
+</Info>
+
+***
+
+### Gameball Processing
+
+Once the `place_order` event is triggered:
+
+<Steps>
+<Step title="Order data mapping">
+  The Orders API automatically sends the order details to Gameball with the following mapping for the order event metadata:
+
+  | Order API Attribute      | Mapped to Event Object Attribute |
+  | ------------------------ | -------------------------------- |
+  | totalPaid                | total_paid                        |
+  | totalDiscount            | total_discount                    |
+  | lineItems[i].weight      | weight                            |
+  | lineItems[i].vendor      | vendor                            |
+  | lineItems[i].sku         | sku                               |
+  | lineItems[i].title       | title                             |
+  | lineItems[i].tag         | tag                               |
+  | lineItems[i].category    | category                          |
+  | lineItems[i].collection  | collection                        |
+  | extra.key[0]:value       | key[0]:value                      |
+</Step>
+
+<Step title="Campaign evaluation">
+  Gameball evaluates the order metadata based on your configured campaigns.
+</Step>
+
+<Step title="Rewards issued">
+  Sarah earns rewards, such as cashback or loyalty points, based on your Gameball settings.
+
+  <Check>
+  For example, if you've configured a rewards campaign for customers placing their first order, Sarah earns a $20 amount-based coupon as a reward.
+  </Check>
+  
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F12vlt8SM0Kk3LygxO24E%2Fimage.png?alt=media&token=e9e9b7f5-ad4e-432c-a4a3-80715f4b8427" alt="Reward issued after first order" />
+  </Frame>
+</Step>
+</Steps>
+
+***
+
+### Seamless Automation
+
+<Tip>
+The **Orders API** eliminates extra work by:
+
+- Automatically triggering rewards based on Sarah's purchase (no need for manual event creation)
+- Connecting the order to multiple Gameball modules, such as cashback or campaign tracking
+</Tip>
+
+**For instance:**
+
+- If Sarah qualifies for cashback, Gameball calculates the amount and updates her balance instantly and you can display it using the Get Customer Balance API.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F2dP7cY7oBVCQzaOtkoMf%2Fimage.png?alt=media&token=f5ba5d00-4ee9-473a-bd62-2b75bed9a3cf" alt="Gameball widget displaying customer balance" />
+</Frame>
+
+<Info>
+This image showcases the Gameball widget displaying the customer's balance. You can also retrieve the same information programmatically using the **Get Customer Balance API** for seamless integration with your application.
+</Info>
+
+- If you're sending order-based notifications, Sarah might receive a message like: "Congratulations, Sarah! You've earned 100 points for your last order."
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F7f6NoA4gAAkIGr9ywknb%2Fimage.png?alt=media&token=23389f3f-5fcb-485b-b03f-3339785ce71a" alt="Order-based notification example" />
+</Frame>
+
+***
+
+### Customer Experience
+
+Sarah's experience remains smooth and rewarding:
+
+1. She places an order without any extra steps
+2. She receives instant confirmation about her reward points or cashback, enhancing her satisfaction
+3. Over time, Sarah can redeem these points for discounts, keeping her engaged and loyal to your brand
+
+***
+
+### Why This Matters
+
+By integrating the Orders API:
+
+- You provide a **seamless customer experience** while keeping them engaged with rewards
+- You **streamline internal processes**, saving time with automatic data mapping and event creation
+- You gain the flexibility to tie specific orders or products to targeted campaigns, driving sales effectively
+
+***
+
+## Redeeming Points During Order Submission
+
+Imagine a customer excited to redeem their hard-earned points while placing an order, but still wanting the freedom to browse and add more items to their cart before completing the purchase. With Gameball's redemption process, you can make this experience smooth and hassle-free by temporarily holding their points.
+
+***
+
+### Customer Journey
+
+Let's explore how this works: Sarah has earned loyalty points and is now ready to redeem them for a discount on her order. She has 50 points and wants to redeem them for her current cart.
+
+<Steps>
+<Step title="Customer selects redemption option">
+  Sarah selects the option to redeem 50 points during checkout.
+</Step>
+
+<Step title="Points are held">
+  The system reserves the points for her transaction, allowing her to continue shopping without losing them.
+</Step>
+
+<Step title="Customer completes order">
+  Sarah finishes browsing and proceeds to complete her order with the held points applied.
+</Step>
+</Steps>
+
+***
+
+### API Flow
+
+<Info>
+**How Points Are Held**
+
+The moment Sarah opts to redeem her points, the **Hold Points API** is triggered in the background.
+
+This request will:
+- **Reserve** 50 points from Sarah's balance, ensuring they are locked for the order
+- Generate a **hold reference ID**, which is used to track the redemption
+- Allow Sarah to continue shopping freely without worrying that her points will be lost
+</Info>
+
+Once Sarah is ready to complete her order, the points will be applied to her purchase. The redemption is completed by using the **hold reference ID** to link the held points to the final transaction.
+
+***
+
+### Example API Interaction
+
+<CodeGroup>
+```json Hold Points Request
+{
+  "customerId": "15327289462816",
+  "transactionTime": "2024-10-11T16:15:15.071Z",
+  "pointsToHold": 50
+}
+```
+
+```json Hold Points Response
+{
+  "customerId": "15327289462816",
+  "holdAmount": null,
+  "holdEquivalentPoints": 50,
+  "holdReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+}
+```
+</CodeGroup>
+
+***
+
+### Linking Held Points to the Order
+
+Once Sarah completes her order, the **Hold Points API** response provides a **hold reference ID**. This reference ID is then used to link the held points to the order during the submission process.
+
+<CodeGroup>
+```json Order Request with Held Points
+{
+  "customerId": "15327289462816",
+  "orderId": "ORD987654321",
+  "orderDate": "2024-10-11T16:45:00.000Z",
+  "totalPaid": 200,
+  "totalPrice": 250,
+  "totalShipping": 0,
+  "lineItems": [
+    {
+      "productId": "Naomi-Pastel",
+      "price": 200,
+      "quantity": 1,
+      "collection": ["Bags"]
+    }
+  ],
+  "redemption": {
+    "pointsHoldReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+  }
+}
+```
+
+```json Order Response
+{
+  "customerId": "cust_abc12345xyz67890",
+  "orderId": "ORD987654321",
+  "totalPaid": 200,
+  "totalPrice": 250,
+  "redeemedPoints": 50
+}
+```
+</CodeGroup>
+
+<Note>
+The **redemption** object contains the **pointsHoldReference**, ensuring that the 50 held points are applied to the final order.
+</Note>
+
+***
+
+### Customer Experience
+
+- **Points Reserved**: Sarah sees that her 50 points have been securely held for her order
+- **Seamless Order Completion**: As she proceeds, the points are automatically applied, reducing the total paid amount
+- **Flexible Shopping**: Sarah continues to browse and add items to her cart without losing the points she's already reserved
+
+The ability to hold points ensures that Sarah can make purchases confidently without feeling rushed.
+
+***
+
+### Why This Matters
+
+<Tip>
+**Benefits of Point Holds:**
+
+- **Convenience for Customers**: Redeem points without rushing through the order process
+- **Secure Redemption**: Points are securely held, eliminating worry about losing them
+- **Flexibility**: Redemption is applied seamlessly when ready to complete the order
+</Tip>
+
+By offering a smooth and flexible points redemption process, you not only enhance the customer's journey but also build greater trust and satisfaction.
+
+***
+
+## Using Coupon Codes During Order Submission
+
+Using coupon codes during order submission is an effective way to enhance the customer experience and boost sales. By validating and locking a coupon code, businesses can ensure that the discount is reserved exclusively for the customer, eliminating any risk of overuse or misuse.
+
+<Tip>
+This feature is particularly valuable during high-demand campaigns or limited-time promotions, as locking the coupon creates urgency and encourages faster purchasing decisions.
+</Tip>
+
+***
+
+### Customer Journey
+
+Let's see how this works:
+
+<Steps>
+<Step title="Customer has a coupon">
+  Sarah is browsing your website and has a coupon code, offering her **10% off**.
+  
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FS6WpEkOgDgpklxMXBp0r%2Fimage.png?alt=media&token=61fca429-1552-42d6-872b-17d49e4cd557" alt="Coupon shown on site" />
+  </Frame>
+</Step>
+
+<Step title="Customer enters coupon code">
+  She decides to use the coupon and proceeds to checkout, where she enters her coupon code.
+  
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FOriPWunIjpaF9Bq19BQF%2Fimage.png?alt=media&token=477a5ad6-6da1-4f14-9786-2071ffd28702" alt="Customer enters coupon code at checkout" />
+  </Frame>
+</Step>
+
+<Step title="Coupon is validated and locked">
+  The system validates and locks the coupon for her exclusive use.
+  
+  <Check>
+  Once the coupon is locked, Sarah can continue browsing and adding products to her cart, knowing that the coupon will be applied when she finalizes her order.
+  </Check>
+</Step>
+</Steps>
+
+***
+
+### API Flow
+
+<Info>
+**Validating and Locking Coupons**
+
+The moment Sarah enters her coupon code, the **Validate Coupon API** is triggered in the background with the **lock** flag set to `true`.
+
+This request:
+- **Validates** the coupon code provided by Sarah
+- **Locks** the coupon for her use, ensuring it cannot be used by anyone else during the session
+- Returns a **lock reference** to track the coupon during the order submission process
+</Info>
+
+Once Sarah is ready to complete her order, the coupon is securely locked and can be applied to her final purchase.
+
+***
+
+### Example API Interaction
+
+<CodeGroup>
+```json Validate Coupon Request
+{
+  "customerId": "15327289462816",
+  "coupons": [
+    "tKpLMD0NyP"
+  ],
+  "lock": true
+}
+```
+
+```json Validate Coupon Response
+{
+  "valid": true,
+  "coupons": [
+    {
+      "code": "tKpLMD0NyP",
+      "type": "percentage",
+      "value": 10,
+      "usageLimit": 100,
+      "limitPerCustomer": 1,
+      "startDate": "2024-10-20T14:16:00Z",
+      "expiryDate": "2025-01-20T15:14:00Z",
+      "capping": 400,
+      "minOrderValue": 1000,
+      "entitledProductIds": ["prod_abc123", "prod_xyz456"],
+      "entitledVariantIds": ["variant_red_large", "variant_blue_small"],
+      "entitledCollectionIds": ["summer_sale", "winter_wear"],
+      "combinesWith": {
+        "orderDiscounts": true,
+        "productDiscounts": true,
+        "shippingDiscounts": true
+      }
+    }
+  ],
+  "lockReference": "74e20fc6bf7a4970ad3c125b1713194f",
+  "dateToExpire": "2024-10-20T16:22:00.8249283Z"
+}
+```
+</CodeGroup>
+
+<Note>
+The response confirms that the coupon code is valid and locked for Sarah's session. The **lockReference** is provided to ensure the coupon can be applied during order submission.
+</Note>
+
+***
+
+### Linking the Locked Coupon to the Order
+
+When Sarah is ready to finalize her purchase, the **lockReference** returned in the **Validate Coupon Response** will be included in the order API request to apply the coupon to her final order.
+
+```json Order Request with Locked Coupon
+{
+  "customerId": "15327289462816",
+  "orderId": "ORD987654321",
+  "orderDate": "2024-10-11T16:45:00.000Z",
+  "totalPaid": 1080.40,
+  "totalPrice": 1200.40,
+  "totalShipping": 0.40,
+  "lineItems": [
+    {
+      "productId": "Hobo-bag",
+      "price": 1200,
+      "quantity": 1,
+      "collection": ["Bags"]
+    }
+  ],
+  "redemption": {
+    "couponsLockReference": "74e20fc6bf7a4970ad3c125b1713194f"
+  }
+}
+```
+
+<Note>
+The **couponsLockReference** ensures that the locked coupon is applied to the order when Sarah completes the submission.
+</Note>
+
+***
+
+### Customer Experience
+
+- **Coupon Reserved**: Sarah is assured that her **10% Discount** is locked exclusively for her session
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FYw067BqqtlPuN1Bj3bAP%2Fimage.png?alt=media&token=e8e90361-3c66-4be5-b28b-a8665ea7b359" alt="Coupon reserved indicator" />
+</Frame>
+
+- **Personalized Discount**: As she completes her order, the discounts are automatically applied, providing her with a seamless and rewarding experience
+- **Urgency to Complete**: The locked coupons create urgency, encouraging Sarah to finalize her purchase before the lock expires
+
+***
+
+### Why This Matters
+
+<Tip>
+**Benefits of Coupon Locking:**
+
+- **Enhanced Customer Experience**: Smooth and secure order completion with discounts applied seamlessly
+- **Eliminating Risk of Misuse**: Locked coupons are reserved for exclusive use, preventing misuse by others
+- **Increased Conversion Rates**: Coupon locks create urgency, encouraging faster purchasing decisions and boosting sales
+</Tip>
+
+By locking coupons, businesses can ensure the integrity of their promotional efforts while providing customers with a personalized and rewarding shopping experience.
+
+***

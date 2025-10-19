@@ -226,7 +226,6 @@
               {
                 "group": "Entities",
                 "pages": [
-                  "tutorials-new/general/entities/index",
                   "tutorials-new/general/entities/attributes",
                   "tutorials-new/general/entities/events",
                   "tutorials-new/general/entities/coupon",
@@ -241,18 +240,15 @@
           {
             "group": "Experiences",
             "pages": [
-              "tutorials-new/experiences/index",
-              "tutorials-new/experiences/tracking-events/index",
+              "tutorials-new/experiences/tracking-events",
               {
                 "group": "Order Handling for Commerce",
                 "pages": [
-                  "tutorials-new/experiences/order-handling/index",
                   "tutorials-new/experiences/order-handling/preview-points",
                   "tutorials-new/experiences/order-handling/submit-order",
                   {
                     "group": "Special Use Cases",
                     "pages": [
-                      "tutorials-new/experiences/order-handling/special-use-cases/index",
                       "tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning",
                       "tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
                       "tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches"
@@ -264,7 +260,6 @@
                 "group": "Points Redemption",
                 "pages": [
                   "tutorials-new/experiences/points-redemption/index",
-                  "tutorials-new/experiences/points-redemption/show-balance",
                   "tutorials-new/experiences/points-redemption/pay-with-points",
                   {
                     "group": "Convert Points to Coupons",
@@ -314,7 +309,6 @@
           {
             "group": "More",
             "pages": [
-              "tutorials-new/experiences/more/index",
               "tutorials-new/experiences/more/payment-handling",
               "tutorials-new/experiences/more/push-notifications",
               "tutorials-new/experiences/more/cashback-api",

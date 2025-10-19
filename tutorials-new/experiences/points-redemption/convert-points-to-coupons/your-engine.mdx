@@ -1,16 +1,337 @@
 ---
-title: 'Redeem Through Your Couponing Engine'
-description: 'Use your platform\'s native coupon system'
+title: "Redeem Through Your Couponing Engine"
+description: "If you already have a backend couponing system, whether custom-built or part of your e-commerce platform, Gameball allows you to plug into it via webhooks. This lets Gameball notify your system to create a coupon when a customer earns or redeems a reward. You keep full control over coupon creation logic, while Gameball handles loyalty tracking, redemption rules, and reward delivery. "
 ---
 
-# Redeem Through Your Couponing Engine
+## **What Does This Integration Do?**
 
-Integrate Gameball with your platform's existing coupon system (Shopify, WooCommerce, Magento, etc.).
+Instead of using Gameball’s native coupon engine, Gameball can send a **real-time HTTP request** to your system when:
 
-## Overview
+- A customer **redeems points** for a coupon reward
+- A customer **completes a campaign** and earns a coupon
 
-This approach allows you to:
-- Use your platform's native discounts
-- Maintain existing coupon workflows
-- Leverage platform-specific features
+Your system then returns a valid coupon code, which Gameball shows to the customer.
+
+![image (119).png](/images/image\(119\).png)
+
+## **Supported Use Cases**
+
+| **Scenario**    | **Example**                                         |
+| :-------------- | :-------------------------------------------------- |
+| Redeem Points   | Adam redeems 500 points and receives a 10% OFF code |
+| Campaign Reward | Sarah completes a mission and earns a \$20 coupon   |
+
+## **Flow: How Gameball Communicates With Your System**
+
+<Steps>
+  <Step title="Customer initiates a redemption (or completes a campaign)">
+    
+  </Step>
+  <Step title="Gameball sends a POST request to your specified endpoint">
+    
+  </Step>
+  <Step title="Your system generates the coupon and returns the code">
+    
+  </Step>
+  <Step title="Gameball shows the code to the user in their profile or reward message">
+    
+  </Step>
+  <Step title="Customer copies/pastes the code at checkout on your store">
+    
+  </Step>
+</Steps>
+
+# Implementation Guide
+
+## Step-by-Step Integration Flow
+
+### Step 1: Configure Gameball to Call Your Endpoint
+
+| **Gameball Widget**                                                | **Custom UI**                                                                    |
+| :----------------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| Configuration required only once — the rest is handled internally. | Same configuration required — you control how the coupon is generated/displayed. |
+
+Gameball needs to know how to reach your couponing engine:
+
+![image (120).png](/images/image\(120\).png)
+
+| **Field**     | **Description**                                                              |
+| :------------ | :--------------------------------------------------------------------------- |
+| url           | Your coupon generation endpoint, e.g., https://api.yourapp.com/create-coupon |
+| method        | Usually POST                                                                 |
+| contentType   | Typically application/json                                                   |
+| headers       | Auth or token headers, if needed                                             |
+| payload       | The request body Gameball will send                                          |
+| couponMapping | Map Gameball coupon types to your supported types                            |
+| platforms     | Platforms where the coupon applies (e.g., web, mobile, POS)                  |
+
+### **Step 2: Configure via API (Optional)**
+
+You can configure this directly via API:
+
+**API:**
+
+POST /api/v1/coupons/configure
+
+Authorization: Bearer YOUR_API_TOKEN
+
+Content-Type: application/json
+
+```json
+{
+  "url": "https://yourdomain.com/api/coupons",
+  "method": "POST",
+  "contentType": "application/json",
+  "headers": [
+    { "key": "Authorization", "value": "Bearer 123456" }
+  ],
+  "payload": {
+    "code": "{{code}}",
+    "value": "{{amount}}",
+    "couponType": "{{discount_type}}"
+  },
+  "couponMapping": {
+    "percentage": true,
+    "fixed": true,
+    "freeShipping": true
+  },
+  "platforms": ["web", "mobile"]
+}
+```
+
+### **Step 3: Build Your Coupon Creation Endpoint**
+
+This is your own API that Gameball will call.
+
+**Example (Node.js):**
+
+```javascript
+app.post('/api/coupons', (req, res) => {
+  const { code, value, customerId } = req.body;
+  // Create and store the coupon
+  res.status(200).send({ couponCode: code });
+});
+```
+
+<Note>
+  You must return HTTP 200 and include the coupon code in the response.
+</Note>
+
+### **Step 4: Test the Connection**
+
+| **Gameball Widget**                                                            | **Custom UI**                                      |
+| :----------------------------------------------------------------------------- | :------------------------------------------------- |
+| Use **“Test Connection”** from Gameball dashboard to simulate coupon creation. | Same. Useful for debugging or dry-run integration. |
+
+**API (to retrieve config):**
+
+GET /api/v1/coupons/configuration
+
+Authorization: Bearer YOUR_API_TOKEN
+
+---
+
+# Coupon Redemption Flows
+
+Gameball supports two primary coupon generation flows, both of which work with either the **Gameball widget** or your **custom UI**.
+
+## **1. Manual Coupon Redemption**
+
+### **Overview**
+
+| **Gameball Widget**                                                                     | **Custom UI**                                                             |
+| :-------------------------------------------------------------------------------------- | :------------------------------------------------------------------------ |
+| Redemption flow is fully handled: point display, coupon generation, and coupon listing. | You handle reward options, redemption calls, and coupon display manually. |
+
+### **Step-by-Step: Widget-Based Manual Redemption**
+
+**Step 1:**
+
+Customer opens the widget → Gameball displays points balance and redemption options.
+
+<img
+  src="/images/image(121).png"
+  alt="image (121).png"
+  title="image (121).png"
+  className="mx-auto"
+  style={{ width:"32%" }}
+/>
+
+**Step 2:**
+
+Customer selects a reward → Gameball sends a webhook to your backend and shows the returned coupon in **My Coupons**.
+
+<img
+  src="/images/redemptionthroughwidget-ezgif.com-video-to-gif-converter.gif"
+  alt="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
+  title="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"31%" }}
+/>
+
+**Step 3:**
+
+At checkout, the customer applies the coupon. You use:
+
+<img
+  src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
+  alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"32%" }}
+/>
+
+POST /order
+
+<RequestExample>
+
+```json filename
+{
+  "customerId": "cust_12345",
+  "orderId": "ORD123",
+  "totalPaid": 135,
+  "coupons": {
+    "couponCodes": ["GB1023"]
+  }
+}
+```
+
+</RequestExample>
+
+---
+
+### **Step-by-Step: Custom UI Manual Redemption**
+
+**Step 1: Fetch Redemption Options**
+
+[GET /redemption-configs](https://gameball.mintlify.app/api-reference/configurations/reward-configurations/redemption-settings)
+
+<ResponseExample>
+
+```json filename
+{
+  "redemptionRules": [
+    {
+      "id": 2138,
+      "pointsToRedeem": 100,
+      "coupon": {
+        "couponType": "fixed_rate_discount",
+        "discountValue": 10
+      }
+    }
+  ]
+}
+```
+
+</ResponseExample>
+
+**Step 2: Redeem Points**
+
+[POST /redeem](https://gameball.mintlify.app/api-reference/transactions/cashback-and-redemptions/redeem#redeem-points)
+
+<RequestExample>
+
+```json filename
+{
+  "playerUniqueId": "cust_12345",
+  "ruleId": 2138,
+  "transactionId": "txn_001",
+  "transactionTime": "2024-11-01T12:00:00Z"
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json filename
+{
+  "couponCode": "GB1023",
+  "redeemEquivalentPoints": 100
+}
+```
+
+</ResponseExample>
+
+**Step 3: Display Earned Coupons**
+
+[GET /customers//coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
+
+**Step 4: Apply at Checkout**
+
+Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-reference/order/order-tracking).
+
+<img
+  src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
+  alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"44%" }}
+/>
+
+## **2. Campaign-Based Coupon Rewards**
+
+<Tabs>
+  <Tab title="Gameball Widget">
+    Widget automatically shows campaign-earned coupons in “My Coupons”.
+
+    <img
+      src="/images/image(122).png"
+      alt="image (122).png"
+      title="image (122).png"
+      className="mx-auto"
+      style={{ width:"26%" }}
+    />
+
+    ### **Step-by-Step: Widget Campaign Flow**
+
+    - Gameball displays the coupon in real-time once earned from a campaign.
+    - No API integration needed to show it.
+    - At checkout, use [POST /order](https://gameball.mintlify.app/api-reference/order/order-tracking) as shown earlier.
+  </Tab>
+  <Tab title="Custom UI">
+    You must fetch and display earned coupons using the API.
+
+    ![image (123).png](/images/image\(123\).png)
+
+    ### **Step-by-Step: Custom UI Campaign Flow**
+
+    **Step 1: Fetch All Coupons**
+
+    [GET /customers/{playerId}/coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
+
+    <ResponseExample>
+
+    ```json filename
+    {
+      "coupons": [
+        {
+          "code": "GB2024",
+          "type": "percentage",
+          "value": 15,
+          "expiryDate": "2024-12-31T23:59:59Z"
+        }
+      ]
+    }
+    ```
+
+    </ResponseExample>
+
+    **Step 2: Apply Coupon**
+
+    [POST /order](https://gameball.mintlify.app/api-reference/order/order-tracking)
+
+    ---
+
+    ## **Final Summary**
+
+    | **Step**                        | **Widget**            | **Custom UI**                   |
+    | :------------------------------ | :-------------------- | :------------------------------ |
+    | Configure Webhook               | ✅ Required            | ✅ Required                      |
+    | Show redemption options         | ✅ Auto                | ✅ Manual                        |
+    | Redeem points → generate coupon | ✅ Auto                | ✅ API (/redeem)                 |
+    | Show earned coupons             | ✅ Auto (“My Coupons”) | ✅ API (/customers/{id}/coupons) |
+    | Apply at checkout               | ❌ (manual)            | ❌ (manual)                      |
+  </Tab>
+</Tabs>
 

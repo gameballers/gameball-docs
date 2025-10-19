@@ -1,0 +1,205 @@
+---
+title: 'Tracking Customer Events'
+description: 'Track customer actions and trigger rewards or personalized messages in real-time'
+---
+
+In Gameball, **events** are the core of what makes customer interactions exciting and rewarding. Whenever a customer does something on your platform—like adding a product to their cart, watching a video, or attending a physical event—that action can trigger an **event** in Gameball, allowing you to track it and even reward the customer.
+
+Let's walk through some common examples of event tracking and see how easy it is to set up campaigns and messages that engage your users at every step.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2Fxg9SsRnfb2zoYk2DTifn%2Fgameball-events-abstract.png?alt=media&token=e9758dc1-5f5a-4654-a544-b5a6f59477eb" alt="Gameball Events Engine Overview" />
+</Frame>
+
+---
+
+## Why Track Events?
+
+Tracking events allows you to:
+
+1. **Gain insights** into what your customers are doing on your platform
+2. **Reward actions** in real-time to drive more engagement
+3. **Personalize experiences** based on customer interests and behaviors
+
+---
+
+## How Gameball Event Engine Works
+
+Gameball listens to your system, takes note of your customers' actions, and uses that data to trigger rewards or personalized messages. Here's how to bring this to life with some common examples!
+
+---
+
+## Example 1: Tracking "Add to Cart" Events (E-commerce)
+
+Let's say you run an online store and want to reward customers when they add items to their carts. Here's how to do it:
+
+### 1. Send a Basic "Add to Cart" Event
+
+When a customer clicks **"Add to Cart"**, you can send a simple event to Gameball. In this example, we'll track a customer adding an "iPhone 12" to their cart:
+
+```json
+{
+  "events": {
+    "add_to_cart": {}
+  },
+  "customerId": "CUST_ID"
+}
+```
+
+This basic event lets Gameball know that the customer has added an item to their cart. You could then create a rewards campaign like **"Cart Ninja"** to reward customers who add items to their cart frequently.
+
+### 2. Enhance with Extra Information
+
+If you want to go further, add details like product ID, price, and category. This way, you can create even more personalized campaigns or messages based on what your customer is adding to their cart.
+
+```json
+{
+  "events": {
+    "add_to_cart": {
+      "product_id": "231402",
+      "product_title": "iPhone 12",
+      "price": 1350.00,
+      "category": "Mobile Phones",
+      "vendor": "Apple"
+    }
+  },
+  "customerId": "CUST_ID"
+}
+```
+
+**Example Campaigns**:
+
+* **Apple Top Fan**: Reward users the first time they add an Apple product
+* **Custom Message**: Encourage users to "Save up to 6% on Apple products when you add a charger!" by sending this message if the added item is an Apple phone
+
+---
+
+## Example 2: Tracking Music App Events
+
+Let's say you have a music streaming app, and you want to reward users for engaging with music. For instance, you can track when a user likes a song to give them rewards based on how often they interact.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FHC4AjpJRxwuztN5GmndY%2Fsong_liked.avif?alt=media&token=c9c0f560-0f12-4f35-bc29-4a2d950f3deb" alt="Music streaming app event tracking" />
+</Frame>
+
+### Sending a "Song Liked" Event
+
+When a customer likes a song, send this event with details about the song:
+
+```json
+{
+  "events": {
+    "song_liked": {
+      "song_id": "231402",
+      "title": "Coping",
+      "album_id": "95621",
+      "artist_id": "4773",
+      "tags": ["Pop", "R&B"]
+    }
+  },
+  "customerId": "spotify_user123"
+}
+```
+
+**Example Campaigns**:
+
+* **Rosie's Cheerleader**: Reward fans who like 3 songs by the same artist
+* **Album Boost**: Drive up listens on a new album by rewarding users who like a set number of songs from it
+
+With these event details, you can easily track and engage your customers by setting up campaigns in **Gameball**.
+
+---
+
+## Example 3: Tracking Physical Events
+
+Imagine you're hosting an on-ground event, like a conference, and want to track attendance at different sessions to boost engagement.
+
+<Frame>
+<img src="https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/VxIrG07NTgJwyhwTfydj/Tracking%20Player%20Events%20(2).png" alt="Physical event tracking" />
+</Frame>
+
+### Sending an "Attend Session" Event
+
+Using a QR code, you can log details every time an attendee enters a session. Here's how the event might look:
+
+```json
+{
+  "events": {
+    "attend_session": {
+      "session_id": "231402",
+      "title": "Using Artificial Intelligence for Marketing Analytics",
+      "event_id": "15",
+      "session_duration": 90,
+      "category": "AI"
+    }
+  },
+  "customerId": "attendee_123"
+}
+```
+
+**Example Campaigns**:
+
+* **AI Warrior**: Reward users for attending three AI-related sessions
+* **Session Hero**: Motivate attendees to attend a specific session by awarding points for checking in
+
+With event data like session duration and category, you can engage attendees and reward them for specific behaviors, making their event experience more interactive.
+
+---
+
+## How to Use Gameball for Event-Based Campaigns
+
+### 1. Set Up Rewards
+
+Click on **Create Campaign → Rewards** to create campaigns triggered by events.
+
+<Frame caption="Create Reward Campaign">
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2Fla6NKYQB2b3Rzxkob8pF%2FReward%20Campaign.gif?alt=media&token=baf20f23-0656-489e-ba15-b59dc76b2af3" alt="Create Reward Campaign" />
+</Frame>
+
+<Frame caption="Rosie's Cheerleader Reward Campaign">
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FlD85DmT9pFHDeopXogen%2Fimage.png?alt=media&token=745a00d2-21a0-412d-ae07-ece6bceb88bb" alt="Rosie's Cheerleader Reward Campaign" />
+</Frame>
+
+### 2. Send Messages
+
+Click on **Create Campaign → Communication**, you can create messages based on event conditions, like offering a discount when certain products are in the cart.
+
+<Frame caption="Create Communication Campaign">
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2Fm1abGtsY94IFu874O4ih%2FCommunication%20Campaign.gif?alt=media&token=eb1cf869-0a27-4a30-b4d1-e4539fd68bf5" alt="Create Communication Campaign" />
+</Frame>
+
+<Frame caption="Rosie's Cheerleader Communication Campaign">
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FONlFAXZAOD0mHYb5lWFj%2Fimage.png?alt=media&token=e2c1ff76-0aa1-497d-ae83-3c2e55141aa8" alt="Rosie's Cheerleader Communication Campaign" />
+</Frame>
+
+---
+
+## Advanced: Event Engine Configuration
+
+Once you're tracking events, you'll want to configure how Gameball responds to them using the **Event Engine**. The Event Engine provides powerful operators to create sophisticated campaign rules based on customer behavior.
+
+<Card 
+  title="Using the Event Engine" 
+  icon="gear"
+  href="https://help.gameball.co/en/articles/5496705-using-the-event-engine"
+>
+  Learn how to use key operators (Equals, Different Values, Accumulative Total, Repeated Value) to create advanced reward campaigns, referral programs, and communication campaigns based on tracked events.
+</Card>
+
+---
+
+## Additional Resources
+
+<CardGroup cols={2}>
+  <Card title="Send Events API" icon="code" href="/api-reference/events/send-events">
+    Complete API documentation for tracking events
+  </Card>
+  <Card title="Event Engine Guide" icon="book" href="https://help.gameball.co/en/articles/5496705-using-the-event-engine">
+    Dashboard configuration and advanced operators
+  </Card>
+</CardGroup>
+
+---
+
+By capturing key actions through events, you can build an interactive experience that keeps customers engaged, both online and offline. With Gameball, the possibilities are endless—now it's your turn to make the most of them!
+

@@ -1,15 +1,177 @@
 ---
-title: 'Convert Points to Coupons'
-description: 'Generate discount coupons from loyalty points'
+title: "Convert Points to Coupons"
+description: "Generate discount coupons from loyalty points"
 ---
 
 # Convert Points to Coupons
 
-Allow customers to convert their loyalty points into discount coupons.
+Let your customers turn their loyalty points into powerful discount coupons they can use at checkout. Whether for promotions, rewards, or referrals, couponing is a flexible and strategic way to boost retention and drive more conversions.
 
-## Redemption Methods
+## What is Coupon Redemption?
 
-Choose between:
-- Your own couponing engine
-- Gameball discount engine
+Coupon Redemption lets customers exchange their points for **discount codes** (e.g., “10% OFF” or “FREESHIP”) that they can apply during checkout. This method is perfect for creating **flexible promotional offers**, tracking engagement, and giving marketers and product teams control over distribution and visibility.
+
+Gameball’s couponing system supports a wide range of use cases:
+
+| **Scenario**            | **Example**                                              |
+| ----------------------- | -------------------------------------------------------- |
+| **Seasonal Campaigns**  | “Black Friday Deal, Redeem points for 20% OFF!”          |
+| **Loyalty Rewards**     | “Redeem 500 points for a \$10 discount coupon.”          |
+| **Product Promotions**  | “Use a \$5 coupon on all shoes, redeemable with points.” |
+| **Referral Bonuses**    | “Invite a friend, get a \$10 coupon.”                    |
+| **Gamified Challenges** | “Complete 3 orders this month and earn 15% OFF”          |
+
+**Each coupon can be tailored with:**
+
+- Expiration rules
+- Usage limits
+- Coupon types (fixed discount, percentage, free shipping, etc.)
+
+Gameball allows you to configure when and how coupons are triggered, making reward delivery automatic and context-driven
+
+<Frame>
+  Add help center article explaining this.}
+</Frame>
+
+## How Customers Get Coupons
+
+Gameball supports **two redemption pathways**, depending on whether the customer actively redeems or earns a coupon automatically:
+
+### **1. Convert loyalty points into discount coupons**
+
+Customers spend their loyalty points to receive a discount coupon, which they can then apply at checkout.
+
+This method gives users a sense of control over how they use their points, whether it’s for percentage-based discounts, fixed amounts, or other reward types.
+
+<img
+  src="/images/image.png"
+  alt="Image Pn"
+  title="Image Pn"
+  className="mx-auto"
+  style={{ width:"67%" }}
+/>
+
+#### **Example Customer Journey:**
+
+<Steps>
+  <Step title="The user is presented with available redemption options, like:">
+    - “Redeem 500 points for a 10% OFF coupon.”
+    - “Redeem 1,000 points for \$20 OFF”
+  </Step>
+  <Step title="The user selects a desired option.">
+    
+  </Step>
+  <Step title="A coupon code is generated and shown to the user.">
+    
+  </Step>
+  <Step title="The user pastes this code into the coupon input field at checkout to receive the discount.">
+    
+  </Step>
+</Steps>
+
+#### **Implementation Note:**
+
+There are **two ways** to implement this flow, depending on your desired level of customization:
+
+- **Via Gameball’s Widget\
+  **\
+   Customers access and redeem coupon options directly through the embedded Gameball customer widget.\
+  \
+   _(Ideal for faster implementation without building custom UI)_
+- **Using Custom UI Elements\
+  **\
+   You build your own redemption interface (e.g., a “Use My Points” screen). Behind the scenes, your system interacts with Gameball APIs to retrieve rules and generate the coupon.\
+  \
+   _(Ideal for apps or platforms seeking a native and branded experience)_
+
+#### **_Backend Flexibility:_**
+
+_Whether you use the widget or your own UI, the actual coupon creation can be powered by either:_
+
+- **_Gameball’s Built-in Couponing Engine\
+  _**_\
+   Use _[_POST /generate-coupon_](https://gameball.mintlify.app/api-reference/coupons/generate-coupon)_ to issue a discount code based on a configured rule._
+
+**_Your Own Couponing System\
+_**_\
+ Gameball can trigger your backend through a webhook or a configured API call to generate and return a coupon code from your system._
+
+### **2. Coupon Received as Reward from campaigns/referral/automation**
+
+Customers **receive a coupon automatically** without using points, typically as part of a Gameball campaign or milestone.
+
+#### **Examples:**
+
+- “ You completed the ‘Spend \$100 Challenge’. Here’s 15% OFF!”
+- “ Welcome Gift: Use this \$5 OFF coupon just for signing up.”
+
+These coupons are automatically created and delivered via Gameball’s campaign engine; no action needed from the customer.
+
+<img
+  src="/images/image118.png"
+  alt="Image118 Pn"
+  title="Image118 Pn"
+  className="mx-auto"
+  style={{ width:"36%" }}
+/>
+
+## **How to Integrate Coupon-Based Redemption with Gameball**
+
+Choose from **two integration methods**, based on your system architecture and flexibility needs:
+
+### **1. Use Your Own Couponing Engine**
+
+If your business already uses its own system to manage coupon creation, whether through a custom-built backend or an e-commerce platform that supports coupon APIs (like Shopify, Magento, etc.). Gameball can connect to it smoothly.
+
+In this approach, **Gameball does not generate the coupon code directly**. Instead, when a customer qualifies for a coupon-based reward, **Gameball sends a webhook** (an automated HTTP request) to your system. This request contains the relevant customer and reward details, requesting that your system generate a coupon code.
+
+Your system is then responsible for creating the coupon, using your own logic, restrictions, or API, and sending the generated code back to Gameball. Once received, Gameball shows the coupon to the customer through its widget or your custom UI.
+
+**You define:**
+
+- Coupon creation endpoint
+- Payload structure
+- Rules and logic for each coupon
+
+ **Best for**: full backend control, advanced logic
+
+You handle: expiry, formatting, multi-channel rules
+
+<Note>
+  To learn how to configure your couponing system to work with Gameball and enable coupon generation via webhooks, visit this [<u>Help Center article</u>](https://help.gameball.co/en/articles/7928931-request-coupon-creation-from-your-couponing-engine) for step-by-step guidance.
+</Note>
+
+### **2. Use Gameball’s Native Couponing Engine**
+
+Let Gameball manage coupon creation, validation, and redemption for you,  fully configurable via the Gameball dashboard.
+
+**You can:**
+
+- Set redemption rules (e.g., 500 points = 10% OFF)
+- Control coupon formats and discount types
+- Track usage and campaign attribution
+
+ **Best for**: fast setup and simple workflows
+
+Great for: marketers, CX teams, and non-technical users
+
+To understand how to set up your coupon rules and enable Gameball to generate coupon codes on your behalf, visit this [<u>Help Center article</u>](https://help.gameball.co/en/articles/10128466-introduction-to-gameball-s-coupon-engine).
+
+<Note>
+  If you are using a Gameball-supported integration (such as Shopify, Magento, or WooCommerce), no additional integration is needed; this is already handled automatically.
+</Note>
+
+### **Coupon-Based Redemption Scenarios Summary**
+
+| **Redemption Method** | **Triggered By**  | **Coupon Visible?** | **Points Spent?** | **Example**                     |
+| :-------------------- | :---------------- | :------------------ | :---------------- | :------------------------------ |
+| Points Redemption     | Customer          | Yes                 | Yes               | “Redeem 500 points for 10% OFF” |
+| Reward Coupon         | Gameball campaign | Yes                 | No                | “You unlocked 15% OFF!”         |
+
+## Final Tip
+
+<Tip>
+  - Use **Points-to-Coupon Redemption** when you want the customer to feel ownership and value from their points.
+  - Use **Auto Coupon Rewards** to create surprise moments and reward engagement automatically.
+</Tip>
 
