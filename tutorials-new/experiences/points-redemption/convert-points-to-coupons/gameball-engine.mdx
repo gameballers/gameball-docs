@@ -1,17 +1,418 @@
 ---
-title: 'Redeem Through Gameball Discount Engine'
-description: "Use Gameball's built-in discount system"
+title: "Redeem Through Gameball Discount Engine"
+description: "Use Gameball's built-in discount engine for coupon validation and burning."
 ---
 
-# Redeem Through Gameball Discount Engine
+# **Gameball Couponing Engine Integration**
 
-Use Gameball's built-in discount engine for coupon validation and burning.
+Enable your customers to convert loyalty points into discount coupons and apply them at checkout with secure, API-driven flows. Gameball’s built-in coupon engine makes issuing, validating, and redeeming coupons easy, across both **web** and **mobile**.
 
-## Overview
+## **Why Use Gameball’s Couponing Engine?**
 
-Benefits of using Gameball's engine:
-- Platform-agnostic solution
-- Centralized coupon management
-- Advanced validation rules
-- Real-time tracking
+Gameball’s native engine provides:
+
+- Unique coupon code generation (SAVE10, FREESHIP, etc.)
+- Real-time coupon validation and locking to prevent misuse
+- Direct coupon application at checkout via API
+- Refund-safe logic (burn or release on success/failure)
+- Omnichannel support, coupons work online **and** in-store
+
+## **Implementation Overview**
+
+Gameball supports two implementation paths:
+
+| **Implementation**  | **Description**                                                                                                                                |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gameball Widget** | Coupon creation, visibility, and redemption are handled automatically via the widget. You only need to validate and apply coupons at checkout. |
+| **Custom UI**       | You are responsible for displaying reward options, generating coupons, and surfacing them at checkout using Gameball’s APIs.                   |
+
+## **Step-by-Step Integration (with Both Flows)**
+
+### **Step 1: Show Available Redemption Options**
+
+<Tabs>
+  <Tab title="Gameball Widget">
+    Handled by the widget, the customer sees eligible redemption options inside the widget.
+
+    <img
+      src="/images/image(124).png"
+      alt="Image(124) Pn"
+      title="Image(124) Pn"
+      style={{ width:"26%" }}
+    />
+  </Tab>
+  <Tab title="Custom UI">
+    You must fetch and display all eligible redemption options.
+
+    **API:**
+
+    [GET /customers//redemption-configurations](https://gameball.mintlify.app/api-reference/configurations/reward-configurations/redemption-settings)
+
+    <ResponseExample>
+
+    ```filename
+    {
+      "redemptionConfigurations": [
+        {
+          "id": 2138,
+          "title": "Redeem 100 Points for $10 OFF",
+          "pointsRequired": 100,
+          "coupon": {
+            "couponType": "fixed",
+            "discountValue": 10.0,
+            "currency": "USD",
+            "validityDays": 30
+          }
+        },
+        {
+          "id": 2139,
+          "title": "Redeem 200 Points for Free Shipping",
+          "pointsRequired": 200,
+          "coupon": {
+            "couponType": "free_shipping",
+            "validityDays": 15
+          }
+        }
+      ]
+    }
+    ```
+
+    </ResponseExample>
+
+    <img
+      src="/images/image(123).png"
+      alt="Image(123) Pn"
+      title="Image(123) Pn"
+      className="mx-auto"
+      style={{ width:"84%" }}
+    />
+  </Tab>
+</Tabs>
+
+---
+
+### **Step 2: Generate Coupon**
+
+<Tabs>
+  <Tab title="Gamball Widget">
+    Automatically triggered inside the widget when a redemption is made. No API call is needed.
+
+    <img
+      src="/images/redemptionthroughwidget-ezgif.com-video-to-gif-converter.gif"
+      alt="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
+      title="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
+      className="mx-auto"
+      style={{ width:"27%" }}
+    />
+  </Tab>
+  <Tab title="Custom UI">
+    You must call the Generate Coupon API when a customer chooses a reward. By pressing the redeem button, the [Generate Coupon API ](https://gameball.mintlify.app/api-reference/coupons/generate-coupon)should be triggered, where the output is another UI representing the coupon generated with the coupon code from the API's response for the customer to use
+
+    <img
+      src="/images/image(126).png"
+      alt="Image(126) Pn"
+      title="Image(126) Pn"
+      className="mx-auto"
+      style={{ width:"51%" }}
+    />
+
+    <img
+      src="/images/image(125).png"
+      alt="Image(125) Pn"
+      title="Image(125) Pn"
+      className="mx-auto"
+      style={{ width:"53%" }}
+    />
+
+    <RequestExample>
+
+    ```json filename
+    {
+      "ruleId": "12345",
+      "customerId": "customer123",
+      "email": "customer@example.com",
+      "mobile": "+1234567890"
+    }
+    ```
+
+    </RequestExample>
+
+    <ResponseExample>
+
+    ```json filename
+    {
+      "code": "SAVE10",
+      "startDate": "2024-11-01T00:00:00Z",
+      "expiryDate": "2024-12-01T23:59:59Z",
+      "usageLimit": 1,
+      "discountValue": 10,
+      "minOrderValue": 50,
+      "type": "fixed"
+    }
+    ```
+
+    </ResponseExample>
+  </Tab>
+</Tabs>
+
+---
+
+### **Step 3: Display Coupons at Checkout**
+
+<Tabs>
+  <Tab title="Gameball Widget">
+    Customers can open “My Coupons” inside the widget to copy and apply a coupon.
+
+    <img
+      src="/images/viewmycouponsonwidget-ezgif.com-video-to-gif-converter.gif"
+      alt="Viewmycouponsonwidget Ezgif Com Video To Gif Converter Gi"
+      title="Viewmycouponsonwidget Ezgif Com Video To Gif Converter Gi"
+      className="mx-auto"
+      style={{ width:"30%" }}
+    />
+  </Tab>
+  <Tab title="Custom UI">
+    You must fetch and show all active customer coupons on your checkout page.
+
+    <img
+      src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
+      alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
+      title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+      className="mx-auto"
+      style={{ width:"34%" }}
+    />
+
+    **API:**
+
+    [GET /customers//coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
+
+    <ResponseExample>
+
+    ```json filename
+    {
+      "coupons": [
+        {
+          "code": "GB2024",
+          "type": "percentage",
+          "value": 15,
+          "expiryDate": "2024-12-31T23:59:59Z",
+          "isUsed": false
+        },
+        {
+          "code": "GBFREESHIP",
+          "type": "shipping",
+          "value": 0,
+          "expiryDate": "2024-11-30T23:59:59Z",
+          "isUsed": false
+        }
+      ]
+    }
+    ```
+
+    </ResponseExample>
+
+    **Suggested UI Behavior:**
+
+    - Show coupon name, value, and expiry
+    - Allow the customer to select one, which fills the input field automatically
+  </Tab>
+</Tabs>
+
+---
+
+### **Step 4: Validate & Lock the Coupon**
+
+<Tabs>
+  <Tab title="Gameball Widget">
+    Not handled by widget. You must validate and lock the coupon before applying it at checkout.
+  </Tab>
+  <Tab title="Custom UI">
+    Same as widget, you must validate and lock the coupon before applying it.
+  </Tab>
+</Tabs>
+
+<img
+  src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
+  alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"34%" }}
+/>
+
+**API Options:**
+
+- [Validate Single Coupon](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon)
+- [Validate Multiple Coupons ](https://gameball.mintlify.app/api-reference/coupons/validate-multiple-coupons)
+
+**Use Case: Mixed Coupons Applied in a Single Order**
+
+Imagine your checkout allows customers to stack or combine different coupon types on the same order. For example:
+
+- One discount coupon: SAVE10 (\$10 off)
+- One free shipping coupon: FREESHIP (waives shipping fees)
+
+At checkout, the customer selects both coupons to maximize savings.
+
+**You must:**
+
+1. Verify that each coupon is still valid and not expired.
+2. Lock both coupons together so no other session can reuse them while the customer completes payment.
+
+ In this case, POST /validate-coupons lets you validate and lock both in one atomic call.
+
+<RequestExample>
+
+```json filename
+{
+  "customerId": "cust_12345",
+  "coupons": ["SAVE10", "FREESHIP"],
+  "lock": true
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json filename
+{
+  "lockReference": "abc123lock",
+  "valid": true,
+  "coupons": [
+    {
+      "code": "SAVE10",
+      "type": "fixed",
+      "value": 10
+    },
+    {
+      "code": "FREESHIP",
+      "type": "shipping",
+      "value": 0
+    }
+  ]
+}
+```
+
+</ResponseExample>
+
+<Note>
+  Save the lockReference. It is required in the next step.
+</Note>
+
+<Tip>
+  **When This is Helpful:**
+
+  - You allow **multiple coupon stacking** in one order
+  - You need to **lock them together** to avoid conflicts
+  - You want to handle validation in one API call for efficiency
+</Tip>
+
+### **Step 5: Burn (Apply) the Coupon**
+
+<Tabs>
+  <Tab title="Gameball Widget">
+    Not handled by the widget. You must finalize the coupon usage.
+  </Tab>
+  <Tab title="Custom UI">
+    Same as the widget, you must finalize usage.
+  </Tab>
+</Tabs>
+
+<img
+  src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
+  alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"35%" }}
+/>
+
+**Option A: Burn Manually**
+
+[POST /burn-coupon](https://gameball.mintlify.app/api-reference/coupons/burn-coupon)
+
+<RequestExample>
+
+```json filename
+{
+  "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e"
+}
+```
+
+</RequestExample>
+
+**Option B: Use Order API (Recommended)**
+
+[POST /order](https://gameball.mintlify.app/api-reference/order/order-tracking)
+
+<RequestExample>
+
+```filename
+{
+  "customerId": "customer123",
+  "orderId": "ORD123",
+  "totalPaid": 90,
+  "orderDate": "2024-10-16T12:00:00Z",
+  "redemption": {
+    "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e"
+  }
+}
+```
+
+</RequestExample>
+
+<Info>
+  The Order API burns the coupon and logs the order in one step.
+</Info>
+
+### **Step 6: Release Coupon (If Checkout Fails or Is Abandoned)**
+
+<Tabs>
+  <Tab title="Gameball Widget">
+    Not handled by widget. You must manually release or rely on timeout.
+  </Tab>
+  <Tab title="Custom UI">
+    Same, handle manual or automatic release based on your flow.
+
+    /ima
+  </Tab>
+</Tabs>
+
+<img
+  src="/images/couponrelease-ezgif.com-video-to-gif-converter.gif"
+  alt="Couponrelease Ezgif Com Video To Gif Converter Gi"
+  title="Couponrelease Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"39%" }}
+/>
+
+**Manual Release API:**
+
+[POST /release-coupon](https://gameball.mintlify.app/api-reference/coupons/release-coupons)
+
+<RequestExample>
+
+```json filename
+{
+  "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e"
+}
+```
+
+</RequestExample>
+
+<Tip>
+  **Automatic Release:**
+
+  Configure the timeout duration in your Gameball dashboard under _Coupon Settings_.
+</Tip>
+
+## **Summary Table**
+
+| **Step**                   | **API**                          | **Widget** | **Custom UI** |
+| :------------------------- | :------------------------------- | :--------- | :------------ |
+| 1. Show Redemption Options | GET /redemption-configurations   | (Auto)     | (Manual)      |
+| 2. Generate Coupon         | POST /generate-coupon            | Auto       | (Manual)      |
+| 3. Display Coupons         | GET /customers/id/coupons        | Auto       | (Manual)      |
+| 4. Validate & Lock         | POST /validate-coupon(s)         | Auto       | Required      |
+| 5. Burn/Apply              | POST /burn-coupon or POST /order | Manual     | ✅             |
+| 6. Release                 | POST /release-coupon             | ❌          | ✅             |
 
