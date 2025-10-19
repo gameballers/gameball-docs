@@ -35,10 +35,11 @@ Gameball supports two implementation paths:
     Handled by the widget, the customer sees eligible redemption options inside the widget.
 
     <img
-      src="/images/image(124).png"
+      src="/images/redemption-options.png"
       alt="Image(124) Pn"
       title="Image(124) Pn"
-      style={{ width:"26%" }}
+      className="mx-auto"
+      style={{ width:"35%" }}
     />
   </Tab>
   <Tab title="Custom UI">
@@ -50,7 +51,7 @@ Gameball supports two implementation paths:
 
     <ResponseExample>
 
-    ```filename
+    ```
     {
       "redemptionConfigurations": [
         {
@@ -80,11 +81,11 @@ Gameball supports two implementation paths:
     </ResponseExample>
 
     <img
-      src="/images/image(123).png"
+      src="/images/redeem-ui.png"
       alt="Image(123) Pn"
       title="Image(123) Pn"
       className="mx-auto"
-      style={{ width:"84%" }}
+      style={{ width:"35%" }}
     />
   </Tab>
 </Tabs>
@@ -102,7 +103,7 @@ Gameball supports two implementation paths:
       alt="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
       title="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
       className="mx-auto"
-      style={{ width:"27%" }}
+      style={{ width:"35%" }}
     />
   </Tab>
   <Tab title="Custom UI">
@@ -113,7 +114,7 @@ Gameball supports two implementation paths:
       alt="Image(126) Pn"
       title="Image(126) Pn"
       className="mx-auto"
-      style={{ width:"51%" }}
+      style={{ width:"35%" }}
     />
 
     <img
@@ -121,12 +122,12 @@ Gameball supports two implementation paths:
       alt="Image(125) Pn"
       title="Image(125) Pn"
       className="mx-auto"
-      style={{ width:"53%" }}
+      style={{ width:"35%" }}
     />
 
     <RequestExample>
 
-    ```json filename
+    ```json 
     {
       "ruleId": "12345",
       "customerId": "customer123",
@@ -139,7 +140,7 @@ Gameball supports two implementation paths:
 
     <ResponseExample>
 
-    ```json filename
+    ```json 
     {
       "code": "SAVE10",
       "startDate": "2024-11-01T00:00:00Z",
@@ -168,7 +169,7 @@ Gameball supports two implementation paths:
       alt="Viewmycouponsonwidget Ezgif Com Video To Gif Converter Gi"
       title="Viewmycouponsonwidget Ezgif Com Video To Gif Converter Gi"
       className="mx-auto"
-      style={{ width:"30%" }}
+      style={{ width:"35%" }}
     />
   </Tab>
   <Tab title="Custom UI">
@@ -179,7 +180,7 @@ Gameball supports two implementation paths:
       alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
       title="Couponredemption Ezgif Com Video To Gif Converter Gi"
       className="mx-auto"
-      style={{ width:"34%" }}
+      style={{ width:"35%" }}
     />
 
     **API:**
@@ -188,7 +189,7 @@ Gameball supports two implementation paths:
 
     <ResponseExample>
 
-    ```json filename
+    ```json 
     {
       "coupons": [
         {
@@ -236,7 +237,7 @@ Gameball supports two implementation paths:
   alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
   title="Couponredemption Ezgif Com Video To Gif Converter Gi"
   className="mx-auto"
-  style={{ width:"34%" }}
+  style={{ width:"35%" }}
 />
 
 **API Options:**
@@ -262,7 +263,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 <RequestExample>
 
-```json filename
+```json 
 {
   "customerId": "cust_12345",
   "coupons": ["SAVE10", "FREESHIP"],
@@ -274,7 +275,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 <ResponseExample>
 
-```json filename
+```json 
 {
   "lockReference": "abc123lock",
   "valid": true,
@@ -332,7 +333,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 <RequestExample>
 
-```json filename
+```json 
 {
   "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e"
 }
@@ -346,7 +347,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 <RequestExample>
 
-```filename
+```
 {
   "customerId": "customer123",
   "orderId": "ORD123",
@@ -382,7 +383,7 @@ At checkout, the customer selects both coupons to maximize savings.
   alt="Couponrelease Ezgif Com Video To Gif Converter Gi"
   title="Couponrelease Ezgif Com Video To Gif Converter Gi"
   className="mx-auto"
-  style={{ width:"39%" }}
+  style={{ width:"35%" }}
 />
 
 **Manual Release API:**
@@ -391,7 +392,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 <RequestExample>
 
-```json filename
+```json 
 {
   "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e"
 }
@@ -405,14 +406,20 @@ At checkout, the customer selects both coupons to maximize savings.
   Configure the timeout duration in your Gameball dashboard under _Coupon Settings_.
 </Tip>
 
-## **Summary Table**
+## **Summary: Widget vs Custom UI Integration**
 
-| **Step**                   | **API**                          | **Widget** | **Custom UI** |
-| :------------------------- | :------------------------------- | :--------- | :------------ |
-| 1. Show Redemption Options | GET /redemption-configurations   | (Auto)     | (Manual)      |
-| 2. Generate Coupon         | POST /generate-coupon            | Auto       | (Manual)      |
-| 3. Display Coupons         | GET /customers/id/coupons        | Auto       | (Manual)      |
-| 4. Validate & Lock         | POST /validate-coupon(s)         | Auto       | Required      |
-| 5. Burn/Apply              | POST /burn-coupon or POST /order | Manual     | ✅             |
-| 6. Release                 | POST /release-coupon             | ❌          | ✅             |
+This table shows what you need to implement for each approach:
+
+| **Step**                   | **API Endpoint**                 | **Using Gameball Widget** | **Building Custom UI** |
+| :------------------------- | :------------------------------- | :------------------------ | :--------------------- |
+| 1. Show Redemption Options | `GET /redemption-configurations` | ✅ Handled by widget      | ⚙️ You must call API    |
+| 2. Generate Coupon         | `POST /generate-coupon`          | ✅ Handled by widget      | ⚙️ You must call API    |
+| 3. Display Coupons         | `GET /customers/id/coupons`      | ✅ Handled by widget      | ⚙️ You must call API    |
+| 4. Validate & Lock         | `POST /validate-coupon(s)`       | ⚙️ You must implement     | ⚙️ You must implement   |
+| 5. Burn/Apply Coupon       | `POST /burn-coupon` or `/order`  | ⚙️ You must implement     | ⚙️ You must implement   |
+| 6. Release (if cancelled)  | `POST /release-coupon`           | ⚙️ You must implement     | ⚙️ You must implement   |
+
+**Legend:**
+- ✅ **Handled by widget** - Gameball automatically handles this step
+- ⚙️ **You must implement** - You need to call the API in your code
 
