@@ -3,7 +3,13 @@ title: "Taxes and Shipping Exclusion"
 description: "Exclude taxes and shipping from point calculations"
 ---
 
-# Overview
+# Taxes and Shipping Exclusion
+
+<Note>
+  This is an advanced order handling scenario. If you're new to order integration, start with [Submitting Orders](/tutorials-new/experiences/order-handling/submit-order) first.
+</Note>
+
+## Overview
 
 Some businesses prefer to reward customers only on the **actual product value**, excluding **shipping fees** and **taxes** from the rewardable amount.\
 Gameball supports this behavior through a configurable setting.
@@ -35,10 +41,10 @@ Let’s say a customer places this order:
 - 2 × Moisturizer at **\$200 each** → **Subtotal = \$400**
 - 1 × Tote Bag at **\$150**
 - Shipping Fee = **\$50**
-- Tax on Moisturizer = **10 = \$20**
+- Tax on Moisturizer = **10% = \$20**
 - Tax on Tote Bag = **\$15**
-- Total Tax = **15 = \$35**
-- **Total Paid = 150 + 35 = \$635**
+- Total Tax = **\$20 + \$15 = \$35**
+- **Total Paid = \$400 + \$150 + \$50 + \$35 = \$635**
 
 ### Your API Payload
 
@@ -86,7 +92,7 @@ With **tax and shipping exclusions** turned on, Gameball calculates the **reward
 ## Key Takeaways
 
 <Note>
-    Gameball ensures customers are rewarded accurately, only for the**true value of products** .
+    Gameball ensures customers are rewarded accurately, only for the **true value of products**.
 </Note>
 
 **Remember to:**
@@ -94,4 +100,17 @@ With **tax and shipping exclusions** turned on, Gameball calculates the **reward
 - Include `totalShipping`, `totalTax`, and per-line `taxes` when this feature is active
 - Ensure the `taxes` field in each `lineItem` represents the **total tax for that product line** (`unit tax × quantity`)
 - Keep your data complete and consistent to guarantee precise reward calculations
+
+---
+
+## Related Topics
+
+<CardGroup cols={2}>
+  <Card title="Submitting Orders" icon="shopping-cart" href="/tutorials-new/experiences/order-handling/submit-order">
+    Back to main order submission guide
+  </Card>
+  <Card title="Collection-Based Earning" icon="tags" href="/tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning">
+    Configure rewards by product collections
+  </Card>
+</CardGroup>
 

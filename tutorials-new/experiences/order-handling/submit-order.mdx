@@ -5,19 +5,21 @@ description: "Integrate Gameball loyalty into order submission: earn points, red
 
 This guide provides a detailed walkthrough of how to integrate Gameball's loyalty and rewards features into your order submission process. The integration covers various scenarios to enhance your customers' shopping experience, including loyalty point accumulation, coupon usage, and seamless redemption.
 
+## Quick Overview
+
+| Scenario | Use Case | Key APIs | Complexity |
+|----------|----------|---------|------------|
+| **Basic Order** | Earn points on purchase | `POST /order` | ⭐ Simple |
+| **With Points Redemption** | Redeem points at checkout | `POST /hold-points` + `POST /order` | ⭐⭐ Medium |
+| **With Coupon Codes** | Apply discount codes | `POST /validate-coupon` + `POST /order` | ⭐⭐ Medium |
+
 <Info>
-The key scenarios addressed in this guide include:
-
-- **Earning Loyalty Points**: Automatically calculate and assign loyalty points based on a customer's order
-- **Redeeming Loyalty Points During Order Submission**: Allow customers to use their loyalty points to reduce the total amount
-- **Using Coupons in the Order**: Enable customers to apply coupon codes for specific discounts or benefits
-</Info>
-
 Each scenario outlines a practical process that focuses on customer interactions, ensuring they can easily navigate loyalty rewards, coupons, and promotions as they complete their purchases.
+</Info>
 
 ***
 
-## Submitting an Order
+## 1️⃣ Submitting an Order
 
 Let's explore how the **Orders API** works, starting with what your customers experience and how their actions on your e-commerce platform interact with Gameball to trigger rewards and campaigns.
 
@@ -26,15 +28,15 @@ Let's explore how the **Orders API** works, starting with what your customers ex
 ### Customer Journey
 
 <Steps>
-<Step title="Customer browses and adds items">
+<Step title="🛍️ Customer browses and adds items">
   A customer, Sarah, visits your e-commerce website and adds items to her cart.
 </Step>
 
-<Step title="Customer completes checkout">
+<Step title="💳 Customer completes checkout">
   At checkout, she places an order for a pair of sneakers worth $500 and pays successfully.
 </Step>
 
-<Step title="Order is confirmed">
+<Step title="✅ Order is confirmed">
   Sarah's order is confirmed and your system communicates with Gameball.
 </Step>
 </Steps>
@@ -43,47 +45,58 @@ Let's explore how the **Orders API** works, starting with what your customers ex
 
 ### What Happens in the Background
 
-<Info>
-**Order Details Sent to Gameball**
-
 The moment Sarah's order is completed, your website communicates with Gameball through the **Orders API**. This triggers a `place_order` event in the background, sending details like:
 
-**Order Information:**
-```json
-{
-  "orderId": "ORD12345",
-  "orderDate": "2024-10-16T08:13:29.290Z",
-  "totalPaid": 500.4,
-  "totalPrice": 500.4,
-  "totalShipping": 0.4
-}
-```
-
-**Products Purchased:**
-```json
-{
-  "lineItems": [
+<AccordionGroup>
+  <Accordion title="💰 Order Information">
+    Basic order metadata including totals and timestamps:
+    
+    ```json
     {
-      "price": 120,
-      "quantity": 1,
-      "productId": "PROD98765",
-      "sku": "SKU98765",
-      "title": "Black Sneakers",
-      "category": ["Shoes"],
-      "collection": ["Summer2024"]
+      "orderId": "ORD12345",
+      "orderDate": "2024-10-16T08:13:29.290Z",
+      "totalPaid": 500.4,
+      "totalPrice": 500.4,
+      "totalShipping": 0.4
     }
-  ]
-}
-```
+    ```
+  </Accordion>
 
-**Customer Information:**
-```json
-{
-  "customerId": "15327289462816"
-}
-```
+  <Accordion title="🛍️ Products Purchased">
+    Detailed product information for each item in the order:
+    
+    ```json
+    {
+      "lineItems": [
+        {
+          "price": 120,
+          "quantity": 1,
+          "productId": "PROD98765",
+          "sku": "SKU98765",
+          "title": "Black Sneakers",
+          "category": ["Shoes"],
+          "collection": ["Summer2024"]
+        }
+      ]
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="👤 Customer Information">
+    Customer identifier to link the order to the right profile:
+    
+    ```json
+    {
+      "customerId": "15327289462816"
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
 
 **Complete Order Request:**
+
+Here's what the full API payload looks like when everything is combined:
+
 ```json
 {
   "customerId": "15327289462816",
@@ -105,7 +118,6 @@ The moment Sarah's order is completed, your website communicates with Gameball t
   ]
 }
 ```
-</Info>
 
 ***
 
@@ -115,20 +127,7 @@ Once the `place_order` event is triggered:
 
 <Steps>
 <Step title="Order data mapping">
-  The Orders API automatically sends the order details to Gameball with the following mapping for the order event metadata:
-
-  | Order API Attribute      | Mapped to Event Object Attribute |
-  | ------------------------ | -------------------------------- |
-  | totalPaid                | total_paid                        |
-  | totalDiscount            | total_discount                    |
-  | lineItems[i].weight      | weight                            |
-  | lineItems[i].vendor      | vendor                            |
-  | lineItems[i].sku         | sku                               |
-  | lineItems[i].title       | title                             |
-  | lineItems[i].tag         | tag                               |
-  | lineItems[i].category    | category                          |
-  | lineItems[i].collection  | collection                        |
-  | extra.key[0]:value       | key[0]:value                      |
+  The Orders API automatically sends the order details to Gameball, mapping your order attributes to event metadata.
 </Step>
 
 <Step title="Campaign evaluation">
@@ -148,20 +147,53 @@ Once the `place_order` event is triggered:
 </Step>
 </Steps>
 
+<Accordion title="📋 Field Mapping Reference" icon="table">
+  Need to know exactly how order fields map to Gameball events? Here's the complete reference:
+
+  | Order API Attribute      | Mapped to Event Object Attribute |
+  | ------------------------ | -------------------------------- |
+  | totalPaid                | total_paid                        |
+  | totalDiscount            | total_discount                    |
+  | lineItems[i].weight      | weight                            |
+  | lineItems[i].vendor      | vendor                            |
+  | lineItems[i].sku         | sku                               |
+  | lineItems[i].title       | title                             |
+  | lineItems[i].tag         | tag                               |
+  | lineItems[i].category    | category                          |
+  | lineItems[i].collection  | collection                        |
+  | extra.key[0]:value       | key[0]:value                      |
+</Accordion>
+
 ***
 
 ### Seamless Automation
 
-<Tip>
-The **Orders API** eliminates extra work by:
-
-- Automatically triggering rewards based on Sarah's purchase (no need for manual event creation)
-- Connecting the order to multiple Gameball modules, such as cashback or campaign tracking
-</Tip>
+<CardGroup cols={2}>
+  <Card title="✅ With Orders API" icon="wand-magic-sparkles" color="#16a34a">
+    **Automated & Integrated**
+    - Auto reward triggering on purchase
+    - No manual event creation needed
+    - Multi-module integration (cashback, campaigns)
+    - Real-time balance updates
+    - Instant order-campaign linking
+  </Card>
+  <Card title="❌ Without Orders API" icon="triangle-exclamation" color="#dc2626">
+    **Manual & Fragmented**
+    - Manual event creation required
+    - Complex multi-step tracking
+    - Disconnected workflows
+    - Delayed reward processing
+    - Error-prone data entry
+  </Card>
+</CardGroup>
 
 **For instance:**
 
 - If Sarah qualifies for cashback, Gameball calculates the amount and updates her balance instantly and you can display it using the Get Customer Balance API.
+
+<Tip>
+  Want to show customers potential points **before** they place an order? Check out [Previewing Potential Points](/tutorials-new/experiences/order-handling/preview-points) to learn how to display points on product and cart pages.
+</Tip>
 
 <Frame>
 <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F2dP7cY7oBVCQzaOtkoMf%2Fimage.png?alt=media&token=f5ba5d00-4ee9-473a-bd62-2b75bed9a3cf" alt="Gameball widget displaying customer balance" />
@@ -191,17 +223,33 @@ Sarah's experience remains smooth and rewarding:
 
 ### Why This Matters
 
-By integrating the Orders API:
+<Check>
+**Seamless Customer Experience**
 
-- You provide a **seamless customer experience** while keeping them engaged with rewards
-- You **streamline internal processes**, saving time with automatic data mapping and event creation
-- You gain the flexibility to tie specific orders or products to targeted campaigns, driving sales effectively
+Keep customers engaged with rewards without adding friction to their purchase journey.
+</Check>
+
+<Check>
+**Streamlined Internal Processes**
+
+Save time with automatic data mapping and event creation—no manual work required.
+</Check>
+
+<Check>
+**Flexible Campaign Targeting**
+
+Tie specific orders or products to targeted campaigns, driving sales effectively.
+</Check>
 
 ***
 
-## Redeeming Points During Order Submission
+## 2️⃣ Redeeming Points During Order Submission
 
 Imagine a customer excited to redeem their hard-earned points while placing an order, but still wanting the freedom to browse and add more items to their cart before completing the purchase. With Gameball's redemption process, you can make this experience smooth and hassle-free by temporarily holding their points.
+
+<Info>
+  For a complete guide on redemption methods, see [Points Redemption Integration](/tutorials-new/experiences/points-redemption/index) which covers both direct points redemption and coupon-based redemption options.
+</Info>
 
 ***
 
@@ -209,19 +257,23 @@ Imagine a customer excited to redeem their hard-earned points while placing an o
 
 Let's explore how this works: Sarah has earned loyalty points and is now ready to redeem them for a discount on her order. She has 50 points and wants to redeem them for her current cart.
 
-<Steps>
-<Step title="Customer selects redemption option">
-  Sarah selects the option to redeem 50 points during checkout.
-</Step>
+<Check>
+**Step 1: Customer selects redemption option**
 
-<Step title="Points are held">
-  The system reserves the points for her transaction, allowing her to continue shopping without losing them.
-</Step>
+Sarah selects the option to redeem 50 points during checkout.
+</Check>
 
-<Step title="Customer completes order">
-  Sarah finishes browsing and proceeds to complete her order with the held points applied.
-</Step>
-</Steps>
+<Check>
+**Step 2: Points are held**
+
+The system reserves the points for her transaction, allowing her to continue shopping without losing them.
+</Check>
+
+<Check>
+**Step 3: Customer completes order**
+
+Sarah finishes browsing and proceeds to complete her order with the held points applied.
+</Check>
 
 ***
 
@@ -269,6 +321,10 @@ Once Sarah is ready to complete her order, the points will be applied to her pur
 
 Once Sarah completes her order, the **Hold Points API** response provides a **hold reference ID**. This reference ID is then used to link the held points to the order during the submission process.
 
+<Warning>
+  **Key Field:** Make sure to include the `pointsHoldReference` from the Hold Points API response in the `redemption` object. Without this, the held points won't be applied to the order.
+</Warning>
+
 <CodeGroup>
 ```json Order Request with Held Points
 {
@@ -287,7 +343,7 @@ Once Sarah completes her order, the **Hold Points API** response provides a **ho
     }
   ],
   "redemption": {
-    "pointsHoldReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+    "pointsHoldReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"  // 👈 Link the held points here
   }
 }
 ```
@@ -321,21 +377,35 @@ The ability to hold points ensures that Sarah can make purchases confidently wit
 
 ### Why This Matters
 
-<Tip>
-**Benefits of Point Holds:**
+<Check>
+**Convenience for Customers**
 
-- **Convenience for Customers**: Redeem points without rushing through the order process
-- **Secure Redemption**: Points are securely held, eliminating worry about losing them
-- **Flexibility**: Redemption is applied seamlessly when ready to complete the order
-</Tip>
+Redeem points without rushing through the order process—shop at your own pace.
+</Check>
+
+<Check>
+**Secure Redemption**
+
+Points are securely held, eliminating worry about losing them across sessions or devices.
+</Check>
+
+<Check>
+**Flexible Shopping Experience**
+
+Redemption is applied seamlessly when ready to complete the order—no additional steps needed.
+</Check>
 
 By offering a smooth and flexible points redemption process, you not only enhance the customer's journey but also build greater trust and satisfaction.
 
 ***
 
-## Using Coupon Codes During Order Submission
+## 3️⃣ Using Coupon Codes During Order Submission
 
 Using coupon codes during order submission is an effective way to enhance the customer experience and boost sales. By validating and locking a coupon code, businesses can ensure that the discount is reserved exclusively for the customer, eliminating any risk of overuse or misuse.
+
+<Info>
+  Learn more about coupon-based redemption strategies in [Convert Points to Coupons](/tutorials-new/experiences/points-redemption/convert-points-to-coupons/index) which covers how customers can exchange points for discount coupons.
+</Info>
 
 <Tip>
 This feature is particularly valuable during high-demand campaigns or limited-time promotions, as locking the coupon creates urgency and encourages faster purchasing decisions.
@@ -347,31 +417,31 @@ This feature is particularly valuable during high-demand campaigns or limited-ti
 
 Let's see how this works:
 
-<Steps>
-<Step title="Customer has a coupon">
-  Sarah is browsing your website and has a coupon code, offering her **10% off**.
-  
-  <Frame>
-  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FS6WpEkOgDgpklxMXBp0r%2Fimage.png?alt=media&token=61fca429-1552-42d6-872b-17d49e4cd557" alt="Coupon shown on site" />
-  </Frame>
-</Step>
+<AccordionGroup>
+  <Accordion title="🎟️ Step 1: Customer has a coupon">
+    Sarah is browsing your website and has a coupon code, offering her **10% off**.
+    
+    <Frame>
+    <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FS6WpEkOgDgpklxMXBp0r%2Fimage.png?alt=media&token=61fca429-1552-42d6-872b-17d49e4cd557" alt="Coupon shown on site" />
+    </Frame>
+  </Accordion>
 
-<Step title="Customer enters coupon code">
-  She decides to use the coupon and proceeds to checkout, where she enters her coupon code.
-  
-  <Frame>
-  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FOriPWunIjpaF9Bq19BQF%2Fimage.png?alt=media&token=477a5ad6-6da1-4f14-9786-2071ffd28702" alt="Customer enters coupon code at checkout" />
-  </Frame>
-</Step>
+  <Accordion title="⌨️ Step 2: Customer enters coupon code">
+    She decides to use the coupon and proceeds to checkout, where she enters her coupon code.
+    
+    <Frame>
+    <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FOriPWunIjpaF9Bq19BQF%2Fimage.png?alt=media&token=477a5ad6-6da1-4f14-9786-2071ffd28702" alt="Customer enters coupon code at checkout" />
+    </Frame>
+  </Accordion>
 
-<Step title="Coupon is validated and locked">
-  The system validates and locks the coupon for her exclusive use.
-  
-  <Check>
-  Once the coupon is locked, Sarah can continue browsing and adding products to her cart, knowing that the coupon will be applied when she finalizes her order.
-  </Check>
-</Step>
-</Steps>
+  <Accordion title="🔒 Step 3: Coupon is validated and locked">
+    The system validates and locks the coupon for her exclusive use.
+    
+    <Check>
+    Once the coupon is locked, Sarah can continue browsing and adding products to her cart, knowing that the coupon will be applied when she finalizes her order.
+    </Check>
+  </Accordion>
+</AccordionGroup>
 
 ***
 
@@ -445,6 +515,10 @@ The response confirms that the coupon code is valid and locked for Sarah's sessi
 
 When Sarah is ready to finalize her purchase, the **lockReference** returned in the **Validate Coupon Response** will be included in the order API request to apply the coupon to her final order.
 
+<Warning>
+  **Key Field:** Include the `couponsLockReference` from the Validate Coupon API response in the `redemption` object. This links the locked coupon to the final order.
+</Warning>
+
 ```json Order Request with Locked Coupon
 {
   "customerId": "15327289462816",
@@ -462,7 +536,7 @@ When Sarah is ready to finalize her purchase, the **lockReference** returned in 
     }
   ],
   "redemption": {
-    "couponsLockReference": "74e20fc6bf7a4970ad3c125b1713194f"
+    "couponsLockReference": "74e20fc6bf7a4970ad3c125b1713194f"  // 👈 Link the locked coupon here
   }
 }
 ```
@@ -488,14 +562,42 @@ The **couponsLockReference** ensures that the locked coupon is applied to the or
 
 ### Why This Matters
 
-<Tip>
-**Benefits of Coupon Locking:**
+<Check>
+**Enhanced Customer Experience**
 
-- **Enhanced Customer Experience**: Smooth and secure order completion with discounts applied seamlessly
-- **Eliminating Risk of Misuse**: Locked coupons are reserved for exclusive use, preventing misuse by others
-- **Increased Conversion Rates**: Coupon locks create urgency, encouraging faster purchasing decisions and boosting sales
-</Tip>
+Smooth and secure order completion with discounts applied seamlessly—no double-entry or verification delays.
+</Check>
+
+<Check>
+**Eliminating Risk of Misuse**
+
+Locked coupons are reserved for exclusive use, preventing misuse by others or accidental double-usage.
+</Check>
+
+<Check>
+**Increased Conversion Rates**
+
+Coupon locks create urgency, encouraging faster purchasing decisions and boosting sales.
+</Check>
 
 By locking coupons, businesses can ensure the integrity of their promotional efforts while providing customers with a personalized and rewarding shopping experience.
+
+***
+
+## 🚀 Advanced Order Handling Scenarios
+
+For most businesses, the basic order flows above are sufficient. However, certain business models require specialized configuration:
+
+<CardGroup cols={3}>
+  <Card title="Collection-Based Earning" icon="tags" href="/tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning">
+    Configure rewards based on specific product collections or categories
+  </Card>
+  <Card title="Taxes & Shipping Exclusion" icon="calculator" href="/tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion">
+    Exclude taxes and shipping from loyalty point calculations
+  </Card>
+  <Card title="Multi-Merchants & Branches" icon="store" href="/tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches">
+    Handle multiple stores, merchants, or branch locations
+  </Card>
+</CardGroup>
 
 ***

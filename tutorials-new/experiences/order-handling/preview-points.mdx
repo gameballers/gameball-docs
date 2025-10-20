@@ -5,6 +5,10 @@ description: "Show potential loyalty points on product and cart pages to drive c
 
 This guide explains how to enhance your e-commerce experience by displaying potential loyalty points customers can earn for their purchases. By providing this transparency, you can encourage purchases, highlight ongoing reward campaigns, and create urgency to act before campaigns expire.
 
+<Info>
+  After previewing points, you'll need to track the actual order. See [Submitting Orders](/tutorials-new/experiences/order-handling/submit-order) to learn how to integrate order submission with Gameball.
+</Info>
+
 ***
 
 ### Key Scenarios Addressed
@@ -148,8 +152,6 @@ The display shows her exactly how much she's gaining—her excitement grows as s
     "totalScore": 0,
     "lineItems": [
         {
-        
-        {
             "productId": "PROD67890",
             "quantity": 1,
             "totalDecimalPoints": 300.0,
@@ -162,6 +164,7 @@ The display shows her exactly how much she's gaining—her excitement grows as s
             "campaignName": "Triple Points",
             "campaignId": 1866
         },
+        {
             "productId": "PROD12345",
             "quantity": 2,
             "totalDecimalPoints": 300.0,
@@ -317,3 +320,16 @@ As Sarah browses through her cart, a timely notification grabs her attention: **
 ***
 
 With these engaging scenarios and compelling visuals, your loyalty program will not only showcase the exciting potential rewards but also inspire your customers to take action and maximize their benefits! 🚀✨ Ready to turn everyday shopping into an irresistible experience? Let the rewards begin! 🎉
+
+***
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Submit Orders" icon="shopping-cart" href="/tutorials-new/experiences/order-handling/submit-order">
+    Learn how to track completed orders and trigger rewards
+  </Card>
+  <Card title="Points Redemption" icon="gift" href="/tutorials-new/experiences/points-redemption/index">
+    Enable customers to redeem their earned points for rewards
+  </Card>
+</CardGroup>
