@@ -1,21 +1,383 @@
 ---
 title: 'Omni-Channel Handling'
-description: 'Unified loyalty across channels'
+description: 'Create a unified loyalty experience across all customer touchpoints using channel merging'
 ---
 
-# Omni-Channel Handling
 
-Create a seamless loyalty experience across all customer touchpoints.
+Create a seamless loyalty experience across all customer touchpoints—whether customers interact through your website, mobile app, physical stores, or other channels, Gameball's channel merging feature ensures they see consistent rewards and maintain a unified profile.
 
-## Channels
+***
 
-- Web
-- Mobile app
-- In-store POS
-- Social media
-- Customer service
+## Why Omni-Channel Matters
 
-## Channel Merging
+In multi-channel businesses, customers often interact through various touchpoints, each potentially using different customer IDs. Without channel merging, this can create fragmented experiences:
 
-Link customer profiles across channels for unified tracking and rewards.
+<CardGroup cols={2}>
+  <Card title="❌ Without Channel Merging" icon="triangle-exclamation" color="#dc2626">
+    **Fragmented Experience**
+    - Same customer appears as separate profiles across channels
+    - Points and rewards don't accumulate together
+    - Inconsistent loyalty status across touchpoints
+    - Customers miss out on unified rewards
+  </Card>
+  <Card title="✅ With Channel Merging" icon="wand-magic-sparkles" color="#16a34a">
+    **Unified Experience**
+    - Single customer profile across all channels
+    - All points and rewards consolidated
+    - Consistent loyalty status everywhere
+    - Seamless reward accumulation and redemption
+  </Card>
+</CardGroup>
 
+***
+
+## How Channel Merging Works
+
+Channel merging uses a secondary identifier (email or mobile number) alongside the customerId to recognize the same customer across different systems.
+
+<Steps>
+<Step title="Choose a Merging Identifier">
+  Configure your Gameball account to use either **email** or **mobile number** as the merging identifier.
+  
+  <Info>
+  Contact Gameball Support to enable channel merging, as it may be a premium feature. You can choose either email or mobile, but not both simultaneously.
+  </Info>
+</Step>
+
+<Step title="Include Identifier in API Requests">
+  Every API request from each channel should include:
+  - The channel-specific `customerId`
+  - The merging identifier (`email` or `mobile`) based on your configuration
+  
+  <Warning>
+  **Required Field**: If your account uses email-based merging, you must include `email` in every API request. If using mobile-based merging, include `mobile`. Without the merging identifier, profiles won't be unified.
+  </Warning>
+</Step>
+
+<Step title="Gameball Unifies Profiles">
+  Gameball automatically merges activities based on the secondary identifier, creating a single unified profile for loyalty tracking.
+</Step>
+</Steps>
+
+***
+
+## Customer Journey Example
+
+Let's follow Sarah's journey across different channels to see how channel merging works:
+
+### Scenario
+
+Sarah shops with your brand across multiple channels:
+
+<AccordionGroup>
+  <Accordion title="🌐 Online Store (Web)">
+    Sarah visits your website and makes a purchase. Your web platform assigns her `customerId: "web_user_12345"`.
+    
+    <CodeGroup>
+    ```json Order Submission (Web)
+    POST /api/v4.0/integrations/orders
+    {
+      "customerId": "web_user_12345",
+      "email": "sarah@example.com",
+      "channel": "web",
+      "orderId": "ORD_WEB_001",
+      "totalPaid": 150.00,
+      "lineItems": [...]
+    }
+    ```
+    </CodeGroup>
+    
+    <Check>
+    Sarah earns 150 points from this purchase.
+    </Check>
+  </Accordion>
+
+  <Accordion title="📱 Mobile App">
+    Later, Sarah downloads your mobile app. The app assigns her a different ID: `customerId: "mobile_user_67890"`.
+    
+    <CodeGroup>
+    ```json Order Submission (Mobile)
+    POST /api/v4.0/integrations/orders
+    {
+      "customerId": "mobile_user_67890",
+      "email": "sarah@example.com",
+      "channel": "mobile",
+      "orderId": "ORD_MOB_001",
+      "totalPaid": 200.00,
+      "lineItems": [...]
+    }
+    ```
+    </CodeGroup>
+    
+    <Check>
+    Sarah earns 200 points. With channel merging enabled, these points are added to her existing balance from the web purchase, giving her a total of 350 points.
+    </Check>
+  </Accordion>
+
+  <Accordion title="🏪 In-Store POS">
+    Sarah visits a physical store. The POS system assigns her yet another ID: `customerId: "pos_user_99999"`.
+    
+    <CodeGroup>
+    ```json Order Submission (POS)
+    POST /api/v4.0/integrations/orders
+    {
+      "customerId": "pos_user_99999",
+      "email": "sarah@example.com",
+      "channel": "pos",
+      "orderId": "ORD_POS_001",
+      "totalPaid": 100.00,
+      "lineItems": [...]
+    }
+    ```
+    </CodeGroup>
+    
+    <Check>
+    Sarah earns 100 points. All three purchases are now unified under one profile with 450 total points.
+    </Check>
+  </Accordion>
+</AccordionGroup>
+
+**Result**: Even though Sarah has three different customer IDs across channels, Gameball recognizes her through `sarah@example.com` and consolidates all her activities into a single profile with 450 total points.
+
+***
+
+## Supported Channels
+
+Gameball tracks the source channel through the `channel` field in API requests:
+
+<Tabs>
+<Tab title="Web">
+  Use `"channel": "web"` for transactions on your website.
+
+  <Note>
+  This includes desktop browsers, mobile browsers, and web-based progressive web apps (PWAs).
+  </Note>
+</Tab>
+
+<Tab title="Mobile App">
+  Use `"channel": "mobile"` for transactions in your native mobile application.
+
+  <Note>
+  This includes iOS, Android, React Native, and Flutter apps. The SDK automatically sets this channel for you.
+  </Note>
+</Tab>
+
+<Tab title="POS (Point of Sale)">
+  Use `"channel": "pos"` for in-person transactions at physical stores or outlets.
+
+  <Note>
+  Ideal for retail chains, restaurants, and businesses with brick-and-mortar locations.
+  </Note>
+</Tab>
+
+<Tab title="Call Center">
+  Use `"channel": "callcenter"` for transactions processed over the phone through customer service.
+
+  <Note>
+  Useful for businesses that handle orders or payments via phone support.
+  </Note>
+</Tab>
+</Tabs>
+
+***
+
+## Implementation Guide
+
+### Step 1: Enable Channel Merging
+
+Before implementing, ensure channel merging is enabled:
+
+<Steps>
+<Step title="Contact Gameball Support">
+  Reach out to Gameball Support to enable channel merging for your account.
+</Step>
+
+<Step title="Choose Merging Identifier">
+  Decide whether to use **email** or **mobile number** as your merging identifier.
+  
+  <Tip>
+  **Email-based merging** works well for businesses with email registration. **Mobile-based merging** is ideal for markets where phone numbers are more reliable identifiers.
+  </Tip>
+</Step>
+</Steps>
+
+### Step 2: Update API Requests
+
+Include the merging identifier in all relevant API requests. Here's where it's typically needed:
+
+<AccordionGroup>
+  <Accordion title="Orders API">
+    Include `email` or `mobile` when submitting orders:
+    
+    ```json
+    {
+      "customerId": "channel_specific_id",
+      "email": "customer@example.com",  // if using email-based merging
+      "channel": "web",
+      "orderId": "ORD123",
+      "totalPaid": 100.00,
+      "lineItems": [...]
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Payments API">
+    Include `email` or `mobile` when tracking payments:
+    
+    ```json
+    {
+      "customerId": "channel_specific_id",
+      "email": "customer@example.com",  // if using email-based merging
+      "channel": "mobile",
+      "paymentId": "PAY123",
+      "totalPaid": 50.00,
+      "paymentDetails": [...]
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Events API">
+    Include `email` or `mobile` when tracking customer events:
+    
+    ```json
+    {
+      "customerId": "channel_specific_id",
+      "email": "customer@example.com",  // if using email-based merging
+      "events": {
+        "profile_completed": {}
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Create/Update Customer API">
+    Include `email` or `mobile` when creating or updating customer profiles:
+    
+    ```json
+    {
+      "customerId": "channel_specific_id",
+      "email": "customer@example.com",  // if using email-based merging
+      "customerAttributes": {
+        "displayName": "John Doe",
+        "firstName": "John",
+        "lastName": "Doe"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Step 3: Test Across Channels
+
+<Warning>
+**Testing is Critical**: Before going live, test channel merging by making transactions from different channels with the same email or mobile number to verify profiles merge correctly.
+</Warning>
+
+***
+
+## Business Use Cases
+
+<Tabs>
+<Tab title="Retail Chain">
+  **Online and Offline Stores**
+  
+  A retail brand operates an online store and multiple physical locations. By enabling channel merging with mobile numbers as the identifier, every transaction (whether online or offline) contributes to the customer's unified loyalty profile.
+  
+  <Check>
+  Customers can shop online, earn points, then redeem those same points in-store—seamlessly.
+  </Check>
+</Tab>
+
+<Tab title="Fintech Platform">
+  **Web App and Mobile App**
+  
+  A fintech company offers both a web application and a mobile app. By using email as the merging identifier, Gameball consolidates customer profiles across both platforms.
+  
+  <Check>
+  Users can accumulate and redeem points from any interaction, whether they're paying bills on the web or mobile app.
+  </Check>
+</Tab>
+
+<Tab title="Restaurant Chain">
+  **Delivery App and In-Store Dining**
+  
+  A restaurant chain offers a mobile app for delivery and in-store dining. Using channel merging, they track all customer activities under a single profile.
+  
+  <Check>
+  Customers receive consistent loyalty rewards whether they order delivery through the app or dine in at a physical location.
+  </Check>
+</Tab>
+</Tabs>
+
+***
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Consistent Identifier" icon="key">
+    **Always Include Merging Identifier**
+    
+    Include the merging identifier (email or mobile) in every API request to ensure profiles merge correctly.
+  </Card>
+
+  <Card title="Channel Tracking" icon="location-dot">
+    **Set Channel Field**
+    
+    Always include the `channel` field to track where interactions originate for analytics and reporting.
+  </Card>
+
+  <Card title="Data Quality" icon="shield-check">
+    **Validate Identifiers**
+    
+    Ensure email addresses or mobile numbers are validated and normalized (consistent format) across all channels.
+  </Card>
+
+  <Card title="Customer Communication" icon="message">
+    **Inform Customers**
+    
+    Let customers know their loyalty account works across all channels for better engagement.
+  </Card>
+</CardGroup>
+
+***
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Can I use both email and mobile for merging?">
+    No, you must choose either email or mobile as your merging identifier. Choose based on which identifier is more reliable and consistent across your channels.
+  </Accordion>
+
+  <Accordion title="What happens if I forget to include the merging identifier?">
+    Without the merging identifier, Gameball cannot merge profiles. Each channel-specific customerId will remain as a separate profile. Always include the merging identifier in your API requests.
+  </Accordion>
+
+  <Accordion title="Can I change my merging identifier later?">
+    Changing your merging identifier after going live can be complex and may affect existing customer data. Contact Gameball Support to discuss migration strategies before making changes.
+  </Accordion>
+
+  <Accordion title="Does channel merging work with guest checkout?">
+    Yes, but you need to ensure the merging identifier is captured during guest checkout. Once the customer provides their email or mobile, include it in the API request to enable merging.
+  </Accordion>
+</AccordionGroup>
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Channel Merging Guide" icon="code-merge" href="/tutorials/channel-merging-guide">
+    Detailed technical guide on channel merging implementation
+  </Card>
+  <Card title="Create Customer API" icon="code" href="/api-reference/customers/management/create-customer">
+    API reference for creating and updating customers
+  </Card>
+  <Card title="Orders API" icon="shopping-cart" href="/api-reference/introduction">
+    Track orders across channels
+  </Card>
+  <Card title="Payments API" icon="credit-card" href="/api-reference/payment/payment-tracking">
+    Track payments across channels
+  </Card>
+</CardGroup>
+
+***

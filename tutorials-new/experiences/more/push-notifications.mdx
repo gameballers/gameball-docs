@@ -1,20 +1,507 @@
 ---
 title: 'Push Notifications'
-description: 'Handle device tokens for mobile push notifications'
+description: 'Integrate Gameball push notifications and build custom notification systems using webhooks'
 ---
 
 # Push Notifications
 
-Configure push notifications for mobile applications to engage customers with timely updates.
+Notifications are a powerful way to build stronger relationships with your customers by keeping them engaged with your service. Gameball provides default notification options and supports custom notification systems through webhooks.
 
-## Device Token Management
+***
 
-- Register device tokens
-- Handle token refresh
-- Manage notification permissions
-- Test notification delivery
+## Notification Options
+
+Gameball offers multiple ways to deliver notifications to your customers:
+
+<CardGroup cols={2}>
+  <Card title="In-App Notifications" icon="bell">
+    **Web Applications**
+    
+    Built-in notifications for web applications that display within your app interface.
+  </Card>
+  <Card title="Push Notifications" icon="mobile">
+    **Mobile Apps**
+    
+    Push notifications using Firebase for iOS and Android mobile applications.
+  </Card>
+  <Card title="Custom Systems" icon="wrench">
+    **Webhooks**
+    
+    Build your own notification system using SMS, WhatsApp, Amazon SNS, Twilio, or other third-party services via webhooks.
+  </Card>
+  <Card title="Customer Notifications API" icon="code">
+    **Programmatic Access**
+    
+    Retrieve and display notifications programmatically using the Customer Notifications API.
+  </Card>
+</CardGroup>
+
+***
+
+## Mobile Push Notifications (Firebase)
+
+Gameball uses Firebase to deliver push notifications for mobile applications. This includes support for iOS and Android apps.
+
+<Warning>
+**Prerequisites**: Before implementing push notifications, you must configure your Firebase account in your Gameball dashboard. Follow the steps in the [Gameball Help Center article on configuring Firebase](https://help.gameball.co/en/articles/3522353-configure-your-firebase-account-on-gameball-for-mobile-push-notifications).
+</Warning>
+
+### How It Works
+
+<Steps>
+<Step title="Configure Firebase">
+  Set up Firebase Cloud Messaging (FCM) and configure it in your Gameball dashboard.
+  
+  <Info>
+  This configuration links your Firebase project with Gameball so notifications can be delivered through Firebase.
+  </Info>
+</Step>
+
+<Step title="Register Device Token">
+  Register the device token with Gameball using the SDK's `registerDevice` method.
+  
+  <Note>
+  Device tokens are unique identifiers for each mobile device. You need to register them so Gameball knows where to send push notifications.
+  </Note>
+</Step>
+
+<Step title="Handle Notifications">
+  Configure your app to handle incoming push notifications and display them appropriately.
+</Step>
+</Steps>
+
+### Platform-Specific Guides
+
+<Tabs>
+<Tab title="iOS">
+  For iOS apps, integrate push notifications by:
+  
+  <AccordionGroup>
+    <Accordion title="Configure AppDelegate">
+      Inherit required protocols in your `AppDelegate` class:
+      
+      ```swift
+      class AppDelegate: UIResponder, UIApplicationDelegate, 
+                        UNUserNotificationCenterDelegate, MessagingDelegate {
+        var gameballApp: Gameball?
+      }
+      ```
+    </Accordion>
+    
+    <Accordion title="Initialize Firebase">
+      Add Firebase configuration in `didFinishLaunchingWithOptions()`:
+      
+      ```swift
+      FirebaseApp.configure()
+      registerForPushNotifications()
+      ```
+    </Accordion>
+    
+    <Accordion title="Request Permissions">
+      Request notification permissions from the user:
+      
+      ```swift
+      func registerForPushNotifications() {
+        UNUserNotificationCenter.current()
+          .requestAuthorization(options: [.alert, .sound, .badge]) {
+            [weak self] granted, error in
+            UNUserNotificationCenter.current().delegate = self
+            Messaging.messaging().delegate = self
+            guard granted else { return }
+            self?.getNotificationSettings()
+          }
+      }
+      ```
+    </Accordion>
+    
+    <Accordion title="Register Device Token">
+      Register the device token with Gameball using `gameballApp.registerDevice`. Refer to the [Firebase documentation](https://firebase.google.com/docs/cloud-messaging/ios/client#access_the_registration_token) for accessing the registration token.
+    </Accordion>
+  </AccordionGroup>
+  
+  <Tip>
+  See the [iOS Push Notifications installation guide](/installation-guide/ios/push-notifications) for complete implementation details.
+  </Tip>
+</Tab>
+
+<Tab title="Android">
+  Android push notification integration follows similar patterns to iOS, using Firebase Cloud Messaging.
+  
+  <Tip>
+  See the [Android Push Notifications installation guide](/installation-guide/android/push-notifications) for platform-specific implementation details.
+  </Tip>
+</Tab>
+
+<Tab title="React Native">
+  React Native apps can integrate push notifications using the Gameball SDK for React Native.
+  
+  <Tip>
+  See the [React Native Push Notifications installation guide](/installation-guide/react-native/push-notifications) for framework-specific implementation.
+  </Tip>
+</Tab>
+</Tabs>
+
+***
+
+## Custom Notification Systems via Webhooks
+
+If you have your own notification system—like SMS messaging, WhatsApp bots, or third-party services like Amazon SNS or Twilio—Gameball makes this easy by using **webhooks** to notify your system whenever a notification needs to be sent.
+
+### How Webhooks Work
+
+<Steps>
+<Step title="Build Webhook Endpoint">
+  Create a webhook endpoint on your server (written in any language like Ruby, PHP, or Node.js) that processes incoming requests.
+  
+  <Note>
+  This endpoint will receive POST requests from Gameball containing notification data.
+  </Note>
+</Step>
+
+<Step title="Provide Endpoint URL">
+  Share your endpoint URL (e.g., `https://yourdomain.com/webhook-endpoint`) with Gameball through your dashboard.
+</Step>
+
+<Step title="Receive Notifications">
+  Gameball sends a POST request with all necessary notification data to your endpoint whenever a customer should receive a notification.
+</Step>
+
+<Step title="Process and Deliver">
+  Use the notification data to send messages through your preferred channels (SMS, WhatsApp, push, etc.).
+</Step>
+</Steps>
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F5rGdGr0h7ycZcoJBffpn%2Fnotifications.drawio.png?alt=media&token=2966189c-f0f4-4085-b2d4-e77254a20c18" alt="Notifications via webhooks overview" />
+</Frame>
+
+### Implementation Steps
+
+#### Step 1: Build a Notifications Endpoint
+
+Create a webhook endpoint on your server:
+
+```javascript
+app.post('/gb-webhook/notification', (request, response) => {
+  // Process notification here
+});
+```
 
 <Note>
-This guide should also be added to the mobile integration guides.
+This endpoint will be invoked whenever Gameball needs to send a notification to your customer.
 </Note>
 
+#### Step 2: Activate Notifications Webhook
+
+In your Gameball dashboard:
+
+<Steps>
+<Step title="Navigate to Settings">
+  Go to **Admin Settings > Account Integration > Webhooks**.
+</Step>
+
+<Step title="Add Endpoint URL">
+  Add your notification endpoint URL (e.g., `www.yourdomain.com/gb-webhook/notification`) to the Notification Webhook field.
+</Step>
+
+<Step title="Update Webhook">
+  Click **Update Webhook** to save your configuration.
+</Step>
+</Steps>
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FOB3GyqZyoKENnAJMmEmt%2Fimage.png?alt=media&token=bcb92a03-033e-4074-ae89-3a336503da3e" alt="Configuring Webhooks" />
+</Frame>
+
+#### Step 3: Verify Webhook Signatures
+
+<Warning>
+**Security Critical**: Always verify that incoming requests are legitimate requests from Gameball and not malicious attempts to spam your system.
+</Warning>
+
+Verify webhook signatures using the SHA1 hash in the `X-GB-Signature` header:
+
+```javascript
+const crypto = require("crypto");
+
+function verifySignature(request) {
+  const SECRET_KEY = process.env.SECRET_KEY;
+  // Get the signature from the header
+  const signature = request.headers["x-gb-signature"];
+  if (!signature) return false;
+
+  // Compute the signature using the payload and secret key
+  const payload = JSON.stringify(request.body);
+  const computedSignature = crypto
+    .createHash("sha1")
+    .update(payload + ":" + SECRET_KEY)
+    .digest("hex");
+
+  // Compare the signatures
+  return computedSignature === signature;
+}
+
+app.post('/gb-webhook/notification', (request, response) => {
+  // verify the request
+  if (verifySignature(request) == false) {
+    return response.status(401).send('Unauthorized');
+  }
+  
+  // Process notification
+});
+```
+
+<Tip>
+For more information on webhook verification, see the [Webhooks documentation](/api-reference/webhooks/subscribing-to-webhooks).
+</Tip>
+
+#### Step 4: Process Notification Data
+
+The webhook request contains all the data needed to send notifications to your customers. Here's an example of the notification payload:
+
+```json
+{
+  "event": "customer.notification.push",
+  "client_id": "2155",
+  "customer_id": "webhook-test",
+  "gb_customer_id": 1234,
+  "created_at": "2024-11-12T19:02:24.631Z",
+  "data": [
+    {
+      "local": "en",
+      "icon": "https://example.com/image.webp",
+      "body": "Your recent activities have been amazing! Keep up the great work and enjoy your rewards!",
+      "title": "Well Done!"
+    }
+  ]
+}
+```
+
+<AccordionGroup>
+  <Accordion title="Webhook Fields">
+    The notification webhook includes:
+    
+    - **event**: Identifies this as a customer notification push event
+    - **client_id**: Your app's unique identifier
+    - **customer_id**: The customer identifier you use in your system
+    - **gb_customer_id**: Gameball's internal customer identifier
+    - **created_at**: Timestamp when the notification was created
+    - **data**: Array of notification content in different languages (title, body, icon, local)
+  </Accordion>
+</AccordionGroup>
+
+### Implementation Examples
+
+<Tabs>
+<Tab title="SMS Integration">
+  Send notifications via SMS using your SMS gateway:
+  
+  ```javascript
+  app.post('/gb-webhook/notification', (request, response) => {
+    if (verifySignature(request) == false) return;
+    
+    let webhookData = request.body;
+    let customerId = webhookData.customer_id;
+    let customerInfo = getCustomerDetails(customerId);
+    
+    // Send SMS to customer's phone number
+    SMSGateway.sendMessage({
+      phoneNumber: customerInfo.phone,
+      messageTitle: webhookData.data[0].title,
+      messageContent: webhookData.data[0].body
+    });
+  });
+  ```
+</Tab>
+
+<Tab title="WhatsApp Integration">
+  Send notifications via WhatsApp using WhatsApp Business API or Twilio:
+  
+  ```javascript
+  app.post('/gb-webhook/notification', (request, response) => {
+    if (verifySignature(request) == false) return;
+    
+    let webhookData = request.body;
+    let customerId = webhookData.customer_id;
+    let customerInfo = getCustomerDetails(customerId);
+    
+    // Send WhatsApp message
+    WhatsappHandler.sendWhatsappMessage({
+      phoneNumber: customerInfo.phone,
+      messageContent: webhookData.data[0].body
+    });
+  });
+  ```
+</Tab>
+
+<Tab title="Push Notifications (AWS SNS)">
+  Send push notifications using AWS SNS:
+  
+  ```javascript
+  app.post('/gb-webhook/notification', (request, response) => {
+    if (verifySignature(request) == false) return;
+    
+    let webhookData = request.body;
+    let customerId = webhookData.customer_id;
+    let customerInfo = getCustomerDetails(customerId);
+    
+    // Send push notification using device token
+    SNS.sendNotification({
+      token: customerInfo.deviceToken,
+      title: webhookData.data[0].title,
+      body: webhookData.data[0].body
+    });
+  });
+  ```
+  
+  <Note>
+  AWS SNS uses device tokens to identify mobile devices. Store each customer's device token in your database.
+  </Note>
+</Tab>
+
+<Tab title="Multiple Channels">
+  You can send notifications through multiple channels simultaneously:
+  
+  ```javascript
+  app.post('/gb-webhook/notification', (request, response) => {
+    if (verifySignature(request) == false) return;
+    
+    let webhookData = request.body;
+    let customerId = webhookData.customer_id;
+    let customerInfo = getCustomerDetails(customerId);
+    
+    // Send SMS
+    SMSGateway.sendMessage({
+      phoneNumber: customerInfo.phone,
+      messageContent: webhookData.data[0].body
+    });
+    
+    // Send WhatsApp
+    WhatsappHandler.sendWhatsappMessage({
+      phoneNumber: customerInfo.phone,
+      messageContent: webhookData.data[0].body
+    });
+    
+    // Send push notification
+    if (customerInfo.deviceToken) {
+      SNS.sendNotification({
+        token: customerInfo.deviceToken,
+        title: webhookData.data[0].title,
+        body: webhookData.data[0].body
+      });
+    }
+  });
+  ```
+</Tab>
+</Tabs>
+
+***
+
+## Customer Notifications API
+
+Gameball also provides APIs to retrieve and manage customer notifications programmatically.
+
+### Retrieving Notifications
+
+Use the [Get Customer Notifications API](/api-reference/customers/notifications/list-customer-notifications) to fetch a list of notifications for a specific customer:
+
+```json
+GET /api/v4.0/integrations/customers/{customerId}/notifications
+```
+
+**Response Example:**
+
+```json
+{
+  "notifications": [
+    {
+      "notificationId": "15227561",
+      "title": "Congratulations!",
+      "body": "Buy over 500$ and get 10$ 💰 earned. Enjoy your rewards and keep earning more!",
+      "isRead": false,
+      "createdAt": "2024-11-19T13:39:13.792Z",
+      "lang": "en",
+      "icon": "https://cdn.gameball.co/uploads/Client_9423/2b2efc2f-b85e-4cce-baf6-380454e4d62ccash.webp"
+    }
+  ],
+  "count": 4,
+  "hasMore": false
+}
+```
+
+<CardGroup cols={2}>
+  <Card title="Pagination" icon="list">
+    Use `count` and `hasMore` fields to implement pagination in your UI.
+    
+    - **count**: Number of notifications in current response
+    - **hasMore**: Indicates if more notifications are available
+  </Card>
+  
+  <Card title="Language Support" icon="globe">
+    Request notifications in different languages using the `lang` query parameter.
+    
+    Example: `?lang=es` for Spanish
+  </Card>
+</CardGroup>
+
+### Marking Notifications as Read
+
+Use the [Mark Notifications as Read API](/api-reference/customers/notifications/mark-notifications-read) to update notification status:
+
+```json
+PUT /api/v4.0/integrations/customers/{customerId}/notifications/read
+{
+  "notificationsIds": [15227561, 15227560]
+}
+```
+
+### Get Notification Count
+
+Use the [Get Customer Notifications Count API](/api-reference/customers/notifications/get-customer-notifications-count) to get the total count without fetching all records:
+
+```json
+GET /api/v4.0/integrations/customers/{customerId}/notifications/count
+```
+
+***
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Verify Webhooks" icon="shield-check">
+    Always verify webhook signatures to ensure requests are legitimate and secure.
+  </Card>
+  
+  <Card title="Handle Errors Gracefully" icon="triangle-exclamation">
+    Implement proper error handling for failed notification deliveries.
+  </Card>
+  
+  <Card title="Store Device Tokens" icon="database">
+    For push notifications, securely store device tokens in your database and update them when they refresh.
+  </Card>
+  
+  <Card title="Respect User Preferences" icon="user">
+    Allow customers to opt-in or opt-out of different notification types.
+  </Card>
+</CardGroup>
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Notification Webhooks" icon="webhook" href="/api-reference/webhooks/webhook-topics/notifications">
+    Complete webhook documentation for notifications
+  </Card>
+  <Card title="Customer Notifications API" icon="code" href="/api-reference/customers/notifications/list-customer-notifications">
+    API reference for retrieving customer notifications
+  </Card>
+  <Card title="Build Custom UI" icon="paintbrush" href="/tutorials-new/experiences/more/build-your-own-notifications">
+    Guide on displaying notifications in your custom UI
+  </Card>
+  <Card title="iOS Push Notifications" icon="mobile" href="/installation-guide/ios/push-notifications">
+    iOS-specific push notification integration guide
+  </Card>
+</CardGroup>
+
+***
