@@ -12,7 +12,7 @@ description: 'Customer actions that trigger rewards, campaigns, and personalized
 ## Event Structure
 
 An event consists of:
-1. **Event Name**: Identifies the action (e.g., `add_to_cart`, `song_liked`)
+1. **Event Name**: Identifies the action (e.g., `profile_completed`, `song_liked`)
 2. **Event Metadata**: Optional details about the action
 
 ### Basic Event
@@ -43,20 +43,24 @@ An event consists of:
 
 ---
 
-## Common Metadata Fields
+## Best Practices
 
-| Field | Purpose | Example |
-|-------|---------|---------|
-| `product_id` | Identify specific products | `"PROD_123"` |
-| `category` | Group items or actions | `["Electronics", "Mobile"]` |
-| `price` | Track monetary values | `1350.00` |
-| `quantity` | Count items | `2` |
-| `title` | Human-readable name | `"iPhone 12"` |
-| `vendor` | Brand or supplier | `"Apple"` |
-| `tags` | Flexible categorization | `["Featured", "Sale"]` |
+### Event Naming Conventions
+
+Use **past tense** for event names to indicate actions that have already occurred:
+
+✅ **Good Examples**:
+- `song_liked` - indicates the song was already liked
+- `profile_completed` - the profile completion action finished
+- `video_watched` - the video viewing is complete
+
+❌ **Avoid**:
+- `like_song` - present tense, unclear if action completed
+- `complete_profile` - imperative form
+- `watch_video` - present tense
 
 <Tip>
-Include metadata that enables targeted campaigns. For example, tracking `vendor` allows campaigns like "Reward 3 Apple product purchases."
+Using past tense makes it clear the action has completed, which is important for campaigns that trigger after specific events occur.
 </Tip>
 
 ---

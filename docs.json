@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "aspen",
   "name": "Gameball Developer Docs",
   "api": {
     "baseUrl": "https://api.gameball.co",
@@ -431,7 +431,6 @@
                       {
                         "group": "Tags",
                         "pages": [
-                          "api-reference/customers/tags/list-customer-tags",
                           "api-reference/customers/tags/attach-customer-tags",
                           "api-reference/customers/tags/remove-customer-tag"
                         ]

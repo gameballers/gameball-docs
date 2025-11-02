@@ -1,21 +1,250 @@
 ---
-title: 'Payment Handling'
-description: 'For non-commerce businesses'
+title: "Payment Handling"
+description: "Integrate Gameball loyalty into payment processing: earn points, redeem rewards, and apply coupons seamlessly."
 ---
 
-# Payment Handling
+This guide provides a detailed walkthrough of how to integrate Gameball's loyalty and rewards features into your payment processing flow. The integration covers various scenarios to enhance your customers' experience, including loyalty point accumulation, coupon usage, and seamless redemption for fintech, SaaS, and service-based businesses.
 
-Track payments and subscriptions for non-commerce businesses like SaaS, services, and subscriptions.
+## Quick Overview
 
-## Use Cases
+| Scenario | Use Case | Key APIs |
+|----------|----------|---------|
+| **Basic Payment** | Earn points on payment | `POST /api/v4.0/integrations/payments` |
+| **With Points Redemption** | Redeem points at checkout | `POST /api/v4.0/integrations/hold-points` + `POST /api/v4.0/integrations/payments` |
+| **With Coupon Codes** | Apply discount codes | `POST /api/v4.0/integrations/coupons/{code}/validate` + `POST /api/v4.0/integrations/payments` |
 
-- Subscription services
-- SaaS platforms
-- Service providers
-- Membership programs
-- Utilities
+<Info>
+Each scenario outlines a practical process that focuses on customer interactions, ensuring they can easily navigate loyalty rewards, coupons, and promotions as they complete their payments.
+</Info>
 
-## Implementation
+***
 
-Use the Payment API instead of Order API for non-product-based transactions.
+## 1️⃣ Submitting a Payment
+
+Let's explore how the **Payments API** works, starting with what your customers experience and how their actions on your fintech platform interact with Gameball to trigger rewards and campaigns.
+
+***
+
+### Customer Journey
+
+<Steps>
+<Step title="💳 Customer initiates payment">
+  A customer, Sarah, visits your fintech platform and initiates a bill payment for her electricity bill.
+</Step>
+
+<Step title="💰 Customer completes payment">
+  At checkout, she pays $120 for her electricity bill, including processing fees.
+</Step>
+
+<Step title="✅ Payment is confirmed">
+  Sarah's payment is confirmed and your system communicates with Gameball.
+</Step>
+</Steps>
+
+***
+
+### What Happens in the Background
+
+The moment Sarah's payment is completed, your platform communicates with Gameball through the **Payments API**. This triggers a `payment_processed` event in the background, sending details like:
+
+<AccordionGroup>
+  <Accordion title="💰 Payment Information">
+    Basic payment metadata including totals and timestamps:
+    
+    ```json
+    {
+      "paymentId": "PAY12345",
+      "paymentDate": "2024-10-16T08:13:29.290Z",
+      "totalPaid": 120.00,
+      "totalAmount": 120.00,
+      "totalProcessingFees": 2.50,
+      "totalTax": 5.00
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="🛍️ Services Paid">
+    Detailed service information for each item in the payment:
+    
+    ```json
+    {
+      "paymentDetails": [
+        {
+          "serviceId": "ELEC001",
+          "serviceName": "Electricity Bill",
+          "serviceProvider": "PowerCo",
+          "amount": 120.00,
+          "category": ["Utilities"]
+        }
+      ]
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="👤 Customer Information">
+    Customer identifier to link the payment to the right profile:
+    
+    ```json
+    {
+      "customerId": "15327289462816"
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+**Complete Payment Request:**
+
+Here's what the full API payload looks like when everything is combined:
+
+```json
+{
+  "customerId": "15327289462816",
+  "paymentId": "PAY12345",
+  "paymentDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 120.00,
+  "totalAmount": 120.00,
+  "totalProcessingFees": 2.50,
+  "totalTax": 5.00,
+  "paymentDetails": [
+    {
+      "serviceId": "ELEC001",
+      "serviceName": "Electricity Bill",
+      "serviceProvider": "PowerCo",
+      "amount": 120.00,
+      "category": ["Utilities"]
+    }
+  ]
+}
+```
+
+***
+
+### Gameball Processing
+
+Once the `payment_processed` event is triggered:
+
+<Steps>
+<Step title="Payment data mapping">
+  The Payments API automatically sends the payment details to Gameball, mapping your payment attributes to event metadata.
+</Step>
+
+<Step title="Campaign evaluation">
+  Gameball evaluates the payment metadata based on your configured campaigns.
+</Step>
+
+<Step title="Rewards issued">
+  Sarah earns rewards, such as cashback or loyalty points, based on your Gameball settings.
+
+  <Check>
+  For example, if you've configured a rewards campaign for customers making their first payment, Sarah earns a $10 cashback reward.
+  </Check>
+</Step>
+</Steps>
+
+***
+
+### Seamless Automation
+
+<CardGroup cols={2}>
+  <Card title="✅ With Payments API" icon="wand-magic-sparkles" color="#16a34a">
+    **Automated & Integrated**
+    - Auto reward triggering on payment
+    - No manual event creation needed
+    - Multi-module integration (cashback, campaigns)
+    - Real-time balance updates
+    - Instant payment-campaign linking
+  </Card>
+  <Card title="❌ Without Payments API" icon="triangle-exclamation" color="#dc2626">
+    **Manual & Fragmented**
+    - Manual event creation required
+    - Complex multi-step tracking
+    - Disconnected workflows
+    - Delayed reward processing
+    - Error-prone data entry
+  </Card>
+</CardGroup>
+
+**For instance:**
+
+- If Sarah qualifies for cashback, Gameball calculates the amount and updates her balance instantly and you can display it using the Get Customer Balance API.
+
+<Tip>
+  Want to show customers potential points **before** they complete a payment? Check out [Previewing Potential Points](/tutorials-new/experiences/order-handling/preview-points) to learn how to display points on payment pages.
+</Tip>
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F2dP7cY7oBVCQzaOtkoMf%2Fimage.png?alt=media&token=f5ba5d00-4ee9-473a-bd62-2b75bed9a3cf" alt="Gameball widget displaying customer balance" />
+</Frame>
+
+<Info>
+This image showcases the Gameball widget displaying the customer's balance. You can also retrieve the same information programmatically using the **Get Customer Balance API** for seamless integration with your application.
+</Info>
+
+- If you're sending payment-based notifications, Sarah might receive a message like: "Congratulations, Sarah! You've earned 100 points for your last payment."
+
+***
+
+### Customer Experience
+
+Sarah's experience remains smooth and rewarding:
+
+1. She completes a payment without any extra steps
+2. She receives instant confirmation about her reward points or cashback, enhancing her satisfaction
+3. Over time, Sarah can redeem these points for discounts, keeping her engaged and loyal to your platform
+
+***
+
+### Why This Matters
+
+<Check>
+**Seamless Customer Experience**
+
+Keep customers engaged with rewards without adding friction to their payment journey.
+</Check>
+
+<Check>
+**Streamlined Internal Processes**
+
+Save time with automatic data mapping and event creation—no manual work required.
+</Check>
+
+<Check>
+**Flexible Campaign Targeting**
+
+Tie specific payments or services to targeted campaigns, driving engagement effectively.
+</Check>
+
+***
+
+## Related Payment Integrations
+
+If you need to integrate points redemption or coupon codes with your payment submission, refer to these detailed guides:
+
+<CardGroup cols={2}>
+  <Card title="Points Redemption" icon="coins" href="/tutorials-new/experiences/points-redemption">
+    Learn how to integrate points redemption during payment submission, including how to hold points and link them to payments.
+  </Card>
+  <Card title="Coupon Codes" icon="ticket" href="/tutorials-new/experiences/gameball-discounts-engine/coupons">
+    Discover how to validate, lock, and apply coupon codes when customers make payments.
+  </Card>
+</CardGroup>
+
+***
+
+## 🚀 Payment vs Orders
+
+Understanding when to use Payments API vs Orders API:
+
+| Aspect | Payments API | Orders API |
+|--------|--------------|------------|
+| **Use Case** | Bill payments, subscriptions, services | Product purchases, e-commerce |
+| **Structure** | `paymentDetails` (services) | `lineItems` (products) |
+| **Industries** | Fintech, SaaS, utilities | E-commerce, retail |
+| **Common Fields** | `serviceProvider`, `processingFees` | `sku`, `vendor`, `shipping` |
+
+<Note>
+**Payments API** is designed for non-commerce transactions like bill payments, subscription renewals, and service fees. Use the **Orders API** for e-commerce product purchases.
+</Note>
+
+***
 

@@ -4307,9 +4307,7 @@
             "description": "Customer progress",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CustomerProgress"
-                }
+                "schema": { "$ref": "#/components/schemas/CustomerBalanceResponse" }
               }
             }
           }
@@ -4332,7 +4330,14 @@
           { "name": "expand", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Comma-separated expansions: tier,referrals" }
         ],
         "responses": {
-          "200": { "description": "Customer progress", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerProgress" } } } }
+          "200": {
+            "description": "Customer tier progress",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CustomerTierProgressResponse" }
+              }
+            }
+          }
         }
       }
     },
@@ -4564,72 +4569,51 @@
         "operationId": "getCustomerActionStreakProgress",
         "security": [{ "apiKey": [] }, { "secretKey": [] }],
         "parameters": [
-          {
-            "name": "customerId",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "Unique identifier for the customer"
-          },
-          {
-            "name": "challengeId",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" },
-            "description": "Unique identifier of the Action Streak challenge"
-          }
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" },
+          { "name": "challengeId", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Unique identifier of the Action Streak challenge" }
         ],
-        "responses": {
-          "200": {
-            "description": "Customer action streak progress found",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/CustomerActionStreakProgressResponse" }
-              }
-            }
-          }
-        }
+        "responses": { "200": { "description": "Customer action streak progress found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerActionStreakProgressResponse" } } } } }
       }
     },
     "/api/v4.0/integrations/customers/{customerId}/tags": {
-      "get": {
-        "operationId": "listCustomerTags",
-        "description": "List tags attached to a customer.",
+      "post": {
+        "summary": "Attach Customer Tags",
+        "description": "This API allows you to add tags to a customer profile in Gameball, identified by `customerId`. Attaching tags enables categorization of customer profiles, supporting organized management and targeted engagement based on specific attributes.",
+        "operationId": "attachCustomerTags",
         "security": [ { "apiKey": [] }, { "secretKey": [] } ],
         "parameters": [
-          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } },
-          { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "format": "int32", "default": 50 } },
-          { "name": "cursor", "in": "query", "required": false, "schema": { "type": "string" } }
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" }
         ],
-        "x-codeSamples": [
-          { "lang": "curl", "label": "cURL", "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/tags' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
-          { "lang": "javascript", "label": "JavaScript", "source": "const res = await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags', { headers: { apikey: 'YOUR_API_KEY', secretkey: 'YOUR_SECRET_KEY' } }); const data = await res.json();" },
-          { "lang": "python", "label": "Python", "source": "import requests\nresp = requests.get('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags', headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY'})\nprint(resp.json())" },
-          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar res = await client.GetAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/tags\");\nres.EnsureSuccessStatusCode();" },
-          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags');\\ncurl_setopt_array($ch, [CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
-        ],
-        "responses": {
-          "200": { "description": "Tags list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerTags" } } } }
-        }
-      },
-      "post": {
-        "operationId": "attachCustomerTags",
-        "description": "Attach one or more tags to a customer.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
-        "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
         "requestBody": {
-          "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AttachTagsRequest" } } }
+            "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CustomerTagsUpdateRequest" }
+          }
+          }
         },
-        "x-codeSamples": [
-          { "lang": "curl", "label": "cURL", "source": "curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers/12345/tags' -H 'Content-Type: application/json' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY' -d '{\"tags\":[\"vip\",\"newsletter\"]}'" },
-          { "lang": "javascript", "label": "JavaScript", "source": "await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags',{method:'POST',headers:{'Content-Type':'application/json',apikey:'YOUR_API_KEY',secretkey:'YOUR_SECRET_KEY'},body:JSON.stringify({tags:['vip','newsletter']})});" },
-          { "lang": "python", "label": "Python", "source": "import requests\nrequests.post('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags', json={'tags':['vip','newsletter']}, headers={'apikey':'YOUR_API_KEY','secretkey':'YOUR_SECRET_KEY','Content-Type':'application/json'})" },
-          { "lang": "csharp", "label": "C#", "source": "using System.Net.Http; using System.Text;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar content = new StringContent(\"{\\\"tags\\\":[\\\"vip\\\",\\\"newsletter\\\"]}\", Encoding.UTF8, \"application/json\");\nvar res = await client.PostAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/tags\", content);\nres.EnsureSuccessStatusCode();" },
-          { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/tags');\\n$payload = json_encode(['tags'=>['vip','newsletter']]);\\ncurl_setopt_array($ch, [CURLOPT_POST=>true, CURLOPT_HTTPHEADER => ['Content-Type: application/json','apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_POSTFIELDS => $payload, CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
-        ],
         "responses": {
           "200": { "description": "Tags attached", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }
+        }
+      },
+      "delete": {
+        "summary": "Remove Customer Tags",
+        "description": "This API removes specified tags from a customer profile in Gameball, identified by `customerId`. Removing tags allows for updating customer categorization, ensuring profiles remain relevant to current engagement and marketing needs.",
+        "operationId": "removeCustomerTags",
+        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" }
+        ],
+        "requestBody": {
+          "required": true,
+            "content": {
+              "application/json": {
+              "schema": { "$ref": "#/components/schemas/CustomerTagsUpdateRequest" }
+              }
+            }
+        },
+        "responses": {
+          "200": { "description": "Tags removed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }
         }
       }
     },
@@ -4674,9 +4658,7 @@
           { "lang": "csharp", "label": "C#", "source": "using System.Net.Http;\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar res = await client.GetAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications\");\nres.EnsureSuccessStatusCode();" },
           { "lang": "php", "label": "PHP", "source": "<?php\\n$ch = curl_init('https://api.gameball.co/api/v4.0/integrations/customers/12345/notifications');\\ncurl_setopt_array($ch, [CURLOPT_HTTPHEADER => ['apikey: YOUR_API_KEY','secretkey: YOUR_SECRET_KEY'], CURLOPT_RETURNTRANSFER => true]);\\n$resp = curl_exec($ch);\\n?>" }
         ],
-        "responses": {
-          "200": { "description": "Notifications list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerNotifications" } } } }
-        }
+        "responses": { "200": { "description": "Notifications list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerNotifications" } } } } }
       }
     },
     "/api/v4.0/integrations/customers/{customerId}/notifications/count": {
@@ -5059,6 +5041,40 @@
           "referrals": { "type": "object", "properties": { "total": { "type": "integer" }, "successful": { "type": "integer" } } }
         }
       },
+      "CustomerBalanceResponse": {
+        "type": "object",
+        "properties": {
+          "totalPointsBalance": { "type": "number", "description": "The total number of points the customer has, including pending points." },
+          "totalPointsValue": { "type": "number", "description": "The total monetary value of the customer's points, including pending points." },
+          "availablePointsBalance": { "type": "number", "description": "Points currently active and available for use (excludes pending)." },
+          "availablePointsValue": { "type": "number", "description": "Monetary value of currently available points (excludes pending)." },
+          "pendingPoints": { "type": "number", "description": "Points earned but on hold during the return window." },
+          "pendingPointsValue": { "type": "number", "description": "Monetary value of the pending points." },
+          "currency": { "type": "string", "description": "Currency code used for point value calculations." },
+          "pointsName": { "type": "string", "description": "Display name of points in the loyalty program (e.g., 'Stars')." },
+          "nextExpiringPointsAmount": { "type": "number", "description": "Amount of points that will expire next." },
+          "nextExpiringPointsValue": { "type": "number", "description": "Monetary value of the points that will expire next." },
+          "nextExpiringPointsDate": { "type": "string", "description": "Date when the next set of points will expire." },
+          "totalEarnedPoints": { "type": "number", "description": "Total number of points earned over the customer's lifetime." }
+        }
+      },
+      "TierState": {
+        "type": "object",
+        "properties": {
+          "order": { "type": "number", "description": "Numerical order of the tier. Higher is higher tier." },
+          "name": { "type": "string", "description": "Name of the tier." },
+          "minProgress": { "type": "number", "description": "Minimum progress required to reach this tier." },
+          "icon": { "type": "string", "description": "URL of the tier icon." }
+        }
+      },
+      "CustomerTierProgressResponse": {
+        "type": "object",
+        "properties": {
+          "current": { "$ref": "#/components/schemas/TierState" },
+          "next": { "$ref": "#/components/schemas/TierState" },
+          "progress": { "type": "number", "description": "Current progress toward the next tier based on the configured method." }
+        }
+      },
       "CustomerTags": {
         "type": "object",
         "properties": {
@@ -5351,9 +5367,95 @@
             "rewardsCampaignName": { "type": "string", "description": "The name of the rewards campaign" },
             "rewardsCampaignId": { "type": "number", "description": "The unique ID of the rewards campaign" },
             "isUnlocked": { "type": "boolean", "description": "Indicates if the customer has unlocked the campaign" },
-            "completionPercentage": { "type": "number", "description": "The percentage of the campaign the customer has completed" },
-            "achievedCount": { "type": "number", "description": "The number of times the customer has achieved the campaign" },
-            "canAchieve": { "type": "boolean", "description": "Whether the customer is currently eligible to participate in the campaign" }
+            "highScoreAmount": { "type": ["number", "null"], "description": "Highest score achieved (High Score campaigns only)." },
+            "currentStreak": { "type": ["number", "null"], "description": "Current consecutive daily visits (Streak campaigns only)." },
+            "highestStreak": { "type": ["number", "null"], "description": "Max consecutive daily visits (Streak campaigns only)." },
+            "completionPercentage": { "type": "number", "description": "Percentage of the campaign completed by the customer." },
+            "achievedCount": { "type": "number", "description": "Number of times the customer has achieved the campaign." },
+            "canAchieve": { "type": "boolean", "description": "Whether the customer is currently eligible to participate in the campaign." },
+            "rewardCampaignConfiguration": {
+              "type": "object",
+              "description": "Comprehensive description of the reward campaign configuration.",
+              "properties": {
+                "id": { "type": "number" },
+                "name": { "type": "string" },
+                "description": { "type": ["string", "null"] },
+                "isRepeatable": { "type": "boolean" },
+                "maxAchievement": { "type": "number", "description": "-1 means unlimited." },
+                "type": { "type": "string", "description": "Campaign type (e.g., SignUp, SocialMedia, ScheduledChallenge, Spin The Wheel, EventBased, HighScore, Birthday)." },
+                "visibility": { "type": "string", "description": "Visibility on widget (AlwaysVisible, NotVisible, VisibleIfEarned)." },
+                "icon": { "type": ["string", "null"] },
+                "redirectionButtonText": { "type": ["string", "null"] },
+                "redirectionButtonLink": { "type": ["string", "null"] },
+                "widgetDetailsParameter": { "type": ["string", "null"], "description": "Use with openDetails to open widget on specific campaign." },
+                "activation": {
+                  "type": ["object", "null"],
+                  "properties": {
+                    "startDate": { "type": ["string", "null"], "format": "date-time" },
+                    "endDate": { "type": ["string", "null"], "format": "date-time" }
+                  }
+                },
+                "rewards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "rankReward": { "type": "number" },
+                      "walletReward": { "type": "number" },
+                      "walletRewardFactor": { "type": ["number", "null"] },
+                      "couponReward": {
+                        "type": ["object", "null"],
+                        "properties": {
+                          "couponType": { "type": ["string", "null"], "description": "free_shipping | percentage_discount | fixed_discount | fixed_rate_discount | free_product | custom" },
+                          "discountValue": { "type": ["number", "null"] },
+                          "product": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "productId": { "type": ["string", "null"] },
+                              "productName": { "type": ["string", "null"] },
+                              "variantId": { "type": ["string", "null"] },
+                              "variantName": { "type": ["string", "null"] },
+                              "productDisplayName": { "type": ["string", "null"] }
+                            }
+                          },
+                          "collections": {
+                            "type": ["array", "null"],
+                            "items": { "type": "object", "properties": { "collectionId": { "type": ["string", "null"] }, "collectionName": { "type": ["string", "null"] } } }
+                          },
+                          "group": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "handle": { "type": ["string", "null"] },
+                              "title": { "type": ["string", "null"] },
+                              "url": { "type": ["string", "null"] },
+                              "iconPath": { "type": ["string", "null"] },
+                              "description": { "type": ["string", "null"] },
+                              "maxPerCustomer": { "type": ["number", "null"] },
+                              "startDate": { "type": ["string", "null"], "format": "date-time" },
+                              "expiryDate": { "type": ["string", "null"], "format": "date-time" },
+                              "isAvailable": { "type": ["boolean", "null"] },
+                              "isActive": { "type": ["boolean", "null"] }
+                            }
+                          },
+                          "options": {
+                            "type": ["object", "null"],
+                            "properties": {
+                              "name": { "type": ["string", "null"] },
+                              "expiryAfter": { "type": ["number", "null"] },
+                              "usageLimit": { "type": ["number", "null"] },
+                              "capping": { "type": ["number", "null"] },
+                              "minOrderValue": { "type": ["number", "null"] },
+                              "codePrefix": { "type": ["string", "null"] },
+                              "redeemInstructions": { "type": ["string", "null"] }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -5402,11 +5504,38 @@
                 "activityDate": { "type": "string", "description": "The date of the activity" },
                 "activityTime": { "type": "string", "description": "The time when the activity occurred" },
                 "customerId": { "type": "string", "description": "The unique identifier of the customer" },
-                "email": { "type": "string", "description": "The email address of the customer" },
-                "transactionId": { "type": "string", "description": "A unique identifier for a transaction in your system" },
-                "isManualActivity": { "type": "boolean", "description": "Whether the activity was manually triggered" },
-                "points": { "type": "number", "description": "The number of points involved in the activity" },
-                "score": { "type": "number", "description": "The score involved in the activity" }
+                "email": { "type": ["string", "null"], "description": "The email address of the customer" },
+                "phoneNumber": { "type": ["string", "null"], "description": "The customer's phone number" },
+                "displayName": { "type": ["string", "null"], "description": "The customer's display name" },
+                "transactionId": { "type": ["string", "null"], "description": "A unique identifier for a transaction in your system" },
+                "isManualActivity": { "type": ["boolean", "null"], "description": "Whether the activity was manually triggered" },
+                "points": { "type": ["number", "null"], "description": "The number of points involved in the activity" },
+                "score": { "type": ["number", "null"], "description": "The score involved in the activity" },
+                "reason": { "type": ["string", "null"], "description": "Reason entered for manual activities, if provided." },
+                "calculatedRedemption": { "type": ["number", "null"], "description": "Estimated monetary value based on redemption factor and involved points." },
+                "actualRedemption": { "type": ["number", "null"], "description": "Actual monetary value of redemption, if applicable." },
+                "familyRedemptionAmount": { "type": ["number", "null"], "description": "Redemption monetary value related to family wallet, if applicable." },
+                "familyRedemptionPoints": { "type": ["number", "null"], "description": "Redemption points related to family wallet, if applicable." },
+                "paymentRewardAmount": { "type": ["number", "null"], "description": "Cashback amount rewarded in currency." },
+                "outstandingPoints": { "type": ["number", "null"], "description": "Points currently available from the related transaction." },
+                "rewardThreshold": { "type": ["number", "null"], "description": "Minimum spend to receive configured reward points." },
+                "currency": { "type": ["string", "null"], "description": "Currency used in the transaction." },
+                "redemptionRewardFactor": { "type": ["number", "null"], "description": "Conversion rate between points and monetary value during redemption." },
+                "campaignName": { "type": ["string", "null"], "description": "Name of the associated rewards campaign, if any." },
+                "campaignStartDate": { "type": ["string", "null"], "description": "Start date of the associated campaign." },
+                "campaignEndDate": { "type": ["string", "null"], "description": "End date of the associated campaign." },
+                "campaignEnabled": { "type": ["boolean", "null"], "description": "Whether the associated campaign was enabled during the activity." },
+                "tierName": { "type": ["string", "null"], "description": "Tier name associated with tier-related activities." },
+                "rewardPoints": { "type": ["number", "null"], "description": "Number of points rewarded from the activity." },
+                "rewardFactor": { "type": ["number", "null"], "description": "Reward factor used to calculate reward points." },
+                "isGuest": { "type": ["boolean", "null"], "description": "Whether the actor is a guest (not signed up)." },
+                "couponUsed": { "type": ["boolean", "null"], "description": "Whether the coupon associated with this activity was used." },
+                "couponType": { "type": ["string", "null"], "description": "Type of coupon associated with the activity." },
+                "couponCode": { "type": ["string", "null"], "description": "Coupon code associated with this activity." },
+                "couponGroup": { "type": ["string", "null"], "description": "Group or campaign to which the coupon is linked." },
+                "couponProduct": { "type": ["string", "null"], "description": "Name of the product associated with the coupon, if any." },
+                "couponProductId": { "type": ["number", "null"], "description": "ID of the product associated with the coupon." },
+                "productVariantName": { "type": ["string", "null"], "description": "Name of the product variant involved in the event." }
               }
             }
           },
@@ -5439,6 +5568,19 @@
                       "name": { "type": "string", "description": "The internal name of the automation workflow" },
                       "isUnlocked": { "type": "boolean", "description": "Whether this automation is unlocked" },
                       "completed": { "type": "boolean", "description": "Whether the automation has been fully completed" },
+                      "steps": {
+                        "type": ["array", "null"],
+                        "description": "List of steps involved in completing the automation.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": { "type": "string", "description": "The type of step, for example rewarding a badge or adding points." },
+                            "order": { "type": "number", "description": "The order of this step within the automation sequence." },
+                            "completed": { "type": "boolean", "description": "Whether this step has been completed or not." },
+                            "configuration": { "type": ["object", "null"], "description": "Configuration details for the step, such as badge name & icon.", "additionalProperties": true }
+                          }
+                        }
+                      },
                       "completionPercentage": { "type": "number", "description": "Percentage of completion for the automation" }
                     }
                   }
@@ -5460,6 +5602,16 @@
           "challengeEndDate": { "type": "string", "description": "The end date of the challenge in the client's local timezone" },
           "rewardName": { "type": "string", "description": "The name of the reward as defined in the client's configured language" },
           "couponName": { "type": "string", "description": "The name or value of the discount coupon assigned" }
+        }
+      },
+      "CustomerTagsUpdateRequest": {
+        "type": "object",
+        "required": ["tags"],
+        "properties": {
+          "tags": {
+            "type": "string",
+            "description": "A comma-separated list of tags to apply or remove (e.g., 'gamer, highSpender')."
+          }
         }
       },
       "CustomerNotificationsCountResponse": {
