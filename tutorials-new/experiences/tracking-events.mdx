@@ -40,7 +40,7 @@ When a customer clicks **"Add to Cart"**, you can send a simple event to Gamebal
 ```json
 {
   "events": {
-    "add_to_cart": {}
+    "added_to_cart": {}
   },
   "customerId": "CUST_ID"
 }
@@ -55,7 +55,7 @@ If you want to go further, add details like product ID, price, and category. Thi
 ```json
 {
   "events": {
-    "add_to_cart": {
+    "added_to_cart": {
       "product_id": "231402",
       "product_title": "iPhone 12",
       "price": 1350.00,
@@ -125,7 +125,7 @@ Using a QR code, you can log details every time an attendee enters a session. He
 ```json
 {
   "events": {
-    "attend_session": {
+    "session_attended": {
       "session_id": "231402",
       "title": "Using Artificial Intelligence for Marketing Analytics",
       "event_id": "15",

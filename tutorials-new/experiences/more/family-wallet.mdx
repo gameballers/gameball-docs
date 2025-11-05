@@ -1,14 +1,199 @@
 ---
 title: 'Family Wallet'
-description: 'Shared point wallets for household accounts'
+description: 'Shared point wallets for household accounts that allow family members to pool points and redeem rewards together'
 ---
 
-Enable family members to share a common point wallet and rewards.
+The **Family Wallet** feature in Gameball allows your customers to pool their earned points into a single, shared wallet, enabling family members or groups to collaborate on earning and redeeming rewards. This is a fantastic way to engage multiple users within the same group and offer them a seamless, collective experience.
 
-## Features
+<Frame>
+<img src="/images/family-wallet-dashboard.png" alt="Family Wallet Dashboard - Showing Family Points card with balance" />
+</Frame>
 
-- Shared point balance
-- Multiple user accounts
-- Centralized rewards
-- Family-based tiers
+***
 
+## What is Family Wallet?
+
+Family Wallet enables multiple customers to share a common point wallet and rewards. When enabled, family members can combine their individual point balances into one shared wallet, making it easier to accumulate points faster and redeem bigger rewards together.
+
+<CardGroup cols={2}>
+  <Card title="✅ With Family Wallet" icon="wand-magic-sparkles" color="#16a34a">
+    **Unified Experience**
+    - Shared point balance across family members
+    - Faster point accumulation through combined efforts
+    - Ability to redeem bigger rewards together
+  </Card>
+  <Card title="❌ Without Family Wallet" icon="triangle-exclamation" color="#dc2626">
+    **Individual Accounts**
+    - Each customer has separate point balance
+    - Points can't be combined
+    - Limited redemption options
+  </Card>
+</CardGroup>
+
+***
+
+## Key Features
+
+### Family Wallet Ownership
+
+A Family Wallet is owned by a single customer, referred to as the **Parent**:
+
+- The **Parent** owns and manages the Family Wallet
+- The Parent can invite other customers (family members) to join
+- Members must **confirm their invitation** to join
+- Only the Parent can invite or remove members
+- Maximum **10 members** per Family Wallet
+
+<Frame>
+<img src="/images/family-wallet-options.png" alt="Family Wallet screen - Join or Create options" />
+</Frame>
+
+### Point Management
+
+- **Earning**: Points earned by Parent and all members are **combined into a single wallet**
+- **Redemption**: Both Parent and members can redeem from the combined wallet anytime
+- **Viewing**: Every member can see their individual points and the combined balance
+- **History**: Parent sees complete history; members see only their own history
+
+<Frame>
+<img src="/images/family-wallet-dashboard-view.png" alt="Dashboard view showing Family Wallet details with total family points and members list" />
+</Frame>
+
+<Warning>
+If the Parent account is deleted, the Family Wallet will also be deleted, and all members will revert to standard accounts. Members can leave the Family Wallet at any time.
+</Warning>
+
+### Family Wallet Views
+
+**Parent/Owner View:**
+The Parent can see all family members, their individual points, and manage the wallet (add/remove members, delete wallet).
+
+<Frame>
+<img src="/images/family-wallet-owner-view.png" alt="Mobile app view from Family Wallet Owner showing members list and management options" />
+</Frame>
+
+**Member View:**
+Members can see their individual points, the combined family points, and all family members. They can leave the family wallet at any time.
+
+<Frame>
+<img src="/images/family-wallet-member-view.png" alt="Mobile app view from Family Wallet Member showing combined and individual points" />
+</Frame>
+
+***
+
+## Setting Up Family Wallet
+
+Family Wallet is enabled through the Gameball Dashboard:
+
+<Steps>
+<Step title="Navigate to Settings">
+  Go to **Settings** → **Customers** → **Family Wallet** in your Gameball Dashboard.
+</Step>
+
+<Step title="Enable Feature">
+  Click the toggle to enable the Family Wallet feature.
+</Step>
+</Steps>
+
+<Frame>
+<img src="/images/family-wallet-create.gif" alt="Create Family Wallet - Shareable code screen" />
+</Frame>
+
+<Info>
+Once enabled, customers (as Parents) can start inviting members to join their Family Wallet through the dashboard. When creating a Family Wallet, a shareable code is generated that family members can use to join.
+</Info>
+
+***
+
+## Family Wallet in the API
+
+While Family Wallet management (inviting members, removing members, etc.) is handled through the Gameball Dashboard, the API provides visibility into family wallet redemptions through transaction responses.
+
+### Family Wallet Redemption Fields
+
+When a customer redeems points from a Family Wallet, the transaction response includes these fields:
+
+- **`familyRedemptionAmount`**: Redemption monetary value related to family wallet, if applicable (null for individual redemptions)
+- **`familyRedemptionPoints`**: Redemption points related to family wallet, if applicable (null for individual redemptions)
+
+These fields appear in transaction responses when querying the [List Transactions API](/api-reference/transactions/transaction-management/list-transactions).
+
+### Example: Identifying Family Wallet Redemptions
+
+```javascript
+// Get transaction history
+const response = await fetch(
+  `https://api.gameball.co/api/v4.0/integrations/transactions?customerId=${customerId}`,
+  {
+    headers: {
+      'apikey': 'YOUR_API_KEY',
+      'secretkey': 'YOUR_SECRET_KEY'
+    }
+  }
+);
+
+const data = await response.json();
+
+// Check for family wallet redemptions
+data.transactions.forEach(transaction => {
+  if (transaction.familyRedemptionAmount !== null) {
+    // This is a family wallet redemption
+    console.log(`Family Wallet Redemption: ${transaction.familyRedemptionPoints} points`);
+  }
+});
+```
+
+***
+
+## Use Cases
+
+<Tabs>
+<Tab title="Family Shopping">
+  Families who frequently shop together can pool their rewards to reach higher-tier benefits or redeem bigger rewards more quickly.
+  
+  **Example**: A parent shopping for household goods earns points while their children earn points from individual purchases—all contributing to the same Family Wallet.
+  
+  <Check>
+  The entire family works together to accumulate points faster.
+  </Check>
+</Tab>
+
+<Tab title="Multi-Channel Loyalty">
+  Families using multiple Gameball-enabled services can combine their loyalty points, ensuring they never miss out on redemption opportunities.
+  
+  **Example**: A family uses your e-commerce platform, mobile app, and physical stores. All points earned contribute to one shared wallet.
+  
+  <Check>
+  No points are left unused—family members can redeem from the combined balance anytime.
+  </Check>
+</Tab>
+
+<Tab title="Parental Control">
+  The Parent can monitor and control reward usage, useful for families where parents wish to regulate redemption by younger members.
+  
+  <Check>
+  Parents maintain oversight while still providing the benefits of shared point accumulation.
+  </Check>
+</Tab>
+</Tabs>
+
+***
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Clear Communication" icon="message">
+    Clearly communicate how Family Wallet works, including the Parent role, member limits, and redemption policies.
+  </Card>
+  <Card title="Transaction Transparency" icon="eye">
+    Use `familyRedemptionAmount` and `familyRedemptionPoints` fields to provide transparency about family wallet redemptions in your UI.
+  </Card>
+</CardGroup>
+
+***
+
+## Related Resources
+
+<Card title="List Transactions API" icon="list" href="/api-reference/transactions/transaction-management/list-transactions">
+  View transaction history with family wallet redemption fields
+</Card>
