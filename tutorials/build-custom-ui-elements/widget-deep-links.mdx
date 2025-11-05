@@ -1,0 +1,137 @@
+---
+title: "Widget Deep Links"
+description: "Enable Opening Gameball Widget Through Inline links Using Deep-links"
+---
+
+# Widget Deep Links
+
+Gameball provides the flexibility to customize how your customers access the loyalty widget. If the default widget button does not align with your platform’s theme or if space is limited, you can hide or replace the button and use **deep links** to give customers quick access to specific widget sections from anywhere on your platform.
+
+This guide explains how to use deep links effectively and integrate them into your website, emails, or campaigns.
+
+***
+
+## What Are Deep Links?
+
+Deep links are URLs or hyperlinks that navigate customers directly to a specific section of the Gameball widget. They enhance the user experience by allowing customers to access the desired content immediately, bypassing unnecessary steps.
+
+<figure><img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FMsavKNfJBeyYItyviAzR%2Fdeep-links-into.gif?alt=media&token=1a7b0827-56c6-4b48-97ff-f15a79e2d4f0" alt="Open Gameball widget using menu item" /><figcaption><p>Open Gameball widget using menu item</p></figcaption></figure>
+
+***
+
+## How to Use Deep Links
+
+Deep links can be added to any element that supports hyperlinks, such as:
+
+- Text
+- Images
+- Menu items
+- Buttons
+
+They can also be included in automated emails or SMS campaigns. For instance, if a customer clicks on a button labeled “View Your Points” in an email, they will be redirected to your website, and the Gameball widget will automatically display their points section.
+
+***
+
+## Available Deep Links
+
+Here are the deep links Gameball provides to help you customize your user experience:
+
+- `#gameball-home` – Takes customers to the home section and guests to the guest-view section.
+- `#gameball-referral` – Directs customers to the referral tab and guests to the home section.
+- `#gameball-faq` – Opens the "FAQ" section for both customers and guests.
+- `#gameball-levels` – Shows customers the levels progress tab and guests the levels program section.
+- `#gameball-earn` Opens the "Earn" section for both customers and guests.
+- `#gameball-redemption` – Leads customers to the redemption tab and guests to the "How to Redeem" section.
+- `#gameball-wheel` – Opens the "Spin the Wheel" page for customers.
+- `#gameball-slot` – Opens the "Slot Machine" page for customers.
+- `#gameball-calendar` – Opens the "Calendar Campaign" page for customers.
+
+***
+
+## Implementation Guidelines
+
+There are three ways to implement deep links, depending on your platform and requirements:
+
+### 1. **Using the Hash Format (Web)**
+
+You can append a `#gameball-[section-name]` hash to your website URL to navigate customers to specific sections of the widget.
+
+```http
+https://your-website.com/#gameball-[section-name]
+```
+
+**Examples**:
+
+- Home section: `https://your-website.com/#gameball-home`
+- Referral section: `https://your-website.com/#gameball-referral`
+
+### **2. Using Query Parameters (Web)**
+
+Alternatively, you can use the query parameter `?gameball-deep=[section-name]` to embed deep links into emails, SMS campaigns, or website navigation.
+
+```http
+https://your-website.com/?gameball-deep=[section-name]
+```
+
+**Examples**:
+
+- Home section: `https://your-website.com/?gameball-deep=home`
+- Referral section: `https://your-website.com/?gameball-deep=referral`
+
+### 3. Programmatically Using Javascript
+
+You can programmatically control the Gameball widget using `GbSdk.toggleDeeps("toggle", "[section-name]")` function.
+
+**Example**:
+
+```javascript
+GbSdk.toggleDeeps("toggle", "referral");
+```
+
+This is useful for scenarios where you want to provide customers with a button to easily open the widget on your website.
+
+### 4. **Using the SDK (Mobile Apps)**
+
+For mobile apps, you can programmatically control the Gameball widget using our SDKs. Pass the `openDetail` parameter with specific values to navigate directly to various sections of the widget.
+
+**Supported Values for `openDetail`**:
+
+- `details_referral` – Opens the referral section.
+- `details_redeem_coupons` – Navigates to the coupon redemption section.
+- `details_earn` – Displays the list of reward campaigns.
+- `details_reward_campaign_{CampaignID}` – Opens a specific reward campaign by its ID.
+- `details_wheels_list` – Displays the list of available wheels.
+- `details_wheel` – Navigates to the first wheel details available from the wheels' list.
+- `details_wheel_{WheelID}` – Opens a specific wheel by its ID.
+- `details_slot_list` – Displays the list of available slot machines.
+- `details_slot` – Navigates to the first slot machine details available from the slots' list.
+- `details_slot_{SlotID}` – Opens a specific slot machine by its ID.
+- `details_calendar` – Navigates to the first calendar campaign details available.
+- `details_calendar_{CalendarID}` – Opens a specific calendar campaign by its ID.
+- `details_scratch` - Navigates to the first Scratch and Win available.
+- `details_scratch_{ScratchId}` - Opens a specific Scratch and Win by its ID.
+- `details_match` - Navigates to the first Match game available.
+- `details_match_{MatchId}` - Opens a specific Match game by its ID.
+- `details_redeem_main`  - Opens the main opens redeem tab.
+- `details_redeem_rule_{RULE_ID}`  - Opens a specific redeem rule by its ID.
+
+**Example (Using the Android SDK)**:
+
+```java
+gameballApp.showProfile(this, "customer1234", "details_referral", true);
+```
+
+This approach is tailored for mobile apps and ensures a seamless customer experience.
+
+***
+
+## Summary
+
+In this tutorial, we’ve covered the various ways to utilize Gameball deep links and SDK functionalities to provide a seamless and personalized experience for your customers:
+
+1. **Hash Format and Query Parameters**: Enable direct navigation to specific widget sections from your website, emails, or SMS campaigns.
+2. **SDKs Methods**: Offer advanced control for mobile apps and programmatically toggle the widget state or navigate to specific sections.
+3. **Examples and Supported Sections**: Illustrate how to guide customers to areas like referrals, rewards, or wheels.
+
+By combining these methods, you can tailor the Gameball widget’s behavior to fit your platform and create a smoother customer journey.
+

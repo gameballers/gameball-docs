@@ -345,11 +345,15 @@
                   "tutorials/build-custom-ui-elements/widget-configurations",
                   "tutorials/build-custom-ui-elements/coupons-cx",
                   "tutorials/build-custom-ui-elements/customer-notifications",
-                  "tutorials/build-custom-ui-elements/customer-leaderboard"
+                  "tutorials/build-custom-ui-elements/customer-leaderboard",
+                  "tutorials/build-custom-ui-elements/referrals"
+                  ,
+                  "tutorials/build-custom-ui-elements/widget-deep-links"
                 ]
               },
               "tutorials/build-your-own-notification-system",
               "tutorials/channel-merging-guide",
+              "tutorials/batch-apis-usage-example",
               {
                 "group": "Redemption Integration",
                 "pages": [
