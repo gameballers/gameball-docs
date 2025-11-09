@@ -1,63 +1,48 @@
 ---
-title: "Collection Based Earning Rules"
-description: "Configure rewards based on product collections or categories"
+title: "Collection-Based Earning Rules"
+description: "Configure rewards based on product collections"
 ---
 
-<Note>
-  This is an advanced order handling scenario. If you're new to order integration, start with [Submitting Orders](/tutorials-new/experiences/order-handling/submit-order) first.
-</Note>
+# What Are Collection-Based Earning Rules?
 
-## What Are Collection-Based Earning Rules?
+**Collection-based earning rules** define how cashback or points are calculated based on the product collections included in a customer’s order.
 
-<Info>
-  Gameball allows you to configure **campaigns that reward customers based on specific product collections.** These collections can represent different product groups or promotional categories that align with your loyalty strategy.
-</Info>
+Rather than applying a single earning rate to all products, you can configure specific reward rates per collection, for example, granting higher cashback on “T-Shirts” or “Skincare” items.
+
+This approach makes reward calculation more flexible and accurate, ensuring that loyalty earnings reflect your product structure and business priorities.
 
 ### Examples of Collection Types
 
-- **Evergreen categories:** “T-Shirts,” “Accessories,” “Face Products”
+- **Evergreen collections:** “T-Shirts,” “Accessories,” “Face Products”
 - **Seasonal or promotional groups:** “Holiday Bundles,” “Clearance Items”
-
-### Campaign Examples
-
-- “Earn **50 bonus points** on every purchase from the _T-Shirts_ collection.”
-- “Get **10% cashback** when buying items from the _Premium Skincare_ line.”
-
-These **targeted campaigns** help personalize the reward experience and align loyalty incentives with your overall product strategy.
-
----
 
 ## Why It Matters
 
 <Warning>
-  When a campaign targets specific collections, Gameball must know **which collection each product belongs to**. If the collection data isn’t sent in the API payload, Gameball applies the **default earning rule** instead.
+  When a collection is configured to have specific earning rates, Gameball must know **which collection each product belongs to**. If the collection data isn’t sent in the API payload, Gameball applies the **default earning rule** instead.
 </Warning>
 
 This means:
 
-- The product **won’t qualify** for the intended collection-specific reward,
+- The product **won’t qualify** for the intended collection-specific reward.
 - Even if it technically belongs to that collection in your catalog.
 
-This can affect both **customer experience** and **campaign performance**, since customers may not receive the rewards you planned for those product groups.
+This can affect **customer experience**, since customers may not receive the cashback value you planned for those product groups.
 
 ---
 
 ## How to Implement It
 
 When sending an order using the [Track Order API](https://gameball.mintlify.app/api-reference/order/order-tracking), make sure to populate the `lineItems` array with detailed product data.\
-For each item, include its `collection` value so Gameball can correctly evaluate reward eligibility and apply campaign logic.
+For each item, include its `collection` value so Gameball can correctly evaluate reward eligibility.
 
 <Tip>
-  Adding collection data ensures Gameball matches each product to its relevant **campaign rules** during evaluation.
+  Adding collection data ensures Gameball matches each product to its relevant **earning logic** during evaluation.
 </Tip>
 
 ---
 
 ### Example
-
-Let’s say you’ve configured a campaign:
-
-> **“Earn 50 bonus points for every product purchased from the ‘T-Shirts’ collection.”**
 
 Here’s how your `Track Order` API payload should look:
 
@@ -95,47 +80,58 @@ Here’s how your `Track Order` API payload should look:
 ```
 
 <Info>
-  If a product belongs to a campaign-targeted collection, include the `collection`
+  If a product belongs to a specific collection, include the `collection`
 
   field. If it’s omitted (as in the third item), only the default earning rule applies.
 </Info>
 
 ---
 
-## What Happens Here?
+## **How Gameball Evaluates Collections**
 
 <Info>
-  This section illustrates how Gameball evaluates products during a transaction when different collections and campaign rules are in play.
+  This section illustrates how Gameball evaluates products during a transaction when different collection earning rules are in play.
 </Info>
 
 <Accordion title="🧢 Product 1: T-Shirts (quantity 2)">
   <div style={{ paddingLeft:"12px" }}>
-  The campaign applies **50 points × 2 = 100 bonus points**.\
-  Each item in the same collection inherits the same reward logic, so multiplying by quantity gives the total bonus applied for this product line.
+  The collection-based earning rule applies a **10% cashback rate** to all products in the **“T-Shirts”** collection.
+
+  Since each T-Shirt costs **\$25**, Gameball calculates cashback as follows:
+
+  > \$25 × 2 × 10% = **\$5 cashback**
+
+  All items in the same collection share the same earning rule, so the total cashback for this product line equals the **total spend multiplied by the collection’s cashback rate**.
 
   </div>
 </Accordion>
 
 <Accordion title="🧴 Product 2: Premium Skincare (quantity 1)">
   <div style={{ paddingLeft:"12px" }}>
-  If there’s a **separate campaign** targeting this collection — for example, a **cashback offer** — Gameball evaluates and applies that rule independently.\
-  This allows overlapping campaigns across collections without conflict.
+  The **“Premium Skincare”** collection has its own earning rule, offering **8% cashback** on all qualifying purchases.
+
+  Since this product costs **\$120**, Gameball calculates cashback as follows:
+
+  > \$120 × 8% = **\$9.60 cashback**
+
+  Each collection can have a distinct cashback rate, allowing products from different collections to be evaluated independently without any overlap or conflict in reward calculation.
 
   </div>
 </Accordion>
 
 <Accordion title="📦 Product 3: No Collection Sent">
   <div style={{ paddingLeft:"12px" }}>
-  When no collection information is provided, **Gameball falls back to the default earning rule**.\
-  Even if the product technically belongs to a targeted collection in your catalog, it won’t inherit those rules unless the collection reference is included in the request.
+  When no collection information is provided, Gameball applies the **default cashback rate** to the product.
+
+  Even if the product technically belongs to a defined collection in your catalog, it will not inherit that collection’s cashback rate unless the collection value is included in the request.
+
+  This ensures that only products explicitly linked to a collection receive their corresponding cashback rules.
 
   </div>
 </Accordion>
 
 <Tip>
-  To ensure campaigns apply correctly, always include **collection data** in your order or item payloads.\\
-
-  This helps Gameball evaluate all active rules precisely.
+  To ensure cashback is calculated accurately, always include the collection field in your order or item payloads. This allows Gameball to evaluate the correct earning rules for each product and apply the appropriate cashback rate.
 </Tip>
 
 ---
@@ -143,25 +139,12 @@ Here’s how your `Track Order` API payload should look:
 ## Key Takeaway
 
 <Info>
-  Whenever you run **collection-based campaigns**, make sure each product’s `collection` value is included in the order payload.
+  Whenever you use **collection-based earning rules**, make sure each product’s collection value is included in the order payload.
 </Info>
 
 It’s a small but crucial detail that ensures:
 
-- **Accurate reward calculation**: every product earns the right amount of points
-- **Reliable campaign performance tracking**: results reflect real customer behavior
-- **A smoother, fairer loyalty experience**: customers get rewarded exactly as intended
-
----
-
-## Related Topics
-
-<CardGroup cols={2}>
-  <Card title="Submitting Orders" icon="shopping-cart" href="/tutorials-new/experiences/order-handling/submit-order">
-    Back to main order submission guide
-  </Card>
-  <Card title="Taxes & Shipping Exclusion" icon="calculator" href="/tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion">
-    Learn about excluding non-product costs
-  </Card>
-</CardGroup>
+- **Accurate cashback calculation:** each product earns the correct cashback rate based on its collection.
+- **Reliable performance tracking:** cashback results accurately reflect customer purchases across collections.
+- **A smoother, fairer loyalty experience:** customers receive rewards that match the value of what they bought.
 

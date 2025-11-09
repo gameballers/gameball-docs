@@ -1,15 +1,264 @@
 ---
-title: 'Apply Promo Automatically'
-description: 'Automatically apply best available promotions'
+title: "Automatic Promos"
+description: "Automatically apply the most relevant promotions to customer orders using Gameball’s Promo Engine."
 ---
 
-Configure automatic application of the best available promotion for each customer.
+# Apply Promos Automatically
 
-## Automatic Application
+Gameball’s **Automatic Promo API** lets you apply valid, active promotions directly to a customer’s order, without requiring them to enter a promo code.\
+This helps you deliver a **seamless checkout experience**, where promotions are evaluated, matched, and applied automatically based on the order’s details and customer profile.
 
-Gameball can automatically:
-- Select best available promotion
-- Apply to qualifying orders
-- Stack with coupons (if configured)
-- Prioritize by discount value
+---
+
+## Why This Matters
+
+Manual coupon entry can interrupt the checkout experience and lead to missed redemptions.\
+With **automatic promos**, Gameball determines which active offers apply to the order — such as spend thresholds, collection-based rules, or loyalty tier discounts — and applies them instantly.
+
+This ensures:
+
+- 💡 **Frictionless checkout:** Customers see eligible discounts automatically.
+- 🎯 **Personalized offers:** Gameball evaluates each customer’s eligibility in real time.
+- 🔁 **Consistent rule enforcement:** Prevents stacking or invalid promo combinations.
+- 📊 **Accurate tracking:** Discounts and rewards are logged and attributed properly in analytics.
+
+---
+
+## When to Use It
+
+You should call this API when:
+
+| Scenario                             | Description                                                                                               |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| 🛒 **Checkout Page**                 | You want Gameball to automatically apply all valid promotions based on cart contents.                     |
+| 🏪 **POS Checkout**                  | In-store checkout flow where customers don’t manually enter promo codes.                                  |
+| 💳 **Payments or Fintech Use Cases** | You want Gameball to automatically apply discounts or cashback promos to bill payments or wallet top-ups. |
+
+---
+
+## How It Works
+
+When you call the [**Automatic Coupons API**](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons), you send the order payload (like you would in the [**Calculate Cashback API**](https://gameball.mintlify.app/api-reference/transactions/cashback-and-redemptions/cashback)).
+
+Gameball then:
+
+1. Evaluates the order against all **active promotions** configured in your workspace.
+2. Filters the ones that match the criteria (e.g., collections, minimum spend, customer tier).
+3. Returns the **best applicable promotions**, including discount details, type, and value.
+
+### Example Request
+
+```json
+{
+  "customerId": "CUST_987",
+  "orderId": "ORDER_2025_001",
+  "totalPaid": 200,
+  "totalPrice": 200,
+  "totalShipping": 10,
+  "totalTax": 5,
+  "lineItems": [
+    {
+      "productId": "TSHIRT_001",
+      "price": 50,
+      "quantity": 2,
+      "collection": ["Apparel"]
+    },
+    {
+      "productId": "BAG_002",
+      "price": 100,
+      "quantity": 1,
+      "collection": ["Accessories"]
+    }
+  ],
+    "merchant": {
+    "uniqueId": "<string>",
+    "name": "<string>",
+    "branch": {
+      "uniqueId": "<string>",
+      "name": "<string>"
+    }
+  },
+  "channel": "web"
+}
+```
+
+### Example Response
+
+```json
+{
+  "isApplied": true,
+  "couponName": "SPRINGSALE20",
+  "discountAmount": 50,
+  "discountType": "shipping",
+  "discountedItems": [
+    {
+      "productId": "TSHIRT_001",
+      "quantity": 2,
+      "discount": 20,
+      "price": 50
+    },
+    {
+      "productId": "BAG_002",
+      "quantity": 1,
+      "discount": 30,
+      "price": 100
+    }
+  ]
+}
+```
+
+### **Understanding the Response**
+
+| **Field**         | **Description**                                                                          |
+| :---------------- | :--------------------------------------------------------------------------------------- |
+| `isApplied`       | Indicates whether a promotion was successfully applied.                                  |
+| `couponName`      | The name of the automatically applied promotion.                                         |
+| `discountAmount`  | Total discount applied to the order.                                                     |
+| `discountType`    | Type of discount — can apply to product price, shipping, or total.                       |
+| `discountedItems` | Array listing affected products, their quantities, discount values, and original prices. |
+
+---
+
+## **Example Scenarios**
+
+### **🛍️ 1. E-commerce Auto Promo at Checkout**
+
+**Scenario:**
+
+Sarah adds \$200 worth of items to her cart. Gameball detects that she qualifies for the **“SPRINGSALE20”** promotion, which offers free shipping and \$50 total savings.
+
+\
+**Implementation:**
+
+When Sarah proceeds to checkout, your system calls the [\*\*Automatic Promos API  \*\*](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons)before payment.
+
+\
+**Result:**
+
+```json
+{
+  "isApplied": true,
+  "couponName": "SPRINGSALE20",
+  "discountAmount": 50,
+  "discountType": "shipping",
+  "discountedItems": [
+    {
+      "productId": "TSHIRT_001",
+      "quantity": 2,
+      "discount": 20,
+      "price": 50
+    },
+    {
+      "productId": "BAG_002",
+      "quantity": 1,
+      "discount": 30,
+      "price": 100
+    }
+  ]
+}
+```
+
+<Check>
+  The discount is applied automatically, and the final checkout total is adjusted accordingly.
+</Check>
+
+### **💳 2. Fintech Wallet Top-Up Discount**
+
+**Scenario:**
+
+Omar tops up his digital wallet with \$100. A promo rule grants **5% cashback** on top-ups over \$50.
+
+**Implementation:**
+
+Before confirming payment, call the [**Automatic Coupons API**](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons) with the transaction details.
+
+**Response:**
+
+```json
+{
+  "isApplied": true,
+  "couponName": "TOPUP5",
+  "discountAmount": 5,
+  "discountType": "total",
+  "discountedItems": []
+}
+```
+
+<Check>
+  Gameball applies the 5% discount automatically; no promo code required.
+</Check>
+
+---
+
+## **What Gameball Does Behind the Scenes**
+
+<Steps>
+  <Step title="Checks all active promotions in your workspace.">
+    
+  </Step>
+  <Step title="Evaluates eligibility based on order details and customer profile.">
+    
+  </Step>
+  <Step title="Applies all matching promotions automatically.">
+    
+  </Step>
+  <Step title="Returns final discount details and affected items.">
+    
+  </Step>
+</Steps>
+
+---
+
+## **Implementation Tips**
+
+<Check>
+  Always call the API after the cart or order is finalized, just before checkout.
+</Check>
+
+<Check>
+  Use the `discountAmount` value to update the displayed total in your payment summary.
+</Check>
+
+<Check>
+  Show `couponName` in the UI to help customers see which promo was applied.
+</Check>
+
+<Check>
+  Store the applied promo details in your order records for analytics, refunds, and reporting.
+</Check>
+
+---
+
+## **Error Handling**
+
+If isApplied is false, it means:
+
+- No active promotions matched the order criteria, **or**
+- The customer exceeded usage limits.
+
+<Note>
+  You should proceed with the normal checkout flow without applying discounts.
+</Note>
+
+---
+
+## **What’s Next**
+
+After applying promotions automatically:
+
+- If payment succeeds → call the [**Burn API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon)
+- If payment fails or is canceled → call the [**Release API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons)
+
+---
+
+## **Key Takeaways**
+
+- [**Automatic API** ](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons) applies eligible promotions automatically, no manual entry required.
+- Returns clear details on what was discounted and by how much.
+- Ideal for **e-commerce**, **POS**, and **fintech** applications.
+- Integrates seamlessly into the full promo flow:
+
+  **Validate → Auto Apply → Burn / Release.**
+
+---
 

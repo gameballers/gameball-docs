@@ -1,15 +1,167 @@
 ---
-title: 'Multi-Step Referral'
-description: 'Advanced referral campaigns with multiple reward stages'
+title: "Multi-Step Referrals (Custom Web UI)"
+description: "Display and track multi-step referral progress with Gameball APIs using your own UI."
 ---
 
-Create sophisticated referral programs with multiple reward stages and conditions.
+# Overview
 
-## Multi-Step Flow
+Multi-step rewards let you incentivize **both** the customer (referrer) and their friend (referee) at different stages of the referral journey.\
+Examples of steps you might configure:
 
-Reward referrers at different stages:
-- Friend signs up
-- Friend makes first purchase
-- Friend reaches spending milestone
-- Friend remains active for X days
+- Friend **creates an account**
+- Friend **places an order** (optionally with conditions, e.g., number_of_products equals 3)
+
+<Note>
+  **One-time steps:** You can mark a step as **Happens One Time** in your configuration without extra metadata or custom rules.
+</Note>
+
+---
+
+## What you’ll build
+
+- A **Steps** UI that renders each configured referral step (trigger, who gets rewarded, reward details).
+- The customer’s **referral code/link** to share.
+- The customer’s **referral progress** (list + counts).
+
+---
+
+## Implementation Steps
+
+### 1) Fetch and render the multi-step config
+
+<Card title="Get Referrals Configurations" icon="gear-code" horizontal href="/api-reference/configurations/program-configurations/referral-settings">
+  `GET /integrations/configurations/referrals`\
+  Returns the referral rule(s), including trigger and rewards.
+</Card>
+
+The configuration can be a **single object** (one step) or an **array** (multiple steps). Normalize to an array, then render each item as a step card.
+
+**Example response (real-shape sample):**
+
+```json
+{
+  "referralMethod": "CustomerAndFriend",
+  "eventName": "place_order",
+  "steps": [
+    {
+      "stepName": "Step 1: Create Account",
+      "eventName": "create_account",
+      "customerReward": { "points": 100 },
+      "friendReward": {
+        "coupon": { "type": "Percentage", "value": 10, "expiryDate": "2025-12-31T23:59:59Z" }
+      }
+    },
+    {
+      "stepName": "Step 2: Place Order",
+      "eventName": "place_order",
+      "customerReward": { "points": 200 },
+      "friendReward": {
+        "coupon": { "type": "FixedAmount", "value": 20, "expiryDate": "2025-12-31T23:59:59Z" }
+      }
+    }
+  ]
+}
+{
+  "referralMethod": "CustomerAndFriend",
+  "eventName": "place_order",
+  "steps": [
+    {
+      "stepName": "Step 1: Create Account",
+      "eventName": "create_account",
+      "customerReward": { "points": 100 },
+      "friendReward": {
+        "coupon": { "type": "Percentage", "value": 10, "expiryDate": "2025-12-31T23:59:59Z" }
+      }
+    },
+    {
+      "stepName": "Step 2: Place Order",
+      "eventName": "place_order",
+      "customerReward": { "points": 200 },
+      "friendReward": {
+        "coupon": { "type": "FixedAmount", "value": 20, "expiryDate": "2025-12-31T23:59:59Z" }
+      }
+    }
+  ]
+}
+```
+
+**Render guidance (what to show per step):**
+
+- **Trigger:** from eventName + optional eventMetaData (e.g., _place order — number_of_products equals 3_).
+- **Who gets rewarded:** from referralMethod (e.g., _CustomerAndFriend_).
+- **Customer reward:** from customerReward (point, score, coupon) and extraReward if present (e.g., _extra 500 points for every 3 events_).
+- **Friend reward:** from friendReward (points/coupon details such as percentage, min order value, combine rules, etc.).
+
+### **2) Show the customer’s referral code/link**
+
+<Card title="Get Customer" icon="head-side" horizontal href="/api-reference/customers/management/get-customer">
+  `GET /integrations/configurations/referrals`\
+  Returns the customer's referral code/link
+</Card>
+
+Fetch the customer and display referralCode and/or referralLink.
+
+```json
+{
+  "customerId": "mike_123",
+  "referralCode": "SARAH123",
+  "referralLink": "https://yourwebsite.com?referralCode=SARAH123"
+}
+```
+
+<Tip>
+  **UX tip:** Provide **Copy** buttons for both the code and the link.
+</Tip>
+
+### **3) Detect and propagate referral code (friend journey)**
+
+When a friend lands using a link like:
+
+```bash
+https://yourwebsite.com?referralCode=code123
+```
+
+- Read `referralCode` from the URL query string.
+- Store it in **session/local storage** (or cookie) until signup completes.
+- On friend signup, call [**Create/Update Customer**](https://gameball.mintlify.app/api-reference/customers/management/create-customer) and include `referrerCode`: "code123" **during initial registration** (within your program’s allowed window).
+
+<Warning>
+  If `referrerCode` is invalid, Gameball ignores it silently and still creates the customer (no referral link formed).
+</Warning>
+
+### **4) Track progress (list + counts)**
+
+Show the referrer’s progress with:
+
+- **List:** GET /integrations/customers/:customerId/referrals
+
+<Card title="Get Customer Referrals" icon="people-group" horizontal href="/api-reference/customers/progress/get-customer-referrals">
+  `GET /integrations/customers/:customerId/referrals`
+
+  Returns all the referrals (pending and completed) done by the customer
+</Card>
+
+- **Counts:** GET /integrations/customers/:customerId/referrals/count (e.g., completed, pending, total)
+
+  <Card title="Get Customer Referrals count" icon="hashtag" horizontal href="/api-reference/customers/progress/get-customer-referrals-count">
+    `GET /integrations/customers/:customerId/referrals/count`
+
+    Returns the total count of referees referred by a customer
+  </Card>
+
+<Tip>
+  Use these to display “completed vs pending” and a simple progress indicator per step.
+</Tip>
+
+---
+
+## **Implementation checklist**
+
+<Check>
+  - Fetch **Referrals Configurations** and **normalize to an array** to render steps.
+  - Fetch **Customer** and show **referralCode/referralLink**.
+  - **Capture referralCode** from URL on friend visit; persist until signup.
+  - On signup, send **referrerCode** in **Create/Update Customer** (initial registration window).
+  - Render **referrals list + counts** for progress.
+</Check>
 

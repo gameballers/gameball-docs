@@ -1,0 +1,101 @@
+---
+title: 'Leaderboard'
+description: 'Display customer rankings and achievements using the Leaderboard API'
+---
+
+A well-designed leaderboard can drive engagement by showcasing customer rankings, progress, and achievements. By using the [Leaderboard API](/api-reference/leaderboard/customer-leaderboard), you can create a dynamic and interactive leaderboard that highlights top-performing customers and keeps everyone motivated to level up.
+
+## Response Example
+
+```json
+{
+  "leaderboard": [
+    {
+      "displayName": "John Doe",
+      "customerId": "cust_12345",
+      "progress": 2500,
+      "rank": 1,
+      "tierName": "Gold",
+      "tierIcon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a1.webp"
+    },
+    {
+      "displayName": "Jane Smith",
+      "customerId": "cust_67890",
+      "progress": 1800,
+      "rank": 2,
+      "tierName": "Silver",
+      "tierIcon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a2.webp"
+    }
+  ],
+  "customerRank": 1,
+  "customersCount": 100
+}
+```
+
+## Display Ideas
+
+<CardGroup cols={2}>
+  <Card title="Leaderboard Overview" icon="list">
+    Display a ranked list of customers with:
+    - **Display Name**: Show customer names prominently
+    - **Rank**: Indicate their rank in the leaderboard
+    - **Progress**: Highlight points or progress contributing to their rank
+  </Card>
+  <Card title="Customer-Specific Rank" icon="user">
+    Provide a personalized section for the logged-in customer:
+    - Highlight their rank, progress, and tier information
+    - Mention the total number of customers participating (e.g., "Rank 1 out of 100")
+  </Card>
+  <Card title="Tier Visualization" icon="medal">
+    Display each customer's tier using their `tierIcon` alongside their name and rank for instant visual recognition
+  </Card>
+  <Card title="Filters" icon="filter">
+    Allow filtering options for customers to explore leaderboard results by specific time frames (today, last month, all-time)
+  </Card>
+</CardGroup>
+
+<Frame>
+<img src="https://lh4.googleusercontent.com/0F5YwHdv0MTDyJtmalyFYca38pjMAWR6BOVn6vAI1dYCFXC1qWTI03_UPdrac330ADBP00PDdGdaGowcO8MSu9fGYdIPEfkCZ-ag3iR53RXrITRNEr0R7qVvGpe6SMWak35kb8My=s0" alt="Leaderboard overview example" />
+</Frame>
+
+## Filtering Leaderboard by Time Frame
+
+**Today's leaderboard:**
+
+```http
+GET /api/v4.0/integrations/leaderboard?from=2024-11-24 00:00
+```
+
+**Last month's leaderboard:**
+
+```http
+GET /api/v4.0/integrations/leaderboard?from=2024-10-01 00:00&to=2024-10-31 23:59
+```
+
+**All-time leaderboard:** (No filters required)
+
+```http
+GET /api/v4.0/integrations/leaderboard
+```
+
+**Specific customer rank within a time frame:**
+
+```http
+GET /api/v4.0/integrations/leaderboard?from=2024-10-01 00:00&to=2024-10-31 23:59&playerUniqueId=player456
+```
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Leaderboard API" icon="trophy" href="/api-reference/leaderboard/customer-leaderboard">
+    Fetch customer leaderboard rankings and progress
+  </Card>
+  <Card title="Build Your Own UI" icon="layout" href="/tutorials-new/experiences/more/build-your-own-ui">
+    Back to Build Your Own UI overview
+  </Card>
+</CardGroup>
+
+
+

@@ -1,19 +1,13 @@
 ---
 title: "Multi-Merchants and Branches"
-description: "Handle multiple stores, merchants, or branches"
+description: "Manage loyalty programs across multiple locations, franchises, or merchants."
 ---
 
-<Note>
-  This is an advanced order handling scenario. If you're new to order integration, start with [Submitting Orders](/tutorials-new/experiences/order-handling/submit-order) first.
-</Note>
+# Managing Loyalty Across Multiple Merchants and Branches
 
-Manage loyalty programs across multiple locations, franchises, or merchants.
+Configure and track loyalty programs seamlessly across various brands, stores, and franchise locations. For businesses with multiple brands, physical stores, online shops, or franchises, Gameball enables you to **segment customer transactions by merchant and branch**.
 
-<Info>
-  For businesses with multiple brands, physical stores, online shops, or franchises, Gameball enables you to **segment customer transactions by merchant and branch**.
-</Info>
-
-This ensures:
+**This ensures**:
 
 - Accurate reward tracking
 - Campaign targeting at a granular level
@@ -103,7 +97,8 @@ To track these channels separately, use **`different branchId values`** while ke
           "uniqueId": "web-store",
           "name": "Online Store"
         }
-      }
+      },
+      "channel": "web"
     }
     ```
   </Tab>
@@ -117,7 +112,8 @@ To track these channels separately, use **`different branchId values`** while ke
          "uniqueId": "downtown-branch",
          "name": "Downtown Branch"
        }
-     }
+     },
+     "channel": "pos"
     }
     ```
   </Tab>
@@ -128,7 +124,7 @@ To track these channels separately, use **`different branchId values`** while ke
 ## Key Takeaway
 
 <Check>
-    Use the `merchant` object to identify which brand or channel each transaction belongs to.
+  Use the `merchant` object to identify which brand or channel each transaction belongs to.
 </Check>
 
 **Always include both:**
@@ -138,16 +134,4 @@ To track these channels separately, use **`different branchId values`** while ke
 
 Including both ensures **consistent tracking** across all customer touchpoints and enables accurate reward and campaign reporting.
 
----
-
-## Related Topics
-
-<CardGroup cols={2}>
-  <Card title="Submitting Orders" icon="shopping-cart" href="/tutorials-new/experiences/order-handling/submit-order">
-    Back to main order submission guide
-  </Card>
-  <Card title="Taxes & Shipping Exclusion" icon="calculator" href="/tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion">
-    Learn about excluding non-product costs
-  </Card>
-</CardGroup>
 

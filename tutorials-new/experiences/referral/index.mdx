@@ -1,5 +1,5 @@
 ---
-title: "Referrals"
+title: "Integrating Gameball Referrals"
 ---
 
 ## **What Is a Referral Program?**
@@ -66,21 +66,18 @@ It forms the baseline logic that powers all other referral implementations, incl
   <Step title="Friend signs up using the link" icon="link" iconType="regular" titleSize="p">
     
   </Step>
-  <Step title="Friend places his first order" icon="cart-shopping-fast" iconType="regular" titleSize="p">
+  <Step title="Friend recieves his reward" icon="gift" iconType="regular" titleSize="p">
     
   </Step>
-  <Step title="The friend receives a 10% coupon. The customer receives 200 points" icon="gift" iconType="regular" titleSize="p">
+  <Step title="Friend places his first order" icon="cart-circle-check" iconType="regular" titleSize="p">
+    
+  </Step>
+  <Step title="Customer recieves his reward" icon="gift">
     
   </Step>
 </Steps>
 
-### **How to Implement It**
-
-1. Extract `referrerCode` from the link or referral data
-2. Send it to Gameball during customer registration
-3. Gameball tracks the referral and issues rewards after the triggering event
-
-## Platform-Specific Integration
+### Platform-Specific Integration
 
 | **Platform**      | **How the Referral Code is Collected** | **Where to Send It**                       | **Tools or Notes**                    |
 | :---------------- | :------------------------------------- | :----------------------------------------- | :------------------------------------ |
@@ -91,47 +88,129 @@ It forms the baseline logic that powers all other referral implementations, incl
 
 ### **I. Web Using Gameball Widget**
 
-- Gameball automatically detects and submits the referral code from the URL
-- No additional implementation required
+- The customer’s **referral link or code** is displayed within the widget.
+
+  ![Image(132) Pn](/images/image\(132\).png)
+- The customer shares this link or code with a friend (the referee).
+- When the friend uses the shared link or code, **Gameball automatically detects and registers the referral** from the URL.
+- **No additional implementation** is required on your side.
 
 ### **II. Web with Custom UI**
 
-Extract the referral code and submit it using the [Create/Update Customer API](https://gameball.mintlify.app/api-reference/customers/management/create-customer):
+If you’re integrating Gameball referrals using your **own web UI** instead of the widget, you can still fully enable referral functionality through the Gameball APIs.
 
+This process covers:
+
+1. Displaying each customer’s **unique referral link or code**
+2. Detecting and capturing referral links when shared by referrers
+3. Submitting the referral code during **sign-up**
+4. (Optional) Validating referral codes to prevent self-referrals
+
+#### 1. Display the Customer’s Referral Link or Code
+
+To show a customer their referral link or code in your UI, fetch it using the [**Get Customer API:**](https://gameball.mintlify.app/api-reference/customers/management/get-customer)
+
+```bash
+GET /integrations/customers/{customerId}
 ```
+
+You can display either of these two attributes from the API response:
+
+- `referralCode` : The customer’s unique referral code (e.g., SARAH123)
+- `referralLink`: The complete shareable referral link (e.g., [**<u>https://yourwebsite.com?referralCode=SARAH123</u>**](https://yourwebsite.com?referralCode=SARAH123))
+
+**Example Response:**
+
+```json
 {
   "customerId": "mike_123",
-  "referrerCode": "SARAH123",
+  "referralCode": "SARAH123",
+  "referralLink": "https://www.myAwesomeWebsite.com?referralCode=SARAH123"
+}
+```
+
+Use this data to create custom UI components, such as:
+
+- A **“Share Your Referral Code”** banner
+- A **“Copy Link”** button
+- Or a custom **referral dashboard section**
+
+#### **2. Detect Referral Visits**
+
+When a friend lands on your website using a referral link such as:
+
+```bash
+https://www.myAwesomeWebsite.com?referralCode=code123
+```
+
+![Image(133) Pn](/images/image\(133\).png)
+
+You can detect the referral by checking the **URL query parameters** for referralCode.
+
+Once detected, store this value temporarily until the new customer completes their sign-up.
+
+#### **3. Track Referral Sign-ups**
+
+When the referred friend signs up, include the captured referral code in the [**Create/Update Customer API**](https://gameball.mintlify.app/api-reference/customers/management/create-customer) request.
+
+This links the **referrer** and **referee** together in Gameball.
+
+```json
+POST /integrations/customers
+{
+  "customerId": "CUST_56789",
+  "referrerCode": "code123",
   "customerAttributes": {
-    "email": "mike@example.com"
+    "displayName": "Arya Stark",
+    "firstName": "Arya",
+    "lastName": "Stark",
+    "email": "arya.stark@example.com"
   }
 }
 ```
 
-### **Important Notes:**
+#### **Important Notes:**
 
 - `referrerCode` **must** be included during **initial registration.**
 
-  <Note>
-    If the referral code is not submitted within five minutes of registration, the referral will not be counted.
-
-    To modify this time threshold or customize the referral linking logic, please get in touch with your Gameball technical point of contact.
-  </Note>
-- If referrerCode is omitted during the first request, **it cannot be added later**.
+  <Warning>
+    If the referral code is not submitted within 5 minutes of registration, the referral will not be counted. To modify this time threshold or customize the referral linking logic, please get in touch with your Gameball technical point of contact.
+  </Warning>
 - If the code is invalid, Gameball ignores it silently; the customer is still created, but no referral link is formed.
-- This API is used across all channels: web, app, or POS.
+
+#### **4. (Optional) Validate Referral Codes Before Signup**
+
+To ensure customers don’t use **their own referral code** or an invalid one, you can validate the code before creating the account.
+
+Use the [**Validate Referrer Code API:**](https://gameball.mintlify.app/api-reference/customers/management/validate-referrer-code)
+
+```bash
+GET /integrations/customers/validateReferrerCode?referrerCode=code123
+```
+
+This API checks whether the referral code:
+
+- Exists and is valid
+- Belongs to a different customer (to prevent self-referrals)
+- Is eligible for use in the current flow
+
+<Note>
+  If the code is valid, proceed with the [Create/Update Customer ](https://gameball.mintlify.app/api-reference/customers/management/create-customer)request as shown in step 3. **Track Referral Sign-ups**
+</Note>
 
 ### III. Mobile Apps (Branch or Adjust)
 
 Referral links in mobile apps are handled through **Gameball’s Mobile SDKs** in combination with a **deep linking provider** such as [**Branch**](https://gameball.mintlify.app/tutorials/branch-io-integration) or [**Adjust**](https://gameball.mintlify.app/tutorials/adjust-integration).
 
-**Firebase Dynamic Links** are no longer supported.
+<Danger>
+  **Firebase Dynamic Links** are no longer supported.
+</Danger>
 
-Branch and Adjust now handle both link redirection and referral code extraction.
+**Branch.io** and **Adjust** now handle both link redirection and referral code extraction.
 
 <Steps>
   <Step title="Configure Deep Linking">
-    - Integrate **Branch** or **Adjust** in your app and connect it from the Gameball dashboard under **Settings** → **Admin Settings** → **Integration** → **Mobile** **Configuration** → **Dynamic Link Provider**.
+    - Integrate [**Branch.io**](https://gameball.mintlify.app/tutorials/branch-io-integration) or [**Adjust**](https://gameball.mintlify.app/tutorials/adjust-integration) in your app and connect it from the Gameball dashboard under **Settings** → **Admin Settings** → **Integration** → **Mobile** **Configuration** → **Dynamic Link Provider**.
     - Each provider automatically attaches the referral code to the deep link (e.g., ?referrerCode=SARAH123).
   </Step>
   <Step title="Extract the Referral Code">
@@ -149,11 +228,11 @@ Branch and Adjust now handle both link redirection and referral code extraction.
     ```
   </Step>
   <Step title="Register the Customer (Gameball SDK)">
-    Once the code is extracted, call the **registerCustomer** (or **registerPlayer**, depending on the SDK version) method from the Gameball SDK and pass the referrerCode as a parameter.
+    Once the code is extracted, call the **registerCustomer** (or **registerPlayer**, depending on the SDK version) method from the Gameball SDK and pass the `referrerCode` as a parameter.
 
     **Example:**
 
-    ```
+    ```json
     Gameball.registerCustomer({
       customerId: "mike_mobile_789",
       referrerCode: "SARAH123",
@@ -172,10 +251,18 @@ Branch and Adjust now handle both link redirection and referral code extraction.
 If the customer was not referred via a deep link, you can still allow referrals manually by:
 
 - Adding a **"Referral Code (Optional)" field** on your registration/sign-up screen.
+
+  <img
+    src="/images/image (134).png"
+    alt="Image(134) Pn"
+    title="Image(134) Pn"
+    className="mx-auto"
+    style={{ width:"44%" }}
+  />
 - When the user submits the form, collect the entered referral code (if provided).
 - Then:
   - If you're registering the customer **via the frontend SDK**, include `referrerCode` in the `registerCustomer` call as shown above.
-  - If you're registering the customer **via the backend API**, include `referrerCode` in the payload for the **Create/Update Customer API**:
+  - If you're registering the customer **via the backend API**, include `referrerCode` in the payload for the [**Create/Update Customer API**](https://gameball.mintlify.app/api-reference/customers/management/create-customer):
 
     ```json
     {
@@ -194,9 +281,9 @@ If the customer was not referred via a deep link, you can still allow referrals 
 </Tip>
 
 <Note>
-  - The referral link must be passed **within the first registration call**.
+  - The referral link should be passed **within the first registration call**.
   - If the referral code is missing or invalid, the customer will still be registered, but the referral relationship will not be created.
-  - Referral linking must occur **within five minutes** of registration to be counted.
+  - Referral linking must occur **within 5 minutes** of registration to be counted.
   - To customize this time window or referral linking logic, please contact your **Gameball technical point of contact**.
 </Note>
 
@@ -236,8 +323,8 @@ Allow customers to view who they referred and what the status is.
 
 <AccordionGroup>
   <Accordion title="Suggested UI Components" defaultOpen icon="sparkles">
-    - Referral Welcome Popup: Show new users the reward received via referral.
-    - Referral Dashboard: Show Existing users who they've referred (pending/active)
+    - **Referral Welcome Popup**: Show new users the reward received via referral.
+    - **Referral Dashboard**: Show Existing users who they've referred (pending/active)
   </Accordion>
 </AccordionGroup>
 
@@ -252,4 +339,5 @@ Allow customers to view who they referred and what the status is.
 | Validate referral codes                        | (Optional) via internal service    |
 | Integrate Branch/Adjust (for mobile apps only) | Via deep linking SDKs              |
 | Don’t allow referral code editing post-signup  | Enforce immutability in UI/backend |
+
 

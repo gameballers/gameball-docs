@@ -1,0 +1,204 @@
+---
+title: 'Batch APIs'
+description: 'Process multiple operations efficiently for bulk data management using Gameball Batch APIs'
+---
+
+The **Batch API** allows you to create or update multiple customer profiles in a single request, optimizing performance and reducing network overhead. This is particularly useful for bulk user imports, mass profile updates, and large-scale customer data synchronization.
+
+<Warning>
+This example applies to all types of batch processes, ensuring consistency in handling bulk operations across different endpoints.
+</Warning>
+
+## Step 1: Create a Batch Job
+
+Create a batch job by sending a POST request to the appropriate batch endpoint. For customer data, use the [Batch Customer Data API](/api-reference/batches/batch-creation/customer-data).
+
+**Endpoint:**
+
+```http
+POST /api/v4.0/integrations/batch/customers
+```
+
+**Request Example:**
+
+```json
+{
+    "body": [
+        {
+            "customerId": "12345",
+            "email": "john.doe@example.com",
+            "name": "John Doe",
+            "gender": "M",
+            "dateOfBirth": "1990-01-01",
+            "joinDate": "2022-01-01",
+            "tags": ["vip", "newsletter_subscriber"],
+            "custom": {
+                "favorite_color": "blue",
+                "loyalty_points": 1500
+            }
+        },
+        {
+            "customerId": "67890",
+            "email": "jane.smith@example.com",
+            "name": "Jane Smith",
+            "gender": "F",
+            "dateOfBirth": "1985-05-15",
+            "joinDate": "2023-03-10",
+            "tags": ["premium_member"],
+            "custom": {
+                "favorite_color": "green",
+                "loyalty_points": 2000
+            }
+        }
+    ]
+}
+```
+
+**Response:**
+
+```json
+{
+    "jobId": 123456
+}
+```
+
+## Step 2: Get the Job Status
+
+Use the [Check Batch Status API](/api-reference/batches/batch-management/check-status) to monitor the progress of your batch operation:
+
+```http
+GET /api/v4.0/integrations/batch/{jobId}
+```
+
+**Response Examples:**
+
+<AccordionGroup>
+  <Accordion title="Queued">
+    ```json
+    {
+      "operation": "Customer Creation Batch Job",
+      "errorCount": 0,
+      "totalCount": 0,
+      "finishedCount": 0,
+      "startedAt": null,
+      "createdAt": "2025-03-14T10:00:00Z",
+      "status": "queued",
+      "response": null
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Running">
+    ```json
+    {
+      "operation": "Customer Creation Batch Job",
+      "errorCount": 0,
+      "totalCount": 1,
+      "finishedCount": 1,
+      "startedAt": "2025-03-14T10:30:00Z",
+      "createdAt": "2025-03-14T10:00:00Z",
+      "status": "running",
+      "response": {
+        "successful": [
+          {
+            "customerId": "12345",
+            "message": "Customer created successfully"
+          }
+        ],
+        "failed": []
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Completed">
+    ```json
+    {
+      "operation": "Customer Creation Batch Job",
+      "errorCount": 1,
+      "totalCount": 2,
+      "finishedCount": 1,
+      "startedAt": "2025-03-14T10:00:00Z",
+      "createdAt": "2025-03-14T10:00:00Z",
+      "status": "completed",
+      "response": {
+        "successful": [
+          {
+            "customerId": "12345",
+            "message": "Customer created successfully"
+          }
+        ],
+        "failed": [
+          {
+            "customerId": "67890",
+            "error": "Failed to create customer"
+          }
+        ]
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Step 3: Stop the Running Job (Optional)
+
+If needed, you can stop a running batch job using the [Stop Batch Execution API](/api-reference/batches/batch-management/stop-execution):
+
+```http
+DELETE /api/v4.0/integrations/batch/{jobId}
+```
+
+## Available Batch Operations
+
+<CardGroup cols={2}>
+  <Card title="Customer Data" icon="users" href="/api-reference/batches/batch-creation/customer-data">
+    Bulk customer data processing for efficient data synchronization and migration
+  </Card>
+  <Card title="Orders" icon="shopping-cart" href="/api-reference/batches/batch-creation/orders">
+    Bulk order processing for efficient order management and tracking
+  </Card>
+  <Card title="Balance Inquiries" icon="search" href="/api-reference/batches/batch-creation/balance-inquiries">
+    Bulk balance inquiry processing for efficient customer balance management
+  </Card>
+  <Card title="Adjustments" icon="settings" href="/api-reference/batches/batch-creation/adjustments">
+    Bulk balance adjustments for efficient customer balance management
+  </Card>
+  <Card title="Cashback Rewards" icon="gift" href="/api-reference/batches/batch-creation/cashback-rewards">
+    Bulk cashback reward processing for efficient reward distribution
+  </Card>
+  <Card title="Redemptions" icon="credit-card" href="/api-reference/batches/batch-creation/redemptions">
+    Bulk redemption processing for efficient reward redemption management
+  </Card>
+  <Card title="Events" icon="activity" href="/api-reference/batches/batch-creation/events">
+    Bulk event processing for efficient event tracking and analytics
+  </Card>
+</CardGroup>
+
+<Info>
+**Performance Limit:** Each batch request supports up to **1,000 objects** per request for optimal processing efficiency.
+</Info>
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Batch APIs Overview" icon="layer-group" href="/api-reference/batches/batches">
+    Complete guide to batch operations
+  </Card>
+  <Card title="Batch Customer Data API" icon="users" href="/api-reference/batches/batch-creation/customer-data">
+    Bulk customer data processing
+  </Card>
+  <Card title="Check Batch Status API" icon="clock" href="/api-reference/batches/batch-management/check-status">
+    Monitor batch operation progress
+  </Card>
+  <Card title="Stop Batch Execution API" icon="stop" href="/api-reference/batches/batch-management/stop-execution">
+    Stop a running batch job
+  </Card>
+  <Card title="Build Your Own UI" icon="layout" href="/tutorials-new/experiences/more/build-your-own-ui">
+    Back to Build Your Own UI overview
+  </Card>
+</CardGroup>
+
+
+

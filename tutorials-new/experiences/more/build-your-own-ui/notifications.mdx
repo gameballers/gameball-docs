@@ -1,0 +1,97 @@
+---
+title: 'Notifications'
+description: 'Display customer notifications with pagination and language support using the Customer Notifications API'
+---
+
+Keeping customers informed about their account activities, such as points adjustments or new rewards, is essential for maintaining engagement. With the [Customer Notifications API](/api-reference/customers/notifications/list-customer-notifications), you can easily fetch, manage, and display these notifications in a clear and meaningful way.
+
+## Step 1: Fetch Customer Notifications
+
+Use the [Get Customer Notifications API](/api-reference/customers/notifications/list-customer-notifications) to fetch the customer notifications. This will return a list of notifications for the customer.
+
+**Response Body:**
+
+```json
+{
+    "notifications": [
+        {
+            "notificationId": "15227561",
+            "title": "Congratulations!",
+            "body": "Buy over 500$ and get 10$ 💰 earned. Enjoy your rewards and keep earning more!",
+            "isRead": false,
+            "createdAt": "2024-11-19T13:39:13.792Z",
+            "lang": "en",
+            "icon": "https://cdn.gameball.co/uploads/Client_9423/2b2efc2f-b85e-4cce-baf6-380454e4d62ccash.webp"
+        },
+        {
+            "notificationId": "15227560",
+            "title": "Congratulations!",
+            "body": "First Order earned. Enjoy your rewards and keep earning more!",
+            "isRead": false,
+            "createdAt": "2024-11-19T13:39:13.067Z",
+            "lang": "en",
+            "icon": "https://cdn.gameball.co/uploads/Client_9423/1de5b89b-a7c4-44d9-a9cb-5e374e051938order.webp"
+        }
+    ],
+    "count": 4,
+    "hasMore": false
+}
+```
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FFW5WNOXoBye8cEXJQECr%2Fimage.png?alt=media&token=f6785347-aa43-4b31-a8aa-46361f07fcd6" alt="Notifications list UI example" />
+</Frame>
+
+## Pagination in Customer Notifications
+
+If your application involves displaying a large number of notifications, you can take advantage of **pagination** to break the notifications into manageable chunks. In the response, you'll see two useful attributes:
+
+- **count**: The number of notifications returned in the current response
+- **hasMore**: A boolean that indicates if there are more notifications that can be fetched
+
+This allows you to implement a **paging system** in your UI, enabling users to navigate through pages of notifications.
+
+## Customizing Notifications by Language
+
+By default, notifications are returned in the system's default language, indicated by the **lang** attribute in the API response. However, if your customers want to see notifications in a different language, you can provide them the option to do so.
+
+To fetch notifications in a different language, pass the desired language code as a query parameter:
+
+```http
+GET /api/v4.0/integrations/customers/{customerId}/notifications?lang=es
+```
+
+## Step 2: Mark Notifications as Read
+
+When the customer views their notifications, you might want to mark them as read. This can be done through the [Mark Notifications as Read API](/api-reference/customers/notifications/mark-notifications-read). You'll need to pass the `notificationId` for each notification that you want to mark as read.
+
+**Request Body:**
+
+```json
+{
+  "notificationsIds": [15227561, 15227560]
+}
+```
+
+**What Happens on the Frontend:**
+
+- Once the notification is marked as read, update its status visually (e.g., changing the color or icon) to reflect that it's been read
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Customer Notifications API" icon="bell" href="/api-reference/customers/notifications/list-customer-notifications">
+    Retrieve and manage customer notifications
+  </Card>
+  <Card title="Mark Notifications as Read API" icon="check" href="/api-reference/customers/notifications/mark-notifications-read">
+    Mark customer notifications as read
+  </Card>
+  <Card title="Build Your Own UI" icon="layout" href="/tutorials-new/experiences/more/build-your-own-ui">
+    Back to Build Your Own UI overview
+  </Card>
+</CardGroup>
+
+
+

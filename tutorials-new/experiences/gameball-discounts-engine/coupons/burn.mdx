@@ -1,14 +1,219 @@
 ---
-title: 'Burn'
-description: 'Mark coupons as used'
+title: "Burn"
+description: "Finalize coupon redemptions after successful payments or order completion using Gameball’s discount engine."
 ---
 
-Mark coupons as used after successful order completion.
+# Burn Coupon API
 
-## When to Burn
+After a coupon is validated and applied, its redemption flow isn’t complete until it’s **burned**. This final step confirms the discount was successfully used and ensures it can’t be redeemed again.
 
-Burn coupons when:
-- Order is successfully placed
-- Payment is confirmed
-- Products are fulfilled
+Burning a coupon finalizes the process in Gameball’s discount engine, updating its lifecycle status from _locked_ to _used_, and keeping your discounts, analytics, and customer rewards accurate.
+
+---
+
+## Overview
+
+In Gameball’s coupon lifecycle, the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) is the final confirmation step that marks a coupon as fully redeemed after a successful order or payment.
+
+You’ll typically call this API right after:
+
+- The **payment succeeds**, or
+- The **order is submitted and confirmed**, or
+- A **POS or fintech transaction** completes successfully.
+
+If the transaction fails or gets canceled, you should instead use the [Release Coupon API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) to free the coupon for reuse.
+
+---
+
+## When and Where to Use It
+
+The [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) applies across different business contexts:
+
+| Channel                   | Example Use                                                              |
+| ------------------------- | ------------------------------------------------------------------------ |
+| 🛍️ **E-commerce**        | Finalize a discount coupon after successful checkout.                    |
+| 🏪 **POS (Retail)**       | Confirm in-store coupon redemption once the sale is processed.           |
+| 💳 **Fintech / Payments** | Apply discounts or cashback coupons to payments, bills, or service fees. |
+
+---
+
+## **Customer Experience**
+
+From a customer’s perspective, the burn process happens silently behind the scenes — right after they complete payment.
+
+What they experience is a seamless, one-time coupon redemption that:
+
+- Reflects an accurate discount in the payment summary,
+- Prevents reuse of single-use or limited-use coupons, and
+- Keeps their rewards and cashback history accurate in their profile.
+
+---
+
+## **Use Case 1: E-commerce Checkout Completion**
+
+**Scenario:**
+
+After Sarah completes her order using the coupon **WINTER20**, the payment gateway confirms success.
+
+Your backend now needs to finalize the coupon redemption to ensure WINTER20 can’t be reused.
+
+### **How to Implement**
+
+Once the order status is confirmed as “paid,” call the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) using:
+
+- The customerId
+- The couponCodes
+- The couponsLockReference (returned when the coupon was validated or locked)
+
+#### **Example Request**
+
+```json
+{
+  "customerId": "CUST_1123",
+  "couponCodes": ["WINTER20"],
+  "couponsLockReference": "lock-47bc79a1-c4b3-4a77-8b61-f9a32f9ef98a"
+}
+```
+
+#### **Example Response**
+
+```json
+{
+  "status": "success",
+  "burnedCoupons": [
+    {
+      "code": "WINTER20",
+      "burnedAt": "2025-02-20T12:30:00Z",
+      "discountType": "Percentage",
+      "discountValue": 20
+    }
+  ]
+}
+```
+
+---
+
+### **What Gameball Does Behind the Scenes**
+
+<Steps>
+  <Step title="Verifies that the coupon was previously locked for this customer and session." icon="check">
+    
+  </Step>
+  <Step title="Updates its status to burned." icon="burn">
+    
+  </Step>
+  <Step title="Reflects the discount in Gameball analytics and redemption tracking." icon="analytics">
+    
+  </Step>
+</Steps>
+
+<Tip>
+  **Tip:** If the transaction fails or is canceled, use the [Release Coupon API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) instead to free the coupon.
+</Tip>
+
+---
+
+## **Use Case 2: POS Redemption at Physical Stores**
+
+**Scenario:**
+
+Omar visits a retail store and uses his **LOYALTY10** coupon at checkout.
+
+Once the cashier confirms the sale in the POS, the coupon should be marked as consumed.
+
+### **How to Implement**
+
+Your POS backend should call the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) once the transaction is finalized.
+
+#### **Example Request**
+
+```json
+{
+  "customerId": "POS_880",
+  "couponCodes": ["LOYALTY10"],
+  "couponsLockReference": "lock-17a9bc73-9c2b-4f1d-80a3-b3ab3e07b3d1"
+}
+```
+
+#### **Example Response**
+
+```json
+{
+  "status": "success",
+  "burnedCoupons": [
+    {
+      "code": "LOYALTY10",
+      "burnedAt": "2025-02-20T14:10:00Z",
+      "discountType": "FixedAmount",
+      "discountValue": 10
+    }
+  ]
+}
+```
+
+### **Best Practice**
+
+- Ensure the coupon is **validated and locked** before burning.
+- Use synchronized timestamps between POS and Gameball to keep transaction records aligned.
+
+---
+
+## **Use Case 3: Payment-Based Redemption (Fintech or Services)**
+
+**Scenario:**
+
+A fintech app offers a **SAR 20 discount** on a customer’s next wallet top-up using **BILLPAY20**.
+
+Once the top-up succeeds, the system should burn the coupon to finalize redemption.
+
+### **Why This Matters**
+
+In service-based platforms, there’s no “cart” or “order.” Coupons apply directly to **payments, invoices, or subscriptions**, so burning them ensures accurate usage across non-ecommerce flows.
+
+### **How to Implement**
+
+After confirming a successful payment through the [Payment Tracking API](https://gameball.mintlify.app/api-reference/payment/payment-tracking), call the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) just as you would after an e-commerce order.
+
+#### **Example Request**
+
+```json
+{
+  "customerId": "USER_FINTECH_001",
+  "couponCodes": ["BILLPAY20"],
+  "couponsLockReference": "lock-8b6c3a9d-f9ac-4e7c-99b0-3c0e820ae77e"
+}
+```
+
+#### **Example Response**
+
+```bash
+{
+  "status": "success",
+  "burnedCoupons": [
+    {
+      "code": "BILLPAY20",
+      "discountType": "FixedAmount",
+      "discountValue": 20,
+      "appliedOn": "Payment",
+      "burnedAt": "2025-02-20T16:40:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## **Best Practices**
+
+<Check>
+  Burn only **after payment success**, never before.
+</Check>
+
+<Check>
+  Always use the **latest** `couponsLockReference` for the same coupon.
+</Check>
+
+<Check>
+  If payment fails, use the [**Release Coupon API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons) instead.
+</Check>
 

@@ -3,16 +3,19 @@ title: "Taxes and Shipping Exclusion"
 description: "Exclude taxes and shipping from point calculations"
 ---
 
-<Note>
-  This is an advanced order handling scenario. If you're new to order integration, start with [Submitting Orders](/tutorials-new/experiences/order-handling/submit-order) first.
-</Note>
-
-## Overview
+# Overview
 
 Some businesses prefer to reward customers only on the **actual product value**, excluding **shipping fees** and **taxes** from the rewardable amount.\
 Gameball supports this behavior through a configurable setting.
 
 If enabled, Gameball will automatically **subtract tax and shipping values** before calculating the reward amount.
+
+### How to enable the shipping and tax exclusion feature:
+
+1. In your dashboard, navigate to **Programs → Earn Points** from the left-side menu.
+2. Ensure that both of the following options are **enabled** by switching on their toggles:
+
+![Image(131) Pn](/images/image\(131\).png)
 
 ---
 
@@ -20,17 +23,51 @@ If enabled, Gameball will automatically **subtract tax and shipping values** bef
 
 Let’s say your customer pays \$100, but \$20 of that is tax and shipping. If you don’t exclude these values, your loyalty program will over-reward, giving points for money not actually spent on products.
 
-That’s why, if you choose to exclude tax and shipping, it’s critical to send **complete and accurate values** in the [**Order API**](https://gameball.mintlify.app/api-reference/order/order-tracking), including:
+That’s why, if you choose to exclude tax and shipping, it’s critical to send **complete and accurate values** in the [**Order API**](https://gameball.mintlify.app/api-reference/order/order-tracking), so Gameball can apply deductions correctly.
 
-- `totalShipping`: The total shipping fee paid by the customer
-- `totalTax`: The total tax across all items
-- `taxes`: At the item level, represents the total tax for each product line (`price × quantity`)
+---
+
+## Prerequisites for Using the “Exclude Taxes and Shipping” Feature
+
+To ensure this feature works as expected, your Order API payload must include the following fields:
+
+### **1. totalShipping (Required if feature is enabled)**
+
+You must include the totalShipping attribute in your Order API request.
+
+- This value is used by Gameball to **deduct shipping costs** from both totalPaid and totalPrice when calculating rewards.
+- Even though totalShipping is optional by default, it becomes **mandatory** once this feature is activated.
+
+<Warning>
+  Always send totalPaid and totalPrice **as-is**, including shipping and taxes. Do **not** exclude them yourself, Gameball will handle the deductions internally.
+</Warning>
+
+### **2. totalTax and Item-Level taxes (Required if feature is enabled)**
+
+You must send both totalTax and per-item taxes values.
+
+- **totalTax** (order-level): Used to deduct total taxes from totalPaid and totalPrice.
+- **taxes** (item-level): Represents the total tax for that specific line item.
+
+#### **Tax Calculation Clarification:**
+
+If an item has a tax of **\$10 per unit**, and the customer buys **2 units**, the correct taxes value for that item is:
+
+> 2 × \$10 = \$20
+
+This ensures Gameball calculates tax deductions accurately per product.
 
 <Tip>
   Even though the API doesn’t enforce these fields, they become mandatory when **tax and shipping exclusions** are turned on.
 </Tip>
 
----
+### **Summary of Required Fields (When Feature Is Enabled)**
+
+| Field                | Required          | Description                                                |
+| -------------------- | ----------------- | ---------------------------------------------------------- |
+| `totalShipping`      | Yes               | Used to deduct shipping from `totalPaid` and `totalPrice`. |
+| `totalTax`           | Yes               | Used to deduct taxes from `totalPaid` and `totalPrice`.    |
+| `lineItems[*].taxes` | If lineItems used | Must reflect the total tax for the quantity purchased.     |
 
 ### Example Scenario:
 
@@ -39,12 +76,12 @@ Let’s say a customer places this order:
 - 2 × Moisturizer at **\$200 each** → **Subtotal = \$400**
 - 1 × Tote Bag at **\$150**
 - Shipping Fee = **\$50**
-- Tax on Moisturizer = **10% = \$20**
+- Tax on Moisturizer = **10 = \$20**
 - Tax on Tote Bag = **\$15**
-- Total Tax = **\$20 + \$15 = \$35**
-- **Total Paid = \$400 + \$150 + \$50 + \$35 = \$635**
+- Total Tax = **15 = \$35**
+- **Total Paid = 150 + 35 = \$635**
 
-### Your API Payload
+**<u>Your API Payload:</u>**
 
 ```json
 {
@@ -73,6 +110,12 @@ Let’s say a customer places this order:
 }
 ```
 
+<Warning>
+  Always send all tax and shipping values in your payload, Gameball will handle the exclusion internally. Do not modify your total values manually.
+</Warning>
+
+---
+
 ## How Gameball Calculates Rewards
 
 With **tax and shipping exclusions** turned on, Gameball calculates the **rewardable amount** as follows:
@@ -82,33 +125,40 @@ With **tax and shipping exclusions** turned on, Gameball calculates the **reward
 3. **Subtract tax:** `$585 – $35 = $550`
 
 <Info>
-  Gameball rewards will be calculated based on **\$550** — the actual product value.
+  Gameball rewards will be calculated based on **\$550**,  the actual product value.
 </Info>
+
+### **What Happens If You Don’t send taxes in Line Items**
+
+If you send `totalTax` at the order level but omit the taxes field for each `lineItem`, Gameball will still work as follows:
+
+- For **merchant-level cashback** (general rate):
+
+  Cashback will still be calculated correctly; Gameball will subtract `totalTax` from the order total before applying the reward.
+- For **collection-based cashback** (different rates per collection):
+
+  Gameball will treat missing taxes values as **0** per line item. Since the item prices are already sent excluding tax, the calculation result will be the same, but per-item accuracy and visibility will be lost.
+
+**In short:**
+
+> Rewards will still be calculated correctly overall, but omitting item-level taxes limits the precision of per-product or per-collection reward tracking.
+
+**Best Practice:**
+
+> Always include both `totalTax` and `taxes` per item for accurate, collection-level cashback calculations and consistent analytics.
 
 ---
 
 ## Key Takeaways
 
 <Note>
-    Gameball ensures customers are rewarded accurately, only for the **true value of products**.
+  Gameball ensures customers are rewarded accurately, only for the **true value of products**.
 </Note>
 
 **Remember to:**
 
-- Include `totalShipping`, `totalTax`, and per-line `taxes` when this feature is active
+- Include `totalShipping`, `totalTax`, and per-lineItem `taxes` when this feature is active
 - Ensure the `taxes` field in each `lineItem` represents the **total tax for that product line** (`unit tax × quantity`)
 - Keep your data complete and consistent to guarantee precise reward calculations
 
----
-
-## Related Topics
-
-<CardGroup cols={2}>
-  <Card title="Submitting Orders" icon="shopping-cart" href="/tutorials-new/experiences/order-handling/submit-order">
-    Back to main order submission guide
-  </Card>
-  <Card title="Collection-Based Earning" icon="tags" href="/tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning">
-    Configure rewards by product collections
-  </Card>
-</CardGroup>
 

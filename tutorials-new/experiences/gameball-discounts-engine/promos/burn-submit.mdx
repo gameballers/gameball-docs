@@ -1,15 +1,225 @@
 ---
-title: 'Burn/Submit Promo'
-description: 'Record promotion usage'
+title: "Burn Promos"
+description: "Finalize promotion redemptions after successful payments or order completion using Gameball’s Promo Engine."
 ---
 
-Record promotion usage when an order is completed with a promotional discount.
+# Burn API
 
-## Submission
+After a promotion is validated and applied, its redemption flow isn’t complete until it’s **burned**.\
+This final step confirms that the promotion was successfully used, ensuring it cannot be reused and that your analytics, limits, and reward logic remain accurate.
 
-Submit promotion usage to:
-- Track campaign performance
-- Enforce usage limits
-- Update customer eligibility
-- Generate analytics
+Burning a promotion finalizes its lifecycle inside Gameball’s **Promo Engine** by marking it as **used**, ensuring transparent tracking and reliable customer data.
+
+---
+
+## Overview
+
+In Gameball’s **Promo Engine**, the [**Burn API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) serves as the **final confirmation step** that marks a promotion as redeemed after a successful order or payment.
+
+You should call this API once the transaction is **successfully completed**, such as when:
+
+- A payment is confirmed
+- An order is submitted and verified
+- A POS or fintech transaction completes successfully
+
+If the transaction fails, gets canceled, or times out, use the [**Release API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons) instead to free the locked promotion.
+
+---
+
+## Before You Burn: Validate First
+
+Before any promotion can be finalized (burned), it **must first be validated** using the\
+[**Validate API**](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon).
+
+This validation step is essential because it:
+
+<Steps>
+  <Step title="Confirms eligibility">
+    Ensures the promotion is active and applicable to the customer, transaction, and cart context.
+  </Step>
+  <Step title="Generates a lock reference">
+    Returns a unique `lockReference`; this must be included in all burn or order redemption requests.
+  </Step>
+</Steps>
+
+<Tip>
+  Always validate promotions just before checkout. Use the returned `lockReference` when:
+
+  - Calling the[ Burn API ](https://gameball.mintlify.app/api-reference/coupons/burn-coupon)after successful payment, or
+  - Sending the [Order API](https://gameball.mintlify.app/api-reference/order/order-tracking) with `couponsLockReference` for automatic burning.
+</Tip>
+
+<Warning>
+  If you skip validation or use an expired `lockReference`  the burn or redemption request will fail, and the promotion won’t apply.
+</Warning>
+
+---
+
+## When and Where to Use It
+
+| Channel                   | Example Use                                                               |
+| ------------------------- | ------------------------------------------------------------------------- |
+| 🛍️ **E-commerce**        | Finalize a 10% off promotion after successful checkout.                   |
+| 🏪 **POS (Retail)**       | Confirm an in-store promotion once the sale is processed.                 |
+| 💳 **Fintech / Payments** | Apply and finalize promotional discounts on payments, bills, or services. |
+
+---
+
+## **Use Case 1: Burn Promotion After Checkout**
+
+### **Scenario**
+
+After Sarah completes her order using the **WEEKEND10** promotion, the payment gateway confirms success.
+
+Your backend must now finalize the promotion redemption to ensure it cannot be reused.
+
+### **How to Implement**
+
+Once the payment is confirmed, call the [**Burn API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) with:
+
+- `customerId`: the customer’s unique identifier
+- code(s): the applied promotion code(s), this is shared as a path parameter
+- `lockReference`: the lock reference from the validation step
+
+#### **Example Request**
+
+```json
+{
+  "customerId": "CUST_1123",
+  "promotionCodes": ["WEEKEND10"],
+  "couponsLockReference": "lock-47bc79a1-c4b3-4a77-8b61-f9a32f9ef98a"
+}
+```
+
+#### **Example Response**
+
+```json
+{
+  "status": "success",
+  "burnedPromotions": [
+    {
+      "code": "WEEKEND10",
+      "burnedAt": "2025-03-10T15:20:00Z",
+      "discountType": "Percentage",
+      "discountValue": 10
+    }
+  ]
+}
+```
+
+---
+
+## **Use Case 2: Apply & Burn a Promotion via the Order API**
+
+### **Scenario**
+
+For a smoother checkout, you can finalize promotions automatically when creating an order.
+
+**Prerequisite:** the promotion must first be validated using the [**Validate Promotion API**](/api-reference/coupons/validate-single-coupon) to obtain the `couponsLockReference`
+
+### **Flow**
+
+<Steps>
+  <Step title="Validate the promotion">
+    Call the [Validate API](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon) with the promotion code and customer data. The response includes a lockReference that temporarily locks this promotion for checkout.
+  </Step>
+  <Step title="Submit the order (auto-burn)">
+    Send the [Order API ](https://gameball.mintlify.app/api-reference/order/order-tracking)request, including the `couponsLockReference`. Once the order succeeds, Gameball automatically burns the promotion.
+  </Step>
+  <Step title="If payment fails or order is canceled">
+    Use the [Release API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) to unlock the promotion for reuse. Or wait until the configured lock duration expires.
+  </Step>
+</Steps>
+
+### **Example Flow**
+
+#### **Step 1: Validate the Promotion**
+
+```json
+// POST /integrations/coupons/{code}/validate
+{
+  "customerId": "CUST_4412"
+}
+```
+
+#### **Response**:
+
+```json
+{
+  "status": "valid",
+  "lockReference": "lock-47bc79a1-c4b3-4a77-8b61-f9a32f9ef98a"
+}
+```
+
+#### **Step 2: Create Order (Auto-Burn)**
+
+```json
+// POST /integrations/orders
+{
+  "customerId": "CUST_4412",
+  "orderId": "ORD_9001",
+  "totalPaid": 250.0,
+  "orderDate": "2025-03-10T12:45:00Z",
+  "redemption": {
+    "couponsLockReference": "lock-47bc79a1-c4b3-4a77-8b61-f9a32f9ef98a"
+  },
+  "lineItems": [
+    { "productId": "TSH001", "price": 125.0, "quantity": 2 }
+  ]
+}
+```
+
+<Tip>
+  When an order is successfully processed, the associated promotion is automatically burned; no manual Burn API call required.
+</Tip>
+
+---
+
+## **Use Case 3: Payment-Based Promotion (Fintech or Subscriptions)**
+
+### **Scenario**
+
+A fintech app offers a **SAR 25 promotion** on wallet top-ups using the **PAYBILL25** promotion code.
+
+After confirming the transaction, the app must burn the promotion to finalize it.
+
+### **How to Implement**
+
+Once validation and payment success are confirmed, call the [**Burn API **](https://gameball.mintlify.app/api-reference/coupons/burn-coupon)as follows:
+
+```json
+{
+  "customerId": "USER_902",
+  "lockReference": "lock-8c34d2a1-c8e0-4a9b-9317-2a9bfc1dc728"
+}
+```
+
+#### **Response:**
+
+```json
+{
+  "success": true,
+  "burnedAt": "2023-11-07T05:31:56Z"
+}
+```
+
+---
+
+## Best Practice
+
+<Check>
+   Always validate promotions before applying or burning them.
+</Check>
+
+<Check>
+  Burn promotions only after/during successful order or payment confirmation.
+</Check>
+
+<Check>
+  When using `redemption.couponsLockReferen`ce in the Order API, a separate burn call isn’t required.
+</Check>
+
+<Check>
+  If the order or payment fails, use the [Release API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) to unlock the promotion.
+</Check>
 

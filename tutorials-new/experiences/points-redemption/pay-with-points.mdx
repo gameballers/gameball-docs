@@ -3,6 +3,8 @@ title: "Pay with Points"
 description: "Direct debit redemption at checkout"
 ---
 
+# Direct Points Redemption Discount
+
 Give your customers a seamless experience by allowing them to **redeem their loyalty points instantly at checkout**, with no need for coupon codes or additional steps. This guide will walk you through showing the points balance, validating redemptions, applying them in real time, and handling both immediate and delayed checkout scenarios.
 
 ##  What is Direct Points Redemption Discount?
@@ -14,7 +16,7 @@ With Direct Points Redemption Discount, customers can apply their available loya
   alt="Direct Redemption Gi"
   title="Direct Redemption Gi"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"41%" }}
 />
 
 ---
@@ -82,7 +84,7 @@ When the customer lands on the checkout screen, one of the first things you shou
   alt="Direct Redemption 2 Pn"
   title="Direct Redemption 2 Pn"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"51%" }}
 />
 
 To retrieve this information, call:
@@ -91,13 +93,11 @@ To retrieve this information, call:
 GET /customer-points-balance
 ```
 
-This API returns a full breakdown of the customer’s loyalty points, including available, total, and pending balances.
+This [API](https://gameball.mintlify.app/api-reference/customers/progress/get-customer-balance) returns a full breakdown of the customer’s loyalty points, including available, total, and pending balances.
 
 #### **Why This Matters:**
 
 Displaying point values transparently empowers customers to make informed redemption choices. It boosts engagement and encourages them to apply points immediately, especially if they see the direct savings impact.
-
-<ResponseExample>
 
 ```json
 {
@@ -110,18 +110,16 @@ Displaying point values transparently empowers customers to make informed redemp
 }
 ```
 
-</ResponseExample>
-
 **Breakdown of Key Fields:**
 
+- **totalPointsBalance**: Total points including pending ones, useful for showing potential future value.
+- **totalPointsValue**: The total monetary value of the customer's points, including pending points.
 - **availablePointsBalance**: Points that the customer can use right now.
 - **availablePointsValue**: Monetary equivalent of available points (e.g., 1,000 points = \$50).
-- **totalPointsBalance**: Total points including pending ones, useful for showing potential future value.
 - **pendingPoints**: Points that are earned but temporarily held during the return/cancellation window.
+- **pendingPointsValue**: Monetary equivalent of pending points.
 
-**pendingPointsValue**: Monetary equivalent of pending points.
-
-### **Understanding Pending Points:**
+#### **Understanding Pending Points:**
 
 Pending points are loyalty points that have been earned but are still within a return period (e.g., 14 days after a purchase). These points:
 
@@ -149,12 +147,12 @@ Also include:
   alt="Direct Redemption 3 Pn"
   title="Direct Redemption 3 Pn"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"63%" }}
 />
 
 ---
 
-### **Validate Customer Balance Before Redemption**
+#### **Validate Customer Balance before Redemption:**
 
 Ensure the customer has enough points to redeem.
 
@@ -173,16 +171,16 @@ After displaying the balance, give users a field or slider to choose **how many 
 
 Once they click “Apply Points”:
 
-- Call the **Hold Points API**
-- This **temporarily locks** those points on Gameball’s side, ensuring they can’t be used twice (e.g., on another device or browser)
-- The response includes a holdReference that you must save for later
+- Call the [**Hold Points API**](https://gameball.mintlify.app/api-reference/transactions/hold-management/hold)
+- This **temporarily holds** those points on Gameball’s side, ensuring they can’t be used twice (e.g., on another device or browser)
+- The response includes a `holdReference` that you must save for later
 
 <img
   src="/images/direct-redemption-4.gif"
   alt="Direct Redemption 4 Gi"
   title="Direct Redemption 4 Gi"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"57%" }}
 />
 
 #### **Why this matters:**
@@ -193,7 +191,7 @@ Without this step, customers could accidentally overspend points from multiple t
 
 POST /hold-points
 
-```
+```json
 {
   "customerId": "cust_12345",
   "transactionTime": "2024-11-01T12:00:00Z",
@@ -203,7 +201,7 @@ POST /hold-points
 
 #### **Response:**
 
-```
+```json
 {
   "holdReference": "abc-123",
   "holdAmount": 20.0,
@@ -229,8 +227,8 @@ Save the `holdReference`You’ll need it at the order confirmation stage.
 
 Once the customer reviews the final cart and hits **“Place Order”**, your backend should:
 
-- Call the **Order API**
-- Pass the holdReference you received earlier
+- Call the [**Order API**](https://gameball.mintlify.app/api-reference/order/order-tracking)
+- Pass the `holdReference` you received earlier
 - This burns (deducts) the points and associates them with the order
 
 #### **Why this matters:**
@@ -241,7 +239,7 @@ This is the **final step** that marks the redemption as complete and deducts the
 
 POST /order
 
-```
+```json
 {
   "customerId": "cust_12345",
   "orderId": "ORD67890",
@@ -258,17 +256,17 @@ POST /order
   alt="Direct Redemption 5 Gi"
   title="Direct Redemption 5 Gi"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"43%" }}
 />
 
-**Gameball touchpoint:** When the user presses **“Place Order”**, the **Track Order API** should be triggered.
+**Gameball touchpoint:** When the user presses **“Place Order”**, the [**Track Order API **](https://gameball.mintlify.app/api-reference/order/order-tracking)should be triggered.
 
 <img
   src="/images/direct-redemption-3.png"
   alt="Direct Redemption 3 Pn"
   title="Direct Redemption 3 Pn"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"53%" }}
 />
 
 ---
@@ -287,15 +285,15 @@ This protects the customer experience while ensuring points don’t remain locke
 
 ---
 
-#### **Manual Release (Release Hold API)**
+#### **Manual Release (**[**Release Hold API**](https://gameball.mintlify.app/api-reference/transactions/hold-management/release)**)**
 
 If the customer decides to **cancel the order** or wants to use their points for a different purchase **before the hold timeout ends**, you can proactively **release the held points**.
 
-To do this, call the **Release Hold API** using the original holdReference.
+To do this, call the [**Release Hold API**](https://gameball.mintlify.app/api-reference/transactions/hold-management/release) using the original holdReference.
 
 POST /release-points
 
-```
+```json
 {
   "holdReference": "abc-123"
 }
@@ -314,7 +312,7 @@ Use this if:
   alt="Direct Redemption 4 Gi"
   title="Direct Redemption 4 Gi"
   className="mx-auto"
-  style={{ width:"30%" }}
+  style={{ width:"54%" }}
 />
 
 ---
@@ -327,4 +325,5 @@ Use this if:
 | Apply points        | POST /hold-points            | Reserve points temporarily          |
 | Place order         | POST /order                  | Finalize redemption and burn points |
 | Order Cancelled     | POST /release-points         | Manually release held points        |
+
 

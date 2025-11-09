@@ -1,0 +1,64 @@
+---
+title: 'Customer Balance'
+description: 'Display customer points balance, pending points, and expiring rewards using the Get Customer Balance API'
+---
+
+Loyalty programs thrive when customers can easily see their rewards and understand their value. By using the [Get Customer Balance API](/api-reference/customers/progress/get-customer-balance), you can create a clear and motivating view of a customer's points balance, helping them track their earnings and see how close they are to redeeming rewards.
+
+## Response Example
+
+```json
+{
+    "totalPointsBalance": 1500,
+    "totalPointsValue": 75.0,
+    "availablePointsBalance": 1200,
+    "availablePointsValue": 60.0,
+    "pendingPoints": 300,
+    "pendingPointsValue": 15.0,
+    "currency": "USD",
+    "pointsName": "Reward Points",
+    "nextExpiringPointsAmount": 200,
+    "nextExpiringPointsValue": 10.0,
+    "nextExpiringPointsDate": "2024-12-01T00:00:00",
+    "totalEarnedPoints": 2500
+}
+```
+
+## Display Ideas
+
+<CardGroup cols={2}>
+  <Card title="Points Summary" icon="coins">
+    - Total Points: Highlight the total points balance and its equivalent monetary value
+    - Available Points: Show points available for immediate use
+    - Pending Points: Display points pending approval, along with their value
+  </Card>
+  <Card title="Call-to-Action" icon="arrow-right">
+    Emphasize available points and their redemption potential (e.g., "Redeem 1200 points to save $60!")
+  </Card>
+  <Card title="Expiring Points Alert" icon="clock">
+    Notify customers about upcoming expiring points and their expiration date
+  </Card>
+  <Card title="Progress Indicator" icon="chart-line">
+    Show a progress bar or similar visual element to indicate pending or expiring points relative to the total
+  </Card>
+</CardGroup>
+
+<Frame>
+<img src="https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/HVzwaotcmhU2lgEYAM6L/image.png" alt="Customer balance UI example" />
+</Frame>
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer Balance API" icon="code" href="/api-reference/customers/progress/get-customer-balance">
+    Retrieve customer balance including available and pending points
+  </Card>
+  <Card title="Build Your Own UI" icon="layout" href="/tutorials-new/experiences/more/build-your-own-ui">
+    Back to Build Your Own UI overview
+  </Card>
+</CardGroup>
+
+
+

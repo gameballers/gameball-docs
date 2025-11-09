@@ -1,0 +1,87 @@
+---
+title: 'Widget Configurations'
+description: 'Adapt UI dynamically based on configuration flags using the Widget Configurations API'
+---
+
+When designing user interfaces for your app or website, it's crucial that the UI adapts seamlessly to the changing configurations set within Gameball. Whether it's temporarily disabling a feature like the cashback program during the financial year-end or adjusting to new business rules, having an adaptive UI ensures a smooth user experience without the need for frequent code updates or redeployments.
+
+With the [Widget Configurations API](/api-reference/configurations/widget-configuration), you can dynamically update your UI elements based on real-time changes within the Gameball platform. This eliminates the need for manual updates each time there is a configuration change, offering a more efficient and responsive way to reflect business decisions.
+
+## Widget Configurations API Response
+
+The Configurations API returns a set of configuration flags, which control the visibility and status of various Gameball programs:
+
+```json
+{
+  "gameballEnabled": true,
+  "redemptionEnabled": true,
+  "cashbackEnabled": true,
+  "visitorProfileEnabled": true,
+  "userProfileEnabled": true,
+  "leaderboardEnabled": true,
+  "notificationsEnabled": true,
+  "currency": "EGP",
+  "programName": "Loyalty Program",
+  "rankPointsName": "Score",
+  "walletPointsName": "Points",
+  "botMainColor": "#E7633F"
+}
+```
+
+## Adaptive UI Based on Flags
+
+In this response, there are several flags that determine whether different Gameball features should be enabled or disabled in your app/webpage:
+
+- **gameballEnabled**: If `false`, all Gameball-related UI elements should be disabled or hidden
+- **cashbackEnabled**: If `false`, elements related to the Cashback program (like cashback balance, cashback offers, etc.) should be hidden
+- **notificationsEnabled**: If `false`, notifications should not be displayed
+
+## Example Implementation
+
+```javascript
+// Fetch widget configurations
+const response = await fetch(
+  'https://api.gameball.co/api/v4.0/integrations/configurations/widget',
+  {
+    headers: {
+      'apikey': 'YOUR_API_KEY',
+      'secretkey': 'YOUR_SECRET_KEY'
+    }
+  }
+);
+
+const config = await response.json();
+
+// Conditionally render UI elements based on configuration
+if (config.gameballEnabled) {
+  // Show Gameball features
+  if (config.cashbackEnabled) {
+    // Show cashback UI elements
+  }
+  if (config.notificationsEnabled) {
+    // Show notifications UI elements
+  }
+} else {
+  // Hide all Gameball-related UI elements
+}
+```
+
+<Info>
+**Dynamic Business Decisions**: The configurations API ensures your UI remains consistent with any business decisions made through the Gameball dashboard without needing to redeploy your application.
+</Info>
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Widget Configurations API" icon="gear" href="/api-reference/configurations/widget-configuration">
+    Retrieve dynamic UI configuration flags
+  </Card>
+  <Card title="Build Your Own UI" icon="layout" href="/tutorials-new/experiences/more/build-your-own-ui">
+    Back to Build Your Own UI overview
+  </Card>
+</CardGroup>
+
+
+

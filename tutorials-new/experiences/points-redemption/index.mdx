@@ -1,7 +1,9 @@
 ---
 title: "Points Redemption Integration"
-description: "Learn how to integrate Gameball's redemption options to turn customer loyalty points into real rewards."
+description: "Learn how to integrate Gameball’s redemption options to turn customer loyalty points into real rewards."
 ---
+
+# Overview
 
 Redemption is a pivotal Gameball feature that transforms customer loyalty points into tangible rewards.\
 By integrating redemption options, businesses can boost repeat purchases and foster customer loyalty.
@@ -23,8 +25,8 @@ Redemption enables customers to **convert their accumulated points into valuable
 > **Adam**, a loyal customer of your food delivery business, has accumulated **1,000 points** after 10 orders.\
 > You can reward Adam by allowing him to redeem his points for:
 >
-> - 10% off
-> - Free shipping
+> - **A direct discount** applied at checkout
+> - 10% off Coupon
 > - Any other coupon types supported by Gameball
 
 ✨ **Business Impact:** Redemption not only delivers tangible value but also encourages repeat purchases and long-term engagement.
@@ -49,41 +51,51 @@ Customers accumulate points by completing various actions on your platform:
 
 ---
 
-### 2. Discover Redemption Options
+### 2. Discover & Redeem Points
 
-When Adam returns to place a new order, he finds available redemption options.\
-At this moment, your UI (cart page, rewards center, or profile widget) can present **two clear paths**:
+When Adam returns to place a new order, he finds available redemption options.
 
-<Tabs>
-  <Tab title="Apply Points Directly">
-    Instantly apply available points as a **discount at checkout**, similar to using store credit.
-  </Tab>
-  <Tab title="Convert Points to a Coupon">
-    Exchange points for a **discount coupon** that can be applied manually at checkout.
-  </Tab>
-</Tabs>
+At this stage, your UI (cart page, rewards center, or profile widget) can present **two redemption paths**, depending on your configuration.
+
+**Option A: Pay with Points**
+
+Customers can instantly apply their available points as a **direct discount at checkout**, similar to using store credit. The system calculates the eligible discount and applies it to the cart total in real time.
+
+<img
+  src="/images/direct-redemption-4.gif"
+  alt="Direct Redemption 4 Gi"
+  title="Direct Redemption 4 Gi"
+  className="mx-auto"
+  style={{ width:"57%" }}
+/>
+
+<Card title="Direct Points redemption at checkout" icon="coins" href="https://gameball.mintlify.app/tutorials-new/experiences/points-redemption/pay-with-points" cta="To start implementing, checkout this tutorial">
+  
+</Card>
+
+**Option B: Convert Points into a Reward or a Coupon:**
+
+Customers can choose to exchange their points for a **reward**, such as a coupon code or other configured benefit. The redeemed reward can then be applied manually during checkout.
+
+<img
+  src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
+  alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  className="mx-auto"
+  style={{ width:"41%" }}
+/>
+
+<Card title="Convert Points to Coupons" icon="badge-percent" href="https://gameball.mintlify.app/tutorials-new/experiences/points-redemption/convert-points-to-coupons" cta="Learn how through this tutorial">
+  
+</Card>
+
+<Tip>
+  You can enable either or both redemption paths based on your desired flexibility and promotional strategy.
+</Tip>
 
 ---
 
-### 3. Redeem & Apply the Selected Option
-
-Depending on your configuration, one or both redemption paths may be available:
-
-<Tabs>
-  <Tab title="Direct Points Redemption">
-    Customers can apply points directly at checkout.\
-    The system calculates and applies the eligible discount **instantly** to the cart total.
-  </Tab>
-  <Tab title="Coupon-Based Redemption">
-    Customers can exchange points for a **unique coupon code**, which they apply at checkout.
-  </Tab>
-</Tabs>
-
-> You can enable **either or both** options depending on your desired flexibility and promotional strategy.
-
----
-
-### 4. Discount Confirmed, Order Placed
+### 3. Discount Confirmed, Order Placed
 
 Once the discount (direct or via coupon) is applied, Adam proceeds to place his order, feeling rewarded and more likely to return.
 
@@ -91,110 +103,8 @@ Once the discount (direct or via coupon) is applied, Adam proceeds to place his 
   src="/images/A_flowchart_in_the_image_illustrates_a_customer_lo.png"
   alt="A Flowchart In The Image Illustrates A Customer Lo Pn"
   title="A Flowchart In The Image Illustrates A Customer Lo Pn"
-  style={{ width:"30%", display:"block", margin:"0 auto" }}
-/>
-
----
-
-## How to Decide: Use Points Directly or Convert Them to Coupons?
-
-Your checkout experience shapes how customers perceive the value of their points.\
-Gameball offers **two flexible redemption models**; here’s how to choose the right one for your business.
-
----
-
-<Tabs>
-  <Tab title="Direct Points Redemption Discount">
-    ### Overview
-
-    Let users apply their available points **directly at checkout** for a real-time discount — no coupon required.
-
-    ### Benefits
-
-    - Seamless mobile checkout experience
-    - Requires holding and burning points using APIs
-    - Discount is reflected instantly in the cart
-  </Tab>
-  <Tab title="Coupon-Based Redemption Discount">
-    ### Overview
-
-    Customers can convert loyalty points into **discount coupons**, such as `$10 OFF`, `15% OFF`, or `Free Shipping`, to apply during checkout.\
-    This model provides **promotional flexibility** and fits well with **tiered experiences** or **limited-time campaigns**.
-
-    <img
-      src="/images/redemptionthroughwidget-ezgif.com-video-to-gif-converter.gif"
-      alt="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
-      title="Redemptionthroughwidget Ezgif Com Video To Gif Converter Gi"
-      className="mx-auto"
-      style={{ width:"30%" }}
-    />
-
-    ---
-
-    ### Benefits
-
-    #### 1. Flexible Coupon Creation
-
-    Customers can choose the value they want from their points, within your configured limits.
-
-    > **Example:**\
-    > Redeem 1,500 points → Get $15 OFF  
-Save more points → Unlock $25 OFF for 2,500 points
-
-    ---
-
-    #### 2. Targeted Redemption (Customer Segments)
-
-    Coupons can be restricted to **specific customer segments**, such as VIPs or inactive users.
-
-    > **Example:**
-    >
-    > - Gold-tier users: redeem 3,000 points → \$40 OFF
-    > - Regular users: redeem up to 1,500 points → \$15 OFF
-
-    ---
-
-    #### 3. Tiered Redemption Values
-
-    Encourage higher engagement and larger orders through **scaled incentives**:
-
-    | Points Redeemed | Reward Value |
-    | --------------- | ------------ |
-    | 1,000           | \$10 OFF     |
-    | 2,000           | \$25 OFF     |
-    | 3,000           | \$40 OFF     |
-
-    ---
-
-    #### 4. Product-Specific Coupons
-
-    Restrict coupon usage to certain **products, brands, or collections**.
-
-    > Example: Redeem 1,500 points for a **\$20 coupon valid only on sneakers**.
-
-    ---
-
-    ### How Coupons Are Issued
-
-    <Tabs>
-      <Tab title="Manual Redemption">
-        Customers initiate redemption from their **profile** or during **checkout** using available points.
-      </Tab>
-      <Tab title="Campaign-Based Rewards">
-        Gameball automatically issues coupons when customers complete a **challenge** or **milestone**, no points required. Example: “You completed the _Spend \$100 Challenge_! Here’s a 15% OFF coupon.”
-      </Tab>
-    </Tabs>
-  </Tab>
-</Tabs>
-
----
-
-<img
-  src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
-  alt="Couponredemption Ezgif Com Video To Gif Converter Gi"
-  title="Couponredemption Ezgif Com Video To Gif Converter Gi"
+  style={{ width:"48%" }}
   className="mx-auto"
-  style={{ width:"30%" }}
 />
 
 ---
@@ -209,4 +119,5 @@ Save more points → Unlock $25 OFF for 2,500 points
 <Tip>
   Combine both redemption paths to offer maximum flexibility, instant gratification through points, and promotional control via coupons.
 </Tip>
+
 

@@ -1,0 +1,140 @@
+---
+title: 'VIP Tiers'
+description: 'Display VIP tier progression, benefits, and customer progress using Gameball APIs'
+---
+
+VIP tiers are a fantastic way to reward your most loyal customers and keep them engaged. But to make the most of this feature, it's important to give customers a clear and motivating way to see their progress and the benefits waiting for them as they move up the tiers.
+
+## Step 1: Fetch All Available Tiers
+
+Use the [Get Tiers Configurations API](/api-reference/configurations/program-configurations/vip-tiers) to fetch the available tiers and their associated benefits. This endpoint returns the details of each tier, including the **name**, **icon**, **minimum progress required**, and **benefits** for each tier.
+
+**Sample Response:**
+
+```json
+[
+    {
+        "name": "Basic",
+        "minProgress": 0,
+        "order": 1,
+        "icon": "https://cdn.gameball.co/uploads/gb-library/levels-icons/level-a1.webp",
+        "benefits": [
+            {
+                "type": "Entry Reward",
+                "rankReward": 0,
+                "walletReward": 0
+            }
+        ]
+    },
+    {
+        "name": "Bronze",
+        "minProgress": 30,
+        "order": 2,
+        "icon": "level-a2",
+        "benefits": [
+            {
+                "type": "Entry Reward",
+                "rankReward": 0,
+                "walletReward": 12,
+                "couponReward": {
+                    "couponType": "0",
+                    "discountValue": null,
+                    "minOrderValue": null,
+                    "product": null,
+                    "collections": []
+                }
+            },
+            {
+                "type": "Loyalty Points Earning Custom Configuration",
+                "rewardWalletFactor": 70.0
+            }
+        ]
+    },
+    {
+        "name": "Silver",
+        "minProgress": 700,
+        "order": 3,
+        "icon": "level-a1",
+        "benefits": []
+    },
+    {
+        "name": "Gold",
+        "minProgress": 6001,
+        "order": 4,
+        "icon": "level-a1",
+        "benefits": []
+    }
+]
+```
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FIScZq0tQ1dOs2CgkETmC%2Fimage.png?alt=media&token=44b4950b-6dfe-49ef-a3f3-a3d95b57cc0e" alt="Tier icons example" />
+</Frame>
+
+## Step 2: Fetch Customer Tier Progress
+
+Use the [Get Customer Tier Progress API](/api-reference/customers/progress/get-customer-progress) to get the current progress of the logged-in customer.
+
+**Sample Response:**
+
+```json
+[
+  {
+    "tierName": "Gold",
+    "tierId": 1234,
+    "completionPercentage": 50.0,
+    "achievedPoints": 95,
+    "nextTierProgress": 190
+  },
+  {
+    "tierName": "Platinum",
+    "tierId": 5678,
+    "completionPercentage": 0.0,
+    "achievedPoints": 0,
+    "nextTierProgress": 500
+  }
+]
+```
+
+## Step 3: Combine Tiers and Progress for UI Display
+
+After fetching both the tier configuration and the customer progress, you can combine the data to create an interactive and motivating display.
+
+**Visual Suggestions:**
+
+<CardGroup cols={3}>
+  <Card title="Completed Tiers" icon="check-circle" color="#16a34a">
+    Use a **green progress bar** to indicate a completed tier and show the **"Claim Benefits"** button for the customer to redeem rewards.
+  </Card>
+  <Card title="In-Progress Tiers" icon="clock" color="#ea580c">
+    Use an **orange progress bar** for in-progress tiers, and show a button like **"Level Up"** or **"Keep Going!"** to encourage the customer to continue earning points.
+  </Card>
+  <Card title="Locked Tiers" icon="lock" color="#6b7280">
+    Use a **gray progress bar** and show the message **"Locked"** in a faded style to indicate that the tier has not been reached.
+  </Card>
+</CardGroup>
+
+**Key Visuals for VIP Tiers:**
+
+1. **Progress Bars**: Use colored progress bars: green for completed, orange for in-progress, and gray for locked
+2. **Tier Icons**: Use tier-specific icons (golden badge, platinum badge) for easy recognition
+3. **Benefits List**: Show a list of benefits for each tier, with any specific rewards and links to redeem or learn more about them
+
+***
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Tiers Configurations API" icon="medal" href="/api-reference/configurations/program-configurations/vip-tiers">
+    Fetch all available VIP tiers and their benefits
+  </Card>
+  <Card title="Get Customer Tier Progress API" icon="chart-line" href="/api-reference/customers/progress/get-customer-progress">
+    Show customer progress toward VIP tiers
+  </Card>
+  <Card title="Build Your Own UI" icon="layout" href="/tutorials-new/experiences/more/build-your-own-ui">
+    Back to Build Your Own UI overview
+  </Card>
+</CardGroup>
+
+
+
