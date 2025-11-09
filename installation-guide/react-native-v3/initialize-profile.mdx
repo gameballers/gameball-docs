@@ -46,6 +46,14 @@ try {
   console.error('Error:', error.message);
 }
 
+// With session token override
+try {
+  const response = await GameballApp.getInstance().initializeCustomer(request, undefined, 'custom-token');
+  console.log('Customer initialized with custom token');
+} catch (error) {
+  console.error('Error:', error.message);
+}
+
 // Using callbacks (backward compatibility)
 GameballApp.getInstance().initializeCustomer(request, {
   onSuccess: (response) => {
@@ -90,6 +98,14 @@ Referral code if customer was referred by another customer.
 <ParamField body="isGuest" type="boolean">
 Guest user flag (defaults to false).
 </ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
+</ParamField>
+
+<Info>
+In React Native SDK, passing a sessionToken parameter updates the global session token. Pass `undefined` to clear the global token, or omit it to use the current global token.
+</Info>
 
 ### Validation Rules
 
@@ -217,5 +233,5 @@ Call `initializeCustomer` when the user logs in or registers to ensure their pro
 ## Next Steps
 
 - [Track Customer Events](/installation-guide/react-native-v3/track-events)
-- [Track Orders & Cashback](/installation-guide/react-native-v3/track-orders)
+- [Show Profile Widget](/installation-guide/react-native-v3/show-profile)
 

@@ -74,6 +74,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Error: \(error.localizedDescription)")
             }
         }
+
+        // With session token override
+        Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token") { result in
+            // Handle result
+        }
     }
     
     func application(
@@ -269,7 +274,7 @@ Only send relevant, valuable notifications to maintain user engagement.
 
 ## Next Steps
 
-- [Track Referrals](/installation-guide/ios-v3/track-referrals)
 - [Go-Live Checklist](/installation-guide/ios-v3/go-live-checklist)
+- [Migration Notes](/installation-guide/ios-v3/migration-notes)
 
 

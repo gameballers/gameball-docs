@@ -35,6 +35,11 @@ Gameball.shared.sendEvent(event) { result in
         print("Error: \(error.localizedDescription)")
     }
 }
+
+// With session token override
+Gameball.shared.sendEvent(event, sessionToken: "custom-token") { result in
+    // Handle result
+}
 ```
 
 ```swift Swift (Async/Await)
@@ -82,6 +87,10 @@ The name of the event (e.g., "purchase", "review", "add_to_cart").
 
 <ParamField body="metadata" type="[String: Any]">
 Additional metadata about the event. Can include product details, amounts, categories, etc.
+</ParamField>
+
+<ParamField body="sessionToken" type="String">
+Optional session token to override the global token for this specific request.
 </ParamField>
 
 ### Validation Rules
@@ -272,8 +281,7 @@ Events are the foundation of Gameball's reward and engagement system. Configure 
 
 ## Next Steps
 
-- [Track Orders & Cashback](/installation-guide/ios-v3/track-orders)
 - [Show Profile Widget](/installation-guide/ios-v3/show-profile)
-- [Integrate Redemption](/installation-guide/ios-v3/integrate-redemption)
+- [Push Notifications](/installation-guide/ios-v3/push-notifications)
 
 

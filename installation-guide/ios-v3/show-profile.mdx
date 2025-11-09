@@ -25,6 +25,11 @@ Gameball.shared.showProfile(with: profileRequest, from: self) { result in
         print("Error: \(error.localizedDescription)")
     }
 }
+
+// With session token override
+Gameball.shared.showProfile(with: profileRequest, from: self, sessionToken: "custom-token") { result in
+    // Handle result
+}
 ```
 
 ```swift Swift (Async/Await)
@@ -68,6 +73,10 @@ Close button color in hex format (e.g., "#FF5733"). Only applies if `showCloseBu
 
 <ParamField body="widgetUrlPrefix" type="String">
 Custom widget URL prefix for advanced widget customization.
+</ParamField>
+
+<ParamField body="sessionToken" type="String">
+Optional session token to override the global token for this specific request.
 </ParamField>
 
 ### Validation Rules
@@ -289,8 +298,7 @@ Consider showing the profile widget after a customer earns points to increase en
 
 ## Next Steps
 
-- [Integrate Redemption](/installation-guide/ios-v3/integrate-redemption)
 - [Push Notifications](/installation-guide/ios-v3/push-notifications)
-- [Track Referrals](/installation-guide/ios-v3/track-referrals)
+- [Go-Live Checklist](/installation-guide/ios-v3/go-live-checklist)
 
 

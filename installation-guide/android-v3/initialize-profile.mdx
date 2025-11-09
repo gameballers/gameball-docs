@@ -29,6 +29,13 @@ GameballApp.getInstance(context).initializeCustomer(
         }
     }
 )
+
+// With session token override
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    callback,
+    sessionToken = "custom-token"
+)
 ```
 
 ```java Java
@@ -93,6 +100,10 @@ Guest user flag (defaults to false).
 
 <ParamField body="osType" type="string">
 Operating system type (automatically set to "Android").
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
 </ParamField>
 
 ### Validation Rules
@@ -235,5 +246,5 @@ Call `initializeCustomer` after successful login or registration in your app to 
 ## Next Steps
 
 - [Track Customer Events](/installation-guide/android-v3/track-events)
-- [Track Orders & Cashback](/installation-guide/android-v3/track-orders)
+- [Show Profile Widget](/installation-guide/android-v3/show-profile)
 

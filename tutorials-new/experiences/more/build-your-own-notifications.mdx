@@ -1,22 +1,234 @@
 ---
-title: 'Build Your Own Notifications'
-description: 'Custom notification systems with Gameball webhooks'
+title: "Build your Own Notification System"
+description: "Use Gameball webhooks to drive your own notifications via SMS, WhatsApp, push, and more."
 ---
 
-Use webhooks to build custom notification systems for your loyalty program.
+Notifications are a powerful way to build stronger relationships with your customers by keeping them engaged with your service.
 
-## Use Cases
+Gameball provides default notification options, such as:
 
-- Custom email templates
-- SMS notifications
-- In-app notifications
-- Slack/Teams integrations
-- Multi-language notifications
+- **In-app notifications** for web applications.
+- **Push notifications** using Firebase for mobile apps.
 
-## Implementation
+But what if you have your own notification system, like SMS messaging, a WhatsApp bot, or third-party services like Amazon SNS, or Twilio?
 
-1. Set up webhook subscriptions
-2. Receive event notifications
-3. Process and format messages
-4. Send through your channels
+Gameball makes this easy by using **webhooks** to notify your system whenever a notification needs to be sent.
 
+### How It Works
+
+- **Your Webhook Endpoint**: A piece of code on your server (written in any language like Ruby, PHP, or Node.js) that processes incoming requests.
+- **Providing the URL**: Share your endpoint URL (e.g., `https://yourdomain.com/webhook-endpoint`) with Gameball.
+- **Receiving Notifications**: Gameball sends a POST request with all the necessary data to your endpoint whenever a customer should receive a notification.
+
+By integrating webhooks, you can seamlessly use your notification systems to keep customers informed and engaged.
+
+👉 [**Learn more about Webhooks**](/api-reference/webhooks/overview)
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F5rGdGr0h7ycZcoJBffpn%2Fnotifications.drawio.png?alt=media&token=2966189c-f0f4-4085-b2d4-e77254a20c18" alt="Notifications via webhooks overview" />
+</Frame>
+
+This tutorial will guide you through the steps to integrate Gameball notification webhooks with your own system.
+
+### Steps to Get Started
+
+1. **Build a webhook endpoint** on your server to receive notifications.
+2. **Subscribe to notification webhooks** from your Gameball dashboard.
+3. **Verify webhook signatures** to ensure secure communication.
+4. **Create logic** to send notifications to your customers via your preferred channels.
+
+> Note: Code snippets provided in this tutorial are for illustration purposes and may require adjustments to work in your environment.
+
+**Example Scenario**
+
+Imagine you own a store that specializes in video games and gift cards. You want to send notifications to your customers through your own channels, such as SMS, WhatsApp, or other custom platforms. This tutorial will help you achieve that integration.
+
+***
+
+### Configurations
+
+Before diving in, you need to set up some configurations to enable webhooks.
+
+#### Step 1: Build a Notifications Endpoint
+
+The first step is to prepare a webhook endpoint on your server where Gameball will send POST requests containing notification details. This endpoint will act as the bridge between Gameball and your notification system.
+
+```javascript
+app.post('/gb-webhook/notification', (request, response) => {
+
+});
+```
+
+The above function will be invoked when a POST request is sent to `/gb-webhook/notification`.
+
+#### Step 2: Activate Notifications Webhook
+
+In your Gameball dashboard, navigate to **Admin Settings > Account Integration > Webhooks** and add your notification endpoint URL (e.g., `www.yourdomain.com/gb-webhook/notification`) to Notification Webhook.
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FOB3GyqZyoKENnAJMmEmt%2Fimage.png?alt=media&token=bcb92a03-033e-4074-ae89-3a336503da3e" alt="Configuring Webhooks" />
+</Frame>
+
+Then click Update Webhook. Now, a POST request will be sent to your endpoint every time a notification is to be sent to your customer.
+
+#### Step 3: Verifying Webhooks
+
+You should verify that the incoming request is a legit request from Gameball and not a malicious request that tries to spam your system. You can achieve this by calculating a digital signature which is SHA1 hash in `X-GB-Signature` header. You can get more information about webhook verification [in this section](/api-reference/webhooks/subscribing).
+
+```javascript
+const crypto = require("crypto");
+
+function verifySignature(request) {
+  const SECRET_KEY = process.env.SECRET_KEY;
+  // Get the signature from the header
+  const signature = request.headers["x-gb-signature"];
+  if (!signature) return false;
+
+  // Compute the signature using the payload and secret key
+  const payload = JSON.stringify(request.body);
+  const computedSignature = crypto
+    .createHash("sha1")
+    .update(payload + ":" + SECRET_KEY)
+    .digest("hex");
+
+  // Compare the signatures
+  return computedSignature === signature;
+}
+
+app.post('/gb-webhook/notification', (request, response) => {
+  // verify the request
+  if (verifySignature(request) == false) return; // malicious request
+});
+```
+
+#### Step 4: Write Your Own Logic
+
+In the webhook request body, you will get all the needed data for you to send your customized notifications to designated customers. Each notification item in the posted data will contain the **`customer_id`** and **locales** with their titles and bodies. You can check the full data specification and example in the documentation [here](/api-reference/webhooks/webhook-topics/notifications).
+
+Here is an example of a **notification data**:
+
+```json
+{
+  "event": "customer.notification.push",
+  "client_id": "2155",
+  "customer_id": "webhook-test",
+  "gb_customer_id": 1234,
+  "created_at": "2024-11-12T19:02:24.631Z",
+  "data": [
+    {
+      "local": "en",
+      "icon": "https://example.com/image.webp",
+      "body": "Your recent activities have been amazing! Keep up the great work and enjoy your rewards!",
+      "title": "Well Done!"
+    }
+  ]
+}
+```
+
+After receiving the notification, you can process it according to your preferences and you should have the flexibility of building whatever logic you need.
+
+The below example demonstrates how SMS integration can be done with notification webhooks. Once a notification event is received, you will find the `customer_id` in the request body. You can use the received `customer_id` to retrieve your customer's mobile number or any other required data from your database, then use an SMS Gateway to send an SMS to your customer.
+
+```javascript
+app.post('/gb-webhook/notification', (request, response) => {
+  // verify the request
+  if (verifySignature(request) == false) return; // malicious request
+
+  let webhookData = request.body;
+  let customerId = webhookData.customer_id;
+  /* Example: {userId:"14415233", username:"XxGamerxX", phone: "+20123456789", deviceToken: "dSvsjGMuQ5GwcAYPAqu4PW:APA91bFzRjdiTj" } */
+  let customerInfo = getCustomerDetails(customerId);
+  // sends an SMS to your customer's phone number
+  SMSGateway.sendMessage({
+    phoneNumber: customerInfo.phone,
+    messageTitle: webhookData.data[0].title,
+    messageContent: webhookData.data[0].body
+  });
+});
+```
+
+And now your customers should receive an SMS message when they get a notification from Gameball.
+
+<Frame>
+<img src="https://developer.gameball.co/~gitbook/image?url=https%3A%2F%2F1167798217-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-legacy-files%2Fo%2Fassets%252F-M3kSf4Ga0rOah5Au2jA%252F-MiYnJlNfBAsXuCHert0%252F-MiYt03v8B2sZMvrMHuR%252Fin-App%2520notifications%2520Mobile.png%3Falt%3Dmedia%26token%3De93deb02-b628-4591-a00e-ead07509be92&width=768&dpr=4&quality=100&sign=e2d66c7b&sv=1" alt="Example mobile notification" />
+</Frame>
+
+#### Whatsapp Example
+
+The next day your boss requested a slight change, that you need to also send WhatsApp messages to your customers in addition to sending SMS.
+
+You will need to have an integration with WhatsApp business API or any communication API as Twilio.
+
+In your `/gb-webhook/notification` endpoint you will add the logic that sends WhatsApp message to your customer.
+
+```javascript
+app.post('/gb-webhook/notification', (request, response) => {
+  // verify the request
+  if (verifySignature(request) == false) return; // malicious request
+
+  let webhookData = request.body;
+  let customerId = webhookData.customer_id;
+  /* Example: {userId:"14415233", username:"XxGamerxX", phone: "+20123456789", deviceToken: "dSvsjGMuQ5GwcAYPAqu4PW:APA91bFzRjdiTj" } */
+  let customerInfo = getCustomerDetails(customerId);
+  // sends an SMS to your customer's phone number
+  SMSGateway.sendMessage({
+    phoneNumber: customerInfo.phone,
+    messageContent: webhookData.data[0].body
+  });
+
+  // sends a Whatsapp message to your customer
+  WhatsappHandler.sendWhatsappMessage({
+    phoneNumber: customerInfo.phone,
+    messageContent: webhookData.data[0].body
+  })
+});
+```
+
+In addition to SMS and Whatsapp you are asked to send push notifications to your customer's mobile devices as push notifications. There are some services that provide this service, we will use AWS SNS for this example.
+
+<Frame>
+<img src="https://developer.gameball.co/~gitbook/image?url=https%3A%2F%2F1167798217-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-legacy-files%2Fo%2Fassets%252F-M3kSf4Ga0rOah5Au2jA%252F-MiYt8MQhXulcPWGYzZA%252F-MiYtNmuWSLHxNTvjKnB%252Fin-App%2520notifications%2520Mobile%2520%281%29.png%3Falt%3Dmedia%26token%3Dca835e98-806d-418d-9fdb-71ede9b779ac&width=768&dpr=4&quality=100&sign=77672879&sv=1" alt="Push Notification" />
+</Frame>
+
+AWS SNS uses device tokens to identify mobile devices. You store each customer's device token in your database.
+
+In your `/gb-webhook/notification` endpoint you will add the logic that sends push notification to your customer mobile device.
+
+```javascript
+app.post('/gb-webhook/notification', (request, response) => {
+  // verify the request
+  if (verifySignature(request) == false) return; // malicious request
+
+  let webhookData = request.body;
+  let customerId = webhookData.customer_id;
+  /* Example: {userId:"14415233", username:"XxGamerxX", phone: "+20123456789", deviceToken: "dSvsjGMuQ5GwcAYPAqu4PW:APA91bFzRjdiTj" } */
+  let customerInfo = getCustomerDetails(customerId);
+  // sends an SMS to your customer's phone number
+  SMSGateway.sendMessage({
+    phoneNumber: customerInfo.phone,
+    messageContent: webhookData.data[0].body
+  });
+
+  // sends a Whatsapp message to your customer
+  WhatsappHandler.sendWhatsappMessage({
+    phoneNumber: customerInfo.phone,
+    messageContent: webhookData.data[0].body
+  });
+  
+  // sends a push notification
+  SNS.sendNotification({
+    token: customerInfo.deviceToken,
+    title: webhookData.data[0].title,
+    body: webhookData.data[0].body
+  });
+});
+```
+
+By the end of this tutorial you should now be able to implement your own notification system using notifications hooks.
+
+***
+
+## See also
+
+- [Customer Notifications](/tutorials-new/experiences/more/build-your-own-ui/notifications)
+- [Redemption Integration](/tutorials-new/experiences/points-redemption/index)

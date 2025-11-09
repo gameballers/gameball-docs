@@ -9,6 +9,18 @@ This guide helps you migrate from Gameball Flutter SDK v2 to v3.1.0.
 
 ## What's New in v3.1.0
 
+<Info>
+**Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security with automatic v4.1 endpoint routing.
+</Info>
+
+### New Features in v3.1.0
+
+- **Session Token Support**: Optional token-based authentication
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
+- **Per-Request Token Override**: Override global token on individual API calls
+- **Global Token Management**: Token updates globally when passed to any method
+- **Backward Compatible**: All existing code works unchanged
+
 <CardGroup cols={2}>
 <Card title="Improved API" icon="code">
 Cleaner API design with better error handling and null safety
@@ -48,6 +60,7 @@ final config = GameballConfig.builder()
     .lang("en")
     .platform("flutter")
     .shop("shop-id")
+    .sessionToken("session-token")  // Optional - New in v3.1.0
     .build();
 
 final gameballApp = GameballApp.getInstance();
@@ -82,6 +95,11 @@ final request = InitializeCustomerRequestBuilder()
 GameballApp.getInstance().initializeCustomer(request, (response, error) {
   // Handle response
 });
+
+// Optional: Override session token for this request (updates global token)
+GameballApp.getInstance().initializeCustomer(request, (response, error) {
+  // Handle response
+}, sessionToken: "custom-token");
 ```
 
 ### 3. Event Tracking

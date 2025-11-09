@@ -1,11 +1,25 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2 to v3.0.0"
+description: "Migrate from v2 to v3.1.0"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball iOS SDK v2 to v3.0.0.
+This guide helps you migrate from Gameball iOS SDK v2 to v3.1.0.
+
+## What's New in v3.1.0
+
+<Info>
+**Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security with automatic v4.1 endpoint routing. This is fully backward compatible with v3.0.0.
+</Info>
+
+### New Features in v3.1.0
+
+- **Session Token Support**: Optional token-based authentication
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
+- **Per-Request Token Override**: Override global token on individual API calls
+- **Thread-Safe Token Storage**: In-memory token management with dispatch queue
+- **Non-Breaking**: All v3.0.0 code works unchanged
 
 ## What's New in v3.0.0
 
@@ -41,14 +55,14 @@ Gameball.configure(
 )
 ```
 
-**v3.0.0:**
+**v3.1.0:**
 ```swift
 let config = GameballConfig(
     apiKey: "api-key",
     lang: "en",
     platform: "ios",
     shop: "shop-id",
-    sessionToken: "session-token"  // New in v3
+    sessionToken: "session-token"  // Optional - New in v3.1.0
 )
 
 Gameball.shared.initialize(with: config)
@@ -68,7 +82,7 @@ Gameball.registerPlayer(
 }
 ```
 
-**v3.0.0:**
+**v3.1.0:**
 ```swift
 let request = InitializeCustomerRequest(
     customerId: "customer-123",
@@ -84,6 +98,11 @@ Gameball.shared.initializeCustomer(with: request) { result in
     case .failure(let error):
         // Handle error
     }
+}
+
+// Optional: Override session token for this request
+Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token") { result in
+    // Handle result
 }
 ```
 
@@ -101,7 +120,7 @@ Gameball.sendEvent(event) { success in
 }
 ```
 
-**v3.0.0:**
+**v3.1.0:**
 ```swift
 let event = GameballEvent(customerId: "customer-123")
 event.addEvent(
@@ -116,6 +135,11 @@ Gameball.shared.sendEvent(event) { result in
     case .failure(let error):
         // Handle error
     }
+}
+
+// Optional: Override session token for this request
+Gameball.shared.sendEvent(event, sessionToken: "custom-token") { result in
+    // Handle result
 }
 ```
 
@@ -140,7 +164,7 @@ Gameball.showProfile(
 )
 ```
 
-**v3.0.0:**
+**v3.1.0:**
 ```swift
 let profileRequest = ShowProfileRequest(
     customerId: "customer-123",
@@ -149,6 +173,11 @@ let profileRequest = ShowProfileRequest(
 )
 
 Gameball.shared.showProfile(with: profileRequest, from: self) { result in
+    // Handle result
+}
+
+// Optional: Override session token for this request
+Gameball.shared.showProfile(with: profileRequest, from: self, sessionToken: "custom-token") { result in
     // Handle result
 }
 ```
@@ -166,7 +195,7 @@ Gameball.sendEvent(event) { success in
 }
 ```
 
-**v3.0.0:**
+**v3.1.0:**
 ```swift
 Gameball.shared.sendEvent(event) { result in
     switch result {
@@ -179,7 +208,28 @@ Gameball.shared.sendEvent(event) { result in
 }
 ```
 
-### 7. Async/Await Support (New in v3.0.0)
+### 7. Session Token Authentication (New in v3.1.0)
+
+```swift
+// Configure with session token
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    sessionToken: "session-token"  // Global token
+)
+Gameball.shared.initialize(with: config)
+
+// Per-request token override
+Gameball.shared.initializeCustomer(with: request, sessionToken: "override-token") { result in
+    // This request uses "override-token" instead of global token
+}
+```
+
+<Info>
+Session tokens enable automatic v4.1 endpoint routing and enhanced security. The token is stored in-memory with thread-safe access.
+</Info>
+
+### 8. Async/Await Support (New in v3.0.0)
 
 ```swift
 // Traditional callback
@@ -187,10 +237,20 @@ Gameball.shared.initializeCustomer(with: request) { result in
     // Handle result
 }
 
-// Async/await (v3.0.0)
+// Async/await (v3.0.0+)
 Task {
     do {
         let response = try await Gameball.shared.initializeCustomer(with: request)
+        // Handle success
+    } catch {
+        // Handle error
+    }
+}
+
+// With session token override (v3.1.0+)
+Task {
+    do {
+        let response = try await Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token")
         // Handle success
     } catch {
         // Handle error
@@ -200,17 +260,55 @@ Task {
 
 ## Migration Steps
 
+### From v3.0.0 to v3.1.0 (No Breaking Changes)
+
+<Info>
+v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token is optional.
+</Info>
+
 <Steps>
 <Step title="Update Dependency">
-Update your `Podfile` or Swift Package Manager to use SDK v3.0.0:
+Update your `Podfile` or Swift Package Manager to use SDK v3.1.0:
 
 **CocoaPods:**
 ```ruby
-pod 'Gameball', '~> 3.0.0'
+pod 'Gameball', '~> 3.1.0'
 ```
 
 **SPM:**
-Update to version 3.0.0 in Xcode package dependencies
+Update to version 3.1.0 in Xcode package dependencies
+</Step>
+
+<Step title="(Optional) Add Session Token">
+If enhanced security is needed, add session token to your configuration:
+
+```swift
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    sessionToken: "your-session-token"
+)
+```
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged.
+</Step>
+</Steps>
+
+### From v2.x to v3.1.0
+
+<Steps>
+<Step title="Update Dependency">
+Update your `Podfile` or Swift Package Manager to use SDK v3.1.0:
+
+**CocoaPods:**
+```ruby
+pod 'Gameball', '~> 3.1.0'
+```
+
+**SPM:**
+Update to version 3.1.0 in Xcode package dependencies
 </Step>
 
 <Step title="Update Initialization">
@@ -247,13 +345,13 @@ Test all Gameball functionality to ensure the migration is successful.
 
 ## Additional Resources
 
-- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-ios/blob/release-3.0.0/CHANGELOG.md) for detailed version history
-- Review [MIGRATION.md](https://github.com/gameballers/gameball-ios/blob/release-3.0.0/MIGRATION.md) in the repository for more migration details
-- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-ios/blob/release-3.0.0/RELEASE_NOTES.md) for v3.0.0 release details
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md) for v3.1.0 release details
 - Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
 
 <Warning>
-For v3.0.0-specific details, refer to the [gameball-ios repository](https://github.com/gameballers/gameball-ios/tree/release-3.0.0) on branch `release-3.0.0`.
+For v3.1.0-specific details, refer to the [gameball-ios repository](https://github.com/gameballers/gameball-ios/tree/release-3.1.0) on branch `release-3.1.0`.
 </Warning>
 
 <Tip>

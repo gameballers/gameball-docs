@@ -9,6 +9,18 @@ This guide helps you migrate from Gameball React Native SDK v2 to v3.1.0.
 
 ## What's New in v3.1.0
 
+<Info>
+**Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security with automatic v4.1 endpoint routing.
+</Info>
+
+### New Features in v3.1.0
+
+- **Session Token Support**: Optional token-based authentication
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
+- **Per-Request Token Override**: Override global token on individual API calls
+- **Global Token Management**: Token updates globally when passed to any method
+- **Backward Compatible**: All existing code works unchanged
+
 <CardGroup cols={2}>
 <Card title="TypeScript Support" icon="code">
 Full TypeScript support with type definitions and interfaces
@@ -47,6 +59,7 @@ const config: GameballConfig = {
   lang: 'en',
   platform: 'react-native',
   shop: 'shop-id',
+  sessionToken: 'session-token',  // Optional - New in v3.1.0
 };
 
 GameballApp.getInstance().init(config);
@@ -74,6 +87,9 @@ const request: InitializeCustomerRequest = {
 };
 
 await GameballApp.getInstance().initializeCustomer(request);
+
+// Optional: Override session token for this request (updates global token)
+await GameballApp.getInstance().initializeCustomer(request, undefined, 'custom-token');
 ```
 
 ### 3. Event Tracking
@@ -97,6 +113,9 @@ const event: Event = {
 };
 
 await GameballApp.getInstance().sendEvent(event);
+
+// Optional: Override session token for this request (updates global token)
+await GameballApp.getInstance().sendEvent(event, undefined, 'custom-token');
 ```
 
 ### 4. Show Profile Widget
@@ -121,6 +140,9 @@ const profileRequest: ShowProfileRequest = {
 };
 
 await GameballApp.getInstance().showProfile(profileRequest);
+
+// Optional: Override session token for this request (updates global token)
+await GameballApp.getInstance().showProfile(profileRequest, undefined, 'custom-token');
 ```
 
 ### 5. Key Naming Changes
@@ -134,6 +156,48 @@ await GameballApp.getInstance().showProfile(profileRequest);
 | `GameballSdk.sendEvent` | `GameballApp.getInstance().sendEvent` |
 
 ## Migration Steps
+
+### From v3.0.0 to v3.1.0 (No Breaking Changes)
+
+<Info>
+v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token is optional.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.0:
+
+```json
+{
+  "dependencies": {
+    "gameball-react-native": "^3.1.0"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="(Optional) Add Session Token">
+If enhanced security is needed, add session token to your configuration:
+
+```typescript
+const config: GameballConfig = {
+  apiKey: 'api-key',
+  lang: 'en',
+  sessionToken: 'your-session-token',
+};
+```
+
+**Important**: In React Native SDK, the `sessionToken` parameter updates the global token when passed to any method.
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged.
+</Step>
+</Steps>
+
+### From v2.x to v3.1.0
 
 <Steps>
 <Step title="Update Dependency">

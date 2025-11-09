@@ -9,6 +9,18 @@ This guide helps you migrate from Gameball Android SDK v2 to v3.1.0.
 
 ## What's New in v3.1.0
 
+<Info>
+**Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security with automatic v4.1 endpoint routing.
+</Info>
+
+### New Features in v3.1.0
+
+- **Session Token Support**: Optional token-based authentication
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
+- **Per-Request Token Override**: Override global token on individual API calls
+- **Secure Token Storage**: SharedPreferences-based token management
+- **Backward Compatible**: All existing code works unchanged
+
 <CardGroup cols={2}>
 <Card title="Improved API" icon="code">
 Streamlined API with better Kotlin support and cleaner method names
@@ -48,6 +60,7 @@ val config = GameballConfig.builder()
     .lang("en")
     .platform("android")
     .shop("shop-id")
+    .sessionToken("session-token")  // Optional - New in v3.1.0
     .build()
 
 GameballApp.getInstance(context).init(config)
@@ -78,6 +91,13 @@ GameballApp.getInstance(context).initializeCustomer(
     customerRequest,
     callback
 )
+
+// Optional: Override session token for this request
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    callback,
+    sessionToken = "custom-token"
+)
 ```
 
 ### 3. Event Tracking
@@ -96,6 +116,11 @@ val event = Event.builder()
     .customerId("customer-123")
     .eventName("purchase")
     .build()
+
+GameballApp.getInstance(context).sendEvent(event, callback)
+
+// Optional: Override session token for this request
+GameballApp.getInstance(context).sendEvent(event, callback, sessionToken = "custom-token")
 ```
 
 ### 4. Method Name Changes
@@ -127,6 +152,42 @@ val customerRequest = InitializeCustomerRequest.builder()
 ```
 
 ## Migration Steps
+
+### From v3.0.0 to v3.1.0 (No Breaking Changes)
+
+<Info>
+v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token is optional.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `build.gradle` to use SDK v3.1.0:
+
+```groovy
+dependencies {
+    implementation 'com.gameball:gameball-sdk:3.1.0'
+}
+```
+</Step>
+
+<Step title="(Optional) Add Session Token">
+If enhanced security is needed, add session token to your configuration:
+
+```kotlin
+val config = GameballConfig.builder()
+    .apiKey("api-key")
+    .lang("en")
+    .sessionToken("your-session-token")
+    .build()
+```
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged.
+</Step>
+</Steps>
+
+### From v2.x to v3.1.0
 
 <Steps>
 <Step title="Update Dependency">

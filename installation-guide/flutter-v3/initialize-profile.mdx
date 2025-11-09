@@ -34,6 +34,11 @@ gameballApp.initializeCustomer(request, (response, error) {
     print("Error: $error");
   }
 });
+
+// With session token override
+gameballApp.initializeCustomer(request, (response, error) {
+  // Handle response
+}, sessionToken: "custom-token");
 ```
 
 ## Request Parameters
@@ -53,6 +58,14 @@ Device token for push notifications (FCM or HMS).
 <ParamField body="pushProvider" type="PushProvider">
 Push notification provider: `PushProvider.Firebase` or `PushProvider.Huawei`.
 </ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
+</ParamField>
+
+<Info>
+In Flutter SDK, passing a sessionToken parameter updates the global token. Pass `null` to clear, or omit to use the current global token.
+</Info>
 
 ### Validation Rules
 
@@ -212,5 +225,5 @@ Call `registerPlayer` when the user logs in or registers to ensure their profile
 ## Next Steps
 
 - [Track Customer Events](/installation-guide/flutter-v3/track-events)
-- [Track Orders & Cashback](/installation-guide/flutter-v3/track-orders)
+- [Show Profile Widget](/installation-guide/flutter-v3/show-profile)
 

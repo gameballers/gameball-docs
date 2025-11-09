@@ -23,6 +23,13 @@ try {
   console.error('Error showing profile:', error);
 }
 
+// With session token override
+try {
+  await GameballApp.getInstance().showProfile(profileRequest, undefined, 'custom-token');
+} catch (error) {
+  console.error('Error:', error);
+}
+
 // Using callbacks
 GameballApp.getInstance().showProfile(profileRequest, {
   onSuccess: () => console.log('Profile shown'),
@@ -55,6 +62,14 @@ Custom widget URL prefix for advanced configurations.
 <ParamField body="closeButtonColor" type="string">
 Close button color in hex format (e.g., '#FF6B6B'). Only applies if `showCloseButton` is `true`.
 </ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
+</ParamField>
+
+<Info>
+In React Native SDK, passing a sessionToken parameter updates the global session token. Pass `undefined` to clear the global token, or omit it to use the current global token.
+</Info>
 
 ### Validation Rules
 
@@ -421,7 +436,6 @@ Ensure you've initialized the customer with `initializeCustomer()` before callin
 
 ## Next Steps
 
-- [Integrate Redemption](/installation-guide/react-native-v3/integrate-redemption)
-- [Track Orders & Cashback](/installation-guide/react-native-v3/track-orders)
-- [Track Referrals](/installation-guide/react-native-v3/track-referrals)
+- [Go-Live Checklist](/installation-guide/react-native-v3/go-live-checklist)
+- [Migration Notes](/installation-guide/react-native-v3/migration-notes)
 

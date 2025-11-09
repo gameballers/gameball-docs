@@ -23,11 +23,18 @@ GameballApp.getInstance(context).sendEvent(
         override fun onSuccess(success: Boolean) {
             // Event tracked successfully
         }
-        
+
         override fun onError(error: Throwable) {
             // Handle error
         }
     }
+)
+
+// With session token override
+GameballApp.getInstance(context).sendEvent(
+    event,
+    callback,
+    sessionToken = "custom-token"
 )
 ```
 
@@ -69,6 +76,10 @@ The name of the event (e.g., "purchase", "review", "add_to_cart").
 
 <ParamField body="eventMetaData" type="Map<String, Any>">
 Additional metadata about the event. Can include product details, amounts, categories, etc.
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
 </ParamField>
 
 ### Validation Rules
@@ -141,6 +152,6 @@ Events are the foundation of Gameball's reward and engagement system. Configure 
 
 ## Next Steps
 
-- [Track Orders & Cashback](/installation-guide/android-v3/track-orders)
-- [Integrate Redemption](/installation-guide/android-v3/integrate-redemption)
+- [Show Profile Widget](/installation-guide/android-v3/show-profile)
+- [Push Notifications](/installation-guide/android-v3/push-notifications)
 

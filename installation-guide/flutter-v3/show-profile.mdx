@@ -19,6 +19,9 @@ final profileRequest = ShowProfileRequestBuilder()
 
 final gameballApp = GameballApp.getInstance();
 gameballApp.showProfile(context, profileRequest);
+
+// With session token override
+gameballApp.showProfile(context, profileRequest, sessionToken: "custom-token");
 ```
 
 ## Request Parameters
@@ -50,6 +53,14 @@ Close button color in hex format (e.g., "#FF6B6B"). Only applies if `showCloseBu
 <ParamField body="widgetUrlPrefix" type="string">
 Custom widget URL prefix for advanced widget customization.
 </ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
+</ParamField>
+
+<Info>
+In Flutter SDK, passing a sessionToken parameter updates the global token. Pass `null` to clear, or omit to use the current global token.
+</Info>
 
 ### Validation Rules
 
@@ -307,7 +318,6 @@ Ensure you've initialized the customer with `initializeCustomer()` before callin
 
 ## Next Steps
 
-- [Integrate Redemption](/installation-guide/flutter-v3/integrate-redemption)
-- [Track Orders & Cashback](/installation-guide/flutter-v3/track-orders)
-- [Track Referrals](/installation-guide/flutter-v3/track-referrals)
+- [Go-Live Checklist](/installation-guide/flutter-v3/go-live-checklist)
+- [Migration Notes](/installation-guide/flutter-v3/migration-notes)
 

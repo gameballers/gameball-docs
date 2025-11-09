@@ -41,6 +41,13 @@ FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             customerRequest,
             callback
         )
+
+        // With session token override
+        GameballApp.getInstance(context).initializeCustomer(
+            customerRequest,
+            callback,
+            sessionToken = "custom-token"
+        )
     }
 }
 ```
@@ -163,6 +170,6 @@ Only send relevant, valuable notifications to maintain user engagement.
 
 ## Next Steps
 
-- [Track Referrals](/installation-guide/android-v3/track-referrals)
 - [Go-Live Checklist](/installation-guide/android-v3/go-live-checklist)
+- [Migration Notes](/installation-guide/android-v3/migration-notes)
 

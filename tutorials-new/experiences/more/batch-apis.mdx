@@ -1,25 +1,266 @@
 ---
-title: 'Batch APIs Usage'
+title: 'Batch APIs'
 description: 'Process bulk operations efficiently'
 ---
 
-Use batch APIs to process large volumes of data efficiently.
 
-## Use Cases
+The **Batch Customer API** allows you to create or update multiple customer profiles in a single request, optimizing performance and reducing network overhead. This is particularly useful for bulk user imports, mass profile updates, and large-scale customer data synchronization.​
 
-- Historical data migration
-- Bulk customer imports
-- Mass point adjustments
-- Bulk order processing
-- Data synchronization
+## Batch Customer API Tutorial
 
-## Supported Batch Operations
+### Overview
 
-- Customer data
-- Orders
-- Balance inquiries
-- Adjustments
-- Cashback rewards
-- Redemptions
-- Events
+The **Batch Customer API** enables bulk creation or updates of customer profiles in a single request, optimizing performance and reducing API calls. This is useful for mass data synchronization, bulk user imports, and automated customer profile management.
 
+<Warning>
+This example applies to all types of batch processes, ensuring consistency in handling bulk operations across different endpoints.
+</Warning>
+
+### 1. Create a Job request
+
+#### Endpoint URL
+
+**`POST`** `https://api.gameball.co/api/v4/integrations/batch/customers`
+
+This endpoint processes multiple customer records in one request.
+
+#### Authentication
+
+Include your API key in the request headers:
+
+```http
+ApiKey: YOUR_API_KEY
+SecretKey: YOUR_SECRET_KEY
+Content-Type: application/json
+```
+
+#### Request Structure
+
+The request body must contain an array of customer objects, each with relevant attributes.
+
+##### Example Request
+
+```json
+{
+    "body": [
+        {
+            "customerId": "12345",
+            "email": "john.doe@example.com",
+            "name": "John Doe",
+            "gender": "M",
+            "dateOfBirth": "1990-01-01",
+            "joinDate": "2022-01-01",
+            "tags": [
+                "vip",
+                "newsletter_subscriber"
+            ],
+            "custom": {
+                "favorite_color": "blue",
+                "loyalty_points": 1500
+            }
+        },
+        {
+            "customerId": "67890",
+            "email": "jane.smith@example.com",
+            "name": "Jane Smith",
+            "gender": "F",
+            "dateOfBirth": "1985-05-15",
+            "joinDate": "2023-03-10",
+            "tags": [
+                "premium_member"
+            ],
+            "custom": {
+                "favorite_color": "green",
+                "loyalty_points": 2000
+            }
+        }
+    ]
+}
+```
+
+---
+
+#### **Response Structure**
+
+The response contains the JobId of the created job to check the status for, get the response, or terminate the job.
+
+##### Example Response
+
+```json
+{
+    "jobId": 123456
+}
+```
+
+---
+
+### 2. Get the Job status
+
+#### Endpoint URL
+
+**`GET`** `https://api.gameball.co/api/v4/integrations/batch/{jobId}`
+
+#### Authentication
+
+Include your API key in the request headers:
+
+```http
+ApiKey: YOUR_API_KEY
+SecretKey: YOUR_SECRET_KEY
+Content-Type: application/json
+```
+
+#### Response Structure
+
+<AccordionGroup>
+  <Accordion title="Queued">
+
+```json
+{
+  "operation": "Customer Creation Batch Job",
+  "errorCount": 0,
+  "totalCount": 0,
+  "finishedCount": 0,
+  "startedAt": null,
+  "createdAt": "2025-03-14T10:00:00Z",
+  "status": "queued",
+  "response": null
+}
+```
+
+  </Accordion>
+  <Accordion title="Running">
+
+```json
+{
+  "operation": "Customer Creation Batch Job",
+  "errorCount": 0,
+  "totalCount": 1,
+  "finishedCount": 1,
+  "startedAt": "2025-03-14T10:30:00Z",
+  "createdAt": "2025-03-14T10:00:00Z",
+  "status": "running",
+  "response": {
+    "successful": [
+      {
+        "customerId": "12345",
+        "message": "Customer created successfully"
+      }
+    ],
+    "failed": []
+  }
+}
+```
+
+  </Accordion>
+  <Accordion title="Completed">
+
+```json
+{
+  "operation": "Customer Creation Batch Job",
+  "errorCount": 1,
+  "totalCount": 2,
+  "finishedCount": 1,
+  "startedAt": "2025-03-14T10:00:00Z",
+  "createdAt": "2025-03-14T10:00:00Z",
+  "status": "completed",
+  "response": {
+    "successful": [
+      {
+        "customerId": "12345",
+        "message": "Customer created successfully"
+      }
+    ],
+    "failed": [
+      {
+        "customerId": "67890",
+        "error": "Failed to create customer"
+      }
+    ]
+  }
+}
+```
+
+  </Accordion>
+  <Accordion title="Failed">
+
+```json
+{
+  "operation": "Customer Creation Batch Job",
+  "errorCount": 2,
+  "totalCount": 2,
+  "finishedCount": 0,
+  "startedAt": null,
+  "createdAt": "2025-03-14T10:00:00Z",
+  "status": "failed",
+  "response": {
+    "successful": [],
+    "failed": [
+      {
+        "customerId": "12345",
+        "message": "Failed to create customer"
+      },
+      {
+        "customerId": "67890",
+        "error": "Failed to create customer"
+      }
+    ]
+  }
+}
+```
+
+  </Accordion>
+  <Accordion title="Stopped">
+
+```json
+{
+  "operation": "Customer Creation Batch Job",
+  "errorCount": 0,
+  "totalCount": 0,
+  "finishedCount": 0,
+  "startedAt": null,
+  "createdAt": "2025-03-14T10:00:00Z",
+  "status": "stopped",
+  "response": null
+}
+```
+
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### 3. Stop the running Job
+
+#### Endpoint URL
+
+**`DELETE`** `https://api.gameball.co/api/v4/integrations/batch/{jobId}`
+
+#### Authentication
+
+Include your API key in the request headers:
+
+```http
+ApiKey: YOUR_API_KEY
+SecretKey: YOUR_SECRET_KEY
+Content-Type: application/json
+```
+
+#### Response
+
+200 - Ok: Job stopped successfully
+
+If we go back to step 2 and check the job status, we'd get the following result:
+
+```json
+{
+  "operation": "Customer Creation Batch Job",
+  "errorCount": 0,
+  "totalCount": 0,
+  "finishedCount": 0,
+  "startedAt": null,
+  "createdAt": "2025-03-14T10:00:00Z",
+  "status": "stopped",
+  "response": null
+}
+```

@@ -21,11 +21,18 @@ GameballApp.getInstance(context).showProfile(
         override fun onSuccess(success: Boolean) {
             // Profile widget displayed successfully
         }
-        
+
         override fun onError(error: Throwable) {
             // Handle error
         }
     }
+)
+
+// With session token override
+GameballApp.getInstance(context).showProfile(
+    profileRequest,
+    callback,
+    sessionToken = "custom-token"
 )
 ```
 
@@ -79,6 +86,10 @@ Custom widget URL prefix for advanced widget customization.
 
 <ParamField body="capturedLinkCallback" type="Callback">
 Callback function to handle captured links from within the widget.
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
 </ParamField>
 
 ### Validation Rules
@@ -296,7 +307,6 @@ Consider showing the profile widget after a customer earns points to increase en
 
 ## Next Steps
 
-- [Integrate Redemption](/installation-guide/android-v3/integrate-redemption)
 - [Push Notifications](/installation-guide/android-v3/push-notifications)
-- [Track Referrals](/installation-guide/android-v3/track-referrals)
+- [Go-Live Checklist](/installation-guide/android-v3/go-live-checklist)
 

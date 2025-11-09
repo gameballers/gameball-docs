@@ -28,6 +28,11 @@ gameballApp.sendEvent(event, (success, error) {
     print("Error sending event: $error");
   }
 });
+
+// With session token override
+gameballApp.sendEvent(event, (success, error) {
+  // Handle response
+}, sessionToken: "custom-token");
 ```
 
 ## Event Parameters
@@ -51,6 +56,14 @@ The name of the event (must be called before adding metadata).
 <ParamField body="eventMetaData" type="key-value">
 Metadata for the current event (can be String, Number, or Boolean values).
 </ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request.
+</ParamField>
+
+<Info>
+In Flutter SDK, passing a sessionToken parameter updates the global token. Pass `null` to clear, or omit to use the current global token.
+</Info>
 
 ### Validation Rules
 
@@ -133,6 +146,6 @@ Events are the foundation of Gameball's reward and engagement system. Configure 
 
 ## Next Steps
 
-- [Track Orders & Cashback](/installation-guide/flutter-v3/track-orders)
-- [Integrate Redemption](/installation-guide/flutter-v3/integrate-redemption)
+- [Show Profile Widget](/installation-guide/flutter-v3/show-profile)
+- [Go-Live Checklist](/installation-guide/flutter-v3/go-live-checklist)
 
