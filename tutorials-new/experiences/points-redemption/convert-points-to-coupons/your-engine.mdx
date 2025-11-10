@@ -12,7 +12,9 @@ Instead of using Gameball’s native coupon engine, Gameball can send a **real-t
 
 Your system then returns a valid coupon code, which Gameball shows to the customer.
 
-![image (119).png](/images/image\(119\).png)
+<Frame>
+<img src="/images/your_engine.png" />
+</Frame>
 
 ## **Supported Use Cases**
 
@@ -53,7 +55,9 @@ Your system then returns a valid coupon code, which Gameball shows to the custom
 
 Gameball needs to know how to reach your couponing engine:
 
-![image (120).png](/images/image\(120\).png)
+<Frame>
+<img src="/images/coupon-configurations.png" />
+</Frame>
 
 | **Field**     | **Description**                                                              |
 | :------------ | :--------------------------------------------------------------------------- |
@@ -150,7 +154,7 @@ Gameball supports two primary coupon generation flows, both of which work with e
 Customer opens the widget → Gameball displays points balance and redemption options.
 
 <img
-  src="/images/image(121).png"
+  src="/images/widget.png"
   alt="image (121).png"
   title="image (121).png"
   className="mx-auto"
@@ -262,7 +266,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
     Widget automatically shows campaign-earned coupons in “My Coupons”.
 
     <img
-      src="/images/image(122).png"
+      src="/images/redeem.png"
       alt="image (122).png"
       title="image (122).png"
       className="mx-auto"
@@ -278,7 +282,9 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
   <Tab title="Custom UI">
     You must fetch and display earned coupons using the API.
 
-    ![image (123).png](/images/image\(123\).png)
+   <Frame>
+<img src="/images/redeem-ui.png" />
+</Frame>
 
     ### **Step-by-Step: Custom UI Campaign Flow**
 
@@ -286,7 +292,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
 
     [GET /customers/{playerId}/coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
 
-    <ResponseExample>
+ 
 
     ```json 
     {
@@ -301,7 +307,6 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
     }
     ```
 
-    </ResponseExample>
 
     **Step 2: Apply Coupon**
 
