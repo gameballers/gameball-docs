@@ -181,11 +181,11 @@ At checkout, the customer applies the coupon. You use:
   style={{ width:"32%" }}
 />
 
+```http
 POST /order
+```
 
-<RequestExample>
-
-```json filename
+```json filename="request.json"
 {
   "customerId": "cust_12345",
   "orderId": "ORD123",
@@ -196,8 +196,6 @@ POST /order
 }
 ```
 
-</RequestExample>
-
 ---
 
 ### **Step-by-Step: Custom UI Manual Redemption**
@@ -206,9 +204,7 @@ POST /order
 
 [GET /redemption-configs](https://gameball.mintlify.app/api-reference/configurations/reward-configurations/redemption-settings)
 
-<ResponseExample>
-
-```json filename
+```json filename="response.json"
 {
   "redemptionRules": [
     {
@@ -223,15 +219,11 @@ POST /order
 }
 ```
 
-</ResponseExample>
-
 **Step 2: Redeem Points**
 
 [POST /redeem](https://gameball.mintlify.app/api-reference/transactions/cashback-and-redemptions/redeem#redeem-points)
 
-<RequestExample>
-
-```json filename
+```json filename="request.json"
 {
   "playerUniqueId": "cust_12345",
   "ruleId": 2138,
@@ -240,18 +232,12 @@ POST /order
 }
 ```
 
-</RequestExample>
-
-<ResponseExample>
-
-```json filename
+```json filename="response.json"
 {
   "couponCode": "GB1023",
   "redeemEquivalentPoints": 100
 }
 ```
-
-</ResponseExample>
 
 **Step 3: Display Earned Coupons**
 
@@ -302,7 +288,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
 
     <ResponseExample>
 
-    ```json filename
+    ```json 
     {
       "coupons": [
         {

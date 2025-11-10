@@ -1,0 +1,127 @@
+---
+title: "Adjust Integration"
+description: "Integrate Adjust as your dynamic link provider for Gameball referrals."
+---
+
+# Adjust Integration
+
+## Overview
+
+Gameball supports **Adjust** as a dynamic link provider for referral programs. This integration enables you to generate dynamic links that track referrals and enhance your user acquisition strategy.
+
+## Integration Steps
+
+Follow these steps to integrate **Adjust** with Gameball:
+
+### 1. Navigate to Admin Settings
+
+1. Log in to your **Gameball Dashboard**.
+2. Go to **Settings** > **Integrations** > **Mobile Integrations**.
+
+![Gameball Admin Settings](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FYa3HMwUZ9u9kBb2e3Lkz%2Fimage.png?alt=media&token=9feb5ae3-1132-4641-aa18-6ffcea85712b)
+
+### 2. Add Your Application Desktop URL as the Referral Link
+
+1. In the **Gameball Dashboard**, locate the **Referral Link** field.
+
+![Referral Link](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2Fo3OrfN05nMHanw7L3hF1%2Fimage.png?alt=media&token=feb60f88-efad-42b0-9d90-08171efb1cef)
+
+2. Enter your **application's desktop URL** (this will be used as the fallback when the referral link is opened on a desktop).
+3. Click **Update Configurations** to apply the changes.
+
+### 3. Select **Adjust** as Your Dynamic Link Provider
+
+1. Locate the **Dynamic Link Provider** section.
+2. Select **Adjust** by clicking the radio button.
+
+![Adjust Dynamic Link Provider](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FSM5UOraOB3UPEnBFQu5n%2Fimage.png?alt=media&token=2c92d88d-3b2b-42f0-ae0f-73a948c71c38)
+
+---
+
+### 4. Retrieve Your Adjust Credentials
+
+To complete the integration, you need two values from your Adjust account:
+
+- **Adjust User Token**
+- **Adjust Link Token** (related to your referral campaign)
+
+---
+
+#### 🔐 How to Find Your Adjust User Token
+
+1. Log in to your Adjust Dashboard.
+2. Go to **Account Settings**.
+3. Navigate to the **User Profile** tab.
+4. Locate your **User Token** under the **API token** title.
+5. **Copy** your User Token.
+
+![Adjust User Token](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FYFVF1HFE7XjSCKP8p7xc%2FUntitled%20design%20(6).png?alt=media&token=c31d4429-88b5-4201-8133-428cc73a78c2)
+
+---
+
+#### 🔗 How to Find Your Adjust Link Token
+
+1. In the Adjust dashboard, go to **Campaign Lab** then select **Custom Links**.
+
+![Adjust Custom Links](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FgTGoExagUHEl4t4SJKyq%2Fimage.png?alt=media&token=4ad82f59-5d78-4324-b3a7-82f0eac1a818)
+
+2. Create or open an existing **custom link** that you’ll use for referrals.
+3. You will find the **Link Token** at the end of the page, typically a short string like `1ng4vfot`.
+
+![Adjust Link Token](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FE4kIxvmIlGVTSnsw6LMw%2Fimage.png?alt=media&token=796d0127-34ce-4b0f-a63e-ac03653c1fe7)
+
+4. **Copy** this token for use in Gameball.
+
+---
+
+### 5. Enter Your Credentials in Gameball
+
+- Go back to your **Gameball Dashboard**.
+- Enter the **Adjust User Token** in the **User Token** field and click **Update Adjust**.
+
+![Enter User Token](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F73DrnlaWcDulhyzFIm6D%2Fimage.png?alt=media&token=ec7fab45-da55-4d51-b781-888d819af9b2)
+
+- Enter the **Adjust Link Token** in the **Link Token** field and click **Update Adjust**.
+
+![Enter Link Token](https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FYSfJ8w3c85z9GA4Whcuh%2Fimage.png?alt=media&token=f85dc81f-1e36-4367-a549-25b47d0a460d)
+
+---
+
+## Notes
+
+Before proceeding with the integration, ensure that your **custom link, deep link, and universal linking** are fully configured in your Adjust account with the appropriate redirection links.
+
+<Info>
+To verify that your **Adjust account** is correctly set up to generate dynamic links, you can test it using the [Adjust API](https://dev.adjust.com/en/api/deep-link-generator-api/). If the response returns a dynamic link, then your configuration on Adjust’s side is working as expected.
+
+Here’s a sample `curl` command you can use for testing:
+
+```bash
+curl --location 'https://automate.adjust.com/engage/deep-links' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer adjustApiToken' \
+--data '{
+  "link_token": "1c52mluz",
+  "redirect": "https://example.com/redirect",
+  "fallback": "https://example.com/fallback",
+  "deep_link_path": "/custom-path",
+  "shorten_url": true
+}'
+```
+
+Replace `adjustApiToken` with your actual API token.  
+If the call is successful and returns a short dynamic link, you're all set!
+</Info>
+
+These settings ensure referral links redirect users correctly based on their device and platform.
+
+<Danger>
+If you are using the Gameball SDK to capture referrals, **you must pass the Gameball referral code** (captured from the link) as the `GBReferral` parameter in the `registerPlayer` method.  
+
+This is essential to ensure the referral is tracked and attributed correctly.
+</Danger>
+
+---
+
+Now your referral program is powered by **Adjust dynamic links**! 🚀
+
