@@ -1,14 +1,199 @@
 ---
-title: 'Validate/Lock'
-description: 'Validate and lock coupons before use'
+title: "Validate and Lock Coupons"
+description: "Validate coupon eligibility and lock it to prevent duplicate usage."
 ---
 
-Validate coupon eligibility and lock it to prevent duplicate usage.
 
-## Validation Process
+## Overview
 
-1. Check coupon validity
-2. Verify minimum order requirements
-3. Lock coupon temporarily
-4. Return discount amount
+Validating coupons is a critical step in the checkout process to ensure fairness, prevent misuse, and provide a smooth customer experience. This tutorial walks you through how to use Gameball’s coupon validation APIs to:
+
+- Confirm coupon eligibility
+- Enforce order-level requirements (e.g., minimum order value)
+- Lock coupons to avoid duplicate usage
+- Handle single and multiple coupon stacking
+
+Whether you’re building a custom UI or handling redemptions manually outside the Gameball widget, this process is essential for protecting campaign integrity and ensuring real-time accuracy.
+
+## When to Use This
+
+Use this API before applying any coupon at checkout to:
+
+- Prevent expired or ineligible coupons from being applied
+- Enforce campaign conditions like minimum order value
+- Lock the coupon so it can’t be used in parallel sessions or duplicate orders
+- Return the discount value and coupon type to display at checkout
+
+## Widget vs. Custom UI
+
+| **Approach**    | **Validation Behavior**                                                |
+| :-------------- | :--------------------------------------------------------------------- |
+| Gameball Widget | Automatically validates and locks coupons for you                      |
+| Custom UI       | You must explicitly call the validation API and handle lock references |
+
+## Key Concepts
+
+### 1. Validation and Locking Process
+
+The full flow includes:
+
+- **Step 1:** Check coupon validity
+- **Step 2:** Verify if the order meets eligibility rules (e.g., minimum spend, active status)
+- **Step 3:** Lock the coupon temporarily to avoid conflicts
+- **Step 4:** Return discount details for customer preview
+
+### 2. Locking Coupons
+
+Setting "lock": true in your validation request will:
+
+- Reserve the coupon for that customer/session
+- Return a lockReference token
+- Prevent others from using the same coupon in parallel until the session is completed or times out
+
+This is required to avoid misuse, especially in high-traffic environments.
+
+---
+
+## Use Case 1: Validate a Single Coupon
+
+**Scenario**:
+
+A customer enters the code SAVE10 at checkout. You want to verify it’s active, applicable to their order, and lock it for usage.
+
+### API: [**POST /validate-coupons**](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon)
+
+### **Request:**
+
+```json
+{
+  "customerId": "customer123",
+  "coupons": ["SAVE10"],
+  "lock": true
+}
+```
+
+### **Response:**
+
+```json
+{
+  "lockReference": "5e21ff4baf5d4760a8a43c7b2513298e",
+  "valid": true,
+  "coupons": [
+    {
+      "code": "SAVE10",
+      "type": "fixed",
+      "value": 10
+    }
+  ]
+}
+```
+
+### **What Gameball Does:**
+
+- Validates if the coupon SAVE10 is active and applicable to this customer
+- Locks the coupon temporarily
+- Returns the type of coupon (e.g., fixed discount, free shipping)
+- Returns the value of the discount
+
+### **Developer Notes:**
+
+- **Save the** `lockReference`. You’ll need it when submitting the order or triggering redemption.
+- Do not skip validation. Redeeming without prior validation may result in failure or incorrect discounts.
+
+---
+
+## **Use Case 2: Validate and Lock Multiple Coupons**
+
+**Scenario**:
+
+Your checkout allows stacking coupons, for example, applying both a fixed discount (SAVE10) and free shipping (FREESHIP) together.
+
+You need to:
+
+- Validate both coupons
+- Lock them simultaneously to avoid race conditions
+- Display the combined discount to the customer
+
+### API: [**POST /validate-coupons**](https://gameball.mintlify.app/api-reference/coupons/validate-multiple-coupons)
+
+### **Request:**
+
+```json
+{
+  "customerId": "cust_12345",
+  "coupons": ["SAVE10", "FREESHIP"],
+  "lock": true
+}
+```
+
+### **Response:**
+
+```json
+{
+  "lockReference": "abc123lock",
+  "valid": true,
+  "coupons": [
+    {
+      "code": "SAVE10",
+      "type": "fixed",
+      "value": 10
+    },
+    {
+      "code": "FREESHIP",
+      "type": "shipping",
+      "value": 0
+    }
+  ]
+}
+```
+
+### What Gameball Does:
+
+- Validates all coupons atomically
+- Locks both coupons under a single `lockReference`
+- Returns metadata about each coupon
+
+### When This is Helpful:
+
+- Your platform supports stacking multiple coupons on a single order
+- You want to validate and lock them in a single request for performance
+- You need a shared lock token to pass during final redemption
+
+---
+
+## What Happens if a Coupon is Invalid?
+
+If any coupon is:
+
+- Expired
+- Not applicable to this customer
+- Outside the campaign window
+- Already locked by another session
+
+Then the valid field will return false, and the failed coupon will be listed with error metadata.
+
+Example:
+
+```json
+{
+  "valid": false,
+  "coupons": [
+    {
+      "code": "SAVE10",
+      "valid": false,
+      "reason": "expired"
+    }
+  ]
+}
+```
+
+---
+
+## Key Takeaways
+
+- Always validate coupons before applying discounts
+- Use "lock": true to prevent duplicate usage
+- Save the lockReference for the next step (submitting the order or calling the Redeem API)
+- For multi-coupon logic, use POST /validate-coupons with an array
+
 

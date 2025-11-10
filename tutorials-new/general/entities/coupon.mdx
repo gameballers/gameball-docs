@@ -11,10 +11,12 @@ description: 'Discount codes that customers earn through loyalty or receive from
 
 | Type | Description | Example |
 |------|-------------|---------|
-| `percentage` | Percentage discount | 10% off |
-| `fixed_amount` | Fixed dollar amount off | $20 off |
-| `shipping` | Free shipping | Waive shipping costs |
-| `free_product` | Include specific product free | Free gift with purchase |
+| `percentage_discount` | Percentage discount applied to the order total | 10% off |
+| `fixed_discount` | Fixed monetary value deducted from the order | $20 off |
+| `fixed_rate_discount` | Fixed monetary value issued in a specific currency | 50 SAR off |
+| `free_shipping` | Shipping fees waived for the order | Free delivery |
+| `free_product` | Specific product added to the order for free | Free gift with purchase |
+| `custom` | Custom coupon behavior handled by your integration | Partner-specific logic |
 
 ---
 

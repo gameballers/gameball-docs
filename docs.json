@@ -321,9 +321,24 @@
               "tutorials-new/experiences/more/abandoned-cart",
               "tutorials-new/experiences/more/family-wallet",
               "tutorials-new/experiences/more/widget-deep-links",
-              "tutorials-new/experiences/more/build-your-own-ui",
+              {
+                "group": "Build Your Own UI",
+                "pages": [
+                  "tutorials-new/experiences/more/build-your-own-ui/index",
+                  "tutorials-new/experiences/more/build-your-own-ui/customer-balance",
+                  "tutorials-new/experiences/more/build-your-own-ui/vip-tiers",
+                  "tutorials-new/experiences/more/build-your-own-ui/coupons",
+                  "tutorials-new/experiences/more/build-your-own-ui/leaderboard",
+                  "tutorials-new/experiences/more/build-your-own-ui/notifications",
+                  "tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
+                  "tutorials-new/experiences/more/build-your-own-ui/widget-configurations",
+                  "tutorials-new/experiences/more/build-your-own-ui/batch-apis"
+                ]
+              },
               "tutorials-new/experiences/more/build-your-own-notifications",
-              "tutorials-new/experiences/more/batch-apis"
+              "tutorials-new/experiences/more/batch-apis",
+              "tutorials-new/experiences/more/branch-io-integration",
+              "tutorials-new/experiences/more/adjust-integration"
             ]
           }
         ]
