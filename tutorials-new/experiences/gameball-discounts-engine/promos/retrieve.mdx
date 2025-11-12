@@ -12,7 +12,7 @@ This API lets you showcase ongoing promotions directly within your **storefront*
 
 ## Overview
 
-The [**Get Customer Coupons API**](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons) returns all **promotions** assigned to a customer, including both active and expired ones.
+The [**Get Customer Coupons API**](/api-reference/customers/management/get-customer-coupons) returns all **promotions** assigned to a customer, including both active and expired ones.
 
 Each promotion includes details such as:
 
@@ -64,7 +64,7 @@ When a customer signs in, your system can fetch all available promotions from Ga
 
 <Steps>
   <Step title="Fetch promotions">
-    Call the  [Get Customer Coupons API](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons) using the customer’s  `customerId`
+    Call the [Get Customer Coupons API](/api-reference/customers/management/get-customer-coupons) using the customer’s `customerId`
   </Step>
   <Step title="Filter the response">
     Use the metadata flags (`isExpired,isActive, isAvailableToUse`) to filter out inactive or used promotions.
@@ -90,7 +90,7 @@ GET /integrations/customers/{customerId}/promotions
     {
       "code": "WELCOME20",
       "name": "Welcome Offer",
-      "type": "Percentage",
+      "type": "percentage_discount",
       "value": 20,
       "expiryDate": "2025-07-01T23:59:59Z",
       "isExpired": false,
@@ -104,7 +104,7 @@ GET /integrations/customers/{customerId}/promotions
     {
       "code": "LOYALTYBOOST",
       "name": "Loyalty Booster",
-      "type": "FixedAmount",
+      "type": "fixed_discount",
       "value": 15,
       "expiryDate": "2025-03-01T23:59:59Z",
       "isExpired": true,
@@ -137,21 +137,12 @@ const validCoupons = coupons.filter(
 
 This ensures customers see promotions that are:
 
-<Check>
-  Active
-</Check>
-
-<Check>
-  Not expired
-</Check>
-
-<Check>
-  Not used beyond their limits
-</Check>
-
-<Check>
-  Available for redemption
-</Check>
+<Checklist>
+  <Check>Active</Check>
+  <Check>Not expired</Check>
+  <Check>Not used beyond their limits</Check>
+  <Check>Available for redemption</Check>
+</Checklist>
 
 <Note>
   Optionally, group promotions by state, for example: **Active**, **Used**, and **Expired**, to create a cleaner user experience.
@@ -161,9 +152,30 @@ This ensures customers see promotions that are:
 
 ## **Key Takeaways**
 
-- The [**Get Customer Coupons API**](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons) returns all promotions, including expired or used ones.
-- You must filter them using `isExpired`, `isActive`, and `isAvailableToUse`.
-- Combine with `customerUsedCount` and `limitPerCustomer` to handle per-customer usage limits.
-- Ideal for **custom UIs**, **mobile apps**, and **POS systems** showing personalized offers.
-- Gameball’s **Promo Engine** keeps lifecycle tracking consistent across **Validate**, **Burn**, and **Release** flows.
+<Checklist>
+  <Check>The [**Get Customer Coupons API**](/api-reference/customers/management/get-customer-coupons) returns all promotions, including expired or used ones.</Check>
+  <Check>Filter responses with `isExpired`, `isActive`, and `isAvailableToUse`.</Check>
+  <Check>Combine `customerUsedCount` and `limitPerCustomer` to handle per-customer limits.</Check>
+  <Check>Ideal for **custom UIs**, **mobile apps**, and **POS systems** showing personalized offers.</Check>
+  <Check>Fits within the Promo Engine lifecycle across **Validate**, **Burn**, and **Release** flows.</Check>
+</Checklist>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer Coupons API" icon="ticket" href="/api-reference/customers/management/get-customer-coupons">
+    Retrieve promotions linked to a customer profile
+  </Card>
+  <Card title="Automatic Promos Tutorial" icon="wand-magic-sparkles" href="/tutorials-new/experiences/gameball-discounts-engine/promos/apply-automatically">
+    Apply eligible promotions automatically at checkout
+  </Card>
+  <Card title="Burn Promo Tutorial" icon="fire" href="/tutorials-new/experiences/gameball-discounts-engine/promos/burn-submit">
+    Finalize promotions after order success
+  </Card>
+  <Card title="Coupon Entity Reference" icon="book" href="/tutorials-new/general/entities/coupon">
+    Review metadata shared between coupons and promos
+  </Card>
+</CardGroup>
 

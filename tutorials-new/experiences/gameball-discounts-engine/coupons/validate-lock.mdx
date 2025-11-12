@@ -8,10 +8,12 @@ description: "Validate coupon eligibility and lock it to prevent duplicate usage
 
 Validating coupons is a critical step in the checkout process to ensure fairness, prevent misuse, and provide a smooth customer experience. This tutorial walks you through how to use Gameball’s coupon validation APIs to:
 
-- Confirm coupon eligibility
-- Enforce order-level requirements (e.g., minimum order value)
-- Lock coupons to avoid duplicate usage
-- Handle single and multiple coupon stacking
+<Checklist>
+  <Check>Confirm coupon eligibility</Check>
+  <Check>Enforce order-level requirements (e.g., minimum order value)</Check>
+  <Check>Lock coupons to avoid duplicate usage</Check>
+  <Check>Handle single and multiple coupon stacking</Check>
+</Checklist>
 
 Whether you’re building a custom UI or handling redemptions manually outside the Gameball widget, this process is essential for protecting campaign integrity and ensuring real-time accuracy.
 
@@ -19,17 +21,23 @@ Whether you’re building a custom UI or handling redemptions manually outside t
 
 Use this API before applying any coupon at checkout to:
 
-- Prevent expired or ineligible coupons from being applied
-- Enforce campaign conditions like minimum order value
-- Lock the coupon so it can’t be used in parallel sessions or duplicate orders
-- Return the discount value and coupon type to display at checkout
+<Checklist>
+  <Check>Prevent expired or ineligible coupons from being applied</Check>
+  <Check>Enforce campaign conditions like minimum order value</Check>
+  <Check>Lock the coupon so it can’t be used in parallel sessions or duplicate orders</Check>
+  <Check>Return the discount value and coupon type to display at checkout</Check>
+</Checklist>
 
 ## Widget vs. Custom UI
 
-| **Approach**    | **Validation Behavior**                                                |
-| :-------------- | :--------------------------------------------------------------------- |
-| Gameball Widget | Automatically validates and locks coupons for you                      |
-| Custom UI       | You must explicitly call the validation API and handle lock references |
+<CardGroup cols={2}>
+  <Card title="Gameball Widget" icon="sparkles">
+    Automatically validates and locks coupons for you.
+  </Card>
+  <Card title="Custom UI" icon="code">
+    You must call the validation API and store lock references yourself.
+  </Card>
+</CardGroup>
 
 ## Key Concepts
 
@@ -44,13 +52,9 @@ The full flow includes:
 
 ### 2. Locking Coupons
 
-Setting "lock": true in your validation request will:
-
-- Reserve the coupon for that customer/session
-- Return a lockReference token
-- Prevent others from using the same coupon in parallel until the session is completed or times out
-
-This is required to avoid misuse, especially in high-traffic environments.
+<Callout>
+Setting `"lock": true` in your validation request reserves the coupon for that customer/session, returns a `lockReference` token, and prevents others from using the same coupon in parallel until the session completes or times out. This is essential in high-traffic environments.
+</Callout>
 
 ---
 
@@ -60,7 +64,7 @@ This is required to avoid misuse, especially in high-traffic environments.
 
 A customer enters the code SAVE10 at checkout. You want to verify it’s active, applicable to their order, and lock it for usage.
 
-### API: [**POST /validate-coupons**](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon)
+### API: [**POST /validate-coupons**](/api-reference/coupons/validate-single-coupon)
 
 ### **Request:**
 
@@ -81,7 +85,7 @@ A customer enters the code SAVE10 at checkout. You want to verify it’s active,
   "coupons": [
     {
       "code": "SAVE10",
-      "type": "fixed",
+      "type": "fixed_discount",
       "value": 10
     }
   ]
@@ -114,7 +118,7 @@ You need to:
 - Lock them simultaneously to avoid race conditions
 - Display the combined discount to the customer
 
-### API: [**POST /validate-coupons**](https://gameball.mintlify.app/api-reference/coupons/validate-multiple-coupons)
+### API: [**POST /validate-coupons**](/api-reference/coupons/validate-multiple-coupons)
 
 ### **Request:**
 
@@ -135,12 +139,12 @@ You need to:
   "coupons": [
     {
       "code": "SAVE10",
-      "type": "fixed",
+      "type": "fixed_discount",
       "value": 10
     },
     {
       "code": "FREESHIP",
-      "type": "shipping",
+        "type": "free_shipping",
       "value": 0
     }
   ]
@@ -189,11 +193,32 @@ Example:
 
 ---
 
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
+    Eligibility and lock flow for a single coupon
+  </Card>
+  <Card title="Validate Multiple Coupons API" icon="layer-group" href="/api-reference/coupons/validate-multiple-coupons">
+    Validate stacked coupons in one atomic request
+  </Card>
+  <Card title="Burn Coupon API" icon="fire" href="/api-reference/coupons/burn-coupon">
+    Finalize coupon usage after payment success
+  </Card>
+  <Card title="Release Coupon API" icon="arrow-rotate-left" href="/api-reference/coupons/release-coupons">
+    Unlock coupons if checkout fails or is canceled
+  </Card>
+</CardGroup>
+
+---
+
 ## Key Takeaways
 
-- Always validate coupons before applying discounts
-- Use "lock": true to prevent duplicate usage
-- Save the lockReference for the next step (submitting the order or calling the Redeem API)
-- For multi-coupon logic, use POST /validate-coupons with an array
+<Checklist>
+  <Check>Always validate coupons before applying discounts.</Check>
+  <Check>Use `"lock": true` to prevent duplicate usage.</Check>
+  <Check>Save the `lockReference` for the next step (submitting the order or calling the Redeem API).</Check>
+  <Check>For multi-coupon logic, use `POST /validate-coupons` with an array.</Check>
+</Checklist>
 
 

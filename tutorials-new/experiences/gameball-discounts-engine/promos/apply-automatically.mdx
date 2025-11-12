@@ -38,7 +38,7 @@ You should call this API when:
 
 ## How It Works
 
-When you call the [**Automatic Coupons API**](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons), you send the order payload (like you would in the [**Calculate Cashback API**](https://gameball.mintlify.app/api-reference/transactions/cashback-and-redemptions/cashback)).
+When you call the [**Automatic Coupons API**](/api-reference/coupons/automatic-coupons), you send the order payload (like you would in the [**Calculate Cashback API**](/api-reference/transactions/cashback-and-redemptions/cashback)).
 
 Gameball then:
 
@@ -89,7 +89,7 @@ Gameball then:
   "isApplied": true,
   "couponName": "SPRINGSALE20",
   "discountAmount": 50,
-  "discountType": "shipping",
+  "discountType": "free_shipping",
   "discountedItems": [
     {
       "productId": "TSHIRT_001",
@@ -130,7 +130,7 @@ Sarah adds \$200 worth of items to her cart. Gameball detects that she qualifies
 \
 **Implementation:**
 
-When Sarah proceeds to checkout, your system calls the [\*\*Automatic Promos API  \*\*](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons)before payment.
+When Sarah proceeds to checkout, your system calls the [**Automatic Promos API**](/api-reference/coupons/automatic-coupons) before payment.
 
 \
 **Result:**
@@ -140,7 +140,7 @@ When Sarah proceeds to checkout, your system calls the [\*\*Automatic Promos API
   "isApplied": true,
   "couponName": "SPRINGSALE20",
   "discountAmount": 50,
-  "discountType": "shipping",
+  "discountType": "free_shipping",
   "discountedItems": [
     {
       "productId": "TSHIRT_001",
@@ -170,7 +170,7 @@ Omar tops up his digital wallet with \$100. A promo rule grants **5% cashback** 
 
 **Implementation:**
 
-Before confirming payment, call the [**Automatic Coupons API**](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons) with the transaction details.
+Before confirming payment, call the [**Automatic Coupons API**](/api-reference/coupons/automatic-coupons) with the transaction details.
 
 **Response:**
 
@@ -179,7 +179,7 @@ Before confirming payment, call the [**Automatic Coupons API**](https://gameball
   "isApplied": true,
   "couponName": "TOPUP5",
   "discountAmount": 5,
-  "discountType": "total",
+  "discountType": "percentage_discount",
   "discountedItems": []
 }
 ```
@@ -211,30 +211,23 @@ Before confirming payment, call the [**Automatic Coupons API**](https://gameball
 
 ## **Implementation Tips**
 
-<Check>
-  Always call the API after the cart or order is finalized, just before checkout.
-</Check>
-
-<Check>
-  Use the `discountAmount` value to update the displayed total in your payment summary.
-</Check>
-
-<Check>
-  Show `couponName` in the UI to help customers see which promo was applied.
-</Check>
-
-<Check>
-  Store the applied promo details in your order records for analytics, refunds, and reporting.
-</Check>
+<Checklist>
+  <Check>Always call the API after the cart or order is finalized, just before checkout.</Check>
+  <Check>Use the `discountAmount` value to update the displayed total in your payment summary.</Check>
+  <Check>Show `couponName` in the UI to help customers see which promo was applied.</Check>
+  <Check>Store applied promo details in your order records for analytics, refunds, and reporting.</Check>
+</Checklist>
 
 ---
 
 ## **Error Handling**
 
-If isApplied is false, it means:
+If `isApplied` is `false`, it means:
 
-- No active promotions matched the order criteria, **or**
-- The customer exceeded usage limits.
+<Checklist>
+  <Check>No active promotions matched the order criteria.</Check>
+  <Check>The customer exceeded usage limits.</Check>
+</Checklist>
 
 <Note>
   You should proceed with the normal checkout flow without applying discounts.
@@ -246,19 +239,40 @@ If isApplied is false, it means:
 
 After applying promotions automatically:
 
-- If payment succeeds → call the [**Burn API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon)
-- If payment fails or is canceled → call the [**Release API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons)
+<Checklist>
+  <Check>If payment succeeds → call the [**Burn API**](/api-reference/coupons/burn-coupon)</Check>
+  <Check>If payment fails or is canceled → call the [**Release API**](/api-reference/coupons/release-coupons)</Check>
+</Checklist>
 
 ---
 
 ## **Key Takeaways**
 
-- [**Automatic API** ](https://gameball.mintlify.app/api-reference/coupons/automatic-coupons) applies eligible promotions automatically, no manual entry required.
-- Returns clear details on what was discounted and by how much.
-- Ideal for **e-commerce**, **POS**, and **fintech** applications.
-- Integrates seamlessly into the full promo flow:
+<Checklist>
+  <Check>The [**Automatic API**](/api-reference/coupons/automatic-coupons) applies eligible promotions automatically—no manual entry required.</Check>
+  <Check>Responses include clear details on what was discounted and by how much.</Check>
+  <Check>Ideal for **e-commerce**, **POS**, and **fintech** applications.</Check>
+  <Check>Integrates seamlessly with the full promo flow: <code>Validate → Auto Apply → Burn / Release</code>.</Check>
+</Checklist>
 
-  **Validate → Auto Apply → Burn / Release.**
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Automatic Coupons API" icon="wand-magic-sparkles" href="/api-reference/coupons/automatic-coupons">
+    Trigger automatic promo evaluation during checkout
+  </Card>
+  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
+    Confirm eligibility before applying auto promos
+  </Card>
+  <Card title="Burn Promo Tutorial" icon="fire" href="/tutorials-new/experiences/gameball-discounts-engine/promos/burn-submit">
+    Finalize promotions after successful payment
+  </Card>
+  <Card title="Display Promotions Tutorial" icon="list" href="/tutorials-new/experiences/gameball-discounts-engine/promos/retrieve">
+    Show customers which promos applied automatically
+  </Card>
+</CardGroup>
 
 ---
 

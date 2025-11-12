@@ -27,12 +27,12 @@ Refunds directly affect your loyalty metrics and customer experience. When handl
 
 ## Refund Workflow
 
-Refunding points and cashback involve three main steps using the[**Refund API**](https://gameball.mintlify.app/api-reference/transactions/cashback-and-redemptions/refund) :
+Refunding points and cashback involve three main steps using the [**Refund API**](/api-reference/transactions/cashback-and-redemptions/refund) :
 
 1. **Identify the Original Transaction**: include the `reverseTransactionId` to connect the refund to the original earning or purchase transaction.
 
    <Note>
-     The `reverseTransactionId` must match the `orderId` that was originally sent when placing the order through the [**Order API.**](https://gameball.mintlify.app/api-reference/order/order-tracking) This ensures the refund is accurately linked to the correct transaction and that Gameball reverses the appropriate rewards.
+     The `reverseTransactionId` must match the `orderId` that was originally sent when placing the order through the [**Order API.**](/api-reference/order/order-tracking) This ensures the refund is accurately linked to the correct transaction and that Gameball reverses the appropriate rewards.
    </Note>
 2. **Specify Refund Details**: define refunded amounts, `lineItems`, and timestamps to ensure accuracy.
 3. **Gameball Evaluation:**  Gameball automatically adjusts points or cashback according to the refunded value, active campaigns, and product rules.
@@ -239,24 +239,29 @@ Later, she refunded 2 yoga mats worth **\$20**.
 
 ## **Key Takeaways**
 
-<Check>
-  Always include productId, quantity, and price in refunds.
-</Check>
+<Checklist>
+  <Check>Always include productId, quantity, and price in refunds.</Check>
+  <Check>Link refunds to the original order using `reverseTransactionId`.</Check>
+  <Check>Send `transactionTime` for audit tracking and order alignment.</Check>
+  <Check>Missing `lineItems` triggers cashback-only rollback.</Check>
+  <Check>Gameball handles both simple and campaign-based refunds automatically once configured.</Check>
+</Checklist>
 
-<Check>
-  Link refunds to the original order using reverseTransactionId.
-</Check>
+---
 
-<Check>
-  Send transactionTime for audit tracking and order alignment.
-</Check>
+## Related Resources
 
-<Check>
-   Missing lineItems → cashback-only rollback.
-</Check>
-
-<Check>
-  Gameball handles both simple and campaign-based refunds automatically once configured.
-</Check>
-
-
+<CardGroup cols={2}>
+  <Card title="Refund API" icon="arrow-rotate-left" href="/api-reference/transactions/cashback-and-redemptions/refund">
+    Reverse cashback and redemptions after order cancellations
+  </Card>
+  <Card title="Order API" icon="receipt" href="/api-reference/order/order-tracking">
+    Ensure refunds reference the original order payload
+  </Card>
+  <Card title="Hold Points API" icon="hand" href="/api-reference/transactions/hold-management/hold">
+    Manage points or cashback holds prior to refunding
+  </Card>
+  <Card title="Release Hold API" icon="unlock" href="/api-reference/transactions/hold-management/release">
+    Free reserved balances when refunds are processed
+  </Card>
+</CardGroup>

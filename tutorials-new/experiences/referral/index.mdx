@@ -108,7 +108,7 @@ This process covers:
 
 #### 1. Display the Customer’s Referral Link or Code
 
-To show a customer their referral link or code in your UI, fetch it using the [**Get Customer API:**](https://gameball.mintlify.app/api-reference/customers/management/get-customer)
+To show a customer their referral link or code in your UI, fetch it using the [**Get Customer API:**](/api-reference/customers/management/get-customer)
 
 ```bash
 GET /integrations/customers/{customerId}
@@ -151,7 +151,7 @@ Once detected, store this value temporarily until the new customer completes the
 
 #### **3. Track Referral Sign-ups**
 
-When the referred friend signs up, include the captured referral code in the [**Create/Update Customer API**](https://gameball.mintlify.app/api-reference/customers/management/create-customer) request.
+When the referred friend signs up, include the captured referral code in the [**Create/Update Customer API**](/api-reference/customers/management/create-customer) request.
 
 This links the **referrer** and **referee** together in Gameball.
 
@@ -182,7 +182,7 @@ POST /integrations/customers
 
 To ensure customers don’t use **their own referral code** or an invalid one, you can validate the code before creating the account.
 
-Use the [**Validate Referrer Code API:**](https://gameball.mintlify.app/api-reference/customers/management/validate-referrer-code)
+Use the [**Validate Referrer Code API:**](/api-reference/customers/management/validate-referrer-code)
 
 ```bash
 GET /integrations/customers/validateReferrerCode?referrerCode=code123
@@ -195,12 +195,12 @@ This API checks whether the referral code:
 - Is eligible for use in the current flow
 
 <Note>
-  If the code is valid, proceed with the [Create/Update Customer ](https://gameball.mintlify.app/api-reference/customers/management/create-customer)request as shown in step 3. **Track Referral Sign-ups**
+  If the code is valid, proceed with the [Create/Update Customer](/api-reference/customers/management/create-customer) request as shown in step 3. **Track Referral Sign-ups**
 </Note>
 
 ### III. Mobile Apps (Branch or Adjust)
 
-Referral links in mobile apps are handled through **Gameball’s Mobile SDKs** in combination with a **deep linking provider** such as [**Branch**](https://gameball.mintlify.app/tutorials/branch-io-integration) or [**Adjust**](https://gameball.mintlify.app/tutorials/adjust-integration).
+Referral links in mobile apps are handled through **Gameball’s Mobile SDKs** in combination with a **deep linking provider** such as [**Branch**](/tutorials-new/experiences/more/branch-io-integration) or [**Adjust**](/tutorials-new/experiences/more/adjust-integration).
 
 <Danger>
   **Firebase Dynamic Links** are no longer supported.
@@ -210,7 +210,7 @@ Referral links in mobile apps are handled through **Gameball’s Mobile SDKs** i
 
 <Steps>
   <Step title="Configure Deep Linking">
-    - Integrate [**Branch.io**](https://gameball.mintlify.app/tutorials/branch-io-integration) or [**Adjust**](https://gameball.mintlify.app/tutorials/adjust-integration) in your app and connect it from the Gameball dashboard under **Settings** → **Admin Settings** → **Integration** → **Mobile** **Configuration** → **Dynamic Link Provider**.
+    - Integrate [**Branch.io**](/tutorials-new/experiences/more/branch-io-integration) or [**Adjust**](/tutorials-new/experiences/more/adjust-integration) in your app and connect it from the Gameball dashboard under **Settings** → **Admin Settings** → **Integration** → **Mobile** **Configuration** → **Dynamic Link Provider**.
     - Each provider automatically attaches the referral code to the deep link (e.g., ?referrerCode=SARAH123).
   </Step>
   <Step title="Extract the Referral Code">
@@ -262,7 +262,7 @@ If the customer was not referred via a deep link, you can still allow referrals 
 - When the user submits the form, collect the entered referral code (if provided).
 - Then:
   - If you're registering the customer **via the frontend SDK**, include `referrerCode` in the `registerCustomer` call as shown above.
-  - If you're registering the customer **via the backend API**, include `referrerCode` in the payload for the [**Create/Update Customer API**](https://gameball.mintlify.app/api-reference/customers/management/create-customer):
+  - If you're registering the customer **via the backend API**, include `referrerCode` in the payload for the [**Create/Update Customer API**](/api-reference/customers/management/create-customer):
 
     ```json
     {
@@ -302,7 +302,7 @@ If the customer was not referred via a deep link, you can still allow referrals 
 
 Allow customers to view who they referred and what the status is.
 
-**API Reference:** [**Customer Referrals**](https://gameball.mintlify.app/api-reference/customers/progress/get-customer-referrals)
+**API Reference:** [**Customer Referrals**](/api-reference/customers/progress/get-customer-referrals)
 
 ```json
 {
@@ -340,4 +340,25 @@ Allow customers to view who they referred and what the status is.
 | Integrate Branch/Adjust (for mobile apps only) | Via deep linking SDKs              |
 | Don’t allow referral code editing post-signup  | Enforce immutability in UI/backend |
 
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer API" icon="user" href="/api-reference/customers/management/get-customer">
+    Fetch referral codes and links for your UI
+  </Card>
+  <Card title="Create / Update Customer API" icon="user-plus" href="/api-reference/customers/management/create-customer">
+    Attach `referrerCode` during registration
+  </Card>
+  <Card title="Customer Referrals API" icon="people-group" href="/api-reference/customers/progress/get-customer-referrals">
+    Track referral history and counts programmatically
+  </Card>
+  <Card title="Branch.io Integration" icon="link" href="/tutorials-new/experiences/more/branch-io-integration">
+    Configure Branch deep links for referral flows
+  </Card>
+  <Card title="Adjust Integration" icon="link" href="/tutorials-new/experiences/more/adjust-integration">
+    Set up Adjust as your mobile referral provider
+  </Card>
+</CardGroup>
 

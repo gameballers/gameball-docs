@@ -206,7 +206,7 @@ POST /order
 
 **Step 1: Fetch Redemption Options**
 
-[GET /redemption-configs](https://gameball.mintlify.app/api-reference/configurations/reward-configurations/redemption-settings)
+[GET /redemption-configs](/api-reference/configurations/reward-configurations/redemption-settings)
 
 ```json filename="response.json"
 {
@@ -225,7 +225,7 @@ POST /order
 
 **Step 2: Redeem Points**
 
-[POST /redeem](https://gameball.mintlify.app/api-reference/transactions/cashback-and-redemptions/redeem#redeem-points)
+[POST /redeem](/api-reference/transactions/cashback-and-redemptions/redeem#redeem-points)
 
 ```json filename="request.json"
 {
@@ -245,11 +245,11 @@ POST /order
 
 **Step 3: Display Earned Coupons**
 
-[GET /customers//coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
+[GET /customers//coupons](/api-reference/customers/management/get-customer-coupons)
 
 **Step 4: Apply at Checkout**
 
-Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-reference/order/order-tracking).
+Same as widget, use the [POST /order API](/api-reference/order/order-tracking).
 
 <img
   src="/images/couponredemption-ezgif.com-video-to-gif-converter.gif"
@@ -277,7 +277,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
 
     - Gameball displays the coupon in real-time once earned from a campaign.
     - No API integration needed to show it.
-    - At checkout, use [POST /order](https://gameball.mintlify.app/api-reference/order/order-tracking) as shown earlier.
+    - At checkout, use [POST /order](/api-reference/order/order-tracking) as shown earlier.
   </Tab>
   <Tab title="Custom UI">
     You must fetch and display earned coupons using the API.
@@ -290,7 +290,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
 
     **Step 1: Fetch All Coupons**
 
-    [GET /customers/{playerId}/coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
+    [GET /customers/{playerId}/coupons](/api-reference/customers/management/get-customer-coupons)
 
  
 
@@ -299,7 +299,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
       "coupons": [
         {
           "code": "GB2024",
-          "type": "percentage",
+          "type": "percentage_discount",
           "value": 15,
           "expiryDate": "2024-12-31T23:59:59Z"
         }
@@ -310,7 +310,7 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
 
     **Step 2: Apply Coupon**
 
-    [POST /order](https://gameball.mintlify.app/api-reference/order/order-tracking)
+    [POST /order](/api-reference/order/order-tracking)
 
     ---
 
@@ -325,4 +325,23 @@ Same as widget, use the [POST /order API](https://gameball.mintlify.app/api-refe
     | Apply at checkout               | ❌ (manual)            | ❌ (manual)                      |
   </Tab>
 </Tabs>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Redeem Points API" icon="coins" href="/api-reference/transactions/cashback-and-redemptions/redeem#redeem-points">
+    Convert loyalty points into coupon rewards
+  </Card>
+  <Card title="Generate Coupon API" icon="ticket" href="/api-reference/coupons/generate-coupon">
+    Use Gameball’s engine when you don’t need custom issuance
+  </Card>
+  <Card title="Get Customer Coupons API" icon="list" href="/api-reference/customers/management/get-customer-coupons">
+    Display coupons created by your backend
+  </Card>
+  <Card title="Gameball Coupon Engine Tutorial" icon="sparkles" href="/tutorials-new/experiences/points-redemption/convert-points-to-coupons/gameball-engine">
+    Learn the built-in alternative to custom coupon generation
+  </Card>
+</CardGroup>
 

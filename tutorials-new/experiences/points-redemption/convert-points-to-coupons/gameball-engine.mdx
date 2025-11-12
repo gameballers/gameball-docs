@@ -55,7 +55,7 @@ Gameball supports two implementation paths:
 
     **API:**
 
-    [GET /customers//redemption-configurations](https://gameball.mintlify.app/api-reference/configurations/reward-configurations/redemption-settings)
+    [GET /customers//redemption-configurations](/api-reference/configurations/reward-configurations/redemption-settings)
 
   
 
@@ -108,7 +108,7 @@ Gameball supports two implementation paths:
     />
   </Tab>
   <Tab title="Custom UI">
-    You must call the Generate Coupon API when a customer chooses a reward. By pressing the redeem button, the [Generate Coupon API ](https://gameball.mintlify.app/api-reference/coupons/generate-coupon)should be triggered, where the output is another UI representing the coupon generated with the coupon code from the API's response for the customer to use
+    You must call the Generate Coupon API when a customer chooses a reward. By pressing the redeem button, the [Generate Coupon API](/api-reference/coupons/generate-coupon) should be triggered, where the output is another UI representing the coupon generated with the coupon code from the API's response for the customer to use
 
     <img
       src="/images/image (126).png"
@@ -147,7 +147,7 @@ Gameball supports two implementation paths:
       "usageLimit": 1,
       "discountValue": 10,
       "minOrderValue": 50,
-      "type": "fixed"
+      "type": "fixed_discount"
     }
     ```
 
@@ -183,7 +183,7 @@ Gameball supports two implementation paths:
 
     **API:**
 
-    [GET /customers//coupons](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons)
+    [GET /customers//coupons](/api-reference/customers/management/get-customer-coupons)
 
  
 
@@ -192,14 +192,14 @@ Gameball supports two implementation paths:
       "coupons": [
         {
           "code": "GB2024",
-          "type": "percentage",
+          "type": "percentage_discount",
           "value": 15,
           "expiryDate": "2024-12-31T23:59:59Z",
           "isUsed": false
         },
         {
           "code": "GBFREESHIP",
-          "type": "shipping",
+          "type": "free_shipping",
           "value": 0,
           "expiryDate": "2024-11-30T23:59:59Z",
           "isUsed": false
@@ -239,8 +239,8 @@ Gameball supports two implementation paths:
 
 **API Options:**
 
-- [Validate Single Coupon](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon)
-- [Validate Multiple Coupons ](https://gameball.mintlify.app/api-reference/coupons/validate-multiple-coupons)
+- [Validate Single Coupon](/api-reference/coupons/validate-single-coupon)
+- [Validate Multiple Coupons](/api-reference/coupons/validate-multiple-coupons)
 
 **Use Case: Mixed Coupons Applied in a Single Order**
 
@@ -277,12 +277,12 @@ At checkout, the customer selects both coupons to maximize savings.
   "coupons": [
     {
       "code": "SAVE10",
-      "type": "fixed",
+      "type": "fixed_discount",
       "value": 10
     },
     {
       "code": "FREESHIP",
-      "type": "shipping",
+      "type": "free_shipping",
       "value": 0
     }
   ]
@@ -323,7 +323,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 **Option A: Burn Manually**
 
-[POST /burn-coupon](https://gameball.mintlify.app/api-reference/coupons/burn-coupon)
+[POST /burn-coupon](/api-reference/coupons/burn-coupon)
 
 
 
@@ -337,7 +337,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 **Option B: Use Order API (Recommended)**
 
-[POST /order](https://gameball.mintlify.app/api-reference/order/order-tracking)
+[POST /order](/api-reference/order/order-tracking)
 
 
 
@@ -379,7 +379,7 @@ At checkout, the customer selects both coupons to maximize savings.
 
 **Manual Release API:**
 
-[POST /release-coupon](https://gameball.mintlify.app/api-reference/coupons/release-coupons)
+[POST /release-coupon](/api-reference/coupons/release-coupons)
 
 
 
@@ -406,4 +406,23 @@ At checkout, the customer selects both coupons to maximize savings.
 | 4. Validate & Lock         | POST /validate-coupon(s)         | Auto       | Required      |
 | 5. Burn/Apply              | POST /burn-coupon or POST /order | Manual     | ✅             |
 | 6. Release                 | POST /release-coupon             | ❌          | ✅             |
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Generate Coupon API" icon="ticket" href="/api-reference/coupons/generate-coupon">
+    Issue coupons from Gameball’s built-in engine
+  </Card>
+  <Card title="Get Customer Coupons API" icon="list" href="/api-reference/customers/management/get-customer-coupons">
+    Display coupons generated for a customer
+  </Card>
+  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
+    Confirm coupon eligibility before checkout
+  </Card>
+  <Card title="Burn Coupon API" icon="fire" href="/api-reference/coupons/burn-coupon">
+    Finalize coupon usage after successful payment
+  </Card>
+</CardGroup>
 

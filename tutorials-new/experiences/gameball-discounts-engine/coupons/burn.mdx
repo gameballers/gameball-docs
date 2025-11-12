@@ -13,21 +13,23 @@ Burning a coupon finalizes the process in Gameball’s discount engine, updating
 
 ## Overview
 
-In Gameball’s coupon lifecycle, the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) is the final confirmation step that marks a coupon as fully redeemed after a successful order or payment.
+In Gameball’s coupon lifecycle, the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) is the final confirmation step that marks a coupon as fully redeemed after a successful order or payment.
 
 You’ll typically call this API right after:
 
-- The **payment succeeds**, or
-- The **order is submitted and confirmed**, or
-- A **POS or fintech transaction** completes successfully.
+<Checklist>
+  <Check>The **payment succeeds**</Check>
+  <Check>The **order is submitted and confirmed**</Check>
+  <Check>A **POS or fintech transaction** completes successfully</Check>
+</Checklist>
 
-If the transaction fails or gets canceled, you should instead use the [Release Coupon API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) to free the coupon for reuse.
+If the transaction fails or gets canceled, you should instead use the [Release Coupon API](/api-reference/coupons/release-coupons) to free the coupon for reuse.
 
 ---
 
 ## When and Where to Use It
 
-The [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) applies across different business contexts:
+The [**Burn Coupon API**](/api-reference/coupons/burn-coupon) applies across different business contexts:
 
 | Channel                   | Example Use                                                              |
 | ------------------------- | ------------------------------------------------------------------------ |
@@ -59,7 +61,7 @@ Your backend now needs to finalize the coupon redemption to ensure WINTER20 can�
 
 ### **How to Implement**
 
-Once the order status is confirmed as “paid,” call the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) using:
+Once the order status is confirmed as “paid,” call the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) using:
 
 - The customerId
 - The couponCodes
@@ -84,7 +86,7 @@ Once the order status is confirmed as “paid,” call the [**Burn Coupon API**]
     {
       "code": "WINTER20",
       "burnedAt": "2025-02-20T12:30:00Z",
-      "discountType": "Percentage",
+      "discountType": "percentage_discount",
       "discountValue": 20
     }
   ]
@@ -108,7 +110,7 @@ Once the order status is confirmed as “paid,” call the [**Burn Coupon API**]
 </Steps>
 
 <Tip>
-  **Tip:** If the transaction fails or is canceled, use the [Release Coupon API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) instead to free the coupon.
+  **Tip:** If the transaction fails or is canceled, use the [Release Coupon API](/api-reference/coupons/release-coupons) instead to free the coupon.
 </Tip>
 
 ---
@@ -123,7 +125,7 @@ Once the cashier confirms the sale in the POS, the coupon should be marked as co
 
 ### **How to Implement**
 
-Your POS backend should call the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) once the transaction is finalized.
+Your POS backend should call the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) once the transaction is finalized.
 
 #### **Example Request**
 
@@ -144,7 +146,7 @@ Your POS backend should call the [**Burn Coupon API**](https://gameball.mintlify
     {
       "code": "LOYALTY10",
       "burnedAt": "2025-02-20T14:10:00Z",
-      "discountType": "FixedAmount",
+      "discountType": "fixed_discount",
       "discountValue": 10
     }
   ]
@@ -153,8 +155,10 @@ Your POS backend should call the [**Burn Coupon API**](https://gameball.mintlify
 
 ### **Best Practice**
 
-- Ensure the coupon is **validated and locked** before burning.
-- Use synchronized timestamps between POS and Gameball to keep transaction records aligned.
+<Checklist>
+  <Check>Ensure the coupon is **validated and locked** before burning.</Check>
+  <Check>Use synchronized timestamps between POS and Gameball to keep transaction records aligned.</Check>
+</Checklist>
 
 ---
 
@@ -172,7 +176,7 @@ In service-based platforms, there’s no “cart” or “order.” Coupons appl
 
 ### **How to Implement**
 
-After confirming a successful payment through the [Payment Tracking API](https://gameball.mintlify.app/api-reference/payment/payment-tracking), call the [**Burn Coupon API**](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) just as you would after an e-commerce order.
+After confirming a successful payment through the [Payment Tracking API](/api-reference/payment/payment-tracking), call the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) just as you would after an e-commerce order.
 
 #### **Example Request**
 
@@ -192,7 +196,7 @@ After confirming a successful payment through the [Payment Tracking API](https:/
   "burnedCoupons": [
     {
       "code": "BILLPAY20",
-      "discountType": "FixedAmount",
+      "discountType": "fixed_discount",
       "discountValue": 20,
       "appliedOn": "Payment",
       "burnedAt": "2025-02-20T16:40:00Z"
@@ -205,15 +209,28 @@ After confirming a successful payment through the [Payment Tracking API](https:/
 
 ## **Best Practices**
 
-<Check>
-  Burn only **after payment success**, never before.
-</Check>
+<Checklist>
+  <Check>Burn only **after payment success**, never before.</Check>
+  <Check>Always use the **latest** `couponsLockReference` for the same coupon.</Check>
+  <Check>If payment fails, use the [**Release Coupon API**](/api-reference/coupons/release-coupons) instead.</Check>
+</Checklist>
 
-<Check>
-  Always use the **latest** `couponsLockReference` for the same coupon.
-</Check>
+---
 
-<Check>
-  If payment fails, use the [**Release Coupon API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons) instead.
-</Check>
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Burn Coupon API" icon="fire" href="/api-reference/coupons/burn-coupon">
+    Finalize coupon usage and prevent reuse
+  </Card>
+  <Card title="Release Coupon API" icon="arrow-rotate-left" href="/api-reference/coupons/release-coupons">
+    Unlock coupons when orders fail or are canceled
+  </Card>
+  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
+    Confirm eligibility and lock coupons pre-checkout
+  </Card>
+  <Card title="Coupon Entity Reference" icon="book" href="/tutorials-new/general/entities/coupon">
+    Review coupon fields, types, and lifecycle metadata
+  </Card>
+</CardGroup>
 

@@ -48,7 +48,7 @@ The configuration can be a **single object** (one step) or an **array** (multipl
       "eventName": "create_account",
       "customerReward": { "points": 100 },
       "friendReward": {
-        "coupon": { "type": "Percentage", "value": 10, "expiryDate": "2025-12-31T23:59:59Z" }
+        "coupon": { "type": "percentage_discount", "value": 10, "expiryDate": "2025-12-31T23:59:59Z" }
       }
     },
     {
@@ -56,7 +56,7 @@ The configuration can be a **single object** (one step) or an **array** (multipl
       "eventName": "place_order",
       "customerReward": { "points": 200 },
       "friendReward": {
-        "coupon": { "type": "FixedAmount", "value": 20, "expiryDate": "2025-12-31T23:59:59Z" }
+        "coupon": { "type": "fixed_discount", "value": 20, "expiryDate": "2025-12-31T23:59:59Z" }
       }
     }
   ]
@@ -70,7 +70,7 @@ The configuration can be a **single object** (one step) or an **array** (multipl
       "eventName": "create_account",
       "customerReward": { "points": 100 },
       "friendReward": {
-        "coupon": { "type": "Percentage", "value": 10, "expiryDate": "2025-12-31T23:59:59Z" }
+        "coupon": { "type": "percentage_discount", "value": 10, "expiryDate": "2025-12-31T23:59:59Z" }
       }
     },
     {
@@ -78,7 +78,7 @@ The configuration can be a **single object** (one step) or an **array** (multipl
       "eventName": "place_order",
       "customerReward": { "points": 200 },
       "friendReward": {
-        "coupon": { "type": "FixedAmount", "value": 20, "expiryDate": "2025-12-31T23:59:59Z" }
+        "coupon": { "type": "fixed_discount", "value": 20, "expiryDate": "2025-12-31T23:59:59Z" }
       }
     }
   ]
@@ -123,7 +123,7 @@ https://yourwebsite.com?referralCode=code123
 
 - Read `referralCode` from the URL query string.
 - Store it in **session/local storage** (or cookie) until signup completes.
-- On friend signup, call [**Create/Update Customer**](https://gameball.mintlify.app/api-reference/customers/management/create-customer) and include `referrerCode`: "code123" **during initial registration** (within your program’s allowed window).
+- On friend signup, call [**Create/Update Customer**](/api-reference/customers/management/create-customer) and include `referrerCode`: "code123" **during initial registration** (within your program’s allowed window).
 
 <Warning>
   If `referrerCode` is invalid, Gameball ignores it silently and still creates the customer (no referral link formed).
@@ -164,4 +164,23 @@ Show the referrer’s progress with:
   - On signup, send **referrerCode** in **Create/Update Customer** (initial registration window).
   - Render **referrals list + counts** for progress.
 </Check>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Referrals Configurations API" icon="gear-code" href="/api-reference/configurations/program-configurations/referral-settings">
+    Retrieve multi-step referral rules and rewards
+  </Card>
+  <Card title="Create / Update Customer API" icon="user-plus" href="/api-reference/customers/management/create-customer">
+    Attach `referrerCode` when registering friends
+  </Card>
+  <Card title="Validate Referrer Code API" icon="shield-check" href="/api-reference/customers/management/validate-referrer-code">
+    Prevent self-referrals and invalid codes
+  </Card>
+  <Card title="Customer Referrals API" icon="people-group" href="/api-reference/customers/progress/get-customer-referrals">
+    Monitor referral progress and counts programmatically
+  </Card>
+</CardGroup>
 

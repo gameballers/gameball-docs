@@ -93,7 +93,7 @@ To retrieve this information, call:
 GET /customer-points-balance
 ```
 
-This [API](https://gameball.mintlify.app/api-reference/customers/progress/get-customer-balance) returns a full breakdown of the customer’s loyalty points, including available, total, and pending balances.
+This [API](/api-reference/customers/progress/get-customer-balance) returns a full breakdown of the customer’s loyalty points, including available, total, and pending balances.
 
 #### **Why This Matters:**
 
@@ -171,7 +171,7 @@ After displaying the balance, give users a field or slider to choose **how many 
 
 Once they click “Apply Points”:
 
-- Call the [**Hold Points API**](https://gameball.mintlify.app/api-reference/transactions/hold-management/hold)
+- Call the [**Hold Points API**](/api-reference/transactions/hold-management/hold)
 - This **temporarily holds** those points on Gameball’s side, ensuring they can’t be used twice (e.g., on another device or browser)
 - The response includes a `holdReference` that you must save for later
 
@@ -227,7 +227,7 @@ Save the `holdReference`You’ll need it at the order confirmation stage.
 
 Once the customer reviews the final cart and hits **“Place Order”**, your backend should:
 
-- Call the [**Order API**](https://gameball.mintlify.app/api-reference/order/order-tracking)
+- Call the [**Order API**](/api-reference/order/order-tracking)
 - Pass the `holdReference` you received earlier
 - This burns (deducts) the points and associates them with the order
 
@@ -259,7 +259,7 @@ POST /order
   style={{ width:"43%" }}
 />
 
-**Gameball touchpoint:** When the user presses **“Place Order”**, the [**Track Order API **](https://gameball.mintlify.app/api-reference/order/order-tracking)should be triggered.
+**Gameball touchpoint:** When the user presses **“Place Order”**, the [**Track Order API**](/api-reference/order/order-tracking) should be triggered.
 
 <img
   src="/images/direct-redemption-3.png"
@@ -285,11 +285,11 @@ This protects the customer experience while ensuring points don’t remain locke
 
 ---
 
-#### **Manual Release (**[**Release Hold API**](https://gameball.mintlify.app/api-reference/transactions/hold-management/release)**)**
+#### **Manual Release (**[**Release Hold API**](/api-reference/transactions/hold-management/release)**)**
 
 If the customer decides to **cancel the order** or wants to use their points for a different purchase **before the hold timeout ends**, you can proactively **release the held points**.
 
-To do this, call the [**Release Hold API**](https://gameball.mintlify.app/api-reference/transactions/hold-management/release) using the original holdReference.
+To do this, call the [**Release Hold API**](/api-reference/transactions/hold-management/release) using the original holdReference.
 
 POST /release-points
 
@@ -303,9 +303,11 @@ This instantly returns the held points to the user’s balance, allowing them to
 
 Use this if:
 
-- The customer navigates to another product
-- They modify the cart and want to reapply a different point amount
-- You want to release the points based on business logic (e.g., canceled order)
+<Checklist>
+  <Check>The customer navigates to another product.</Check>
+  <Check>They modify the cart and want to reapply a different point amount.</Check>
+  <Check>You need to release the points based on business logic (e.g., canceled order).</Check>
+</Checklist>
 
 <img
   src="/images/direct-redemption-4.gif"
@@ -326,4 +328,22 @@ Use this if:
 | Place order         | POST /order                  | Finalize redemption and burn points |
 | Order Cancelled     | POST /release-points         | Manually release held points        |
 
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer Balance API" icon="scale-balanced" href="/api-reference/customers/progress/get-customer-balance">
+    Retrieve available, total, and pending points
+  </Card>
+  <Card title="Hold Points API" icon="hand" href="/api-reference/transactions/hold-management/hold">
+    Reserve points during checkout before payment
+  </Card>
+  <Card title="Order API" icon="receipt" href="/api-reference/order/order-tracking">
+    Submit orders and finalize point redemption
+  </Card>
+  <Card title="Release Hold API" icon="arrow-rotate-left" href="/api-reference/transactions/hold-management/release">
+    Return held points when checkout is canceled
+  </Card>
+</CardGroup>
 

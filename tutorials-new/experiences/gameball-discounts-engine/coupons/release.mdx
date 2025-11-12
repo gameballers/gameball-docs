@@ -8,7 +8,7 @@ description: "Free locked coupons when an order is canceled, abandoned, or fails
 When a coupon is **validated and locked**, it becomes temporarily unavailable for others (or the same user) to redeem.\
 If the order fails, payment doesn’t go through, or the customer abandons checkout, those locked coupons should be **released** to make them reusable.
 
-That’s where the [**Release Coupons API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons) comes in; it reverts the coupon status from **_locked_** to **_available_**.
+That’s where the [**Release Coupons API**](/api-reference/coupons/release-coupons) comes in; it reverts the coupon status from **_locked_** to **_available_**.
 
 ---
 
@@ -19,9 +19,11 @@ However, if these coupons remain locked after failed transactions, they can beco
 
 Releasing them promptly:
 
-- Prevents **coupon exhaustion** or “false unavailability.”
-- Maintains **accurate redemption analytics**.
-- Ensures **smooth retry or reorder experiences** for customers.
+<Checklist>
+  <Check>Prevents **coupon exhaustion** or “false unavailability.”</Check>
+  <Check>Maintains **accurate redemption analytics**.</Check>
+  <Check>Ensures **smooth retry or reorder experiences** for customers.</Check>
+</Checklist>
 
 ---
 
@@ -42,7 +44,7 @@ Or wait until the configured **lock timeout** passes; Gameball will automaticall
 
 ## **How to Implement**
 
-Once an order fails or is canceled, call the [**Release Coupons API**](https://gameball.mintlify.app/api-reference/coupons/release-coupons) using the same `lockReference` that was returned during the coupon validation (or lock) phase.
+Once an order fails or is canceled, call the [**Release Coupons API**](/api-reference/coupons/release-coupons) using the same `lockReference` that was returned during the coupon validation (or lock) phase.
 
 ```bash
 https://api.gameball.co/api/v4.0/integrations/coupons/{lockReference}
@@ -87,7 +89,7 @@ Sarah applied the coupon **WINTER25** but canceled the order before confirming p
 
 **Implementation:**
 
-Your system should call the [Release Coupons API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) immediately after order cancellation.
+Your system should call the [Release Coupons API](/api-reference/coupons/release-coupons) immediately after order cancellation.
 
 ```bash
 https://api.gameball.co/api/v4.0/integrations/coupons/lock-21c39f02-f8a3-4a7b-910e-f4c29a05be93
@@ -142,7 +144,7 @@ https://api.gameball.co/api/v4.0/integrations/coupons/lock-82b1aa5c-8a4e-4a31-91
 ## Best Practices:
 
 <Check>
-  Always call the [Release Coupons API](https://gameball.mintlify.app/api-reference/coupons/release-coupons) immediately after payment failure or cancellation.
+  Always call the [Release Coupons API](/api-reference/coupons/release-coupons) immediately after payment failure or cancellation.
 </Check>
 
 <Check>
@@ -153,10 +155,29 @@ https://api.gameball.co/api/v4.0/integrations/coupons/lock-82b1aa5c-8a4e-4a31-91
 
 ## **Key Takeaways**
 
-- **Release** returns coupons to “available” status after failed or canceled orders.
-- Always send the **lock reference** obtained from validation.
-- It’s essential for preventing unnecessary coupon unavailability.
-- Complements the full lifecycle flow:
+<Checklist>
+  <Check>**Release** returns coupons to “available” status after failed or canceled orders.</Check>
+  <Check>Always send the **lock reference** obtained from validation.</Check>
+  <Check>Prevents unnecessary coupon unavailability.</Check>
+  <Check>Completes the lifecycle: <code>Validate → Lock → Burn (Success) / Release (Failure)</code>.</Check>
+</Checklist>
 
-  **Validate → Lock → Burn (Success) / Release (Failure).**
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Release Coupon API" icon="arrow-rotate-left" href="/api-reference/coupons/release-coupons">
+    Unlock coupons after failed or canceled orders
+  </Card>
+  <Card title="Burn Coupon API" icon="fire" href="/api-reference/coupons/burn-coupon">
+    Mark coupons as redeemed once payment succeeds
+  </Card>
+  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
+    Confirm eligibility and lock coupons before checkout
+  </Card>
+  <Card title="Coupon Entity Reference" icon="book" href="/tutorials-new/general/entities/coupon">
+    Understand coupon fields, types, and lifecycle data
+  </Card>
+</CardGroup>
 

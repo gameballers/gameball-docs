@@ -12,7 +12,7 @@ This API helps you display live coupon data directly within your **storefront**,
 
 ## Overview
 
-The [**Get Customer Coupons API**](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons) returns all **active and eligible coupons** linked to a specific customer.\
+The [**Get Customer Coupons API**](/api-reference/customers/management/get-customer-coupons) returns all **active and eligible coupons** linked to a specific customer.\
 Each coupon includes details such as:
 
 - 🟢 **Coupon status** (active, expired, or used)
@@ -79,16 +79,16 @@ When a customer is logged in, you can fetch and display their valid coupons dyna
 
 <Steps>
   <Step title="Fetch coupons">
-    Call the [Get Customer Coupons API](https://gameball.mintlify.app/api-reference/customers/management/get-customer-coupons) using the customer’s `customerId`
+    Call the [Get Customer Coupons API](/api-reference/customers/management/get-customer-coupons) using the customer’s `customerId`
   </Step>
   <Step title="Display them in the UI">
     List all returned coupons so the customer can select one to apply at checkout.
   </Step>
   <Step title="Apply on selection">
-    When the customer selects a coupon, pass its code to the Validate API  before calling the Order API/Burn API.
+    When the customer selects a coupon, pass its code to the Validate API before calling the Order API/Burn API.
 
     <Note>
-      To understand how to burn coupons, refer to this [tutorial](https://gameball.mintlify.app/tutorials-new/experiences/gameball-discounts-engine/coupons/burn)
+      To understand how to burn coupons, refer to this [tutorial](/tutorials-new/experiences/gameball-discounts-engine/coupons/burn)
     </Note>
   </Step>
 </Steps>
@@ -106,7 +106,7 @@ GET /integrations/customers/{customerId}/coupons
   "coupons": [
     {
       "code": "SPRING10",
-      "type": "Percentage",
+      "type": "percentage_discount",
       "value": 10,
       "expiryDate": "2025-06-30T23:59:59Z",
       "usedCount": 1,
@@ -115,7 +115,7 @@ GET /integrations/customers/{customerId}/coupons
     },
     {
       "code": "FREESHIP",
-      "type": "FreeShipping",
+      "type": "free_shipping",
       "expiryDate": "2025-12-31T23:59:59Z",
       "usedCount": 0,
       "usageLimit": 1,
@@ -185,20 +185,39 @@ If you’re using the built-in Gameball Widget, you don’t need to integrate th
 </Check>
 
 <Check>
-  Coupons can be validated or locked through the [Validate Coupon API](https://gameball.mintlify.app/api-reference/coupons/validate-single-coupon) before checkout.
+  Coupons can be validated or locked through the [Validate Coupon API](/api-reference/coupons/validate-single-coupon) before checkout.
 </Check>
 
 <Check>
-  Use the [Burn](https://gameball.mintlify.app/api-reference/coupons/burn-coupon) or [Release](https://gameball.mintlify.app/api-reference/coupons/release-coupons) APIs after purchase completion or payment failure to finalize the coupon lifecycle.
+  Use the [Burn](/api-reference/coupons/burn-coupon) or [Release](/api-reference/coupons/release-coupons) APIs after purchase completion or payment failure to finalize the coupon lifecycle.
 </Check>
 
 ---
 
 ## **Key Takeaways**
 
-- Use the **Get Customer Coupons API** to display all currently available coupons for a customer.
-- Best suited for **custom frontends**, **mobile apps**, and **POS systems**.
-- Combine it with **Validate**, **Burn**, and **Release** APIs for a complete redemption flow.
-- When using Gameball’s **built-in widget**, this step is handled automatically.
+<Checklist>
+  <Check>Use the **Get Customer Coupons API** to display all currently available coupons for a customer.</Check>
+  <Check>Best suited for **custom frontends**, **mobile apps**, and **POS systems**.</Check>
+  <Check>Combine it with **Validate**, **Burn**, and **Release** APIs for a complete redemption flow.</Check>
+  <Check>When using Gameball’s **built-in widget**, this step is handled automatically.</Check>
+</Checklist>
 
+---
 
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer Coupons API" icon="ticket" href="/api-reference/customers/management/get-customer-coupons">
+    Retrieve coupons or promotions assigned to a customer
+  </Card>
+  <Card title="Coupon Entity Reference" icon="book" href="/tutorials-new/general/entities/coupon">
+    Review coupon fields, types, and lifecycle properties
+  </Card>
+  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
+    Confirm coupon eligibility before checkout
+  </Card>
+  <Card title="Burn Coupon API" icon="fire" href="/api-reference/coupons/burn-coupon">
+    Finalize coupon usage after payment success
+  </Card>
+</CardGroup>
