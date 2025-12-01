@@ -1,0 +1,390 @@
+---
+title: "Migration Notes"
+description: "Migrate from v2 to v3.1.0"
+---
+
+# Migration Notes & Changelog
+
+This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.1.0**.
+
+## What's New in v3.1.0
+
+<Info>
+  **Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security, with automatic v4.1 endpoint routing. This is fully backward compatible with v3.0.0.
+</Info>
+
+### New Features in v3.1.0
+
+- **Session Token Support**: Optional token-based authentication
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when a token is present
+- **Per-Request Token Override**: Override the global token on individual API calls
+- **Thread-Safe Token Storage**: In-memory token management using a dispatch queue
+- **Non-Breaking**: All v3.0.0 code works unchanged
+
+---
+
+## What's New in v3.0.0
+
+<CardGroup cols={2}>
+  <Card title="Modern Swift API" icon="code">
+    Native Swift API with improved type safety and better Swift idioms
+  </Card>
+  <Card title="Async/Await Support" icon="bolt">
+    Full async/await support alongside traditional callback-based APIs
+  </Card>
+  <Card title="Enhanced Type Safety" icon="shield">
+    Stronger typing and better compile-time checks with Swift generics
+  </Card>
+  <Card title="Improved Performance" icon="gauge-high">
+    Optimized SDK initialization and reduced memory footprint
+  </Card>
+</CardGroup>
+
+---
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2:**
+
+```swift
+Gameball.configure(
+    apiKey: "api-key",
+    lang: "en",
+    platform: "ios",
+    shop: "shop-id"
+)
+```
+
+**v3.1.0:**
+
+```swift
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    platform: "ios",
+    shop: "shop-id",
+    sessionToken: "session-token"  // Optional - New in v3.1.0
+)
+
+Gameball.shared.initialize(with: config)
+```
+
+---
+
+### **2. Customer Registration**
+
+**v2:**
+
+```swift
+Gameball.registerPlayer(
+    customerId: "customer-123",
+    attributes: attributes,
+    referralCode: "REF123",
+    isGuest: false
+) { success in
+    // Handle response
+}
+```
+
+**v3.1.0:**
+
+```swift
+let request = InitializeCustomerRequest(
+    customerId: "customer-123",
+    customerAttributes: attributes,
+    referralCode: "REF123",
+    isGuest: false
+)
+
+Gameball.shared.initializeCustomer(with: request) { result in
+    switch result {
+    case .success(let response):
+        // Handle success
+    case .failure(let error):
+        // Handle error
+    }
+}
+
+// Optional: Override session token for this request
+Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token") { result in
+    // Handle result
+}
+```
+
+---
+
+### **3. Event Tracking**
+
+**v2:**
+
+```swift
+let event = GameballEvent()
+event.customerId = "customer-123"
+event.eventName = "purchase"
+event.metadata = ["amount": 99.99]
+
+Gameball.sendEvent(event) { success in
+    // Handle response
+}
+```
+
+**v3.1.0:**
+
+```swift
+let event = GameballEvent(customerId: "customer-123")
+event.addEvent(
+    name: "purchase",
+    metadata: ["amount": 99.99]
+)
+
+Gameball.shared.sendEvent(event) { result in
+    switch result {
+    case .success:
+        // Handle success
+    case .failure(let error):
+        // Handle error
+    }
+}
+
+// Optional: Override session token for this request
+Gameball.shared.sendEvent(event, sessionToken: "custom-token") { result in
+    // Handle result
+}
+```
+
+---
+
+### **4. Method Name Changes**
+
+| **v2**                      | **v3.0.0**                                  |
+| :-------------------------- | :------------------------------------------ |
+| `Gameball.configure()`      | `Gameball.shared.initialize(with:)`         |
+| `Gameball.registerPlayer()` | `Gameball.shared.initializeCustomer(with:)` |
+| `Gameball.sendEvent()`      | `Gameball.shared.sendEvent(_:completion:)`  |
+| `Gameball.sendOrder()`      | `Gameball.shared.sendOrder(_:completion:)`  |
+| `PlayerAttributes`          | `CustomerAttributes`                        |
+| `PlayerRegisterResponse`    | `InitializeCustomerResponse`                |
+
+---
+
+### **5. Show Profile Widget**
+
+**v2:**
+
+```swift
+Gameball.showProfile(
+    customerId: "customer-123",
+    from: self
+)
+```
+
+**v3.1.0:**
+
+```bash
+let profileRequest = ShowProfileRequest(
+    customerId: "customer-123",
+    showCloseButton: true,
+    closeButtonColor: "#FF6B6B"
+)
+
+Gameball.shared.showProfile(with: profileRequest, from: self) { result in
+    // Handle result
+}
+
+// Optional: Override session token for this request
+Gameball.shared.showProfile(with: profileRequest, from: self, sessionToken: "custom-token") { result in
+    // Handle result
+}
+```
+
+---
+
+### **6. Error Handling**
+
+**v2:**
+
+```swift
+Gameball.sendEvent(event) { success in
+    if success {
+        // Success
+    } else {
+        // Error (no details)
+    }
+}
+```
+
+**v3.1.0:**
+
+```swift
+Gameball.shared.sendEvent(event) { result in
+    switch result {
+    case .success:
+        // Success
+    case .failure(let error):
+        // Detailed error information
+        print(error.localizedDescription)
+    }
+}
+```
+
+---
+
+### **7. Session Token Authentication (New in v3.1.0)**
+
+```bash
+// Configure with session token
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    sessionToken: "session-token"  // Global token
+)
+Gameball.shared.initialize(with: config)
+
+// Per-request token override
+Gameball.shared.initializeCustomer(with: request, sessionToken: "override-token") { result in
+    // This request uses "override-token" instead of global token
+}
+```
+
+<Info>
+  Session tokens enable automatic v4.1 endpoint routing and enhanced security. The token is stored in memory with thread-safe access.
+</Info>
+
+---
+
+### **8. Async/Await Support (New in v3.0.0)**
+
+```swift
+// Traditional callback
+Gameball.shared.initializeCustomer(with: request) { result in
+    // Handle result
+}
+
+// Async/await (v3.0.0+)
+Task {
+    do {
+        let response = try await Gameball.shared.initializeCustomer(with: request)
+        // Handle success
+    } catch {
+        // Handle error
+    }
+}
+
+// With session token override (v3.1.0+)
+Task {
+    do {
+        let response = try await Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token")
+        // Handle success
+    } catch {
+        // Handle error
+    }
+}
+```
+
+---
+
+## **Migration Steps**
+
+### **From v3.0.0 to v3.1.0 (No Breaking Changes)**
+
+<Info>
+  v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token support is optional.
+</Info>
+
+<Steps>
+  <Step title="Update Dependency">
+    Update your `Podfile` or Swift Package Manager configuration to use SDK v3.1.0: **CocoaPods:**
+
+    ```ruby
+    pod 'Gameball', '~> 3.1.0'
+    ```
+
+    **SPM:**\
+    Update to version `3.1.0` in Xcode package dependencies.
+  </Step>
+  <Step title="(Optional) Add Session Token">
+    If you need enhanced security, add a session token to your configuration:
+
+    ```swift
+    let config = GameballConfig(
+        apiKey: "api-key",
+        lang: "en",
+        sessionToken: "your-session-token"
+    )
+    ```
+  </Step>
+  <Step title="Test">
+    Test your integration. All existing v3.0.0 code should work without changes.
+  </Step>
+</Steps>
+
+---
+
+### **From v2.x to v3.1.0**
+
+<Steps>
+  <Step title="Update Dependency">
+    Update your `Podfile` or Swift Package Manager configuration to use SDK v3.1.0: **CocoaPods:**
+
+    ```ruby
+    pod 'Gameball', '~> 3.1.0'
+    ```
+
+    **SPM:**\
+    Update to version `3.1.0` in Xcode package dependencies.
+  </Step>
+  <Step title="Update Initialization">
+    Replace `Gameball.configure()` with the new `GameballConfig` and `initialize(with:)` pattern.
+  </Step>
+  <Step title="Update Customer Registration">
+    Replace `registerPlayer()` with `initializeCustomer()` using the new request type `InitializeCustomerRequest`.
+  </Step>
+  <Step title="Update Event Tracking">
+    Update event creation to use the new `GameballEvent` API with the `addEvent()` method.
+  </Step>
+  <Step title="Update Error Handling">
+    Replace boolean success handlers with Result-based completion handlers to access detailed error information.
+  </Step>
+  <Step title="Update Show Profile">
+    Use the new `ShowProfileRequest` for displaying the profile widget.
+  </Step>
+  <Step title="Test Thoroughly">
+    Test all Gameball functionality (registration, events, orders, profile, etc.) to ensure the migration is successful.
+  </Step>
+</Steps>
+
+---
+
+## **Compatibility**
+
+- **Minimum iOS**: iOS 13.0+
+- **Xcode**: 14.0+
+- **Swift**: 5.7+
+- **CocoaPods**: 1.11+
+
+---
+
+## **Additional Resources**
+
+- See the: 
+  - **[SDK]**([https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md)](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md\)**[CHANGELOG.md]**\(http://CHANGELOG.md)
+  - [[CHANGELOG.md](http://CHANGELOG.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md\)**[CHANGELOG.md]**\(http://CHANGELOG.md)) for detailed version history
+- Review: 
+  - **[MIGRATION.md]**(http://MIGRATION.md) in the repository for additional migration guidance
+- View: 
+  - **[RELEASE\_]**([https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md)](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md\)[NOTES.md)
+  - [[NOTES.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md\)[NOTES.md)](http://NOTES.md) for v3.1.0 release details
+- Visit:
+  -  **[Gameball Developer Docs]**(https://developer.gameball.co) for the latest documentation
+
+<Warning>
+  For v3.1.0-specific details, refer to the **gameball-ios** repository on branch `release-3.1.0`: <a href="https://github.com/gameballers/gameball-ios/tree/release-3.1.0">
+  https://github.com/gameballers/gameball-ios/tree/release-3.1.0</a>
+</Warning>
+
+<Tip>
+  If you encounter issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+

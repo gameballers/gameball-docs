@@ -1,0 +1,190 @@
+---
+title: "Track Orders & Cashback"
+description: "Track orders and enable cashback rewards using the Gameball iOS SDK"
+---
+
+# Send Order Data & Trigger Cashback
+
+Use the iOS SDK to send paid order information to Gameball.\
+This enables automatic cashback rewards, order-based earning rules, and post-purchase loyalty actions.
+
+Gameball supports both:
+
+- **Track Order API** (for products & carts)
+- **Track Payment API** (for service-based businesses without line items)
+
+> The iOS SDK internally wraps the **Track Order API** and sends validated order payloads to Gameball.
+
+---
+
+## Basic Usage
+
+Send order details using `OrderRequest` and `sendOrder`.
+
+<CodeGroup>
+
+```swift Swift (UI Kit)
+import Gameball
+
+let order = OrderRequest(
+    orderId: "order-123",
+    customerId: "customer-123",
+    amount: 99.99,
+    currency: "USD",
+    status: "paid"
+)
+
+Gameball.shared.sendOrder(order) { result in
+    switch result {
+    case .success:
+        print("Order tracked successfully")
+    case .failure(let error):
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+
+```swift Swift (Async/Await)
+import Gameball
+
+Task {
+    do {
+        let order = OrderRequest(
+            orderId: "order-123",
+            customerId: "customer-123",
+            amount: 99.99,
+            currency: "USD",
+            status: "paid"
+        )
+        
+        try await Gameball.shared.sendOrder(order)
+        print("Order tracked successfully")
+    } catch {
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+</CodeGroup>
+
+---
+
+## **Order Parameters**
+
+<ParamField body="orderId" type="String" required>
+  Unique identifier for the order.
+</ParamField>
+
+<ParamField body="customerId" type="String" required>
+  The identifier of the customer placing the order.
+</ParamField>
+
+<ParamField body="amount" type="Double" required>
+  Total order value after discounts and before loyalty redemption.
+</ParamField>
+
+<ParamField body="currency" type="String" required>
+  Currency code (e.g., `"USD"`, `"EUR"`, `"SAR"`).
+</ParamField>
+
+<ParamField body="status" type="String" required>
+  Order status: `"paid"`, `"pending"`, `"cancelled"`, `"refunded"`.
+</ParamField>
+
+<ParamField body="lineItems" type="[OrderLineItem]">
+  Optional list of products in the order.\
+  Required for businesses using collection-based earning rules.
+</ParamField>
+
+<ParamField body="sessionToken" type="String">
+  Optional override session token for this request.
+</ParamField>
+
+<Warning>
+  **Important:**\
+  Only send orders with `status = "paid"` to ensure cashback and earning rules trigger correctly.\
+  For COD orders, send the order only after payment is confirmed.
+</Warning>
+
+---
+
+## **Order with Line Items**
+
+Use line items when you want:
+
+- Product-based earning rules
+- Category conditions
+- Collection-based cashback
+- Better reporting visibility
+
+```swift
+let lineItem1 = OrderLineItem(
+    productId: "PROD-123",
+    productName: "Wireless Headphones",
+    quantity: 1,
+    price: 79.99
+)
+
+let lineItem2 = OrderLineItem(
+    productId: "PROD-456",
+    productName: "Phone Case",
+    quantity: 2,
+    price: 19.99
+)
+
+let order = OrderRequest(
+    orderId: "order-123",
+    customerId: "customer-123",
+    amount: 119.97,
+    currency: "USD",
+    status: "paid",
+    lineItems: [lineItem1, lineItem2]
+)
+
+Gameball.shared.sendOrder(order) { result in
+    // Handle result
+}
+```
+
+---
+
+## **Cashback Rewards**
+
+Gameball will automatically calculate cashback based on the **cashback rules** configured in your dashboard.
+
+<CardGroup cols={2}>
+  <Card title="Earn Cashback" icon="coins">
+    Customers earn cashback based on your reward program and order amount.
+  </Card>
+  <Card title="Automatic Posting" icon="arrow-up-right-dots">
+    Cashback is applied to the customer's wallet immediately once the order is tracked.
+  </Card>
+</CardGroup>
+
+<Info>
+  For advanced use cases, server-side integrations, or POS systems, you can use the\
+  [**Track Order API**](/api-reference/order/order-tracking) and [**Track Payment API**](/api-reference/payment/tracking).
+
+  The iOS SDK’s `sendOrder()` method directly wraps the **Track Order API**.
+</Info>
+
+---
+
+## **Best Practices**
+
+<Steps>
+  <Step title="Send Only Paid Orders">
+    Ensure payment is confirmed before sending orders to prevent incorrect cashback.
+  </Step>
+  <Step title="Use Line Items When Possible">
+    This enables category-based earning rules, product-level reporting, and richer customer insights.
+  </Step>
+  <Step title="Include Accurate Currency Codes">
+    Loyalty calculations depend on the correct currency context.
+  </Step>
+  <Step title="Track Refunds Through Refund APIs">
+    Cashback reversals must use the official refund endpoints, not order tracking.
+  </Step>
+</Steps>
+

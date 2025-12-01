@@ -1,0 +1,63 @@
+---
+title: "Migration Notes"
+description: "Migration guide for POS integration updates"
+---
+
+# Migration Notes
+
+## Overview
+
+This document provides guidance for migrating or updating your POS integration with Gameball.
+
+## API Version Updates
+
+### Current Version: v4.0
+
+The POS integration guide uses Gameball API v4.0. If you're migrating from an older version, review the API changelog for breaking changes.
+
+## Common Migration Scenarios
+
+### Updating API Endpoints
+
+If you need to update your API endpoints:
+
+1. Review the current API version in use
+2. Update base URLs to match the new version
+3. Test all API calls with the new endpoints
+4. Update error handling for new response formats
+
+### Changing Customer Identification
+
+If you need to change how customers are identified:
+
+1. Ensure `customerId` values remain consistent
+2. Update customer lookup logic if switching between mobile/email
+3. Test customer identification across all flows
+4. Verify existing customer data is accessible
+
+### Adding New Features
+
+When adding new features like QR code support:
+
+1. Review the feature documentation
+2. Update POS UI to support new workflows
+3. Test the new feature in isolation
+4. Integrate with existing flows
+5. Update staff training materials
+
+## Best Practices
+
+- Test migrations in a staging environment first
+- Maintain backward compatibility where possible
+- Document any custom implementations
+- Keep API credentials secure during migration
+- Monitor error rates after migration
+
+<Warning>
+Always test migration changes thoroughly before deploying to production.
+</Warning>
+
+## Support
+
+For migration assistance, contact your Gameball account manager or refer to the [API Reference](/api-reference/introduction) documentation.
+

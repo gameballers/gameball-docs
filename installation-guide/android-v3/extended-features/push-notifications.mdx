@@ -1,0 +1,189 @@
+---
+title: "Push Notifications"
+description: "Set up Firebase or Huawei push notifications"
+---
+
+# Push Notifications (In-app & Push)
+
+Gameball supports Firebase Cloud Messaging (FCM) and Huawei Push Kit, enabling you to deliver timely updates about rewards, achievements, and promotional messages to customers.
+
+Push notifications help drive engagement by notifying users when they earn points, complete challenges, or receive new rewards.
+
+---
+
+## Firebase Cloud Messaging (FCM)
+
+### 1. Setup
+
+Follow these steps to enable FCM:
+
+1. Add Firebase to your project following the official guide: https://firebase.google.com/docs/android/setup
+2. Add FCM dependencies to your app:
+
+```groovy
+   dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-messaging'
+}
+```
+
+3. Add your Firebase credentials in the Gameball Dashboard → Admin Settings → Push Notifications.
+
+---
+
+### 2. Retrieve Device Token
+
+Use the Firebase Messaging API to obtain the device token and pass it to Gameball during customer initialization.
+
+```kotlin
+FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+    if (task.isSuccessful) {
+        val token = task.result
+
+        val customerRequest = InitializeCustomerRequest.builder()
+            .customerId("customer-123")
+            .deviceToken(token)
+            .pushProvider(PushProvider.Firebase)
+            .build()
+
+        GameballApp.getInstance(context).initializeCustomer(
+            customerRequest,
+            callback
+        )
+
+        // With session token override
+        GameballApp.getInstance(context).initializeCustomer(
+            customerRequest,
+            callback,
+            sessionToken = "custom-token"
+        )
+    }
+}
+```
+
+<Warning>
+  A push provider (**Firebase**) must always be set if you pass a `deviceToken`.
+</Warning>
+
+---
+
+### 3. Handle Incoming Notifications
+
+Implement a custom FirebaseMessagingService to handle notifications sent from Gameball.
+
+```kotlin
+class MyFirebaseMessagingService : FirebaseMessagingService() {
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+
+        if (remoteMessage.data["source"] == "gameball") {
+            val title = remoteMessage.notification?.title
+            val body = remoteMessage.notification?.body
+
+            showNotification(title, body)
+        }
+    }
+
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        updateDeviceToken(token)
+    }
+}
+```
+
+#### Register the service
+
+```xml
+<service
+    android:name=".MyFirebaseMessagingService"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+</service>
+```
+
+---
+
+## Huawei Push Kit (HMS)
+
+For Huawei devices **without Google Play Services**, use Huawei Push Kit.
+
+### 1. Setup
+
+1. Configure Huawei Push Kit in **AppGallery Connect**
+2. Add Push Kit dependency:
+
+```groovy
+dependencies {
+    implementation 'com.huawei.hms:push:6.7.0.300'
+}
+```
+
+3. Add Huawei repository:
+
+```groovy
+repositories {
+    maven { url 'https://developer.huawei.com/repo/' }
+}
+```
+
+---
+
+### 2. Retrieve Device Token
+
+```kotlin
+object : HmsMessageService() {
+    override fun onNewToken(token: String) {
+        val customerRequest = InitializeCustomerRequest.builder()
+            .customerId("customer-123")
+            .deviceToken(token)
+            .pushProvider(PushProvider.Huawei)
+            .build()
+    }
+}
+```
+
+<Info>
+  For full Huawei setup instructions, refer to:
+
+  •	AppGallery Connect Configuration: \
+  https://developer.huawei.com/consumer/en/doc/hmscore-guides/android-config-agc-0000001050170137
+
+  •	Push Kit Codelab: https://developer.huawei.com/consumer/en/codelab/HMSPushKit/index.html#0
+</Info>
+
+---
+
+## In-App Messaging
+
+Gameball supports several types of in-app engagement:
+
+- **Profile widget pop-ups**
+- **Native in-app notifications**
+- **Custom in-app messaging templates**
+
+All configurations, message templates, rules, and segmentation are controlled directly from the **Gameball Dashboard**.
+
+---
+
+## Best Practices
+
+<Steps>
+  <Step title="Request Permissions Thoughtfully">
+    Request notification permission at a meaningful point in the user's journey, rather than immediately upon app launch.
+  </Step>
+  <Step title="Handle Token Refresh">
+    Always update the device token when it changes (`onNewToken` for Firebase/Huawei).
+  </Step>
+  <Step title="Test on Real Devices">
+    Verify push delivery on different Android versions and manufacturers.
+  </Step>
+  <Step title="Send Useful Notifications">
+    Keep notifications relevant and valuable to avoid opt-outs.
+  </Step>
+</Steps>
+
+---
+

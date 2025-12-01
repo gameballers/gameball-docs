@@ -1,0 +1,86 @@
+---
+title: "iOS Integration"
+description: "Complete guide to integrate Gameball with your iOS application using SDK v3.1.0"
+---
+
+# Gameball iOS SDK - v3.1.0
+
+This documentation is tailored to **Gameball iOS SDK v3.1.0**. Use these pages as a versioned SDK reference for teams embedding Gameball into their iOS applications.
+
+<Info>
+  SDK v3.1.0 adds Session Token authentication for enhanced security and automatic v4.1 endpoint routing. All v3.0.0 functionality remains fully compatible.
+</Info>
+
+---
+
+## What You Can Do with the iOS SDK
+
+The Gameball iOS SDK enables you to:
+
+- Connect your mobile app to the Gameball loyalty and rewards platform.
+- Track customer actions, purchases, and engagement to trigger rewards or cashback.
+- Display in-app widgets showing points, badges, and leaderboards.
+- Enable redemptions, referrals, and push notifications natively.
+- Integrate Gameball programs without heavy backend development.
+
+---
+
+## Quick Start Checklist
+
+Before you begin, make sure you have:
+
+- A **Gameball Project Key** from your Gameball Dashboard → Settings → API Keys.
+- An app running **iOS 13+** with **Swift 5.7+**.
+- Installed **CocoaPods 1.11+** or configured **Swift Package Manager**.
+- Chosen between **sandbox** or **production** mode for testing.
+- A **unique Player ID** ready to identify your app users.
+
+---
+
+## Integration Guide
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/installation-guide/ios-v3/getting-started">
+    Install the Gameball iOS SDK v3.1.0 and set up your project
+  </Card>
+  <Card title="Initialize SDK" icon="play" href="/installation-guide/ios-v3/initialize-sdk">
+    Initialize the SDK with your API key and configuration
+  </Card>
+  <Card title="Initialize Customer Profile" icon="user" href="/installation-guide/ios-v3/initialize-profile">
+    Register and identify customers within your iOS app
+  </Card>
+  <Card title="Track Customer Events" icon="chart-line" href="/installation-guide/ios-v3/track-events">
+    Send customer events to power campaigns and rewards
+  </Card>
+  <Card title="Show Profile Widget" icon="window" href="/installation-guide/ios-v3/show-profile">
+    Display the customer profile widget with rewards and leaderboard
+  </Card>
+  <Card title="Push Notifications" icon="bell" href="/installation-guide/ios-v3/push-notifications">
+    Set up APNs push notifications for customer engagement
+  </Card>
+  <Card title="Go-Live Checklist" icon="check" href="/installation-guide/ios-v3/go-live-checklist">
+    Verify your integration before going live
+  </Card>
+  <Card title="Migration Notes" icon="arrow-right" href="/installation-guide/ios-v3/migration-notes">
+    Migrate from v2 to v3.1.0
+  </Card>
+</CardGroup>
+
+---
+
+## Authentication Notes
+
+Starting from SDK v3.1.0, Gameball uses **Session Tokens** to securely authenticate requests between your app and Gameball APIs.
+
+To implement:
+
+1. Retrieve a session token from your backend using the [Create/Update Customer API](https://developer.gameball.co/rest-api/integrations/customers).
+2. Pass this token when initializing the SDK.
+3. The SDK will automatically handle secure API routing to v4.1 endpoints.
+
+<Note>
+  This ensures a secure, tokenized connection between your app and Gameball, preventing direct exposure of your API key.
+</Note>
+
+---
+

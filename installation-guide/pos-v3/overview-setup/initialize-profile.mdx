@@ -1,0 +1,77 @@
+---
+title: "Initialize Customer Profile"
+description: "Register new customers or identify existing ones during checkout at your POS"
+---
+
+# Initialize Customer Profile
+
+## Use Case: Registering a New Customer During Checkout
+
+### What This Is
+
+This use case outlines how to register a new customer in Gameball's loyalty program through the POS, enabling them to earn and redeem points on future visits.
+
+When a first-time shopper checks out, the store clerk collects basic information—such as mobile number or email—used to create a new Gameball profile in the background via API.
+
+### Why It Matters
+
+A Gameball profile is the foundation for any loyalty engagement.
+
+- Without registration, purchases cannot be tracked, and no rewards can be issued
+- Early registration allows for welcome bonuses, tier progress, and behavioral targeting
+- Failure to register customers is the #1 reason for low program engagement in offline channels
+
+### How to Implement It
+
+Call the Create/Update Customer API from your POS system upon checkout.
+
+At minimum, provide:
+
+- A unique `customerId` (your internal identifier, phone number, or email)
+- One of: `email` or `mobile`
+
+This API is idempotent. If the customer already exists, the profile will be updated instead of duplicated.
+
+### Example Scenario
+
+At checkout, the store clerk asks the shopper for their mobile number. The POS system sends the following background request to register them into Gameball:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -d '{
+    "customerId": "mobile_966500001234",
+    "name": "Loyal Shopper",
+    "email": "shopper@example.com",
+    "mobile": "+966500001234"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "customerId": "mobile_966500001234",
+  "name": "Loyal Shopper",
+  "email": "shopper@example.com",
+  "mobile": "+966500001234",
+  "createdAt": "2025-09-29T15:00:00Z"
+}
+```
+</ResponseExample>
+
+### What Gameball Does Behind the Scenes
+
+- Creates a new customer profile in the loyalty database
+- Triggers any configured onboarding campaigns (e.g., welcome bonus)
+- Prepares the profile for earning, tiering, and redemption
+
+### Key Takeaways for Developers
+
+- Use a persistent and unique `customerId` across all platforms (POS, online, app)
+- Call this API immediately before checkout or as soon as the identifier is collected
+- Ensure your POS UI clearly captures at least one contact field (mobile/email)
+- You can use this API proactively—even for existing customers—without conflict
+

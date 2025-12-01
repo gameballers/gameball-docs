@@ -1,0 +1,197 @@
+---
+title: "Getting Started"
+description: "Install and set up Gameball iOS SDK v3.1.0"
+---
+
+This guide helps you install the **Gameball iOS SDK v3.1.0** and prepare your project for integration.\
+Once installed, you will be ready to initialize the SDK and register customers.
+
+---
+
+## 1. Requirements
+
+Your project must meet the following minimum requirements:
+
+- **iOS Version:** 13.0+
+- **Xcode:** 14.0+
+- **Swift:** 5.7+
+- **Package Manager:** CocoaPods 1.11+ or Swift Package Manager (SPM)
+
+---
+
+## 2. Checklist Before Installation
+
+Before installing the SDK, ensure you have:
+
+- A **Gameball Project Key** from your Dashboard
+- Selected your environment (**sandbox** recommended for testing)
+- A valid **bundle identifier** for iOS
+- A unique **player identifier** strategy (user ID, email, UUID, etc.)
+- CocoaPods installed OR decided to use SPM
+
+---
+
+## 3. Install the SDK
+
+You can install the SDK via **CocoaPods** (recommended) or **Swift Package Manager**.
+
+---
+
+### **CocoaPods (Recommended)**
+
+Add the SDK to your `Podfile`:
+
+```ruby
+platform :ios, '13.0'
+use_frameworks!
+
+target 'YourApp' do
+  pod 'Gameball', '~> 3.1.0'
+end
+```
+
+Install dependencies:
+
+```bash
+pod install
+```
+
+<Note>
+  Always open your project using the .xcworkspace file, not .xcodeproj.
+</Note>
+
+---
+
+### **Swift Package Manager (SPM)**
+
+In Xcode:
+
+1. Go to **File → Add Packages**
+2. Enter the repository URL:
+
+```bash
+https://github.com/gameballers/gameball-ios.git
+```
+
+3. Select **Version 3.1.0** or **Up to Next Major**
+4. Click **Add Package**
+
+---
+
+## **4. Import the SDK**
+
+In any Swift file where you plan to use Gameball:
+
+```swift
+import Gameball
+```
+
+---
+
+## **5. Verify Installation**
+
+Build your project to confirm the SDK was added successfully.
+
+### **Using Xcode**
+
+```
+⌘ + B
+```
+
+### **Using terminal**
+
+```
+xcodebuild -workspace YourApp.xcworkspace \
+           -scheme YourApp \
+           -sdk iphonesimulator \
+           -configuration Debug build
+```
+
+<Note>
+  If your build succeeds, you are ready to initialize the SDK.
+</Note>
+
+---
+
+## **6. Next Steps**
+
+Proceed with:
+
+- **Initialize SDK**
+
+  Connect your app to Gameball using your API key and (optionally) Session Token.
+- **Initialize Customer Profile**
+
+  Register and identify your player.
+
+---
+
+## **7. Troubleshooting**
+
+Below are common installation issues and fixes.
+
+### **Problem: “Unable to find a specification for Gameball”**
+
+**Fixes:**
+
+- pod repo update
+- pod cache clean --all
+- Verify Podfile syntax
+- Ensure CocoaPods 1.11+ is installed
+
+---
+
+### **Problem: “No such module ‘Gameball’”**
+
+**Fixes:**
+
+- Product → Clean Build Folder (⇧⌘K)
+- Xcode → File → Packages → Reset Package Caches
+- Verify the package is added to your target
+- Restart Xcode
+
+---
+
+### **Problem: Deployment target or API availability warnings**
+
+**Fixes:**
+
+- Ensure iOS 13.0+ minimum deployment target
+- Update Info.plist if needed
+- Ensure Xcode 14+ and Swift 5.7+
+
+---
+
+### **Problem: dyld or framework loading errors**
+
+**Fixes:**
+
+- Run pod install
+- Remove/re-add the SPM package
+- Delete DerivedData:
+
+```
+rm -rf ~/Library/Developer/Xcode/DerivedData
+```
+
+---
+
+## **8. Debug Logging**
+
+The SDK includes built-in debug logging visible in Xcode’s console.
+
+Filter logs by typing:
+
+```
+Gameball
+```
+
+Common categories include:
+
+- Initialization
+- Network
+- Events
+- Profile
+
+Use this during development to quickly diagnose issues.
+

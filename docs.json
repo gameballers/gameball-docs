@@ -41,21 +41,90 @@
             "version": "SDK v2",
             "groups": [
               {
-                "group": "Platform Integration",
+                "group": "Overview",
                 "pages": [
-                  "installation-guide/index",
+                  "installation-guide/index"
+                ]
+              },
+              {
+                "group": "Web & POS Integration",
+                "pages": [
                   {
                     "group": "Web",
                     "pages": [
-                      "installation-guide/web/index",
-                      "installation-guide/web/initialize-widget",
-                      "installation-guide/web/track-events",
-                      "installation-guide/web/track-orders",
-                      "installation-guide/web/integrate-redemption",
-                      "installation-guide/web/track-referrals",
-                      "installation-guide/web/go-live-checklist"
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/web/overview-setup/index",
+                          "installation-guide/web/overview-setup/getting-started",
+                          "installation-guide/web/overview-setup/initialize-widget",
+                          "installation-guide/web/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/web/core-sdk-capabilities/show-profile",
+                          "installation-guide/web/core-sdk-capabilities/track-events",
+                          "installation-guide/web/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/web/extended-features/integrate-redemption",
+                          "installation-guide/web/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/web/deployment-maintenance/go-live-checklist"
+                        ]
+                      }
                     ]
                   },
+                  {
+                    "group": "POS",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/pos-v3/overview-setup/index",
+                          "installation-guide/pos-v3/overview-setup/getting-started",
+                          "installation-guide/pos-v3/overview-setup/initialize-sdk",
+                          "installation-guide/pos-v3/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/pos-v3/core-sdk-capabilities/show-profile",
+                          "installation-guide/pos-v3/core-sdk-capabilities/track-events",
+                          "installation-guide/pos-v3/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/pos-v3/extended-features/integrate-redemption",
+                          "installation-guide/pos-v3/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/pos-v3/deployment-maintenance/go-live-checklist",
+                          "installation-guide/pos-v3/deployment-maintenance/migration-notes"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Mobile Integration",
+                "pages": [
                   {
                     "group": "iOS",
                     "pages": [
@@ -131,84 +200,234 @@
             "default": true,
             "groups": [
               {
-                "group": "Platform Integration",
+                "group": "Overview",
                 "pages": [
-                  "installation-guide/index-v3",
+                  "installation-guide/index-v3"
+                ]
+              },
+              {
+                "group": "Web & POS Integration",
+                "pages": [
                   {
                     "group": "Web",
                     "pages": [
-                      "installation-guide/web/index",
-                      "installation-guide/web/initialize-widget",
-                      "installation-guide/web/track-events",
-                      "installation-guide/web/track-orders",
-                      "installation-guide/web/integrate-redemption",
-                      "installation-guide/web/track-referrals",
-                      "installation-guide/web/go-live-checklist"
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/web/overview-setup/index",
+                          "installation-guide/web/overview-setup/getting-started",
+                          "installation-guide/web/overview-setup/initialize-widget",
+                          "installation-guide/web/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/web/core-sdk-capabilities/show-profile",
+                          "installation-guide/web/core-sdk-capabilities/track-events",
+                          "installation-guide/web/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/web/extended-features/integrate-redemption",
+                          "installation-guide/web/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/web/deployment-maintenance/go-live-checklist"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "POS",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/pos-v3/overview-setup/index",
+                          "installation-guide/pos-v3/overview-setup/getting-started",
+                          "installation-guide/pos-v3/overview-setup/initialize-sdk",
+                          "installation-guide/pos-v3/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/pos-v3/core-sdk-capabilities/show-profile",
+                          "installation-guide/pos-v3/core-sdk-capabilities/track-events",
+                          "installation-guide/pos-v3/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/pos-v3/extended-features/integrate-redemption",
+                          "installation-guide/pos-v3/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/pos-v3/deployment-maintenance/go-live-checklist",
+                          "installation-guide/pos-v3/deployment-maintenance/migration-notes"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Mobile Integration",
+                "pages": [
+                  {
+                    "group": "iOS",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/ios-v3/overview-setup/index",
+                          "installation-guide/ios-v3/overview-setup/getting-started",
+                          "installation-guide/ios-v3/overview-setup/initialize-sdk",
+                          "installation-guide/ios-v3/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/ios-v3/core-sdk-capabilities/show-profile",
+                          "installation-guide/ios-v3/core-sdk-capabilities/track-events",
+                          "installation-guide/ios-v3/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/ios-v3/extended-features/integrate-redemption",
+                          "installation-guide/ios-v3/extended-features/push-notifications",
+                          "installation-guide/ios-v3/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/ios-v3/deployment-maintenance/go-live-checklist",
+                          "installation-guide/ios-v3/deployment-maintenance/migration-notes"
+                        ]
+                      }
                     ]
                   },
                   {
                     "group": "Android",
                     "pages": [
-                      "installation-guide/android-v3/index",
-                      "installation-guide/android-v3/getting-started",
-                      "installation-guide/android-v3/initialize-profile",
-                      "installation-guide/android-v3/track-events",
-                      "installation-guide/android-v3/track-orders",
-                      "installation-guide/android-v3/show-profile",
-                      "installation-guide/android-v3/integrate-redemption",
-                      "installation-guide/android-v3/push-notifications",
-                      "installation-guide/android-v3/track-referrals",
-                      "installation-guide/android-v3/go-live-checklist",
-                      "installation-guide/android-v3/migration-notes"
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/android-v3/overview-setup/index",
+                          "installation-guide/android-v3/overview-setup/getting-started",
+                          "installation-guide/android-v3/overview-setup/initialize-sdk",
+                          "installation-guide/android-v3/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/android-v3/core-sdk-capabilities/show-profile",
+                          "installation-guide/android-v3/core-sdk-capabilities/track-events",
+                          "installation-guide/android-v3/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/android-v3/extended-features/integrate-redemption",
+                          "installation-guide/android-v3/extended-features/push-notifications",
+                          "installation-guide/android-v3/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/android-v3/deployment-maintenance/go-live-checklist",
+                          "installation-guide/android-v3/deployment-maintenance/migration-notes"
+                        ]
+                      }
                     ]
                   },
                   {
                     "group": "Flutter",
                     "pages": [
-                      "installation-guide/flutter-v3/index",
-                      "installation-guide/flutter-v3/getting-started",
-                      "installation-guide/flutter-v3/initialize-sdk",
-                      "installation-guide/flutter-v3/initialize-profile",
-                      "installation-guide/flutter-v3/track-events",
-                      "installation-guide/flutter-v3/track-orders",
-                      "installation-guide/flutter-v3/show-profile",
-                      "installation-guide/flutter-v3/integrate-redemption",
-                      "installation-guide/flutter-v3/track-referrals",
-                      "installation-guide/flutter-v3/go-live-checklist",
-                      "installation-guide/flutter-v3/migration-notes"
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/flutter-v3/overview-setup/index",
+                          "installation-guide/flutter-v3/overview-setup/getting-started",
+                          "installation-guide/flutter-v3/overview-setup/initialize-sdk",
+                          "installation-guide/flutter-v3/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/flutter-v3/core-sdk-capabilities/show-profile",
+                          "installation-guide/flutter-v3/core-sdk-capabilities/track-events",
+                          "installation-guide/flutter-v3/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/flutter-v3/extended-features/integrate-redemption",
+                          "installation-guide/flutter-v3/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/flutter-v3/deployment-maintenance/go-live-checklist",
+                          "installation-guide/flutter-v3/deployment-maintenance/migration-notes"
+                        ]
+                      }
                     ]
                   },
                   {
                     "group": "React Native",
                     "pages": [
-                      "installation-guide/react-native-v3/index",
-                      "installation-guide/react-native-v3/getting-started",
-                      "installation-guide/react-native-v3/initialize-sdk",
-                      "installation-guide/react-native-v3/initialize-profile",
-                      "installation-guide/react-native-v3/track-events",
-                      "installation-guide/react-native-v3/track-orders",
-                      "installation-guide/react-native-v3/show-profile",
-                      "installation-guide/react-native-v3/integrate-redemption",
-                      "installation-guide/react-native-v3/track-referrals",
-                      "installation-guide/react-native-v3/go-live-checklist",
-                      "installation-guide/react-native-v3/migration-notes"
-                    ]
-                  },
-                  {
-                    "group": "iOS",
-                    "pages": [
-                      "installation-guide/ios-v3/index",
-                      "installation-guide/ios-v3/getting-started",
-                      "installation-guide/ios-v3/initialize-sdk",
-                      "installation-guide/ios-v3/initialize-profile",
-                      "installation-guide/ios-v3/track-events",
-                      "installation-guide/ios-v3/track-orders",
-                      "installation-guide/ios-v3/show-profile",
-                      "installation-guide/ios-v3/integrate-redemption",
-                      "installation-guide/ios-v3/push-notifications",
-                      "installation-guide/ios-v3/track-referrals",
-                      "installation-guide/ios-v3/go-live-checklist",
-                      "installation-guide/ios-v3/migration-notes"
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guide/react-native-v3/overview-setup/index",
+                          "installation-guide/react-native-v3/overview-setup/getting-started",
+                          "installation-guide/react-native-v3/overview-setup/initialize-sdk",
+                          "installation-guide/react-native-v3/overview-setup/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guide/react-native-v3/core-sdk-capabilities/show-profile",
+                          "installation-guide/react-native-v3/core-sdk-capabilities/track-events",
+                          "installation-guide/react-native-v3/core-sdk-capabilities/track-orders"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guide/react-native-v3/extended-features/integrate-redemption",
+                          "installation-guide/react-native-v3/extended-features/track-referrals"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guide/react-native-v3/deployment-maintenance/go-live-checklist",
+                          "installation-guide/react-native-v3/deployment-maintenance/migration-notes"
+                        ]
+                      }
                     ]
                   }
                 ]

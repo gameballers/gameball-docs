@@ -1,0 +1,204 @@
+---
+title: "Track Referrals"
+description: "Implement referral tracking using Firebase Dynamic Links"
+---
+
+# Referral Tracking in Your Android App
+
+Gameball referrals rely on **Firebase Dynamic Links** to track when an existing customer invites a new customer. Implementing referral tracking allows you to reward both the referrer and the referred customer based on your Gameball referral program rules.
+
+## Setup Requirements
+
+<Steps>
+  <Step title="Configure Firebase Dynamic Links">
+    Set up Firebase Dynamic Links in your Firebase console and configure your app to receive deep links.
+  </Step>
+  <Step title="Add Dynamic Links Dependency">
+    Add the Firebase Dynamic Links library to your `build.gradle`:
+
+    ```groovy
+    dependencies {
+        implementation 'com.google.firebase:firebase-dynamic-links'
+    }
+    ```
+  </Step>
+  <Step title="Configure Referral Settings in Gameball Dashboard">
+    In the Gameball dashboard, provide your Firebase Dynamic Links domain and configuration.
+  </Step>
+</Steps>
+
+---
+
+## Handling Referral Deep Links
+
+Your app must capture the referral code from the Firebase Dynamic Link and store it until registration.
+
+<CodeGroup>
+
+```kotlin Kotlin
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Firebase.dynamicLinks
+            .getDynamicLink(intent)
+            .addOnSuccessListener { pendingDynamicLinkData ->
+                val deepLink = pendingDynamicLinkData?.link
+
+                val referralCode = deepLink?.getQueryParameter("referralCode")
+
+                if (referralCode != null) {
+                    saveReferralCode(referralCode)  // Store locally
+                }
+            }
+    }
+}
+```
+
+
+```java Java
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(getIntent())
+            .addOnSuccessListener(this, pendingDynamicLinkData -> {
+                Uri deepLink = pendingDynamicLinkData != null
+                        ? pendingDynamicLinkData.getLink()
+                        : null;
+
+                if (deepLink != null) {
+                    String referralCode = deepLink.getQueryParameter("referralCode");
+
+                    if (referralCode != null) {
+                        saveReferralCode(referralCode); // Store locally
+                    }
+                }
+            });
+    }
+}
+```
+
+</CodeGroup>
+
+<Tip>
+  Store the referral code locally (e.g., SharedPreferences) and use it during customer initialization.
+</Tip>
+
+---
+
+## Registering a Customer with a Referral Code
+
+Include the stored referral code when registering or identifying the customer.
+
+```kotlin
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .email("customer@example.com")
+    .referralCode(savedReferralCode)   // Attach referral code
+    .build()
+
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    object : Callback<InitializeCustomerResponse> {
+        override fun onSuccess(response: InitializeCustomerResponse) {
+            // Customer registered with referral applied
+        }
+
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    }
+)
+```
+
+---
+
+## Fetching the Customer’s Referral Link
+
+Use this to show the unique referral link that customers can share.
+
+```kotlin
+GameballApp.getInstance(context).getCustomerReferralInfo(
+    "customer-123",
+    object : Callback<ReferralInfo> {
+        override fun onSuccess(referralInfo: ReferralInfo) {
+            val referralLink = referralInfo.referralLink
+            showShareDialog(referralLink)
+        }
+
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    }
+)
+```
+
+---
+
+## Sharing the Referral Link
+
+Enable sharing via Android’s standard share sheet:
+
+```kotlin
+fun shareReferralLink(referralLink: String) {
+    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        putExtra(Intent.EXTRA_TEXT, "Join me on our app! Use my referral link: $referralLink")
+        type = "text/plain"
+    }
+
+    startActivity(Intent.createChooser(shareIntent, "Share referral link"))
+}
+```
+
+---
+
+## Full Referral Flow
+
+<Steps>
+  <Step title="Customer A Retrieves Their Referral Link">
+    The existing customer receives their unique referral link.
+  </Step>
+  <Step title="Customer A Shares Referral Link">
+    They share it via social media, messaging apps, etc.
+  </Step>
+  <Step title="Customer B Opens the Link">
+    The new customer taps the link and installs/opens the app.
+  </Step>
+  <Step title="App Captures Referral Code">
+    Firebase Dynamic Links provides the deep link with `referralCode`.
+  </Step>
+  <Step title="Customer B Registers">
+    The referral code is included during registration.
+  </Step>
+  <Step title="Gameball Rewards Both Users">
+    Based on your program settings in the Gameball dashboard.
+  </Step>
+</Steps>
+
+<Info>
+  Referral rewards and rules are fully configurable in your Gameball dashboard.
+</Info>
+
+---
+
+## AndroidManifest Configuration
+
+Add an intent filter to allow your app to receive Firebase Dynamic Links:
+```xml
+<activity android:name=".MainActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+            android:host="yourdomain.page.link"
+            android:scheme="https" />
+    </intent-filter>
+</activity>
+```
+

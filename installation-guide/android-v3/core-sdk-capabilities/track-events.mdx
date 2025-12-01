@@ -1,0 +1,162 @@
+---
+title: "Track Customer Events"
+description: "Send events to power actions, campaigns and rewards"
+---
+
+# Send Events Using the SDK
+
+Send events to Gameball to power actions, campaigns, and rewards. Events represent significant customer actions within your app—such as purchases, product interactions, or engagement milestones.
+
+<CodeGroup>
+
+```kotlin Kotlin
+val event = Event.builder()
+  .customerId("customer-123")
+  .eventName("purchase")
+  .eventMetaData("product_id", "12345")
+  .eventMetaData("amount", 99.99)
+  .eventMetaData("currency", "USD")
+  .build()
+
+GameballApp.getInstance(context).sendEvent(
+  event,
+  object : Callback<Boolean> {
+      override fun onSuccess(success: Boolean) {
+          // Event tracked successfully
+      }
+
+      override fun onError(error: Throwable) {
+          // Handle error
+      }
+  }
+)
+
+// With session token override
+GameballApp.getInstance(context).sendEvent(
+  event,
+  callback,
+  sessionToken = "custom-token"
+)
+```
+
+
+```java Java
+Event event = Event.builder()
+    .customerId("customer-123")
+    .eventName("purchase")
+    .eventMetaData("product_id", "12345")
+    .eventMetaData("amount", 99.99)
+    .eventMetaData("currency", "USD")
+    .build();
+
+GameballApp.getInstance(context).sendEvent(
+    event,
+    new Callback<Boolean>() {
+        @Override
+        public void onSuccess(Boolean success) {
+            // Event tracked successfully
+        }
+        
+        @Override
+        public void onError(Throwable error) {
+            // Handle error
+        }
+    }
+);
+```
+
+</CodeGroup>
+
+## Event Parameters
+
+<ParamField body="customerId" type="string" required>
+  Unique identifier for the customer performing the event.
+</ParamField>
+
+<ParamField body="eventName" type="string" required>
+  Name of the event (e.g., `"purchase"`, `"review"`, `"add_to_cart"`).
+</ParamField>
+
+<ParamField body="eventMetaData" type="Map<String, Any>">
+  Extra contextual information about the event (amount, product details, category, etc.).
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+  Optional session token to override the global token for this specific request.
+</ParamField>
+
+### Validation Rules
+
+An event requires:
+
+- Customer ID is not empty
+- Event name must be provided
+- At least one metadata entry
+- Metadata values must be valid primitive types or objects
+
+---
+
+## Best Practices
+
+<Steps>
+  <Step title="Use Clear Event Names">
+    Make event names human-readable and consistent (e.g., `purchase_completed`, `review_submitted`).
+  </Step>
+  <Step title="Send After Action Completion">
+    Only send events when the action is fully completed (e.g., after successful payment confirmation).
+  </Step>
+  <Step title="Include Relevant Metadata">
+    Add metadata that supports segmentation and campaign targeting.
+  </Step>
+  <Step title="Keep Metadata Keys Consistent">
+    Use consistent naming across events (e.g., always `amount`, not sometimes `price`).
+  </Step>
+</Steps>
+
+---
+
+## Common Event Examples
+
+### 1. Purchase Event
+
+```kotlin
+val purchaseEvent = Event.builder()
+    .customerId("customer-123")
+    .eventName("purchase_completed")
+    .eventMetaData("order_id", "ORD-12345")
+    .eventMetaData("amount", 149.99)
+    .eventMetaData("currency", "USD")
+    .eventMetaData("category", "electronics")
+    .build()
+```
+
+### 2. Review Event
+
+```kotlin
+val reviewEvent = Event.builder()
+    .customerId("customer-123")
+    .eventName("review_submitted")
+    .eventMetaData("product_id", "PROD-789")
+    .eventMetaData("rating", 5)
+    .build()
+```
+
+### 3. Add to Cart Event
+
+```kotlin
+val cartEvent = Event.builder()
+    .customerId("customer-123")
+    .eventName("add_to_cart")
+    .eventMetaData("product_id", "PROD-456")
+    .eventMetaData("quantity", 2)
+    .build()
+```
+
+<Info>
+  Events are the foundation of Gameball’s reward and engagement engine. Configure event triggers and reward rules from your Gameball dashboard.
+</Info>
+
+<Tip>
+  Consider showing the profile widget immediately after a customer earns points or unlocks a reward to reinforce engagement.
+</Tip>
+

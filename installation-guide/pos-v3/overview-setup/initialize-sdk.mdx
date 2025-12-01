@@ -1,0 +1,67 @@
+---
+title: "Initialize SDK"
+description: "Set up API authentication and configuration for POS integration"
+---
+
+# Initialize SDK
+
+## API Authentication
+
+To integrate Gameball with your POS system, you'll need to authenticate all API requests using your Gameball API credentials.
+
+### Required Credentials
+
+- **API Key**: Your Gameball API key
+- **API Secret**: Your Gameball API secret
+
+These credentials are provided when you create your Gameball account and can be found in your Gameball dashboard under Settings > API Credentials.
+
+### Authentication Method
+
+All API requests must include authentication headers:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+Or use API key authentication:
+
+```bash
+X-API-Key: YOUR_API_KEY
+X-API-Secret: YOUR_API_SECRET
+```
+
+### Base URL
+
+All API requests should be made to:
+
+```
+https://api.gameball.co
+```
+
+### API Version
+
+This integration guide uses Gameball API v4.0. Ensure your API calls target the correct version endpoint:
+
+```
+https://api.gameball.co/api/v4.0/
+```
+
+## Security Best Practices
+
+<Warning>
+Always use HTTPS for all API calls. Never send API credentials over unencrypted connections.
+</Warning>
+
+- Store API credentials securely in your POS system configuration
+- Never expose API keys in client-side code or logs
+- Rotate API keys periodically for enhanced security
+- Use hash validation for QR code-based redemptions
+
+## Next Steps
+
+Once you have your API credentials configured, proceed to:
+
+1. [Initialize Customer Profile](/installation-guide/pos-v3/overview-setup/initialize-profile) - Learn how to register customers at checkout
+2. [Show Customer Balance](/installation-guide/pos-v3/core-sdk-capabilities/show-profile) - Retrieve customer loyalty information
+

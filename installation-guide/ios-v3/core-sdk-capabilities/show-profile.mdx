@@ -1,0 +1,308 @@
+---
+title: "Show Profile Widget"
+description: "Display the Gameball customer profile widget in your iOS app"
+---
+
+# Display the Profile Widget
+
+The Gameball profile widget shows customer points, tiers, achievements, leaderboards, available rewards, and full loyalty activity—all inside a native in-app experience.
+
+Use this when the customer taps **Rewards**, **My Points**, **Loyalty**, or any entry point that should open their Gameball profile.
+
+---
+
+## Basic Usage
+
+<CodeGroup>
+
+```swift filename
+import Gameball
+
+let request = ShowProfileRequest(
+    customerId: "customer-123"
+)
+
+Gameball.shared.showProfile(with: request, from: self) { result in
+    switch result {
+    case .success:
+        print("Profile displayed successfully")
+    case .failure(let error):
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+
+```swift Swift (With Session Token)
+let request = ShowProfileRequest(customerId: "customer-123")
+
+Gameball.shared.showProfile(with: request, from: self, sessionToken: "custom-token") { result in
+    // Handle result
+}
+```
+
+
+```swift Swift (Async/Await)
+import Gameball
+
+Task {
+    do {
+        let request = ShowProfileRequest(customerId: "customer-123")
+        try await Gameball.shared.showProfile(with: request, from: self)
+    } catch {
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+</CodeGroup>
+
+---
+
+## **Request Parameters**
+
+<ParamField body="customerId" type="String" required>
+  Unique permanent identifier of the customer whose profile you want to display.
+</ParamField>
+
+<ParamField body="openDetail" type="String">
+  Opens a specific widget section (e.g., `"details_earn"`, `"details_redeem"`).\
+  Defaults to the main profile view.
+</ParamField>
+
+<ParamField body="hideNavigation" type="Bool">
+  Hides the widget's navigation bar. Defaults to `false`.
+</ParamField>
+
+<ParamField body="showCloseButton" type="Bool">
+  Displays a floating close button. Defaults to `false`.
+</ParamField>
+
+<ParamField body="closeButtonColor" type="String">
+  Hex value (e.g., `"#FF5733"`) for close button color. Only used when `showCloseButton = true`.
+</ParamField>
+
+<ParamField body="widgetUrlPrefix" type="String">
+  Custom widget URL prefix for advanced hosting or custom routing.
+</ParamField>
+
+<ParamField body="sessionToken" type="String">
+  Optional per-request session token. Overrides the global SDK token.
+</ParamField>
+
+---
+
+### **Validation Rules**
+
+- customerId must not be empty.
+
+---
+
+## **Advanced Configuration**
+
+### **Open a Specific Section**
+
+```swift
+let request = ShowProfileRequest(
+    customerId: "customer-123",
+    openDetail: "details_earn"
+)
+
+Gameball.shared.showProfile(with: request, from: self) { _ in }
+```
+
+---
+
+### **Custom Close Button**
+
+```swift
+let request = ShowProfileRequest(
+    customerId: "customer-123",
+    showCloseButton: true,
+    closeButtonColor: "#FF5733"
+)
+
+Gameball.shared.showProfile(with: request, from: self) { _ in }
+```
+
+---
+
+### **Hide Navigation**
+
+```swift
+let request = ShowProfileRequest(
+    customerId: "customer-123",
+    hideNavigation: true
+)
+
+Gameball.shared.showProfile(with: request, from: self) { _ in }
+```
+
+---
+
+## **Implementation Examples**
+
+### **UIKit — Button Action**
+
+```swift
+import UIKit
+import Gameball
+
+class ProfileViewController: UIViewController {
+    
+    @IBAction func showProfileTapped(_ sender: UIButton) {
+        let request = ShowProfileRequest(
+            customerId: "customer-123",
+            showCloseButton: true,
+            closeButtonColor: "#4CAF50"
+        )
+        
+        Gameball.shared.showProfile(with: request, from: self) { result in
+            switch result {
+            case .success:
+                print("Profile displayed")
+            case .failure(let error):
+                self.showAlert(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+}
+```
+
+---
+
+### **SwiftUI Integration**
+
+```swift
+import SwiftUI
+import Gameball
+
+struct ProfileView: View {
+    @State private var showError = false
+    @State private var errorMessage = ""
+    
+    var body: some View {
+        VStack {
+            Button("View Rewards & Achievements") {
+                showWidget()
+            }
+            .padding()
+        }
+        .alert("Error", isPresented: $showError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
+    }
+    
+    func showWidget() {
+        guard let vc = UIApplication.shared.windows.first?.rootViewController else {
+            return
+        }
+
+        let request = ShowProfileRequest(
+            customerId: "customer-123",
+            showCloseButton: true
+        )
+
+        Task {
+            do {
+                try await Gameball.shared.showProfile(with: request, from: vc)
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+}
+```
+
+---
+
+### **Tab Bar Integration**
+
+```swift
+import UIKit
+import Gameball
+
+class MainTabBarController: UITabBarController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        delegate = self
+    }
+}
+
+extension MainTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+
+        if viewController.tabBarItem.tag == 2 { // Rewards tab
+            let request = ShowProfileRequest(
+                customerId: "customer-123"
+            )
+            
+            Gameball.shared.showProfile(with: request, from: self) { _ in }
+            return false
+        }
+        
+        return true
+    }
+}
+```
+
+---
+
+## **Widget Content**
+
+<CardGroup cols={2}>
+  <Card title="Customer Info" icon="user">
+    Points balance, tier, progress, and personal details
+  </Card>
+  <Card title="Reward Campaigns" icon="gift">
+    Available rewards, challenges, badges, and earning opportunities
+  </Card>
+  <Card title="Leaderboard" icon="trophy">
+    Ranking, competition, and top performers
+  </Card>
+  <Card title="Transaction History" icon="clock-rotate-left">
+    Full breakdown of points earned and redeemed
+  </Card>
+</CardGroup>
+
+<Info>
+  All widget themes, layout options, and branding styles can be customized from the Gameball Dashboard.
+</Info>
+
+---
+
+## **Best Practices**
+
+<Steps>
+  <Step title="Make It Discoverable">
+    Add the profile entry point in a visible place (e.g. tab bar, profile screen, side menu).
+  </Step>
+  <Step title="Use Notification Badges">
+    Indicate new rewards or achievements to drive engagement.
+  </Step>
+  <Step title="Deep Link Intelligently">
+    Use `openDetail` to open specific sections after qualifying user actions (e.g., after earning points).
+  </Step>
+  <Step title="Handle Errors Gracefully">
+    Always provide fallback UI or messaging for network interruptions.
+  </Step>
+</Steps>
+
+<Tip>
+  Showing the profile widget right after a reward is earned significantly boosts customer engagement.
+</Tip>
+

@@ -1,0 +1,86 @@
+---
+title: "Track Orders"
+description: "Track in-store orders to award loyalty points"
+---
+
+# Track Orders
+
+## Use Case: Tracking In-Store Orders to Award Loyalty Points
+
+### What This Is
+
+This use case explains how to track an in-store purchase by submitting the order details to Gameball. This allows the customer to earn loyalty points based on the transaction value and configured earning rules.
+
+### Why It Matters
+
+- Enables customers to accumulate points for in-store purchases
+- Drives program participation and repeat visits
+- Allows Gameball to evaluate campaign logic, trigger milestone rewards, and calculate tier progression
+- Without tracking the order, no points can be rewarded, and the customer receives no benefit from their purchase
+
+### How to Implement It
+
+Use the Track Order API to submit each completed order.
+
+Required fields include:
+
+- `customerId`: the unique identifier for the customer
+- `orderId`: a unique transaction ID from your POS system
+- `orderDate`: the exact time the order occurred
+- `totalPaid`: the amount paid by the customer after discounts and redemptions
+- `totalPrice`: the full value of the order before any discounts
+
+Optional: `totalTax`, `totalShipping`, `discounts`, and `lineItems`.
+
+### Validation Rules
+
+- `orderId` must be unique per store environment
+- `customerId` must refer to an existing Gameball profile
+
+### Example Scenario
+
+A customer completes a purchase worth 300 SAR. No points were redeemed. The POS submits the order using the customer's profile:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -d '{
+    "customerId": "mobile_966500001234",
+    "orderId": "POS_987654321",
+    "orderDate": "2025-09-29T15:02:00Z",
+    "totalPaid": 300,
+    "totalPrice": 300,
+    "totalTax": 15,
+    "totalShipping": 10
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "orderId": "POS_987654321",
+  "customerId": "mobile_966500001234",
+  "pointsEarned": 30,
+  "pointsValue": 3.0,
+  "status": "completed"
+}
+```
+</ResponseExample>
+
+### What Gameball Does Behind the Scenes
+
+- Evaluates earning rules based on the transaction value
+- Issues points according to the business logic defined in the dashboard
+- Logs the order in the customer's purchase history
+- May trigger campaign or tier logic based on cumulative spend or conditions
+
+### Key Takeaways for Developers
+
+- Always submit final prices with appropriate tax and shipping data if they affect point logic
+- Use consistent, timestamped `orderDate` values in ISO 8601 format
+- Do not reuse `orderId`. Duplicate values will be rejected
+- Submit the order after confirming payment but before closing the POS session to ensure reward accuracy
+

@@ -1,0 +1,49 @@
+---
+title: "Track Referrals"
+description: "Track customer referrals at your POS system"
+---
+
+# Track Referrals
+
+## Overview
+
+Referral tracking allows you to reward customers for bringing new customers to your store. When a new customer makes their first purchase and mentions a referrer, you can track this relationship and reward both parties.
+
+## Implementation
+
+Referral tracking is typically handled through the order submission process. When a new customer makes their first purchase, include the referrer's customer ID in the order payload.
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -d '{
+    "customerId": "mobile_966500001234",
+    "orderId": "POS_987654323",
+    "orderDate": "2025-09-29T15:20:00Z",
+    "totalPaid": 250,
+    "totalPrice": 250,
+    "referrerCode": "REF123456"
+  }'
+```
+</RequestExample>
+
+## Referral Flow
+
+1. **New Customer Registration**: Register the new customer using the Initialize Customer Profile API
+2. **Referrer Identification**: Collect the referrer's code or customer ID at checkout
+3. **Order Submission**: Include the referrer information in the order payload
+4. **Reward Issuance**: Gameball automatically processes referral rewards based on your configured campaign rules
+
+## Key Considerations
+
+- Referral codes can be collected manually by store staff or scanned from QR codes
+- Referral rewards are configured in your Gameball dashboard
+- Both the referrer and the new customer may receive rewards based on your campaign settings
+- Referral tracking must occur during the new customer's first purchase
+
+<Note>
+Referral tracking is optional and depends on your business requirements. If you don't have a referral program, you can skip this feature.
+</Note>
+

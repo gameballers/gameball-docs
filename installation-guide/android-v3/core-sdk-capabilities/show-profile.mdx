@@ -1,0 +1,323 @@
+---
+title: "Show Profile Widget"
+description: "Display the Gameball customer profile widget in your Android app"
+---
+
+# Open the Gameball Profile Widget
+
+Use the Gameball profile widget to show customers their **points, rewards, tiers, leaderboards, and history** inside your Android app.
+
+<Info>
+  Before showing the profile widget, make sure the SDK is initialized and the customer has been registered using [Initialize SDK](https://gameball.mintlify.app/installation-guide/android-v3/getting-started#initialize-the-sdk) and [Initialize Customer Profile](https://gameball.mintlify.app/installation-guide/android-v3/initialize-profile).
+</Info>
+
+---
+
+## Basic Usage
+
+Create a `ShowProfileRequest` and call `showProfile` from `GameballApp`.
+
+<CodeGroup>
+
+```kotlin Kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .build()
+
+GameballApp.getInstance(context).showProfile(
+    profileRequest,
+    object : Callback<Boolean> {
+        override fun onSuccess(success: Boolean) {
+            // Profile widget displayed successfully
+        }
+
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    }
+)
+
+// With session token override
+GameballApp.getInstance(context).showProfile(
+    profileRequest,
+    callback,
+    sessionToken = "custom-token"
+)
+```
+
+
+```java Java
+ShowProfileRequest profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .build();
+
+GameballApp.getInstance(context).showProfile(
+    profileRequest,
+    new Callback<Boolean>() {
+        @Override
+        public void onSuccess(Boolean success) {
+            // Profile widget displayed successfully
+        }
+
+        @Override
+        public void onError(Throwable error) {
+            // Handle error
+        }
+    }
+);
+```
+
+</CodeGroup>
+
+---
+
+## **Request Parameters**
+
+<ParamField body="customerId" type="string" required>
+  Unique identifier for the customer whose profile will be displayed.
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+  Specific section to open inside the widget (for example, `"details_earn"`, `"details_redeem"`). If not set, the main profile view opens by default.
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+  Hides the widget navigation bar when set to `true`. Defaults to `false`.
+</ParamField>
+
+<ParamField body="showCloseButton" type="boolean">
+  Shows a close button within the widget when set to `true`. Defaults to `false`.
+</ParamField>
+
+<ParamField body="closeButtonColor" type="string">
+  Hex color string for the close button (for example, `"#FF5733"`).\
+  Only applies when `showCloseButton` is `true`.
+</ParamField>
+
+<ParamField body="widgetUrlPrefix" type="string">
+  Custom widget URL prefix for advanced widget customization.
+</ParamField>
+
+### **Validation Rules**
+
+**ShowProfileRequest requires:**
+
+- customerId cannot be empty
+
+---
+
+## **Advanced Configuration**
+
+### **Open a Specific Section**
+
+Use openDetail to deep link into a specific section (for example, “earn” details):
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .openDetail("details_earn")  // Open the earn points section
+    .build()
+```
+
+### **Custom Close Button**
+
+Show a custom-colored close button on the widget:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .showCloseButton(true)
+    .closeButtonColor("#FF5733")
+    .build()
+```
+
+### **Hide Navigation**
+
+Hide the widget’s internal navigation controls:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .hideNavigation(true)
+    .build()
+```
+
+### **Capture Widget Links**
+
+Handle links clicked from within the widget (for example, to open custom screens or deep links):
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .capturedLinkCallback(object : Callback<String> {
+        override fun onSuccess(url: String) {
+            // Handle captured URL
+            Log.d("GameballWidget", "Link clicked: $url")
+            // Navigate to a custom screen or handle deep link
+        }
+
+        override fun onError(error: Throwable) {
+            // Handle error
+        }
+    })
+    .build()
+```
+
+---
+
+## **Implementation Examples**
+
+### **Show Profile from a Button**
+
+Display the profile widget when the user taps a button.
+
+<CodeGroup>
+
+```kotlin Kotlin
+class MainActivity : AppCompatActivity() {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+      super.onCreate(savedInstanceState)
+      setContentView(R.layout.activity_main)
+
+      findViewById<Button>(R.id.btnShowProfile).setOnClickListener {
+          showCustomerProfile()
+      }
+  }
+
+  private fun showCustomerProfile() {
+      val profileRequest = ShowProfileRequest.builder()
+          .customerId("customer-123")
+          .build()
+
+      GameballApp.getInstance(this).showProfile(
+          profileRequest,
+          object : Callback<Boolean> {
+              override fun onSuccess(success: Boolean) {
+                  // Profile displayed
+              }
+
+              override fun onError(error: Throwable) {
+                  Toast.makeText(
+                      this@MainActivity,
+                      "Error: ${error.message}",
+                      Toast.LENGTH_SHORT
+                  ).show()
+              }
+          }
+      )
+  }
+}
+```
+
+
+```java Java
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        findViewById(R.id.btnShowProfile).setOnClickListener(v -> {
+            showCustomerProfile();
+        });
+    }
+
+    private void showCustomerProfile() {
+        ShowProfileRequest profileRequest = ShowProfileRequest.builder()
+            .customerId("customer-123")
+            .build();
+
+        GameballApp.getInstance(this).showProfile(
+            profileRequest,
+            new Callback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean success) {
+                    // Profile displayed
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    Toast.makeText(
+                        MainActivity.this,
+                        "Error: " + error.getMessage(),
+                        Toast.LENGTH_SHORT
+                    ).show();
+                }
+            }
+        );
+    }
+}
+```
+
+</CodeGroup>
+
+### **Bottom Navigation Integration**
+
+Open the profile widget when the user taps a “Rewards” tab:
+
+```kotlin
+bottomNavigationView.setOnItemSelectedListener { item ->
+    when (item.itemId) {
+        R.id.nav_rewards -> {
+            val profileRequest = ShowProfileRequest.builder()
+                .customerId(getCurrentCustomerId())
+                .build()
+
+            GameballApp.getInstance(this).showProfile(profileRequest, callback)
+            true
+        }
+        else -> false
+    }
+}
+```
+
+---
+
+## **What the Widget Shows**
+
+The profile widget typically includes:
+
+<CardGroup cols={2}>
+  <Card title="Customer Info" icon="user">
+    Display name, points balance, and tier level.
+  </Card>
+  <Card title="Reward Campaigns" icon="gift">
+    Available rewards, missions, and how to earn them.
+  </Card>
+  <Card title="Leaderboard" icon="trophy">
+    Customer ranking and top performers.
+  </Card>
+  <Card title="Transaction History" icon="clock-rotate-left">
+    History of points earned and redeemed.
+  </Card>
+</CardGroup>
+
+<Info>
+  The content, layout, and branding of the profile widget can be configured from your Gameball dashboard.
+</Info>
+
+---
+
+## **Best Practices**
+
+<Steps>
+  <Step title="Make Access Easy">
+    Place entry points to the profile widget in prominent locations (for example, main navigation, profile screen, or a dedicated Rewards tab).
+  </Step>
+  <Step title="Use Badges">
+    Show badges or indicators when a customer has new rewards or achievements to view.
+  </Step>
+  <Step title="Use Deep Linking">
+    Use the `openDetail` parameter to open specific sections based on context (for example, after checkout, open the rewards section).
+  </Step>
+  <Step title="Handle Errors Gracefully">
+    Always implement the error callback to show friendly messages if the widget fails to load (for example, due to network issues).
+  </Step>
+</Steps>
+
+<Tip>
+  Consider showing the profile widget immediately after a customer earns points or unlocks a reward to reinforce engagement.
+</Tip>
+

@@ -1,0 +1,76 @@
+---
+title: "POS Integration"
+description: "Complete guide to integrate Gameball with your point-of-sale (POS) system for seamless in-store loyalty experiences"
+---
+
+# Gameball POS Integration — v3
+
+This documentation provides a comprehensive guide to integrating Gameball's loyalty program with your point-of-sale (POS) system, enabling you to deliver a consistent and rewarding experience to your in-store shoppers—without requiring a mobile app or separate interface.
+
+<Info>
+Whether you're operating in retail chains, mall kiosks, or standalone stores, Gameball's APIs and platform logic enable seamless loyalty integration directly into your existing POS workflow.
+</Info>
+
+## Integration Overview
+
+By integrating Gameball directly into your existing POS workflow, you eliminate the need for third-party apps or additional overhead while giving customers a visible, valuable reason to come back.
+
+This integration guide will walk you through a modular, use-case-driven approach to integrating Gameball's loyalty logic into your POS operations—complete with business context, implementation flows, example payloads, and backend reactions.
+
+## What You Can Do
+
+Integrating Gameball's loyalty program with your POS system allows you to:
+
+- **Register new customers** or identify existing ones during checkout
+- **Reward purchases** with points and campaigns in real time
+- **Redeem points** for discounts or gifts—seamlessly, securely, and quickly
+- **Verify identity** via secure QR codes or virtual passes (optional)
+
+## Integration Outcomes
+
+By the end of this guide, your team will be able to:
+
+- Design and implement a frictionless loyalty experience within your POS
+- Reduce developer ambiguity and support dependency during onboarding
+- Support secure identity and redemption flows using only API calls or Gameball's ready-made tools
+- Offer loyalty features that feel native to your brand and store staff
+
+## Integration Guide
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/installation-guide/pos-v3/overview-setup/getting-started">
+    Learn about POS integration requirements and setup
+  </Card>
+
+  <Card title="Initialize SDK" icon="code" href="/installation-guide/pos-v3/overview-setup/initialize-sdk">
+    Set up API authentication and configuration
+  </Card>
+
+  <Card title="Initialize Customer Profile" icon="user" href="/installation-guide/pos-v3/overview-setup/initialize-profile">
+    Register and identify customers at checkout
+  </Card>
+
+  <Card title="Show Customer Balance" icon="wallet" href="/installation-guide/pos-v3/core-sdk-capabilities/show-profile">
+    Retrieve and display customer loyalty balance
+  </Card>
+
+  <Card title="Track Orders" icon="shopping-cart" href="/installation-guide/pos-v3/core-sdk-capabilities/track-orders">
+    Submit in-store orders to award loyalty points
+  </Card>
+
+  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/pos-v3/extended-features/integrate-redemption">
+    Enable point redemption at checkout
+  </Card>
+
+  <Card title="Go-Live Checklist" icon="check" href="/installation-guide/pos-v3/deployment-maintenance/go-live-checklist">
+    Verify your integration before going live
+  </Card>
+</CardGroup>
+
+## Requirements
+
+- **POS System**: Must support API integration (REST API calls)
+- **Network**: Internet connectivity for API calls
+- **Authentication**: Gameball API key and secret
+- **QR Scanner** (Optional): For QR code-based customer verification
+

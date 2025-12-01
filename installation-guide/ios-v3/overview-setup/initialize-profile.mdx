@@ -1,0 +1,292 @@
+---
+title: "Initialize Customer Profile"
+description: "Register and identify customers in your iOS app"
+---
+
+
+To allow Gameball to track rewards, events, and progress for each user, your app must register or identify the customer after login or during onboarding.\
+This step links all Gameball activity to the correct player profile.
+
+---
+
+## 1. Basic Customer Initialization
+
+Use `initializeCustomer` whenever a user logs in, registers, or updates their information.
+
+```swift Swift (Completion Handler)
+import Gameball
+
+// Create customer attributes
+let attributes = CustomerAttributes(
+    displayName: "John Doe",
+    firstName: "John",
+    lastName: "Doe",
+    email: "john@example.com",
+    mobile: "+1234567890",
+    gender: "M",
+    dateOfBirth: "1990-01-15",
+    joinDate: "2024-01-01",
+    preferredLanguage: "en"
+)
+
+// Add custom attributes
+attributes.customAttributes = [
+    "loyaltyTier": "gold",
+    "city": "New York"
+]
+
+// Build request object
+let request = InitializeCustomerRequest(
+    customerId: "customer-123",
+    email: "john@example.com",
+    mobile: "+1234567890",
+    customerAttributes: attributes,
+    referralCode: "REF123",   // Optional
+    isGuest: false            // Optional
+)
+
+// Initialize customer
+Gameball.shared.initializeCustomer(with: request) { result in
+    switch result {
+    case .success(let response):
+        print("Customer initialized: \(response.gameballId)")
+    case .failure(let error):
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+```swift Swift(Asyn/Await)
+import Gameball
+
+Task {
+    do {
+        let attributes = CustomerAttributes(
+            displayName: "John Doe",
+            email: "john@example.com",
+            mobile: "+1234567890"
+        )
+
+        let request = InitializeCustomerRequest(
+            customerId: "customer-123",
+            customerAttributes: attributes
+        )
+
+        let response = try await Gameball.shared.initializeCustomer(with: request)
+        print("Customer initialized: \(response.gameballId)")
+    } catch {
+        print("Error: \(error.localizedDescription)")
+    }
+}
+```
+
+---
+
+## **2. Request Parameters**
+
+<ParamField body="customerId" type="String" required>
+  Permanent unique identifier for the customer. **Should never change.**
+</ParamField>
+
+<ParamField body="email" type="String">
+  Customer email address.
+</ParamField>
+
+<ParamField body="mobile" type="String">
+  Mobile number formatted with country code.
+</ParamField>
+
+<ParamField body="deviceToken" type="String">
+  APNs push notification token.
+</ParamField>
+
+<ParamField body="pushProvider" type="PushProvider">
+  Push provider (`.firebase` or `.apns`).
+</ParamField>
+
+<ParamField body="customerAttributes" type="CustomerAttributes">
+  Structured attributes such as name, DOB, language, and custom fields.
+</ParamField>
+
+<ParamField body="referralCode" type="String">
+  Referral code used when registering a referred customer.
+</ParamField>
+
+<ParamField body="isGuest" type="Bool">
+  Indicates if this user is a guest session (default: false).
+</ParamField>
+
+<ParamField body="sessionToken" type="String">
+  Optional override for global session token for this request only.
+</ParamField>
+
+---
+
+## **3. Validation Rules**
+
+InitializeCustomerRequest validates:
+
+- customerId cannot be empty
+- If pushProvider is provided → deviceToken is required
+- If deviceToken is provided → pushProvider is required
+
+If validation fails, the SDK returns an error before sending the request.
+
+---
+
+## **4. Customer Attributes**
+
+You can enrich customer profiles with additional metadata.
+
+<Expandable title="CustomerAttributes Properties">
+  <ParamField body="displayName" type="String">
+    Customer's display name.
+  </ParamField>
+   <ParamField body="firstName" type="String">
+    First name.
+  </ParamField>
+   <ParamField body="lastName" type="String">
+    Last name.
+  </ParamField>
+   <ParamField body="email" type="String">
+    Email address.
+  </ParamField>
+   <ParamField body="mobile" type="String">
+    Mobile number.
+  </ParamField>
+   <ParamField body="gender" type="String">
+    "M" or "F".
+  </ParamField>
+   <ParamField body="dateOfBirth" type="String">
+    Format: YYYY-MM-DD.
+  </ParamField>
+   <ParamField body="joinDate" type="String">
+    Format: YYYY-MM-DD.
+  </ParamField>
+   <ParamField body="preferredLanguage" type="String">
+    Language code.
+  </ParamField>
+   <ParamField body="customAttributes" type="[String: String]">
+    Custom key-value pairs.
+  </ParamField>
+   <ParamField body="additionalAttributes" type="[String: String]">
+    Extra metadata fields.
+  </ParamField>
+</Expandable>
+
+---
+
+## **5. Advanced Examples**
+
+### **With Push Notifications**
+
+```bash
+import Gameball
+import UserNotifications
+
+// Ask for notification permission
+UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+    if granted {
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+}
+
+func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+) {
+    let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+
+    let request = InitializeCustomerRequest(
+        customerId: "customer-123",
+        deviceToken: token,
+        pushProvider: .apns
+    )
+
+    Gameball.shared.initializeCustomer(with: request) { _ in }
+}
+```
+
+---
+
+### **With Referral Code**
+
+```swift
+func registerCustomerWithReferral(customerId: String, referralCode: String) {
+    let request = InitializeCustomerRequest(
+        customerId: customerId,
+        referralCode: referralCode
+    )
+
+    Gameball.shared.initializeCustomer(with: request) { result in
+        // Handle result
+    }
+}
+```
+
+---
+
+### **Guest User**
+
+```swift
+func initializeGuestUser(sessionId: String) {
+    let request = InitializeCustomerRequest(
+        customerId: "guest_\(sessionId)",
+        isGuest: true
+    )
+
+    Gameball.shared.initializeCustomer(with: request) { _ in }
+}
+```
+
+---
+
+### **Full Customer Profile Example**
+
+```swift
+func initializeFullProfile() {
+    let attributes = CustomerAttributes(
+        displayName: "John Doe",
+        firstName: "John",
+        lastName: "Doe",
+        email: "john@example.com",
+        mobile: "+1234567890",
+        gender: "M",
+        dateOfBirth: "1990-01-15",
+        joinDate: "2024-01-01",
+        preferredLanguage: "en"
+    )
+
+    attributes.customAttributes = [
+        "vip_level": "gold",
+        "city": "New York"
+    ]
+
+    attributes.additionalAttributes = [
+        "segment": "premium",
+        "source": "ios_app"
+    ]
+
+    let request = InitializeCustomerRequest(
+        customerId: "customer-123",
+        email: "john@example.com",
+        mobile: "+1234567890",
+        customerAttributes: attributes
+    )
+
+    Gameball.shared.initializeCustomer(with: request) { result in
+        // Handle result
+    }
+}
+```
+<Warning>
+  **Use a permanent, unchanging customer ID.**  
+  Do NOT use email or phone number as they can change.
+</Warning>
+<Tip>
+  Call `initializeCustomer` immediately after successful login or registration so Gameball can keep the profile updated.
+</Tip>
+
+
