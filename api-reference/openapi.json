@@ -2222,7 +2222,7 @@
         }
       }
     },
-    "/api/v4.0/integrations/configurations/program/campaigns": {
+    "/api/v4.0/integrations/configurations/reward-campaigns": {
       "get": {
         "description": "Retrieve active campaigns configuration for the loyalty program.",
         "security": [ { "apiKey": [] } ],
@@ -2257,7 +2257,7 @@
         }
       }
     },
-    "/api/v4.0/integrations/configurations/program/tiers": {
+    "/api/v4.0/integrations/configurations/tiers": {
       "get": {
         "description": "Retrieve VIP tier configurations for the loyalty program.",
         "security": [ { "apiKey": [] } ],
@@ -2291,7 +2291,7 @@
         }
       }
     },
-    "/api/v4.0/integrations/configurations/program/referrals": {
+    "/api/v4.0/integrations/configurations/referrals": {
       "get": {
         "description": "Retrieve referral program configuration for the loyalty program.",
         "security": [ { "apiKey": [] } ],
