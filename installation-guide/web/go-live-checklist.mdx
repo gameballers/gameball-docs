@@ -1,0 +1,162 @@
+---
+title: "Go-Live Checklist"
+description: "Verify your web integration before going live"
+---
+
+Use this comprehensive checklist to ensure your web integration is ready for production use.
+
+## Pre-Launch Verification
+
+### API Configuration
+
+- [ ] API credentials are configured correctly on your backend
+- [ ] All API calls use HTTPS
+- [ ] API endpoints are accessible from your server
+- [ ] Error handling is implemented for API failures
+- [ ] API keys are stored securely and never exposed client-side
+
+### Widget Integration
+
+- [ ] Widget JavaScript is loaded on all relevant pages
+- [ ] Widget displays correctly for guest users
+- [ ] Widget displays correctly for authenticated users
+- [ ] Widget language matches your website language
+- [ ] Widget loads without blocking page rendering
+- [ ] Widget works across different browsers (Chrome, Firefox, Safari, Edge)
+
+### Customer Management
+
+- [ ] Customer profiles are created on signup/login
+- [ ] Customer profiles update when user information changes
+- [ ] Customer identification works with both email and mobile
+- [ ] Customer IDs are persistent and never change
+- [ ] Channel merging works if using multiple channels
+
+### Event Tracking
+
+- [ ] Events are tracked for key user actions
+- [ ] Event metadata includes relevant information
+- [ ] Events trigger rewards correctly based on campaign configuration
+- [ ] Event tracking doesn't impact page performance
+- [ ] Events are sent from server-side when possible (for security)
+
+### Order Tracking
+
+- [ ] Orders are tracked after successful payment
+- [ ] Order submission includes all required fields
+- [ ] `orderId` values are unique and not reused
+- [ ] Order dates are in ISO 8601 format
+- [ ] Points are awarded correctly based on order value
+- [ ] Cashback calculations match your program configuration
+- [ ] Order tracking works for both new and existing customers
+
+### Redemption Flow
+
+- [ ] Customer balance is retrieved before showing redemption options
+- [ ] Hold Points API successfully reserves points
+- [ ] Order submission with hold reference completes redemption
+- [ ] Hold release works if transaction is cancelled
+- [ ] Redemption amounts are calculated correctly
+- [ ] `totalPaid` reflects discounted amount after redemption
+- [ ] Redemption UI is clear and user-friendly
+
+### Referral Tracking
+
+- [ ] Referral codes are captured during signup or first purchase
+- [ ] Referral links work correctly
+- [ ] Referral rewards are awarded to both referrer and new customer
+- [ ] Referral codes are displayed in customer widget (if using widget)
+
+### Error Handling
+
+- [ ] Network failures are handled gracefully
+- [ ] Invalid customer IDs are handled
+- [ ] Duplicate order IDs are rejected appropriately
+- [ ] Insufficient balance errors are displayed clearly
+- [ ] Hold expiration is handled correctly
+- [ ] API errors don't break the user experience
+
+### Security
+
+- [ ] API credentials are stored securely on backend
+- [ ] No API keys are exposed in client-side code or logs
+- [ ] HTTPS is used for all API communications
+- [ ] Customer data is handled according to privacy regulations
+- [ ] Widget loads over HTTPS
+
+### Performance
+
+- [ ] API calls don't slow down page load
+- [ ] Widget loads asynchronously
+- [ ] Event tracking is non-blocking
+- [ ] Order tracking doesn't delay checkout completion
+- [ ] Redemption flow is fast and responsive
+
+## Testing Scenarios
+
+### Test Case 1: New Customer Signup
+
+- [ ] Customer signs up on website
+- [ ] Customer profile is created in Gameball
+- [ ] Welcome bonus is awarded (if configured)
+- [ ] Widget displays customer information correctly
+
+### Test Case 2: Existing Customer Purchase
+
+- [ ] Customer logs in
+- [ ] Customer makes a purchase
+- [ ] Order is tracked correctly
+- [ ] Points are awarded based on order value
+- [ ] Widget updates to show new balance
+
+### Test Case 3: Point Redemption
+
+- [ ] Customer views their balance
+- [ ] Customer initiates redemption
+- [ ] Points are held successfully
+- [ ] Order completes with redemption
+- [ ] Points are deducted correctly
+- [ ] New points are awarded on remaining amount
+
+### Test Case 4: Cancelled Transaction
+
+- [ ] Customer initiates redemption
+- [ ] Points are held
+- [ ] Transaction is cancelled
+- [ ] Hold is released
+- [ ] Points are returned to customer
+
+### Test Case 5: Referral Flow
+
+- [ ] Existing customer shares referral code
+- [ ] New customer signs up with referral code
+- [ ] Referral is tracked correctly
+- [ ] Both customers receive rewards (if configured)
+
+### Test Case 6: Guest vs Authenticated Views
+
+- [ ] Widget shows guest view for non-logged-in users
+- [ ] Widget shows customer view for logged-in users
+- [ ] Switching between views works correctly
+
+## Post-Launch Monitoring
+
+- [ ] Monitor API response times
+- [ ] Track error rates and types
+- [ ] Review customer registration success rate
+- [ ] Monitor redemption completion rate
+- [ ] Check for duplicate order submissions
+- [ ] Verify point calculations are accurate
+- [ ] Monitor widget load times and errors
+- [ ] Track event tracking success rate
+
+## Support Resources
+
+- **API Documentation**: [Gameball API Reference](/api-reference/introduction)
+- **Support**: Contact your Gameball account manager for integration support
+- **Dashboard**: Monitor integration health in your Gameball dashboard
+
+<Check>
+Once all items are verified, your web integration is ready for production use!
+</Check>
+

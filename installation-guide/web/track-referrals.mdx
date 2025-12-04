@@ -1,0 +1,117 @@
+---
+title: "Track Referrals"
+description: "Implement referral tracking and rewards for your web platform"
+---
+
+## Overview
+
+Referral tracking allows you to reward customers for bringing new customers to your platform. When a new customer signs up or makes their first purchase using a referral code, both the referrer and the new customer can receive rewards based on your configured campaign rules.
+
+## How Referrals Work
+
+1. **Existing customer** shares their referral code or link
+2. **New customer** signs up or makes a purchase using the referral code
+3. **Gameball processes** the referral and awards rewards to both parties
+4. **Rewards are configured** in your Gameball dashboard
+
+## Implementation Methods
+
+### Method 1: Include Referral Code During Customer Creation
+
+When creating a new customer profile, include the referrer's code:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'TransactionKey: YOUR_TRANSACTION_KEY' \
+  -d '{
+    "customerId": "new_user_123",
+    "customerAttributes": {
+      "displayName": "New Customer",
+      "email": "newcustomer@example.com"
+    },
+    "referrerCode": "REF123456"
+  }'
+```
+</RequestExample>
+
+### Method 2: Include Referral Code in First Order
+
+Alternatively, include the referral code when tracking the new customer's first order:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'TransactionKey: YOUR_TRANSACTION_KEY' \
+  -d '{
+    "customerId": "new_user_123",
+    "orderId": "ORD_987654",
+    "orderDate": "2024-01-15T10:30:00Z",
+    "totalPaid": 100.00,
+    "totalPrice": 100.00,
+    "referrerCode": "REF123456"
+  }'
+```
+</RequestExample>
+
+## Getting Customer Referral Code
+
+To display a customer's referral code in your widget or custom UI, retrieve it from the customer profile:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/user_12345' \
+  -H 'APIKey: YOUR_API_KEY'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "customerId": "user_12345",
+  "displayName": "John Doe",
+  "referralCode": "REF123456",
+  "referralLink": "https://yourwebsite.com/signup?ref=REF123456"
+}
+```
+</ResponseExample>
+
+## Referral Link Generation
+
+You can generate referral links using the customer's referral code:
+
+```
+https://yourwebsite.com/signup?ref={referralCode}
+```
+
+Or use Gameball's referral link format if you've configured it in your dashboard.
+
+## Widget Integration
+
+If you're using the Gameball widget, referral codes and links are automatically displayed to customers in their profile view. No additional integration is required.
+
+## Key Considerations
+
+- **Referral tracking must occur** during the new customer's first interaction (signup or first purchase)
+- **Referral rewards are configured** in your Gameball dashboard under Campaigns
+- **Both referrer and new customer** may receive rewards based on your campaign settings
+- **Referral codes are unique** per customer and don't expire unless configured otherwise
+
+<Note>
+Referral tracking is optional. If you don't have a referral program configured, you can skip this feature.
+</Note>
+
+## Related Resources
+
+- [Create/Update Customer API](/api-reference/customers/management/create-customer)
+- [Order API Reference](/api-reference/order/order)
+- [Referral Campaigns Tutorial](/tutorials-new/experiences/referral/index)
+
+## Next Steps
+
+- [Go-Live Checklist](/installation-guide/web/go-live-checklist) - Verify your integration before going live
+
