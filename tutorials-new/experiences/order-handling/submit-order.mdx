@@ -21,7 +21,7 @@ Each scenario outlines a practical process that focuses on customer interactions
 
 ## 1️⃣ Submitting an Order
 
-Let's explore how the **Orders API** works, starting with what your customers experience and how their actions on your e-commerce platform interact with Gameball to trigger rewards and campaigns.
+Let's explore how the **[Order API](/api-reference/order/order)** works, starting with what your customers experience and how their actions on your e-commerce platform interact with Gameball to trigger rewards and campaigns.
 
 ***
 
@@ -38,6 +38,11 @@ Let's explore how the **Orders API** works, starting with what your customers ex
 
 <Step title="✅ Order is confirmed">
   Sarah's order is confirmed and your system communicates with Gameball.
+<img
+  src="/images/orderConfirmed.png"
+  className="mx-auto"
+  style={{ width:"50%" }}
+/>
 </Step>
 </Steps>
 
@@ -45,7 +50,7 @@ Let's explore how the **Orders API** works, starting with what your customers ex
 
 ### What Happens in the Background
 
-The moment Sarah's order is completed, your website communicates with Gameball through the **Orders API**. This triggers a `place_order` event in the background, sending details like:
+The moment Sarah's order is completed, your website communicates with Gameball through the **[Order API](/api-reference/order/order)**. This triggers a `place_order` event in the background, sending details like:
 
 <AccordionGroup>
   <Accordion title="💰 Order Information">
@@ -127,7 +132,15 @@ Once the `place_order` event is triggered:
 
 <Steps>
 <Step title="Order data mapping">
-  The Orders API automatically sends the order details to Gameball, mapping your order attributes to event metadata.
+  The [Order API](/api-reference/order/order) automatically sends the order details to Gameball, mapping your order attributes to event metadata.
+<img
+  src="/images/orderMappingOnDashboard.png"
+  className="mx-auto"
+  style={{ width:"50%" }}
+/>
+<Note>
+This is how orders look like on Gameball's dashboard after being placed.
+</Note>
 </Step>
 
 <Step title="Campaign evaluation">

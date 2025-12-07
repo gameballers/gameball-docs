@@ -13,7 +13,7 @@ Configure and track loyalty programs seamlessly across various brands, stores, a
 - Campaign targeting at a granular level
 - Reliable performance reporting across all entities
 
-The `merchant` object in the **Order API** allows you to:
+The `merchant` object in the [Order API](/api-reference/order/order) allows you to:
 
 - Attribute the order to a **specific merchant** (e.g., brand or business unit)
 - Specify the **branch** (e.g., store location or sales channel)
@@ -36,7 +36,25 @@ The `merchant` object in the **Order API** allows you to:
 
 ## Tech Implementation
 
-To support this use case, include the `merchant` object in your **Order API** payload as shown below.
+To support this use case, include the `merchant` object in your [**Order API**](/api-reference/order/order) payload as shown below.
+
+```mermaid
+flowchart TB
+    A["🛒 Order received"] --> B["🔎 Check merchant object"]
+    B --> C{"Merchant provided?"}
+
+    C -->|Yes| D["🏷️ Assign merchantId"]
+    C -->|No| E["⚠️ Use default merchant"]
+
+    D --> F{"Branch provided?"}
+    E --> F
+
+    F -->|Yes| G["🏠 Assign branchId"]
+    F -->|No| H["⚠️ Use default branch"]
+
+    G --> I["🎁 Apply merchant/branch rules and reporting"]
+    H --> I
+```
 
 ### Example 1: Physical Retail Store Transaction
 

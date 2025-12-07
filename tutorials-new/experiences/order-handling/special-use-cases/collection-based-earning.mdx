@@ -9,14 +9,32 @@ description: "Configure rewards based on product collections"
 
 Rather than applying a single earning rate to all products, you can configure specific reward rates per collection, for example, granting higher cashback on “T-Shirts” or “Skincare” items.
 
+### Why It Matters
 This approach makes reward calculation more flexible and accurate, ensuring that loyalty earnings reflect your product structure and business priorities.
+
+<img
+  src="/images/configureCollectionEarningRules.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+<Info>
+To configure Collection-Based earning rules on your dashboard; You can easily, from the left bar, navigate to **Programs** > **Earn Points** > **View Collections**, and then start adding for each collection it's corresponding earning rule. 
+</Info>
 
 ### Examples of Collection Types
 
 - **Evergreen collections:** “T-Shirts,” “Accessories,” “Face Products”
 - **Seasonal or promotional groups:** “Holiday Bundles,” “Clearance Items”
 
-## Why It Matters
+| Collection Name      | ex. Earning Rule | How It’s Used in Rewards                                           |
+|----------------------|----------------------|---------------------------------------------------------------------|
+| T-Shirts             | 10% cashback         | Boost earning on apparel basics to encourage higher basket size.    |
+| Premium Skincare     | 8% cashback          | Reward premium items with a strong yet sustainable cashback rate.   |
+| Accessories          | Default program rate | Uses the global earning rule when no collection-specific rule set.  |
+| Holiday Bundles      | 3× points            | Temporary promo collection for seasonal or limited-time campaigns.  |
+
+
+### Important to Note !
 
 <Warning>
   When a collection is configured to have specific earning rates, Gameball must know **which collection each product belongs to**. If the collection data isn’t sent in the API payload, Gameball applies the **default earning rule** instead.
@@ -129,6 +147,21 @@ Here’s how your `Track Order` API payload should look:
 
   </div>
 </Accordion>
+
+```mermaid
+flowchart TB
+    A["🛒 Order with 3 line items"] --> P1["👕 Product 1: Classic T-Shirt (T-Shirts)"]
+    A --> P2["🧴 Product 2: Face Cream (Premium Skincare)"]
+    A --> P3["👛 Product 3: Purse (No collection)"]
+
+    P1 --> R1["🎁 Apply T-Shirts rule: 10% → $5"]
+    P2 --> R2["🎁 Apply Skincare rule: 8% → $9.60"]
+    P3 --> R3["⚠️ Apply default rule"]
+
+    R1 --> S["➕ Total cashback = sum of all lines"]
+    R2 --> S
+    R3 --> S
+```
 
 <Tip>
   To ensure cashback is calculated accurately, always include the collection field in your order or item payloads. This allows Gameball to evaluate the correct earning rules for each product and apply the appropriate cashback rate.
