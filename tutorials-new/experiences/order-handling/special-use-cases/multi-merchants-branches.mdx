@@ -44,16 +44,14 @@ flowchart TB
     B --> C{"Merchant provided?"}
 
     C -->|Yes| D["🏷️ Assign merchantId"]
-    C -->|No| E["⚠️ Use default merchant"]
+    C -->|No| I["⚠️ No Merchant/Branch Rule(s) to be applied"]
 
     D --> F{"Branch provided?"}
-    E --> F
-
+  
     F -->|Yes| G["🏠 Assign branchId"]
-    F -->|No| H["⚠️ Use default branch"]
+    F -->|No| I
 
-    G --> I["🎁 Apply merchant/branch rules and reporting"]
-    H --> I
+    G --> H["🎁 Apply merchant/branch rules and reporting"]
 ```
 
 ### Example 1: Physical Retail Store Transaction

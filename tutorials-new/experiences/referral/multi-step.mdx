@@ -11,6 +11,12 @@ Examples of steps you might configure:
 - Friend **creates an account**
 - Friend **places an order** (optionally with conditions, e.g., number_of_products equals 3)
 
+<img
+  src="/images/multistepreferal.gif"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+
 <Note>
   **One-time steps:** You can mark a step as **Happens One Time** in your configuration without extra metadata or custom rules.
 </Note>
@@ -21,8 +27,20 @@ Examples of steps you might configure:
 
 - A **Steps** UI that renders each configured referral step (trigger, who gets rewarded, reward details).
 - The customer’s **referral code/link** to share.
+
+<img
+  src="/images/referalCodeLinkUI.png"
+  className="mx-auto"
+  style={{ width:"50%" }}
+/>
+
 - The customer’s **referral progress** (list + counts).
 
+<img
+  src="/images/referalStatus.png"
+  className="mx-auto"
+  style={{ width:"60%" }}
+/>
 ---
 
 ## Implementation Steps
@@ -130,6 +148,13 @@ https://yourwebsite.com?referralCode=code123
 </Warning>
 
 ### **4) Track progress (list + counts)**
+
+<img
+  src="/images/referalProgress.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+
 
 Show the referrer’s progress with:
 

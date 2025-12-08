@@ -8,6 +8,13 @@ Imagine this:
 
 Sarah loves your brand. She refers her friend Mike by sharing a link or code. Mike signs up and places an order. Both Sarah and Mike get rewards, and your business gains a new loyal customer.
 
+```mermaid
+flowchart TB
+    A["👤 Sarah (Referrer)"] -- "Shares link or code" --> B["🧑‍🤝‍🧑 Mike (Referred Friend)"]
+    B -- "Signs up & completes event" --> C["🎁 Mike receives welcome reward"]
+    C -- "Order completed" --> D["🎁 Sarah receives referral reward"]
+```
+
 Referral programs help you:
 
 - Reward existing customers for bringing in new ones
@@ -81,16 +88,21 @@ It forms the baseline logic that powers all other referral implementations, incl
 
 | **Platform**      | **How the Referral Code is Collected** | **Where to Send It**                       | **Tools or Notes**                    |
 | :---------------- | :------------------------------------- | :----------------------------------------- | :------------------------------------ |
-| Web (Widget)      | Auto-detected from URL                 | No action required                         | Gameball widget handles logic         |
-| Web (Custom UI)   | Extract from ?ref=CODE                 | referrerCode in API                        | Use Create/Update Customer API        |
-| Mobile App (SDK)  | Deep link parameter (Branch or Adjust) | referrerCode in registerCustomer Method    | Firebase is no longer supported       |
-| POS / Call Center | Manual entry                           | referrerCode in create/update customer API | Supports offline, in-person referrals |
+| 🌐 Web (Widget)      | Auto-detected from URL                 | No action required                         | Gameball widget handles logic         |
+| 💻 Web (Custom UI)   | Extract from ?ref=CODE                 | referrerCode in API                        | Use Create/Update Customer API        |
+| 📱 Mobile App (SDK)  | Deep link parameter (Branch or Adjust) | referrerCode in registerCustomer Method    | Firebase is no longer supported       |
+| 🏬 POS / Call Center | Manual entry                           | referrerCode in create/update customer API | Supports offline, in-person referrals |
 
 ### **I. Web Using Gameball Widget**
 
 - The customer’s **referral link or code** is displayed within the widget.
 
-  ![Image(132) Pn](/images/image\(132\).png)
+<img
+  src="/images/referalLinkOnWidget.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+
 - The customer shares this link or code with a friend (the referee).
 - When the friend uses the shared link or code, **Gameball automatically detects and registers the referral** from the URL.
 - **No additional implementation** is required on your side.
@@ -119,6 +131,12 @@ You can display either of these two attributes from the API response:
 - `referralCode` : The customer’s unique referral code (e.g., SARAH123)
 - `referralLink`: The complete shareable referral link (e.g., [**<u>https://yourwebsite.com?referralCode=SARAH123</u>**](https://yourwebsite.com?referralCode=SARAH123))
 
+<img
+  src="/images/referalCodeLinkUI.png"
+  className="mx-auto"
+  style={{ width:"60%" }}
+/>
+
 **Example Response:**
 
 ```json
@@ -143,7 +161,11 @@ When a friend lands on your website using a referral link such as:
 https://www.myAwesomeWebsite.com?referralCode=code123
 ```
 
-![Image(133) Pn](/images/image\(133\).png)
+<img
+  src="/images/detectReferalVisits.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
 
 You can detect the referral by checking the **URL query parameters** for referralCode.
 
@@ -299,6 +321,12 @@ If the customer was not referred via a deep link, you can still allow referrals 
 ---
 
 ## Monitoring Referral Progress
+
+<img
+  src="/images/referalStatus.png"
+  className="mx-auto"
+  style={{ width:"80%" }}
+/>
 
 Allow customers to view who they referred and what the status is.
 
