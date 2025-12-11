@@ -4,6 +4,10 @@
   "name": "Gameball Developer Docs",
   "api": {
     "baseUrl": "https://api.gameball.co",
+    "auth": {
+      "method": "key",
+      "name": "APIKey:SecretKey"
+    },
     "playground": {
       "display": "interactive"
     },
