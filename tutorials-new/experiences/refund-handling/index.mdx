@@ -7,7 +7,7 @@ description: "Handle refunds accurately to protect loyalty integrity and custome
 
 Refunding isn’t just about reversing payments; it’s about maintaining customer trust and ensuring your loyalty system stays consistent. When customers return products or cancel orders, their loyalty points, cashback, or campaign-based rewards must be adjusted precisely.
 
-This tutorial walks you through real-world refund use cases, explains how Gameball’s **Refund API** handles them, and outlines how to ensure every refund scenario, simple or complex, accurately reflects in customer balances.
+This tutorial walks you through real-world refund use cases, explains how Gameball’s [**Refund API**](/api-reference/transactions/cashback-and-redemptions/refund) handles them, and outlines how to ensure every refund scenario, simple or complex, accurately reflects in customer balances.
 
 ---
 
@@ -23,6 +23,12 @@ Refunds directly affect your loyalty metrics and customer experience. When handl
 > **💡 Key Insight:**\
 > Always include `lineItems` (`productId`, `quantity`, and `price`) in refund requests to ensure accurate calculations, especially when campaigns or product-based earning rules are active.
 
+```mermaid
+flowchart TB
+    A["Refund Request"] --> B{"lineItems included?"}
+    B -->|Yes| C["🎯 Accurate reverse calculation"]
+    B -->|No| D["⚠️ Cashback-only rollback"]
+```
 ---
 
 ## Refund Workflow
@@ -37,11 +43,35 @@ Refunding points and cashback involve three main steps using the [**Refund API**
 2. **Specify Refund Details**: define refunded amounts, `lineItems`, and timestamps to ensure accuracy.
 3. **Gameball Evaluation:**  Gameball automatically adjusts points or cashback according to the refunded value, active campaigns, and product rules.
 
+### Refund Request Fields
+<ParamField path="reverseTransactionId" type="string">
+  Links the refund to the original order.
+</ParamField>
+
+<ParamField path="refundAmount" type="number">
+  Determines whether the refund is full or partial.
+</ParamField>
+
+<ParamField path="lineItems" type="array">
+  Enables accurate reward and points reversal.
+</ParamField>
+
+<ParamField path="transactionTime" type="string">
+  Ensures proper audit tracking and timeline alignment.
+</ParamField>
+
 ---
 
 ## Use Cases
 
 ### Use Case 1: Refund for a Single Product
+
+```mermaid
+flowchart LR
+    A["🛍️ Bought: Running Shoes ($12.50)"] --> B["🎁 Earned: 12 pts"]
+    B --> C["↩️ Refund Shoes"]
+    C --> D["❌ Reverse 12 pts"]
+```
 
 #### What This Is
 
@@ -112,6 +142,15 @@ John purchased a gaming console for **\$25** during a **triple-points campaign**
 
 When he returns the console, you must refund both the money and all 75 points.
 
+```mermaid
+flowchart TB
+    A["🎮 Purchase: $25 Console"] --> B["Base Points: 25"]
+    B --> C["Campaign Multiplier ×3"]
+    C --> D["Earned: 75 pts"]
+    D --> E["↩️ Refund Console"]
+    E --> F["❌ Reverse 75 pts"]
+```
+
 ```json
 {
   "customerId": "cust_john02",
@@ -158,6 +197,13 @@ When product details are missing, Gameball cannot evaluate campaign or collectio
 
 Emma refunds a \$15 item, but doesn’t provide `lineItems`.
 
+```mermaid
+flowchart LR
+    A["Refund Request"] --> B["⚠️ No lineItems"]
+    B --> C["Only cashback reversed"]
+    B --> D["No campaign/collection points reversed"]
+```
+
 ```json
 {
   "customerId": "cust_emma03",
@@ -202,6 +248,14 @@ Total points earned = 80.
 
 Later, she refunded 2 yoga mats worth **\$20**.
 
+```mermaid
+flowchart TB
+    A["🧘 Bought 3 Yoga Mats ($10 each)"] --> B["🌊 Double Points"]
+    B --> C["Earned: 60 pts"]
+    C --> D["↩️ Refund 2 Mats ($20)"]
+    D --> E["❌ Reverse 40 pts"]
+```
+
 ```json
 {
   "customerId": "cust_lisa04",
@@ -239,13 +293,11 @@ Later, she refunded 2 yoga mats worth **\$20**.
 
 ## **Key Takeaways**
 
-<Checklist>
   <Check>Always include productId, quantity, and price in refunds.</Check>
   <Check>Link refunds to the original order using `reverseTransactionId`.</Check>
   <Check>Send `transactionTime` for audit tracking and order alignment.</Check>
   <Check>Missing `lineItems` triggers cashback-only rollback.</Check>
   <Check>Gameball handles both simple and campaign-based refunds automatically once configured.</Check>
-</Checklist>
 
 ---
 

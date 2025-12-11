@@ -1,236 +1,273 @@
 ---
 title: "Burn"
-description: "Finalize coupon redemptions after successful payments or order completion using Gameball’s discount engine."
+description: "Understand how the coupon burning process works in Gameball, when burning happens automatically, and when to use the Burn Coupon API."
 ---
 
-# Burn Coupon API
+# Burning Coupons in Gameball
 
-After a coupon is validated and applied, its redemption flow isn’t complete until it’s **burned**. This final step confirms the discount was successfully used and ensures it can’t be redeemed again.
+Burning a coupon is the final step in the coupon lifecycle. Once a coupon is burned, it becomes **used**, ensuring:
 
-Burning a coupon finalizes the process in Gameball’s discount engine, updating its lifecycle status from _locked_ to _used_, and keeping your discounts, analytics, and customer rewards accurate.
+- It cannot be redeemed again  
+- Discount usage is accurately reflected in reporting  
+- Customer reward balances remain consistent  
+
+Burning can happen in **two ways**:
+
+  <Check>**Automatically**, when the coupon is passed through the [Track Order API](/api-reference/order/order-tracking) or [Track Payment API](/api-reference/payment/payment-tracking)</Check>
+  <Check>**Manually**, using the [Burn Coupon API](/api-reference/coupons/burn-coupon) for non-transactional or external workflows</Check>
+
+Burning should **only** happen after the transaction has succeeded.
 
 ---
 
 ## Overview
 
-In Gameball’s coupon lifecycle, the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) is the final confirmation step that marks a coupon as fully redeemed after a successful order or payment.
+Gameball supports a full coupon lifecycle:
 
-You’ll typically call this API right after:
-
-<Checklist>
-  <Check>The **payment succeeds**</Check>
-  <Check>The **order is submitted and confirmed**</Check>
-  <Check>A **POS or fintech transaction** completes successfully</Check>
-</Checklist>
-
-If the transaction fails or gets canceled, you should instead use the [Release Coupon API](/api-reference/coupons/release-coupons) to free the coupon for reuse.
-
----
-
-## When and Where to Use It
-
-The [**Burn Coupon API**](/api-reference/coupons/burn-coupon) applies across different business contexts:
-
-| Channel                   | Example Use                                                              |
-| ------------------------- | ------------------------------------------------------------------------ |
-| 🛍️ **E-commerce**        | Finalize a discount coupon after successful checkout.                    |
-| 🏪 **POS (Retail)**       | Confirm in-store coupon redemption once the sale is processed.           |
-| 💳 **Fintech / Payments** | Apply discounts or cashback coupons to payments, bills, or service fees. |
-
----
-
-## **Customer Experience**
-
-From a customer’s perspective, the burn process happens silently behind the scenes — right after they complete payment.
-
-What they experience is a seamless, one-time coupon redemption that:
-
-- Reflects an accurate discount in the payment summary,
-- Prevents reuse of single-use or limited-use coupons, and
-- Keeps their rewards and cashback history accurate in their profile.
-
----
-
-## **Use Case 1: E-commerce Checkout Completion**
-
-**Scenario:**
-
-After Sarah completes her order using the coupon **WINTER20**, the payment gateway confirms success.
-
-Your backend now needs to finalize the coupon redemption to ensure WINTER20 can’t be reused.
-
-### **How to Implement**
-
-Once the order status is confirmed as “paid,” call the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) using:
-
-- The customerId
-- The couponCodes
-- The couponsLockReference (returned when the coupon was validated or locked)
-
-#### **Example Request**
-
-```json
-{
-  "customerId": "CUST_1123",
-  "couponCodes": ["WINTER20"],
-  "couponsLockReference": "lock-47bc79a1-c4b3-4a77-8b61-f9a32f9ef98a"
-}
+```mermaid
+flowchart LR
+    A["📋 Retrieve<br/>Coupons"] --> B["🧪 Validate<br/>Coupon"]
+    B --> C["🔒 Lock<br/>Coupon"]
+    C --> D["🔥 Burn<br/>(via Order / Payment API)"]
+    C --> E["🔥 Burn<br/>(via Burn Coupon API)"]
+    C --> F["↩️ Release<br/>Coupon (on failure)"]
 ```
 
-#### **Example Response**
+### How Burning Works in Gameball
 
-```json
-{
-  "status": "success",
-  "burnedCoupons": [
-    {
-      "code": "WINTER20",
-      "burnedAt": "2025-02-20T12:30:00Z",
-      "discountType": "percentage_discount",
-      "discountValue": 20
-    }
-  ]
-}
-```
+Coupons can be burned in two ways:
+	1.	Automatic Burn (Recommended)
+When the final transaction is submitted using:
+	•	[Track Order API](/api-reference/order/order-tracking), or
+	•	[Track Payment API](/api-reference/payment/payment-tracking)
+…and the coupon codes are included in the payload, Gameball automatically burns the coupon as part of finalizing the transaction.
+	2.	Manual Burn (Advanced)
+When the coupon was validated + locked earlier, but the final confirmation happens in a system not sending transactions to Gameball, you must use the [Burn Coupon API](/api-reference/coupons/burn-coupon) to complete the lifecycle.
+
+<Info>
+Use either the **Order / Payment API auto-burn flow** *or* the **Burn Coupon API**, never both for the same checkout experience.
+</Info>
 
 ---
 
-### **What Gameball Does Behind the Scenes**
+## When to Use Automatic vs Manual Burning
 
-<Steps>
-  <Step title="Verifies that the coupon was previously locked for this customer and session." icon="check">
-    
-  </Step>
-  <Step title="Updates its status to burned." icon="burn">
-    
-  </Step>
-  <Step title="Reflects the discount in Gameball analytics and redemption tracking." icon="analytics">
-    
-  </Step>
-</Steps>
+### 1. Automatic Burning (Recommended)
 
+The coupon is burned automatically when:
+- You send the final transaction through the [Track Order API](/api-reference/order/order-tracking) (e-commerce, POS with product-level data), or
+- You send the final transaction through the [Track Payment API](/api-reference/payment/payment-tracking) (fintech, wallet top-up, bill payment flows)
+
+…and include `couponCodes`/`couponsLockReference` in the transaction.
+
+**This flow:**
+- Applies the discount
+- Burns the coupon
+- Calculates cashback/points
+- Updates loyalty history, all in one call
+
+<Warning>
+Do **NOT** call the Burn Coupon API when using this flow.
+</Warning>
+
+### 2. Manual Burning
+
+Use the [Burn Coupon API](/api-reference/coupons/burn-coupon) only when the final transaction cannot be submitted through **Track Order** or **Track Payment** with the `couponsLockReference` included.
+
+
+#### **Common scenarios:**
+
+**a. POS without full order structure**
+
+POS system does not send:
+- lineItems
+- collections
+- taxes
+- or a formal “cart”
+
+→ coupon must be burned **manually** after payment.
+
+**b. Legacy/external order engines**
+
+System handles pricing/discounts internally and uses Gameball only as a discount engine.
+
+**c. Multi-system flows**
+
+Coupon is validated in System A
+but burned in System B (e.g., mobile → kiosk flow).
+
+d. Event / Campaign / Access-Based Coupons (Non-Transactional)
+
+Some coupons do not correspond to a traditional order or payment.
+
+**Examples:**
+- QR activation coupons at events
+- Coupons unlocking access/features (VIP lounge, early access, subscription tier)
+- In-app “Claim Reward” actions
+- Non-monetary value coupons (bonus credits, in-game items)
+- Redemption flows where no money is exchanged
+
+These scenarios require a manual [Burn Coupon API](/api-reference/coupons/burn-coupon) call because no transaction object exists.
 <Tip>
-  **Tip:** If the transaction fails or is canceled, use the [Release Coupon API](/api-reference/coupons/release-coupons) instead to free the coupon.
+If there is no "order" and no "payment" to send through Track Order/Payment APIs, then burn the coupon manually.
 </Tip>
 
 ---
 
-## **Use Case 2: POS Redemption at Physical Stores**
+## Customer Experience
+
+Regardless of which method you use, burning happens behind the scenes. Customers experience:
+- Correct final pricing
+- One-time usage enforcement
+- Accurate reward balances
+
+<Info>
+The burning mechanism is internal, the user sees only the result.
+</Info>
+---
+
+### Use Case 1: E-commerce Checkout (Auto Burn via Order API)
+
+Scenario:
+Customer applies coupon `WINTER20` during checkout.
+
+Your backend:
+	1.	Validates + locks coupon at preview
+	2.	Payment succeeds
+	3.	Sends final order through Track Order API, including couponCodes
+
+Gameball automatically burns the coupon.
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant Backend
+    participant Gameball
+
+    App->>Backend: Checkout initiated
+    Backend->>Gameball: Validate/Lock Coupon
+    Gameball->>Backend: Validation/Locking success
+
+    App->>Backend: Payment succeeded
+    Backend->>Gameball: Track Order API (includes couponsLockReference)
+    Gameball->>Backend: Order recorded + Coupon burned automatically
+
+    Backend->>App: Order success + updated rewards
+```
+
+---
+
+### Use Case 2: Free Product Coupon (Manual Burn)
 
 **Scenario:**
+Sarah has a coupon FREE-MUG that grants her a free product. She visits a store, shows the code, and the staff hands over the item. There’s no checkout discount, and the store may not record this as an order/payment event in Gameball.
 
-Omar visits a retail store and uses his **LOYALTY10** coupon at checkout.
+#### Why manual burn is required:
+Because the coupon redemption is not tied to a **Track Order / Track Payment** call that includes `couponsLockReference`/`couponCodes`, Gameball cannot auto-burn it. You still need to mark it as used to prevent reuse.
 
-Once the cashier confirms the sale in the POS, the coupon should be marked as consumed.
+What the flow looks like
+	1.	Validate + lock the coupon when it’s presented (optional but recommended)
+	2.	Staff confirms the item was given
+	3.	Call [Burn Coupon API](/api-reference/coupons/burn-coupon) to finalize redemption
+```mermaid
+flowchart TB
+    A["🏬 Customer presents FREE-MUG coupon"] --> B["🧪 Validate/Lock coupon (reserve)"]
+    B --> C["🎁 Staff hands over free product"]
+    C --> D["🔥 Burn Coupon API is called"]
+    D --> E["✅ Coupon marked as Used"]
+```
 
-### **How to Implement**
-
-Your POS backend should call the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) once the transaction is finalized.
-
-#### **Example Request**
+  #### **Example Request**
 
 ```json
 {
-  "customerId": "POS_880",
-  "couponCodes": ["LOYALTY10"],
+  "customerId": "CUST_880",
+  "couponCodes": ["FREE-MUG"],
   "couponsLockReference": "lock-17a9bc73-9c2b-4f1d-80a3-b3ab3e07b3d1"
 }
 ```
 
-#### **Example Response**
-
-```json
-{
-  "status": "success",
-  "burnedCoupons": [
-    {
-      "code": "LOYALTY10",
-      "burnedAt": "2025-02-20T14:10:00Z",
-      "discountType": "fixed_discount",
-      "discountValue": 10
-    }
-  ]
-}
-```
-
-### **Best Practice**
-
-<Checklist>
-  <Check>Ensure the coupon is **validated and locked** before burning.</Check>
-  <Check>Use synchronized timestamps between POS and Gameball to keep transaction records aligned.</Check>
-</Checklist>
+<Check>Use this approach for **non-transactional** redemptions (free items, access, claims).</Check>
+<Check>If the redemption is tied to a real order/payment sent via Track Order/Payment with `couponCodes`, prefer auto-burn instead.</Check>
 
 ---
 
-## **Use Case 3: Payment-Based Redemption (Fintech or Services)**
+### Use Case 3: Payment-Based Redemption (Auto Burn via Track Payment API or Manual Burn)
 
-**Scenario:**
+If the payment system sends the coupon inside the Track Payment API, burning is automatic.
+If not, you manually burn after payment.
 
-A fintech app offers a **SAR 20 discount** on a customer’s next wallet top-up using **BILLPAY20**.
+```mermaid
+sequenceDiagram
+    participant App
+    participant Backend
+    participant Gameball
 
-Once the top-up succeeds, the system should burn the coupon to finalize redemption.
+    App->>Backend: Complete payment (success)
+    Backend->>Gameball: Track Payment API (with couponsLockReference)
+    Gameball->>Backend: Payment recorded + Coupon burned automatically
 
-### **Why This Matters**
-
-In service-based platforms, there’s no “cart” or “order.” Coupons apply directly to **payments, invoices, or subscriptions**, so burning them ensures accurate usage across non-ecommerce flows.
-
-### **How to Implement**
-
-After confirming a successful payment through the [Payment Tracking API](/api-reference/payment/payment-tracking), call the [**Burn Coupon API**](/api-reference/coupons/burn-coupon) just as you would after an e-commerce order.
-
-#### **Example Request**
-
-```json
-{
-  "customerId": "USER_FINTECH_001",
-  "couponCodes": ["BILLPAY20"],
-  "couponsLockReference": "lock-8b6c3a9d-f9ac-4e7c-99b0-3c0e820ae77e"
-}
+    Backend->>App: Success + updated rewards
 ```
 
-#### **Example Response**
 
-```bash
-{
-  "status": "success",
-  "burnedCoupons": [
-    {
-      "code": "BILLPAY20",
-      "discountType": "fixed_discount",
-      "discountValue": 20,
-      "appliedOn": "Payment",
-      "burnedAt": "2025-02-20T16:40:00Z"
-    }
-  ]
-}
+Or, **manual burn** if coupon is not included in the payment call:
+
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant Backend
+    participant Gameball
+
+    App->>Backend: Complete payment (success)
+    Backend->>Gameball: Track Payment API (no coupon)
+    Gameball->>Backend: Payment recorded
+
+    Backend->>Gameball: Burn Coupon API
+    Gameball->>Backend: Burn confirmation
+
+    Backend->>App: Success + updated rewards
 ```
 
 ---
+## Coupon Burning Flow Selection Guide
 
-## **Best Practices**
+| **Scenario** | **Best Method** |
+|--------------|-----------------|
+| Standard ecommerce checkout | Track Order API (auto-burn) |
+| POS with full order payload | Track Order API (auto-burn) |
+| POS without order structure | Burn Coupon API |
+| Wallet top-up / bill payment | Track Payment API (auto-burn) |
+| Fintech flows without coupon in request | Burn Coupon API |
+| Campaign / event / access-based coupons | Burn Coupon API |
 
-<Checklist>
-  <Check>Burn only **after payment success**, never before.</Check>
-  <Check>Always use the **latest** `couponsLockReference` for the same coupon.</Check>
-  <Check>If payment fails, use the [**Release Coupon API**](/api-reference/coupons/release-coupons) instead.</Check>
-</Checklist>
+```mermaid
+flowchart TB
+    A["Will you send a final transaction to Gameball?"] -->|Yes| B["Which transaction API will you use?"]
+    A -->|No| F["Use Burn Coupon API after final confirmation"]
+
+    B --> C["Track Order API"]
+    B --> D["Track Payment API"]
+
+    C --> E{"Can you include couponCodes in the request?"}
+    D --> G{"Can you include couponCodes in the request?"}
+
+    E -->|Yes| H["✅ Auto-burn happens in Track Order"]
+    E -->|No| F
+
+    G -->|Yes| I["✅ Auto-burn happens in Track Payment"]
+    G -->|No| F
+```
+
+<Note>
+If your flow cannot send a final order/payment with the coupon included (e.g., event access coupons, offline/manual fulfillment, distributed systems), finalize redemption using the [Burn Coupon API](/api-reference/coupons/burn-coupon).
+</Note>
 
 ---
 
-## Related Resources
-
-<CardGroup cols={2}>
-  <Card title="Burn Coupon API" icon="fire" href="/api-reference/coupons/burn-coupon">
-    Finalize coupon usage and prevent reuse
-  </Card>
-  <Card title="Release Coupon API" icon="arrow-rotate-left" href="/api-reference/coupons/release-coupons">
-    Unlock coupons when orders fail or are canceled
-  </Card>
-  <Card title="Validate Coupon API" icon="shield-check" href="/api-reference/coupons/validate-single-coupon">
-    Confirm eligibility and lock coupons pre-checkout
-  </Card>
-  <Card title="Coupon Entity Reference" icon="book" href="/tutorials-new/general/entities/coupon">
-    Review coupon fields, types, and lifecycle metadata
-  </Card>
-</CardGroup>
-
+## Best Practices
+<Check>Always burn after payment succeeds.</Check>
+<Check>Use auto-burn whenever possible (Order/Payment APIs).</Check>
+<Check>Use Burn Coupon API only in non-transactional or external flows.</Check>
+<Check>Use [Release Coupon API](/api-reference/coupons/release-coupons) when the transaction fails.</Check>
