@@ -10,6 +10,14 @@ If the order fails, payment doesn’t go through, or the customer abandons check
 
 That’s where the [**Release Coupons API**](/api-reference/coupons/release-coupons) comes in; it reverts the coupon status from **_locked_** to **_available_**.
 
+```mermaid
+flowchart LR
+    A["Validate & Lock Coupon"]
+    A -->|Payment Success| B["Burn Coupon"]
+    A -->|Payment Failed / Cancelled| C["Release Coupon"]
+classDef highlight fill:#DDD6FE,stroke:#5B21B6,stroke-width:3px,color:#1F2937;
+class C highlight;
+```
 ---
 
 ## Why This Matters
@@ -17,13 +25,17 @@ That’s where the [**Release Coupons API**](/api-reference/coupons/release-coup
 Coupon locking ensures discounts are held during checkout to prevent misuse or concurrent redemptions.\
 However, if these coupons remain locked after failed transactions, they can become unavailable to customers who never actually used them.
 
+<img
+  src="/images/releaseCouponImportance.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+
 Releasing them promptly:
 
-<Checklist>
   <Check>Prevents **coupon exhaustion** or “false unavailability.”</Check>
   <Check>Maintains **accurate redemption analytics**.</Check>
   <Check>Ensures **smooth retry or reorder experiences** for customers.</Check>
-</Checklist>
 
 ---
 
@@ -46,8 +58,21 @@ Or wait until the configured **lock timeout** passes; Gameball will automaticall
 
 Once an order fails or is canceled, call the [**Release Coupons API**](/api-reference/coupons/release-coupons) using the same `lockReference` that was returned during the coupon validation (or lock) phase.
 
+
 ```bash
 https://api.gameball.co/api/v4.0/integrations/coupons/{lockReference}
+```
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant Gameball
+
+    App->>Gameball: Validate Coupon
+    Gameball-->>App: lockReference returned
+
+    App->>Gameball: Release Coupon (lockReference)
+    Gameball-->>App: Coupon unlocked
 ```
 
 #### Example Response:
@@ -76,6 +101,13 @@ https://api.gameball.co/api/v4.0/integrations/coupons/{lockReference}
     Changes coupon state from **locked** → **available**.
   </Step>
 </Steps>
+
+```mermaid
+stateDiagram-v2
+    [*] --> coupon_locked
+    coupon_locked --> Available : Release Coupon API
+    coupon_locked --> Used : Burn Coupon API
+```
 
 ---
 
@@ -155,12 +187,10 @@ https://api.gameball.co/api/v4.0/integrations/coupons/lock-82b1aa5c-8a4e-4a31-91
 
 ## **Key Takeaways**
 
-<Checklist>
   <Check>**Release** returns coupons to “available” status after failed or canceled orders.</Check>
   <Check>Always send the **lock reference** obtained from validation.</Check>
   <Check>Prevents unnecessary coupon unavailability.</Check>
   <Check>Completes the lifecycle: <code>Validate → Lock → Burn (Success) / Release (Failure)</code>.</Check>
-</Checklist>
 
 ---
 

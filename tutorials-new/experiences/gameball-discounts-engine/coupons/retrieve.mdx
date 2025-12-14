@@ -12,6 +12,19 @@ This API helps you display live coupon data directly within your **storefront**,
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A["Coupon Issued"] --> B["Retrieve Coupons"]
+    B --> C["Display in UI"]
+
+    C --> D["Validate & Lock"]
+
+    D -->|Success| F["Burn"]
+    D -->|Failure| G["Release"]
+classDef highlight fill:#DDD6FE,stroke:#5B21B6,stroke-width:3px,color:#1F2937;
+class B highlight;
+```
+
 The [**Get Customer Coupons API**](/api-reference/customers/management/get-customer-coupons) returns all **active and eligible coupons** linked to a specific customer.\
 Each coupon includes details such as:
 

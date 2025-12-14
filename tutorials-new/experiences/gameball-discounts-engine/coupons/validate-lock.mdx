@@ -8,25 +8,43 @@ description: "Validate coupon eligibility and lock it to prevent duplicate usage
 
 Validating coupons is a critical step in the checkout process to ensure fairness, prevent misuse, and provide a smooth customer experience. This tutorial walks you through how to use Gameball’s coupon validation APIs to:
 
-<Checklist>
   <Check>Confirm coupon eligibility</Check>
   <Check>Enforce order-level requirements (e.g., minimum order value)</Check>
   <Check>Lock coupons to avoid duplicate usage</Check>
   <Check>Handle single and multiple coupon stacking</Check>
-</Checklist>
 
 Whether you’re building a custom UI or handling redemptions manually outside the Gameball widget, this process is essential for protecting campaign integrity and ensuring real-time accuracy.
+
+```mermaid
+flowchart LR
+    A["Customer enters coupon"] --> B["Validate coupon"]
+    B -->|Valid| C["Lock coupon"]
+    B -->|Invalid| D["Reject coupon"]
+    C --> E["Return discount preview"]
+classDef highlight fill:#DDD6FE,stroke:#5B21B6,stroke-width:3px,color:#1F2937;
+class B highlight;
+```
+
+---
 
 ## When to Use This
 
 Use this API before applying any coupon at checkout to:
 
-<Checklist>
   <Check>Prevent expired or ineligible coupons from being applied</Check>
   <Check>Enforce campaign conditions like minimum order value</Check>
   <Check>Lock the coupon so it can’t be used in parallel sessions or duplicate orders</Check>
   <Check>Return the discount value and coupon type to display at checkout</Check>
-</Checklist>
+
+```mermaid
+flowchart LR
+    A["Cart Review"] --> B["Validate & Lock Coupon"]
+    B --> C["Show Discount Preview"]
+    C --> D["Payment"]
+    D -->|Success| E["Burn Coupon"]
+    D -->|Failure| F["Release Coupon"]
+```
+---
 
 ## Widget vs. Custom UI
 
@@ -38,6 +56,16 @@ Use this API before applying any coupon at checkout to:
     You must call the validation API and store lock references yourself.
   </Card>
 </CardGroup>
+
+```mermaid
+flowchart LR
+    A["Coupon entered"] --> B{Integration type}
+
+    B -->|Widget| C["Gameball handles validation + lock"]
+    B -->|Custom UI| D["You call Validate API"]
+```
+
+---
 
 ## Key Concepts
 
@@ -56,6 +84,18 @@ The full flow includes:
 Setting `"lock": true` in your validation request reserves the coupon for that customer/session, returns a `lockReference` token, and prevents others from using the same coupon in parallel until the session completes or times out. This is essential in high-traffic environments.
 </Callout>
 
+```mermaid
+sequenceDiagram
+    participant User A / Session A
+    participant User B / Session B
+    participant Gameball
+
+    User A / Session A->>Gameball: Validate + Lock SAVE10
+    Gameball-->>User A / Session A: Locked
+
+    User B / Session B->>Gameball: Validate SAVE10
+    Gameball-->>User B / Session B: Rejected (locked)
+```
 ---
 
 ## Use Case 1: Validate a Single Coupon
