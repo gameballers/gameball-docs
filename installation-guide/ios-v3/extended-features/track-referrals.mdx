@@ -20,7 +20,7 @@ The deep link provider attaches a referral code to the link, and your app extrac
     Use **Branch** or **Adjust** to generate referral links and handle deep/deferred linking in your iOS app.
   </Step>
   <Step title="Install the Provider SDK">
-    Add the provider SDK (Branch or Adjust) via CocoaPods or Swift Package Manager following their official documentation.
+    Add the provider SDK (Branch or Adjust) via Swift Package Manager following their official documentation.
   </Step>
   <Step title="Configure Deep Linking">
     Configure Universal Links / URL schemes and deferred deep linking according to your provider's guide.
@@ -118,20 +118,22 @@ import Gameball
 func registerNewCustomer(customerId: String, email: String) {
     let savedReferrerCode = UserDefaults.standard.string(forKey: "pendingReferralCode")
 
-    let customerRequest = InitializeCustomerRequest(
-        customerId: customerId,
-        email: email,
-        referralCode: savedReferrerCode // Pass to Gameball if available
-    )
+    do {
+        let customerRequest = try InitializeCustomerRequest(
+            customerId: customerId,
+            email: email,
+            referralCode: savedReferrerCode // Pass to Gameball if available
+        )
 
-    Gameball.shared.initializeCustomer(with: customerRequest) { result in
-        switch result {
-        case .success:
-            // Clear stored code after successful registration
-            UserDefaults.standard.removeObject(forKey: "pendingReferralCode")
-        case .failure(let error):
-            print("Referral registration error: \(error.localizedDescription)")
+        GameballApp.getInstance().initializeCustomer(customerRequest) { _, errorMessage in
+            if let errorMessage = errorMessage {
+                print("Referral registration error: \(errorMessage)")
+            } else {
+                UserDefaults.standard.removeObject(forKey: "pendingReferralCode")
+            }
         }
+    } catch {
+        print("Validation error: \(error.localizedDescription)")
     }
 }
 ```
@@ -147,7 +149,7 @@ func registerNewCustomer(customerId: String, email: String) {
 Use the SDK to retrieve a customer’s unique referral code and shareable link.
 
 ```swift
-Gameball.shared.getCustomerReferralInfo(for: "customer-123") { result in
+GameballApp.getInstance().getCustomerReferralInfo(for: "customer-123") { result in
     switch result {
     case .success(let referralInfo):
         let referralCode = referralInfo.referralCode
@@ -202,7 +204,7 @@ struct ReferralShareView: View {
     }
 
     func fetchReferralLink() {
-        Gameball.shared.getCustomerReferralInfo(for: "customer-123") { result in
+        GameballApp.getInstance().getCustomerReferralInfo(for: "customer-123") { result in
             if case .success(let info) = result {
                 referralLink = info.referralLink
                 showShareSheet = true
@@ -252,4 +254,3 @@ struct ActivityView: UIViewControllerRepresentable {
 
     The SDK’s job is to pass the correct `referralCode` at registration and provide the sharable referral link.
 </Info>
-

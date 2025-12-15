@@ -8,16 +8,18 @@ description: "Send events to power actions, campaigns and rewards"
 Send events to Gameball when users perform important actions within your app. Events represent significant customer actions and can trigger rewards, campaigns, and engagement programs.
 
 ```dart
-import 'package:gameball_flutter/gameball_flutter.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
 
 final event = EventBuilder()
     .customerId("customer-123")
     .email("john@example.com")
     .mobile("+1234567890")
     .eventName("purchase")
-    .eventMetaData("product_id", "12345")
-    .eventMetaData("amount", 99.99)
+    .eventMetaData("order_id", "ORD-12345")
+    .eventMetaData("amount", 149.99)
     .eventMetaData("currency", "USD")
+    .eventMetaData("category", "electronics")
+    .eventMetaData("channel", "mobile_app")
     .build();
 
 final gameballApp = GameballApp.getInstance();
@@ -124,28 +126,11 @@ final reviewEvent = EventBuilder()
     .build();
 ```
 
-### Multiple Events
-
-You can chain multiple events using the builder:
-
-```dart
-final multipleEvents = EventBuilder()
-    .customerId("customer-123")
-    .eventName("add_to_cart")
-    .eventMetaData("product_id", "PROD-456")
-    .eventMetaData("quantity", 2)
-    .eventName("page_view")
-    .eventMetaData("page", "product_detail")
-    .eventMetaData("product_id", "PROD-456")
-    .build();
-```
-
 <Info>
 Events are the foundation of Gameball's reward and engagement system. Configure how events trigger rewards and actions in your Gameball dashboard.
 </Info>
 
 ## Next Steps
 
-- [Show Profile Widget](/installation-guide/flutter-v3/show-profile)
-- [Go-Live Checklist](/installation-guide/flutter-v3/go-live-checklist)
-
+- [Show Profile Widget](/installation-guide/flutter-v3/core-sdk-capabilities/show-profile)
+- [Go-Live Checklist](/installation-guide/flutter-v3/deployment-maintenance/go-live-checklist)

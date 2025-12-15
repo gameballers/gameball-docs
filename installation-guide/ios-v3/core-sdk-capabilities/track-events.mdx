@@ -1,46 +1,44 @@
 ---
-title: "Track Orders & Cashback"
-description: "Track orders and enable cashback rewards using the Gameball iOS SDK"
+title: "Track Events"
+description: "Send customer events from the Gameball iOS SDK"
 ---
 
-# Send Order Data & Trigger Cashback
+# Send Customer Events
 
-Use the iOS SDK to send paid order information to Gameball.\
-This enables automatic cashback rewards, order-based earning rules, and post-purchase loyalty actions.
-
-Gameball supports both:
-
-- **Track Order API** (for products & carts)
-- **Track Payment API** (for service-based businesses without line items)
-
-> The iOS SDK internally wraps the **Track Order API** and sends validated order payloads to Gameball.
+Use events to record customer actions (purchases, visits, interactions) and trigger Gameball automations and rewards.
 
 ---
 
 ## Basic Usage
 
-Send order details using `OrderRequest` and `sendOrder`.
-
 <CodeGroup>
 
-```swift Swift (UI Kit)
+```swift Swift (Completion Handler)
 import Gameball
 
-let order = OrderRequest(
-    orderId: "order-123",
-    customerId: "customer-123",
-    amount: 99.99,
-    currency: "USD",
-    status: "paid"
-)
+do {
+    let event = try Event(
+        events: [
+            "purchase": [
+                "amount": 120.50,
+                "currency": "USD",
+                "order_id": "order-123",
+                "items": 3,
+                "channel": "ios_app"
+            ]
+        ],
+        customerId: "customer-123"
+    )
 
-Gameball.shared.sendOrder(order) { result in
-    switch result {
-    case .success:
-        print("Order tracked successfully")
-    case .failure(let error):
-        print("Error: \(error.localizedDescription)")
+    GameballApp.getInstance().sendEvent(event) { success, errorMessage in
+        if success {
+            print("Event sent")
+        } else if let errorMessage = errorMessage {
+            print("Gameball event error: \(errorMessage)")
+        }
     }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
 }
 ```
 
@@ -50,18 +48,20 @@ import Gameball
 
 Task {
     do {
-        let order = OrderRequest(
-            orderId: "order-123",
-            customerId: "customer-123",
-            amount: 99.99,
-            currency: "USD",
-            status: "paid"
+        let event = try Event(
+            events: [
+                "opened_app": [
+                    "platform": "iOS",
+                    "version": "1.3.0"
+                ]
+            ],
+            customerId: "customer-123"
         )
-        
-        try await Gameball.shared.sendOrder(order)
-        print("Order tracked successfully")
+
+        let sent = try await GameballApp.getInstance().sendEvent(event)
+        print("Event sent: \(sent)")
     } catch {
-        print("Error: \(error.localizedDescription)")
+        print("Validation/API error: \(error.localizedDescription)")
     }
 }
 ```
@@ -70,121 +70,43 @@ Task {
 
 ---
 
-## **Order Parameters**
-
-<ParamField body="orderId" type="String" required>
-  Unique identifier for the order.
-</ParamField>
+## Event Parameters
 
 <ParamField body="customerId" type="String" required>
-  The identifier of the customer placing the order.
+  Permanent identifier for the customer.
 </ParamField>
 
-<ParamField body="amount" type="Double" required>
-  Total order value after discounts and before loyalty redemption.
+<ParamField body="events" type="[String: [String: Any]]" required>
+  Dictionary of event names and metadata payloads.
 </ParamField>
 
-<ParamField body="currency" type="String" required>
-  Currency code (e.g., `"USD"`, `"EUR"`, `"SAR"`).
+<ParamField body="email" type="String">
+  Customer email (optional).
 </ParamField>
 
-<ParamField body="status" type="String" required>
-  Order status: `"paid"`, `"pending"`, `"cancelled"`, `"refunded"`.
-</ParamField>
-
-<ParamField body="lineItems" type="[OrderLineItem]">
-  Optional list of products in the order.\
-  Required for businesses using collection-based earning rules.
+<ParamField body="mobile" type="String">
+  Customer mobile number (optional).
 </ParamField>
 
 <ParamField body="sessionToken" type="String">
-  Optional override session token for this request.
+  Optional session token override for this request.
 </ParamField>
 
-<Warning>
-  **Important:**\
-  Only send orders with `status = "paid"` to ensure cashback and earning rules trigger correctly.\
-  For COD orders, send the order only after payment is confirmed.
-</Warning>
-
 ---
 
-## **Order with Line Items**
-
-Use line items when you want:
-
-- Product-based earning rules
-- Category conditions
-- Collection-based cashback
-- Better reporting visibility
-
-```swift
-let lineItem1 = OrderLineItem(
-    productId: "PROD-123",
-    productName: "Wireless Headphones",
-    quantity: 1,
-    price: 79.99
-)
-
-let lineItem2 = OrderLineItem(
-    productId: "PROD-456",
-    productName: "Phone Case",
-    quantity: 2,
-    price: 19.99
-)
-
-let order = OrderRequest(
-    orderId: "order-123",
-    customerId: "customer-123",
-    amount: 119.97,
-    currency: "USD",
-    status: "paid",
-    lineItems: [lineItem1, lineItem2]
-)
-
-Gameball.shared.sendOrder(order) { result in
-    // Handle result
-}
-```
-
----
-
-## **Cashback Rewards**
-
-Gameball will automatically calculate cashback based on the **cashback rules** configured in your dashboard.
-
-<CardGroup cols={2}>
-  <Card title="Earn Cashback" icon="coins">
-    Customers earn cashback based on your reward program and order amount.
-  </Card>
-  <Card title="Automatic Posting" icon="arrow-up-right-dots">
-    Cashback is applied to the customer's wallet immediately once the order is tracked.
-  </Card>
-</CardGroup>
-
-<Info>
-  For advanced use cases, server-side integrations, or POS systems, you can use the\
-  [**Track Order API**](/api-reference/order/order-tracking) and [**Track Payment API**](/api-reference/payment/tracking).
-
-  The iOS SDK’s `sendOrder()` method directly wraps the **Track Order API**.
-</Info>
-
----
-
-## **Best Practices**
+## Best Practices
 
 <Steps>
-  <Step title="Send Only Paid Orders">
-    Ensure payment is confirmed before sending orders to prevent incorrect cashback.
+  <Step title="Keep names consistent">
+    Standardize event names and keys (e.g., snake_case).
   </Step>
-  <Step title="Use Line Items When Possible">
-    This enables category-based earning rules, product-level reporting, and richer customer insights.
+  <Step title="Send after init">
+    Call `sendEvent` only after the SDK and customer are initialized.
   </Step>
-  <Step title="Include Accurate Currency Codes">
-    Loyalty calculations depend on the correct currency context.
+  <Step title="Include identifiers">
+    Add order IDs, amounts, and channels to improve targeting.
   </Step>
-  <Step title="Track Refunds Through Refund APIs">
-    Cashback reversals must use the official refund endpoints, not order tracking.
+  <Step title="Handle errors">
+    Surface validation and API errors for quick debugging.
   </Step>
 </Steps>
-

@@ -3,7 +3,7 @@ title: "Go-Live Checklist"
 description: "Verify your Gameball iOS SDK integration before releasing to production"
 ---
 
-Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is functionally correct, secure, and ready for production launch.
+Use this checklist to ensure your **Gameball iOS SDK v3.1.1** integration is functionally correct, secure, and ready for production launch.
 
 <Info>
   Use your **Test API Key** during development. Only switch to your **Live API Key** after completing all checklist items and validating the integration.
@@ -13,16 +13,16 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 
 # 1. SDK Installation & Environment Setup
 
-- Gameball iOS SDK **v3.1.0** installed using CocoaPods or Swift Package Manager
+- Gameball iOS SDK **v3.1.1** installed via Swift Package Manager
 - Project builds cleanly with **no warnings or dependency conflicts**
 - `import Gameball` works across the project
-- `Gameball.shared.initialize(with:)` is called at startup (AppDelegate or App struct)
-- Minimum iOS version set to **13.0+**
-- Swift version is **5.7+**
+- `GameballApp.getInstance().init(config:)` is called at startup (AppDelegate or App struct)
+- Minimum iOS version set to **12.0+**
+- Swift version is **5.0+**
 - Test and Production keys stored securely (not committed to VCS)
 
 <Tip>
-  See: [**Getting Started**](/installation-guide/ios-v3/getting-started)
+  See: [**Getting Started**](/installation-guide/ios-v3/overview-setup/getting-started)
 </Tip>
 
 ---
@@ -38,7 +38,7 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 - Errors handled gracefully (network issues, invalid input, auth errors)
 
 <Tip>
-  See: [**Initialize Customer Profile**](/installation-guide/ios-v3/initialize-profile)
+  See: [**Initialize Customer Profile**](/installation-guide/ios-v3/overview-setup/initialize-profile)
 </Tip>
 
 ---
@@ -54,44 +54,12 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 - Error handling implemented for timeouts, auth errors, and invalid payloads
 
 <Tip>
-  See: [**Track Customer Events**](/installation-guide/ios-v3/track-events)
+  See: [**Track Customer Events**](/installation-guide/ios-v3/core-sdk-capabilities/track-events)
 </Tip>
 
 ---
 
-# 4. Orders & Cashback
-
-- `sendOrder` sends correct order structure
-- **Line items** included when using product/collection-based earning rules
-- Cashback triggered according to dashboard program settings
-- COD orders tracked only **after payment is confirmed**
-- Refunds, reversals, and cancellations handled via backend Refund APIs
-- Multi-shop configuration validated (if used)
-- Session token override tested if using secure backend flows
-
-<Tip>
-  See: [**Track Orders & Cashback**](/installation-guide/ios-v3/track-orders)
-</Tip>
-
----
-
-# 5. Redemption (Points to Discount)
-
-- Customer balance fetched correctly using SDK
-- Backend successfully calls **Redeem API**
-- Checkout redemption tested through **Order API**
-- Discount amount correctly reflected in UI
-- Fraud prevention validated (backend checks insufficient points)
-- Correct redemption behaviour visible on dashboard
-- Documentation aligned with your business rules
-
-<Info>
-  Full flow available here: [**Points Redemption Tutorial**](https://gameball.mintlify.app/tutorials-new/experiences/points-redemption/index)
-</Info>
-
----
-
-# 6. Profile Widget Validation
+# 4. Profile Widget Validation
 
 - Widget opens correctly inside the app (UIKit & SwiftUI)
 - Customer data (points, referrals, tiers, rewards) loads correctly
@@ -101,29 +69,29 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 - Widget theme reflects dashboard customization
 
 <Tip>
-  See: [**Show Profile Widget**](/installation-guide/ios-v3/show-profile)
+  See: [**Show Profile Widget**](/installation-guide/ios-v3/core-sdk-capabilities/show-profile)
 </Tip>
 
 ---
 
-# 7. Push Notifications (APNs)
+# 5. Push Notifications (Firebase / Huawei)
 
 - Push Notifications capability enabled in Xcode
 - Permission request shown at a meaningful moment (not app launch)
 - Device token registered successfully via `initializeCustomer`
-- APNs certificate/key uploaded in Gameball dashboard
-- Test notifications received on physical devices
+- Firebase or Huawei push service configured in your project
+- Test notifications received on physical devices from Gameball
 - Foreground/background notification handling implemented
 - Deep link navigation implemented for Gameball notification actions
 - Device token refresh handled
 
 <Tip>
-  See: [**Push Notifications**](/installation-guide/ios-v3/push-notifications)
+  See: [**Push Notifications**](/installation-guide/ios-v3/extended-features/push-notifications)
 </Tip>
 
 ---
 
-# 8. Referrals (Branch or Adjust)
+# 6. Referrals (Branch or Adjust)
 
 - Selected provider integrated (Branch or Adjust)
 - Universal Links configured and verified
@@ -135,12 +103,12 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 - Firebase Dynamic Links fully removed (deprecated)
 
 <Tip>
-  See: [**Track Referrals**](/installation-guide/ios-v3/track-referrals)
+  See: [**Track Referrals**](/installation-guide/ios-v3/extended-features/track-referrals)
 </Tip>
 
 ---
 
-# 9. Security, Authentication & Session Tokens
+# 7. Security, Authentication & Session Tokens
 
 - Session Token implemented if backend-auth is required
 - API version routing (v4.0 / v4.1) verified if using Session Token
@@ -150,7 +118,7 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 
 ---
 
-# 10. Multi-Environment & Build Verification
+# 8. Multi-Environment & Build Verification
 
 - Tested in Debug, Stage, and Production environments
 - Gameball Test → Production API key switch validated
@@ -159,7 +127,7 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 
 ---
 
-# 11. Performance & Stability
+# 9. Performance & Stability
 
 - No memory leaks in widget or SDK APIs
 - No crashes in repeated widget open/close cycles
@@ -169,18 +137,18 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 
 ---
 
-# 12. Dashboard & Backend Alignment
+# 10. Dashboard & Backend Alignment
 
 - All earning rules and rewards set up correctly
 - Redemption settings & limits configured
 - Referral rules finalized
-- APNs integration verified in dashboard
+- Push provider configuration verified in Gameball dashboard
 - Test user transactions visible in Gameball dashboard
 - Segments, tiers, and campaigns behave as expected
 
 ---
 
-# 13. Pre-Launch QA & Monitoring Setup
+# 11. Pre-Launch QA & Monitoring Setup
 
 - Full customer lifecycle tested (signup → earn → redeem → notify → track)
 - Regression testing performed on all integration points
@@ -199,5 +167,4 @@ Use this checklist to ensure your **Gameball iOS SDK v3.1.0** integration is fun
 - [**API Reference**](/api-reference/introduction)
 - [**Status & Error Codes**](/api-reference/overview/status-error-codes)
 - [**Migration Notes**](/installation-guide/ios-v3/migration-notes)
-- [**iOS SDK GitHub Repository**](https://github.com/gameballers/gameball-ios/tree/release-3.1.0)
-
+- [**iOS SDK GitHub Repository**](https://github.com/gameballers/gameball-ios)

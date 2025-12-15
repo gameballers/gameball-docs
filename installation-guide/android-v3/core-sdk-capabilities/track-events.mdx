@@ -13,9 +13,11 @@ Send events to Gameball to power actions, campaigns, and rewards. Events represe
 val event = Event.builder()
   .customerId("customer-123")
   .eventName("purchase")
-  .eventMetaData("product_id", "12345")
-  .eventMetaData("amount", 99.99)
+  .eventMetaData("order_id", "ORD-12345")
+  .eventMetaData("amount", 149.99)
   .eventMetaData("currency", "USD")
+  .eventMetaData("category", "electronics")
+  .eventMetaData("channel", "mobile_app")
   .build()
 
 GameballApp.getInstance(context).sendEvent(
@@ -44,9 +46,11 @@ GameballApp.getInstance(context).sendEvent(
 Event event = Event.builder()
     .customerId("customer-123")
     .eventName("purchase")
-    .eventMetaData("product_id", "12345")
-    .eventMetaData("amount", 99.99)
+    .eventMetaData("order_id", "ORD-12345")
+    .eventMetaData("amount", 149.99)
     .eventMetaData("currency", "USD")
+    .eventMetaData("category", "electronics")
+    .eventMetaData("channel", "mobile_app")
     .build();
 
 GameballApp.getInstance(context).sendEvent(
@@ -91,8 +95,7 @@ An event requires:
 
 - Customer ID is not empty
 - Event name must be provided
-- At least one metadata entry
-- Metadata values must be valid primitive types or objects
+- Metadata values (if provided) must be valid primitive types or objects
 
 ---
 
@@ -159,4 +162,3 @@ val cartEvent = Event.builder()
 <Tip>
   Consider showing the profile widget immediately after a customer earns points or unlocks a reward to reinforce engagement.
 </Tip>
-

@@ -1,6 +1,6 @@
 ---
 title: "Initialize SDK"
-description: "Configure and initialize Gameball Android SDK v3.1.0"
+description: "Configure and initialize Gameball Android SDK v3.1.1"
 ---
 
 Before you can register customers, track events, or show the profile widget, you must initialize the **Gameball Android SDK** with your configuration.
@@ -23,10 +23,9 @@ class MyApplication : Application() {
         val config = GameballConfig.builder()
             .apiKey("your-api-key")            // Required
             .lang("en")                        // Required
-            .platform("android")               // Optional (default: "android")
+            .platform("android")               // Optional
             .shop("your-shop-id")              // Optional
             .sessionToken("your-session-token")// Optional - enables v4.1 endpoints
-            .apiPrefix("custom-prefix")        // Optional - custom API prefix
             .build()
 
         GameballApp.getInstance(this).init(config)
@@ -44,10 +43,9 @@ public class MyApplication extends Application {
         GameballConfig config = GameballConfig.builder()
             .apiKey("your-api-key")             // Required
             .lang("en")                         // Required
-            .platform("android")                // Optional (default: "android")
+            .platform("android")                // Optional
             .shop("your-shop-id")               // Optional
             .sessionToken("your-session-token") // Optional - enables v4.1 endpoints
-            .apiPrefix("custom-prefix")         // Optional - custom API prefix
             .build();
 
         GameballApp.getInstance(this).init(config);
@@ -89,10 +87,6 @@ public class MyApplication extends Application {
 
 <ParamField body="sessionToken" type="string">
   Optional Session Token used for secure authentication and automatic v4.1 endpoint routing.
-</ParamField>
-
-<ParamField body="apiPrefix" type="string">
-  Optional custom API endpoint prefix for advanced configurations.
 </ParamField>
 
 ### **Validation Rules**

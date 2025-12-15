@@ -16,43 +16,34 @@ Use `initializeCustomer` whenever a user logs in, registers, or updates their in
 ```swift Swift (Completion Handler)
 import Gameball
 
-// Create customer attributes
-let attributes = CustomerAttributes(
-    displayName: "John Doe",
-    firstName: "John",
-    lastName: "Doe",
-    email: "john@example.com",
-    mobile: "+1234567890",
-    gender: "M",
-    dateOfBirth: "1990-01-15",
-    joinDate: "2024-01-01",
-    preferredLanguage: "en"
-)
+do {
+    let attributes = CustomerAttributes(
+        displayName: "John Doe",
+        firstName: "John",
+        lastName: "Doe",
+        email: "john@example.com",
+        mobile: "+1234567890",
+        customAttributes: ["favoriteCategory": "electronics"],
+        additionalAttributes: ["city": "New York", "country": "USA"]
+    )
 
-// Add custom attributes
-attributes.customAttributes = [
-    "loyaltyTier": "gold",
-    "city": "New York"
-]
+    let request = try InitializeCustomerRequest(
+        customerId: "customer-123",
+        email: "john@example.com",
+        mobile: "+1234567890",
+        customerAttributes: attributes,
+        referralCode: "REF123"   // Optional
+    )
 
-// Build request object
-let request = InitializeCustomerRequest(
-    customerId: "customer-123",
-    email: "john@example.com",
-    mobile: "+1234567890",
-    customerAttributes: attributes,
-    referralCode: "REF123",   // Optional
-    isGuest: false            // Optional
-)
-
-// Initialize customer
-Gameball.shared.initializeCustomer(with: request) { result in
-    switch result {
-    case .success(let response):
-        print("Customer initialized: \(response.gameballId)")
-    case .failure(let error):
-        print("Error: \(error.localizedDescription)")
+    GameballApp.getInstance().initializeCustomer(request) { response, errorMessage in
+        if let errorMessage = errorMessage {
+            print("Gameball initCustomer error: \(errorMessage)")
+        } else {
+            print("Customer initialized: \(response?.gameballId ?? "")")
+        }
     }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
 }
 ```
 
@@ -61,18 +52,13 @@ import Gameball
 
 Task {
     do {
-        let attributes = CustomerAttributes(
-            displayName: "John Doe",
-            email: "john@example.com",
-            mobile: "+1234567890"
-        )
-
-        let request = InitializeCustomerRequest(
+        let attributes = CustomerAttributes(displayName: "John Doe")
+        let request = try InitializeCustomerRequest(
             customerId: "customer-123",
             customerAttributes: attributes
         )
 
-        let response = try await Gameball.shared.initializeCustomer(with: request)
+        let response = try await GameballApp.getInstance().initializeCustomer(request)
         print("Customer initialized: \(response.gameballId)")
     } catch {
         print("Error: \(error.localizedDescription)")
@@ -97,11 +83,11 @@ Task {
 </ParamField>
 
 <ParamField body="deviceToken" type="String">
-  APNs push notification token.
+  Push notification token (Firebase FCM or Huawei Push Kit).
 </ParamField>
 
 <ParamField body="pushProvider" type="PushProvider">
-  Push provider (`.firebase` or `.apns`).
+  Push provider (`.firebase` or `.huawei`).
 </ParamField>
 
 <ParamField body="customerAttributes" type="CustomerAttributes">
@@ -180,7 +166,7 @@ You can enrich customer profiles with additional metadata.
 
 ### **With Push Notifications**
 
-```bash
+```swift
 import Gameball
 import UserNotifications
 
@@ -199,13 +185,17 @@ func application(
 ) {
     let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 
-    let request = InitializeCustomerRequest(
-        customerId: "customer-123",
-        deviceToken: token,
-        pushProvider: .apns
-    )
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .firebase
+        )
 
-    Gameball.shared.initializeCustomer(with: request) { _ in }
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Token validation error: \(error.localizedDescription)")
+    }
 }
 ```
 
@@ -215,13 +205,15 @@ func application(
 
 ```swift
 func registerCustomerWithReferral(customerId: String, referralCode: String) {
-    let request = InitializeCustomerRequest(
-        customerId: customerId,
-        referralCode: referralCode
-    )
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: customerId,
+            referralCode: referralCode
+        )
 
-    Gameball.shared.initializeCustomer(with: request) { result in
-        // Handle result
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Validation error: \(error.localizedDescription)")
     }
 }
 ```
@@ -232,12 +224,16 @@ func registerCustomerWithReferral(customerId: String, referralCode: String) {
 
 ```swift
 func initializeGuestUser(sessionId: String) {
-    let request = InitializeCustomerRequest(
-        customerId: "guest_\(sessionId)",
-        isGuest: true
-    )
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: "guest_\(sessionId)",
+            isGuest: true
+        )
 
-    Gameball.shared.initializeCustomer(with: request) { _ in }
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Validation error: \(error.localizedDescription)")
+    }
 }
 ```
 
@@ -247,37 +243,40 @@ func initializeGuestUser(sessionId: String) {
 
 ```swift
 func initializeFullProfile() {
-    let attributes = CustomerAttributes(
-        displayName: "John Doe",
-        firstName: "John",
-        lastName: "Doe",
-        email: "john@example.com",
-        mobile: "+1234567890",
-        gender: "M",
-        dateOfBirth: "1990-01-15",
-        joinDate: "2024-01-01",
-        preferredLanguage: "en"
-    )
+    do {
+        let attributes = CustomerAttributes(
+            displayName: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
+            email: "john@example.com",
+            mobile: "+1234567890",
+            gender: "M",
+            dateOfBirth: "1990-01-15",
+            joinDate: "2024-01-01",
+            preferredLanguage: "en"
+        )
 
-    attributes.customAttributes = [
-        "vip_level": "gold",
-        "city": "New York"
-    ]
+        attributes.customAttributes = [
+            "favoriteCategory": "electronics"
+        ]
 
-    attributes.additionalAttributes = [
-        "segment": "premium",
-        "source": "ios_app"
-    ]
+        attributes.additionalAttributes = [
+            "segment": "premium",
+            "source": "ios_app",
+            "city": "New York",
+            "country": "USA"
+        ]
 
-    let request = InitializeCustomerRequest(
-        customerId: "customer-123",
-        email: "john@example.com",
-        mobile: "+1234567890",
-        customerAttributes: attributes
-    )
+        let request = try InitializeCustomerRequest(
+            customerId: "customer-123",
+            email: "john@example.com",
+            mobile: "+1234567890",
+            customerAttributes: attributes
+        )
 
-    Gameball.shared.initializeCustomer(with: request) { result in
-        // Handle result
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Validation error: \(error.localizedDescription)")
     }
 }
 ```
@@ -288,5 +287,3 @@ func initializeFullProfile() {
 <Tip>
   Call `initializeCustomer` immediately after successful login or registration so Gameball can keep the profile updated.
 </Tip>
-
-

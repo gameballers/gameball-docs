@@ -3,7 +3,7 @@ title: "Go-Live Checklist"
 description: "Verify your integration before going live"
 ---
 
-Use this checklist to ensure your Gameball Android SDK v3.1.0 integration is complete and ready for production.
+Use this checklist to ensure your Gameball Android SDK v3.1.1 integration is complete and ready for production.
 
 <Info>
 During development, use your account **Test Key** to authenticate requests. Once integration is completed and validated, swap to your **Production API Key**.
@@ -11,14 +11,14 @@ During development, use your account **Test Key** to authenticate requests. Once
 
 ## Step 1: Install SDK and Verify Dependencies
 
-- [ ] Gameball SDK v3.1.0 is installed via Gradle/Maven
+- [ ] Gameball SDK v3.1.1 is installed via Gradle/Maven
 - [ ] All dependencies are resolved without conflicts
 - [ ] SDK imports correctly in your activities
 - [ ] No compilation errors or warnings
 - [ ] `GameballApp.getInstance(...).init(...)` succeeds
 
 <Tip>
-For information, please read more at [Getting Started](/installation-guide/android-v3/getting-started)
+For information, please read more at [Getting Started](/installation-guide/android-v3/overview-setup/getting-started)
 </Tip>
 
 ## Step 2: Initialize and Register Customers
@@ -29,7 +29,7 @@ For information, please read more at [Getting Started](/installation-guide/andro
 - [ ] Error handling works for invalid registrations
 
 <Tip>
-For information, please read more at [Initialize Customer Profile](/installation-guide/android-v3/initialize-profile)
+For information, please read more at [Initialize Customer Profile](/installation-guide/android-v3/overview-setup/initialize-profile)
 </Tip>
 
 ## Step 3: Track Events
@@ -40,7 +40,7 @@ For information, please read more at [Initialize Customer Profile](/installation
 - [ ] Error handling works for failed API calls
 
 <Tip>
-For information, please read more at [Track Customer Events](/installation-guide/android-v3/track-events)
+For information, please read more at [Track Customer Events](/installation-guide/android-v3/core-sdk-capabilities/track-events)
 </Tip>
 
 ## Step 4: Push Notifications
@@ -53,7 +53,7 @@ For information, please read more at [Track Customer Events](/installation-guide
 - [ ] Token refresh handling works properly
 
 <Tip>
-For more information, please read more at [Push Notifications](/installation-guide/android-v3/push-notifications)
+For more information, please read more at [Push Notifications](/installation-guide/android-v3/extended-features/push-notifications)
 </Tip>
 
 ## Step 5: Production Readiness
@@ -82,7 +82,7 @@ For more information, please read more at [Push Notifications](/installation-gui
 - [ ] Documentation is accessible to team
 
 <Check>
-Once you've completed all items in this checklist, your Android Gameball SDK v3.1.0 integration is ready for production!
+Once you've completed all items in this checklist, your Android Gameball SDK v3.1.1 integration is ready for production!
 </Check>
 
 ## Troubleshooting Resources
@@ -90,6 +90,4 @@ Once you've completed all items in this checklist, your Android Gameball SDK v3.
 - [API Reference](/api-reference/introduction)
 - [Status and Error Codes](/api-reference/overview/status-error-codes)
 - [Migration Notes](/installation-guide/android-v3/migration-notes)
-- [GitHub Repository](https://github.com/gameballers/gb-mobile-android/tree/release-3.1.0)
-
-
+- [GitHub Repository](https://github.com/gameballers/gb-mobile-android)

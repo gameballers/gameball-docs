@@ -5,7 +5,7 @@ description: "Verify your integration before going live"
 
 # Go-Live Checklist
 
-Use this checklist to ensure your Gameball Flutter SDK v3.1.0 integration is complete and ready for production.
+Use this checklist to ensure your Gameball Flutter SDK v3.1.1 integration is complete and ready for production.
 
 <Info>
 During development, use your account **Test Key** to authenticate requests. Once integration is completed and validated, swap to your **Production API Key**.
@@ -13,7 +13,7 @@ During development, use your account **Test Key** to authenticate requests. Once
 
 ## Step 1: Install SDK and Verify Dependencies
 
-- [ ] Gameball Flutter SDK v3.1.0 is added to `pubspec.yaml`
+- [ ] Gameball Flutter SDK v3.1.1 is added to `pubspec.yaml`
 - [ ] All dependencies are resolved with `flutter pub get`
 - [ ] SDK imports correctly in your Dart files
 - [ ] No compilation errors or warnings
@@ -27,16 +27,16 @@ For information, please read more at [Getting Started](/installation-guide/flutt
 ## Step 2: Initialize SDK
 
 - [ ] SDK initializes successfully with your API key in `main()`
-- [ ] `Gameball.getInstance().init()` runs without errors
+- [ ] `GameballApp.getInstance().init()` runs without errors
 - [ ] Language and platform settings are configured correctly
 
 <Tip>
-For information, please read more at [Initialize SDK](/installation-guide/flutter-v3/initialize-sdk)
+For information, please read more at [Initialize SDK](/installation-guide/flutter-v3/overview-setup/initialize-sdk)
 </Tip>
 
 ## Step 3: Register and Display Customer Profile
 
-- [ ] Test customer registration with `registerPlayer` returns success
+- [ ] Test customer registration with `initializeCustomer` returns success
 - [ ] Customer data appears correctly in Gameball dashboard
 - [ ] Profile widget displays correctly on both iOS and Android
 - [ ] Widget navigation works properly
@@ -54,7 +54,7 @@ For information, please read more at [Initialize Customer Profile](/installation
 - [ ] Error handling works for failed API calls
 
 <Tip>
-For information, please read more at [Track Customer Events](/installation-guide/flutter-v3/track-events)
+For information, please read more at [Track Customer Events](/installation-guide/flutter-v3/core-sdk-capabilities/track-events)
 </Tip>
 
 ## Step 5: Production Readiness
@@ -69,7 +69,7 @@ For information, please read more at [Track Customer Events](/installation-guide
 ## Step 6: Platform-Specific Checks
 
 ### iOS
-- [ ] iOS deployment target is 11.0 or higher
+- [ ] iOS deployment target is 12.0 or higher
 - [ ] Pods are installed and up-to-date
 - [ ] App Store privacy requirements are met
 
@@ -87,7 +87,7 @@ For information, please read more at [Track Customer Events](/installation-guide
 - [ ] Documentation is accessible to team
 
 <Check>
-Once you've completed all items in this checklist, your Flutter Gameball SDK v3.1.0 integration is ready for production!
+Once you've completed all items in this checklist, your Flutter Gameball SDK v3.1.1 integration is ready for production!
 </Check>
 
 ## Troubleshooting Resources
@@ -95,5 +95,4 @@ Once you've completed all items in this checklist, your Flutter Gameball SDK v3.
 - [API Reference](/api-reference/introduction)
 - [Status and Error Codes](/api-reference/overview/status-error-codes)
 - [Migration Notes](/installation-guide/flutter-v3/migration-notes)
-- [GitHub Repository](https://github.com/gameballers/gameball-flutter/tree/release-3.1.0)
-
+- [GitHub Repository](https://github.com/gameballers/gameball-flutter)

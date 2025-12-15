@@ -13,13 +13,12 @@ import 'package:gameball_sdk/gameball_sdk.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final config = GameballConfig.builder()
+  final config = GameballConfigBuilder()
       .apiKey("your-api-key")          // Required
       .lang("en")                      // Required
       .platform("flutter")             // Optional
       .shop("your-shop-id")            // Optional
       .sessionToken("your-session-token") // Optional - for v4.1 endpoints
-      .apiPrefix("custom-prefix")      // Optional
       .build();
 
   final gameballApp = GameballApp.getInstance();
@@ -51,10 +50,6 @@ Your Gameball shop identifier for multi-shop configurations.
 Session Token for secure authentication (enables automatic v4.1 endpoint routing).
 </ParamField>
 
-<ParamField body="apiPrefix" type="string">
-Custom API endpoint prefix for advanced configurations.
-</ParamField>
-
 ### Validation Rules
 
 **GameballConfig requires:**
@@ -71,7 +66,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Gameball SDK
-  final config = GameballConfig.builder()
+  final config = GameballConfigBuilder()
       .apiKey("gb_live_xxxxxxxxxxxxxxxx")
       .lang("en")
       .platform("flutter")
@@ -106,6 +101,5 @@ Make sure to use your actual API key from the Gameball dashboard. Test keys are 
 
 ## Next Steps
 
-- [Initialize Customer Profile](/installation-guide/flutter-v3/initialize-profile)
-- [Track Customer Events](/installation-guide/flutter-v3/track-events)
-
+- [Initialize Customer Profile](/installation-guide/flutter-v3/overview-setup/initialize-profile)
+- [Track Customer Events](/installation-guide/flutter-v3/core-sdk-capabilities/track-events)

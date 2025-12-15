@@ -1,23 +1,37 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.0"
+description: "Migrate from v2 to v3.1.1"
 ---
 
-This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.1.0**.
+This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.1.1**.
 
-## What's New in v3.1.0
+## What's New in v3.1.1
 
 <Info>
-  **Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security, with automatic v4.1 endpoint routing. This is fully backward compatible with v3.0.0.
+  **Guest Mode & Easier Widget Init** — v3.1.1 makes `ShowProfileRequest` non-throwing, allows `customerId` to be optional (guest mode), and keeps all v3+ code compatible.
 </Info>
 
-### New Features in v3.1.0
+### Highlights in v3.1.1
 
-- **Session Token Support**: Optional token-based authentication
-- **Automatic Endpoint Versioning**: Routes to v4.1 API when a token is present
-- **Per-Request Token Override**: Override the global token on individual API calls
-- **Thread-Safe Token Storage**: In-memory token management using a dispatch queue
-- **Non-Breaking**: All v3.0.0 code works unchanged
+- **Guest Mode Fix**: Profile widget works without a customer ID.
+- **Non-Throwing ShowProfileRequest**: Remove the `try` keyword when creating the request.
+- **Optional customerId**: Omit for guest experiences.
+- **Session Tokens**: Still supported for secure routing to v4.1.
+
+### Migrate v3.1.0 → v3.1.1 (Non-Breaking)
+
+- Update SPM dependency to `from: "3.1.1"`.
+- Drop `try` when creating `ShowProfileRequest` (initializer is non-throwing).
+- Use guest mode when `customerId` is not available:
+  ```swift
+  let guestRequest = ShowProfileRequest(showCloseButton: true)
+  GameballApp.getInstance().showProfile(guestRequest, presentationStyle: .pageSheet)
+  ```
+- Authenticated mode stays the same:
+  ```swift
+  let profileRequest = ShowProfileRequest(customerId: "customer_123")
+  GameballApp.getInstance().showProfile(profileRequest, presentationStyle: .fullScreen)
+  ```
 
 ---
 
@@ -55,7 +69,7 @@ Gameball.configure(
 )
 ```
 
-**v3.1.0:**
+**v3.1.x:**
 
 ```swift
 let config = GameballConfig(
@@ -63,10 +77,14 @@ let config = GameballConfig(
     lang: "en",
     platform: "ios",
     shop: "shop-id",
-    sessionToken: "session-token"  // Optional - New in v3.1.0
+    sessionToken: "session-token"  // Optional - New in v3.1.x
 )
 
-Gameball.shared.initialize(with: config)
+GameballApp.getInstance().`init`(config: config) { error in
+    if let error = error {
+        print("SDK init failed: \(error.localizedDescription)")
+    }
+}
 ```
 
 ---
@@ -86,28 +104,32 @@ Gameball.registerPlayer(
 }
 ```
 
-**v3.1.0:**
+**v3.1.x:**
 
 ```swift
-let request = InitializeCustomerRequest(
-    customerId: "customer-123",
-    customerAttributes: attributes,
-    referralCode: "REF123",
-    isGuest: false
-)
+do {
+    let request = try InitializeCustomerRequest(
+        customerId: "customer-123",
+        customerAttributes: attributes,
+        referralCode: "REF123",
+        isGuest: false
+    )
 
-Gameball.shared.initializeCustomer(with: request) { result in
-    switch result {
-    case .success(let response):
-        // Handle success
-    case .failure(let error):
-        // Handle error
+    GameballApp.getInstance().initializeCustomer(request) { response, errorMessage in
+        if let errorMessage = errorMessage {
+            print("Error: \(errorMessage)")
+        } else {
+            print("Customer initialized: \(response?.gameballId ?? \"\")")
+        }
     }
-}
 
-// Optional: Override session token for this request
-Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token") { result in
-    // Handle result
+    // Optional: Override session token for this request
+    GameballApp.getInstance().initializeCustomer(
+        request,
+        sessionToken: "custom-token"
+    ) { _, _ in }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
 }
 ```
 
@@ -128,27 +150,34 @@ Gameball.sendEvent(event) { success in
 }
 ```
 
-**v3.1.0:**
+**v3.1.x:**
 
 ```swift
-let event = GameballEvent(customerId: "customer-123")
-event.addEvent(
-    name: "purchase",
-    metadata: ["amount": 99.99]
-)
+do {
+    let event = try Event(
+        events: [
+            "purchase": [
+                "amount": 99.99
+            ]
+        ],
+        customerId: "customer-123"
+    )
 
-Gameball.shared.sendEvent(event) { result in
-    switch result {
-    case .success:
-        // Handle success
-    case .failure(let error):
-        // Handle error
+    GameballApp.getInstance().sendEvent(event) { success, errorMessage in
+        if success {
+            print("Event sent")
+        } else if let errorMessage = errorMessage {
+            print("Error: \(errorMessage)")
+        }
     }
-}
 
-// Optional: Override session token for this request
-Gameball.shared.sendEvent(event, sessionToken: "custom-token") { result in
-    // Handle result
+    // Optional: Override session token for this request
+    GameballApp.getInstance().sendEvent(
+        event,
+        sessionToken: "custom-token"
+    ) { _, _ in }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
 }
 ```
 
@@ -156,14 +185,13 @@ Gameball.shared.sendEvent(event, sessionToken: "custom-token") { result in
 
 ### **4. Method Name Changes**
 
-| **v2**                      | **v3.0.0**                                  |
+| **v2**                      | **v3.1.x**                                  |
 | :-------------------------- | :------------------------------------------ |
-| `Gameball.configure()`      | `Gameball.shared.initialize(with:)`         |
-| `Gameball.registerPlayer()` | `Gameball.shared.initializeCustomer(with:)` |
-| `Gameball.sendEvent()`      | `Gameball.shared.sendEvent(_:completion:)`  |
-| `Gameball.sendOrder()`      | `Gameball.shared.sendOrder(_:completion:)`  |
-| `PlayerAttributes`          | `CustomerAttributes`                        |
-| `PlayerRegisterResponse`    | `InitializeCustomerResponse`                |
+| `Gameball.configure()`      | `GameballApp.getInstance().init(config:)`                 |
+| `Gameball.registerPlayer()` | `GameballApp.getInstance().initializeCustomer(_:completion:)` |
+| `Gameball.sendEvent()`      | `GameballApp.getInstance().sendEvent(_:completion:)`     |
+| `PlayerAttributes`          | `CustomerAttributes`                                     |
+| `PlayerRegisterResponse`    | `InitializeCustomerResponse`                             |
 
 ---
 
@@ -178,7 +206,7 @@ Gameball.showProfile(
 )
 ```
 
-**v3.1.0:**
+**v3.1.x:**
 
 ```bash
 let profileRequest = ShowProfileRequest(
@@ -187,14 +215,17 @@ let profileRequest = ShowProfileRequest(
     closeButtonColor: "#FF6B6B"
 )
 
-Gameball.shared.showProfile(with: profileRequest, from: self) { result in
-    // Handle result
-}
+GameballApp.getInstance().showProfile(
+    profileRequest,
+    presentationStyle: .fullScreen
+) { _, _ in }
 
 // Optional: Override session token for this request
-Gameball.shared.showProfile(with: profileRequest, from: self, sessionToken: "custom-token") { result in
-    // Handle result
-}
+GameballApp.getInstance().showProfile(
+    profileRequest,
+    presentationStyle: .fullScreen,
+    sessionToken: "custom-token"
+) { _, _ in }
 ```
 
 ---
@@ -213,23 +244,21 @@ Gameball.sendEvent(event) { success in
 }
 ```
 
-**v3.1.0:**
+**v3.1.x:**
 
 ```swift
-Gameball.shared.sendEvent(event) { result in
-    switch result {
-    case .success:
+GameballApp.getInstance().sendEvent(event) { success, errorMessage in
+    if success {
         // Success
-    case .failure(let error):
-        // Detailed error information
-        print(error.localizedDescription)
+    } else if let errorMessage = errorMessage {
+        print(errorMessage)
     }
 }
 ```
 
 ---
 
-### **7. Session Token Authentication (New in v3.1.0)**
+### **7. Session Token Authentication (New in v3.1.x)**
 
 ```bash
 // Configure with session token
@@ -238,12 +267,13 @@ let config = GameballConfig(
     lang: "en",
     sessionToken: "session-token"  // Global token
 )
-Gameball.shared.initialize(with: config)
+GameballApp.getInstance().`init`(config: config)
 
 // Per-request token override
-Gameball.shared.initializeCustomer(with: request, sessionToken: "override-token") { result in
-    // This request uses "override-token" instead of global token
-}
+GameballApp.getInstance().initializeCustomer(
+    request,
+    sessionToken: "override-token"
+) { _, _ in }
 ```
 
 <Info>
@@ -256,24 +286,25 @@ Gameball.shared.initializeCustomer(with: request, sessionToken: "override-token"
 
 ```swift
 // Traditional callback
-Gameball.shared.initializeCustomer(with: request) { result in
-    // Handle result
-}
+GameballApp.getInstance().initializeCustomer(request) { _, _ in }
 
 // Async/await (v3.0.0+)
 Task {
     do {
-        let response = try await Gameball.shared.initializeCustomer(with: request)
+        let response = try await GameballApp.getInstance().initializeCustomer(request)
         // Handle success
     } catch {
         // Handle error
     }
 }
 
-// With session token override (v3.1.0+)
+// With session token override (v3.1.x+)
 Task {
     do {
-        let response = try await Gameball.shared.initializeCustomer(with: request, sessionToken: "custom-token")
+        let response = try await GameballApp.getInstance().initializeCustomer(
+            request,
+            sessionToken: "custom-token"
+        )
         // Handle success
     } catch {
         // Handle error
@@ -285,22 +316,15 @@ Task {
 
 ## **Migration Steps**
 
-### **From v3.0.0 to v3.1.0 (No Breaking Changes)**
+### **From v3.0.0 to v3.1.x (No Breaking Changes)**
 
 <Info>
-  v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token support is optional.
+  v3.1.x is fully backward compatible. Simply update the dependency version. Session Token support is optional.
 </Info>
 
 <Steps>
   <Step title="Update Dependency">
-    Update your `Podfile` or Swift Package Manager configuration to use SDK v3.1.0: **CocoaPods:**
-
-    ```ruby
-    pod 'Gameball', '~> 3.1.0'
-    ```
-
-    **SPM:**\
-    Update to version `3.1.0` in Xcode package dependencies.
+    Update your Swift Package Manager dependency to **3.1.1**.
   </Step>
   <Step title="(Optional) Add Session Token">
     If you need enhanced security, add a session token to your configuration:
@@ -320,36 +344,29 @@ Task {
 
 ---
 
-### **From v2.x to v3.1.0**
+### **From v2.x to v3.1.x**
 
 <Steps>
   <Step title="Update Dependency">
-    Update your `Podfile` or Swift Package Manager configuration to use SDK v3.1.0: **CocoaPods:**
-
-    ```ruby
-    pod 'Gameball', '~> 3.1.0'
-    ```
-
-    **SPM:**\
-    Update to version `3.1.0` in Xcode package dependencies.
+    Update your Swift Package Manager dependency to **3.1.1**.
   </Step>
   <Step title="Update Initialization">
-    Replace `Gameball.configure()` with the new `GameballConfig` and `initialize(with:)` pattern.
+    Replace `Gameball.configure()` with `GameballConfig` + `GameballApp.getInstance().init(config:)`.
   </Step>
   <Step title="Update Customer Registration">
     Replace `registerPlayer()` with `initializeCustomer()` using the new request type `InitializeCustomerRequest`.
   </Step>
   <Step title="Update Event Tracking">
-    Update event creation to use the new `GameballEvent` API with the `addEvent()` method.
+    Update event creation to use the `Event` model and pass it to `sendEvent`.
   </Step>
   <Step title="Update Error Handling">
     Replace boolean success handlers with Result-based completion handlers to access detailed error information.
   </Step>
   <Step title="Update Show Profile">
-    Use the new `ShowProfileRequest` for displaying the profile widget.
+    Use the non-throwing `ShowProfileRequest` (guest mode optional) for displaying the profile widget.
   </Step>
   <Step title="Test Thoroughly">
-    Test all Gameball functionality (registration, events, orders, profile, etc.) to ensure the migration is successful.
+    Test all Gameball functionality (registration, events, profile, notifications, etc.) to ensure the migration is successful.
   </Step>
 </Steps>
 
@@ -357,32 +374,19 @@ Task {
 
 ## **Compatibility**
 
-- **Minimum iOS**: iOS 13.0+
-- **Xcode**: 14.0+
-- **Swift**: 5.7+
-- **CocoaPods**: 1.11+
+- **Minimum iOS**: iOS 12.0+
+- **Xcode**: 12.0+
+- **Swift**: 5.0+
 
 ---
 
 ## **Additional Resources**
 
-- See the: 
-  - **[SDK]**([https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md)](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md\)**[CHANGELOG.md]**\(http://CHANGELOG.md)
-  - [[CHANGELOG.md](http://CHANGELOG.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/CHANGELOG.md\)**[CHANGELOG.md]**\(http://CHANGELOG.md)) for detailed version history
-- Review: 
-  - **[MIGRATION.md]**(http://MIGRATION.md) in the repository for additional migration guidance
-- View: 
-  - **[RELEASE\_]**([https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md)](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md\)[NOTES.md)
-  - [[NOTES.md](https://github.com/gameballers/gameball-ios/blob/release-3.1.0/RELEASE_NOTES.md\)[NOTES.md)](http://NOTES.md) for v3.1.0 release details
-- Visit:
-  -  **[Gameball Developer Docs]**(https://developer.gameball.co) for the latest documentation
-
-<Warning>
-  For v3.1.0-specific details, refer to the **gameball-ios** repository on branch `release-3.1.0`: <a href="https://github.com/gameballers/gameball-ios/tree/release-3.1.0">
-  https://github.com/gameballers/gameball-ios/tree/release-3.1.0</a>
-</Warning>
+- **GitHub Repository:** https://github.com/gameballers/gameball-ios
+- **Changelog:** https://github.com/gameballers/gameball-ios/blob/main/CHANGELOG.md
+- **Release Notes:** https://github.com/gameballers/gameball-ios/blob/main/RELEASE_NOTES.md
+- **Developer Docs:** https://developer.gameball.co
 
 <Tip>
   If you encounter issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
 </Tip>
-

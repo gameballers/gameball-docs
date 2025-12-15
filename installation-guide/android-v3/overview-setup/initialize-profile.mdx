@@ -6,7 +6,7 @@ description: "Register and identify customers in your Android app"
 Use `initializeCustomer` whenever a user **logs in**, **registers**, or you need to **refresh their profile**. This lets Gameball attach events, rewards, and notifications to the correct customer.
 
 <Info>
-  Before calling `initializeCustomer,`make sure you have already initialized the SDK using [ Initialize SDK](https://gameball.mintlify.app/installation-guide/android-v3/getting-started#initialize-the-sdk)
+  Before calling `initializeCustomer,` make sure you have already initialized the SDK using [Initialize SDK](/installation-guide/android-v3/overview-setup/initialize-sdk).
 </Info>
 
 ---
@@ -68,7 +68,7 @@ GameballApp.getInstance(context).initializeCustomer(
             // Handle error
         }
     }
-);https://gameball.mintlify.app/installation-guide/android-v3/getting-started#initialize-the-sdk
+);
 ```
 
 </CodeGroup>
@@ -109,10 +109,6 @@ GameballApp.getInstance(context).initializeCustomer(
   Referral code if the customer was referred by another customer.
 </ParamField>
 
-<ParamField body="referralCode" type="string">
-  Referral code if the customer was referred by another customer.
-</ParamField>
-
 <ParamField body="isGuest" type="boolean">
   Guest user flag (defaults to `false`).
 </ParamField>
@@ -145,7 +141,7 @@ Use the CustomerAttributes builder to send richer profile data to Gameball.
 
 <CodeGroup>
 
-```kotlin Koltlin
+```kotlin Kotlin
 val attributes = CustomerAttributes.builder()
     .displayName("John Doe")
     .firstName("John")
@@ -157,9 +153,10 @@ val attributes = CustomerAttributes.builder()
     .joinDate("2024-01-01")
     .preferredLanguage("en")
     .channel("mobile")
-    .addCustomAttribute("vip_level", "gold")
-    .addCustomAttribute("city", "New York")
+    .addCustomAttribute("favoriteCategory", "electronics")
     .addAdditionalAttribute("segment", "premium")
+    .addAdditionalAttribute("city", "New York")
+    .addAdditionalAttribute("country", "USA")
     .build()
 
 val customerRequest = InitializeCustomerRequest.builder()
@@ -167,8 +164,8 @@ val customerRequest = InitializeCustomerRequest.builder()
     .email("john@example.com")
     .mobile("+1234567890")
     .customerAttributes(attributes)
-    .referralCode("REF123")  // Optional
-    .isGuest(false)          // Optional
+    .referralCode("REF123")
+    .isGuest(false)
     .build()
 ```
 
@@ -185,9 +182,10 @@ CustomerAttributes attributes = CustomerAttributes.builder()
     .joinDate("2024-01-01")
     .preferredLanguage("en")
     .channel("mobile")
-    .addCustomAttribute("vip_level", "gold")
-    .addCustomAttribute("city", "New York")
+    .addCustomAttribute("favoriteCategory", "electronics")
     .addAdditionalAttribute("segment", "premium")
+    .addAdditionalAttribute("city", "New York")
+    .addAdditionalAttribute("country", "USA")
     .build();
 
 InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
@@ -195,8 +193,8 @@ InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
     .email("john@example.com")
     .mobile("+1234567890")
     .customerAttributes(attributes)
-    .referralCode("REF123")  // Optional
-    .isGuest(false)          // Optional
+    .referralCode("REF123")
+    .isGuest(false)
     .build();
 ```
 
@@ -278,4 +276,3 @@ InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
     After initialization succeeds, start tracking events, showing the profile widget, and enabling rewards.
   </Step>
 </Steps>
-

@@ -8,7 +8,7 @@ description: "Send events to power actions, campaigns and rewards"
 Send events to Gameball when users perform important actions within your app.
 
 ```typescript
-import { GameballApp, Event } from 'gameball-react-native';
+import { GameballApp, Event } from 'react-native-gameball';
 
 const event: Event = {
   customerId: 'customer-123',
@@ -16,15 +16,12 @@ const event: Event = {
   mobile: '+1234567890',
   events: {
     purchase: {
-      product_id: '12345',
-      amount: 99.99,
+      order_id: 'ORD-12345',
+      amount: 149.99,
       currency: 'USD',
-      category: 'electronics'
+      category: 'electronics',
+      channel: 'mobile_app',
     },
-    page_view: {
-      page: 'product_detail',
-      product_id: '12345'
-    }
   },
 };
 
@@ -139,25 +136,6 @@ const reviewEvent: Event = {
 };
 ```
 
-### Multiple Events
-
-You can send multiple events in a single call:
-
-```typescript
-const multipleEvents: Event = {
-  customerId: 'customer-123',
-  events: {
-    add_to_cart: {
-      product_id: 'PROD-456',
-      quantity: 2
-    },
-    wishlist_add: {
-      product_id: 'PROD-789'
-    }
-  },
-};
-```
-
 <Info>
 Events are the foundation of Gameball's reward and engagement system. Configure how events trigger rewards and actions in your Gameball dashboard.
 </Info>
@@ -180,6 +158,5 @@ try {
 
 ## Next Steps
 
-- [Show Profile Widget](/installation-guide/react-native-v3/show-profile)
-- [Go-Live Checklist](/installation-guide/react-native-v3/go-live-checklist)
-
+- [Show Profile Widget](/installation-guide/react-native-v3/core-sdk-capabilities/show-profile)
+- [Go-Live Checklist](/installation-guide/react-native-v3/deployment-maintenance/go-live-checklist)

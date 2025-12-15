@@ -1,0 +1,60 @@
+---
+title: "Push Notifications"
+description: "Register device tokens for Firebase or Huawei push providers"
+---
+
+# Push Notifications
+
+Gameball React Native SDK supports registering push tokens for **Firebase** and **Huawei** devices. Pass the token and provider when initializing the customer.
+
+## Register the Push Token
+
+```typescript
+import { GameballApp, InitializeCustomerRequest, PushProvider } from 'react-native-gameball';
+
+const request: InitializeCustomerRequest = {
+  customerId: 'customer-123',
+  email: 'john@example.com',
+  deviceToken: firebaseToken,            // FCM token
+  pushProvider: PushProvider.Firebase,   // or PushProvider.Huawei
+};
+
+await GameballApp.getInstance().initializeCustomer(request);
+```
+
+<Warning>
+`deviceToken` and `pushProvider` must be provided together. If one is set, the other is required.
+</Warning>
+
+## Handle Token Refresh
+
+Push tokens can change. Re-register the updated token when your provider notifies you:
+
+```typescript
+import messaging from '@react-native-firebase/messaging';
+import { GameballApp, PushProvider } from 'react-native-gameball';
+
+messaging().onTokenRefresh(async (token) => {
+  await GameballApp.getInstance().initializeCustomer({
+    customerId: 'customer-123',
+    deviceToken: token,
+    pushProvider: PushProvider.Firebase,
+  });
+});
+```
+
+## Huawei Devices
+
+```typescript
+import { GameballApp, PushProvider } from 'react-native-gameball';
+
+await GameballApp.getInstance().initializeCustomer({
+  customerId: 'customer-123',
+  deviceToken: hmsToken,
+  pushProvider: PushProvider.Huawei,
+});
+```
+
+<Tip>
+Call `initializeCustomer` after login/registration with the latest token to keep notifications working.
+</Tip>

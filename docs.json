@@ -222,14 +222,12 @@
                         "group": "Core SDK Capabilities",
                         "pages": [
                           "installation-guide/ios-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/ios-v3/core-sdk-capabilities/track-events",
-                          "installation-guide/ios-v3/core-sdk-capabilities/track-orders"
+                          "installation-guide/ios-v3/core-sdk-capabilities/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/ios-v3/extended-features/integrate-redemption",
                           "installation-guide/ios-v3/extended-features/push-notifications",
                           "installation-guide/ios-v3/extended-features/track-referrals"
                         ]
@@ -259,14 +257,12 @@
                         "group": "Core SDK Capabilities",
                         "pages": [
                           "installation-guide/android-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/android-v3/core-sdk-capabilities/track-events",
-                          "installation-guide/android-v3/core-sdk-capabilities/track-orders"
+                          "installation-guide/android-v3/core-sdk-capabilities/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/android-v3/extended-features/integrate-redemption",
                           "installation-guide/android-v3/extended-features/push-notifications",
                           "installation-guide/android-v3/extended-features/track-referrals"
                         ]
@@ -296,15 +292,14 @@
                         "group": "Core SDK Capabilities",
                         "pages": [
                           "installation-guide/flutter-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/flutter-v3/core-sdk-capabilities/track-events",
-                          "installation-guide/flutter-v3/core-sdk-capabilities/track-orders"
+                          "installation-guide/flutter-v3/core-sdk-capabilities/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/flutter-v3/extended-features/integrate-redemption",
-                          "installation-guide/flutter-v3/extended-features/track-referrals"
+                          "installation-guide/flutter-v3/extended-features/track-referrals",
+                          "installation-guide/flutter-v3/extended-features/push-notifications"
                         ]
                       },
                       {
@@ -332,15 +327,14 @@
                         "group": "Core SDK Capabilities",
                         "pages": [
                           "installation-guide/react-native-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/react-native-v3/core-sdk-capabilities/track-events",
-                          "installation-guide/react-native-v3/core-sdk-capabilities/track-orders"
+                          "installation-guide/react-native-v3/core-sdk-capabilities/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/react-native-v3/extended-features/integrate-redemption",
-                          "installation-guide/react-native-v3/extended-features/track-referrals"
+                          "installation-guide/react-native-v3/extended-features/track-referrals",
+                          "installation-guide/react-native-v3/extended-features/push-notifications"
                         ]
                       },
                       {

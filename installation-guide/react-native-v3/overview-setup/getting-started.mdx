@@ -1,14 +1,13 @@
----
 title: "Getting Started"
-description: "Install Gameball React Native SDK v3.1.0"
+description: "Install Gameball React Native SDK v3.1.1"
 ---
 
 # Getting Started
 
 ## Requirements
 
-- **React Native**: 0.60+
-- **Node.js**: 16+
+- **React Native**: 0.70+
+- **Node.js**: 18+
 - **TypeScript**: 4.0+ (optional but recommended)
 - **iOS**: iOS 12.0+
 - **Android**: API level 21+
@@ -19,25 +18,27 @@ Install the package using npm or yarn:
 
 <CodeGroup>
 ```bash npm
-npm install gameball-react-native@^3.1.0
+npm install react-native-gameball@^3.1.1
 ```
 
 ```bash yarn
-yarn add gameball-react-native@^3.1.0
+yarn add react-native-gameball@^3.1.1
 ```
 </CodeGroup>
 
 ## Install Dependencies
 
-The SDK depends on `react-native-webview` for the profile widget. Install it:
+The SDK depends on `react-native-webview` for the profile widget. Install it (and optionally AsyncStorage for enhanced functionality):
 
 <CodeGroup>
 ```bash npm
 npm install react-native-webview
+npm install @react-native-async-storage/async-storage
 ```
 
 ```bash yarn
 yarn add react-native-webview
+yarn add @react-native-async-storage/async-storage
 ```
 </CodeGroup>
 
@@ -105,7 +106,7 @@ module.exports = mergeConfig(getDefaultConfig(__dirname), config);
 Import the package in your code to verify:
 
 ```typescript
-import { GameballApp } from 'gameball-react-native';
+import { GameballApp } from 'react-native-gameball';
 ```
 
 If there are no import errors, you're ready to initialize the SDK!
@@ -183,6 +184,5 @@ Use the `--verbose` flag when running your app to see detailed SDK logs and netw
 
 ## Next Steps
 
-- [Initialize SDK](/installation-guide/react-native-v3/initialize-sdk)
-- [Initialize Customer Profile](/installation-guide/react-native-v3/initialize-profile)
-
+- [Initialize SDK](/installation-guide/react-native-v3/overview-setup/initialize-sdk)
+- [Initialize Customer Profile](/installation-guide/react-native-v3/overview-setup/initialize-profile)

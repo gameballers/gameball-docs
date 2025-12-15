@@ -10,10 +10,14 @@ Display the Gameball customer profile widget that contains customer details, ava
 ## Basic Usage
 
 ```typescript
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
 const profileRequest: ShowProfileRequest = {
-  customerId: 'customer-123',
+  customerId: 'customer-123',       // Optional (omit for guest mode)
+  showCloseButton: true,            // Optional
+  openDetail: 'rewards',            // Optional
+  hideNavigation: false,            // Optional
+  closeButtonColor: '#FF6B6B',      // Optional
 };
 
 // Using async/await
@@ -39,8 +43,8 @@ GameballApp.getInstance().showProfile(profileRequest, {
 
 ## Request Parameters
 
-<ParamField body="customerId" type="string" required>
-Unique identifier for the customer whose profile to display.
+<ParamField body="customerId" type="string">
+Unique identifier for the customer whose profile to display (optional for guest mode).
 </ParamField>
 
 <ParamField body="showCloseButton" type="boolean">
@@ -53,10 +57,6 @@ Specific widget section to open: 'profile', 'achievements', 'rewards'. Opens the
 
 <ParamField body="hideNavigation" type="boolean">
 Hide widget navigation elements. Defaults to `false`.
-</ParamField>
-
-<ParamField body="widgetUrlPrefix" type="string">
-Custom widget URL prefix for advanced configurations.
 </ParamField>
 
 <ParamField body="closeButtonColor" type="string">
@@ -73,8 +73,8 @@ In React Native SDK, passing a sessionToken parameter updates the global session
 
 ### Validation Rules
 
-**ShowProfileRequest requires:**
-- `customerId` cannot be empty or whitespace
+**ShowProfileRequest notes:**
+- `customerId` is optional; omit it to show the widget in guest mode
 
 ## Advanced Configuration
 
@@ -107,28 +107,33 @@ await GameballApp.getInstance().showProfile(profileRequest);
 
 ### Hide Navigation
 
+<Tip>
+Hide navigation works best when combined with `openDetail` to lead users to a specific section.
+</Tip>
+
 Display the widget without navigation controls:
 
 ```typescript
 const profileRequest: ShowProfileRequest = {
   customerId: 'customer-123',
   hideNavigation: true,
+  openDetail: 'rewards',
 };
 
 await GameballApp.getInstance().showProfile(profileRequest);
 ```
 
-### Custom Widget URL
+### Guest Mode
 
-Use a custom widget URL prefix for advanced configurations:
+Show the widget without authenticating a customer:
 
 ```typescript
-const profileRequest: ShowProfileRequest = {
-  customerId: 'customer-123',
-  widgetUrlPrefix: 'https://custom.example.com/widget',
+const guestRequest: ShowProfileRequest = {
+  showCloseButton: true,
+  closeButtonColor: '#4CAF50',
 };
 
-await GameballApp.getInstance().showProfile(profileRequest);
+await GameballApp.getInstance().showProfile(guestRequest);
 ```
 
 ## Implementation Examples
@@ -140,7 +145,7 @@ Display the profile widget when user taps a button:
 ```typescript
 import React from 'react';
 import { View, Button, Alert } from 'react-native';
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
 interface ProfileScreenProps {
   customerId: string;
@@ -181,7 +186,7 @@ Integrate with React Navigation tab navigator:
 ```typescript
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
@@ -248,7 +253,7 @@ Show different sections based on user context:
 ```typescript
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
 const RewardsActions: React.FC = () => {
   const showSection = async (section: string) => {
@@ -291,7 +296,7 @@ Add a rewards button as a floating action button:
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
 const HomeScreen: React.FC = () => {
   const handleShowRewards = async () => {
@@ -436,6 +441,5 @@ Ensure you've initialized the customer with `initializeCustomer()` before callin
 
 ## Next Steps
 
-- [Go-Live Checklist](/installation-guide/react-native-v3/go-live-checklist)
-- [Migration Notes](/installation-guide/react-native-v3/migration-notes)
-
+- [Go-Live Checklist](/installation-guide/react-native-v3/deployment-maintenance/go-live-checklist)
+- [Migration Notes](/installation-guide/react-native-v3/deployment-maintenance/migration-notes)

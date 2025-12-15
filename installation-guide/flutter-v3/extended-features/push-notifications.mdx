@@ -1,0 +1,75 @@
+---
+title: "Push Notifications"
+description: "Register device tokens for Firebase or Huawei push providers"
+---
+
+# Push Notifications
+
+Gameball Flutter SDK supports registering push tokens for **Firebase** and **Huawei** devices. Pass the token and provider when initializing the customer.
+
+## Register the Push Token
+
+```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_sdk/models/enums/push_provider.dart';
+
+final request = InitializeCustomerRequestBuilder()
+    .customerId("customer-123")
+    .email("john@example.com")
+    .deviceToken(firebaseToken)           // FCM token
+    .pushProvider(PushProvider.Firebase)  // or PushProvider.Huawei
+    .build();
+
+await GameballApp.getInstance().initializeCustomer(request, (response, error) {
+  if (error != null) {
+    print("Failed to register push token: $error");
+  }
+});
+```
+
+<Warning>
+`deviceToken` and `pushProvider` must be provided together. If one is set, the other is required.
+</Warning>
+
+## Handle Token Refresh (Firebase example)
+
+```dart
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_sdk/models/enums/push_provider.dart';
+
+FirebaseMessaging.instance.onTokenRefresh.listen((token) async {
+  final refreshRequest = InitializeCustomerRequestBuilder()
+      .customerId("customer-123")
+      .deviceToken(token)
+      .pushProvider(PushProvider.Firebase)
+      .build();
+
+  await GameballApp.getInstance().initializeCustomer(refreshRequest, (res, err) {
+    if (err != null) {
+      print("Failed to refresh push token: $err");
+    }
+  });
+});
+```
+
+## Huawei Devices
+
+```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_sdk/models/enums/push_provider.dart';
+
+final huaweiRequest = InitializeCustomerRequestBuilder()
+    .customerId("customer-123")
+    .deviceToken(hmsToken)
+    .pushProvider(PushProvider.Huawei)
+    .build();
+
+await GameballApp.getInstance().initializeCustomer(huaweiRequest, (res, err) {
+  // Handle response
+});
+```
+
+<Tip>
+Call `initializeCustomer` after login/registration with the latest token to keep notifications working across devices.
+</Tip>

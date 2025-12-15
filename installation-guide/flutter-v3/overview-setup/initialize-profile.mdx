@@ -8,7 +8,7 @@ description: "Register customers and show the Gameball profile widget"
 Register or update a customer whenever they log in or register in your app. This allows Gameball to attach events and rewards to the customer profile.
 
 ```dart
-import 'package:gameball_flutter/gameball_flutter.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
 
 final attributes = CustomerAttributesBuilder()
     .displayName("John Doe")
@@ -17,8 +17,9 @@ final attributes = CustomerAttributesBuilder()
     .email("john@example.com")
     .mobile("+1234567890")
     .preferredLanguage("en")
-    .addCustomAttribute("loyaltyTier", "gold")
-    .addCustomAttribute("country", "USA")
+    .addCustomAttribute("favoriteCategory", "electronics") // User-defined custom fields
+    .addAdditionalAttribute("city", "New York")
+    .addAdditionalAttribute("country", "USA")
     .build();
 
 final request = InitializeCustomerRequestBuilder()
@@ -143,15 +144,14 @@ The customer ID should be a permanent identifier that will NEVER change. Avoid u
 Display the Gameball customer profile widget to show rewards, campaigns, and leaderboards:
 
 ```dart
-import 'package:gameball_flutter/gameball_flutter.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
 
 final profileRequest = ShowProfileRequestBuilder()
-    .customerId("customer-123")
+    .customerId("customer-123")        // Optional for guest mode
     .openDetail("rewards")              // optional
     .hideNavigation(false)              // optional
     .showCloseButton(true)              // optional
     .closeButtonColor("#FF6B6B")        // optional
-    .widgetUrlPrefix("custom-prefix")   // optional
     .build();
 
 final gameballApp = GameballApp.getInstance();
@@ -162,8 +162,8 @@ gameballApp.showProfile(context, profileRequest);
 The Flutter BuildContext from your widget.
 </ParamField>
 
-<ParamField body="customerId" type="string" required>
-The customer's unique identifier.
+<ParamField body="customerId" type="string">
+The customer's unique identifier (omit for guest mode).
 </ParamField>
 
 <ParamField body="openDetail" type="string">
@@ -182,14 +182,9 @@ Show close button (defaults to true).
 Close button color in hex format (e.g., "#FF0000").
 </ParamField>
 
-<ParamField body="widgetUrlPrefix" type="string">
-Custom widget URL prefix.
-</ParamField>
-
 ### Validation Rules
 
-**ShowProfileRequest requires:**
-- `customerId` cannot be null or empty
+- No required fields (guest mode supported). Provide `customerId` for authenticated profiles.
 - `closeButtonColor` must be in hex format (#RRGGBB) if provided
 
 ## Full Example
@@ -219,11 +214,10 @@ class ProfileScreen extends StatelessWidget {
 ```
 
 <Tip>
-Call `registerPlayer` when the user logs in or registers to ensure their profile is up-to-date before showing the widget.
+Call `initializeCustomer` when the user logs in or registers to ensure their profile is up-to-date before showing the widget.
 </Tip>
 
 ## Next Steps
 
-- [Track Customer Events](/installation-guide/flutter-v3/track-events)
-- [Show Profile Widget](/installation-guide/flutter-v3/show-profile)
-
+- [Track Customer Events](/installation-guide/flutter-v3/core-sdk-capabilities/track-events)
+- [Show Profile Widget](/installation-guide/flutter-v3/core-sdk-capabilities/show-profile)

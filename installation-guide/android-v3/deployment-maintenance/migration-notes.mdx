@@ -1,23 +1,24 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.0"
+description: "Migrate from v2 to v3.1.1"
 ---
 
-This guide helps you migrate from Gameball Android SDK v2 to v3.1.0.
+This guide helps you migrate from Gameball Android SDK v2 to v3.1.1.
 
-## What's New in v3.1.0
+## What's New in v3.1.1
 
 <Info>
-**Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security with automatic v4.1 endpoint routing.
+  **Guest Mode & Easier Widget Init** — v3.1.1 keeps v3.x code compatible and fixes the profile widget to support guest mode (customerId optional).
 </Info>
 
-### New Features in v3.1.0
+### New Features in v3.1.1
 
-- **Session Token Support**: Optional token-based authentication
+- **Guest Mode Support**: Show profile widget without customer authentication
+- **Non-Throwing ShowProfileRequest**: Customer ID optional for guest mode
+- **Session Token Support**: Optional token-based authentication (from 3.1.0)
 - **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
 - **Per-Request Token Override**: Override global token on individual API calls
-- **Secure Token Storage**: SharedPreferences-based token management
-- **Backward Compatible**: All existing code works unchanged
+- **Backward Compatible**: All v3.0.0 code works unchanged
 
 <CardGroup cols={2}>
 <Card title="Improved API" icon="code">
@@ -51,14 +52,14 @@ GameballApp.getInstance(context).init(
 )
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```kotlin
 val config = GameballConfig.builder()
     .apiKey("api-key")
     .lang("en")
     .platform("android")
     .shop("shop-id")
-    .sessionToken("session-token")  // Optional - New in v3.1.0
+    .sessionToken("session-token")  // Optional
     .build()
 
 GameballApp.getInstance(context).init(config)
@@ -77,7 +78,7 @@ gameballApp.registerCustomer(
 )
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```kotlin
 val customerRequest = InitializeCustomerRequest.builder()
     .customerId(customerId)
@@ -108,7 +109,7 @@ val event = Event.Builder()
     .build()
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```kotlin
 val event = Event.builder()
     .customerId("customer-123")
@@ -118,12 +119,16 @@ val event = Event.builder()
 GameballApp.getInstance(context).sendEvent(event, callback)
 
 // Optional: Override session token for this request
-GameballApp.getInstance(context).sendEvent(event, callback, sessionToken = "custom-token")
+GameballApp.getInstance(context).sendEvent(
+    event,
+    callback,
+    sessionToken = "custom-token"
+)
 ```
 
 ### 4. Method Name Changes
 
-| v2 | v3.1.0 |
+| v2 | v3.1.1 |
 |--------|--------|
 | `registerCustomer()` | `initializeCustomer()` |
 | `AddUniquePlayerId()` | `customerId()` |
@@ -139,7 +144,7 @@ GameballApp.getInstance(context).sendEvent(event, callback, sessionToken = "cust
 gameballApp.initializeFirebase()
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```kotlin
 // Token is provided during customer initialization
 val customerRequest = InitializeCustomerRequest.builder()
@@ -151,19 +156,19 @@ val customerRequest = InitializeCustomerRequest.builder()
 
 ## Migration Steps
 
-### From v3.0.0 to v3.1.0 (No Breaking Changes)
+### From v3.0.0 to v3.1.1 (No Breaking Changes)
 
 <Info>
-v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token is optional.
+v3.1.1 is fully backward compatible. Simply update the dependency version. Session Token is optional.
 </Info>
 
 <Steps>
 <Step title="Update Dependency">
-Update your `build.gradle` to use SDK v3.1.0:
+Update your `build.gradle` to use SDK v3.1.1:
 
 ```groovy
 dependencies {
-    implementation 'com.gameball:gameball-sdk:3.1.0'
+    implementation 'com.gameball:gameball-sdk:3.1.1'
 }
 ```
 </Step>
@@ -185,15 +190,15 @@ Test your integration. All existing code should work unchanged.
 </Step>
 </Steps>
 
-### From v2.x to v3.1.0
+### From v2.x to v3.1.1
 
 <Steps>
 <Step title="Update Dependency">
-Update your `build.gradle` to use SDK v3.1.0:
+Update your `build.gradle` to use SDK v3.1.1:
 
 ```groovy
 dependencies {
-    implementation 'com.gameball:gameball-sdk:3.1.0'
+    implementation 'com.gameball:gameball-sdk:3.1.1'
 }
 ```
 </Step>
@@ -229,14 +234,11 @@ Test all Gameball functionality to ensure the migration is successful.
 
 ## Additional Resources
 
-- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gb-mobile-android/blob/release-3.1.0/CHANGELOG.md) for detailed version history
-- Review [MIGRATION.md](https://github.com/gameballers/gb-mobile-android/blob/release-3.1.0/MIGRATION.md) in the repository for more migration details
-- View [RELEASE_NOTES.md](https://github.com/gameballers/gb-mobile-android/blob/release-3.1.0/RELEASE_NOTES.md) for v3.1.0 release details
-- Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
-
-<Warning>
-For v3.1.0-specific details, refer to the [gb-mobile-android repository](https://github.com/gameballers/gb-mobile-android/tree/release-3.1.0) on branch `release-3.1.0`.
-</Warning>
+- SDK Repository: https://github.com/gameballers/gb-mobile-android
+- Changelog: https://github.com/gameballers/gb-mobile-android/blob/main/CHANGELOG.md
+- Migration Guide: https://github.com/gameballers/gb-mobile-android/blob/main/MIGRATION.md
+- Release Notes: https://github.com/gameballers/gb-mobile-android/blob/main/RELEASE_NOTES.md
+- Developer Docs: https://developer.gameball.co
 
 <Tip>
 If you encounter any issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
@@ -246,5 +248,3 @@ If you encounter any issues during migration, check the GitHub repository for kn
 
 - [Getting Started](/installation-guide/android-v3/getting-started)
 - [Go-Live Checklist](/installation-guide/android-v3/go-live-checklist)
-
-

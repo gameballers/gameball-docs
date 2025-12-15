@@ -1,11 +1,19 @@
----
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.0"
+description: "Migrate from v2 to v3.1.1"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball React Native SDK v2 to v3.1.0.
+This guide helps you migrate from Gameball React Native SDK v2 to v3.1.1.
+
+## What's New in v3.1.1
+
+<Info>
+**Guest Mode & Easier Widget Init** — v3.1.1 makes `ShowProfileRequest` non-throwing and allows `customerId` to be optional so you can launch the profile widget in guest mode.
+</Info>
+
+- `customerId` optional on profile widget (guest mode supported)
+- Existing v3.1.0/v3.0.0 code continues to work without changes
 
 ## What's New in v3.1.0
 
@@ -50,9 +58,9 @@ import {GameballSDK} from 'react-native-gameball';
 GameballSDK.init("api-key", "en", "platform", "shop");
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```typescript
-import { GameballApp, GameballConfig } from 'gameball-react-native';
+import { GameballApp, GameballConfig } from 'react-native-gameball';
 
 const config: GameballConfig = {
   apiKey: 'api-key',
@@ -77,7 +85,7 @@ GameballSDK.registerPlayer({
 });
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```typescript
 const request: InitializeCustomerRequest = {
   customerId: 'customer-123',
@@ -101,7 +109,7 @@ GameballSdk.sendEvent({"review": {}})
     .catch(error => console.log(error));
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```typescript
 const event: Event = {
   customerId: 'customer-123',
@@ -130,12 +138,12 @@ import {GameballWidget} from 'react-native-gameball';
 />
 ```
 
-**v3.1.0:**
+**v3.1.1:**
 ```typescript
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
 const profileRequest: ShowProfileRequest = {
-  customerId: 'customer-123',
+  customerId: 'customer-123', // Optional (omit for guest mode)
   showCloseButton: true,
 };
 
@@ -147,7 +155,7 @@ await GameballApp.getInstance().showProfile(profileRequest, undefined, 'custom-t
 
 ### 5. Key Naming Changes
 
-| v2 | v3.1.0 |
+| v2 | v3.1.x |
 |--------|--------|
 | `playerUniqueId` | `customerId` |
 | `playerAttributes` | `customerAttributes` |
@@ -157,20 +165,50 @@ await GameballApp.getInstance().showProfile(profileRequest, undefined, 'custom-t
 
 ## Migration Steps
 
-### From v3.0.0 to v3.1.0 (No Breaking Changes)
+### From v3.1.0 to v3.1.1 (No Breaking Changes)
 
 <Info>
-v3.1.0 is fully backward compatible. Simply update the dependency version. Session Token is optional.
+v3.1.1 is a patch release (guest mode support). Update the dependency version; no code changes required.
 </Info>
 
 <Steps>
 <Step title="Update Dependency">
-Update your `package.json` to use SDK v3.1.0:
+Update your `package.json` to use SDK v3.1.1:
 
 ```json
 {
   "dependencies": {
-    "gameball-react-native": "^3.1.0"
+    "react-native-gameball": "^3.1.1"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="Test Guest Mode (Optional)">
+If you plan to use guest mode, verify that `showProfile` works without a `customerId`.
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged.
+</Step>
+</Steps>
+
+### From v3.0.0 to v3.1.x (No Breaking Changes)
+
+<Info>
+v3.1.x is fully backward compatible. Simply update the dependency version. Session Token is optional.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.1:
+
+```json
+{
+  "dependencies": {
+    "react-native-gameball": "^3.1.1"
   }
 }
 ```
@@ -197,16 +235,16 @@ Test your integration. All existing code should work unchanged.
 </Step>
 </Steps>
 
-### From v2.x to v3.1.0
+### From v2.x to v3.1.1
 
 <Steps>
 <Step title="Update Dependency">
-Update your `package.json` to use SDK v3.1.0:
+Update your `package.json` to use SDK v3.1.1:
 
 ```json
 {
   "dependencies": {
-    "gameball-react-native": "^3.1.0"
+    "react-native-gameball": "^3.1.1"
   }
 }
 ```
@@ -215,9 +253,9 @@ Run `npm install` or `yarn install`, then `cd ios && pod install`.
 </Step>
 
 <Step title="Update Imports">
-Change all imports from `react-native-gameball` to `gameball-react-native`:
+Update all Gameball imports to use `react-native-gameball`:
 ```typescript
-import { GameballApp } from 'gameball-react-native';
+import { GameballApp } from 'react-native-gameball';
 ```
 </Step>
 
@@ -248,21 +286,21 @@ Test all Gameball functionality on both iOS and Android to ensure the migration 
 
 ## Compatibility
 
-- **React Native**: 0.60+
-- **Node.js**: 16+
+- **React Native**: 0.70+
+- **Node.js**: 18+
 - **TypeScript**: 4.0+ (optional)
 - **iOS**: iOS 12.0+
 - **Android**: API level 21+
 
 ## Additional Resources
 
-- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.0/CHANGELOG.md) for detailed version history
-- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.0/MIGRATION.md) in the repository for more migration details
-- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.0/RELEASE_NOTES.md) for v3.1.0 release details
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/RELEASE_NOTES.md) for v3.1.1 release details
 - Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
 
 <Warning>
-For v3.1.0-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.0) on branch `release-3.1.0`.
+For version-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.1) on branch `release-3.1.1`.
 </Warning>
 
 <Tip>
@@ -271,7 +309,6 @@ If you encounter any issues during migration, check the GitHub repository for kn
 
 ## Next Steps
 
-- [Getting Started](/installation-guide/react-native-v3/getting-started)
-- [Initialize SDK](/installation-guide/react-native-v3/initialize-sdk)
-- [Go-Live Checklist](/installation-guide/react-native-v3/go-live-checklist)
-
+- [Getting Started](/installation-guide/react-native-v3/overview-setup/getting-started)
+- [Initialize SDK](/installation-guide/react-native-v3/overview-setup/initialize-sdk)
+- [Go-Live Checklist](/installation-guide/react-native-v3/deployment-maintenance/go-live-checklist)

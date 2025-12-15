@@ -10,7 +10,7 @@ Display the Gameball customer profile widget that contains customer details, ava
 ## Basic Usage
 
 ```dart
-import 'package:gameball_flutter/gameball_flutter.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
 import 'package:flutter/material.dart';
 
 final profileRequest = ShowProfileRequestBuilder()
@@ -30,8 +30,8 @@ gameballApp.showProfile(context, profileRequest, sessionToken: "custom-token");
 The Flutter BuildContext from your widget.
 </ParamField>
 
-<ParamField body="customerId" type="string" required>
-Unique identifier for the customer whose profile to display.
+<ParamField body="customerId" type="string">
+Unique identifier for the customer whose profile to display. Optional for guest mode.
 </ParamField>
 
 <ParamField body="openDetail" type="string">
@@ -50,12 +50,8 @@ Show a close button in the profile widget. Defaults to `true`.
 Close button color in hex format (e.g., "#FF6B6B"). Only applies if `showCloseButton` is `true`.
 </ParamField>
 
-<ParamField body="widgetUrlPrefix" type="string">
-Custom widget URL prefix for advanced widget customization.
-</ParamField>
-
 <ParamField body="sessionToken" type="string">
-Optional session token to override the global token for this specific request.
+  Optional session token to override the global token for this specific request.
 </ParamField>
 
 <Info>
@@ -64,9 +60,7 @@ In Flutter SDK, passing a sessionToken parameter updates the global token. Pass 
 
 ### Validation Rules
 
-**ShowProfileRequest requires:**
-- `customerId` cannot be null or empty
-- `closeButtonColor` must be in hex format (#RRGGBB) if provided
+No required fields (guest mode supported). Provide `customerId` for authenticated profiles.
 
 ## Advanced Configuration
 
@@ -81,6 +75,17 @@ final profileRequest = ShowProfileRequestBuilder()
     .build();
 
 gameballApp.showProfile(context, profileRequest);
+```
+
+### Guest Mode (v3.1.1+)
+
+```dart
+// No customerId required
+final guestRequest = ShowProfileRequestBuilder()
+    .showCloseButton(true)
+    .build();
+
+gameballApp.showProfile(context, guestRequest);
 ```
 
 ### Custom Close Button
@@ -110,19 +115,6 @@ final profileRequest = ShowProfileRequestBuilder()
 gameballApp.showProfile(context, profileRequest);
 ```
 
-### Custom Widget URL
-
-Use a custom widget URL prefix for advanced configurations:
-
-```dart
-final profileRequest = ShowProfileRequestBuilder()
-    .customerId("customer-123")
-    .widgetUrlPrefix("https://custom.example.com/widget")
-    .build();
-
-gameballApp.showProfile(context, profileRequest);
-```
-
 ## Implementation Examples
 
 ### Show Profile Button
@@ -131,7 +123,7 @@ Display the profile widget when user clicks a button:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:gameball_flutter/gameball_flutter.dart';
+import 'package:gameball_sdk/gameball_sdk.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String customerId;
@@ -320,4 +312,3 @@ Ensure you've initialized the customer with `initializeCustomer()` before callin
 
 - [Go-Live Checklist](/installation-guide/flutter-v3/go-live-checklist)
 - [Migration Notes](/installation-guide/flutter-v3/migration-notes)
-

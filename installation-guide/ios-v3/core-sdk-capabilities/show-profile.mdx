@@ -15,19 +15,18 @@ Use this when the customer taps **Rewards**, **My Points**, **Loyalty**, or any 
 
 <CodeGroup>
 
-```swift filename
+```swift Swift (Completion Handler)
 import Gameball
 
 let request = ShowProfileRequest(
     customerId: "customer-123"
 )
 
-Gameball.shared.showProfile(with: request, from: self) { result in
-    switch result {
-    case .success:
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { success, errorMessage in
+    if success {
         print("Profile displayed successfully")
-    case .failure(let error):
-        print("Error: \(error.localizedDescription)")
+    } else {
+        print("Error: \(errorMessage ?? \"\")")
     }
 }
 ```
@@ -36,9 +35,11 @@ Gameball.shared.showProfile(with: request, from: self) { result in
 ```swift Swift (With Session Token)
 let request = ShowProfileRequest(customerId: "customer-123")
 
-Gameball.shared.showProfile(with: request, from: self, sessionToken: "custom-token") { result in
-    // Handle result
-}
+GameballApp.getInstance().showProfile(
+    request,
+    presentationStyle: .fullScreen,
+    sessionToken: "custom-token"
+) { _, _ in }
 ```
 
 
@@ -48,7 +49,7 @@ import Gameball
 Task {
     do {
         let request = ShowProfileRequest(customerId: "customer-123")
-        try await Gameball.shared.showProfile(with: request, from: self)
+        try await GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen)
     } catch {
         print("Error: \(error.localizedDescription)")
     }
@@ -61,8 +62,8 @@ Task {
 
 ## **Request Parameters**
 
-<ParamField body="customerId" type="String" required>
-  Unique permanent identifier of the customer whose profile you want to display.
+<ParamField body="customerId" type="String">
+  Unique permanent identifier of the customer whose profile you want to display. Optional in v3.1.1 (omit for guest mode).
 </ParamField>
 
 <ParamField body="openDetail" type="String">
@@ -82,10 +83,6 @@ Task {
   Hex value (e.g., `"#FF5733"`) for close button color. Only used when `showCloseButton = true`.
 </ParamField>
 
-<ParamField body="widgetUrlPrefix" type="String">
-  Custom widget URL prefix for advanced hosting or custom routing.
-</ParamField>
-
 <ParamField body="sessionToken" type="String">
   Optional per-request session token. Overrides the global SDK token.
 </ParamField>
@@ -94,7 +91,7 @@ Task {
 
 ### **Validation Rules**
 
-- customerId must not be empty.
+- No validation for `customerId` (guest mode is allowed). Provide `customerId` for authenticated profiles.
 
 ---
 
@@ -108,7 +105,21 @@ let request = ShowProfileRequest(
     openDetail: "details_earn"
 )
 
-Gameball.shared.showProfile(with: request, from: self) { _ in }
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
+```
+
+---
+
+### **Guest Mode (v3.1.1+)**
+
+```swift
+// No customerId required
+let guestRequest = ShowProfileRequest(
+    showCloseButton: true,
+    closeButtonColor: "#4CAF50"
+)
+
+GameballApp.getInstance().showProfile(guestRequest, presentationStyle: .pageSheet) { _, _ in }
 ```
 
 ---
@@ -122,20 +133,25 @@ let request = ShowProfileRequest(
     closeButtonColor: "#FF5733"
 )
 
-Gameball.shared.showProfile(with: request, from: self) { _ in }
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
 ```
 
 ---
 
 ### **Hide Navigation**
 
+<Note>
+  Best used with `openDetail` to guide users directly to a specific section when navigation is hidden.
+</Note>
+
 ```swift
 let request = ShowProfileRequest(
     customerId: "customer-123",
-    hideNavigation: true
+    hideNavigation: true,
+    openDetail: "details_earn"
 )
 
-Gameball.shared.showProfile(with: request, from: self) { _ in }
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
 ```
 
 ---
@@ -157,12 +173,11 @@ class ProfileViewController: UIViewController {
             closeButtonColor: "#4CAF50"
         )
         
-        Gameball.shared.showProfile(with: request, from: self) { result in
-            switch result {
-            case .success:
+        GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { success, errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(message: errorMessage)
+            } else if success {
                 print("Profile displayed")
-            case .failure(let error):
-                self.showAlert(message: error.localizedDescription)
             }
         }
     }
@@ -217,7 +232,11 @@ struct ProfileView: View {
 
         Task {
             do {
-                try await Gameball.shared.showProfile(with: request, from: vc)
+                try await GameballApp.getInstance().showProfile(
+                    request,
+                    presentationStyle: .fullScreen,
+                    presentingViewController: vc
+                )
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
@@ -251,7 +270,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
                 customerId: "customer-123"
             )
             
-            Gameball.shared.showProfile(with: request, from: self) { _ in }
+            GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
             return false
         }
         
@@ -305,4 +324,3 @@ extension MainTabBarController: UITabBarControllerDelegate {
 <Tip>
   Showing the profile widget right after a reward is earned significantly boosts customer engagement.
 </Tip>
-

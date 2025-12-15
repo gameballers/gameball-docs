@@ -29,7 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             lang: "en"                       // Required
         )
         
-        Gameball.shared.initialize(with: config)
+        GameballApp.getInstance().`init`(config: config) { error in
+            if let error = error {
+                print("Gameball init failed: \(error.localizedDescription)")
+            }
+        }
         
         return true
     }
@@ -49,7 +53,7 @@ struct YourApp: App {
             lang: "en"
         )
         
-        Gameball.shared.initialize(with: config)
+        GameballApp.getInstance().`init`(config: config)
     }
     
     var body: some Scene {
@@ -86,10 +90,6 @@ Below are all supported fields of GameballConfig.
   Optional Session Token for secure authentication, enables automatic routing to Gameball v4.1 APIs.
 </ParamField>
 
-<ParamField body="apiPrefix" type="String">
-  Custom API domain for advanced enterprise configurations.
-</ParamField>
-
 ## **3. Validation Rules**
 
 GameballConfig enforces:
@@ -108,10 +108,13 @@ If any required parameter is missing, initialization will fail silently and SDK 
 ```swift
 let config = GameballConfig(
     apiKey: "gb_live_xxxxxxx",
-    lang: "en"
+    lang: "en",
+    platform: "ios",
+    shop: "your-shop-id",
+    sessionToken: "your-session-token"
 )
 
-Gameball.shared.initialize(with: config)
+GameballApp.getInstance().`init`(config: config)
 ```
 
 ---
@@ -125,7 +128,7 @@ let config = GameballConfig(
     shop: "shop_us"
 )
 
-Gameball.shared.initialize(with: config)
+GameballApp.getInstance().`init`(config: config)
 ```
 
 ---
@@ -139,24 +142,11 @@ let config = GameballConfig(
     sessionToken: "your-session-token"
 )
 
-Gameball.shared.initialize(with: config)
+GameballApp.getInstance().`init`(config: config)
 ```
 
----
 
 ### **Custom API Prefix**
-
-```swift
-let config = GameballConfig(
-    apiKey: "your-api-key",
-    lang: "en",
-    apiPrefix: "https://custom-api.yourcompany.com"
-)
-
-Gameball.shared.initialize(with: config)
-```
-
----
 
 ## **5. Environment-Specific Configuration (Recommended)**
 
@@ -175,7 +165,7 @@ let config = GameballConfig(
 )
 #endif
 
-Gameball.shared.initialize(with: config)
+GameballApp.getInstance().`init`(config: config)
 ```
 
 ---
@@ -222,7 +212,7 @@ func loadGameballConfig() -> GameballConfig? {
 }
 
 if let config = loadGameballConfig() {
-    Gameball.shared.initialize(with: config)
+    GameballApp.getInstance().`init`(config: config)
 }
 ```
 <Tip>
@@ -232,5 +222,3 @@ if let config = loadGameballConfig() {
   Always use **test keys** in development.  
   Never commit **live API keys** to version control.
 </Warning>
-
-

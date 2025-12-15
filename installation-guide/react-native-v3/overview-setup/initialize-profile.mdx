@@ -8,7 +8,7 @@ description: "Register customers and show the Gameball profile widget"
 Register or update a customer whenever they log in or register in your app.
 
 ```typescript
-import { GameballApp, InitializeCustomerRequest, CustomerAttributes } from 'gameball-react-native';
+import { GameballApp, InitializeCustomerRequest, CustomerAttributes } from 'react-native-gameball';
 
 const attributes: CustomerAttributes = {
   displayName: 'John Doe',
@@ -21,11 +21,12 @@ const attributes: CustomerAttributes = {
   joinDate: '2024-01-01',
   preferredLanguage: 'en',
   customAttributes: {
-    loyaltyTier: 'gold',
-    city: 'New York',
+    favoriteCategory: 'electronics',
+    preferredChannel: 'email',
   },
   additionalAttributes: {
-    segment: 'premium',
+    country: 'USA',
+    city: 'New York',
   },
 };
 
@@ -35,7 +36,7 @@ const request: InitializeCustomerRequest = {
   mobile: '+1234567890',
   customerAttributes: attributes,
   referralCode: 'REF123',  // Optional
-  isGuest: false,          // Optional
+  isGuest: false,          // Optional (omit for guest mode)
 };
 
 // Using async/await
@@ -168,70 +169,7 @@ In React Native SDK, passing a sessionToken parameter updates the global session
 The `customerId` should be a permanent identifier that will NEVER change. Avoid using email or phone number as the customer ID since these can be updated by users.
 </Warning>
 
-## Show Customer Profile Widget
-
-Display the Gameball customer profile widget:
-
-```typescript
-import { GameballApp, ShowProfileRequest } from 'gameball-react-native';
-
-const profileRequest: ShowProfileRequest = {
-  customerId: 'customer-123',
-  showCloseButton: true,           // Optional
-  openDetail: 'rewards',           // Optional
-  hideNavigation: false,           // Optional
-  closeButtonColor: '#FF6B6B',     // Optional
-};
-
-// Using async/await
-try {
-  await GameballApp.getInstance().showProfile(profileRequest);
-} catch (error) {
-  console.error('Error showing profile:', error);
-}
-
-// Using callbacks
-GameballApp.getInstance().showProfile(profileRequest, {
-  onSuccess: () => console.log('Profile shown'),
-  onError: (error) => console.error('Error:', error.message)
-});
-```
-
-<ParamField body="customerId" type="string" required>
-The customer's unique identifier.
-</ParamField>
-
-<ParamField body="showCloseButton" type="boolean">
-Show close button in widget.
-</ParamField>
-
-<ParamField body="openDetail" type="string">
-Widget section to open: 'profile', 'achievements', 'rewards'.
-</ParamField>
-
-<ParamField body="hideNavigation" type="boolean">
-Hide widget navigation.
-</ParamField>
-
-<ParamField body="closeButtonColor" type="string">
-Close button color in hex format (e.g., '#FF0000').
-</ParamField>
-
-<ParamField body="widgetUrlPrefix" type="string">
-Custom widget URL prefix.
-</ParamField>
-
-### Validation Rules
-
-**ShowProfileRequest requires:**
-- `customerId` cannot be empty or whitespace
-
-<Tip>
-Call `initializeCustomer` when the user logs in or registers to ensure their profile is up-to-date before showing the widget.
-</Tip>
-
 ## Next Steps
 
-- [Track Customer Events](/installation-guide/react-native-v3/track-events)
-- [Show Profile Widget](/installation-guide/react-native-v3/show-profile)
-
+- [Track Customer Events](/installation-guide/react-native-v3/core-sdk-capabilities/track-events)
+- [Show Profile Widget](/installation-guide/react-native-v3/core-sdk-capabilities/show-profile)

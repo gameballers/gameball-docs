@@ -1,9 +1,9 @@
 ---
 title: "Getting Started"
-description: "Install and set up Gameball iOS SDK v3.1.0"
+description: "Install and set up Gameball iOS SDK v3.1.1"
 ---
 
-This guide helps you install the **Gameball iOS SDK v3.1.0** and prepare your project for integration.\
+This guide helps you install the **Gameball iOS SDK v3.1.1** and prepare your project for integration.\
 Once installed, you will be ready to initialize the SDK and register customers.
 
 ---
@@ -12,10 +12,10 @@ Once installed, you will be ready to initialize the SDK and register customers.
 
 Your project must meet the following minimum requirements:
 
-- **iOS Version:** 13.0+
-- **Xcode:** 14.0+
-- **Swift:** 5.7+
-- **Package Manager:** CocoaPods 1.11+ or Swift Package Manager (SPM)
+- **iOS Version:** 12.0+
+- **Xcode:** 12.0+
+- **Swift:** 5.0+
+- **Package Manager:** Swift Package Manager (SPM)
 
 ---
 
@@ -27,42 +27,13 @@ Before installing the SDK, ensure you have:
 - Selected your environment (**sandbox** recommended for testing)
 - A valid **bundle identifier** for iOS
 - A unique **player identifier** strategy (user ID, email, UUID, etc.)
-- CocoaPods installed OR decided to use SPM
+- Swift Package Manager enabled in your project
 
 ---
 
 ## 3. Install the SDK
 
-You can install the SDK via **CocoaPods** (recommended) or **Swift Package Manager**.
-
----
-
-### **CocoaPods (Recommended)**
-
-Add the SDK to your `Podfile`:
-
-```ruby
-platform :ios, '13.0'
-use_frameworks!
-
-target 'YourApp' do
-  pod 'Gameball', '~> 3.1.0'
-end
-```
-
-Install dependencies:
-
-```bash
-pod install
-```
-
-<Note>
-  Always open your project using the .xcworkspace file, not .xcodeproj.
-</Note>
-
----
-
-### **Swift Package Manager (SPM)**
+Install the SDK via **Swift Package Manager**.
 
 In Xcode:
 
@@ -73,7 +44,7 @@ In Xcode:
 https://github.com/gameballers/gameball-ios.git
 ```
 
-3. Select **Version 3.1.0** or **Up to Next Major**
+3. Select **Version 3.1.1** (or **Up to Next Major**)
 4. Click **Add Package**
 
 ---
@@ -130,17 +101,6 @@ Proceed with:
 
 Below are common installation issues and fixes.
 
-### **Problem: “Unable to find a specification for Gameball”**
-
-**Fixes:**
-
-- pod repo update
-- pod cache clean --all
-- Verify Podfile syntax
-- Ensure CocoaPods 1.11+ is installed
-
----
-
 ### **Problem: “No such module ‘Gameball’”**
 
 **Fixes:**
@@ -156,9 +116,9 @@ Below are common installation issues and fixes.
 
 **Fixes:**
 
-- Ensure iOS 13.0+ minimum deployment target
+- Ensure iOS 12.0+ minimum deployment target
 - Update Info.plist if needed
-- Ensure Xcode 14+ and Swift 5.7+
+- Ensure Xcode 12+ and Swift 5.0+
 
 ---
 
@@ -173,6 +133,16 @@ Below are common installation issues and fixes.
 ```
 rm -rf ~/Library/Developer/Xcode/DerivedData
 ```
+
+---
+
+### **Problem: Package dependency not resolving**
+
+**Fixes:**
+
+- Confirm you selected **3.1.1** (or newer) in the package dialog
+- Remove and re-add the package in Xcode
+- Verify network connectivity to GitHub
 
 ---
 
@@ -194,4 +164,3 @@ Common categories include:
 - Profile
 
 Use this during development to quickly diagnose issues.
-

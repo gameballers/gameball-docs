@@ -85,7 +85,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        updateDeviceToken(token)
+        // Re-register the token with Gameball
+        val customerRequest = InitializeCustomerRequest.builder()
+            .customerId("customer-123")
+            .deviceToken(token)
+            .pushProvider(PushProvider.Firebase)
+            .build()
+
+        GameballApp.getInstance(applicationContext).initializeCustomer(
+            customerRequest,
+            object : Callback<InitializeCustomerResponse> {
+                override fun onSuccess(response: InitializeCustomerResponse) {}
+                override fun onError(error: Throwable) {}
+            }
+        )
     }
 }
 ```
@@ -139,6 +152,14 @@ object : HmsMessageService() {
             .deviceToken(token)
             .pushProvider(PushProvider.Huawei)
             .build()
+
+        GameballApp.getInstance(applicationContext).initializeCustomer(
+            customerRequest,
+            object : Callback<InitializeCustomerResponse> {
+                override fun onSuccess(response: InitializeCustomerResponse) {}
+                override fun onError(error: Throwable) {}
+            }
+        )
     }
 }
 ```
@@ -173,7 +194,7 @@ All configurations, message templates, rules, and segmentation are controlled di
     Request notification permission at a meaningful point in the user's journey, rather than immediately upon app launch.
   </Step>
   <Step title="Handle Token Refresh">
-    Always update the device token when it changes (`onNewToken` for Firebase/Huawei).
+    Always update the device token when it changes (`onNewToken`) by calling `initializeCustomer` with the new token and matching `pushProvider`.
   </Step>
   <Step title="Test on Real Devices">
     Verify push delivery on different Android versions and manufacturers.
@@ -184,4 +205,3 @@ All configurations, message templates, rules, and segmentation are controlled di
 </Steps>
 
 ---
-

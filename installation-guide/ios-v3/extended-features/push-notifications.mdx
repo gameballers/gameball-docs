@@ -1,62 +1,44 @@
 ---
 title: "Push Notifications"
-description: "Set up APNs push notifications and enable Gameball-triggered customer engagement messages"
+description: "Register Firebase or Huawei push tokens and handle Gameball-triggered notifications"
 ---
 
 # Implement Push Notifications
 
-Gameball uses **Apple Push Notification service (APNs)** to deliver reward updates, achievement alerts, campaign notifications, and in-app engagement messages.\
-The iOS SDK helps register device tokens and handle Gameball-originated notifications, while APNs delivery and configuration happen through your backend and the Gameball dashboard.
+Gameball supports push delivery via **Firebase Cloud Messaging (FCM)** or **Huawei Push Kit**.\
+Use your push provider to fetch a device token, then register it with Gameball using `initializeCustomer`.
 
 ---
 
-## Overview: How Push Notifications Work
+## Overview
 
 <CardGroup cols={2}>
   <Card title="SDK Responsibilities" icon="mobile">
     • Request notification permission\
-    • Register device token\
-    • Link device token to Gameball customer\
-    • Handle Gameball notification payloads
+    • Register provider token\
+    • Link token to Gameball customer\
+    • Handle Gameball payloads and deep links
   </Card>
   <Card title="Backend + Dashboard Responsibilities" icon="settings">
-    • Configure APNs certificate\
-    • Enable notification campaigns\
+    • Configure campaigns in Gameball dashboard\
     • Define delivery rules and templates\
-    • Trigger messages from Gameball campaigns
+    • Trigger messages from Gameball automations
   </Card>
 </CardGroup>
 
 <Info>
-  Push notifications are used for reward updates, tier progression, point expiration, referral milestones, and any campaign configured in the Gameball dashboard.
+  Notifications cover rewards, tier progression, point expiration, referral milestones, and any campaign configured in the Gameball dashboard.
 </Info>
 
 ---
 
-## Step 1: Enable Push Notifications Capability
+## Step 1: Request Permission
 
-In Xcode:
-
-1. Select your target
-2. Go to **Signing & Capabilities**
-3. Click **\+ Capability**
-4. Add **Push Notifications**
-
-This enables APNs support.
-
----
-
-## Step 2: Request Notification Permission
-
-### Request authorization before registering for APNs:
-
-<CodeGroup>
-
-```swift Swift
+```swift
 import UserNotifications
 
 func requestNotificationPermission() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
         if granted {
             DispatchQueue.main.async {
                 UIApplication.shared.registerForRemoteNotifications()
@@ -66,114 +48,99 @@ func requestNotificationPermission() {
 }
 ```
 
-</CodeGroup>
-
 ---
 
-## **Step 3: Register Device Token with Gameball**
+## Step 2: Get a Provider Token
 
-When APNs returns a device token, register it with Gameball through initializeCustomer.
+Fetch a device token from your push provider, then send it to Gameball with the matching `pushProvider` value.
 
 <CodeGroup>
 
-```swift Swift (AppDelegate)
-import UIKit
+```swift Swift (Firebase FCM)
+import FirebaseMessaging
 import Gameball
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-) -> Bool {
 
-    UNUserNotificationCenter.current().delegate = self
-    requestNotificationPermission()
+Messaging.messaging().token { token, error in
+    guard let token = token, error == nil else { return }
 
-    return true
-}
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .firebase
+        )
 
-func application(
-    _ application: UIApplication,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-) {
-
-    let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-
-    let request = InitializeCustomerRequest(
-        customerId: "customer-123",
-        deviceToken: token,
-        pushProvider: .apns
-    )
-
-    Gameball.shared.initializeCustomer(with: request) { result in
-        switch result {
-        case .success:
-            print("Device token registered successfully")
-        case .failure(let error):
-            print("Token registration failed: \(error.localizedDescription)")
-        }
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Token registration error: \(error.localizedDescription)")
     }
 }
+```
 
-func application(
-    _ application: UIApplication,
-    didFailToRegisterForRemoteNotificationsWithError error: Error
-) {
-    print("APNs registration failed: \(error.localizedDescription)")
-  }
+```swift Swift (Huawei Push Kit)
+import AGConnectCore
+import AGConnectPush
+import Gameball
+
+AGCPush.getInstance().getToken { token, error in
+    guard let token = token, error == nil else { return }
+
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .huawei
+        )
+
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Token registration error: \(error.localizedDescription)")
+    }
 }
 ```
 
 </CodeGroup>
 
 <Tip>
-  Device tokens can rotate. Always call `initializeCustomer` again whenever APNs provides a new token.
+  Tokens can rotate. Re-register when the provider returns a new token.
 </Tip>
 
 ---
 
-## Step 4: Handle Incoming Notifications
+## Step 3: Handle Incoming Notifications
 
-Gameball notifications include a `"source": "gameball"` field in the payload to help your app identify them.
+Gameball notifications include `"source": "gameball"` to help you detect them.
 
-<CodeGroup>
+```swift
+import UserNotifications
 
-```swift Swift
 extension AppDelegate: UNUserNotificationCenterDelegate {
-
-    // App is in foreground
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         let userInfo = notification.request.content.userInfo
-
         if userInfo["source"] as? String == "gameball" {
-            // Display Gameball notification
             completionHandler([.banner, .sound, .badge])
         } else {
             completionHandler([])
         }
     }
 
-    // User taps notification
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-
         if userInfo["source"] as? String == "gameball" {
             handleGameballNotification(userInfo)
         }
-
         completionHandler()
     }
 
     func handleGameballNotification(_ userInfo: [AnyHashable: Any]) {
-        // Navigate to profile widget or a specific screen via deep link
         if let deepLink = userInfo["deep_link"] as? String {
             navigateToDeepLink(deepLink)
         }
@@ -185,84 +152,28 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 }
 ```
 
-</CodeGroup>
-
-<Info>
-  Deep links triggered by Gameball can open reward details, the profile widget, tier information, or your app's custom screens.
-</Info>
-
 ---
 
 ## SwiftUI Support
 
-Use an AppDelegate bridge for APNs and UNUserNotificationCenter delegation.
+Use an AppDelegate adaptor to keep the same permission and notification handling.
 
-<CodeGroup>
-
-```swift Swift
+```swift
 import SwiftUI
 import Gameball
 import UserNotifications
+
 @main
 struct YourApp: App {
-     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-     var body: some Scene {
-         WindowGroup {
-             ContentView()
-         }
-     }
-}
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
-) -> Bool {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    UNUserNotificationCenter.current().delegate = self
-
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
-        if granted {
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
         }
     }
-
-    return true
-}
-
-// APNs registration callbacks + notification handling as above...
 }
 ```
-
-</CodeGroup>
-
----
-
-# Configuring APNs in Gameball Dashboard
-
-To enable Gameball to deliver push notifications, complete the APNs setup:
-
-<Steps>
-  <Step title="Generate APNs certificate or key">
-    Create an APNs certificate or an Authentication Key in the Apple Developer Portal.
-  </Step>
-  <Step title="Upload to Gameball dashboard">
-    Upload the certificate/key under **Admin Settings → Integrations → Notifications**.
-  </Step>
-  <Step title="Configure production vs sandbox">
-    Ensure the correct environment matches your build configuration.
-  </Step>
-</Steps>
-
-<Info>
-  Apple resources:
-
-  - APNs Certificate Setup
-  - Handling Notifications
-</Info>
-
----
 
 # In-App Messages
 
@@ -291,7 +202,7 @@ Configure in-app message templates through the Gameball dashboard.
     Device tokens change; always update them when the app launches.
   </Step>
   <Step title="Test on Real Devices">
-    The iOS simulator does not support APNs.
+    Simulators do not support push delivery; use physical devices for testing.
   </Step>
   <Step title="Deep Link Smartly">
     Guide users to relevant app screens when they tap notifications.
@@ -299,4 +210,3 @@ Configure in-app message templates through the Gameball dashboard.
 </Steps>
 
 ---
-
