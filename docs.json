@@ -9,7 +9,8 @@
       "name": "APIKey:SecretKey"
     },
     "playground": {
-      "display": "interactive"
+      "display": "interactive",
+      "proxy": true
     },
     "examples": {
       "languages": [
