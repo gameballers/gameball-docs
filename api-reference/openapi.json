@@ -198,7 +198,7 @@
     "/api/v4.0/integrations/payments": {
       "post": {
         "description": "The API call tracks new payments, specifically tailored for fintech solutions. It captures key payment details, ensuring accurate tracking of customer transactions.\n\nThis API triggers the **\"Payment Processed\"** event, allowing you to automate follow-up actions such as initiating workflows, sending notifications, or rewarding customers with badges.\n\nThe event includes all properties provided in the payload.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -464,7 +464,7 @@
     "/api/v4.0/integrations/transactions/redeem": {
       "post": {
         "description": "This API enables customers to redeem loyalty points as a payment method in Gameball, allowing them to use points in place of monetary value during transactions. By providing details such as customerId and amount, this endpoint facilitates point-based redemptions within the purchase process.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -606,7 +606,7 @@
     "/api/v4.0/integrations/transactions/cashback": {
       "post": {
         "description": "This API awards loyalty points to customers in Gameball through a cashback program based on the amount.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -729,7 +729,7 @@
     "/api/v4.0/integrations/transactions/refund": {
       "post": {
         "description": "This API processes refunds or cancellations of cashback and points redemption transactions in Gameball. By providing a reverseTransactionId, Gameball identifies the related cashback or redemption transaction and adjusts the customer's points balance accordingly to reflect the refunded or canceled transaction.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -911,7 +911,7 @@
     "/api/v4.0/integrations/transactions/hold": {
       "post": {
         "description": "This API holds loyalty points for a specified duration, reserving them until a redemption request is made through Order or Redeem. If no redemption occurs within the hold period, the points are released. The default hold time is 10 minutes, adjustable in the Gameball dashboard, with a maximum of 15 days and a minimum of 1 minute.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1015,7 +1015,7 @@
     "/api/v4.0/integrations/transactions/hold/{holdReferenceId}": {
       "get": {
         "description": "This API retrieves the details of a specific hold in Gameball using holdReferenceId. It returns information on the amount of loyalty points held, their monetary value, the hold's status (active, used, or expired), and the time remaining until expiration, supporting effective management and tracking of held points.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "holdReferenceId",
@@ -1068,7 +1068,7 @@
       },
       "delete": {
         "description": "This API cancels a specific hold on loyalty points in Gameball using the provided holdReferenceId. It releases the held points back into the customer's account, enabling flexibility in point management.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "holdReferenceId",
@@ -1107,7 +1107,7 @@
     "/api/v4.0/integrations/transactions": {
       "get": {
         "description": "This API retrieves a paged list of transactions from Gameball, allowing for optional filtering. Each transaction record includes details such as type, direction, points, amount, transaction time, and balance changes, providing a comprehensive view of customer activity.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "direction",
@@ -1289,7 +1289,7 @@
     "/api/v4.0/integrations/transactions/manual": {
       "post": {
         "description": "This API allows for the manual addition or deduction of points for a customer in Gameball. It provides flexibility in managing loyalty points, enabling adjustments based on specific needs or circumstances.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1393,7 +1393,7 @@
     "/api/v4.0/integrations/transactions/customer-view": {
       "get": {
         "description": "This API retrieves a paged list of transactions from Gameball, with support for optional filtering. It provides the same comprehensive transaction data as the previous version — including type, direction, points, amount, transaction time, and balance changes — but with an important enhancement: Each transaction now includes associated customer details, such as: Customer Name, Customer Email, Customer Deletion Status. This allows for better traceability and visibility into who performed each transaction, even if the customer has since been deleted.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "direction",
@@ -1590,7 +1590,7 @@
     "/api/v4.0/integrations/transactions/count": {
       "get": {
         "description": "This API retrieves the total count of transactions from Gameball, allowing for optional filtering. It provides the number of transactions matching the specified criteria without returning detailed transaction records.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "direction",
@@ -1635,7 +1635,7 @@
     "/api/v4.0/integrations/transactions/{transactionId}/activate": {
       "post": {
         "description": "This API is used to immediately activate loyalty points that are currently in a pending state, bypassing the configured return window duration. This endpoint overrides that duration and activates the points immediately, making them available for use by the customer without waiting for the pending return window duration to elapse. This API is especially useful for scenarios where the client determines that the order is confirmed and the points can be safely activated ahead of schedule. Note: Once points are activated, the action cannot be reversed via this API.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "transactionId",
@@ -1679,7 +1679,7 @@
     "/api/v4.0/integrations/transactions/otp": {
       "post": {
         "description": "The API call generates a new one-time password (OTP) for redeeming or holding loyalty points and sends it via SMS. This service ensuring that only authorized transactions can be completed with the provided OTP. This API is effective only if SMS & OTP are enabled in your Gameball account.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1728,7 +1728,7 @@
     "/api/v4.0/integrations/coupons/predefined": {
       "post": {
         "description": "Create a coupon based on predefined redemption rules.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1890,7 +1890,7 @@
     "/api/v4.0/integrations/coupons/{code}/burn": {
       "post": {
         "description": "Mark a coupon as used/consumed to prevent further usage.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "code",
@@ -1938,7 +1938,7 @@
     "/api/v4.0/integrations/coupons/{lockReference}": {
       "get": {
         "description": "Retrieve details of locked coupons using the lock reference.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "lockReference",
@@ -1977,7 +1977,7 @@
       },
       "delete": {
         "description": "Release locked coupons to make them available for use again.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "lockReference",
@@ -2180,7 +2180,7 @@
       },
       "put": {
         "description": "Update coupon system configuration settings for the loyalty program.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3624,7 +3624,7 @@
         "description": "The API call is used to track a new order and is specifically designed for e-commerce solutions. It helps capture essential order details, enabling better tracking of customer purchases and order management.\n\n**Security:** Requires both `apikey` and `secretkey` headers.\n\n**Channel Merging Available:** If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.",
         "operationId": "trackOrder",
         "tags": ["Orders"],
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4179,7 +4179,7 @@
         "description": "This API retrieves the transactional details for a specified order in Gameball, identified by `orderId`. It includes information on rewards, refunds, and equivalent points, giving a detailed view of the financial activities associated with the order.\n\n**Security:** Requires both `apikey` and `secretkey` headers.",
         "operationId": "getOrderTransactions",
         "tags": ["Orders"],
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           { 
             "name": "orderId", 
@@ -4253,7 +4253,7 @@
       },
       "delete": {
         "description": "Delete a customer by customerId.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "x-codeSamples": [
           {
             "lang": "C#",
@@ -4316,7 +4316,7 @@
     "/api/v4.0/integrations/customers/{customerId}/tier-progress": {
       "get": {
         "description": "Retrieve customer loyalty progress including tier, points balance, and referrals.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "x-codeSamples": [
           { "lang": "curl", "label": "cURL", "source": "curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/progress' -H 'apikey: YOUR_API_KEY' -H 'secretkey: YOUR_SECRET_KEY'" },
           { "lang": "javascript", "label": "JavaScript", "source": "const res = await fetch('https://api.gameball.co/api/v4.0/integrations/customers/12345/progress', { headers: { apikey: 'YOUR_API_KEY', secretkey: 'YOUR_SECRET_KEY' } }); const data = await res.json();" },
@@ -4579,7 +4579,7 @@
         "summary": "Attach Customer Tags",
         "description": "This API allows you to add tags to a customer profile in Gameball, identified by `customerId`. Attaching tags enables categorization of customer profiles, supporting organized management and targeted engagement based on specific attributes.",
         "operationId": "attachCustomerTags",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" }
         ],
@@ -4599,7 +4599,7 @@
         "summary": "Remove Customer Tags",
         "description": "This API removes specified tags from a customer profile in Gameball, identified by `customerId`. Removing tags allows for updating customer categorization, ensuring profiles remain relevant to current engagement and marketing needs.",
         "operationId": "removeCustomerTags",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" }
         ],
@@ -4620,7 +4620,7 @@
       "delete": {
         "operationId": "removeCustomerTag",
         "description": "Remove a tag from a customer.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } },
           { "name": "tag", "in": "path", "required": true, "schema": { "type": "string" } }
@@ -4688,7 +4688,7 @@
         "operationId": "markNotificationsRead",
         "summary": "Mark Customer Notifications as Read",
         "description": "Mark specific notifications as read for a customer in Gameball by providing notification IDs.",
-        "security": [ { "apiKey": [] }, { "secretKey": [] } ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [ { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" } } ],
         "requestBody": {
           "required": true,
