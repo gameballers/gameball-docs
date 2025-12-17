@@ -65,7 +65,7 @@
         "summary": "Delete Customer",
         "description": "Remove a customer profile and associated data from the system.",
         "operationId": "deleteCustomer",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -85,7 +85,7 @@
         "summary": "Get Customer Details",
         "description": "Retrieve comprehensive customer information including personally identifiable information (PII).",
         "operationId": "getCustomerDetails",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -112,7 +112,7 @@
         "summary": "Get Customer Coupons",
         "description": "Retrieve customer's available coupons with detailed information on each coupon's type, status, and usage.",
         "operationId": "getCustomerCoupons",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -139,7 +139,7 @@
         "summary": "Get Customer Hash",
         "description": "Generate a hash for an existing customer based on their unique customerId.",
         "operationId": "getCustomerHash",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -2814,7 +2814,7 @@
     "/api/v4.0/integrations/configurations/coupon": {
       "get": {
         "description": "This API call retrieves your coupon configurations, including details about how coupons are structured, authenticated, and mapped within Gameball.",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "responses": {
           "200": {
             "description": "Coupon configurations retrieved successfully",
@@ -2948,7 +2948,7 @@
       },
       "put": {
         "description": "This API call updates your coupon configurations, allowing you to modify details about how coupons are structured, authenticated, and mapped within Gameball.",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -4345,7 +4345,7 @@
         "summary": "Get Customer Campaigns Progress",
         "description": "Retrieve customer's progress within Gameball's reward campaigns, providing insights into achievements and current status in each campaign.",
         "operationId": "getCustomerCampaignsProgress",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -4372,7 +4372,7 @@
         "summary": "Get Customer Referrals",
         "description": "Retrieve a list of customers referred by a specified customer, including each referral's join date and current status.",
         "operationId": "getCustomerReferrals",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -4413,7 +4413,7 @@
         "summary": "Get Customer Referrals Count",
         "description": "Retrieve the total count of customers referred by a specified customer, providing the number of completed and pending referrals.",
         "operationId": "getCustomerReferralsCount",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -4440,7 +4440,7 @@
         "summary": "Get Customer Activities",
         "description": "Retrieve a log of customer activities within Gameball, including tier changes, campaign rewards, referrals, redemptions, and more.",
         "operationId": "getCustomerActivities",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -4491,7 +4491,7 @@
         "summary": "Get Customer Activities Count",
         "description": "Retrieve the total count of customer activities within Gameball, with optional filtering by activity type.",
         "operationId": "getCustomerActivitiesCount",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           {
             "name": "customerId",
@@ -4566,7 +4566,7 @@
         "summary": "Get Customer Action Streak Progress",
         "description": "Retrieve the progress of a specific customer within a particular Action Streak challenge.",
         "operationId": "getCustomerActionStreakProgress",
-        "security": [{ "apiKey": [] }, { "secretKey": [] }],
+        "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
           { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer" },
           { "name": "challengeId", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Unique identifier of the Action Streak challenge" }
