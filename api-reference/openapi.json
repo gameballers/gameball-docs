@@ -5200,7 +5200,76 @@
           },
           "customerAttributes": {
             "type": "object",
-            "description": "Customer attributes (minimized, excluding PII)"
+            "description": "Customer attributes (minimized, excluding PII)",
+            "properties": {
+              "gender": {
+                "type": "string",
+                "description": "Customer's gender."
+              },
+              "country": {
+                "type": "string",
+                "description": "Customer's country."
+              },
+              "city": {
+                "type": "string",
+                "description": "Customer's city."
+              },
+              "zip": {
+                "type": "string",
+                "description": "Customer's postal code."
+              },
+              "custom": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Key-value pairs that allow you to store additional attributes for the customer. This can include any extra information specific to your needs, enabling more personalized interactions and offerings."
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Tags associated with the customer."
+              },
+              "source": {
+                "type": "string",
+                "description": "Source of the customer registration."
+              },
+              "utMs": {
+                "type": "array",
+                "description": "List of UTM attributes associated with the customer."
+              },
+              "utms": {
+                "type": "array",
+                "description": "List of UTM attributes associated with the customer."
+              },
+              "devices": {
+                "type": "array",
+                "description": "List of devices associated with the customer."
+              },
+              "paymentMethods": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of payment methods used by the customer."
+              },
+              "totalSpent": {
+                "type": "number",
+                "description": "Total amount spent by the customer."
+              },
+              "lastOrderDate": {
+                "type": "string",
+                "description": "Date of the last order placed by the customer."
+              },
+              "totalOrders": {
+                "type": "number",
+                "description": "Total number of orders placed by the customer."
+              },
+              "manualDate": {
+                "type": "string",
+                "description": "Custom date for manual entries."
+              }
+            }
           },
           "referralCode": {
             "type": "string",
@@ -5233,7 +5302,117 @@
           },
           "customerAttributes": {
             "type": "object",
-            "description": "Complete customer attributes including PII"
+            "description": "Complete customer attributes including PII",
+            "properties": {
+              "displayName": {
+                "type": "string",
+                "description": "Display name for the customer."
+              },
+              "firstName": {
+                "type": "string",
+                "description": "Customer's first name."
+              },
+              "lastName": {
+                "type": "string",
+                "description": "Customer's last name."
+              },
+              "email": {
+                "type": "string",
+                "description": "Customer's email address."
+              },
+              "gender": {
+                "type": "string",
+                "description": "Customer's gender."
+              },
+              "mobile": {
+                "type": "string",
+                "description": "Customer's mobile number."
+              },
+              "dateOfBirth": {
+                "type": "string",
+                "description": "Customer's date of birth."
+              },
+              "joinDate": {
+                "type": "string",
+                "description": "Date the customer joined."
+              },
+              "country": {
+                "type": "string",
+                "description": "Customer's country."
+              },
+              "city": {
+                "type": "string",
+                "description": "Customer's city."
+              },
+              "zip": {
+                "type": "string",
+                "description": "Customer's postal code."
+              },
+              "preferredLanguage": {
+                "type": "string",
+                "description": "The customer's preferred language for communication and interactions. This is typically used to personalize notifications, messages, and other system interactions based on the customer's language preference."
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "A list of tags or labels associated with the customer. These tags are used to categorize customers for personalized marketing campaigns, rewards, and tailored communications."
+              },
+              "source": {
+                "type": "string",
+                "description": "Source of the customer registration."
+              },
+              "utms": {
+                "type": "array",
+                "description": "List of UTM attributes associated with the customer."
+              },
+              "utMs": {
+                "type": "array",
+                "description": "List of UTM attributes associated with the customer."
+              },
+              "devices": {
+                "type": "array",
+                "description": "List of devices associated with the customer."
+              },
+              "paymentMethods": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of payment methods used by the customer. This array may include various forms of payment, such as credit cards, PayPal, or other payment providers. Each payment method is represented as a string."
+              },
+              "totalSpent": {
+                "type": "number",
+                "description": "Total amount spent by the customer."
+              },
+              "lastOrderDate": {
+                "type": "string",
+                "description": "Date of the last order placed by the customer."
+              },
+              "totalOrders": {
+                "type": "number",
+                "description": "Total number of orders placed by the customer."
+              },
+              "avgOrderAmount": {
+                "type": "number",
+                "description": "Average amount spent per order by this customer."
+              },
+              "channel": {
+                "type": "string",
+                "description": "Indicates the channel through which the customer was acquired or engaged. This is especially useful for systems that support multiple channels to track customer origin and interactions. Understanding the acquisition or engagement channel helps in tailoring marketing strategies, optimizing communication, and analyzing customer preferences.",
+                "enum": ["mobile", "pos", "web", "callcenter"]
+              },
+              "custom": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Key-value pairs that allow you to store additional attributes for the customer. This can include any extra information specific to your needs, enabling more personalized interactions and offerings."
+              },
+              "manualDate": {
+                "type": "string",
+                "description": "Custom date for manual entries."
+              }
+            }
           },
           "referralCode": {
             "type": "string",
