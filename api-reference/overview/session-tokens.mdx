@@ -1,0 +1,466 @@
+---
+title: "Customer Session Tokens (JWE)"
+description: "Generate and use signed, encrypted JWE tokens for secure widget and SDK access"
+---
+
+## Overview
+
+The Gameball Customer Session Token is a **signed and encrypted JWE token** that binds a single logged-in customer to Gameball.
+
+- Generated on your **backend only**, using your SecretKey.
+- Contains the customer's unique identifier and optional metadata.
+- **Short-lived**: expires with the customer's session.
+- Used together with `playerUniqueId` on the client side to securely load Gameball widgets and SDKs.
+
+This page covers:
+- Token format and claims.
+- Reference generation code in multiple languages.
+- When to generate / refresh / drop the token in web and mobile flows.
+
+---
+
+## 1. Token Format & Claims
+
+The session token is a **nested JWT**:
+- **Inner JWT (JWS)**: signed with HS256 using your SecretKey.
+- **Outer JWE**: encrypts that JWT using A256KW + A256CBC-HS512, again with your SecretKey.
+
+### 1.1 Claims
+
+Recommended claims payload:
+
+```json
+{
+  "customerId": "123456",
+  "customerEmail": "[email protected]",
+  "customerMobile": "+201234567890",
+  "exp": 1714742400
+}
+```
+
+- **`customerId`** (required):  
+  Your unique identifier for the customer (must match `playerUniqueId` you send to the SDK).
+
+- **`customerEmail`** (optional)
+
+- **`customerMobile`** (optional)
+
+- **`exp`** (required):  
+  Expiry timestamp (Unix seconds). Should match or be shorter than the session duration in your own auth system.
+
+---
+
+## 2. Cryptography Details
+
+### Signing:
+- **Algorithm**: HS256 (HMAC SHA-256)
+- **Key**: your Gameball SecretKey
+
+### Encryption:
+- **Key management algorithm**: A256KW
+- **Content encryption algorithm**: A256CBC-HS512
+- **Key**: same SecretKey (symmetric key)
+
+### Key length:
+
+<Warning>
+To safely use the A256 algorithms, your SecretKey must effectively be at least **256 bits (32 bytes)**. If your current key is shorter:
+- Rotate to a stronger SecretKey; or
+- Derive a 256-bit key from it using a KDF (e.g. HKDF/PBKDF2) and use that derived key for tokens.
+</Warning>
+
+---
+
+## 3. Reference Implementations
+
+These snippets show how to generate the token in different languages. You plug them into your own auth / session logic where appropriate.
+
+### 3.1 C# (.NET)
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+
+public static class GameballTokenHelper
+{
+    public const string ClaimCustomerId    = "customerId";
+    public const string ClaimCustomerEmail = "customerEmail";
+    public const string ClaimCustomerMobile= "customerMobile";
+
+    public static string GenerateCustomerSessionToken(
+        string secretKey,
+        DateTime expiresAtUtc,
+        string customerId,
+        string? email = null,
+        string? mobile = null)
+    {
+        var claims = new Dictionary<string, object>
+        {
+            { ClaimCustomerId, customerId }
+        };
+
+        if (!string.IsNullOrWhiteSpace(email))
+            claims.Add(ClaimCustomerEmail, email);
+
+        if (!string.IsNullOrWhiteSpace(mobile))
+            claims.Add(ClaimCustomerMobile, mobile);
+
+        return GenerateJWEToken(secretKey, expiresAtUtc, claims);
+    }
+
+    public static string GenerateJWEToken(
+        string secretKey,
+        DateTime? expiration,
+        IDictionary<string, object> claims)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+        var signingCredentials = new SigningCredentials(
+            securityKey,
+            SecurityAlgorithms.HmacSha256);
+
+        var encryptingCredentials = new EncryptingCredentials(
+            securityKey,
+            SecurityAlgorithms.Aes256KW,
+            SecurityAlgorithms.Aes256CbcHmacSha512);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(),
+            SigningCredentials = signingCredentials,
+            EncryptingCredentials = encryptingCredentials,
+            Claims = (IDictionary<string, object>)claims,
+            Expires = expiration
+        };
+
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.CreateJwtSecurityToken(tokenDescriptor);
+
+        return token.RawData;
+    }
+}
+```
+
+<Tip>
+You drop `GenerateCustomerSessionToken` into your auth layer and call it whenever you want a session token.
+</Tip>
+
+### 3.2 Node.js / TypeScript with jose
+
+```typescript
+import { SignJWT, CompactEncrypt } from 'jose';
+
+const encoder = new TextEncoder();
+
+export async function generateGameballSessionToken(options: {
+  secretKey: string;
+  customerId: string;
+  email?: string;
+  mobile?: string;
+  expiresInSeconds: number;
+}): Promise<string> {
+  const { secretKey, customerId, email, mobile, expiresInSeconds } = options;
+
+  const keyBytes = encoder.encode(secretKey);
+  const now = Math.floor(Date.now() / 1000);
+  const exp = now + expiresInSeconds;
+
+  const claims: Record<string, any> = {
+    customerId,
+    exp
+  };
+
+  if (email)  claims.customerEmail  = email;
+  if (mobile) claims.customerMobile = mobile;
+
+  // Signed JWT (JWS)
+  const jws = await new SignJWT(claims)
+    .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+    .sign(keyBytes);
+
+  // Encrypted JWE
+  const plaintext = encoder.encode(jws);
+
+  const jwe = await new CompactEncrypt(plaintext)
+    .setProtectedHeader({
+      alg: 'A256KW',
+      enc: 'A256CBC-HS512'
+    })
+    .encrypt(keyBytes);
+
+  return jwe;
+}
+```
+
+<Tip>
+You integrate `generateGameballSessionToken` into your login/session logic on the server.
+</Tip>
+
+### 3.3 Python with jwcrypto
+
+```python
+from datetime import datetime, timedelta, timezone
+from jwcrypto import jwt, jwk
+import base64
+
+def _build_symmetric_key(secret_key: str) -> jwk.JWK:
+    # JWK 'k' must be base64url-encoded bytes, so we encode the secret key
+    k = base64.urlsafe_b64encode(secret_key.encode("utf-8")).rstrip(b"=")
+    return jwk.JWK(kty='oct', k=k.decode('ascii'))
+
+def generate_gameball_session_token(
+    secret_key: str,
+    customer_id: str,
+    email: str | None = None,
+    mobile: str | None = None,
+    expires_in_seconds: int = 7200,
+) -> str:
+    key = _build_symmetric_key(secret_key)
+
+    now = datetime.now(timezone.utc)
+    exp = now + timedelta(seconds=expires_in_seconds)
+
+    claims = {
+        "customerId": customer_id,
+        "exp": int(exp.timestamp())
+    }
+
+    if email:
+        claims["customerEmail"] = email
+    if mobile:
+        claims["customerMobile"] = mobile
+
+    # Signed token (JWS)
+    signed = jwt.JWT(
+        header={"alg": "HS256", "typ": "JWT"},
+        claims=claims
+    )
+    signed.make_signed_token(key)
+
+    # Encrypted token (JWE)
+    encrypted = jwt.JWT(
+        header={"alg": "A256KW", "enc": "A256CBC-HS512"},
+        claims=signed.serialize()
+    )
+    encrypted.make_encrypted_token(key)
+
+    return encrypted.serialize()
+```
+
+<Tip>
+Again: you call `generate_gameball_session_token` where you handle login/session on the backend.
+</Tip>
+
+---
+
+## 4. Web Flows – When to Generate the Token
+
+A key part of a secure integration is deciding when to generate, refresh, or drop the token. The flows below outline recommended patterns you can follow.
+
+### 4.1 Login
+
+**Scenario**: Customer logs into your web app.
+
+**Flow:**
+
+1. User submits login credentials.
+2. Backend validates credentials.
+3. Backend:
+   - Creates/refreshes your own app session (cookie/JWT/etc.).
+   - Calls `generateGameballSessionToken` with:
+     - `customerId` = the same ID as `playerUniqueId`.
+     - `email` / `mobile` if you want them in the token.
+     - `expiresAt` aligned with your own session.
+4. Backend returns the Gameball session token to frontend, e.g.:
+   - Embedded in login response JSON, or
+   - Via a dedicated "get Gameball token" endpoint that the frontend calls immediately after login.
+5. Frontend stores the token in memory (or short-lived storage, not long-term persistence) and initializes the widget with:
+   - `APIKey`
+   - `playerUniqueId` = your customer ID
+   - `sessionToken` = the JWE you generated.
+
+### 4.2 Session extension / refresh
+
+**Scenario**: You extend the user session (remember-me, silent refresh, etc.).
+
+**Flow:**
+
+1. Frontend calls your backend to refresh the app session.
+2. If you extend the app session, the backend:
+   - Generates a new Gameball session token with a new `exp`.
+3. Frontend replaces the old token and:
+   - Re-initializes the widget if needed, or
+   - Uses SDK APIs to update the token if supported.
+
+<Tip>
+Rule of thumb: any time your own auth token expiry moves, you should reissue the Gameball session token.
+</Tip>
+
+### 4.3 Token expiry while the user is active
+
+**Scenario**: The user stays on a page long enough for the Gameball token to expire.
+
+You have two options:
+
+**Proactive:**
+- Frontend tracks the token's `exp` (provided by your backend along with the token).
+- A bit before expiry (e.g. 5 minutes), frontend calls backend for a new token.
+
+**Reactive:**
+- If Gameball responds with an "expired token" error:
+  - Frontend calls your backend to get a new token.
+  - Re-initializes the widget.
+
+<Warning>
+Don't pretend tokens never expire. They should, and you need a refresh path.
+</Warning>
+
+### 4.4 Logout
+
+**Scenario**: User logs out of your app.
+
+**Flow:**
+
+1. Frontend clears:
+   - Your own session (cookies/local storage).
+   - Any in-memory Gameball session token.
+
+<Warning>
+You should not keep a valid Gameball token anywhere once the user is logged out.
+</Warning>
+
+If the user logs in as another account, you go through the login flow again and issue a new token for that customer.
+
+---
+
+## 5. Mobile Flows – When to Generate the Token
+
+Mobile is almost the same idea, just with different timing.
+
+### 5.1 Mobile login
+
+1. User logs into your mobile app.
+2. App calls backend with credentials.
+3. Backend:
+   - Issues your app's auth token (JWT, opaque token, etc.).
+   - Generates Gameball session token for that customer.
+4. Backend returns both to the app.
+5. Mobile app:
+   - Stores your auth token as usual (Keychain/Secure Storage).
+   - Stores Gameball session token in memory or secure storage (but treat it as short-lived).
+   - Initializes the Gameball SDK with:
+     - `APIKey`
+     - `playerUniqueId`
+     - `sessionToken`.
+
+### 5.2 App resume / foreground
+
+**Scenario**: User returns to the app after some time.
+
+**Flow:**
+
+1. When the app resumes, check:
+   - Your auth token is still valid.
+   - The Gameball session token has not expired (you can have the backend expose its `exp` or simply call backend to refresh).
+2. If the Gameball token is expired or close to expiring:
+   - Call backend to issue a new token for the current customer.
+   - Update the SDK with the new token.
+
+### 5.3 Token rotation on account switch
+
+**Scenario**: User logs out and logs in as another account in the same app.
+
+**Flow:**
+
+1. When user logs out:
+   - Delete both your app's auth token and any stored Gameball session token.
+2. When a new user logs in:
+   - Repeat login flow and generate a new Gameball session token for that new `customerId`.
+   - Reinitialize Gameball SDK with the new `playerUniqueId` + new `sessionToken`.
+
+---
+
+## 6. Using the Token in SDK Configuration
+
+The SDK/Widget side always needs:
+- `playerUniqueId` — your stable customer identifier.
+- The session token you generated.
+
+Conceptually, your initialization looks like:
+
+```javascript
+GbSdk.init({
+  APIKey: '<YOUR_API_KEY>',
+  playerUniqueId: currentUser.id,     // must match customerId in token
+  lang: 'en',
+  sessionToken: gameballSessionToken, // JWE from your backend
+  // other options...
+});
+```
+
+<Warning>
+The important part is:
+- `playerUniqueId` matches `customerId` in the JWE.
+- The JWE is created in your backend and handed to the client only after authentication.
+</Warning>
+
+---
+
+## 7. Error Handling Patterns
+
+You should assume that tokens might be:
+- Expired.
+- Missing.
+- Invalid (bad key, tampering, etc.).
+
+### Recommended behavior:
+
+**Expired token:**
+- Treat as a signal to refresh.
+- Frontend/mobile calls backend to get a new session token (if the user is still authenticated in your system).
+
+**Invalid token:**
+- Log the event in your backend or monitoring system.
+- Ask the user to re-authenticate if needed.
+
+**Backend unavailable when requesting token:**
+- Don't initialize the widget.
+- Show a generic "loyalty is temporarily unavailable" message instead of partially loading.
+
+---
+
+## 8. Quick Checklist for Session Tokens
+
+- [ ] Token is generated only on the backend.
+- [ ] Token uses `customerId`, matches `playerUniqueId`.
+- [ ] Token includes an `exp` that matches your app session.
+- [ ] Token signed (HS256) and encrypted (A256KW + A256CBC-HS512) with your SecretKey.
+- [ ] No SecretKey is ever exposed in JS/mobile.
+- [ ] Web and mobile flows generate/refresh/drop tokens at:
+  - [ ] Login
+  - [ ] Session extension
+  - [ ] Long active sessions (expiry handling)
+  - [ ] Logout
+  - [ ] Account switch
+
+<Tip>
+You wire this properly once, and then you can safely crank up the minimum secure version without worrying about holes.
+</Tip>
+
+---
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Secure Integrations v4.1" icon="shield-halved" href="../introduction-v4.1">
+    Learn about v4.1 security requirements and migration
+  </Card>
+  
+  <Card title="Authentication Guide" icon="key" href="authentication">
+    General authentication instructions for Gameball APIs
+  </Card>
+</CardGroup>

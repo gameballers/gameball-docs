@@ -1,3 +1,48 @@
+<Update label="January 2025" description="V4.1" tags={["API", "Security"]}>
+
+## 🔒 Gameball API V4.1 — Secure Integration Mode
+
+We're excited to announce **API V4.1** — our most secure version yet, with mandatory SecretKey authentication and enhanced security controls!
+
+---
+
+### ✨ What's New
+
+#### **Mandatory SecretKey Authentication**
+All integration endpoints under `/api/v4.1/integrations/...` now require both APIKey and SecretKey headers. This ensures all integration traffic is server-to-server only.
+
+#### **Enhanced Security Model**
+- All integration APIs must be called from your backend
+- Widget/mobile access requires per-customer session tokens
+- No exposure of SecretKey in client-side code
+
+#### **Minimum Version Enforcement**
+Control which API versions are allowed from your Gameball Dashboard. Set a minimum version to reject older, less secure patterns.
+
+---
+
+### 🔄 Breaking Changes
+
+<Warning>
+**Mandatory SecretKey:** All v4.1 integration endpoints require both APIKey and SecretKey. Requests without SecretKey are rejected.
+</Warning>
+
+<Warning>
+**Server-Side Only:** Integration endpoints can no longer be called from browsers or mobile apps directly. All calls must go through your backend.
+</Warning>
+
+---
+
+### 📚 Migration Guide
+
+<Note>
+**Migration Required:** If you're using v4.0, you'll need to update your integrations to include SecretKey headers and ensure all calls are made from your backend.
+</Note>
+
+**Ready to upgrade?** Check out our [V4.1 API Documentation](/api-reference/introduction-v4.1) for complete details on Secure Integration Mode and migration steps.
+
+</Update>
+
 <Update label="December 19, 2024" description="V4.0" tags={["API"]}>
 
 ## 🚀 Gameball API V4.0 — A Major Upgrade

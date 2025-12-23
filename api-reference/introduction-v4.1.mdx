@@ -1,68 +1,247 @@
 ---
-title: 'API v4.1 - Coming Soon'
-description: 'Gameball API v4.1 is currently under development'
+title: 'Secure Integrations v4.1'
+description: 'Gameball API v4.1 - Secure Integration Mode and Minimum Version Enforcement'
 ---
+
+## Overview
+
+Gameball's **Secure Integration Mode** is built around two core ideas:
+
+1. **All integration APIs must be called from your backend** using your SecretKey.
+2. **All widget/mobile access must be tied to a short-lived, per-customer session token.**
+
+This page focuses on the first part: **Integrations v4.1** and the **Minimum Secure Version** control.
+
+---
+
+## 1. Integrations v4.1 – What Changed
+
+Previously, some integration endpoints could be called using only the public APIKey. In v4.1 we have standardized security across all integration APIs:
+
+- **All endpoints under:**
+  ```http
+  https://api.gameball.co/api/v4.1/integrations/...
+  ```
+  **now require:**
+  - `APIKey: <your-public-api-key>`
+  - `SecretKey: <your-private-secret-key>`
+  
+- **Requests without SecretKey are rejected.**
+
+- **Integrations traffic is expected to be server-to-server only:**
+  - No calls from browsers.
+  - No calls from mobile apps directly.
+  - No exposure of the SecretKey in any public client.
 
 <Warning>
-**Work in Progress** - API v4.1 is currently under active development and documentation is being prepared.
+This effectively makes the previous "High Security Mode" behavior **mandatory** for v4.1 integrations.
 </Warning>
-
-## API v4.1 - Under Development
-
-We're excited to announce that **Gameball API v4.1** is currently in development! This upcoming version will bring new features, improvements, and enhancements to make your integration experience even better.
-
-### Current Status
-
-<Info>
-The v4.1 API documentation is currently being prepared. Please check back soon for updates.
-</Info>
-
-### What to Use Now
-
-While we're working on v4.1, please continue using **API v4.0** for all your integration needs. v4.0 is our current stable release with full documentation and support.
-
-<Card title="Use API v4.0" icon="rocket" href="../api-reference/introduction">
-  Switch to API v4.0 documentation - our current stable release
-</Card>
-
-### Stay Updated
-
-<CardGroup cols={2}>
-<Card title="Changelog" icon="clock-rotate-left">
-  Check our [changelog](../../changelog/updates) for the latest updates and announcements
-</Card>
-
-<Card title="Support" icon="life-ring">
-  Have questions? Reach out to our [support team](mailto:hi@mintlify.com)
-</Card>
-</CardGroup>
 
 ---
 
-## What to Expect
+## 2. Security Model
 
-API v4.1 will include:
+In **Secure Integration Mode**:
 
-- Enhanced performance and reliability
-- New endpoints and functionality
-- Improved error handling
-- Additional customization options
-- Backward compatibility with v4.0
+### Integration APIs (v4.1)
+- Only callable from your backend.
+- Authenticated by both APIKey and SecretKey.
+- Used for: customer creation/updates, points transactions, events, etc.
+
+### Customer access to Gameball (widgets / SDKs)
+- Tied to a per-customer JWE session token (see separate page).
+- The widget still uses `playerUniqueId` (your customer identifier).
+- Gameball validates that:
+  - The token is signed and encrypted with your SecretKey.
+  - The `customerId` in the token matches the identity you're passing.
+
+Together, this gives you:
+- A **sealed integration surface** (only from your servers).
+- **Per-user authorization** for anything the widget shows or does.
+
+---
+
+## 3. Migrating Existing Integrations to v4.1
+
+### 3.1 Inventory your current calls
+
+Find all usages of:
+```http
+https://api.gameball.co/api/v4.0/...
+```
+
+and list:
+- Which endpoints you call.
+- Which ones do not include the SecretKey.
+- Anything that is currently called from browser JS / mobile is already a security issue and must be moved to your backend.
+
+### 3.2 Update the base URL
+
+For backend integrations:
+
+Change `v4.0` to `v4.1`:
+```http
+https://api.gameball.co/api/v4.1/...
+```
+
+### 3.3 Enforce SecretKey in every call
+
+For each v4.1 call, make sure you set:
+- `APIKey` header (public key)
+- `SecretKey` header (private key, never exposed to clients)
 
 <Tip>
-We'll notify you as soon as v4.1 documentation is ready. In the meantime, all features you need are available in v4.0.
+If you centralize your HTTP client for Gameball, this is the right place to enforce both headers.
+</Tip>
+
+### 3.4 Validate server-only usage
+
+Confirm:
+- No Gameball HTTP call is made from browser JS.
+- No Gameball HTTP call is made directly from mobile apps.
+- Everything must go: **Client → your backend → Gameball v4.1 integrations**.
+
+### 3.5 Stage, test, and deploy
+
+1. Deploy to a staging / test environment.
+2. Run all scenarios:
+   - Customer creation updates.
+   - Events and transactions.
+   - Any custom flows you have.
+3. Once stable, roll out to production.
+
+---
+
+## 4. Minimum Secure Version
+
+Once you are fully on v4.1 and using per-customer session tokens for widgets, you can enforce a minimum allowed version from the Gameball Dashboard.
+
+### 4.1 What Minimum Version does
+
+When you set:
+```
+Minimum allowed version = v4.1
+```
+
+Gameball will:
+
+**Reject:**
+- Any integrations call using older versions (v3.0, v4.0, etc.).
+- Any widget / SDK access that doesn't meet secure requirements (e.g. missing session token where required).
+
+**Accept only:**
+- Integrations called through `/api/v4.1/integrations/...` with APIKey + SecretKey.
+- Widgets / SDKs that use `playerUniqueId` and a valid per-customer session token.
+
+<Warning>
+Effectively, anything that isn't using the new security pattern simply stops working.
+</Warning>
+
+### 4.2 Recommended rollout
+
+<Steps>
+  <Step title="Integrations migrated">
+    All backend integrations call v4.1 with APIKey and SecretKey.
+  </Step>
+  
+  <Step title="Widgets / SDKs migrated">
+    Your web and mobile apps are using session tokens (see Session Tokens doc).
+  </Step>
+  
+  <Step title="Monitoring period">
+    Keep minimum version relaxed.
+    Monitor logs/dashboard for any remaining older-version traffic.
+  </Step>
+  
+  <Step title="Enforce minimum version">
+    Set minimum version to v4.1.
+    Keep an eye on errors in the first days to catch any forgotten integrations.
+  </Step>
+</Steps>
+
+---
+
+## 5. Typical Backend Flow with v4.1
+
+This is about when your backend talks to Gameball in a typical application:
+
+<CardGroup cols={2}>
+  <Card title="Customer Registration" icon="user-plus">
+    Customer created / registered in your system → Backend calls v4.1 integrations to create a matching Gameball customer.
+  </Card>
+  
+  <Card title="Profile Updates" icon="user-pen">
+    Customer profile updated (email/mobile/name/etc.) → Backend calls v4.1 integrations to sync attributes.
+  </Card>
+  
+  <Card title="Business Actions" icon="chart-line">
+    Customer performs a business action → Backend logs the event / transaction to v4.1 integrations.
+  </Card>
+  
+  <Card title="Login Flow" icon="right-to-bracket">
+    Customer logs in to your app → Backend generates a Gameball session token using their customerId and your SecretKey.
+  </Card>
+  
+  <Card title="Widget Initialization" icon="window-maximize">
+    Widget / SDK initializes → Frontend / mobile uses playerUniqueId and the session token.
+  </Card>
+  
+  <Card title="Version Enforcement" icon="shield-halved">
+    Minimum version is enforced → Any old pattern (direct browser calls with APIKey only, old endpoints, etc.) simply fails instead of exposing you.
+  </Card>
+</CardGroup>
+
+That's the lifecycle you want to push all your teams towards.
+
+---
+
+## Base URL
+
+The API base URL for v4.1 integrations:
+
+```http
+https://api.gameball.co/api/v4.1/integrations/...
+```
+
+---
+
+## Authentication
+
+<Warning>
+All v4.1 integration endpoints require both APIKey and SecretKey headers. Requests without SecretKey are rejected.
+</Warning>
+
+### Example: Authentication with API Key and Secret Key
+
+```bash
+curl --request POST \
+  --url 'https://api.gameball.co/api/v4.1/integrations/event' \
+  --header 'APIKey: ue7eh32eiwlsncoko08u8b' \
+  --header 'SecretKey: kz7eh32eiwldlowbo08u5p'
+```
+
+<Tip>
+For detailed authentication instructions, refer to the [Authentication](overview/authentication) section.
 </Tip>
 
 ---
 
-## Migration Path
+## Related Documentation
 
-When v4.1 becomes available, we'll provide:
-
-- Comprehensive migration guides
-- Breaking changes documentation (if any)
-- Side-by-side comparison with v4.0
-- Detailed release notes
-
-Thank you for your patience as we work to bring you an even better API experience!
-
+<CardGroup cols={2}>
+  <Card title="Session Tokens & JWE" icon="key" href="overview/session-tokens">
+    Learn how to generate and use per-customer session tokens for widgets and mobile SDKs
+  </Card>
+  
+  <Card title="API v4.0 Documentation" icon="book" href="introduction">
+    Reference documentation for the previous API version
+  </Card>
+  
+  <Card title="Authentication Guide" icon="shield" href="overview/authentication">
+    Detailed authentication instructions and best practices
+  </Card>
+  
+  <Card title="Migration Guide" icon="arrow-right" href="introduction-v4.1">
+    Step-by-step migration from v4.0 to v4.1
+  </Card>
+</CardGroup>

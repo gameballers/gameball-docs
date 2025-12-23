@@ -712,7 +712,13 @@
               {
                 "group": "API documentation",
                 "pages": [
-                  "api-reference/introduction-v4.1"
+                  "api-reference/introduction-v4.1",
+                  {
+                    "group": "Overview",
+                    "pages": [
+                      "api-reference/overview/session-tokens"
+                    ]
+                  }
                 ]
               }
             ]
