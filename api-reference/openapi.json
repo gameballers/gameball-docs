@@ -1835,12 +1835,7 @@
                   "coupons": {
                     "type": "array",
                     "items": {
-                      "type": "object",
-                      "required": ["code"],
-                      "properties": {
-                        "code": { "type": "string" },
-                        "pin": { "type": "string" }
-                      }
+                      "type": "string"
                     }
                   },
                   "lock": { "type": "boolean" }

@@ -39,14 +39,10 @@ This is required if your account uses mobile-based channel merging.
 </ParamField>
 
 <ParamField path="coupons" type="array" required>
-Array of coupon objects to validate.
+Array of coupon codes (strings) to validate.
 
-<ParamField path="coupons[].code" type="string" required>
+<ParamField path="coupons[]" type="string" required>
 The coupon code to validate.
-</ParamField>
-
-<ParamField path="coupons[].pin" type="string">
-Pin code required for the coupon, if applicable.
 </ParamField>
 </ParamField>
 
