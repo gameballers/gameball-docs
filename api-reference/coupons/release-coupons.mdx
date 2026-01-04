@@ -5,30 +5,8 @@ openapi: 'DELETE /api/v4.0/integrations/coupons/{lockReference}'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-## Release Coupons
-
 This API releases the lock on coupons identified by the provided `{lockReference}` in Gameball. Once released, the coupons become available for use again, offering flexibility in managing coupon availability and redemption.
 
-## Path Parameters
-
-<ParamField path="lockReference" type="string" required>
-Unique identifier for the previously locked coupons to be available for others to use again or for another session.
-</ParamField>
-
-## Response
-
-<ResponseField name="success" type="boolean">
-Whether the coupons were successfully released.
-</ResponseField>
-
-<ResponseField name="releasedAt" type="string">
-Timestamp when the coupons were released.
-</ResponseField>
-
-<ResponseField name="releasedCoupons" type="array">
-Array of coupon codes that were released.
-
-<ResponseField name="releasedCoupons[]" type="string">
-The released coupon code.
-</ResponseField>
-</ResponseField>
+<Info>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Info>

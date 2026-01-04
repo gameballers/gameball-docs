@@ -1,42 +1,12 @@
 ---
 title: "Lock Details"
 description: "Retrieve details of locked coupons using the lock reference."
-openapi: 'GET /api/v4.0/integrations/coupons/{lockReference}'
+openapi: 'GET /api/v4.0/integrations/locks/{lockReference}'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-## Lock Details
+This API gets the details of the provided `{lockReference}` in Gameball.
 
-This API retrieves details of locked coupons using the lock reference. This is useful for checking the status and details of coupons that have been previously locked for a customer.
-
-## Path Parameters
-
-<ParamField path="lockReference" type="string" required>
-Unique identifier for the locked coupons to retrieve details for.
-</ParamField>
-
-## Response
-
-<ResponseField name="lockReference" type="string">
-The lock reference ID.
-</ResponseField>
-
-<ResponseField name="customerId" type="string">
-Customer ID associated with the locked coupons.
-</ResponseField>
-
-<ResponseField name="lockedCoupons" type="array">
-Array of locked coupon details.
-
-<ResponseField name="lockedCoupons[].code" type="string">
-The locked coupon code.
-</ResponseField>
-
-<ResponseField name="lockedCoupons[].lockedAt" type="string">
-Timestamp when the coupon was locked.
-</ResponseField>
-
-<ResponseField name="lockedCoupons[].expiresAt" type="string">
-Timestamp when the lock expires.
-</ResponseField>
-</ResponseField>
+<Info>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Info>

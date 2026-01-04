@@ -1,13 +1,12 @@
 ---
-title: "Tier Progress"
-description: "Retrieve customer progress including tiers, points, and referrals."
+title: "Customer Tier Progress"
+description: "Retrieve customer's current tier and progression within Gameball's loyalty program."
 openapi: "GET /api/v4.0/integrations/customers/{customerId}/tier-progress"
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
 This API provides an overview of a customer's current tier and progression within Gameball's loyalty program. By retrieving the customer's current tier, progress level, and next tier details, this endpoint offers a clear view of their advancement within the tier structure.
 
-
 <Info>
-Security: Provide both `apikey` and `secretkey` headers.
+**Security**: Requires **apikey** and **secretkey** headers.
 </Info>

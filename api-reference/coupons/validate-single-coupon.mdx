@@ -7,6 +7,8 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 This API validates a single coupon identified by `{code}` and checks its eligibility for use by a customer. It also supports a locking feature, where setting the `lock` flag to `True` reserves the coupon by creating a lock reference. This ensures the coupon cannot be used by others during the lock session, preventing conflicts or double usage. By default, the `lock` flag is `False`, allowing only validation without reserving the coupon.
 
+Alternatively, you can use the **coupon code directly** when placing an order instead of the **hold reference**. For more details, refer to the **Order API**.
+
 <Info>
 **Channel Merging Available**  
 If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
@@ -14,56 +16,6 @@ If your system uses different customer IDs across multiple channels (e.g., onlin
 For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
 </Info>
 
-## Path Parameters
-
-<ParamField path="code" type="string" required>
-The coupon code to validate.
-</ParamField>
-
-## Request Body
-
-<ParamField path="customerId" type="string" required>
-Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
-</ParamField>
-
-<ParamField path="email" type="string">
-Customer's email address.
-
 <Info>
-This is required if your account uses email-based channel merging.
+**Security**: Requires **apikey** and **secretkey** headers.
 </Info>
-</ParamField>
-
-<ParamField path="mobile" type="string">
-Customer's mobile number.
-
-<Info>
-This is required if your account uses mobile-based channel merging.
-</Info>
-</ParamField>
-
-<ParamField path="lock" type="boolean">
-Whether to lock the coupon for exclusive use. When set to `true`, creates a lock reference to reserve the coupon.
-</ParamField>
-
-<ParamField path="pin" type="string">
-Pin code required for the coupon, if applicable.
-</ParamField>
-
-## Response
-
-<ResponseField name="isValid" type="boolean">
-Whether the coupon is valid and can be used.
-</ResponseField>
-
-<ResponseField name="lockReference" type="string">
-Reference ID for the locked coupon, if locking was requested.
-</ResponseField>
-
-<ResponseField name="discountAmount" type="number">
-The discount amount that will be applied.
-</ResponseField>
-
-<ResponseField name="discountType" type="string">
-Type of discount (fixed, percentage, shipping, etc.).
-</ResponseField>

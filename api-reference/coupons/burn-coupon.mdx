@@ -1,11 +1,11 @@
 ---
 title: "Burn Coupon"
 description: "Mark a coupon as used/consumed to prevent further usage."
-openapi: 'POST /api/v4.0/integrations/coupons/{code}/burn'
+openapi: 'POST /api/v4.0/integrations/coupons/burn'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-This API marks a coupon as used/consumed, preventing it from being used again. This is typically called after a successful transaction to ensure the coupon cannot be reused.
+This API processes the use of one or more coupons associated with a customer in Gameball. By providing customer details and a list of coupons, this endpoint marks the coupons as redeemed, completing the transaction. Optionally, a `lockReference` can be included to burn previously locked coupons.
 
 <Info>
 **Channel Merging Available**  
@@ -14,48 +14,6 @@ If your system uses different customer IDs across multiple channels (e.g., onlin
 For more information, head to the [Channel Merging Guide](/tutorials/channel-merging-guide).
 </Info>
 
-## Path Parameters
-
-<ParamField path="code" type="string" required>
-The coupon code to burn/mark as used.
-</ParamField>
-
-## Request Body
-
-<ParamField path="customerId" type="string" required>
-Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
-</ParamField>
-
-<ParamField path="email" type="string">
-Customer's email address.
-
 <Info>
-This is required if your account uses email-based channel merging.
+**Security**: Requires **apikey** and **secretkey** headers.
 </Info>
-</ParamField>
-
-<ParamField path="mobile" type="string">
-Customer's mobile number.
-
-<Info>
-This is required if your account uses mobile-based channel merging.
-</Info>
-</ParamField>
-
-<ParamField path="lockReference" type="string">
-Reference ID for the locked coupon, if the coupon was previously locked.
-</ParamField>
-
-<ParamField path="pin" type="string">
-Pin code required for the coupon, if applicable.
-</ParamField>
-
-## Response
-
-<ResponseField name="success" type="boolean">
-Whether the coupon was successfully burned/marked as used.
-</ResponseField>
-
-<ResponseField name="burnedAt" type="string">
-Timestamp when the coupon was burned.
-</ResponseField>

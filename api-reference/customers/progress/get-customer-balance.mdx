@@ -1,16 +1,12 @@
 ---
-title: "Balance"
-description: "Retrieve a customer's balance including available and pending points."
+title: "Customer Balance"
+description: "Retrieve a customer's current points balance including redeemable points and their monetary equivalent."
 openapi: "GET /api/v4.0/integrations/customers/{customerId}/balance"
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-This API retrieves a customer's current points balance within Gameball,
- including redeemable points and their monetary equivalent. 
- It provides detailed balance information, such as total, available, and pending points, along with upcoming expirations.
-
-
+This API retrieves a customer's current points balance within Gameball, including redeemable points and their monetary equivalent. It provides detailed balance information, such as total, available, and pending points, along with upcoming expirations.
 
 <Info>
-Security: Provide both `apikey` and `secretkey` headers.
+**Security**: Requires **apikey** and **secretkey** headers.
 </Info>
