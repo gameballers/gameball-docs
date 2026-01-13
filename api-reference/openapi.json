@@ -2316,32 +2316,48 @@
     },
     "/api/v4.0/integrations/configurations/reward-campaigns": {
       "get": {
-        "description": "Retrieve active campaigns configuration for the loyalty program.",
+        "summary": "Campaigns Configurations",
+        "description": "The API retrieves your reward campaign configurations, including both event-based and transactional campaigns. If the customerId, productSku, or collectionId query parameters are provided, the response will include the reward campaigns that are applicable for the specified customer or product.",
+        "operationId": "getCampaignsConfigurations",
         "security": [ { "apiKey": [] } ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer. If provided, the API filters and returns only the campaigns that can be achieved by this customer.",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "collectionId",
+            "in": "query",
+            "description": "Unique identifier for a product collection. If provided, the API returns the transactional campaigns applicable to the specified collection.",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "productSku",
+            "in": "query",
+            "description": "The SKU (Stock Keeping Unit) of a product. If provided, the API returns the transactional campaigns applicable to the specified product.",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "description": "If the lang header is provided, the response will be returned in the specified language (e.g., en for English, fr for French). If this header is not included, the system will use the default language.",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Campaigns retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "campaigns": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": { "type": "string" },
-                          "name": { "type": "string" },
-                          "description": { "type": "string" },
-                          "startDate": { "type": "string", "format": "date-time" },
-                          "endDate": { "type": "string", "format": "date-time" },
-                          "isActive": { "type": "boolean" },
-                          "rewardType": { "type": "string" }
-                        }
-                      }
-                    }
-                  }
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/RewardCampaignConfiguration" }
                 }
               }
             }
@@ -2351,31 +2367,27 @@
     },
     "/api/v4.0/integrations/configurations/tiers": {
       "get": {
-        "description": "Retrieve VIP tier configurations for the loyalty program.",
+        "summary": "Tiers Configurations",
+        "description": "This API call retrieves the tiers configuration, including the benefits and rewards associated with each tier.",
+        "operationId": "getTiersConfigurations",
         "security": [ { "apiKey": [] } ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "description": "If the lang header is provided, the response will be returned in the specified language (e.g., en for English, fr for French). If this header is not included, the system will use the default language.",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
         "responses": {
           "200": {
             "description": "VIP tiers retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "tiers": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": { "type": "string" },
-                          "name": { "type": "string" },
-                          "minimumPoints": { "type": "number" },
-                          "benefits": { "type": "array", "items": { "type": "string" } },
-                          "color": { "type": "string" },
-                          "isActive": { "type": "boolean" }
-                        }
-                      }
-                    }
-                  }
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/TierConfiguration" }
                 }
               }
             }
@@ -2385,24 +2397,25 @@
     },
     "/api/v4.0/integrations/configurations/referrals": {
       "get": {
-        "description": "Retrieve referral program configuration for the loyalty program.",
+        "summary": "Referrals Configurations",
+        "description": "This API retrieves the referral configuration, including customer and friend rewards, as well as metadata related to the events that trigger referral rewards.",
+        "operationId": "getReferralsConfigurations",
         "security": [ { "apiKey": [] } ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "description": "If the lang header is provided, the response will be returned in the specified language (e.g., en for English, fr for French). If this header is not included, the system will use the default language.",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Referral settings retrieved successfully",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "enabled": { "type": "boolean" },
-                    "referrerReward": { "type": "number" },
-                    "refereeReward": { "type": "number" },
-                    "minimumReferrals": { "type": "number" },
-                    "referralCodeLength": { "type": "number" },
-                    "expirationDays": { "type": "number" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/ReferralConfiguration" }
               }
             }
           }
@@ -5998,6 +6011,339 @@
         "type": "object",
         "properties": {
           "count": { "type": "number", "description": "The total number of notifications available for the customer in Gameball system" }
+        }
+      },
+      "RewardCampaignConfiguration": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number", "description": "Unique identifier for the reward campaign." },
+          "name": { "type": "string", "description": "Name of the reward campaign." },
+          "description": { "type": ["string", "null"], "description": "A brief description of the reward campaign." },
+          "isRepeatable": { "type": "boolean", "description": "Indicates whether the campaign can be earned multiple times. Example: If set to true, a customer can earn the campaign reward each time they meet the criteria, and if set to false, the campaign can only be earned once per customer." },
+          "maxAchievement": { "type": "number", "description": "Specifies the maximum number of times the campaign can be earned if the value of isRepeatable is true. If the value is -1, it means the campaign can be earned indefinitely. Example: A value of 3 means the customer can earn the campaign reward up to three times before it is no longer available." },
+          "type": { "type": "string", "description": "The type of the campaign. Possible values: SignUp (Reward is given when a user signs up), SocialMedia (Reward is linked to social media activity), ScheduledChallenge (A time-based challenge that gives rewards), Spin The Wheel (Rewards are given based on a spin-the-wheel game), EventBased (Reward is given based on specific customer events), HighScore (Reward is given based on achieving high scores in a campaign), Birthday (Reward is given for birthday-related activity)." },
+          "visibility": { "type": "string", "description": "The visibility status of the campaign. Possible values: AlwaysVisible (The campaign is always visible on the widget), NotVisible (The campaign is not visible to the customer on the widget), VisibleIfEarned (The campaign becomes visible once the customer earns it on the widget)." },
+          "icon": { "type": ["string", "null"], "description": "The URL of the campaign's icon image. This icon visually represents the campaign and can be used in marketing materials or on the platform." },
+          "availability": {
+            "type": "object",
+            "description": "Defines the criteria determining which customers are eligible to earn this reward campaign.",
+            "properties": {
+              "minTier": { "type": "number", "description": "The minimum customer tier order required to achieve in the campaign. Customers must meet or exceed this tier to be eligible. Example: A value of 2 indicates that only customers in the tier with order 2 or higher can earn this campaign." },
+              "tags": { "type": "array", "items": { "type": "string" }, "description": "A list of tags that identify the target customers eligible for the campaign. Tags can be used to group customers based on specific attributes or behaviors. Example: [\"loyal\", \"new_customer\"] indicates that only customers tagged as \"loyal\" or \"new_customer\" are eligible for the campaign." }
+            }
+          },
+          "redirectionButtonText": { "type": ["string", "null"], "description": "The text displayed on the redirection button within the reward campaign page on the widget. Example: \"Claim Your Reward\" would prompt customers to take action." },
+          "redirectionButtonLink": { "type": ["string", "null"], "description": "The URL that the redirection button points to. When customers click the button, they will be redirected to this link. It should lead to a relevant page that provides more information or facilitates the reward campaign achievement. Example: \"https://yourwebsite.com/rewards\" directs customers to a page where they can view their rewards." },
+          "activation": {
+            "type": ["object", "null"],
+            "description": "Defines the activation criteria for the campaign, which may include specific start and end dates.",
+            "properties": {
+              "startDate": { "type": ["string", "null"], "format": "date-time", "description": "The date and time when the campaign becomes active. This value determines when customers can begin to earn or win rewards associated with the campaign. Example: \"2024-11-01T00:00:00\" indicates that the campaign starts on November 1, 2024." },
+              "endDate": { "type": ["string", "null"], "format": "date-time", "description": "The date and time when the campaign ends. After this date, customers will no longer be able to earn this campaign. Example: \"2024-11-30T23:59:59\" indicates that the campaign ends on November 30, 2024, at 11:59 PM." }
+            }
+          },
+          "rewards": {
+            "type": "array",
+            "description": "Details of the rewards that the customer will earn once achieving this reward campaign.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "rankReward": { "type": "number", "description": "The score rewarded for achieving this reward campaign." },
+                "walletReward": { "type": "number", "description": "The number of points the customer will earn upon achieving this reward campaign. Example: If you have set up a \"First Order\" campaign where a customer earns 200 points as a reward for placing their first order, the walletReward value would be 200." },
+                "walletRewardFactor": { "type": ["number", "null"], "description": "The multiplier applied to the points a customer earns based on the amount they spend during this campaign. This factor is used in transactional campaigns, such as points multipliers. Example: In a \"Double Points\" campaign, the walletRewardFactor would be set to 2, meaning the customer will earn twice the normal amount of points for their purchases during the campaign." },
+                "couponReward": {
+                  "type": ["object", "null"],
+                  "description": "A coupon object that is awarded to the customer for this reward campaign.",
+                  "properties": {
+                    "couponType": { "type": ["string", "null"], "description": "The type of coupon applied. Possible values include: free_shipping, percentage_discount, fixed_discount, fixed_rate_discount, free_product, custom." },
+                    "discountValue": { "type": ["number", "null"], "description": "The value of the discount provided by the coupon in case the coupon type is fixed_discount, percentage_discount or fixed_rate_discount." },
+                    "product": {
+                      "type": ["object", "null"],
+                      "properties": {
+                        "productId": { "type": ["string", "null"], "description": "The unique identifier for the product." },
+                        "productName": { "type": ["string", "null"], "description": "The name of the product." },
+                        "variantId": { "type": ["string", "null"], "description": "The unique identifier for the product variant." },
+                        "variantName": { "type": ["string", "null"], "description": "The name of the product variant." },
+                        "productDisplayName": { "type": ["string", "null"], "description": "The display name associated with the product that configured on the dashboard based on required language." }
+                      }
+                    },
+                    "collections": {
+                      "type": ["array", "null"],
+                      "description": "A list of collection IDs that the coupon can be applied to.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "collectionId": { "type": ["string", "null"], "description": "The unique identifier for the collection." },
+                          "collectionName": { "type": ["string", "null"], "description": "The name for the collection." }
+                        }
+                      }
+                    },
+                    "group": {
+                      "type": ["object", "null"],
+                      "properties": {
+                        "handle": { "type": ["string", "null"], "description": "A unique identifier used to reference the coupon group in the system." },
+                        "title": { "type": ["string", "null"], "description": "The title of the coupon group." },
+                        "url": { "type": ["string", "null"], "description": "The URL for the coupon group." },
+                        "iconPath": { "type": ["string", "null"], "description": "The path to the icon of the coupon group." },
+                        "description": { "type": ["string", "null"], "description": "A description of the coupon group." },
+                        "maxPerCustomer": { "type": ["number", "null"], "description": "The maximum number of times a customer can use the coupon. Example: 5 indicates that each customer can redeem this coupon up to 5 times." },
+                        "startDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will become active and valid for redemption." },
+                        "expiryDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will expire and no longer be valid for redemption." },
+                        "isAvailable": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently available." },
+                        "isActive": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently active." }
+                      }
+                    },
+                    "options": {
+                      "type": ["object", "null"],
+                      "properties": {
+                        "name": { "type": ["string", "null"], "description": "The name of the reward rule configured on the dashboard based on required language." },
+                        "expiryAfter": { "type": ["number", "null"], "description": "The number of days after creation that the coupon will expire. Example: If a coupon expires after 14 days, the customer must use it within that period to receive the discount." },
+                        "usageLimit": { "type": ["number", "null"], "description": "The maximum number of times a single coupon can be used. Example: If a coupon has a usage limit of 5, it can be redeemed up to 5 times before it becomes invalid." },
+                        "capping": { "type": ["number", "null"], "description": "The maximum discount value a coupon can provide, regardless of the order amount. Example: If a coupon offers 20% off with a capping of $50, the discount will not exceed $50, even if 20% of the order total is higher." },
+                        "minOrderValue": { "type": ["number", "null"], "description": "The minimum order amount required to apply the coupon. Example: If a coupon has a minimum order value of $100, the customer must spend at least $100 to use the discount." },
+                        "codePrefix": { "type": ["string", "null"], "description": "The prefix that will be added to the beginning of the generated coupon code. Example: If the prefix is \"SUMMER\", the generated coupon codes might look like \"SUMMER12345\" or \"SUMMERDISCOUNT\"." },
+                        "redeemInstructions": { "type": ["string", "null"], "description": "The instructions on how the customer can redeem the coupon. Example: \"Enter the coupon code at checkout to apply the discount.\"" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "TierConfiguration": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "The name of the tier." },
+          "minProgress": { "type": "number", "description": "The minimum amount of progress a customer needs to reach this tier in the program. This represents the threshold that must be met for a customer to reach this tier. Example: if the minProgress is set to 2000, the customer must accumulate 2000 points, referrals, or completed orders (depending on the tiering method) to reach this tier. Possible Values: Total amount spent, Total points earned, Friends referred, Orders completed, Score. Example: If the progress value is 1500 and the tiering-up method is total points earned, this means the customer has earned a total of 1500 points toward their next tier." },
+          "order": { "type": "number", "description": "This represents the numerical order of a tier. Higher numbers indicate higher tiers." },
+          "icon": { "type": "string", "description": "The URL for the icon associated with the tier. You can utilize this icon URL to display tier badges or indicators in your own custom interface, such as on customer profiles." },
+          "benefits": {
+            "type": "array",
+            "description": "It contains a list of rewards associated with the tier, each offering specific advantages to the customer. This array includes various types of benefits.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "description": "Indicates the type of benefit the customer will receive. The possible values are: Custom Benefits (Offers tailored and custom rewards to offer customization for specific customer preferences or behaviors), Lifetime Reward (A benefit that can be used once at any time during the customer's lifetime with Gameball, as long as they remain in this tier), Loyalty Points Earning Custom Configuration (Enables customized settings for how customers earn loyalty points based on their spending amount), Entry Reward (A one-time reward granted to customers upon joining this tier)." },
+                "description": { "type": ["string", "null"], "description": "Description of the custom benefit." },
+                "hyperLink": { "type": ["string", "null"], "description": "Hyperlink associated with the custom benefit." },
+                "rankReward": { "type": "number", "description": "The score rewarded for the customer as a reward." },
+                "walletReward": { "type": "number", "description": "The number of points the customer will earn for this reward." },
+                "walletRewardFactor": { "type": ["number", "null"], "description": "This is a multiplier factor that indicates how the customer on their tier will be rewarded for each unit of currency they spend. This is returned for the benefits of type Loyalty Points Earning Custom Configuration. Example: If a tier has a walletRewardFactor of 2, it means any customer on this tier will earn 2 loyalty points for every $1 they spend. Therefore, if the customer spends $100, they would receive 200 loyalty points as a reward." },
+                "couponReward": {
+                  "type": ["object", "null"],
+                  "description": "A coupon object that is awarded to the customer.",
+                  "properties": {
+                    "couponType": { "type": ["string", "null"], "description": "The type of coupon applied. Possible values include: free_shipping, percentage_discount, fixed_discount, fixed_rate_discount, free_product, custom." },
+                    "discountValue": { "type": ["number", "null"], "description": "The value of the discount provided by the coupon in case the coupon type is fixed_discount, percentage_discount or fixed_rate_discount." },
+                    "product": {
+                      "type": ["object", "null"],
+                      "properties": {
+                        "productId": { "type": ["string", "null"], "description": "The unique identifier for the product." },
+                        "productName": { "type": ["string", "null"], "description": "The name of the product." },
+                        "variantId": { "type": ["string", "null"], "description": "The unique identifier for the product variant." },
+                        "variantName": { "type": ["string", "null"], "description": "The name of the product variant." },
+                        "productDisplayName": { "type": ["string", "null"], "description": "The display name associated with the product that configured on the dashboard based on required language." }
+                      }
+                    },
+                    "collections": {
+                      "type": ["array", "null"],
+                      "description": "A list of collection IDs that the coupon can be applied to.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "collectionId": { "type": ["string", "null"], "description": "The unique identifier for the collection." },
+                          "collectionName": { "type": ["string", "null"], "description": "The name for the collection." }
+                        }
+                      }
+                    },
+                    "group": {
+                      "type": ["object", "null"],
+                      "properties": {
+                        "handle": { "type": ["string", "null"], "description": "A unique identifier used to reference the coupon group in the system." },
+                        "title": { "type": ["string", "null"], "description": "The title of the coupon group." },
+                        "url": { "type": ["string", "null"], "description": "The URL for the coupon group." },
+                        "iconPath": { "type": ["string", "null"], "description": "The path to the icon of the coupon group." },
+                        "description": { "type": ["string", "null"], "description": "A description of the coupon group." },
+                        "maxPerCustomer": { "type": ["number", "null"], "description": "The maximum number of times a customer can use the coupon. Example: 5 indicates that each customer can redeem this coupon up to 5 times." },
+                        "startDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will become active and valid for redemption." },
+                        "expiryDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will expire and no longer be valid for redemption." },
+                        "isAvailable": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently available." },
+                        "isActive": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently active." }
+                      }
+                    },
+                    "options": {
+                      "type": ["object", "null"],
+                      "properties": {
+                        "name": { "type": ["string", "null"], "description": "The name of the reward rule configured on the dashboard based on required language." },
+                        "expiryAfter": { "type": ["number", "null"], "description": "The number of days after creation that the coupon will expire. Example: If a coupon expires after 14 days, the customer must use it within that period to receive the discount." },
+                        "usageLimit": { "type": ["number", "null"], "description": "The maximum number of times a single coupon can be used. Example: If a coupon has a usage limit of 5, it can be redeemed up to 5 times before it becomes invalid." },
+                        "capping": { "type": ["number", "null"], "description": "The maximum discount value a coupon can provide, regardless of the order amount. Example: If a coupon offers 20% off with a capping of $50, the discount will not exceed $50, even if 20% of the order total is higher." },
+                        "minOrderValue": { "type": ["number", "null"], "description": "The minimum order amount required to apply the coupon. Example: If a coupon has a minimum order value of $100, the customer must spend at least $100 to use the discount." },
+                        "codePrefix": { "type": ["string", "null"], "description": "The prefix that will be added to the beginning of the generated coupon code. Example: If the prefix is \"SUMMER\", the generated coupon codes might look like \"SUMMER12345\" or \"SUMMERDISCOUNT\"." },
+                        "redeemInstructions": { "type": ["string", "null"], "description": "The instructions on how the customer can redeem the coupon. Example: \"Enter the coupon code at checkout to apply the discount.\"" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ReferralConfiguration": {
+        "type": "object",
+        "properties": {
+          "referralMethod": { "type": "string", "description": "This specifies who will receive the referral reward when a successful referral is made. Possible values: CustomerOnly (Only the customer making the referral will receive the reward. The referred friend will not receive any reward), CustomerAndFriend (Both the customer making the referral and the referred friend will receive rewards, encouraging mutual benefit)." },
+          "eventName": { "type": "string", "description": "This describes the event that will trigger the referral reward. Example: if the eventName is set to place_order, the referral reward will be granted when the referred friend completes an order after using the referral link. Other events can also be configured to trigger the reward, depending on your system's setup." },
+          "eventMetaData": {
+            "type": ["object", "null"],
+            "description": "Contains additional metadata about the event that triggers the referral.",
+            "properties": {
+              "name": { "type": ["string", "null"], "description": "The name of the event metadata." },
+              "operator": { "type": ["string", "null"], "description": "The operator used for event metadata (e.g., equals, greater_than)." },
+              "value": { "type": ["string", "null"], "description": "The value associated with the event metadata." }
+            }
+          },
+          "friendReward": {
+            "type": ["object", "null"],
+            "description": "The reward details given to the referred friend as part of the referral program.",
+            "properties": {
+              "score": { "type": ["number", "null"], "description": "The score awarded to the referred friend." },
+              "point": { "type": ["number", "null"], "description": "The points awarded to the referred friend." },
+              "coupon": {
+                "type": ["object", "null"],
+                "description": "A coupon object that is awarded to the referred friend.",
+                "properties": {
+                  "couponType": { "type": ["string", "null"], "description": "The type of coupon applied. Possible values include: free_shipping, percentage_discount, fixed_discount, fixed_rate_discount, free_product, custom." },
+                  "discountValue": { "type": ["number", "null"], "description": "The value of the discount provided by the coupon in case the coupon type is fixed_discount, percentage_discount or fixed_rate_discount." },
+                  "product": {
+                    "type": ["object", "null"],
+                    "properties": {
+                      "productId": { "type": ["string", "null"], "description": "The unique identifier for the product." },
+                      "productName": { "type": ["string", "null"], "description": "The name of the product." },
+                      "variantId": { "type": ["string", "null"], "description": "The unique identifier for the product variant." },
+                      "variantName": { "type": ["string", "null"], "description": "The name of the product variant." },
+                      "productDisplayName": { "type": ["string", "null"], "description": "The display name associated with the product that configured on the dashboard based on required language." }
+                    }
+                  },
+                  "collections": {
+                    "type": ["array", "null"],
+                    "description": "A list of collection IDs that the coupon can be applied to.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "collectionId": { "type": ["string", "null"], "description": "The unique identifier for the collection." },
+                        "collectionName": { "type": ["string", "null"], "description": "The name for the collection." }
+                      }
+                    }
+                  },
+                  "group": {
+                    "type": ["object", "null"],
+                    "properties": {
+                      "handle": { "type": ["string", "null"], "description": "A unique identifier used to reference the coupon group in the system." },
+                      "title": { "type": ["string", "null"], "description": "The title of the coupon group." },
+                      "url": { "type": ["string", "null"], "description": "The URL for the coupon group." },
+                      "iconPath": { "type": ["string", "null"], "description": "The path to the icon of the coupon group." },
+                      "description": { "type": ["string", "null"], "description": "A description of the coupon group." },
+                      "maxPerCustomer": { "type": ["number", "null"], "description": "The maximum number of times a customer can use the coupon. Example: 5 indicates that each customer can redeem this coupon up to 5 times." },
+                      "startDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will become active and valid for redemption." },
+                      "expiryDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will expire and no longer be valid for redemption." },
+                      "isAvailable": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently available." },
+                      "isActive": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently active." }
+                    }
+                  },
+                  "options": {
+                    "type": ["object", "null"],
+                    "properties": {
+                      "name": { "type": ["string", "null"], "description": "The name of the reward rule configured on the dashboard based on required language." },
+                      "expiryAfter": { "type": ["number", "null"], "description": "The number of days after creation that the coupon will expire. Example: If a coupon expires after 14 days, the customer must use it within that period to receive the discount." },
+                      "usageLimit": { "type": ["number", "null"], "description": "The maximum number of times a single coupon can be used. Example: If a coupon has a usage limit of 5, it can be redeemed up to 5 times before it becomes invalid." },
+                      "capping": { "type": ["number", "null"], "description": "The maximum discount value a coupon can provide, regardless of the order amount. Example: If a coupon offers 20% off with a capping of $50, the discount will not exceed $50, even if 20% of the order total is higher." },
+                      "minOrderValue": { "type": ["number", "null"], "description": "The minimum order amount required to apply the coupon. Example: If a coupon has a minimum order value of $100, the customer must spend at least $100 to use the discount." },
+                      "codePrefix": { "type": ["string", "null"], "description": "The prefix that will be added to the beginning of the generated coupon code. Example: If the prefix is \"SUMMER\", the generated coupon codes might look like \"SUMMER12345\" or \"SUMMERDISCOUNT\"." },
+                      "redeemInstructions": { "type": ["string", "null"], "description": "The instructions on how the customer can redeem the coupon. Example: \"Enter the coupon code at checkout to apply the discount.\"" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "customerReward": {
+            "type": ["object", "null"],
+            "description": "The reward details given to the customer as part of the referral program.",
+            "properties": {
+              "score": { "type": ["number", "null"], "description": "The score awarded to the customer." },
+              "point": { "type": ["number", "null"], "description": "The points awarded to the customer." },
+              "coupon": {
+                "type": ["object", "null"],
+                "description": "A coupon object that is awarded to the customer.",
+                "properties": {
+                  "couponType": { "type": ["string", "null"], "description": "The type of coupon applied. Possible values include: free_shipping, percentage_discount, fixed_discount, fixed_rate_discount, free_product, custom." },
+                  "discountValue": { "type": ["number", "null"], "description": "The value of the discount provided by the coupon in case the coupon type is fixed_discount, percentage_discount or fixed_rate_discount." },
+                  "product": {
+                    "type": ["object", "null"],
+                    "properties": {
+                      "productId": { "type": ["string", "null"], "description": "The unique identifier for the product." },
+                      "productName": { "type": ["string", "null"], "description": "The name of the product." },
+                      "variantId": { "type": ["string", "null"], "description": "The unique identifier for the product variant." },
+                      "variantName": { "type": ["string", "null"], "description": "The name of the product variant." },
+                      "productDisplayName": { "type": ["string", "null"], "description": "The display name associated with the product that configured on the dashboard based on required language." }
+                    }
+                  },
+                  "collections": {
+                    "type": ["array", "null"],
+                    "description": "A list of collection IDs that the coupon can be applied to.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "collectionId": { "type": ["string", "null"], "description": "The unique identifier for the collection." },
+                        "collectionName": { "type": ["string", "null"], "description": "The name for the collection." }
+                      }
+                    }
+                  },
+                  "group": {
+                    "type": ["object", "null"],
+                    "properties": {
+                      "handle": { "type": ["string", "null"], "description": "A unique identifier used to reference the coupon group in the system." },
+                      "title": { "type": ["string", "null"], "description": "The title of the coupon group." },
+                      "url": { "type": ["string", "null"], "description": "The URL for the coupon group." },
+                      "iconPath": { "type": ["string", "null"], "description": "The path to the icon of the coupon group." },
+                      "description": { "type": ["string", "null"], "description": "A description of the coupon group." },
+                      "maxPerCustomer": { "type": ["number", "null"], "description": "The maximum number of times a customer can use the coupon. Example: 5 indicates that each customer can redeem this coupon up to 5 times." },
+                      "startDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will become active and valid for redemption." },
+                      "expiryDate": { "type": ["string", "null"], "format": "date-time", "description": "The date when the coupons within this coupon group will expire and no longer be valid for redemption." },
+                      "isAvailable": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently available." },
+                      "isActive": { "type": ["boolean", "null"], "description": "Indicates whether the coupon group is currently active." }
+                    }
+                  },
+                  "options": {
+                    "type": ["object", "null"],
+                    "properties": {
+                      "name": { "type": ["string", "null"], "description": "The name of the reward rule configured on the dashboard based on required language." },
+                      "expiryAfter": { "type": ["number", "null"], "description": "The number of days after creation that the coupon will expire. Example: If a coupon expires after 14 days, the customer must use it within that period to receive the discount." },
+                      "usageLimit": { "type": ["number", "null"], "description": "The maximum number of times a single coupon can be used. Example: If a coupon has a usage limit of 5, it can be redeemed up to 5 times before it becomes invalid." },
+                      "capping": { "type": ["number", "null"], "description": "The maximum discount value a coupon can provide, regardless of the order amount. Example: If a coupon offers 20% off with a capping of $50, the discount will not exceed $50, even if 20% of the order total is higher." },
+                      "minOrderValue": { "type": ["number", "null"], "description": "The minimum order amount required to apply the coupon. Example: If a coupon has a minimum order value of $100, the customer must spend at least $100 to use the discount." },
+                      "codePrefix": { "type": ["string", "null"], "description": "The prefix that will be added to the beginning of the generated coupon code. Example: If the prefix is \"SUMMER\", the generated coupon codes might look like \"SUMMER12345\" or \"SUMMERDISCOUNT\"." },
+                      "redeemInstructions": { "type": ["string", "null"], "description": "The instructions on how the customer can redeem the coupon. Example: \"Enter the coupon code at checkout to apply the discount.\"" }
+                    }
+                  }
+                }
+              },
+              "extraReward": {
+                "type": ["object", "null"],
+                "description": "It contains all the details of the reward (like the friendReward Object) that will be awarded to the customer as a bonus on top of the regular reward for every X friend referred.",
+                "properties": {
+                  "forEvery": { "type": ["number", "null"], "description": "This defines the number of friends a customer needs to refer in order to earn the extraReward. For example, if the value of forEvery is set to 5, the customer will receive the extra reward for every 5 friends they successfully refer. This acts as a bonus on top of the regular reward, incentivizing more referrals." },
+                  "score": { "type": ["number", "null"], "description": "The score awarded as part of the extra reward." },
+                  "point": { "type": ["number", "null"], "description": "The points awarded as part of the extra reward." },
+                  "coupon": { "type": ["object", "null"], "description": "A coupon object that is awarded as part of the extra reward." }
+                }
+              }
+            }
+          }
         }
       }
     },
