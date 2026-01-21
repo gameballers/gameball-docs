@@ -29,19 +29,22 @@ The hold reference ensures that points are locked for that transaction and canno
 
 ### Example Scenario
 
-A customer wants to redeem 50 points (worth 5 SAR) against their current order. The steps are:
+A customer wants to redeem 100 points against their current order. The steps are:
 
-#### Step 1: Hold the Points
+#### Step 1: Hold Points (Temporary Redemption)
+
+This reserves points temporarily before checkout:
 
 <RequestExample>
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
-    "customerId": "mobile_966500001234",
-    "transactionTime": "2025-09-29T15:08:00Z",
-    "pointsToHold": 50
+    "customerId": "12345",
+    "transactionTime": "2025-10-19T12:00:00Z",
+    "pointsToHold": 100
   }'
 ```
 </RequestExample>
@@ -49,13 +52,17 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
 <ResponseExample>
 ```json Success
 {
-  "customerId": "mobile_966500001234",
-  "holdAmount": "5",
-  "holdEquivalentPoints": 50,
-  "holdReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+  "customerId": "12345",
+  "holdAmount": "10.00",
+  "holdEquivalentPoints": 100,
+  "holdReference": "HOLD-abc123"
 }
 ```
 </ResponseExample>
+
+<Info>
+**Hold Duration**: Points are held temporarily (typically 10 minutes) to prevent double-spending. If the order isn't completed within this time, the points are automatically released back to the customer.
+</Info>
 
 #### Step 2: Submit the Order with the Redemption Applied
 
@@ -63,17 +70,19 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
-    "customerId": "mobile_966500001234",
-    "orderId": "POS_987654322",
-    "orderDate": "2025-09-29T15:10:00Z",
-    "totalPaid": 295,
-    "totalPrice": 300,
-    "totalShipping": 10,
-    "totalTax": 15,
+    "customerId": "12345",
+    "orderId": "ORD000123",
+    "orderDate": "2025-10-19T12:10:00Z",
+    "totalPaid": 95.00,
+    "totalPrice": 100.00,
+    "totalDiscount": 5.00,
+    "totalTax": 2.00,
+    "totalShipping": 0,
     "redemption": {
-      "pointsHoldReference": "a2a199ad-86f3-45c4-8253-7aaee50e4798"
+      "pointsHoldReference": "HOLD-abc123"
     }
   }'
 ```
@@ -82,10 +91,11 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
 <ResponseExample>
 ```json Success
 {
-  "orderId": "POS_987654322",
-  "customerId": "mobile_966500001234",
-  "pointsRedeemed": 50,
-  "pointsEarned": 29.5,
+  "orderId": "ORD000123",
+  "customerId": "12345",
+  "pointsRedeemed": 100,
+  "pointsEarned": 9.5,
+  "rewardedPoints": 9.5,
   "status": "completed"
 }
 ```
@@ -134,10 +144,11 @@ Parsed as:
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
-    "customerId": "mobile_966500001234",
-    "transactionTime": "2025-09-29T15:15:00Z",
+    "customerId": "12345",
+    "transactionTime": "2025-10-19T12:00:00Z",
     "pointsToHold": 1000,
     "hash": "123456"
   }'

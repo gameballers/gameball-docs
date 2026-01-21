@@ -3,47 +3,41 @@ title: "Customer Management"
 description: "Register new customers or identify existing ones during checkout at your POS"
 ---
 
-## Use Case: Registering a New Customer During Checkout
+## Get or Create a Customer
 
-### What This Is
+### Lookup Customer Balance
 
-This use case outlines how to register a new customer in Gameball's loyalty program through the POS, enabling them to earn and redeem points on future visits.
+First, check if the customer exists by retrieving their balance:
 
-When a first-time shopper checks out, the store clerk collects basic information—such as mobile number or email—used to create a new Gameball profile in the background via API.
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
 
-### Why It Matters
+<Info>
+**Automatic Customer Creation**: If the customer doesn't exist when you call the balance endpoint, you can create them using the Create Customer endpoint below. If the customer is found, skip the creation step.
+</Info>
 
-A Gameball profile is the foundation for any loyalty engagement.
+### Create Customer
 
-- Without registration, purchases cannot be tracked, and no rewards can be issued
-- Early registration allows for welcome bonuses, tier progress, and behavioral targeting
-- Failure to register customers is the #1 reason for low program engagement in offline channels
-
-### How to Implement It
-
-Call the Create/Update Customer API from your POS system upon checkout.
-
-At minimum, provide:
-
-- A unique `customerId` (your internal identifier, phone number, or email)
-- One of: `email` or `mobile`
-
-This API is idempotent. If the customer already exists, the profile will be updated instead of duplicated.
-
-### Example Scenario
-
-At checkout, the store clerk asks the shopper for their mobile number. The POS system sends the following background request to register them into Gameball:
+If the customer isn't found, create a new customer profile:
 
 <RequestExample>
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
-    "customerId": "mobile_966500001234",
-    "name": "Loyal Shopper",
-    "email": "shopper@example.com",
-    "mobile": "+966500001234"
+    "customerId": "12345",
+    "customerAttributes": {
+      "displayName": "John Doe",
+      "email": "john@doe.com",
+      "mobile": "+20123456789"
+    }
   }'
 ```
 </RequestExample>
@@ -51,11 +45,11 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
 <ResponseExample>
 ```json Success
 {
-  "customerId": "mobile_966500001234",
-  "name": "Loyal Shopper",
-  "email": "shopper@example.com",
-  "mobile": "+966500001234",
-  "createdAt": "2025-09-29T15:00:00Z"
+  "customerId": "12345",
+  "name": "John Doe",
+  "email": "john@doe.com",
+  "mobile": "+20123456789",
+  "createdAt": "2025-10-19T12:00:00Z"
 }
 ```
 </ResponseExample>
@@ -71,5 +65,5 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
 - Use a persistent and unique `customerId` across all platforms (POS, online, app)
 - Call this API immediately before checkout or as soon as the identifier is collected
 - Ensure your POS UI clearly captures at least one contact field (mobile/email)
-- You can use this API proactively—even for existing customers—without conflict
+- This API is idempotent—if the customer already exists, the profile will be updated instead of duplicated
 

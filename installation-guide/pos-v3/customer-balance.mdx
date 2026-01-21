@@ -34,8 +34,9 @@ The customer returns to the store and provides their phone number. The cashier e
 
 <RequestExample>
 ```bash cURL
-curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/mobile_966500001234/balance' \
-  -H 'Authorization: Bearer YOUR_API_KEY'
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
 ```
 </RequestExample>
 
@@ -55,6 +56,17 @@ curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/mobile_9665
 }
 ```
 </ResponseExample>
+
+### Display Fields
+
+After fetching the balance, display the following fields on-screen:
+
+<Checklist>
+  <Check>**availablePointsBalance**: Points the customer can redeem immediately</Check>
+  <Check>**availablePointsValue**: Monetary equivalent of available points</Check>
+  <Check>**pendingPoints**: Points not yet confirmed</Check>
+  <Check>**nextExpiringPointsAmount** / **nextExpiringPointsDate**: Points expiring soon</Check>
+</Checklist>
 
 ### What Gameball Does Behind the Scenes
 

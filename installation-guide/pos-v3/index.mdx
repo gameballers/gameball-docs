@@ -26,6 +26,34 @@ Integrating Gameball's loyalty program with your POS system allows you to:
 - **Track customer events** for additional engagement opportunities
 - **Verify identity** via secure QR codes or virtual passes (optional)
 
+## Typical Workflow
+
+The standard POS integration workflow follows these steps:
+
+<Steps>
+  <Step title="1. Lookup Customer">
+    GET `/integrations/customers/{customerId}/balance` - Check if customer exists and retrieve balance
+  </Step>
+  <Step title="2. Create Customer (if needed)">
+    POST `/integrations/customers` - Create new customer profile if not found
+  </Step>
+  <Step title="3. Display Balance">
+    Show available points, monetary value, and expiring points to the customer
+  </Step>
+  <Step title="4. Offer Redemption">
+    POST `/integrations/transactions/hold` - Hold points if customer wants to redeem
+  </Step>
+  <Step title="5. Place Order">
+    POST `/integrations/orders` - Submit order with hold reference to finalize redemption
+  </Step>
+  <Step title="6. Show Earned Points">
+    Display `rewardedPoints` from order response to show points earned
+  </Step>
+  <Step title="7. Handle Refunds (if needed)">
+    POST `/integrations/transactions/refund` - Reverse order and restore points
+  </Step>
+</Steps>
+
 ## Integration Guide
 
 <CardGroup cols={2}>
@@ -34,27 +62,35 @@ Integrating Gameball's loyalty program with your POS system allows you to:
   </Card>
 
   <Card title="API Setup" icon="code" href="/installation-guide/pos-v3/api-setup">
-    Set up API authentication and configuration
+    Set up API authentication and environment configuration
   </Card>
 
   <Card title="Customer Management" icon="user" href="/installation-guide/pos-v3/customer-management">
-    Register and identify customers at checkout
+    Get or create customers at checkout
   </Card>
 
   <Card title="Customer Balance" icon="wallet" href="/installation-guide/pos-v3/customer-balance">
     Retrieve and display customer loyalty balance
   </Card>
 
-  <Card title="Track Events" icon="chart-line" href="/installation-guide/pos-v3/track-events">
-    Track customer events and actions at your POS
+  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/pos-v3/integrate-redemption">
+    Enable point redemption at checkout
   </Card>
 
   <Card title="Track Orders" icon="shopping-cart" href="/installation-guide/pos-v3/track-orders">
     Submit in-store orders to award loyalty points
   </Card>
 
-  <Card title="Integrate Redemption" icon="gift" href="/installation-guide/pos-v3/integrate-redemption">
-    Enable point redemption at checkout
+  <Card title="Refund Order" icon="arrow-rotate-left" href="/installation-guide/pos-v3/refund-order">
+    Refund or cancel orders and restore customer points
+  </Card>
+
+  <Card title="Fetch Order Details" icon="receipt" href="/installation-guide/pos-v3/fetch-order-details">
+    Retrieve order transaction history and customer activities
+  </Card>
+
+  <Card title="Track Events" icon="chart-line" href="/installation-guide/pos-v3/track-events">
+    Track customer events and actions at your POS
   </Card>
 
   <Card title="Track Referrals" icon="users" href="/installation-guide/pos-v3/track-referrals">

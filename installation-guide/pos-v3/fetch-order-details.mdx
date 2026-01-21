@@ -1,0 +1,103 @@
+---
+title: "Fetch Order Details"
+description: "Retrieve order transaction history and customer activities"
+---
+
+## Fetch Order Details / History
+
+Retrieve detailed information about orders and customer activities to display purchase history, transaction details, and loyalty activity.
+
+### Order Transactions
+
+Get all transactions associated with a specific order:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/orders/{orderId}/transactions' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "orderId": "ORD000123",
+  "transactions": [
+    {
+      "transactionId": "TXN001",
+      "type": "points_earned",
+      "points": 9.5,
+      "timestamp": "2025-10-19T12:10:00Z"
+    },
+    {
+      "transactionId": "TXN002",
+      "type": "points_redeemed",
+      "points": 100,
+      "timestamp": "2025-10-19T12:10:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>
+
+### Customer Activities
+
+Get the complete purchase history and activities for a customer:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/activities' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "customerId": "12345",
+  "activities": [
+    {
+      "activityId": "ACT001",
+      "type": "order",
+      "orderId": "ORD000123",
+      "pointsEarned": 9.5,
+      "pointsRedeemed": 100,
+      "date": "2025-10-19T12:10:00Z"
+    },
+    {
+      "activityId": "ACT002",
+      "type": "order",
+      "orderId": "ORD000122",
+      "pointsEarned": 15.0,
+      "date": "2025-10-18T14:30:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>
+
+### Use Cases
+
+- **Display Purchase History**: Show customers their recent orders and points earned
+- **Transaction Verification**: Verify order details and point transactions
+- **Customer Support**: Help resolve disputes or questions about transactions
+- **Analytics**: Track customer behavior and loyalty program engagement
+
+### Key Takeaways for Developers
+
+- Use order transactions endpoint to get detailed breakdown of a specific order
+- Use customer activities endpoint to show complete purchase history
+- Both endpoints support pagination for large result sets
+- Transaction details include timestamps, point amounts, and transaction types
+
+### Related Resources
+
+<Card title="Order Transactions API" icon="receipt" href="/api-reference/order/order-transactions">
+  Complete API reference for order transactions
+</Card>
+
+<Card title="Customer Activities API" icon="clock-rotate-left" href="/api-reference/customers/progress/get-customer-activities">
+  Complete API reference for customer activities
+</Card>

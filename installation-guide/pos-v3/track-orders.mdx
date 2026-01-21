@@ -37,21 +37,26 @@ Optional: `totalTax`, `totalShipping`, `discounts`, and `lineItems`.
 
 ### Example Scenario
 
-A customer completes a purchase worth 300 SAR. No points were redeemed. The POS submits the order using the customer's profile:
+A customer completes a purchase. The POS submits the order to Gameball:
 
 <RequestExample>
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
-    "customerId": "mobile_966500001234",
-    "orderId": "POS_987654321",
-    "orderDate": "2025-09-29T15:02:00Z",
-    "totalPaid": 300,
-    "totalPrice": 300,
-    "totalTax": 15,
-    "totalShipping": 10
+    "customerId": "12345",
+    "orderId": "ORD000123",
+    "orderDate": "2025-10-19T12:10:00Z",
+    "totalPaid": 95.00,
+    "totalPrice": 100.00,
+    "totalDiscount": 5.00,
+    "totalTax": 2.00,
+    "totalShipping": 0,
+    "redemption": {
+      "pointsHoldReference": "HOLD-abc123"
+    }
   }'
 ```
 </RequestExample>
@@ -59,14 +64,23 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
 <ResponseExample>
 ```json Success
 {
-  "orderId": "POS_987654321",
-  "customerId": "mobile_966500001234",
-  "pointsEarned": 30,
-  "pointsValue": 3.0,
+  "orderId": "ORD000123",
+  "customerId": "12345",
+  "pointsRedeemed": 100,
+  "pointsEarned": 9.5,
+  "rewardedPoints": 9.5,
   "status": "completed"
 }
 ```
 </ResponseExample>
+
+<Info>
+**Automatic Customer Creation**: If the customer specified by `customerId` doesn't exist in Gameball, a new customer profile will be automatically created when using this API. You don't need to create the customer separately before tracking orders.
+</Info>
+
+<Info>
+**Automatic Points Rewarding**: Gameball finalizes the order and automatically rewards points based on your configured earning rules. Check the `rewardedPoints` field in the response to display the points earned to the customer.
+</Info>
 
 ### What Gameball Does Behind the Scenes
 

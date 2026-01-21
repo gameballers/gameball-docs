@@ -3,47 +3,41 @@ title: "API Setup"
 description: "Set up API authentication and configuration for POS integration"
 ---
 
-## API Authentication
+## Environment Setup
 
-To integrate Gameball with your POS system, you'll need to authenticate all API requests using your Gameball API credentials.
+### Base URL
 
-### Required Credentials
+All API requests use the same base URL for both Test and Live environments:
 
+```
+https://api.gameball.co/api/v4.0
+```
+
+<Info>
+Switch between Test and Live environments by using your Test or Live API Keys. The base URL remains the same for both environments.
+</Info>
+
+### API Credentials
+
+Retrieve your API Key and Secret Key from the Gameball Dashboard:
+
+**Dashboard Path**: Settings → Account Integration → API Keys
+
+You'll need:
 - **API Key**: Your Gameball API key
-- **API Secret**: Your Gameball API secret
-
-These credentials are provided when you create your Gameball account and can be found in your Gameball dashboard under Settings > API Credentials.
+- **Secret Key**: Your Gameball API secret
 
 ### Authentication Method
 
 All API requests must include authentication headers:
 
-```bash
-Authorization: Bearer YOUR_API_KEY
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
 ```
-
-Or use API key authentication:
-
-```bash
-X-API-Key: YOUR_API_KEY
-X-API-Secret: YOUR_API_SECRET
-```
-
-### Base URL
-
-All API requests should be made to:
-
-```
-https://api.gameball.co
-```
-
-### API Version
-
-This integration guide uses Gameball API v4.0. Ensure your API calls target the correct version endpoint:
-
-```
-https://api.gameball.co/api/v4.0/
-```
+</RequestExample>
 
 ## Security Best Practices
 
