@@ -10,3 +10,7 @@ Create orders in Gameball to award points for customer purchases. This API is us
 <Info>
 Security: Provide both `apikey` and `secretkey` headers.
 </Info>
+
+<Info>
+**Automatic Customer Creation**: If the customer specified by `customerId` doesn't exist in Gameball, a new customer profile will be automatically created when using this API. You don't need to create the customer separately before tracking orders.
+</Info>
