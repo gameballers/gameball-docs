@@ -2472,10 +2472,7 @@
     "/api/v4.0/integrations/leaderboard": {
       "get": {
         "description": "This API retrieves the leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time. Results are ordered from the highest to the lowest rank, displaying each customer's rank, progress, and tier details.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "from",
@@ -3197,10 +3194,7 @@
     "/api/v4.0/integrations/batch/customers": {
       "post": {
         "description": "Create or update multiple customer profiles in a single API call for bulk user imports and mass profile updates.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3351,10 +3345,7 @@
     "/api/v4.0/integrations/batch/orders": {
       "post": {
         "description": "Register multiple orders for single or multiple customers in a single API call for efficient order management and tracking.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3400,10 +3391,7 @@
     "/api/v4.0/integrations/batch/balance-inquiry": {
       "post": {
         "description": "Retrieve customer loyalty balances for multiple customers in a single API call for efficient balance management.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3446,10 +3434,7 @@
     "/api/v4.0/integrations/batch/balance-adjustment": {
       "post": {
         "description": "Adjust customer loyalty balances for multiple customers in a single API call for efficient balance management.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3494,10 +3479,7 @@
     "/api/v4.0/integrations/batch/cashback": {
       "post": {
         "description": "Award loyalty points to customers through cashback program for multiple customers in a single API call.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3545,10 +3527,7 @@
     "/api/v4.0/integrations/batch/redeem": {
       "post": {
         "description": "Enable customers to redeem loyalty points as a payment method for multiple customers in a single API call.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3598,10 +3577,7 @@
     "/api/v4.0/integrations/batch/events": {
       "post": {
         "description": "Track multiple user actions or multiple actions for a single user in a single API call for efficient event tracking and analytics.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3652,10 +3628,7 @@
     "/api/v4.0/integrations/batches/{batchId}/status": {
       "get": {
         "description": "Monitor batch job status and results for ongoing batch operations.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "batchId",
@@ -3692,10 +3665,7 @@
     "/api/v4.0/integrations/batches/{batchId}/stop": {
       "post": {
         "description": "Stop ongoing batch operations when needed.",
-        "security": [
-          { "apiKey": [] },
-          { "secretKey": [] }
-        ],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
             "name": "batchId",
@@ -4377,16 +4347,9 @@
     "/api/v4.0/integrations/customers/{customerId}/balance": {
       "get": {
         "summary": "Get Customer Balance",
-        "description": "This API retrieves a customer's current points balance within Gameball, including redeemable points and their monetary equivalent. It provides detailed balance information, such as total, available, and pending points, along with upcoming expirations.",
+        "description": "This API retrieves a customer's current points balance within Gameball, including redeemable points and their monetary equivalent. It provides detailed balance information, such as total, available, and pending points, along with upcoming expirations.\n\n**Security:** Requires both `apikey` and `secretkey` headers.",
         "operationId": "getCustomerBalance",
-        "security": [
-          {
-            "apiKey": []
-          },
-          {
-            "secretKey": []
-          }
-        ],    
+        "security": [ { "apiKey": [], "secretKey": [] } ],    
         "parameters": [
           {
             "name": "customerId",
