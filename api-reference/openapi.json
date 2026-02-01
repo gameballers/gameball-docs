@@ -5675,6 +5675,10 @@
                 "isAvailableToUse": {
                   "type": "boolean",
                   "description": "Flag determining whether coupon can be used by customer at given time"
+                },
+                "iconPath": {
+                  "type": "string",
+                  "description": "Path or URL to the icon image for the coupon"
                 }
               }
             }
