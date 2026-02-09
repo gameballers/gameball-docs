@@ -2010,62 +2010,6 @@
         }
       }
     },
-    "/api/v4.0/integrations/locks/{lockReference}": {
-      "get": {
-        "description": "This API gets the details of the provided {lockReference} in Gameball.",
-        "security": [ { "apiKey": [], "secretKey": [] } ],
-        "parameters": [
-          {
-            "name": "lockReference",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" },
-            "description": "The lock reference identifier to get its details."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lock details retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "customerId": { 
-                      "type": "string",
-                      "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer."
-                    },
-                    "isUsed": { 
-                      "type": "boolean",
-                      "description": "Indicates whether the provided lock is marked as used or not by the customer."
-                    },
-                    "usedAt": { 
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "The date and time when the provided lock was marked as used."
-                    },
-                    "isExpired": { 
-                      "type": "boolean",
-                      "description": "Indicates whether the provided lock is marked as expired or not."
-                    },
-                    "expiredAt": { 
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "The date and time when the provided lock was marked as expired."
-                    },
-                    "coupons": {
-                      "type": "array",
-                      "items": { "$ref": "#/components/schemas/Coupon" },
-                      "description": "The coupon details that are associated with the provided lock reference."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v4.0/integrations/coupons/{lockReference}": {
       "delete": {
         "description": "This API releases the lock on coupons identified by the provided {lockReference} in Gameball. Once released, the coupons become available for use again, offering flexibility in managing coupon availability and redemption.",

@@ -627,7 +627,6 @@
                       "api-reference/coupons/validate-single-coupon",
                       "api-reference/coupons/validate-multiple-coupons",
                       "api-reference/coupons/burn-coupon",
-                      "api-reference/coupons/lock-details",
                       "api-reference/coupons/release-coupons",
                       "api-reference/coupons/automatic-coupons"
                     ]
