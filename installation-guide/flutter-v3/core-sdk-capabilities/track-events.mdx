@@ -7,6 +7,10 @@ description: "Send events to power actions, campaigns and rewards"
 
 Send events to Gameball when users perform important actions within your app. Events represent significant customer actions and can trigger rewards, campaigns, and engagement programs.
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when sending events. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 ```dart
 import 'package:gameball_sdk/gameball_sdk.dart';
 
@@ -34,7 +38,7 @@ gameballApp.sendEvent(event, (success, error) {
 // With session token override
 gameballApp.sendEvent(event, (success, error) {
   // Handle response
-}, sessionToken: "custom-token");
+}, sessionToken: "customer-token");
 ```
 
 ## Event Parameters

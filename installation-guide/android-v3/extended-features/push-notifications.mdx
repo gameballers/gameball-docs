@@ -53,7 +53,7 @@ FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
         GameballApp.getInstance(context).initializeCustomer(
             customerRequest,
             callback,
-            sessionToken = "custom-token"
+            sessionToken = "customer-token"
         )
     }
 }

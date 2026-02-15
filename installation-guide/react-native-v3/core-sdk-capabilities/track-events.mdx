@@ -7,6 +7,10 @@ description: "Send events to power actions, campaigns and rewards"
 
 Send events to Gameball when users perform important actions within your app.
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when sending events. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 ```typescript
 import { GameballApp, Event } from 'react-native-gameball';
 
@@ -35,7 +39,7 @@ try {
 
 // With session token override
 try {
-  const success = await GameballApp.getInstance().sendEvent(event, undefined, 'custom-token');
+  const success = await GameballApp.getInstance().sendEvent(event, undefined, 'customer-token');
   console.log('Event sent with custom token');
 } catch (error) {
   console.error('Error:', error);

@@ -13,6 +13,10 @@ Use this when the customer taps **Rewards**, **My Points**, **Loyalty**, or any 
 
 ## Basic Usage
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when showing the profile widget. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 <CodeGroup>
 
 ```swift Swift (Completion Handler)
@@ -38,7 +42,7 @@ let request = ShowProfileRequest(customerId: "customer-123")
 GameballApp.getInstance().showProfile(
     request,
     presentationStyle: .fullScreen,
-    sessionToken: "custom-token"
+    sessionToken: "customer-token"
 ) { _, _ in }
 ```
 

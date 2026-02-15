@@ -9,6 +9,10 @@ Display the Gameball customer profile widget that contains customer details, ava
 
 ## Basic Usage
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when showing the profile widget. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 ```dart
 import 'package:gameball_sdk/gameball_sdk.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +25,7 @@ final gameballApp = GameballApp.getInstance();
 gameballApp.showProfile(context, profileRequest);
 
 // With session token override
-gameballApp.showProfile(context, profileRequest, sessionToken: "custom-token");
+gameballApp.showProfile(context, profileRequest, sessionToken: "customer-token");
 ```
 
 ## Request Parameters

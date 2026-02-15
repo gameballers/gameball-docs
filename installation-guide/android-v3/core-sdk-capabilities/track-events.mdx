@@ -7,6 +7,10 @@ description: "Send events to power actions, campaigns and rewards"
 
 Send events to Gameball to power actions, campaigns, and rewards. Events represent significant customer actions within your app—such as purchases, product interactions, or engagement milestones.
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when sending events. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 <CodeGroup>
 
 ```kotlin Kotlin
@@ -37,7 +41,7 @@ GameballApp.getInstance(context).sendEvent(
 GameballApp.getInstance(context).sendEvent(
   event,
   callback,
-  sessionToken = "custom-token"
+  sessionToken = "customer-token"
 )
 ```
 

@@ -13,6 +13,10 @@ Use `initializeCustomer` whenever a user **logs in**, **registers**, or you need
 
 ## Basic Customer Initialization
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when calling methods. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 <CodeGroup>
 
 ```kotlin Kotlin
@@ -41,7 +45,7 @@ GameballApp.getInstance(context).initializeCustomer(
 GameballApp.getInstance(context).initializeCustomer(
     customerRequest,
     callback,
-    sessionToken = "custom-token"
+    sessionToken = "customer-token"
 )
 ```
 

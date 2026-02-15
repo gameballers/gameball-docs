@@ -17,6 +17,10 @@ Use the Gameball profile widget to show customers their **points, rewards, tiers
 
 Create a `ShowProfileRequest` and call `showProfile` from `GameballApp`.
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when showing the profile widget. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 <CodeGroup>
 
 ```kotlin Kotlin
@@ -33,7 +37,7 @@ GameballApp.getInstance(this).showProfile(
 GameballApp.getInstance(this).showProfile(
     this,
     profileRequest,
-    sessionToken = "custom-token"
+    sessionToken = "customer-token"
 )
 ```
 

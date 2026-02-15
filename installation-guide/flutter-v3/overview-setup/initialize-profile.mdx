@@ -7,6 +7,10 @@ description: "Register customers and show the Gameball profile widget"
 
 Register or update a customer whenever they log in or register in your app. This allows Gameball to attach events and rewards to the customer profile.
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when calling methods. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 ```dart
 import 'package:gameball_sdk/gameball_sdk.dart';
 
@@ -39,7 +43,7 @@ gameballApp.initializeCustomer(request, (response, error) {
 // With session token override
 gameballApp.initializeCustomer(request, (response, error) {
   // Handle response
-}, sessionToken: "custom-token");
+}, sessionToken: "customer-token");
 ```
 
 ## Request Parameters

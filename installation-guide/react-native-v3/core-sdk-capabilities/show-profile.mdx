@@ -9,6 +9,10 @@ Display the Gameball customer profile widget that contains customer details, ava
 
 ## Basic Usage
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when showing the profile widget. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 ```typescript
 import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
@@ -29,7 +33,7 @@ try {
 
 // With session token override
 try {
-  await GameballApp.getInstance().showProfile(profileRequest, undefined, 'custom-token');
+  await GameballApp.getInstance().showProfile(profileRequest, undefined, 'customer-token');
 } catch (error) {
   console.error('Error:', error);
 }

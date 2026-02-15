@@ -7,6 +7,10 @@ description: "Register customers and show the Gameball profile widget"
 
 Register or update a customer whenever they log in or register in your app.
 
+<Tip>
+**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when calling methods. This enables automatic routing to v4.1 secure endpoints.
+</Tip>
+
 ```typescript
 import { GameballApp, InitializeCustomerRequest, CustomerAttributes } from 'react-native-gameball';
 
@@ -49,7 +53,7 @@ try {
 
 // With session token override
 try {
-  const response = await GameballApp.getInstance().initializeCustomer(request, undefined, 'custom-token');
+  const response = await GameballApp.getInstance().initializeCustomer(request, undefined, 'customer-token');
   console.log('Customer initialized with custom token');
 } catch (error) {
   console.error('Error:', error.message);

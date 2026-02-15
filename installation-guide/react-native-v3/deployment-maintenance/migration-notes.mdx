@@ -97,7 +97,7 @@ const request: InitializeCustomerRequest = {
 await GameballApp.getInstance().initializeCustomer(request);
 
 // Optional: Override session token for this request (updates global token)
-await GameballApp.getInstance().initializeCustomer(request, undefined, 'custom-token');
+await GameballApp.getInstance().initializeCustomer(request, undefined, 'customer-token');
 ```
 
 ### 3. Event Tracking
@@ -123,7 +123,7 @@ const event: Event = {
 await GameballApp.getInstance().sendEvent(event);
 
 // Optional: Override session token for this request (updates global token)
-await GameballApp.getInstance().sendEvent(event, undefined, 'custom-token');
+await GameballApp.getInstance().sendEvent(event, undefined, 'customer-token');
 ```
 
 ### 4. Show Profile Widget
@@ -150,7 +150,7 @@ const profileRequest: ShowProfileRequest = {
 await GameballApp.getInstance().showProfile(profileRequest);
 
 // Optional: Override session token for this request (updates global token)
-await GameballApp.getInstance().showProfile(profileRequest, undefined, 'custom-token');
+await GameballApp.getInstance().showProfile(profileRequest, undefined, 'customer-token');
 ```
 
 ### 5. Key Naming Changes
