@@ -44,15 +44,17 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/refund'
 <ResponseExample>
 ```json Success
 {
+  "gameballTransactionId": "11034735",
   "refundTransactionId": "REFUND0001",
-  "customerId": "12345",
-  "reverseTransactionId": "ORD000123",
-  "pointsRestored": 100,
-  "pointsDeducted": 9.5,
-  "status": "completed"
+  "refundAmount": 100.00,
+  "refundEquivalentPoints": 100
 }
 ```
 </ResponseExample>
+
+<Note>
+The response schema follows the API v4 format. The `gameballTransactionId` is the unique identifier for the refund transaction in the Gameball system, and `refundEquivalentPoints` represents the number of points equivalent to the monetary value refunded.
+</Note>
 
 ### Required Fields
 
