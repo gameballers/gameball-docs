@@ -11,9 +11,12 @@ Use events to record customer actions (purchases, visits, interactions) and trig
 
 ## Basic Usage
 
-<Tip>
-**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when sending events. This enables automatic routing to v4.1 secure endpoints.
-</Tip>
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter when sending events (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
 
 <CodeGroup>
 
@@ -93,7 +96,7 @@ Task {
 </ParamField>
 
 <ParamField body="sessionToken" type="String">
-  Optional session token override for this request.
+  Optional session token override for this request. Required in upcoming SDK v4.
 </ParamField>
 
 ---
