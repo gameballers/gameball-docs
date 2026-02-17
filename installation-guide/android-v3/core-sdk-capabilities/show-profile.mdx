@@ -17,9 +17,12 @@ Use the Gameball profile widget to show customers their **points, rewards, tiers
 
 Create a `ShowProfileRequest` and call `showProfile` from `GameballApp`.
 
-<Tip>
-**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when showing the profile widget. This enables automatic routing to v4.1 secure endpoints.
-</Tip>
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter when showing the profile widget (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
 
 <CodeGroup>
 
@@ -78,6 +81,10 @@ GameballApp.getInstance(this).showProfile(
 <ParamField body="closeButtonColor" type="string">
   Hex color string for the close button (for example, `"#FF5733"`).\
   Only applies when `showCloseButton` is `true`.
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+  Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
 </ParamField>
 
 ### **Validation Rules**

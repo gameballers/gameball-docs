@@ -13,9 +13,12 @@ Initialization is typically done once in your `Application` class.
 
 Create (or update) your `Application` class and initialize Gameball in `onCreate`.
 
-<Tip>
-**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter during SDK initialization. This enables automatic routing to v4.1 secure endpoints.
-</Tip>
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter during SDK initialization (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
 
 <CodeGroup>
 
@@ -90,7 +93,7 @@ public class MyApplication extends Application {
 </ParamField>
 
 <ParamField body="sessionToken" type="string">
-  Optional Session Token used for secure authentication and automatic v4.1 endpoint routing.
+  Optional Session Token used for secure authentication and automatic v4.1 endpoint routing. Required in upcoming SDK v4.
 </ParamField>
 
 ### **Validation Rules**

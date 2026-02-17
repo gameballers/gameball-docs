@@ -7,9 +7,12 @@ description: "Initialize Gameball Flutter SDK with your configuration"
 
 Initialize Gameball once, usually at app startup in your `main()` function:
 
-<Tip>
-**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter during SDK initialization. This enables automatic routing to v4.1 secure endpoints.
-</Tip>
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter during SDK initialization (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
 
 ```dart
 import 'package:gameball_sdk/gameball_sdk.dart';
@@ -51,7 +54,7 @@ Your Gameball shop identifier for multi-shop configurations.
 </ParamField>
 
 <ParamField body="sessionToken" type="string">
-Session Token for secure authentication (enables automatic v4.1 endpoint routing).
+Session Token for secure authentication (enables automatic v4.1 endpoint routing). Required in upcoming SDK v4.
 </ParamField>
 
 ### Validation Rules

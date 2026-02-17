@@ -13,9 +13,12 @@ Use `initializeCustomer` whenever a user **logs in**, **registers**, or you need
 
 ## Basic Customer Initialization
 
-<Tip>
-**Secure API Access:** To benefit from secure API endpoints, pass the `sessionToken` parameter when calling methods. This enables automatic routing to v4.1 secure endpoints.
-</Tip>
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter when calling methods (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
 
 <CodeGroup>
 
@@ -122,7 +125,7 @@ GameballApp.getInstance(context).initializeCustomer(
 </ParamField>
 
 <ParamField body="sessionToken" type="string">
-  Optional session token to override the global token for this specific request.
+  Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
 </ParamField>
 
 ### **Validation Rules**
