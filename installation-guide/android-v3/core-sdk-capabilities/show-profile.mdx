@@ -8,7 +8,7 @@ description: "Display the Gameball customer profile widget in your Android app"
 Use the Gameball profile widget to show customers their **points, rewards, tiers, leaderboards, and history** inside your Android app.
 
 <Info>
-  Before showing the profile widget, make sure the SDK is initialized and the customer has been registered using [Initialize SDK](https://gameball.mintlify.app/installation-guide/android-v3/getting-started#initialize-the-sdk) and [Initialize Customer Profile](https://gameball.mintlify.app/installation-guide/android-v3/initialize-profile).
+  Before showing the profile widget, make sure the SDK is initialized and the customer has been registered using [Initialize SDK](/installation-guide/android-v3/overview-setup/initialize-sdk) and [Initialize Customer Profile](/installation-guide/android-v3/overview-setup/initialize-profile).
 </Info>
 
 ---
@@ -60,7 +60,7 @@ GameballApp.getInstance(this).showProfile(
 
 ---
 
-## **Request Parameters**
+## Request Parameters
 
 <ParamField body="customerId" type="string">
   Unique identifier for the customer whose profile will be displayed. Optional (omit for guest mode).
@@ -87,15 +87,15 @@ GameballApp.getInstance(this).showProfile(
   Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
 </ParamField>
 
-### **Validation Rules**
+### Validation Rules
 
 No required fields (guest mode supported). Provide `customerId` for authenticated profiles.
 
 ---
 
-## **Advanced Configuration**
+## Advanced Configuration
 
-### **Open a Specific Section**
+### Open a Specific Section
 
 Use openDetail to deep link into a specific section (for example, “earn” details):
 
@@ -106,7 +106,7 @@ val profileRequest = ShowProfileRequest.builder()
     .build()
 ```
 
-### **Guest Mode (v3.1.1+)**
+### Guest Mode (v3.1.1+)
 
 ```kotlin
 // No customerId required
@@ -120,7 +120,7 @@ GameballApp.getInstance(this).showProfile(
 )
 ```
 
-### **Custom Close Button**
+### Custom Close Button
 
 Show a custom-colored close button on the widget:
 
@@ -132,7 +132,7 @@ val profileRequest = ShowProfileRequest.builder()
     .build()
 ```
 
-### **Hide Navigation**
+### Hide Navigation
 
 <Note>
   Often paired with `openDetail` to guide users to a specific section when navigation is hidden.
@@ -148,7 +148,7 @@ val profileRequest = ShowProfileRequest.builder()
     .build()
 ```
 
-### **Capture Widget Links**
+### Capture Widget Links
 
 Handle links clicked from within the widget (for example, to open custom screens or deep links):
 
@@ -171,9 +171,9 @@ val profileRequest = ShowProfileRequest.builder()
 
 ---
 
-## **Implementation Examples**
+## Implementation Examples
 
-### **Show Profile from a Button**
+### Show Profile from a Button
 
 Display the profile widget when the user taps a button.
 
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
 </CodeGroup>
 
-### **Bottom Navigation Integration**
+### Bottom Navigation Integration
 
 Open the profile widget when the user taps a “Rewards” tab:
 
@@ -281,7 +281,7 @@ bottomNavigationView.setOnItemSelectedListener { item ->
 
 ---
 
-## **What the Widget Shows**
+## What the Widget Shows
 
 The profile widget typically includes:
 
@@ -306,7 +306,7 @@ The profile widget typically includes:
 
 ---
 
-## **Best Practices**
+## Best Practices
 
 <Steps>
   <Step title="Make Access Easy">

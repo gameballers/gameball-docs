@@ -67,7 +67,7 @@ Task {
 
 ---
 
-## **Request Parameters**
+## Request Parameters
 
 <ParamField body="customerId" type="String">
   Unique permanent identifier of the customer whose profile you want to display. Optional in v3.1.1 (omit for guest mode).
@@ -96,15 +96,15 @@ Task {
 
 ---
 
-### **Validation Rules**
+### Validation Rules
 
 - No validation for `customerId` (guest mode is allowed). Provide `customerId` for authenticated profiles.
 
 ---
 
-## **Advanced Configuration**
+## Advanced Configuration
 
-### **Open a Specific Section**
+### Open a Specific Section
 
 ```swift
 let request = ShowProfileRequest(
@@ -117,7 +117,7 @@ GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) {
 
 ---
 
-### **Guest Mode (v3.1.1+)**
+### Guest Mode (v3.1.1+)
 
 ```swift
 // No customerId required
@@ -131,7 +131,7 @@ GameballApp.getInstance().showProfile(guestRequest, presentationStyle: .pageShee
 
 ---
 
-### **Custom Close Button**
+### Custom Close Button
 
 ```swift
 let request = ShowProfileRequest(
@@ -145,7 +145,7 @@ GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) {
 
 ---
 
-### **Hide Navigation**
+### Hide Navigation
 
 <Note>
   Best used with `openDetail` to guide users directly to a specific section when navigation is hidden.
@@ -163,9 +163,9 @@ GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) {
 
 ---
 
-## **Implementation Examples**
+## Implementation Examples
 
-### **UIKit — Button Action**
+### UIKit — Button Action
 
 ```swift
 import UIKit
@@ -203,7 +203,7 @@ class ProfileViewController: UIViewController {
 
 ---
 
-### **SwiftUI Integration**
+### SwiftUI Integration
 
 ```swift
 import SwiftUI
@@ -255,7 +255,7 @@ struct ProfileView: View {
 
 ---
 
-### **Tab Bar Integration**
+### Tab Bar Integration
 
 ```swift
 import UIKit
@@ -288,7 +288,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
 
 ---
 
-## **Widget Content**
+## Widget Content
 
 <CardGroup cols={2}>
   <Card title="Customer Info" icon="user">
@@ -311,7 +311,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
 
 ---
 
-## **Best Practices**
+## Best Practices
 
 <Steps>
   <Step title="Make It Discoverable">

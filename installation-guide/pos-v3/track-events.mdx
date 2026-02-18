@@ -24,7 +24,8 @@ Use the Send Events API to track customer actions:
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/events' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
     "customerId": "mobile_966500001234",
     "eventName": "store_visit",

@@ -15,7 +15,8 @@ Referral tracking is typically handled through the order submission process. Whe
 ```bash cURL
 curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
     "customerId": "mobile_966500001234",
     "orderId": "POS_987654323",

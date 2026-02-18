@@ -75,7 +75,7 @@ Task {
 
 ---
 
-## **2. Request Parameters**
+## 2. Request Parameters
 
 <ParamField body="customerId" type="String" required>
   Permanent unique identifier for the customer. **Should never change.**
@@ -115,7 +115,7 @@ Task {
 
 ---
 
-## **3. Validation Rules**
+## 3. Validation Rules
 
 InitializeCustomerRequest validates:
 
@@ -127,7 +127,7 @@ If validation fails, the SDK returns an error before sending the request.
 
 ---
 
-## **4. Customer Attributes**
+## 4. Customer Attributes
 
 You can enrich customer profiles with additional metadata.
 
@@ -169,9 +169,9 @@ You can enrich customer profiles with additional metadata.
 
 ---
 
-## **5. Advanced Examples**
+## 5. Advanced Examples
 
-### **With Push Notifications**
+### With Push Notifications
 
 ```swift
 import Gameball
@@ -208,7 +208,7 @@ func application(
 
 ---
 
-### **With Referral Code**
+### With Referral Code
 
 ```swift
 func registerCustomerWithReferral(customerId: String, referralCode: String) {
@@ -227,7 +227,7 @@ func registerCustomerWithReferral(customerId: String, referralCode: String) {
 
 ---
 
-### **Guest User**
+### Guest User
 
 ```swift
 func initializeGuestUser(sessionId: String) {
@@ -246,7 +246,7 @@ func initializeGuestUser(sessionId: String) {
 
 ---
 
-### **Full Customer Profile Example**
+### Full Customer Profile Example
 
 ```swift
 func initializeFullProfile() {
