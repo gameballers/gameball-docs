@@ -86,7 +86,7 @@ GameballApp.getInstance(context).initializeCustomer(
 
 ---
 
-## **Request Parameters**
+## Request Parameters
 
 <ParamField body="customerId" type="string" required>
   Unique identifier for the customer. This must not change for a given customer.
@@ -128,7 +128,7 @@ GameballApp.getInstance(context).initializeCustomer(
   Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
 </ParamField>
 
-### **Validation Rules**
+### Validation Rules
 
 **InitializeCustomerRequest requires:**
 
@@ -142,7 +142,7 @@ GameballApp.getInstance(context).initializeCustomer(
 
 ---
 
-## **Enriching Profiles with Customer Attributes**
+## Enriching Profiles with Customer Attributes
 
 Use the CustomerAttributes builder to send richer profile data to Gameball.
 
@@ -209,7 +209,7 @@ InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
 
 ---
 
-## **CustomerAttributes Builder**
+## CustomerAttributes Builder
 
 <Expandable title="CustomerAttributes Builder Methods">
   <ParamField body="displayName(String)" type="method">
@@ -267,7 +267,7 @@ InitializeCustomerRequest customerRequest = InitializeCustomerRequest.builder()
 
 ---
 
-## **Recommended Usage Flow**
+## Recommended Usage Flow
 
 <Steps>
   <Step title="User Authenticates">

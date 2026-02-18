@@ -77,7 +77,7 @@ func handleDeepLinkParameters(_ params: [String: Any]) {
 
 ---
 
-## **SwiftUI Integration (Conceptual Flow)**
+## SwiftUI Integration (Conceptual Flow)
 
 In SwiftUI, you can still use an AppDelegate adaptor or handle incoming URLs via .onOpenURL, and then forward the resolved parameters to handleDeepLinkParameters.
 
@@ -108,7 +108,7 @@ func didReceiveDeepLinkParameters(_ params: [String: Any]) {
 
 ---
 
-## **Register Customer with Referral Code**
+## Register Customer with Referral Code
 
 When the new customer completes registration or first login, include the stored referrer code (if any) in `InitializeCustomerRequest`.
 
@@ -144,7 +144,7 @@ func registerNewCustomer(customerId: String, email: String) {
 
 ---
 
-## **Get Customer Referral Link**
+## Get Customer Referral Link
 
 Use the SDK to retrieve a customer’s unique referral code and shareable link.
 
@@ -166,9 +166,9 @@ GameballApp.getInstance().getCustomerReferralInfo(for: "customer-123") { result 
 
 ---
 
-## **Share Referral Link**
+## Share Referral Link
 
-### **UIKit**
+### UIKit
 
 ```swift
 func shareReferralLink(_ referralLink: String, from viewController: UIViewController) {
@@ -184,7 +184,7 @@ func shareReferralLink(_ referralLink: String, from viewController: UIViewContro
 
 ---
 
-### **SwiftUI**
+### SwiftUI
 
 ```swift
 import SwiftUI
@@ -226,7 +226,7 @@ struct ActivityView: UIViewControllerRepresentable {
 
 ---
 
-## **Referral Flow Summary**
+## Referral Flow Summary
 
 <Steps>
   <Step title="Referrer Gets a Link">

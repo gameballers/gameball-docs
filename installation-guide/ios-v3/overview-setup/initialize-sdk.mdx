@@ -73,7 +73,7 @@ struct YourApp: App {
 
 ---
 
-## **2. Configuration Parameters**
+## 2. Configuration Parameters
 
 Below are all supported fields of GameballConfig.
 
@@ -97,7 +97,7 @@ Below are all supported fields of GameballConfig.
   Optional Session Token for secure authentication, enables automatic routing to Gameball v4.1 APIs. Required in upcoming SDK v4.
 </ParamField>
 
-## **3. Validation Rules**
+## 3. Validation Rules
 
 GameballConfig enforces:
 
@@ -108,9 +108,9 @@ If any required parameter is missing, initialization will fail silently and SDK 
 
 ---
 
-## **4. Configuration Examples**
+## 4. Configuration Examples
 
-### **Basic Setup**
+### Basic Setup
 
 ```swift
 let config = GameballConfig(
@@ -126,7 +126,7 @@ GameballApp.getInstance().`init`(config: config)
 
 ---
 
-### **Multi-Shop Configuration**
+### Multi-Shop Configuration
 
 ```swift
 let config = GameballConfig(
@@ -140,7 +140,7 @@ GameballApp.getInstance().`init`(config: config)
 
 ---
 
-### **Using Session Token (v4.1 Routing)**
+### Using Session Token (v4.1 Routing)
 
 ```swift
 let config = GameballConfig(
@@ -153,9 +153,9 @@ GameballApp.getInstance().`init`(config: config)
 ```
 
 
-### **Custom API Prefix**
+### Custom API Prefix
 
-## **5. Environment-Specific Configuration (Recommended)**
+## 5. Environment-Specific Configuration (Recommended)
 
 Use your **test key** during development and **live key** in production.
 
@@ -177,7 +177,7 @@ GameballApp.getInstance().`init`(config: config)
 
 ---
 
-## **6. Loading Configuration From a File (Optional)**
+## 6. Loading Configuration From a File (Optional)
 
 If you prefer not to embed keys directly in code, you can store them in a .plist.
 
