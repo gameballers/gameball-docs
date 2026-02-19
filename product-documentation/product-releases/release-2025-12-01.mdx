@@ -1,0 +1,311 @@
+---
+title: "Product Release 1.12.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## **New Features**
+
+### **1. Advanced Budget Control for Campaigns**
+
+**Platform**
+
+All
+
+**Plan**
+
+Shopify & Salla: GURU
+
+Selfserve: Enterprise
+
+**Channel**
+
+All
+
+We introduced an advanced Budget Control system that allows you to define, monitor, and enforce spending limits for reward-based campaigns. This provides tighter cost governance, clearer visibility, and automated safeguards against overspending. [Read about setting up a reward campaign.](/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide)
+
+<Frame>
+  <img src="/images/product-docs/product-releases/budget-control-campaign.png" alt="Budget Control for campaigns" />
+</Frame>
+
+#### **Key Capabilities**
+
+##### **Set a Total Budget During Campaign Creation**
+
+- Budget Control can be enabled when creating a new campaign.
+- The entered amount becomes the campaign's **Total Budget**.
+- Budget always uses the **workspace currency** and cannot be changed.
+- Depending on the reward type, additional configuration fields appear to ensure accurate cost evaluation.
+
+##### **Validation Rules**
+
+- A budget is required if the feature is enabled.
+- Negative values and non-numeric entries are not accepted.
+
+##### **Activation and Deactivation Logic**
+
+##### **Turning Budget Control ON for an Active or Previously Active Campaign**
+
+- Tracking begins from the moment Budget Control is enabled. **Budgets are not retroactive**, and past spending is excluded.
+
+##### **Turning Budget Control OFF**
+
+- The budget is reset when the feature is disabled.
+- Disabling Budget Control resets all stored values.
+- Budget metrics will be removed from the preview.
+- Re-enabling Budget Control starts fresh tracking with no historical data.
+
+##### **Editing an Existing Budget**
+
+- If you tried to set a new budget lower than the **issued** or **actual spend** amounts, saving is blocked.
+- A message indicates: _"Current issued or actual spend cost already exceeds this amount."_
+
+##### **Campaign Overview Enhancements**
+
+A dedicated **Budget card** displays:
+
+- Total Budget
+- Issued Cost (liability)
+- Actual Spend Cost (redeemed rewards)
+
+Budget tracking continues even when a campaign becomes inactive, as issued rewards may still be redeemed later.
+
+##### **Automated Threshold Notifications**
+
+You will receive email alerts when campaign spending reaches:
+
+- **50%** of budget
+- **80%** of budget
+- **100%** of budget
+
+At **100%**, the campaign is automatically **deactivated** to prevent additional spending.
+
+---
+
+### **2. Automatically Trigger Game Popups Based on Page URL**
+
+We introduced a new way to surface Gameball Games on websites by automatically launching a game in a pop-up when a customer visits a specific page. This allows you to deliver game-based engagement experiences without requiring customers to open the Gameball widget. [Learn about campaign URLs](/product-documentation/rewards-campaigns/reward-campaign-url).
+
+**Platform**
+
+All
+
+**Plan**
+
+Shopify & Salla: Pro, GURU
+
+Selfserve: Enterprise
+
+**Channel**
+
+All
+
+#### **What's New**
+
+##### **Automatic Game Popups**
+
+Games such as Spin the Wheel, Slot Machine, and Match Cards can now be triggered automatically when a page URL matches predefined rules. The experience opens directly in a standalone pop-up rather than inside the widget.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/automatic-game-popup.png" alt="Automatic game popup" />
+</Frame>
+
+##### **Clean, Focused Game Experience**
+
+- The pop-up shows only the game interface, with no widget navigation or back buttons.
+- Customers can play the game or close the pop-up at any time.
+- The pop-up closes automatically after the game is completed or dismissed.
+- Guest customers can see the game with a lead form, and logged-in customers can access it based on eligibility.
+
+##### **Flexible URL Rule Engine**
+
+You can configure the pop-up to appear:
+
+- On all pages where the widget is installed, or
+- Only on pages that match specific URL rules (contains, doesn't contain, is, is not, starts with, ends with), aligned with the existing Web Popups engine.
+
+The pop-up can also be configured to appear:
+
+- Only once per browsing session, or
+- A limited number of times per session.
+
+Timing options include:
+
+- Immediately on page load
+- After a delay
+- After the customer scrolls a defined percentage of the page
+
+##### **Eligibility Controls**
+
+The pop-up will not appear if the customer is no longer eligible for the game (for example, if they reached their daily or total game limit).
+
+When multiple campaigns share the same trigger, the earliest-created one takes priority.
+
+##### **Example Use Cases**
+
+- Launch Spin the Wheel when customers visit pages like /offers or /discounts
+- Show the Slot Machine on checkout confirmation pages to encourage account creation
+- Trigger Match Cards on the homepage for first-time visitors
+
+---
+
+### **3. Add Return Window Duration for Tier Entry Reward Points**
+
+**Prevent temporary reward abuse by locking tier-entry points until the return window expires.**
+
+To protect loyalty programs from exploitation, you can now define a **Return Window Duration** for **tier entry reward points**.
+
+This ensures customers cannot instantly redeem tier-upgrade rewards and then refund their qualifying orders to gain unfair benefits.
+
+With this update, tier-entry points can be temporarily **locked (pending)** until the configured window expires, improving reward integrity and reducing fraudulent behavior. [Learn more](/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/return-window-duration-tier-points.png" alt="Return window duration for tier entry points" />
+</Frame>
+
+#### **What's New**
+
+##### **1. Return Window Duration (Configuration)**
+
+A new field is now available inside each **Tier Entry Reward** setup:
+
+- **Return Window Duration (days)**
+- Accepts numeric values ≥ 0
+- Default value: **0 days** (points activate immediately)
+
+This gives you full control over how long tier-reward points stay locked before becoming usable.
+
+##### **2. Updated Reward Logic**
+
+When a customer levels up to a new tier:
+
+- Entry reward points are issued with **status = pending**
+- Pending duration matches the configured Return Window Duration
+- Points automatically switch to **status = active** once the window expires
+
+This ensures points cannot be redeemed during the waiting period.
+
+##### **3. Refund & Downgrade Behavior**
+
+The system now handles return-window scenarios more intelligently:
+
+- **Refund or Tier Downgrade BEFORE activation**
+- → Pending points are **revoked automatically**
+- **Refund AFTER activation**
+- → Standard refund deduction rules apply, as usual.
+
+This eliminates the temporary gain loophole that customers could previously exploit.
+
+---
+
+## **Other Improvements**
+
+### **1. Lifetime Tier Benefit Coupon Display in the Redeem Tab Overview**
+
+Gameball offers **Lifetime Reward Coupons** for customers who reach specific tiers (e.g., Gold, Platinum). These coupons grant **free benefits** unrelated to points.
+
+However, in the current widget experience, these rewards appear alongside regular point-based rewards and show **0 points**, causing confusion and diminishing the perceived value of tier benefits.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/lifetime-tier-coupon-old-display.png" alt="Old lifetime tier coupon display" />
+</Frame>
+
+This update introduces a **new design and placement** for Lifetime Tier Coupons to clearly distinguish them from traditional redemptions.
+
+#### **What's New**
+
+##### **1. Clear Breakup in the Redeem Tab**
+
+- The tier-based lifetime coupon now always appears in a **dedicated top section** of the **Redeem** tab.
+- It is visually separated from all point-based rewards to highlight its special nature.
+
+##### **2. New Card Design for Lifetime Tier Benefits**
+
+The updated card:
+
+- Displays the **Tier name** prominently (e.g., "Gold Tier").
+- Includes a **"Free Benefit"** label (localized in all supported languages).
+- Shows the reward name or, if absent, the correct reward value (all reward types supported).
+- Does **not** display any points.
+- Uses a clear action button: **"Redeem Now"**.
+
+##### **3. Updated Logic**
+
+**No Points Logic**
+
+- The card **never** shows points.
+- The customer will not see "0 points."
+
+##### **Eligibility**
+
+- The lifetime coupon appears **only** if the customer belongs to the tier offering it.
+
+##### **Redemption Flow**
+
+- Selecting **"Redeem Now"** opens the coupon details page (same as the current flow).
+
+---
+
+### **2. Export Customers from All Automation Action & Control Nodes Overview**
+
+You can now export customers who reach any **Action** or **Control** node inside an automation flow. [Learn how to create an automation campaign](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
+
+This enhancement allows teams to run deeper analysis, build external segments, integrate with other tools, or take manual actions outside Gameball.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/export-customers-automation-nodes.png" alt="Export customers from automation nodes" />
+</Frame>
+
+##### **1. Export Availability**
+
+- All **Action** and **Control** nodes now include a new option: **Export Customers**.
+- Supported node types:
+  - **Action nodes:** Send Email, Send Web Message, Grant Reward, and others.
+  - **Control nodes:** Wait, Time Delay, Condition, A/B Test.
+
+##### **2. Export Behavior**
+
+- Selecting **Export Customers** initiates a CSV file export of all customers who have **successfully reached** the selected node.
+- The export includes **full historical data**, not just recent activity.
+- Once prepared, the system sends the CSV file to you via **email**.
+
+---
+
+### **3. Send `points_redeemed` Event to Integrations**
+
+Gameball now supports sending the `points_redeemed` event to connected integrations, including Insider, MoEngage, and Klaviyo. This update enables you to build real-time journeys, campaigns, and automations in your external marketing platforms based on customer point redemptions.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/points-redeemed-event-integration.png" alt="Points redeemed event integration" />
+</Frame>
+
+#### **What's New**
+
+##### **1. Automatic Event Delivery**
+
+Whenever a customer redeems points, Gameball automatically fires a `points_redeemed` event to any enabled integration:
+
+- Insider
+- MoEngage
+- Klaviyo
+
+Events are sent only if the integration is active and the event toggle is enabled for that integration.
+
+##### **2. Event Data Structure**
+
+Each `points_redeemed` The event includes:
+
+- Redeemed points
+- Redemption amount
+- Redemption transaction ID (if available)
+
+This ensures consistent, reliable data for segmentation and customer journeys across marketing tools.
+
+##### **3. Controls**
+
+- The event is disabled by default for all integrations.
+- You can enable or disable the event per integration from the integration's settings page.
+- If disabled during integration setup, the system displays a hint instructing you to enable it under Admin Settings.
+
+---

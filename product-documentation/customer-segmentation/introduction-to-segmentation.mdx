@@ -1,0 +1,141 @@
+---
+title: "Introduction to Segmentation"
+description: "Use dynamic segmentation to automatically group and target customers based on their behavior and profile attributes."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Free, Starter, Pro, & Guru |
+| Salla | Starter, Pro, & Guru |
+| Non-platform clients | Growth & Enterprise |
+
+Customer segmentation enables you to target specific groups of customers for personalized communication, reward campaigns, and more. With Gameball, segmentation is dynamic and automatic, saving you the time and effort of manually grouping customers and keeping your segments up to date.
+
+---
+
+Have you ever wanted to create a challenge, send a message, or apply a redemption rule that only applies to a specific group of customers -- but couldn't figure out how to isolate and target them accurately? Even when you managed to identify these customers, applying manual tags became time-consuming and inaccurate, especially since customers' behavior changes frequently. This often means that by the time you've tagged a customer, they may no longer belong to the intended group.
+
+To solve this challenge, Gameball introduced **Customer Segmentation** -- a feature that helps you create dynamic lists of customers who automatically qualify based on the criteria you set.
+
+---
+
+## How Customer Segmentation Works
+
+Customer segmentation automatically groups your customers based on their behavior and profile data. Unlike manual tags, segments are dynamic: customers are added or removed in real time based on whether they meet the defined conditions.
+
+<Frame>
+  ![Segmentation dynamic grouping](/images/product-docs/customer-segmentation/segmentation-dynamic-grouping.gif)
+</Frame>
+
+In simple terms, when a customer meets all the conditions of a segment, they are automatically added to it. If their data changes and no longer matches those conditions, they are automatically removed.
+
+---
+
+## Why Segment Customers?
+
+Segmentation helps you gain valuable insights and execute targeted marketing strategies. With Gameball, segmentation enables the following:
+
+- Gain deeper insights into customer behavior.
+- Build dynamic, data-driven, and personalized marketing strategies.
+- Target specific customer groups across various Gameball features.
+
+You can use customer segments with:
+
+- **Reward Campaigns**: Reward only specific segments.
+- **Redemption Rules**: Apply rules like free shipping to certain segments.
+- **Communication Campaigns**: Launch targeted campaigns or send messages to selected segments.
+
+---
+
+## Existing Segments vs. Custom Segments
+
+Gameball provides two built-in segments that help you monitor essential customer behaviors:
+
+### Active Users
+
+- Last login: within the last 30 days
+- OR last order date: within the last 30 days
+- Color: Green
+- Segment Tag: Active
+
+### Inactive Users
+
+- Last login: more than 60 days ago
+- OR login is empty
+- Last order date: more than 90 days ago
+- Color: Orange
+- Segment Tag: Inactive
+
+In addition, you can create, edit, or delete your own segments based on your business needs.
+
+---
+
+## How to Create Segments
+
+<Steps>
+  <Step title="Open the Gameball Dashboard">
+    Go to the **Gameball Admin Dashboard**.
+  </Step>
+  <Step title="Navigate to Segments">
+    Navigate to **Customers** > **Segments**.
+  </Step>
+  <Step title="Create a New Segment">
+    Click **Create New Segment**.
+  </Step>
+  <Step title="Define Conditions">
+    Define the conditions for your segment. For example:
+
+    - Female customers
+    - Active in the past 30 days
+    - Frequently visit a specific product category
+  </Step>
+</Steps>
+
+Once the segment is saved, Gameball will automatically identify and group customers who meet all of these criteria.
+
+<Frame>
+  ![Creating a new segment](/images/product-docs/customer-segmentation/create-new-segment.gif)
+</Frame>
+
+For more details on how to use the segmentation engine and understand the available operators, refer to [How to Segment Customers](/product-documentation/customer-segmentation/how-to-segment-customers).
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Can I use segments across all Gameball features?">
+    Yes, segments can be used with challenges, messages, and redemption rules.
+  </Accordion>
+  <Accordion title="Will customers be added back to a segment if they meet the criteria again?">
+    Yes, customers are added and removed dynamically in real time.
+  </Accordion>
+  <Accordion title="Can I edit or delete existing segments?">
+    Yes, you can modify or delete both system-generated and custom segments at any time.
+  </Accordion>
+  <Accordion title="How is segmentation different from tags?">
+    Tags are added manually and stay fixed. Segments are dynamic -- Gameball constantly checks if customers meet the conditions and updates the list automatically.
+  </Accordion>
+  <Accordion title="What is dynamic segmentation?">
+    It means the segment updates in real time. Customers can enter or leave a segment at any time based on their current data.
+  </Accordion>
+  <Accordion title="What does real-time segmentation mean?">
+    Gameball instantly scans your customer base and updates segments the moment you create or change the rules.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="How to Segment Customers" icon="sliders" href="/product-documentation/customer-segmentation/how-to-segment-customers">
+    Learn how to create and manage customer segments using the segmentation engine.
+  </Card>
+  <Card title="Segmentation Use Cases" icon="lightbulb" href="/product-documentation/customer-segmentation/segmentation-use-cases">
+    Explore practical use cases for customer segmentation combined with other Gameball features.
+  </Card>
+  <Card title="Introduction to RFM Segments" icon="chart-pie" href="/product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments">
+    Understand RFM analysis and how Gameball automatically segments customers.
+  </Card>
+</CardGroup>

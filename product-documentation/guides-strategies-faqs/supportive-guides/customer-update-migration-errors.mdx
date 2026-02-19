@@ -1,0 +1,84 @@
+---
+title: "Common Customer Update/Migration Errors"
+description: "The different types of problems and errors you might come across while updating or migrating your customers' lists, and how to solve them."
+---
+
+**Available for all Gameball Customers**
+
+The following is a list of the errors you might come across while [updating customers' data or migrating new customers](/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv) from a different loyalty program:
+
+## **1\. Uploading the wrong file type**
+
+Gameball only accepts "**CSV**" files. Uploading different types of files will result in an error.
+
+## **2\. Uploading a file with missing headers** (when choosing a previous loyalty program)
+
+When choosing a former loyalty program as the file source, the **file must have the headers placed exactly the way it was when you extracted the file** from the old loyalty program. We recommend that you do not change the structure of the placed cells; only change the customers' information if necessary.
+
+<Frame>
+  <img src="/images/product-docs/guides-strategies-faqs/migration-source-selection.png" alt="Migration Source Selection" />
+</Frame>
+
+## **3\. Customer Email missing, does not exist, or is invalid**
+
+If you are a Shopify user, the customer's email address is a mandatory variable. Updating a customer's info requires that the cells under the email address be filled and match an existing email from Gameball's customer list.
+
+If the email format is incorrect, an error will occur while uploading the file. Example of a correct email format: [joe@example.com](mailto:joe@example.com)
+
+<Warning>If you are a Shopify user, you can only update the information of existing customers from your customer list that was automatically migrated to Gameball during the integration process.</Warning>
+
+## **4\. Wrong Customer points**
+
+An error will appear if the cell under "Customer points" contains any **characters other than numbers** or if the value of that number is **negative**.
+
+<Warning>In the case of updating data of an existing customer, any value in the migration sheet overrides what exists in the system.
+
+Ex: if the customer has 300 points in the system and the sheet value for the same customer is 100, the customer's balance will be 100 after the successful migration.
+
+If the customer has 0 points on the sheet, the customer's balance will be 0 after migration. If the points cell is empty, the customer balance will be 300.</Warning>
+
+## **5\. Tier name does not exist on Gameball**
+
+If any of the cells under "customer tier" is filled with a level name that does not match with a pre-configured/existing level on Gameball, an error will occur. [Learn how to create a new Tier](/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers)
+
+## **6\. The Birthday doesn't follow the selected date format**
+
+- In case of migrating customers from a previous loyalty program:
+
+While uploading the file, the date format should match the extracted file's original format.
+
+- In case of manually uploading a CSV file for migrating/updating customers:
+
+In the mapping process, you can choose the date format to match that in the uploaded file.
+
+<Frame>
+  <img src="/images/product-docs/guides-strategies-faqs/date-format-selection.png" alt="Date Format Selection" />
+</Frame>
+
+Choose between:
+
+- YYYY-MM-DD
+- MM-DD-YYYY
+- DD-MM-YYYY
+- YYYY/MM/DD
+- DD/MM/YYYY
+- MM/DD/YYYY
+
+If the format you chose does not match the date format in the CSV file, customers' birthday dates will be incorrect on Gameball.
+
+## **9\. For non-Shopify Users, the customer identifier does not exist**
+
+While migrating customers using a CSV file, ensure that cells under "Customer ID" are not empty.
+
+<Note>The only mandatory data/customer attribute is the **Customer Identifier,** which could be placed with the email address if no unique ID/number is assigned to each customer.</Note>
+
+## 10\. Guest customers are included in the customers' list
+
+When migrating your customers from other loyalty programs or through a CSV file, some of the customers might not be registered customers on your platform (guests). If you still want these customers to be part of your loyalty program, you will have to enable guest customers to integrate them with your loyalty program. [Learn how to integrate your guest customers into your rewards program](/product-documentation/guides-strategies-faqs/supportive-guides/integrate-guest-customers).
+
+---
+
+## What else?
+
+- [Import Your Customers From Other Loyalty Programs to Gameball Using a CSV File](/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv)
+- [Migrate Your Customers to Gameball From Other Loyalty Programs on Shopify](/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify)

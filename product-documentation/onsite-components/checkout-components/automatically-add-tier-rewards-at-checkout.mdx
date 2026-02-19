@@ -1,0 +1,135 @@
+---
+title: "Automatically Add Lifetime Tier Rewards at Checkout"
+description: "Automatically apply your customers' tier benefits at checkout for a seamless and enhanced shopping experience."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Pro & Guru |
+
+<Note>
+Checkout app blocks are available for **Shopify Plus** customers only.
+</Note>
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-tier-rewards-hero.png" alt="Automatically add lifetime tier rewards at checkout" />
+</Frame>
+
+Make your VIP customers feel special by automating their loyalty benefits. With Gameball's **Auto-Apply Tiered Lifetime Rewards** feature, eligible rewards for specific tiers are seamlessly applied at checkout, enhancing the shopping experience and increasing redemption rates.
+
+**Benefits:**
+
+- **Effortless Experience for VIPs:** VIP customers don't need to manually apply their discount, streamlining the checkout process and adding convenience.
+- **Increased Loyalty and Retention:** Automatically applying rewards reinforces the value of being a VIP, fostering loyalty and encouraging repeat purchases.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Shopify Plus">
+    This feature is exclusively available to merchants on the **Shopify Plus** plan.
+  </Step>
+  <Step title="Updated Shopify Theme">
+    Your Shopify theme must support app blocks. Without this, the option to add the Gameball block won't appear in the editor. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, make sure the toggle at the top-right is activated. Once this is enabled, you'll be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-tier-rewards-customize.png" alt="Navigate to Onsite customize" />
+    </Frame>
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's Theme Editor.
+  </Step>
+  <Step title="Add the App Block">
+    In the left sidebar, under the "Order Summary," click **Add App Block > Apps**, and search for the **"Checkout tier lifetime reward"**.
+  </Step>
+  <Step title="Save">
+    Select the **"Checkout tier lifetime reward"** app block and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-tier-rewards-install.gif" alt="Install checkout tier lifetime reward block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How It Works
+
+- **Logged-In Customers:** When a logged-in customer reaches the checkout page, the extension will automatically apply a discount if the customer is part of a tier that qualifies for a lifetime reward.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-tier-rewards-logged-in.png" alt="Logged-in customer tier reward applied" />
+  </Frame>
+
+- If the discount cannot be applied due to conditions such as meeting a minimum order value, restrictions on combining discounts, or other advanced rules, an error message will appear explaining why the coupon cannot be used for the current cart.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-tier-rewards-error.png" alt="Tier reward error message" />
+  </Frame>
+
+- **Non-Logged-In (Guest) Customers:**
+  - Non-logged-in customers will not be able to receive a discount until they log in and become eligible for a tier with a lifetime reward.
+  - Once logged in, the same rules for applicable discounts will apply, including any restrictions that may prevent the coupon from being used.
+
+---
+
+## Important Notes
+
+<Warning>
+This extension will automatically not work if:
+
+- The Gameball program is deactivated.
+- The customer is excluded from the loyalty program.
+- Your account is on a plan that doesn't support this feature.
+</Warning>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Is this feature available for all Shopify stores?">
+    This feature is exclusive to Shopify stores on Shopify Plus and select new Gameball plans.
+  </Accordion>
+  <Accordion title="What happens if my account is downgraded?">
+    The block will appear blurred in your store, and the Customize button in the dashboard will be disabled.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Embed Points in Customer Profile" icon="user" href="/product-documentation/onsite-components/general-components/embed-points-in-customer-profile">
+    Display customers' points balances in their profiles.
+  </Card>
+  <Card title="Display Points Redemption at Checkout" icon="coins" href="/product-documentation/onsite-components/checkout-components/display-points-redemption-at-checkout">
+    Let customers redeem points directly at checkout.
+  </Card>
+</CardGroup>

@@ -1,0 +1,64 @@
+---
+title: "Events You Can Create for Your E-Commerce Website"
+description: "A quick guide on what customer events and key operators your platform can send to Gameball."
+---
+
+Are you looking for the most valuable customer events to track on your e-commerce website using Gameball? Below are six essential examples of events you can track to build a highly engaging, action-based loyalty program.
+
+To learn more about events, read:
+
+- [Understand your customers' events](/product-documentation/understanding-your-customers/customer-profile/customer-events)
+- [Manage your customers' events](/product-documentation/admin-settings/create-and-send-events)
+
+---
+
+## Section 1: Standard E-Commerce Events
+
+The following events are the foundation for tracking key customer interactions on your e-commerce website. These events will allow you to build more personalized campaigns, track conversions, and improve customer engagement.
+
+### Key Events
+
+| **Event** | **Description** | **Event Properties** |
+|-----------|----------------|---------------------|
+| **Product Page Viewed** | Triggered each time a customer views a product details page. | product\_id, product\_name, category, brand, price, currency, discounted (boolean), stock\_status, tags |
+| **Cart Viewed** | Triggered when a customer views their cart. | cart\_id, cart\_items (array with product IDs, names, quantities, prices, categories), cart\_total, currency |
+| **Order Reviewed** | Sent when a customer reviews their order before checkout. | order\_id, cart\_id, items (array with product IDs, names, quantities, prices, categories), cart\_total, currency, coupon\_code (if applied) |
+| **Product Reviewed** | Sent when a customer submits a product review. | product\_id, rating, title (optional), body (optional), has\_image (boolean), review\_images (array of URLs if available) |
+| **Profile Completed** | Triggered once a customer completes their profile (adds missing details such as name, phone, address, etc.). | customer\_id, completed\_fields (array of fields completed), profile\_completion\_percentage |
+| **Order Placed** | Triggered when a customer completes a purchase. | order\_id, cart\_id (or session\_id), items, total, currency, coupon\_code (if applicable), payment\_method, shipping\_method |
+
+<Warning>There is **no need** to send the _Order Placed_ event if you are already using Gameball's Order API, as the **Order Placed** event will be fired automatically by Gameball.</Warning>
+
+### Important Notes:
+
+- The suggested keys below are examples. Feel free to modify or add new keys based on your platform's structure and needs.
+- You can add more event properties as long as you have use cases for them in segmentation, campaigns, or analytics.
+- **Performance Optimization Tip:** Avoid sending unnecessary events to maintain the best performance for your system.
+
+---
+
+## Section 2: Abandoned Cart Checkout Events
+
+To enable abandoned cart campaigns, implement the following events. Note that **Add to Cart** and **Remove from Cart**are **not needed**—instead, use the consolidated events below:
+
+### Key Events
+
+| **Event** | **Description** | **Event Properties** |
+|-----------|----------------|---------------------|
+| **Cart Updated** | Sent every time a user adds, removes, or updates items in their cart. Keeps Gameball updated with the latest cart status. | cart\_id (string, required), cart\_items (array with product IDs, names, quantities, prices, categories), cart\_total, currency, last\_updated\_at |
+| **Checkout Started** | Sent when the user begins the checkout process. Helps differentiate between cart abandonment (never reached checkout) and checkout abandonment (left during checkout). | cart\_id (string, required), cart\_items, cart\_total, currency, checkout\_metadata (optional: payment\_method, shipping\_method, delivery\_address) |
+| **Order Placed** | Automatically fired once Gameball receives the Order API call. Ensure the event includes either the session\_id or cart\_id so that Gameball can link the order back to the cart. | order\_id, cart\_id or session\_id, items, total, currency, payment\_method, shipping\_method |
+
+<Warning>There is **no need** to send the _Order Placed_ event if you are already using Gameball's Order API, as the **Order Placed** event will be fired automatically by Gameball.</Warning>
+
+### Important Notes:
+
+- You can add more event properties as long as you have use cases for them in segmentation, campaigns, or analytics.
+
+---
+
+### Related Articles:
+
+- [Create and Send Events to Gameball](/product-documentation/admin-settings/create-and-send-events)
+- [Events Log](/product-documentation/admin-settings/events-log)
+- [Event-based Reward Campaigns](/product-documentation/rewards-campaigns/faqs/using-the-event-engine)

@@ -1,0 +1,100 @@
+---
+title: "Get 20% Coupon After Spending a Total of $1000"
+description: "Reward high spenders with a 20% coupon when they reach a cumulative spending milestone of $1000 to drive long-term engagement."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Starter, Pro, Guru |
+| Salla | Starter, Pro, Guru |
+| Non-Platform | All Plans |
+
+## Intro
+
+Reward your high spenders and loyal customers with a special coupon when they hit a spending milestone. The **_Spend $1000 to Get 20% Off_** campaign is perfect for driving long-term engagement and showing appreciation to your most valuable customers. It encourages larger purchases over time and reinforces customer loyalty through meaningful rewards.
+
+<Frame>
+  ![Get 20% coupon after spending $1000 campaign widget](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/get-20-percent-coupon-widget.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select **Get 20% coupon after spending a total of $1000** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+1. **Action**: Place Order
+2. **Times**: 1 _(Number of times the trigger condition should be occurred)_
+3. **Rule**:
+    1. **Field**: Total Price _(Order value)_
+    2. **Operator**: Accumulative Total _(Tracks the total value of all orders placed)_
+    3. **Value**: 1000 _(Customer must reach $1000 in total spend)_
+
+<Frame>
+  ![Get 20% coupon trigger setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/get-20-percent-coupon-trigger.png)
+</Frame>
+
+**Reward**
+
+- The customer gets a **20%** coupon.
+- The reward value can be adjusted from the campaign.
+
+<Frame>
+  ![Get 20% coupon reward setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/get-20-percent-coupon-reward.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## End User Experience
+
+**How it works**
+
+1. A customer reaches a **total spend of $1000** over any number of purchases.
+2. Gameball automatically triggers the reward.
+3. The customer receives the reward immediately (points, discount, badge -- based on your setup).
+4. The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+## Important Notes
+
+<Note>
+**Cumulative Spend**
+
+The **$1000** spend is calculated cumulatively across all orders. It does not need to be a single transaction.
+</Note>
+
+<Warning>
+**Accumulated Spending Logic**
+
+When using the "**Accumulative Total**" operator and setting the "**Times**" field to a value like **2 or 3**, the trigger must be fulfilled **that many times**.
+For example, if the condition is spending $1000 and the Times field is set to 2, the customer must spend $1000 twice (a total of $2000) to earn the reward.
+</Warning>
+
+<Note>
+**Starts from Activation Only**
+
+The accumulation begins **only from the moment the campaign is set live**. Any orders placed **before** activation are **not counted** toward the total spend.
+</Note>
+
+<Info>
+**Using Other Operators ( = or >= )**
+
+If you change the operator to **=** or **>=**, the customer must reach the specified spend in one order.
+</Info>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

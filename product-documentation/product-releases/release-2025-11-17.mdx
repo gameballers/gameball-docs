@@ -1,0 +1,318 @@
+---
+title: "Product Release 17.11.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## **New Features**
+
+### **1. New Reward Campaign Type: Recurring Customer Date Campaign**
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+You can now create reward campaigns based on **any customer attribute that is formatted as a date**, giving you full flexibility beyond just birthdays and anniversaries. [Learn how to create a Recurring Customer Date Reward Campaign.](/product-documentation/rewards-campaigns/start-from-scratch/create-recurring-customer-date-reward-campaign)
+
+#### **Why This Matters**
+
+Previously, you could only reward customers based on two predefined dates: **Birthday** and **Anniversary**.
+
+Now, you can celebrate and engage customers on **any meaningful date** you track, such as join date, subscription renewal date, pet birthday, membership start date, or any custom date attribute.
+
+#### **What's New**
+
+##### **A. New Campaign Type: Recurring Customer Date**
+
+This campaign type allows you to trigger rewards based on **any date-formatted customer attribute** in your database.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/recurring-customer-date-campaign.png" alt="Recurring customer date campaign" />
+</Frame>
+
+##### **B. Attribute Selection**
+
+When creating this campaign, you'll see a dropdown listing all customer attributes with a **type = date**, including:
+
+- `Birthday`
+- `Join Date`
+- Any **custom date attributes** (e.g., `Pet Birthday`, `Membership Date`, `Subscription Renewal Date`)
+
+You must select one date attribute as the campaign trigger.
+
+##### **C. Trigger Logic & Scheduling**
+
+- Campaigns can trigger **on the exact date** of the selected attribute.
+- The event recurs **every year**, similar to the existing birthday campaign.
+
+---
+
+### **2. Game Funnel Analytics Full Journey Visibility for Every Game Campaign**
+
+**Platform**
+
+All
+
+**Plan**
+
+Shopify/Salla: GURU
+
+Selfserve: Enterprise
+
+**Channel**
+
+All
+
+We've launched **Game Funnel Analytics**, a new insights module that gives you a clear, step-by-step view of how your customers interact with every game campaign, across all game types, entry methods, and user types.
+
+This new funnel helps you understand where customers engage, where they drop off, and how effectively your game campaigns drive conversions. [Learn more](/product-documentation/rewards-campaigns/reward-campaigns-insights).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/game-funnel-analytics.png" alt="Game funnel analytics" />
+</Frame>
+
+#### **What's Included**
+
+##### **Unified Funnel Tracking for All Game Types**
+
+Game Funnel Analytics now supports **all Gameball games**, including:
+
+- Spin & Win
+- Slot Machine
+- Scratch Card
+- Memory Match
+- The Catcher
+- Quiz
+- All Games (funnel-only insights added)
+
+Both **guest customers** (via lead form) and **registered customers** are fully tracked.
+
+Supported entry methods:
+
+- Widget
+- Deep link / direct URL
+- Popup trigger
+- Manual open
+
+##### **Funnel Stages Tracked**
+
+Each game campaign now includes a consistent set of funnel steps:
+
+1. **Game Shown**
+   - Triggered only when the game auto-displays via a pop-up.
+
+2. **Lead Captured**
+   - Captured when a guest customer submits the lead form.
+
+3. **Game Opened**
+   - When a customer opens the game from any entry point.
+
+4. **Game Started**
+   - When the customer clicks "Play".
+
+5. **Game Completed**
+   - When the game animation/logic finishes, regardless of the outcome.
+
+6. **Rewarded**
+   - Displays how many customers received a reward.
+
+7. **No Luck**
+   - Customers who completed but did not receive a reward or lost.
+
+#### **Where You'll See It**
+
+The full funnel appears in the **Insights tab** of every game campaign, below existing KPIs.
+
+Each stage shows:
+
+- Total customers
+- Conversion rate to the next step
+- Drop-off visualization
+- Filtering aligned with the campaign's date filter
+
+**Key metrics:**
+
+- **Total Participated** = top-most tracked event
+- **Goal Completed** = customers who reached the last tracked step
+- **Total Conversion** = Completed / Started
+
+#### **Conversion & Drop-Off Logic**
+
+- **Step Conversion:**
+  Example: 1,000 opened → 750 started = 75% conversion.
+
+- **Step Drop-Off:**
+  25% dropped between "Opened" → "Started."
+
+- **Overall Conversion:**
+  1,000 opened → 200 reached the goal = 20% overall conversion.
+
+---
+
+## **Other Improvements**
+
+### **1. Anonymous Customer Gameplay for Spin the Wheel & Slot Machine on Salla**
+
+We've added **Anonymous Customer Gameplay**, enabling you to engage new visitors even before they create an account.
+
+This update helps boost engagement, increase customer acquisition, and turn game interactions into a powerful lead-generation channel.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/anonymous-customer-gameplay-salla.png" alt="Anonymous customer gameplay on Salla" />
+</Frame>
+
+#### **Why This Matters**
+
+Previously, gameplay on Salla was restricted to logged-in customers only. This update removes that limitation and enables:
+
+- Higher engagement from first-time visitors
+- Increased interaction with game campaigns
+- Lead collection before account creation
+
+---
+
+### **2. Collections Now Available in Event Rule Dropdowns**
+
+We've introduced a new improvement to make campaign setup faster, clearer, and less error-prone. Collections can now be selected directly from a dropdown list when configuring [event-based campaign rules](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/collections-event-rule-dropdown.png" alt="Collections in event rule dropdown" />
+</Frame>
+
+#### **What's New**
+
+##### **A. Dropdown Selection for Collections**
+
+- When [adding rules](/product-documentation/rewards-campaigns/faqs/using-the-event-engine) that involve **Collections**, you will now see a dropdown list of all available collections.
+- Each collection displays its **name**, with the option to show its **ID** for reference.
+- The dropdown includes a **search** to support stores with large numbers of collections.
+
+##### **B. Automatically Synced Data**
+
+- The dropdown is automatically populated using the client's existing synced/imported collection data.
+- If no collections exist, the dropdown clearly shows: **"No collections found."**
+
+---
+
+### **3. New Filtering & Sorting Tools on the Segments Page**
+
+We've upgraded the [Segments management experience](/product-documentation/customer-segmentation/how-to-segment-customers) by introducing powerful new filtering and sorting capabilities, making it easier for you to navigate, organize, and control your segment lists.
+
+#### **What's New**
+
+##### **A. Advanced Filters**
+
+A new **Filter** option is now available in the Segments table header, allowing you to refine your segment list using:
+
+- **Status / Tag** (e.g., active, inactive, draft)
+- **Creation Date** (date range selection)
+- **Customer Count Range**
+
+Additional improvements:
+
+- Multiple filters can be applied together and updated instantly.
+- A **Clear Filters** control restores the full segment list with one click.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/segments-advanced-filters.png" alt="Segments advanced filters" />
+</Frame>
+
+##### **B. Table Sorting**
+
+You can now sort and segment directly from the table by selecting column headers:
+
+- **Segment Name** (A–Z / Z–A)
+- **Creation Date** (Newest / Oldest)
+- **Customer Count** (High → Low / Low → High)
+
+The chosen sorting order remains active until manually reset.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/segments-table-sorting.png" alt="Segments table sorting" />
+</Frame>
+
+---
+
+### **4. Campaign Preview Now Stays Visible While Customizing Games**
+
+We improved the customization experience in the Gameball Dashboard by fixing how the game preview behaves while scrolling. You can now adjust game settings and instantly see changes without repeatedly scrolling back to the top.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/game-preview-sticky.png" alt="Game preview stays visible" />
+</Frame>
+
+#### **What's Fixed**
+
+##### **Sticky Preview Panel**
+
+- In **Dashboard → Games → Customization**, the **Preview panel** now stays visible as you scroll through customization options.
+- The preview uses a fixed floating layout to remain accessible at all times.
+
+##### **Consistent Alignment**
+
+- The preview remains properly aligned on the right side of the screen, regardless of how far the client scrolls or which preview tab is active (Main, Success, No Luck).
+
+##### **Smooth Scrolling Behavior**
+
+- When reaching the end of the customization form, the preview smoothly stops scrolling to avoid overlap or layout issues.
+- Scrolling is optimized to prevent layout shifting, lag, or performance drops.
+
+---
+
+## **Bug Fixes**
+
+### **1. Web Messages Not Displaying Reliably**
+
+We've resolved an issue where **web messages were not consistently showing to customers**, even when all campaign settings were correctly configured.
+
+#### **What Was Happening**
+
+Some of you reported that after creating an event-based web message campaign, the message did **not display** to customers despite the triggering action being performed.
+
+#### **What's Fixed**
+
+- **Consistent Delivery**
+
+Web messages now display reliably whenever they are configured to appear, whether triggered by events, automations, campaigns, or manual actions.
+
+- **Cross-Browser Stability**
+
+Web messages now appear consistently across major browsers (Chrome, Firefox, Safari, Edge) and mobile web.
+
+#### **Why This Matters**
+
+You can now depend on web messages to always reach customers as intended, ensuring smooth communication and timely engagement across all touchpoints.
+
+---
+
+### **2. Filter Component UI Alignment and Behavior**
+
+We've released a fix to ensure the filter component behaves consistently with the approved Gameball design system. This update improves visual alignment, spacing, and interaction patterns across all filter-related elements.
+
+#### **What's Fixed**
+
+##### **A. Correct Filter Expansion Behavior**
+
+- When opening a filter, the component now expands on a **separate line**, preventing it from breaking or pushing page titles out of alignment.
+
+##### **B. Proper Display of Applied Filters**
+
+- Applied filters now appear as **filter chips** in a single horizontal row.
+- Spacing, alignment, and text styling follow the design guidelines.
+- Chips adjust responsively without overflowing or collapsing inconsistently.
+
+##### **C. "Add Filter" Button UI Consistency**
+
+- The **Add Filter** button now maintains the correct visual hierarchy.
+- Alignment, padding, and spacing match the design system specifications.
+
+---

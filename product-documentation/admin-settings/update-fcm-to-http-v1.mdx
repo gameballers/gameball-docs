@@ -1,0 +1,89 @@
+---
+title: "Updating Firebase Cloud Messaging (FCM) Configuration to HTTP v1 for Gameball Customers"
+description: "Guide to help you update Firebase Cloud Messaging (FCM) Configuration to HTTP v1."
+---
+
+## Updating Firebase Cloud Messaging (FCM) Configuration to HTTP v1 for Gameball Customers
+
+To ensure continuous delivery of notifications to your mobile users, Gameball now requires an update to the Firebase Cloud Messaging (FCM) configuration, transitioning from the legacy API to the new HTTP v1 API. This article walks you through the steps needed to complete this migration.
+
+## Step 1: Access Your Firebase Project Information
+
+### 1. Sign in to the Firebase Console:
+
+- Open your web browser and go to the Firebase Console.
+- Log in using the Google account associated with your Firebase project.
+
+### 2. Navigate to Service Accounts:
+
+- In the Firebase Console, click on the **Settings (gear icon)** in the left sidebar.
+- Select **Project Settings**, then go to the **Service Accounts** tab.
+
+### 3. Generate a New Private Key:
+
+- Click on **Generate New Private Key** to download a JSON file containing all necessary information for the migration.
+
+**Sample FCM Private key JSON file:**
+
+```json
+{
+  "type": "service_account",
+  "project_id": "fcm-test-*****",
+  "private_key_id": "*****4da92a*****031791732e*****",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIB*****ASCBKcwggSjAgEAAoIBAQCnZZw4akn8XO2J\nYS*****RhTCxF+KyTNmp7q0GnuoEZweGyla6t*****PxSnh\nfX5w1wxD7r1iGxJCG8******",
+  "client_email": "firebase-a*****est-7ce24.iam.gserviceaccount.com",
+  "client_id": "*****38150929365",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-8j******.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+```
+
+## Step 2: Update Your Gameball Dashboard
+
+### 1. Log in to the Gameball Dashboard:
+
+- Access your Gameball dashboard using your credentials.
+
+### 2. Locate Mobile Configurations:
+
+- Navigate to your **Gameball Admin Dashboard** > **Settings** > **Admin Settings**
+- Locate the **Integration** then go to **Mobile Integration**
+
+<Frame>
+  ![Mobile Integration Settings](/images/product-docs/admin-settings/mobile-integration-fcm.png)
+</Frame>
+
+- **!Note:** The old attributes such as **Sender ID, Web API Key,** and **Server Key** should be left unchanged.
+
+### 3. Enter the Required Information:
+
+- **projectId:** Open the downloaded JSON file. Find the `project_id` field, copy its value, and paste it into the `projectId` field in the Gameball dashboard.
+- **privateKey:** Locate the `private_key` field in the JSON file. Copy the entire value (including "BEGIN" and "END PRIVATE KEY" lines) and paste it into the `privateKey` field.
+- **clientEmail:** Find the `client_email` field, copy its value, and paste it into the `clientEmail` field.
+
+<Frame>
+  ![FCM Configuration Fields](/images/product-docs/admin-settings/fcm-configuration-fields.png)
+</Frame>
+
+### 4. Save Changes:
+
+- After entering all three fields, click "Save" to apply the changes.
+
+---
+
+By following these steps, you will ensure your notifications continue to work seamlessly with the new Firebase API requirements. Thank you for your cooperation!
+
+---
+
+## Need Help?
+
+If you have any questions or need further assistance, please contact our support team at support@gameball.co.
+
+---
+
+### Related Articles:
+
+- [Configure Your Firebase Account for Mobile Push Notifications](/product-documentation/admin-settings/configure-firebase-push-notifications)

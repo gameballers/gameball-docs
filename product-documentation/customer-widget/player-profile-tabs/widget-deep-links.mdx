@@ -1,0 +1,101 @@
+---
+title: "Enable Opening Gameball Widget Through Inline links Using Deep-links"
+description: "Allow your guests and customers to access any section of your widget through any interactive element on your website, or email."
+---
+
+If Gameball's traditional widget button does not match your theme, or you don't have a space for it, you no longer have to depend on Gameball's button to let your customers and guests access Gameball loyalty widget. You can [hide and replace the button](/product-documentation/customer-widget/start-configuring-profile/hide-widget-button), or add new elements that allow your customers to quickly access any section of the widget from any part of your platform.
+
+## Understanding Deep Links
+
+Deep links are URLs or hyperlinks that take users directly to a specific section of the Gameball widget. This allows for a more seamless user experience by providing quick access to the desired content without navigating through the entire widget.
+
+## Using Deep Links
+
+You can use deep links with any element that can hold a hyperlink, such as text, images, menu items, or buttons. You can also include these hyperlinks in automated emails or SMS campaigns. For example, if a customer clicks a button labeled "Check your earned points now!" in an email, they will be redirected to your website and see the widget section displaying their points.
+
+## Available Gameball Deep Links
+
+Here are the deep links Gameball provides to help you customize your user experience:
+
+- `#gameball-home` – Takes customers to the home section and guests to the sign-up section.
+- `#gameball-referral` – Directs customers to the referral tab and guests to the home section.
+- `#gameball-faq` – Opens the "FAQ" section for both customers and guests.
+- `#gameball-levels` – Shows customers the levels progress tab and guests the levels program section.
+- `#gameball-redemption` – Leads customers to the redemption tab and guests to the "How to Redeem" section.
+- `#gameball-wheel` – Opens the "Spin the Wheel" page for customers.
+- `#gameball-slot` – Opens the "Slot Machine" page for customers.
+
+<Warning>
+When embedding any widget page to a button on the menu bar, use the deep link in this format: `#gameball-home`. Do not use the full URL format like `https://(home page)/#gameball-home`.
+</Warning>
+
+## Examples of Deep Link Usage
+
+Here are examples of how you can use the above deep links in different elements:
+
+- **Home Section**: `#gameball-home` for direct access to the widget's home section. It takes Customers to the home section, and guests to the view home (sign-up) section of the widget.
+
+<Frame>
+![Home deep link example](/images/product-docs/customer-widget/player-profile-tabs/home-deep-link.gif)
+</Frame>
+
+- **Referral Section**: `#gameball-referral` to direct customers to the referral tab, and guests to view the Home page section.
+
+<Frame>
+![Referral deep link example](/images/product-docs/customer-widget/player-profile-tabs/referral-deep-link.gif)
+</Frame>
+
+- **FAQ Section**: `#gameball-faq` for instant access to FAQs.
+
+<Frame>
+![FAQ deep link example](/images/product-docs/customer-widget/player-profile-tabs/faq-deep-link.gif)
+</Frame>
+
+- **Levels Section**: `#gameball-levels` to show customers the levels progress tab, and guests the levels program section.
+
+<Frame>
+![Levels deep link example](/images/product-docs/customer-widget/player-profile-tabs/levels-deep-link.gif)
+</Frame>
+
+- **Redemption Section**: `#gameball-redemption` it takes customers to the redemption tab, while it takes guests to the "How to redeem" section.
+
+<Frame>
+![Redemption deep link example](/images/product-docs/customer-widget/player-profile-tabs/redemption-deep-link.gif)
+</Frame>
+
+- **Wheel Page**: `#gameball-wheel` for direct access to the wheels page.
+
+## Using Deep Links in Emails and SMS Campaigns
+
+To redirect users from an email or SMS to your website and open the Gameball widget to a specific section, you need to use a query string. Combine your website link with the Gameball widget deep link.
+
+For example:
+
+- **Website URL**: `www.shop-name.com`
+- **Gameball Widget Home Section**: `/#gameball-home`
+- **Gameball Widget Referral Section**: `/#gameball-referral`
+- **Gameball Widget FAQ Section**: `/#gameball-faq`
+- **Gameball Widget Levels Section**: `/#gameball-levels`
+- **Gameball Widget Redemption Section**: `/#gameball-redemption`
+
+For example, if you want your customer to press a button on the link that takes them to the homepage of your website and opens up Gameball's referral section, the link would be as follow: [www.shop-name.com/?gameball-deep=referral](http://www.shop-name.com/#gameball-referral)
+
+## Triggering the Gameball Widget Using JavaScript
+
+You can also open or toggle the Gameball widget programmatically using the JavaScript function:
+
+```javascript
+GbSdk.toggle();
+```
+
+This function can be attached to a button's `onclick` event, like in the example below:
+
+```html
+<button onclick="GbSdk.toggle();">Click me to Toggle Gameball</button>
+```
+
+---
+
+## What is next?
+
+- [Hiding Gameball Widget Button](/product-documentation/customer-widget/start-configuring-profile/hide-widget-button)

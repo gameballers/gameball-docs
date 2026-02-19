@@ -1,0 +1,81 @@
+---
+title: "Buy from a Specific Collection"
+description: "Reward customers who shop from selected collections to boost seasonal sales, highlight new arrivals, or push slower-moving inventory."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Starter, Pro, Guru |
+| Salla | Starter, Pro, Guru |
+| Non-Platform | All Plans |
+
+## Intro
+
+Use the **_Buy from a Specific Collection_** campaign to promote entire product categories by rewarding customers who shop from selected collections. This is a great way to boost seasonal sales, highlight new arrivals, or push slower-moving inventory by creating targeted incentives for collection-based purchases.
+
+<Frame>
+  ![Buy from a specific collection campaign widget](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-from-collection-widget.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select **Buy from a Specific Collection** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+1. **Action**: Place Order
+2. **Times**: 1 _(Number of orders required with this condition)_
+3. **Rule**: Add the **Collection ID** to the trigger to define which collection(s) qualify
+
+<Frame>
+  ![Buy from a specific collection trigger setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-from-collection-trigger.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## End User Experience
+
+**How it works**
+
+1. A customer **places an order** that includes at least one product from the configured collection.
+2. Gameball automatically triggers the reward.
+3. The customer receives the reward immediately (points, discount, badge -- based on your setup).
+4. The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+## Important Notes
+
+<Note>
+**Collection-Specific Only**
+
+The reward will only trigger if the customer's order includes a product that belongs to the **specified collection/s**.
+</Note>
+
+<Note>
+**Multiple Collections**
+
+- You can add several collection IDs if you want to reward purchases that contain products from **all** the configured collections.
+- To do this: Click **Add Rule -> Select Collection ID -> Choose "Equals" -> Enter the Collection ID** for each collection you want to include.
+- The reward will only trigger when the customer's order includes at least one product from **every collection ID** listed in the campaign setup.
+</Note>
+
+<Frame>
+  ![Multiple collection IDs setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-from-collection-multiple-ids.png)
+</Frame>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

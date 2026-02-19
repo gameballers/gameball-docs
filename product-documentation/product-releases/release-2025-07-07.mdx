@@ -1,0 +1,254 @@
+---
+title: "Product Releases 7.7.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+## **General New Features**
+
+### **1. Create Order-Based Customer Segments**
+
+**Platform:** All | **Plan:** Shopify: Starter, Pro & Guru | Salla: Pro & Guru | Self-serve: Growth | **Channel:** Web, Mobile
+
+We have released a powerful enhancement to the **customer segmentation capabilities** on Gameball.
+
+You can now create customer segments based on **actual order data**, providing more accurate, real-time customer targeting. [Learn how to segment customers for their previous ordering behaviour](/product-documentation/customer-segmentation/how-to-segment-customers).
+
+### Use Case & Value
+
+- **Precise Targeting:** Build segments using **real purchase behavior** instead of relying solely on the `place_order` event.
+- **Deeper Insights:** Exclude fully refunded orders for **cleaner, more meaningful data**.
+- **Strategic Personalization:** Launch highly relevant loyalty strategies based on reliable order metrics.
+
+### Key Features
+
+- **New "Orders" Filter in Segment Builder**
+  - You can now filter customers by:
+    - **Total Order Value** (excluding fully refunded orders)
+    - **Number of Orders**
+    - **Order Date Range**
+    - **Average Order Value**
+    - **Specific Order Value Ranges**
+- **Refund Handling:**
+  - Fully refunded orders are excluded by default from the calculations.
+
+---
+
+### **2. Automation:** Continuous Audience & Frequency Re-Evaluation
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+Previously, eligibility was checked only at the start of a new cycle when the trigger occurred. With the new feature, admins can now enable continuous re-evaluation before each step in the automation. If a customer becomes ineligible, they will be automatically exited from the flow. The feature is controlled via a toggle in the Automation Settings, defaulting to OFF. [Learn more about editing active automation](/product-documentation/automation-campaigns/making-edits-on-active-automation).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/automation-continuous-evaluation.png" alt="Automation continuous evaluation" />
+</Frame>
+
+---
+
+### **3.** Streak Campaign Editing Experience
+
+We've improved the Streak campaign editing experience, allowing you to safely make changes while campaigns are live, ensuring consistent customer progress and eligibility. For more details, [read the help center article to understand how the system behaves](/product-documentation/rewards-campaigns/templates/engagement-gamification/streak-campaign) with each change fully.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/streak-campaign-editing.png" alt="Streak campaign editing" />
+</Frame>
+
+---
+
+### **4.** Lead Form Enabled for More Games Campaigns
+
+We have enabled more game campaigns with the lead form, allowing you to create campaigns for anonymous customers using the campaign URL. The lead form will appear to collect their data and help identify them, making it easier to engage and convert new users. [Learn more about configuring lead forms](/product-documentation/rewards-campaigns/reward-campaign-url).
+
+**Games:**
+
+- Quiz
+- The Catcher
+- Match Card
+
+---
+
+### **5.** Slot Machine More Customization:
+
+You can now customize the Slot Machine campaign with additional options for success and no-luck outcomes like any other game. This update allows you to upload custom images and add buttons. [Read about launching a slot machine campaign](/product-documentation/rewards-campaigns/templates/engagement-gamification/slot-machine).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/slot-machine-customization.png" alt="Slot machine customization" />
+</Frame>
+
+You can customize the lead form from the customization page. [Learn more](/product-documentation/rewards-campaigns/reward-campaign-url)
+
+---
+
+### **6.** Scratch and Win Customized artwork
+
+We have added the option to upload generic images for both success and loss outcomes in the Scratch and Win campaign, in addition to customizing an image per reward. This update makes it easier for all customers to manage the visual experience. [Learn more about customizing the Scratch and Win campaign](/product-documentation/rewards-campaigns/templates/engagement-gamification/scratch-and-win).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/scratch-win-customized-artwork.png" alt="Scratch and Win customized artwork" />
+</Frame>
+
+---
+
+## **Core & Platform**
+
+### 1. Fixed Points Cashback Configuration Per Collection
+
+**Platform:** All | **Plan:** Plans with Custom Collection-based Rules | **Channel:** Web, Mobile
+
+We've introduced a **new cashback reward type** that gives you more flexibility in how you reward customers: Configure cashback rules to issue **fixed points per collection.** [Learn more about giving different cashback values for different collections](/product-documentation/programs/loyalty-points-earn/collection-based-earning-rules).
+
+#### Use Case:
+
+This feature is ideal if you want to offer **consistent point rewards per collection**, regardless of the product's price.
+
+For example, if you sell exclusive items and want to reward 100 points per product in the "New Arrivals" collection, regardless of whether an item costs $20 or $200, you can now do that easily.
+
+#### How It Works:
+
+##### Configuration:
+
+- While setting up or editing Custom Cashback Rules, you can now choose:
+  - **Fixed Points (new)**
+
+<Frame>
+  <img src="/images/product-docs/product-releases/fixed-points-cashback-collection.png" alt="Fixed points cashback per collection" />
+</Frame>
+
+#### API Requirements:
+
+To enable this logic, you must send the following details **per item** in the Order API:
+
+- Collection ID(s)
+- Price
+- Discount
+- Taxes
+- Product ID
+
+#### Key Rules:
+
+- If an item belongs to multiple collections → Gameball will reward based on the **highest fixed point value.**
+- If multiple different items from the same collection are purchased → The fixed points reward applies per item.
+- The **fixed points reward will still respect active Points Multiplier Campaigns.**
+- _(Example: Double Points → 200 becomes 400)_
+
+---
+
+### **2. Customizable Referral Page Image**
+
+**Platform:** All | **Plan:** All | **Channel:** Web, Mobile
+
+We have added a new feature that allows you to **customize the referral page image directly from the dashboard.**
+
+This gives you greater control to **match the referral experience with your unique brand identity.** [Learn how to control your widget visibility and images](/product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings).
+
+#### Use Case & Value
+
+- **Brand Consistency:** Customize the referral page with your own brand visuals to create a cohesive customer journey.
+- **Flexible Control:** You can upload, switch, or remove the image anytime directly from the dashboard without development support.
+
+#### Key Features
+
+- #### **Image Options**
+  - **Default Image:** Use Gameball's pre-set image.
+  - **Custom Image:** Upload your own branded image.
+  - **No Image:** Option to display no image at all on the referral page.
+
+- #### **Dashboard Location**
+  - Navigate to:
+    - `Settings > General > Visibility > Referral Page`
+
+- #### **Image Guidelines & Validation**
+  - Supported formats: `.jpg`, `.png`
+  - Recommended size: **280 x 280 px**
+  - Max file size: **1MB**
+
+<Frame>
+  <img src="/images/product-docs/product-releases/customizable-referral-page-image.png" alt="Customizable referral page image" />
+</Frame>
+
+---
+
+### 3. Upload Custom Earn and Redeem Icons for the Widget
+
+**Platform:** All | **Plan:** All | **Channel:** Web, Mobile
+
+We have enhanced the widget branding experience by allowing you to upload **custom Earn and Redeem icons**. This gives you greater control over the look and feel of your loyalty widget, making it more aligned with your brand identity. [Read more about how to customize your widget to match your brand](/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand).
+
+#### Use Case:
+
+You can now customize the visual experience of the widget by adding unique icons that represent your loyalty actions. For example, a beauty brand can use a lipstick icon for "Earn" and a shopping bag for "Redeem" to match their brand personality.
+
+#### How to Configure:
+
+- Navigate to:
+  - **Widget > Branding > Identity > Earn or Redeem**
+- Upload your desired icons directly from the dashboard.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/custom-earn-redeem-icons.png" alt="Custom earn and redeem icons" />
+</Frame>
+
+---
+
+### **4. [New API] Total Customers Count API**
+
+**Platform:** All | **Plan:** All | **Channel:** Web, Mobile
+
+You can now retrieve the total number of customers in your Gameball account through a simple API call. This helps you access customer base insights instantly, streamline reporting, and power internal automations that rely on customer volume.
+
+---
+
+## **Other Improvements**
+
+### **1. Enhanced Dynamic Reward Selection Experience with Tooltips**
+
+Gameball has improved the **Dynamic Reward Experience** in the Reward Campaign setup.
+
+Now, when you try to select a **Dynamic Reward** and it's disabled, a **tooltip** will automatically appear to explain why the option is not available.
+
+The tooltip explains that **Dynamic Rewards are disabled** when:
+
+- No event is selected.
+- Multiple events are selected.
+- The selected event is set to trigger multiple times.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/dynamic-reward-tooltip.png" alt="Dynamic reward selection tooltip" />
+</Frame>
+
+---
+
+### **2. Updated Third-Party Coupons Display Name**
+
+Gameball has updated the **Third-Party Coupons display name** to now accurately reflect the name you have provided when adding a new coupon group to your account. [Learn more about third-party coupons on Gameball](/product-documentation/admin-settings/third-party-coupons).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/third-party-coupons-display-name.png" alt="Third-party coupons display name" />
+</Frame>
+
+---
+
+### 3. Filter Customers' Coupons by Customer ID
+
+We've introduced a new filter to the **Customer Coupons** section, allowing you to quickly search for all coupons issued to a specific customer by their **Customer ID**.
+
+[Try to filter the customers' coupon list yourself](https://app.gameball.co/players/activities).
+
+### Key Highlights:
+
+- **New Filter Option:**
+  - A **Customer ID** filter field is now available in the Customer Coupons section.
+
+- **Precise Search:**
+  - You can input a Customer ID to instantly retrieve all coupons issued to that customer.
+
+- **User Experience:**
+  - If no coupons are found for the entered Customer ID, an empty state will be displayed for quick clarity.
+
+---
+
+### **4. [Shopify] Embedded Blocks Now Show Reward Name**
+
+Embedded blocks on Shopify now reflect the **reward name**, matching the widget experience. This replaces the previous behavior where only the coupon value was shown, providing clearer, more consistent messaging for your customers.
+
+---

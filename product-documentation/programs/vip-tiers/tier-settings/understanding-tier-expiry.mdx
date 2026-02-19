@@ -1,0 +1,119 @@
+---
+title: "Understanding Tier Expiry in Gameball"
+description: "Explore how Gameball manages tier expiry in various scenarios."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Pro & Guru |
+| Salla | Pro & Guru |
+| Non-platform Clients | Growth (as an Add-On) & Enterprise |
+
+Tier expiry is a crucial aspect of Gameball's loyalty program, influencing how customers maintain their status and access privileges. By adjusting the expiry system, you can encourage continuous engagement and ensure customers strive to maintain their tiers.
+
+---
+
+## Available Options
+
+1. **No Expiry:** Customers retain their tier indefinitely once achieved, enjoying associated benefits until they progress to a higher tier.
+
+2. **Based on Activity (3 Months):** Gameball evaluates customer activity over the past 3 months. Customers who meet tier requirements remain, and customers who do not meet the current level of activity will be enrolled in lower tiers that correspond to their activity.
+
+3. **Based on Activity (6 Months):** Gameball evaluates customer activity over the past 6 months. Customers who meet tier requirements remain, and customers who do not meet the current level of activity will be enrolled in lower tiers that correspond to their activity in the past 6 months.
+
+4. **Based on Activity (12 Months):** Similar to the 6-month/3-month system, but with a year-long evaluation period.
+
+5. **Based on Activity (24 Months):** Evaluate customer activity over the past 2 years to determine tier status.
+
+<Note>
+Tiering up is instant while tiering down is re-evaluated every given period (3, 6, 12, 24 months).
+</Note>
+
+<Frame>
+  ![Tier Expiry Options](/images/product-docs/programs/vip-tiers/tier-expiry-options.png)
+</Frame>
+
+---
+
+## Configuring Tier Expiry
+
+<Steps>
+<Step title="Navigate to VIP Tiers">
+Login to **Gameball's Dashboard** and click on Programs, then **VIP Tiers** from the left side menu.
+</Step>
+
+<Step title="Access Tiers Settings">
+Access the **Tiers Settings** in the **Settings** section below.
+</Step>
+
+<Step title="Edit Tier Expiry">
+Edit the **tier expiry settings** to choose the desired option.
+</Step>
+
+<Step title="Save and Confirm">
+**Save** and **confirm** your changes.
+
+<Frame>
+  ![Configure Tier Expiry](/images/product-docs/programs/vip-tiers/configure-tier-expiry.gif)
+</Frame>
+</Step>
+</Steps>
+
+---
+
+## Impact of Changes
+
+| Change Type | Behavior |
+|---|---|
+| Switching Expiry Systems | Customers are reassessed based on the new expiry system. Their activity within the specified timeframe determines tier status. |
+| Changing Tiering Methods | Gameball recalculates customer tiers based on the new method, considering both current activity and historical data. |
+| Adjusting Achievement Ranges | Altering tier requirements affects customer placements. Expiry dates remain unchanged, continuing from the last update. |
+| Adding or Removing Tiers | Customers may move to higher or lower tiers without affecting expiry dates. Gameball maintains the existing countdown from the last system update. |
+| Manual Tier Assignments | When manually assigning a tier, the expiry date resets for that customer, initiating a new countdown from the assignment date. |
+| Plan Changes | Downgrading from Pro or Guru plans shifts the system to lifetime expiry. Customers are relocated based on their historical activity up to the downgrade date. Upgrading or switching plans maintains the current expiry system. |
+
+---
+
+## How to View Tier Evaluation Dates
+
+<Tabs>
+<Tab title="Gameball Dashboard">
+A **"Tier Evaluation Date"** field appears under the **Tier Information** section on each **customer's profile**.
+
+<Frame>
+  ![Tier Evaluation Date on Dashboard](/images/product-docs/programs/vip-tiers/tier-evaluation-dashboard.png)
+</Frame>
+
+Displays when the customer's current tier will reset or be re-evaluated.
+</Tab>
+
+<Tab title="Customer Widget">
+Customers can now see a clear message like:
+
+- "Your tier will reset on: Jan 1, 2026"
+- A countdown (e.g., "7 days left till evaluation") appears one week before the reset date.
+- Fully supports **LTR and RTL languages**.
+
+<Frame>
+  ![Tier Evaluation on Widget](/images/product-docs/programs/vip-tiers/tier-evaluation-widget.png)
+</Frame>
+</Tab>
+</Tabs>
+
+<Info>
+Evaluation dates recalculate automatically when tier settings change (e.g., from 12 months to 6 months).
+</Info>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Tiering-Up Methods" icon="arrow-up-right-dots" href="/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods">
+  Understand the different methods for advancing customers through tiers.
+</Card>
+
+<Card title="Customizing Benefits for Different Tiers" icon="gift" href="/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers">
+  Configure entry rewards, lifetime rewards, and custom benefits for each tier.
+</Card>
+</CardGroup>

@@ -1,0 +1,101 @@
+---
+title: "Send External Rewards Using API Calls Through Campaigns"
+description: "Enable external rewards through Gameball campaigns without additional development, to connect your existing loyalty system seamlessly."
+---
+
+| Platform | Plan |
+|----------|------|
+| Non-Platform only | Growth and Enterprise |
+
+Gameball now supports engaging customers with gamified campaigns, even if you use your own loyalty program. You can leverage Gameball's campaign engine while sending external rewards -- like points, cashback, or physical gifts -- directly through their existing systems.
+
+Gameball now offers a new **External Reward (API Call)** option directly within campaign rewards.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/external-reward-option.png" alt="External Reward API Call option" />
+</Frame>
+
+This new feature allows you to:
+
+- Connect your loyalty program without any additional backend development.
+- Reward customers with external benefits (points, cashback, physical goods, etc.) using a customizable API payload.
+- Speed up campaign activation and reduce technical dependencies.
+
+## How to Configure External Rewards in Campaigns
+
+<Steps>
+  <Step title="Navigate to your Gameball dashboard" />
+  <Step title="Go to Campaigns, then Rewards" />
+  <Step title="Create or edit an existing Rewards campaign" />
+  <Step title="Select External Reward (API Call)">
+    Under **Rewards Types**, select **External Reward (API Call)**.
+
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/external-reward-select-type.png" alt="Select External Reward type" />
+    </Frame>
+  </Step>
+  <Step title="Fill in the required fields">
+    - **Reward Name**
+    - **API Data**
+      - API URL
+      - HTTP Method
+
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/external-reward-api-data.png" alt="API data configuration" />
+    </Frame>
+  </Step>
+  <Step title="Add dynamic variables">
+    Include any of the following dynamic variables in the **Body** of the API data as needed, as well as the **Headers**:
+
+    - `UniqueID`
+    - `First Name`
+    - `Last Name`
+    - `Mobile Number`
+    - `Email`
+    - `CampaignID`
+    - `Campaign Internal Name`
+    - `Reward Name`
+
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/external-reward-dynamic-variables.png" alt="Dynamic variables in API body" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Note>This feature is available for campaign rewards only. It is not supported as a redemption method.</Note>
+
+## Test API
+
+Test API call configurations directly while setting up **Reward Campaigns** or **Automation Triggers**, ensuring your integrations work correctly before activation.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/external-reward-test-api.png" alt="Test API feature" />
+</Frame>
+
+When configuring an API call in a reward campaign, click **"Test API"** to send a sample request and view:
+
+`Response: 200 OK - Connection successful`
+
+This makes it easier than ever to validate your setup confidently before going live.
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Can I use this reward type with any loyalty system?">
+    Yes, as long as your system accepts external API requests with the necessary data format.
+  </Accordion>
+  <Accordion title="Does this replace the webhook listener?">
+    Yes. This eliminates the need to develop and maintain a webhook listener for reward distribution.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Introduction to Reward Campaigns" href="/product-documentation/rewards-campaigns/reward-campaign-intro" />
+  <Card title="Introduction to Rewards Types" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+</CardGroup>

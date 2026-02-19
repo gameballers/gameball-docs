@@ -1,0 +1,172 @@
+---
+title: "Display Points Redemption Input Field at Checkout"
+description: "Empower your customers to redeem points directly at checkout, offering them control over how they apply their rewards."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Pro & Guru |
+
+<Note>
+Checkout app blocks are available for **Shopify Plus** customers only.
+</Note>
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-redeem-input-hero.png" alt="Display points redemption input field at checkout" />
+</Frame>
+
+Offering customers the ability to redeem loyalty points at checkout is a powerful way to enhance their shopping experience and strengthen their connection with your brand. With Gameball's new feature, users can now view their points balance directly during checkout and easily redeem them for discounts by entering the number of points they want to use.
+
+**Benefits:**
+
+- **Simplify Redemption:** Providing a direct input field for point redemption at checkout makes it easier for users to apply their rewards, reducing friction.
+- **Increase Reward Utilization:** Displaying the redeem option at checkout encourages customers to use their points, leading to higher reward usage and satisfaction.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Shopify Plus">
+    This feature is exclusively available to merchants on the **Shopify Plus** plan.
+  </Step>
+  <Step title="Updated Shopify Theme">
+    Your Shopify theme must support app blocks. Without this, the option to add the Gameball block won't appear in the editor. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title='Activate the "Flexible Redemption Option"'>
+    Ensure that the "Flexible Redemption Option" is activated and configured with the right values.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-redeem-program.png" alt="Activate flexible redemption option" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, make sure the toggle at the top-right is activated. Once this is enabled, you'll be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's Theme Editor.
+  </Step>
+  <Step title="Add the App Block">
+    Under **Order Summary** in the left sidebar, select **Add section > Apps**, and search for **"Checkout redeem input field"**.
+  </Step>
+  <Step title="Save">
+    Select the app block and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-input-install.gif" alt="Install checkout redeem input field block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How it Works
+
+### Guest Customers
+
+- If not logged in, customers will see a login prompt to access their balance.
+- Once identified (email entered), the block updates to the logged-in version.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-redeem-input-guest.png" alt="Guest customer redeem input view" />
+</Frame>
+
+### Logged-In Customers
+
+- The block displays the total available points as a default in the input field.
+- Customers can enter the desired amount to redeem.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-redeem-input-logged-in.png" alt="Logged-in customer redeem input view" />
+</Frame>
+
+- After adding the points, the customer clicks on **"Redeem"**, and Gameball will deduct points from the customer's balance and automatically generate a discount code, which is then applied to the order.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-redeem-input-applied.png" alt="Points redeemed and discount applied" />
+</Frame>
+
+- **Error Handling**: If the coupon is not applicable due to conditions like minimum order value, restrictions on combining with other discounts, or other advanced conditions, an error message will appear explaining why the coupon cannot be applied to the cart.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-redeem-input-error.png" alt="Redeem input error message" />
+</Frame>
+
+---
+
+## Customization
+
+### Style Customization
+
+The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+
+### Content & Translation
+
+In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+</Frame>
+
+---
+
+## Important Notes
+
+<Warning>
+The block will automatically hide if:
+
+- The program is deactivated.
+- The "flexible redemption option" is deactivated.
+- The customer is excluded from the rewards program.
+- Your account is on an unsupported plan.
+</Warning>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title='I clicked on Customize but saw a "There is a problem loading the page" message. What is the issue?'>
+    Please review the prerequisites and ensure all conditions are met. If you still encounter an issue, contact us at [support@gameball.co](mailto:support@gameball.co).
+  </Accordion>
+  <Accordion title="I downgraded to the Free plan. What will happen to the block?">
+    The block will automatically hide once you're on a plan that doesn't support it.
+  </Accordion>
+  <Accordion title="What happens if the customer redeems points but doesn't use the coupon?">
+    If the customer redeems points but does not use the generated coupon immediately, they can access the coupon later through the widget. The coupon will remain available for future use, but it cannot be reverted to points.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Display Potential Points in Cart" icon="cart-shopping" href="/product-documentation/onsite-components/general-components/display-potential-points-in-cart">
+    Show potential points earned on current products in the cart.
+  </Card>
+  <Card title="Display Potential Points on Product Pages" icon="tag" href="/product-documentation/onsite-components/general-components/display-potential-points-on-product-pages">
+    Show potential points directly on product pages.
+  </Card>
+</CardGroup>

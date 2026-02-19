@@ -1,0 +1,472 @@
+---
+title: "Bloomreach App Integration"
+description: ""
+---
+
+Gameball and Bloomreach integration allows you to leverage customer engagement data from Gameball to power your email marketing campaigns in Bloomreach. Follow this guide to seamlessly connect the two platforms and maximize the impact of your loyalty and marketing efforts.
+
+## Why Integrate Bloomreach with Your Gameball Account?
+
+By integrating Bloomreach with Gameball, you unlock the ability to target and segment customers based on their loyalty to your app. This powerful integration allows you to:
+
+-   **Segment contact lists** based on Gameball customer attributes (e.g., points balance, tier), and events created.
+
+-   **Send personalized emails** by including loyalty-related data, such as customer tier and reward points, in your email templates.
+
+-   **Track and trigger campaigns** based on specific customer events, such as coupons created, orders placed, and reward achievements.
+
+
+## Data Import Scenarios:
+
+The integration between Gameball and Bloomreach ensures that your customer data is always up-to-date in Bloomreach. Gameball's customer attributes will be imported into Bloomreach whenever a customer is created or performs any action.
+
+This allows Bloomreach to have the latest information, enabling you to deliver personalized and timely communication to your customers. The following table outlines the specific scenarios in which data is imported and updated.
+
+**Scenario**
+
+**Trigger**
+
+**Description**
+
+**Customer Attributes Sync to Bloomreach**
+
+-   Upon Customer Creation
+
+-   After any new action created by the customer (e.g.: achievement, transaction, points expiry, etc.)
+
+
+Gameball's customer attributes will be imported into Bloomreach. The data will be imported and updated once a customer is created or if they perform any action.
+
+**Imported Data:**
+
+-   ID
+
+-   Email
+
+-   Join Date
+
+-   Mobile Number
+
+-   Birthday
+
+-   Gender
+
+-   Points balance
+
+-   Pending points
+
+-   Current level name
+
+-   Current level order
+
+-   Next Level
+
+-   Next level threshold
+
+-   Level Progress
+
+-   Progress to achieve next level
+
+-   Last order awarded points
+
+-   Referral Code
+
+-   Referral Link
+
+-   Tags
+
+-   Segments
+
+-   RFM segments
+
+-   Latest created coupon
+
+-   Latest used coupon
+
+-   Count of rewarded campaigns
+
+-   Starting Store (store of account creation)
+
+-   Connecting Store (store of the last transaction)
+
+-   Store of First Transaction
+
+-   Average Basket
+
+-   Number of Transactions:
+
+-   Transactions Amount in the Last Rolling Year
+
+-   Total Net Amount of Transactions
+
+-   Unit per Transaction (Unit Per Trx)
+
+-   Earned Points:
+
+-   Redeemed Points:
+
+-   Expired Points:
+
+-   Date of First Transaction
+
+-   Date of Last Transaction
+
+
+**Update & Notify Bloomreach** **with Every Order Placed by the Customer**
+
+-   **"Order Placed" Event:** Order Placed by Customer & Received by Gamebll
+
+
+Once an order is placed by a customer, the following order attribute data is sent to **Bloomreach**:
+
+-   Order ID
+
+-   Order Date
+
+-   Total Paid
+
+-   Total Price
+
+-   TotalShipping
+
+-   TotalTax
+
+-   TotalDiscount
+
+-   Discount Codes
+
+-   Extra
+
+-   Redeemed Amount
+
+-   Rewarded Points
+
+-   Equivalent Points Value
+
+
+**Update & Notify Bloomreach** **with Every Coupon Created for the Customer**
+
+-   **"Coupon Created" Event**: Coupon Created for the Customer
+
+
+Once a coupon is created for the customer, the following Coupon details will be available on **Bloomreach** linked to the customer's data:
+
+-   Coupon Code
+
+-   Type
+
+-   Value
+
+-   Coupon Name
+
+
+**Update & Notify Bloomreach** **with Every Coupon Burnt within an Order**
+
+-   **"Coupon Used" Event**: Customer burnt the coupon while placing an order.
+
+
+Once a coupon is used by the customer, the following details will be available on **Bloomreach** linked to the customer's data:
+
+-   Coupon Code
+
+-   Type
+
+-   Value
+
+-   Order ID
+
+-   Coupon Name
+
+-   Channel(POS, Online, etc.)
+
+-   Order Quantity
+
+
+**Update & Notify Bloomreach** **with Every Reward** **Campaign** **Achieved**
+
+-   **"Reward Campaign Achieved" Event**: Customer Achieved a Reward Campaign
+
+
+Once a Reward Campaign is achieved by the customer, the following details will be available on **Bloomreach** linked to the customer's data:
+
+-   Internal Name
+
+-   Name
+
+-   Reward (Points, Points&Score, Coupon Values)
+
+-   Coupon Type (in case the reward was a coupon)
+
+-   Equivalent Value of Rewarded points (in case the reward was in the form of points, Points&Score)
+
+-   Achievement Date
+
+
+**Notify Bloomreach** **upon points redemption**
+
+-   **"Points Redeemed" Event**: Customer redeemed their saved points.
+
+
+Each `points_redeemed` The event includes:
+
+-   Redeemed points
+
+-   Redemption amount
+
+-   Redemption transaction ID (if available)
+
+
+**Update & Notify Bloomreach** **with Customer Deletion**
+
+-   Customer was removed from Gameball
+
+
+Once a customer is deleted from Gameball, after **24 hours,** the customer gets deleted from **Bloomreach**
+
+!**Note**: You have the option to disable the deletion feature from **Bloomreach**
+
+**Notify Bloomreach after every order placed by the customer** **for each line item bought**
+
+-   Order received by Gameball
+
+
+Send event call to **Bloomreach** "Purchase" with all attributes of the Item and the order ID
+
+-   orderId
+
+-   Product Title
+
+-   Unit Price
+
+-   Vendor Name
+
+-   Product ID
+
+-   Weight
+
+-   Quantity
+
+-   SKU
+
+-   Collections array
+
+-   Tags array
+
+-   Taxonomy array
+
+-   "Extra." Any added attributes to this object will be sent inside the event
+
+
+## How to Configure **Bloomreach** on Gameball
+
+Follow these steps to connect **Bloomreach** with Gameball and make the most of your loyalty data:
+
+1.  **Ensure Your Widget is Published**
+
+    -   _Note_: Not publishing the widget could impact the integration process, so ensure it's live before proceeding.
+
+2.  **Access the Gameball Admin Dashboard**
+
+    -   Navigate to **Integrations** in the menu.
+
+3.  **Add Bloomreach Integration**
+
+    -   Scroll down to **Bloomreach** app and click on **Connect**.
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-8.png" />
+</Frame>
+
+
+
+4.  **Copy and Paste API Base URL into Gameball**
+
+    -   In your **Bloomreach** account, go to the top right corner, click **Settings > Project Settings > Access Management > API**.
+
+    -   Copy **API Base URL**
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-9.png" />
+</Frame>
+
+    -   Go back to your Gameball dashboard, paste the URL.
+
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-10.png" />
+</Frame>
+
+5.  **Copy and Paste Project Token into Gameball**
+
+    -   In your **Bloomreach** account, go to the top right corner, click **Settings > Project Settings > Access Management > API**.
+
+    -   Copy **Project Token.**
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-11.png" />
+</Frame>
+
+    -   Go back to your Gameball dashboard, paste the Token.
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-12.png" />
+</Frame>
+
+6.  **Create a Private API Group in Bloomreach**
+
+    -   In your **Bloomreach** account, go to the top right corner, click **Settings > Project Settings > Access Management > API**.
+
+
+
+    -   Scroll down and you will find, **New Group**
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-13.png" />
+</Frame>
+
+
+
+    -   Choose **Private Access, add a group Name** and click **Create Group**
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-14.png" />
+</Frame>
+
+    -   Make Sure to give permissions to the new API Group
+
+        -   Customer Attributes: **Get and Set**
+
+            <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-15.png" />
+</Frame>
+
+        -   Events: **Set**
+
+            <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-16.png" />
+</Frame>
+
+
+_Important_: Not giving Get and Set permissions to the API Group may prevent the integration from functioning properly.
+
+**7\. Add a new Key in Bloomreach**
+
+-   Choose the new Group created from last step
+
+-   Click Add Key
+
+-   Enter Key Name
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-17.png" />
+</Frame>
+
+
+8\. **Copy and Paste API key ID and Secret into Gameball**
+
+-   Copy API Key ID
+
+-   Copy API Secret
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-18.png" />
+</Frame>
+
+-   Paste both Keys in Gameball accordingly
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-19.png" />
+</Frame>
+
+
+1.  **Map Gameball Events to Bloomreach**
+
+    Gameball tracks various customer events (e.g., points earned, redeemed, tiers achieved). Map these events to **Bloomreach** to use them in your campaigns.
+
+    1.  In the Gameball Dashboard, go to **Integrations**.
+
+    2.  Select **Bloomreach** from the list of available integrations.
+
+    3.  Map the following events to **Bloomreach**:
+
+        -   **Coupon Created**
+
+        -   **Coupon Redeemed**
+
+        -   **Reward Campaign Achieved**
+
+        -   **Order Placed**
+
+    4.  Confirm the event mappings and save.
+
+
+2.  **Sync Customer Data**
+
+    Syncing customer data ensures **Bloomreach** receives real-time updates about customer actions.
+
+    1.  In the Gameball Dashboard, navigate to **Integrations > Bloomreach**.
+
+    2.  Enable the **Customer Sync** toggle.
+
+    3.  Choose the customer attributes to sync. Here are all the attributes that can be sent:
+
+        -   **Customer ID**
+
+        -   **Date of Birth**
+
+        -   **Join Date**
+
+        -   **Tier Name**
+
+        -   **Wallet Points**
+
+        -   **Pending Points**
+
+        -   **Tier Progress**
+
+        -   **Tier ID**
+
+        -   **Completed Reward Campaigns**
+
+        -   **Referral Code**
+
+        -   **Referral Link**
+
+        -   **Tags and Segments**
+
+
+    1.  Save your settings.
+
+3.  **Check Out Synced Customer**
+
+    -   In the Data and Assets > Customers section, you will find a table with all the automatically synced Gameball customers.
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-20.png" />
+</Frame>
+
+
+4.  **Trigger Flows Based on Gameball Events**
+
+    -   In addition to attributes, you will see real-time Gameball events such as:
+
+        -   **Coupon Created**
+
+        -   **Coupon Used**
+
+        -   **Reward Campaign Achieved**
+
+        -   **Order Placed**
+
+        -   **Order cancelled**
+
+        -   **Refund Created**
+
+
+Each event will be synced in real-time, allowing you to send highly targeted campaigns and flows in **Bloomreach**.
+---
+### Related Articles:
+
+-   [Gameball on Zapier](/product-documentation/apps-integrations/zapier-integration)
+
+-   [Gameball Apps Integration](/product-documentation/apps-integrations/introduction-to-apps-integrations)

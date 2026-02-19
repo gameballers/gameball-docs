@@ -1,0 +1,232 @@
+---
+title: "Product Release 3.11.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## **New Features**
+
+### **1. Easier Visibility for Tier Status and Expiry Date**
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+Gameball now makes it easier for both you and your customers to **see when a tier will reset or be re-evaluated**, ensuring complete clarity around tier status and expiry timelines. [Read about tier expiry](/product-documentation/programs/vip-tiers/tier-settings/understanding-tier-expiry).
+
+#### **Why This Matters**
+
+Previously, you and customers couldn't easily identify when the next tier evaluation would occur. This enhancement helps both sides **stay informed and plan accordingly** for upcoming resets or progress changes.
+
+#### **What's New**
+
+- **Dashboard Enhancement:**
+  - A new **"Tier Evaluation Date"** field appears under the **Tier Information** section on each customer's profile.
+  - Displays when the customer's current tier will reset or be re-evaluated.
+
+- **Widget Update:**
+  - Customers can now see a clear message like:
+  - "Your tier will reset on: Jan 1, 2026"
+  - A countdown (e.g., "7 days left till evaluation") appears one week before the reset date.
+  - Fully supports **LTR and RTL languages**.
+
+- **Automatic Updates:**
+  - Evaluation dates recalculate automatically when tier settings change (e.g., from 12 months to 6 months).
+
+#### **Benefits**
+
+- Improved transparency for clients and customers.
+- Reduced confusion about tier expirations and progress resets.
+- Better customer engagement with clearer loyalty timelines.
+
+---
+
+### **2. Refunded Orders Now Can Be Excluded from Tier Progress**
+
+**Platform**
+
+All
+
+**Plan**
+
+Shopify: Pro & Guru
+
+Selfserve: Enterprise
+
+**Channel**
+
+All
+
+Gameball now gives you more control over how refunds affect tier progress. You can choose whether refunded orders contribute to customers' tier advancement, ensuring your loyalty logic stays aligned with your business rules. [Learn how to create a tier program](/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers) and [how Gameball treats Refunds](/product-documentation/guides-strategies-faqs/supportive-guides/how-refunds-work)
+
+#### **Why This Matters**
+
+Previously, refunded orders continued to count toward tier progress, even after being refunded. This enhancement allows you to **maintain fairness and data accuracy** in your loyalty tiers.
+
+#### **What's New**
+
+- **New Dashboard Setting:**
+  - Added a toggle under **Tier Program Settings**:
+  - "Exclude refunded orders from tier progress"
+  - **Options:** Enabled / Disabled
+  - **Default:** Disabled (for backward compatibility)
+
+- **Behavior:**
+  - When enabled → refunded orders **do not** count toward tier progress, and any earned progress from them is deducted.
+  - When disabled → refunded orders remain included (current behavior).
+
+- **Customer Impact:**
+  - Tier progress in both the **dashboard** and **widget** automatically reflects the updated calculation.
+  - Progress reductions from refunds are shown in real time.
+
+---
+
+### **3. Carry Over Attributes Across Automation Nodes**
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+You can now pass dynamic attributes, such as Order ID, Points Earned, or Friend Name, from one node to another inside your automations. This enables richer personalization, smarter branching, and more context-aware automation actions. [Learn how to create an automation Campaign](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
+
+#### **Why This Matters**
+
+Previously, attributes generated in one node (e.g., an event or Add Points) couldn't be reused later in the same automation. That meant messages and actions couldn't dynamically reflect the context of the customer's previous interactions.
+
+Now, attributes flow seamlessly across nodes, allowing for **smarter, fully contextual automation journeys**.
+
+#### **What's New**
+
+- **Attribute Persistence**
+  - Attributes created or received in one node (Event, Condition, or API) are automatically available to all subsequent nodes in the same automation branch.
+  - Attributes remain accessible for personalization in later actions.
+
+- **Dynamic Variable Usage**
+  - Action nodes (e.g., Send Email, Send SMS, Assign Points) can now reference these carried-over attributes.
+  - The variable picker in the dashboard displays available attributes grouped by source node.
+
+- **Editing & Safety**
+  - If an earlier node is edited or removed, any dependent attributes trigger a warning:
+  - "This attribute is no longer available."
+  - Missing attributes are safely replaced with placeholders to prevent automation errors.
+
+---
+
+## **Other Improvements**
+
+### **1. View Sent & Clicked Email Analytics Within Automation**
+
+You can now view **email performance metrics**, including **Sent** and **Clicked** counts, directly inside each **Send Email** action node in your automations. [Learn about automation Actions](/product-documentation/automation-campaigns/automation-actions).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/automation-email-analytics.png" alt="Automation email analytics" />
+</Frame>
+
+#### **What's New**
+
+- **Inline Email Analytics**
+  - Each **Send Email** action node now displays:
+    - **Emails Sent**: the total number of successfully delivered emails (excluding bounces and failures).
+    - **Emails Clicked**: the number of unique customers who clicked the email.
+  - Data refreshes in **real-time** (or within a few minutes).
+
+---
+
+### **2. Points Expiry Date Now Included in Exported Activity Logs**
+
+You can now see the **expiry date of earned points** directly in your **exported customer activity reports** (CSV or XLSX). [Export Customer Activity Log](/product-documentation/understanding-your-customers/your-customers/export-customer-activities-log).
+
+#### Why This Matters
+
+Previously, you could only see points expiry information within individual customer profiles. Now, the exported reports provide a complete overview, making it easier to track upcoming expirations, manage communications, and perform audits efficiently.
+
+#### What's New
+
+- **New Column Added:**
+  - `Points Expiry Date` now appears in exported customer activity logs.
+
+- **Data Coverage:**
+  - The column is populated for **any activity that includes earned points** (e.g., orders, campaigns, referrals, or missions).
+  - Activities that don't involve earning points will show the column as **empty**.
+
+---
+
+### **3. Redesigned Communication & Automation Activities on the Customer Page**
+
+You can now instantly understand how customers engage with messages and automations, without excessive scrolling or visual clutter. Check the customer page. [Explore and Manage a Customer Profile](/product-documentation/understanding-your-customers/customer-profile/explore-and-manage-a-customer-profile).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/customer-communication-activities.png" alt="Redesigned customer communication activities" />
+</Frame>
+
+#### **What's New**
+
+- **Collapsible Card Layout:**
+  - Each communication or automation activity now appears as an easy-to-scan **card** with clear headers, icons, and expand/collapse behavior.
+
+- **Communication Activities:**
+  - See message type icons (email, in-app, etc.) and key dates like **Sent** and **Clicked** at a glance.
+  - Cards are sorted by **newest first**, with a **Load More** option for long histories.
+  - Empty state: _"No Communication Activities Yet."_
+
+- **Automation Activities:**
+  - Each automation now displays its **name**, **status (Completed, Waiting, or Exited)**, and key dates (Entry, Complete, or Exit).
+  - Compact one-line view for simple automations.
+  - Empty state: _"No Active Automations."_
+
+---
+
+### **4. Add Display Name for Manual Coupons**
+
+You can now assign **display names** to manual coupons, making them more **user-friendly and multilingual** across all customer-facing channels. R[ead about creating a coupon manually with Gameball](/product-documentation/coupons/creating-coupon-manually).
+
+#### **What's New**
+
+- **New Display Name Field:**
+  - A new _"Display Name"_ field has been added to manual coupon creation and editing screens.
+  - Supports **multiple languages**, matching your widget's configured languages.
+  - The previous _"Name"_ field is now labeled **"Internal Name."**
+
+- **Customer-Facing Experience:**
+  - Customers now see the **localized display name** in their widget, emails, and web messages.
+  - If no translation exists for a customer's language, the **default language name** will be shown instead.
+
+- **API Updates:**
+  - `displayName` is included in coupon API responses as a **multi-language object (key-value pairs)**.
+  - No breaking changes for existing API integrations.
+
+---
+
+### **5. Add Terms & Conditions for Manual Coupons**
+
+You can now add **localized Terms & Conditions** for manual coupons, helping you clearly communicate coupon rules and usage limits to customers in their **preferred language**. R[ead about creating a coupon manually with Gameball](/product-documentation/coupons/creating-coupon-manually).
+
+#### **What's New**
+
+- **New Terms & Conditions Field:**
+  - A dedicated _"Terms & Conditions"_ section is now available when creating or editing manual coupons.
+  - Supports **multiple languages**, aligned with your widget's configured language settings.
+  - Field is **required** to ensure every coupon includes clear usage details.
+
+- **API Updates:**
+  - The coupon API now includes a `termsAndConditions` object containing multilingual key-value pairs.
+  - No impact on existing coupon API consumers.
+
+---

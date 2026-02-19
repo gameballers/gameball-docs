@@ -1,0 +1,157 @@
+---
+title: "Create and Configure SMS Campaigns"
+description: "A Step-by-Step guide to create and configure an SMS Communication Campaign with Gameball."
+---
+
+SMS campaigns are an effective and immediate way to connect with customers through their mobile devices. With high open and response rates, SMS serves as a valuable communication channel for time-sensitive promotions, transactional updates, and personalized offers that drive real-time engagement.
+
+## Utilizing Gameball's SMS Communication Campaigns
+
+Gameball's SMS Communication Campaign feature allows businesses to craft and send tailored messages to customers based on behavior, segmentation, or specific triggers. Use SMS to:
+
+- Share limited-time promo codes
+- Notify customers about flash sales
+- Remind them of abandoned carts
+- Send thank-you messages or order updates
+
+SMS campaigns provide a concise and direct way to reach your audience, keeping them informed and engaged at the right moment.
+
+## Configuring an SMS Communication Campaign
+
+To set up an SMS communication campaign from scratch in Gameball, follow these steps:
+
+<Steps>
+  <Step title="Navigate to Dashboard">
+    Navigate to the **Gameball Dashboard**.
+  </Step>
+  <Step title="Open Campaigns">
+    Click on **Campaigns**.
+  </Step>
+  <Step title="Create Communication Campaign">
+    Choose **Create Communication Campaigns**, then click on the **Create Campaign** button.
+  </Step>
+  <Step title="Select SMS">
+    From the **Start from Scratch** section, choose **SMS**.
+  </Step>
+</Steps>
+
+### Step 1: Rules
+
+- In the **Audience** section, choose who will receive this SMS:
+  - **All Customers** (Registered & Unregistered)
+  - **Guest customers** (Unregistered Customer)
+  - **Registered Customers** (Customers with Accounts)
+  - **Specific Customers** based on:
+    - Segments
+    - RFM Segments
+    - Tags
+    - Customer Attributes
+    - Combination for Segments, Tags, or Customer Attributes
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/sms-audience-selection.png" alt="SMS audience selection" />
+</Frame>
+
+- Define what **Triggers** sending this SMS to your audience. You can choose between:
+  - **Scheduled Based:** All your audience will receive this SMS at a scheduled time. You can decide between:
+    - **One-time:** SMS will be sent only once
+    - **Recurring:** SMS will be sent more than once
+  - **Action Based:** All of your audience will receive this SMS once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/sms-trigger-selection.png" alt="SMS trigger selection" />
+</Frame>
+
+- Click **Save and Continue**
+
+### Step 2: Scheduling
+
+Now let's set the timing for sending the SMS, based on the trigger that you chose in the previous step.
+
+- In case you choose **Scheduled Based**, and for it to be sent **one time**, you can choose one of these options:
+  - **Now**: The SMS will be sent once the campaign is set live
+  - **Later**: The SMS will be sent on the Start Date that you choose
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/sms-scheduling-one-time.png" alt="One-time scheduling options" />
+</Frame>
+
+- In case you chose **Scheduled Based**, and for it to be **recurring**, you need to set up the following:
+  - **Start Date:** The date that we will start sending the SMS
+  - **Repetition:** The number of times that the SMS should be sent, and the duration between each one.
+  - **End Date:** The date when we should stop sending the SMS. You can choose:
+    - **Never**: the SMS will always be sent out
+    - **Till**: A certain date that the SMS will stop being sent out after.
+  - **Configure frequency:** Specify how often customers will receive the SMS:
+    - An unlimited number of messages per customer (Default)
+    - Limit the Number of messages per customer (Choose the Maximum number)
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/sms-scheduling-recurring.png" alt="Recurring scheduling options" />
+</Frame>
+
+- In case you chose **Action Based**, you need to set up the following:
+  - **Start Date:** The date that we will start sending the SMS
+  - **End Date:** The date when we should stop sending the SMS. You can choose:
+    - **Never**: the SMS will always be sent out
+    - **Till**: A certain date that the SMS will stop being sent out after.
+  - **Configure frequency:** Specify how often customers will receive the SMS:
+    - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
+    - **Custom**: Choose the number of times the SMS should be sent out, the duration between each SMS, and the maximum number of times the SMS should be sent.
+
+- Click **Save and Continue**
+
+### Step 3: Compose
+
+- Customize the content and design of the communication campaign, including the message title and body text.
+- Craft a compelling message that grabs users' attention and encourages action, such as promoting new collections, products, sales, or promo codes.
+- Click **Save and Continue**
+
+### Step 4: Goal
+
+- Define the goal of the communication campaign, such as increasing product views, driving conversions, or boosting engagement.
+- Set event triggers and timeframes to monitor user actions in response to the communication campaign.
+
+### Step 5: Preview
+
+- Review and edit the configured settings to ensure alignment with campaign objectives and user preferences.
+- Send a test message to preview the communication campaign before sending it to users.
+
+- Lastly, click **Set live**
+
+## Viewing and Managing Communication Campaigns
+
+- Access the Communication Campaign section in the Gameball Dashboard to view all configured campaigns, including SMS.
+- Monitor key metrics such as triggers, audience, state, number of sent campaigns, clicks, and goal achievement percentage.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/sms-campaigns-list.png" alt="SMS campaigns list" />
+</Frame>
+
+## Tracking User Interaction and Performance
+
+- Gain insights into user interaction with communication campaigns by **selecting a specific campaign** and viewing details.
+- Identify users who received the notification and track their engagement, including clicks and goal achievements.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/sms-performance-tracking.png" alt="SMS performance tracking" />
+</Frame>
+
+## Deactivating or Deleting Communication Campaigns
+
+- From the Communication Campaign section in the Gameball Dashboard, select the desired communication campaign.
+- Choose to **deactivate/activate** or **delete** the campaign from the options menu.
+
+---
+
+<CardGroup cols={3}>
+  <Card title="Create and Configure Email Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
+    Set up email campaigns.
+  </Card>
+  <Card title="Create and Configure Web Message Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
+    Set up web message campaigns.
+  </Card>
+  <Card title="Create and Configure Mobile Push Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns">
+    Set up mobile push campaigns.
+  </Card>
+</CardGroup>

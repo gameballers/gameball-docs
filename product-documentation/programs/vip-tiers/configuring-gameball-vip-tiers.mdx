@@ -1,0 +1,148 @@
+---
+title: "Configuring Gameball VIP Tiers"
+description: "Create VIP tiers for your customers to gamify your user experience based on their engagement on your platform."
+---
+
+## Plan Availability
+
+<Tabs>
+<Tab title="Shopify & Salla Free">
+| Tiering-Up Method | Available |
+|---|---|
+| Amount Spent | Yes |
+</Tab>
+
+<Tab title="Shopify & Salla Starter">
+| Tiering-Up Method | Available |
+|---|---|
+| Amount Spent | Yes |
+| Points | Yes |
+</Tab>
+
+<Tab title="Pro, Guru & Non-platform">
+| Tiering-Up Method | Available |
+|---|---|
+| Amount Spent | Yes |
+| Points | Yes |
+| Orders Completed | Yes |
+| Friends Referred | Yes |
+| Score | Yes |
+</Tab>
+</Tabs>
+
+Gamify your user experience and reward your customers for their engagement on your platform. With our VIP Tiers feature, you can create tiers and tier up your customers, turning their interaction with your platform into an exciting game.
+
+---
+
+## Configuring VIP Tiers
+
+<Steps>
+<Step title="Navigate to VIP Tiers">
+  Log in to **Gameball's Dashboard**, head to the **Programs** section from the left side menu, then click **VIP Tiers.** View your current tiers to make any necessary adjustments.
+
+  ![VIP Tiers Overview](/images/product-docs/programs/vip-tiers/vip-tiers-overview.png)
+</Step>
+
+<Step title="Create a New VIP Tier">
+  Click on **Add New Tier**. In the Add New Tier page, you have three sections to fill in:
+
+  <AccordionGroup>
+  <Accordion title="Display" icon="palette">
+  - **Tier Name** — Enter the name that will appear to your customers in the customer widget. You can choose something like bronze, silver, gold, or something that matches the theme of your platform.
+
+  - **Tier Icon** — Select or upload an image that will appear in the customer widget. Pick an icon that matches your tier name and your platform theme.
+    - Choose an Icon from our library
+    - **OR** Upload an image from your device
+
+  ![Tier Display Settings](/images/product-docs/programs/vip-tiers/tier-display-settings.png)
+  </Accordion>
+
+  <Accordion title="Milestone to Achieve this Tier" icon="flag-checkered">
+  Enter the value that you want your customers to achieve so they can enter this tier based on your tiering-up method.
+
+  <Info>
+  [Learn more about Tiering-up methods.](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods)
+  </Info>
+
+  ![Tier Milestone Settings](/images/product-docs/programs/vip-tiers/tier-milestone-settings.png)
+  </Accordion>
+
+  <Accordion title="Benefits" icon="gift">
+  - **Entry and Lifetime Rewards** — Reward your customers for reaching new tiers with points, free products, discounts, and exclusive offers to incentivize continued engagement.
+
+  - **Earning Points Configuration** — Customize the earning points system per tier. For example, customers on tier 2 could get 10 points for every dollar they spend instead of the default setup. [Learn more about the default Earn Points system.](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system)
+
+  - **Custom Benefits** — Go beyond traditional rewards and offer custom benefits to customers on specific tiers. Whether it's access to VIP products or exclusive events, unleash your creativity to enhance the customer experience. [Learn more about Tier Benefits.](/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers)
+
+  ![Tier Benefits Settings](/images/product-docs/programs/vip-tiers/tier-benefits-settings.png)
+
+  <Tip>
+  **Return Window Duration for Tier Entry Reward Points** — Prevent temporary reward abuse by locking tier-entry points until the return window expires. This ensures customers cannot instantly redeem tier-upgrade rewards and then refund their qualifying orders. [Learn more](/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers).
+  </Tip>
+  </Accordion>
+  </AccordionGroup>
+</Step>
+
+<Step title="Configure Settings">
+  After creating your tiers, configure the global VIP Tier settings:
+
+  <CardGroup cols={3}>
+  <Card title="Tiering-Up Method" icon="arrow-up-right-dots">
+    Choose how customers advance through tiers:
+
+    - Amount Spent
+    - Points Earned
+    - Orders Completed
+    - Friends Referred
+    - Score
+
+    [Learn more](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods)
+  </Card>
+
+  <Card title="Tier Expiry" icon="clock">
+    Set an expiry date to keep progression dynamic. Choose from no expiry or based on the last 3, 6, 12, or 24 months.
+
+    [Learn more](/product-documentation/programs/vip-tiers/tier-settings/understanding-tier-expiry)
+  </Card>
+
+  <Card title="Refunded Orders" icon="rotate-left">
+    Choose whether refunded orders contribute to customers' tier advancement, ensuring your loyalty logic stays aligned with your business rules.
+  </Card>
+  </CardGroup>
+
+  ![Tiering-Up Method Selection](/images/product-docs/programs/vip-tiers/tiering-up-method.png)
+</Step>
+</Steps>
+
+---
+
+## Refunded Orders Behavior
+
+When **Refunded Orders** setting is enabled:
+
+| Scenario | Behavior |
+|---|---|
+| Enabled | Refunded orders **do not** count toward tier progress; earned progress is deducted |
+| Disabled | Refunded orders remain included (default) |
+
+<Info>
+Tier progress in both the **dashboard** and **widget** automatically reflects the updated calculation. Progress reductions from refunds are shown in real time.
+</Info>
+
+<Warning>
+If a refund lowers a customer's total spending below their current tier threshold, they will be downgraded accordingly. If downgraded, any entry reward given as points will be removed, while coupon rewards will remain. Customers can reclaim entry rewards each time they requalify. The system tracks tier changes, reward adjustments, and refund impacts while maintaining logs for auditing and fraud detection.
+</Warning>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Tiering-Up Methods" icon="arrow-up-right-dots" href="/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods">
+  Understand the different methods for advancing customers through your VIP tiers.
+</Card>
+
+<Card title="Customizing Tier Benefits" icon="gift" href="/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers">
+  Configure entry rewards, lifetime rewards, and custom benefits for each tier.
+</Card>
+</CardGroup>

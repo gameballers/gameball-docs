@@ -1,0 +1,195 @@
+---
+title: "Automation Actions"
+description: "Learn more about Gameball's Automation Campaigns actions, and how to use them."
+---
+
+Automation actions are the building blocks of effective workflows, allowing you to deliver personalized experiences and drive engagement. In this article, we'll explore the diverse range of automation actions offered by Gameball, providing detailed insights into their functionalities and implementation.
+
+## Exploring Automation Actions
+
+Automation actions enable you to automate tasks and deliver targeted communications to customers based on specific triggers and conditions. Let's delve into each automation action provided by Gameball:
+
+<Frame>
+  <img src="/images/product-docs/automation-campaigns/actions-panel.png" alt="Automation actions panel" />
+</Frame>
+
+<AccordionGroup>
+  <Accordion title="Send Email">
+    Send customers a customized email once a workflow is triggered or a condition is met. With Gameball, you can craft compelling email messages tailored to your audience, maximizing the impact of your communication efforts.
+
+    ### How to compose an email
+
+    1. Click on **Configure Email**, on the card.
+    2. From the pop-up window to the side, Compose the **Email's Header.**
+       - **From Name:** the name of your business, or representative.
+       - **From Email:** the email you want to appear in the email header. No need to write the domain here.
+       - **Domain:** pick the email address's domain. If the domain is not saved on Gameball, click **Change domain** and add it through **Gameball's Admin Settings**.
+       - **Subject:** write a single line appealing for more open rates. Make sure it's descriptive of the email content.
+    3. Compose the **Email's Body**
+    4. Press Save
+
+    #### Sending Test Email
+
+    You can send a test email to yourself when using the "**Send Email**" as an action to a trigger in an automation. Click **Send test Message** after composing your email to review it before you launch the automation campaign.
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-send-test-email.png" alt="Send test email option" />
+    </Frame>
+
+    ### View Sent & Clicked Email Analytics Within Automation
+
+    You can view **email performance metrics**, including **Sent** and **Clicked** counts, directly inside each **Send Email** action node in your automations.
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-email-analytics.png" alt="Email analytics showing sent and clicked counts" />
+    </Frame>
+
+    - Each **Send Email** action node now displays:
+      - **Emails Sent**: the total number of successfully delivered emails (excluding bounces and failures).
+      - **Emails Clicked**: the number of unique customers who clicked the email.
+    - Data refreshes in **real-time** (or within a few minutes).
+  </Accordion>
+
+  <Accordion title="Send Mobile Push">
+    Deliver personalized mobile push messages to customers, enhancing engagement and driving action. Gameball enables you to create mobile push notifications that resonate with your audience, driving meaningful interactions with your app or platform.
+
+    <Note>
+      You need to set up your Firebase integration first to be able to send out Push Notifications.
+    </Note>
+
+    **How to compose a mobile push:**
+
+    1. Click on **Configure Push**, on the card.
+    2. From the pop-up window to the side, Compose the mobile push by filling in the **Internal Name** (this name does not show to customers through the message)
+    3. **Start to Compose Message**
+       - **Message title:** a short bolded header that grabs the customer's attention.
+       - **Write your message here:** compose a short line that is straight to the point and persuasive.
+    4. Press Save
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-send-mobile-push.png" alt="Send Mobile Push action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Send Web Message">
+    Engage customers with targeted web messages delivered directly to their browsers. Whether it's announcing promotions, providing updates, or delivering personalized recommendations, Gameball allows you to craft compelling web messages that capture attention and drive engagement.
+
+    **How to compose a web message:**
+
+    1. Click on **Configure Message**, on the card.
+    2. From the pop-up window to the side, Compose the mobile push by filling in the **Internal Name** (this name does not show to customers through the message)
+    3. Choose or Upload the **Message Icon**
+    4. **Start to Compose Message**
+       - **Message title:** a short bolded header that grabs the customer's attention.
+       - **Write your message here:** compose a short line that is straight to the point and persuasive.
+    5. Configure your **Message Redirection:**
+       - **Button Text:** A few words that describe where this button leads to when clicked on.
+       - **Redirection URL:** insert the link of the page you want the customer to land on when they click on the button.
+    6. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-send-web-message.png" alt="Send Web Message action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Reward a Coupon">
+    Incentivize customer behavior by rewarding them with coupons once a workflow is triggered or a condition is met. With Gameball, you can choose from a drop-down list of existing coupons or create new ones to drive conversions and loyalty.
+
+    **How to set up the Reward a Coupon action:**
+
+    1. Click on **Add Coupon** on the Card
+    2. From the side pop-up, **Choose the Coupon Type**
+    3. Set up the **Advanced Rewards Options**
+    4. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-reward-coupon.png" alt="Reward a Coupon action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Reward a Badge">
+    Motivate customers by rewarding them with a badge once a workflow is triggered or a condition is met. Gameball enables you to choose from a drop-down list of existing badges or create new ones to encourage continuous engagement and progression.
+
+    **How to set up the Reward a Badge action:**
+
+    1. Click on **Choose Badge** on the Card
+    2. From the side pop-up, **Choose the badge**
+    3. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-reward-badge.png" alt="Reward a Badge action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Add Points">
+    Recognize customer achievements by granting them a certain number of points once a workflow is triggered or a condition is met. You can easily specify the number of points to be added and provide a reason for the reward, fostering a sense of accomplishment and motivation.
+
+    **How to set up the Add Points action:**
+
+    1. Click on **Add Points** on the Card
+    2. From the side pop-up, Set the **Number of Points**
+    3. Add the **Reason**
+    4. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-add-points.png" alt="Add Points action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Deduct Points">
+    Maintain balance and fairness by deducting points from customers when necessary. Gameball allows you to specify the number of points to be removed and provide a reason for the deduction, ensuring transparency and accountability in your rewards program.
+
+    **How to set up the Deduct Points action:**
+
+    1. Click on **Deduct Points** on the Card
+    2. From the side pop-up, Set the **Number of Points**
+    3. Add the **Reason**
+    4. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-deduct-points.png" alt="Deduct Points action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Add Tag">
+    Segment customers effectively by applying specific tags once a workflow is triggered or a condition is met. With Gameball, you can choose from a drop-down list of existing tags to categorize customers based on their behavior, preferences, or characteristics.
+
+    **How to set up the Add Tag action:**
+
+    1. Click on **Choose Tag** on the Card
+    2. From the side pop-up, **Select the Tag**
+    3. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-add-tag.png" alt="Add Tag action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Remove Tag">
+    Refine customer segmentation by removing specific tags once a workflow is triggered or a condition is met. Gameball enables you to choose from a drop-down list of existing tags, ensuring that your customer data remains organized and actionable.
+
+    **How to set up the Remove Tag action:**
+
+    1. Click on **Choose Tag** on the Card
+    2. From the side pop-up, **Select the Tag**
+    3. Press **Save**
+
+    <Frame>
+      <img src="/images/product-docs/automation-campaigns/action-remove-tag.png" alt="Remove Tag action configuration" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="Send Webhook">
+    Integrate seamlessly with external apps and services by sending customers' information via webhooks. Gameball allows you to set up webhooks to transfer data securely, enabling real-time communication and synchronization between systems. [Learn how to set up the Send Webhook action](/product-documentation/automation-campaigns/webhooks-in-automation).
+  </Accordion>
+</AccordionGroup>
+
+Mastering automation actions is key to unlocking the full potential of your automation campaigns. By leveraging the diverse range of automation actions provided by Gameball, you can create personalized experiences, drive engagement, and achieve your goals effectively.
+
+---
+
+### Related Articles
+
+- [How to Create an Automated Workflow](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign)
+- [What are Gameball's Automation Triggers](/product-documentation/automation-campaigns/automation-triggers)
+- [What are Gameball's Automation Controls](/product-documentation/automation-campaigns/automation-controls)

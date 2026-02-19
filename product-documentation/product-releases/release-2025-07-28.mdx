@@ -1,0 +1,224 @@
+---
+title: "Product Releases 28.7.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## **Engagement**
+
+### **1. Mission: New Reward Campaign**
+
+**Platform:** All | **Plan:** Shopify & Salla: PRO+ | Others: Locked by default (Available as an Addon) | **Channel:** All
+
+The **Mission Campaign** lets you define up to **10 different actions/tasks**. Once a customer completes all tasks, regardless of order, they earn a reward and unlock a badge. It's perfect for onboarding flows, multi-step journeys, and targeted engagement. [Learn more about missions](/product-documentation/rewards-campaigns/templates/engagement-gamification/mission).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/mission-campaign.png" alt="Mission campaign" />
+</Frame>
+
+### **Use Cases:**
+
+1. **User Onboarding:** "Create Account," "Verify Email," and "Place First Order".
+2. **Complete Your Profile:** "Upload profile picture", "Add address", and "Add payment method".
+3. **Repeat Purchase Encouragement:** "Place Second Order", "Purchase with min-value $100", and "Leave a Review"
+4. **Milestone Engagement:** "Make a $100 purchase," "Add 3 items to cart," and "Refer a friend."
+
+Want to see how it works? [Try our demo](https://demo-store.gameball.co/)
+
+---
+
+### **2. External Reward Now Supported in Referral & Tiers Programs**
+
+**Platform:** All | **Plan:** Non-Platform only: All Plans | Shopify & Salla: Contact support | **Channel:** Web, Mobile
+
+External Reward, previously limited to Reward Campaigns, is now available in Referral and Tiers modules, enabling faster program launches and reducing technical dependencies. Learn more about Gameball [Referral](/product-documentation/programs/referral-program/launching-referral-program) and [Vip Tiers](/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers) programs.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/external-reward-referral-tiers.png" alt="External reward in referral and tiers" />
+</Frame>
+
+---
+
+### **3. Puzzle Game Customization**
+
+You can now fully personalize the Puzzle Game to match your brand identity and user experience. Learn more about the [sliding puzzle reward campaign](/product-documentation/rewards-campaigns/templates/engagement-gamification/sliding-puzzle).
+
+**What's new:**
+
+Customize the background image, apply your branding colors, choose the puzzle image, and set a custom timer in seconds, all designed to enhance the gameplay experience and align it with your brand.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/puzzle-game-customization.png" alt="Puzzle game customization" />
+</Frame>
+
+---
+
+## **Core & Platform**
+
+### 1. New "Order Refunded" Event Available
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+We've added a new system event: **`order_refunded`**, automatically triggered by Gameball whenever a refund is processed through the platform.
+
+**Note:** This event is only applicable when using the **V4.0 Refund APIs**.
+
+#### Use Case:
+
+This feature enables you to **track refunded orders directly within the customer profile**, helping them maintain an accurate transaction history and improve your customer support processes.
+
+#### Key Benefits:
+
+- **Full Refund Visibility:** Every refund triggers an `order_refunded` event, logging essential refund data.
+- **Customer Transparency:** Refunded orders are now visible within each customer's activity timeline.
+- **Better Segmentation & Reporting:** You can now segment customers based on refund behavior or integrate this event into your loyalty logic and analytics tools.
+
+#### Data Included in the Event:
+
+- Original order ID
+- Refund ID
+- Refunded Amount
+- Refunded Points
+
+---
+
+### 2. API & Secret Key Rotation from Dashboard
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+Gameball has introduced the ability for you to **rotate your API keys and Secret Key individually** directly from the dashboard, offering enhanced security without integration disruptions.
+
+#### Use Case:
+
+You can now **secure your accounts by rotating keys** without affecting your existing platform connections, helping them comply with security best practices (e.g., periodic credential rotation) and mitigate potential key exposure risks.
+
+[Here is where to get your account integration details: API Key and Secret Key.](/product-documentation/admin-settings/get-api-keys)
+
+#### Key Features:
+
+- **Individual Key Rotation:** API keys and Secret Key can each be rotated separately with dedicated actions.
+- **Immediate Replacement:** Upon rotation, a new key is generated instantly, and the old key is immediately disabled.
+- **Automated Updates for Shopify & Salla:**
+  - Rotated keys are automatically updated in connected Shopify and Salla stores.
+  - On these platforms, you do **not need to manually update** your store configuration after key rotation.
+- **Access Control:**
+  - Only Admins, Workspace Owners, and Workspace Admins can rotate keys.
+  - If using custom roles, key rotation permission is configurable.
+
+---
+
+### 3. High Security Mode for API Authentication
+
+**Platform:** All | **Plan:** Shopify & Salla: Not available | Others: Available | **Channel:** All
+
+Gameball introduces **High Security Mode**, an optional feature that provides an extra layer of protection for your API integrations. When enabled, this mode ensures that all API requests are verified and secure, preventing unauthorized access and data exposure. This feature is disabled by default and can be easily activated in the Integration settings within the Admin panel. Once enabled, any integration that previously required only an API key will now also require a Secret Key, ensuring that even if the API key is exposed, it cannot be misused. [Learn more about APIs and Secret Keys on Gameball](/product-documentation/admin-settings/get-api-keys)
+
+If you want to activate this security option, go to **Settings > Admins Settings > Account Integration**, then scroll down to switch the toggle under **High Security Mode**.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/high-security-mode.png" alt="High security mode" />
+</Frame>
+
+**Benefits:**
+
+- **Enhanced Security:** Protects against unauthorized access by ensuring that all API requests come from trusted sources.
+- **Data Privacy:** Prevents potential exposure of sensitive data and ensures that no unauthorized requests can be made.
+- **Improved Client Protection:** Ensures that client-side elements, like widgets, are secure by encrypting IDs, making it impossible to reverse-engineer or misuse them.
+
+This update helps ensure that your integrations remain safe and reliable, giving you peace of mind and greater control over your data security.
+
+---
+
+### 4. Product-Level Order Segmentation
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+Gameball has launched **Product-Level Order Segmentation**, enabling you to segment customers based on the exact products and quantities purchased in actual orders. [Learn more about segmentation](/product-documentation/customer-segmentation/how-to-segment-customers).
+
+#### Use Case:
+
+You can now create **highly targeted and personalized campaigns** by analyzing **specific product purchase behavior**.
+
+For example:
+
+- Target customers who purchased a specific SKU.
+- Segment customers buying a particular category or high-quantity product.
+
+#### Key Features:
+
+- **Product Line Item Filters:**
+  - Product ID
+  - SKU
+  - Category
+  - Collection
+  - Product Title
+  - Quantity Purchased (per product)
+  - Price (per line item)
+- **Flexible Filtering Logic:**
+  - Filters can be combined using **AND/OR conditions** for precise segmentation control.
+  - Refunded and partially refunded orders are **excluded by default** for accuracy.
+- **System-Wide Availability:**
+  - This segmentation is accessible across all dashboard areas where customer targeting is possible.
+
+---
+
+### 5. Custom User Permissions Per Invitation
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+Gameball has released **Custom User Permissions**, giving Admins full control to configure dashboard access **per user individually** during the invitation process, without relying solely on preset roles. [Learn how to create and assign a new user role](/product-documentation/admin-settings/create-user-assign-roles).
+
+#### Use Case:
+
+Businesses often have team members with distinct roles, such as marketing, finance, or CX. Now, Admins can easily grant each user **precisely the permissions they need**, improving data security and operational control.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/custom-user-permissions.png" alt="Custom user permissions" />
+</Frame>
+
+#### Key Features:
+
+- **Granular Permissions at Invitation:**
+  While inviting a new user, Admins can set permissions per dashboard section:
+  - **Hide**: Section hidden from the user.
+  - **Disabled**: The user can view but not edit it.
+  - **Allow**: User has full access (including create/delete, where applicable).
+
+- **Permissions Configuration UI:**
+  Permissions options are presented during invitation via toggles or radio buttons for each key section:
+  - Customers
+  - Campaigns
+  - Coupons
+  - Analytics
+  - Settings
+  - Notifications
+  - Integrations
+  - Billing
+  - And more…
+
+- **Edit Permissions Anytime:**
+  - Admins can modify any user's permissions later from the User Management page.
+
+- **Security by Default:**
+  - New users are granted **No Access** by default and must be explicitly assigned permissions
+
+---
+
+## **Other Improvements**
+
+### 1. "Has Value" Operator Added to Automation Condition Split
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+We've added a new **"Has Value"** operator to the Condition Split node in Automations, allowing you to check if a specific customer attribute is **not empty**. [Learn more about automations](/product-documentation/automation-campaigns/introduction-to-automation-campaigns).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/has-value-operator-automation.gif" alt="Has value operator in automation" />
+</Frame>
+
+#### **Use Case:**
+
+Splitting flows more precisely, for example, trigger one branch if a mobile number exists, and another if it's missing, enabling more dynamic and tailored automation logic.
+
+---

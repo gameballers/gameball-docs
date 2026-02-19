@@ -1,0 +1,73 @@
+---
+title: "Buy 3 Items from a Specific Collection"
+description: "Reward customers who buy multiple items from a specific collection to promote product bundles and increase order value."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Starter, Pro, Guru |
+| Salla | Starter, Pro, Guru |
+| Non-Platform | All Plans |
+
+## Intro
+
+Drive deeper engagement with your product collections by rewarding customers who buy multiple items from a specific collection. The **_Buy 3 Items from a Specific Collection_** campaign is ideal for promoting seasonal ranges, product bundles, or themed collections, encouraging customers to add more items to their cart and increase their order value.
+
+<Frame>
+  ![Buy 3 items from a specific collection campaign widget](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-3-items-collection-widget.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select **Buy 3 Items from a Specific Collection** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+1. **Action**: Place Order
+2. **Times**: 1 _(Number of orders required with this condition)_
+3. **Rule**:
+    - **Field**: Collection ID
+    - **Operator**: Repeated Value
+    - **Collection ID**: _Enter the target Collection ID_
+    - **Repeated Value Times**: 3 _(Customer must purchase 3 items from this collection)_
+
+<Frame>
+  ![Buy 3 items from collection trigger setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-3-items-collection-trigger.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## End User Experience
+
+**How it works**
+
+1. A customer places an order that includes **three items from the same collection**.
+2. Gameball automatically triggers the reward.
+3. The customer receives the reward immediately (points, discount, badge -- based on your setup).
+4. The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+## Important Notes
+
+<Note>
+**Same Collection Requirement**
+
+All three items must belong to the **same configured collection** to trigger the reward.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

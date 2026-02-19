@@ -1,0 +1,167 @@
+---
+title: "Display Redemption Options at Checkout (Drop-menu)"
+description: "Enhance your customers' checkout experience by offering a way to redeem loyalty rewards with Gameball's Redemption Options Dropdown."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Pro & Guru |
+
+<Note>
+Checkout app blocks are available for **Shopify Plus** customers only.
+</Note>
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-hero.png" alt="Display redemption options at checkout" />
+</Frame>
+
+Elevate your customers' checkout experience with Gameball's Redemption Options Dropdown. This feature simplifies the process of redeeming loyalty rewards, enabling customers to explore available options, choose their preferred reward, and apply it seamlessly to their purchase.
+
+**Benefits:**
+
+- **Boost Reward Usage:** Offering multiple redemption options at checkout motivates customers to redeem their points, increasing overall utilization.
+- **Increase Customer Satisfaction:** Giving customers the flexibility to choose rewards that fit their preferences enhances their satisfaction and loyalty.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Shopify Plus">
+    This feature is exclusively available to merchants on the **Shopify Plus** plan.
+  </Step>
+  <Step title="Updated Shopify Theme">
+    Your Shopify theme must support app blocks. Without this, the option to add the Gameball block won't appear in the editor. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title='Activate the "Redeem Points" Program'>
+    Ensure that at least one redemption option is available, including flat rate rewards if required.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-redeem-program.png" alt="Activate redeem points program" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, make sure the toggle at the top-right is activated. Once this is enabled, you'll be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-customize.png" alt="Navigate to Onsite customize" />
+    </Frame>
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's Theme Editor.
+  </Step>
+  <Step title="Add the App Block">
+    In the editor, navigate to **Add App Block > Apps** and search for **"Checkout redeem dropdown menu"**.
+  </Step>
+  <Step title="Save">
+    Add the **Checkout redeem dropdown menu** app block to the checkout page and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-install.gif" alt="Install checkout redeem dropdown menu block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How it Works
+
+- **Guest (Not Logged-In) Customers:** For customers who are not logged in, the extension will prompt them to sign in to access their points balance and redeem rewards. Without logging in, you won't be able to view or use your points at checkout.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-guest.png" alt="Guest customer redeem dropdown view" />
+  </Frame>
+
+- **Logged-In Customers**: When a logged-in customer reaches the checkout page, the extension will automatically display, allowing them to view their points balance and choose a reward in exchange for points.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-logged-in.png" alt="Logged-in customer redeem dropdown view" />
+  </Frame>
+
+- **Redeeming Points**: After selecting a reward and entering the desired number of points, the customer clicks **'Redeem'**. Gameball will then deduct the points from the customer's balance and automatically generate a discount code, which will be applied to the order.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-applied.png" alt="Points redeemed via dropdown" />
+  </Frame>
+
+- **Error Handling**: If the discount code cannot be applied due to specific conditions (e.g., minimum order value not met, restrictions on combining discounts, or other advanced rules), an error message will appear, explaining why the coupon cannot be used with the current cart.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-error.png" alt="Redeem dropdown error message" />
+  </Frame>
+
+---
+
+## Customization
+
+### Style Customization
+
+The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+
+### Content & Translation
+
+In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+</Frame>
+
+---
+
+## Important Notes
+
+<Warning>
+The Redemption Options Dropdown will automatically hide if:
+
+- The rewards program is deactivated.
+- The customer is excluded from the program.
+- The account is not on a supported plan.
+- No redemption rules are configured.
+</Warning>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What happens if the customer redeems points but doesn't use the coupon?">
+    If the customer redeems points but does not use the generated coupon immediately, they can access the coupon later through the widget. The coupon will remain available for future use, but it cannot be reverted to points.
+  </Accordion>
+  <Accordion title="What happens if I downgrade my plan?">
+    The dropdown will automatically hide if your plan no longer supports the feature.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Embed Points in Customer Profile" icon="user" href="/product-documentation/onsite-components/general-components/embed-points-in-customer-profile">
+    Display customers' points balances in their profiles.
+  </Card>
+  <Card title="Display Potential Points on Product Pages" icon="tag" href="/product-documentation/onsite-components/general-components/display-potential-points-on-product-pages">
+    Show potential points directly on product pages.
+  </Card>
+</CardGroup>

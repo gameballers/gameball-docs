@@ -1,0 +1,80 @@
+---
+title: "Create and Send Events to Gameball"
+description: "Configure and add the events you send to Gameball automatically through your Admin Settings."
+---
+
+## Create and Send Events to Gameball
+
+**E-commerce Platforms**
+
+Shopify (Guru)
+
+Salla (Guru)
+
+Custom (All)
+
+---
+
+Events are the actions performed by your customers on your platform. Your platform should fire signals to Gameball when important events occur. In other words, Gameball should be notified when customers perform certain actions or sequences of actions on your platform. [Learn more](https://developer.gameball.co/rest-api/events)
+
+To configure these events on **Gameball dashboard**, go to **Settings > Admin Settings > Integrations: Events**
+
+<Frame>
+  ![Events Settings](/images/product-docs/admin-settings/events-settings.png)
+</Frame>
+
+On the events page, you can find all events sent to Gameball and their details.
+
+## Adding Events
+
+Once an event is sent from your platform to Gameball, it automatically appears on the events page. You can edit or delete the event as long as it is not linked to any of Gameball configurations. Once an event is linked to a campaign, you will not be able to edit it or delete it unless you unlink it.
+
+As shown in the image below, you can configure and edit event details before linking an event on the Gameball dashboard. Here is a brief description:
+
+- **Event Label:** event name as sent from your platform.
+- **Display Name:** a relevant event name as chosen by you.
+- **Key:** includes two variables which are the key name and the data type for the key.
+
+<Frame>
+  ![Events Configuration](/images/product-docs/admin-settings/events-configuration.png)
+</Frame>
+
+## Enable and disable Internal Events
+
+<Frame>
+  ![Internal Events](/images/product-docs/admin-settings/internal-events.png)
+</Frame>
+
+You have the ability to **enable or disable the internal events** that Gameball automatically fires (such as `place_order`, `view_product`, `order_refunded`, `add_to_cart`, etc.)
+
+### Why This Matters
+
+This gives you **complete control** over the events you track and process, allowing you to:
+
+- Eliminate unnecessary or duplicate events.
+- Customize your tracking to fit your business logic.
+- Decide which events should (or shouldn't) be fired to your system.
+
+### Key Details
+
+- A **dedicated settings page** now lists all auto-fired Gameball events with toggles (Enable/Disable).
+- Changes apply **in real time**; once an event is disabled, it stops being fired immediately.
+- When disabled, the event will no longer:
+  - Be sent to your system.
+  - It is used in internal Gameball flows (unless you manually fire it).
+- **Permissions:** Only Admins, Workspace Owners, or Workspace Admins can control event toggles. If custom roles are enabled, this action is assignable.
+
+## Remarks
+
+- The [event and rules](/product-documentation/understanding-your-customers/customer-profile/customer-events) stored for each event must be synced across your mobile and web integrations to provide your customers with a consistent experience
+- You can only edit the display name for events linked to configurations on your Gameball dashboard. To make more changes, you must unlink your event from any configurations.
+- You can test the events your platform is sending to Gameball through the **Events Log**. [Read more on Events Log](/product-documentation/admin-settings/events-log)
+
+---
+
+## What else?
+
+- [Understand your players' events](/product-documentation/understanding-your-customers/customer-profile/customer-events)
+- [How does Challenge Event(s) Rule Engine work?](/product-documentation/rewards-campaigns/faqs/using-the-event-engine)
+- [Events Log](/product-documentation/admin-settings/events-log)
+- [How to use Events on Shopify?](/product-documentation/guides-strategies-faqs/shopify-guides/using-events)

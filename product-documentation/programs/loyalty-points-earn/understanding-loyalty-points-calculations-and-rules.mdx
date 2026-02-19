@@ -1,0 +1,170 @@
+---
+title: "Understanding Loyalty Points Calculations and Rules"
+description: "Learn how Gameball prioritizes and applies different types of loyalty points configurations to reward your customers."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Free, Starter, Pro & Guru |
+| Salla | Starter, Pro & Guru |
+| Non-platform Clients | Growth & Enterprise |
+
+Gameball provides several loyalty points earning configurations, each with specific conditions and priority rules. This ensures customers earn the correct amount of points based on their level, the collection or merchant they are purchasing from, and any active campaigns.
+
+<Warning>
+Custom loyalty points per merchant cannot be used in combination with custom loyalty points per collection.
+</Warning>
+
+---
+
+## Default Loyalty Points Earning
+
+This is the basic loyalty points earning rule that applies if no other rule has been set up. If no specific configurations are in place for collections, merchants, or tiers, the system will apply the default Loyalty Points earning rate. [Learn more](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system)
+
+**Example:**
+
+| Loyalty Points Earning Type | Value | Points Earned |
+|---|---|---|
+| Default Loyalty Points Earning | 1 pts | **1 pts** per $1 |
+
+---
+
+## Loyalty Points Earning per Tier
+
+This rule overrides the default earning rate. When a customer qualifies for a tier-based earning configuration, points will be granted according to their level rate.
+
+<Note>
+If an item has custom loyalty points for a collection or merchant, this rule is ignored.
+</Note>
+
+**Example:**
+
+| Loyalty Points Earning Type | Points Value |
+|---|---|
+| Default Loyalty Points Earning | 3 pts |
+| Loyalty Points Earning per Tier | 2 pts |
+| **Points Earned** | **2 pts** per $1 |
+
+In this case, the customer earns **2 points** per $1 based on their tier.
+
+---
+
+## Custom Loyalty Points Earning per Collection or Merchant
+
+This rule takes precedence over both the default rate and tier-based earnings.
+
+If an item belongs to multiple collections, the system compares all configured values and applies the highest.
+
+**Example:**
+
+| Collection Name | Custom Loyalty Points Earning |
+|---|---|
+| Collection Breakfast | 4 pts |
+| Collection Cheese | 2 pts |
+| **Points Earned** | **4 pts** |
+
+If an item belongs to both collections, the customer receives the highest value (4 pts).
+
+---
+
+## Custom Loyalty Points per Tier per Collection or Merchant
+
+This rule overrides all previous configurations. Gameball compares the loyalty points set at the collection or merchant tier with the customer tier, and the higher value is applied.
+
+**Example 1:**
+
+| Collection | Custom Loyalty Points | Loyalty Points per Tier 2 |
+|---|---|---|
+| Collection Breakfast | 4 pts | 6 pts |
+| Collection Cheese | 3 pts | 2 pts |
+| **Points Earned** | **6 pts** from Breakfast | **3 pts** from Cheese |
+
+In this case, the customer earns **6 points** for items in Collection Breakfast and **3 points** for items in Collection Cheese, as these are the higher values.
+
+**Example 2:**
+
+| Collection | Custom Loyalty Points | Loyalty Points per Tier 2 |
+|---|---|---|
+| Collection Breakfast | 4 pts | 5 pts |
+| Collection Cheese | 2 pts | 6 pts |
+| **Points Earned** | **6 pts** | |
+
+In this case, 6 points are awarded based on the highest applicable rule.
+
+---
+
+## Multiplier Campaign
+
+Multiplier campaigns are applied **after** all earning rules. [Learn more](/product-documentation/programs/rewards-campaigns/create-a-point-multiplier-reward-campaign).
+
+The system calculates points per item and then applies the multiplier, rounding down the result per item before summing.
+
+**Example:**
+
+| Item | Points Before Multiplier | Multiplier | Earned Points |
+|---|---|---|---|
+| Item 1 | 2.3 pts | 2x | 4 pts |
+| Item 2 | 3.1 pts | 3x | 9 pts |
+| **Points Earned** | | | **13 pts** |
+
+<Note>
+If an item is affected by two multiplier campaigns, Gameball will apply the one with the **higher** multiplier.
+</Note>
+
+**Example:**
+
+| Campaign Type | Multiplier |
+|---|---|
+| Whole order | 3x |
+| Campaign on Collection | 5x (on cheese) |
+| **Points Earned** | Earned points from the first four rules **x5** |
+
+If the customer purchases an item from the Cheese collection, the 5x multiplier will be applied.
+
+---
+
+## Refund Rules
+
+### Partial Refunds
+
+Gameball deducts points proportionally based on the refunded item's value.
+
+**Example:** If an item worth $12.50 is refunded, 12 points will be deducted.
+
+### Full Refunds
+
+All points earned from the order will be removed, including points from campaigns.
+
+<Warning>
+To correctly deduct both base and campaign points, the product ID and quantity must be submitted during the refund process. If this data is not provided, Gameball will only deduct the base points value.
+</Warning>
+
+---
+
+## General Notes
+
+<Note>
+- Orders with custom loyalty points must be submitted using the **Order API**.
+- Include all line items with details like price, taxes, discounts, and points values.
+- If not applicable, these values must be set to "0".
+- Shipping rewards follow the same rules as general, campaign, or tier-based rewards. However, **shipping refunds are not supported**.
+- If the returned item is the **last item** in the order, all points (except shipping) will be deducted.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Launch and Configure Your Earn Pointing System" icon="rocket" href="/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system">
+  Activate and configure how customers earn points.
+</Card>
+
+<Card title="Introduction to Reward Campaigns" icon="bullhorn" href="/product-documentation/programs/rewards-campaigns/introduction-to-rewards-campaigns">
+  Learn about the different types of reward campaigns.
+</Card>
+
+<Card title="Configure Your Redeem Pointing System" icon="coins" href="/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system">
+  Set up how customers can redeem their earned points.
+</Card>
+</CardGroup>

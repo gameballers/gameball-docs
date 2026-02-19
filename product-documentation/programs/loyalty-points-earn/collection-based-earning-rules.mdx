@@ -1,0 +1,172 @@
+---
+title: "Collection-Based Earning Rules"
+description: "Customize your cashback program so that each collection you have in your store offers a different cashback value to your customers."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Guru |
+| Salla | Guru |
+| Non-platform Clients | Growth (Add-on) & Guru |
+
+Customize your cashback system on Gameball to offer different cashback values for each collection in your store. This flexibility allows you to incentivize purchases from specific collections and enhance customer engagement.
+
+<Frame>
+  ![Collection-Based Cashback Overview](/images/product-docs/programs/loyalty-points-earn/collection-cashback-overview.png)
+</Frame>
+
+## Prerequisites
+
+- Ensure that you have activated the **Cashback** feature on your Gameball account.
+- Confirm that your store collections are properly set up.
+
+---
+
+## Configuring Collection-Based Earning
+
+<Steps>
+<Step title="Navigate to Earn Points">
+Navigate to **Earn Points** under **Programs** from your Gameball dashboard.
+
+<Frame>
+  ![Navigate to Earn Points](/images/product-docs/programs/loyalty-points-earn/navigate-earn-points.png)
+</Frame>
+</Step>
+
+<Step title="Edit Collection-based Earning Rule">
+Under **Settings**, click the **Edit Icon** beside **Collection-based Earning Rule**.
+
+<Frame>
+  ![Edit Collection-based Earning Rule](/images/product-docs/programs/loyalty-points-earn/edit-collection-earning-rule.png)
+</Frame>
+</Step>
+
+<Step title="Choose Cashback Option">
+A pop-up window will appear. Under **Cashback Options**, you will find four choices:
+
+<Frame>
+  ![Cashback Options](/images/product-docs/programs/loyalty-points-earn/cashback-options-popup.png)
+</Frame>
+
+- **All Products:** The default cashback rule applies to all products. You can add extra cashback rules for different levels.
+- **Selected Collections:** Cashback will only apply to the selected collections. Purchases from other collections will not be eligible for cashback.
+- **All Products Except Some Collections:** Cashback applies to all collections except the ones you exclude. Purchases from excluded collections will not earn cashback.
+- **Custom Cashback:** You can define different cashback values for different collections. After saving, further configuration is required.
+</Step>
+
+<Step title="Save Your Selection">
+After choosing your preferred cashback system, click **Save**.
+
+<Frame>
+  ![Save Cashback Selection](/images/product-docs/programs/loyalty-points-earn/save-cashback-selection.gif)
+</Frame>
+</Step>
+</Steps>
+
+<Note>
+- If you select **All Products**, **Selected Collections**, or **All Products Except Some Collections**, no further configuration is needed. Just ensure your default cashback rule is correctly set.
+- If you choose **Custom Cashback**, you deactivate the **Merchant** feature on the system. Cashback based on collections and crossover cashback cannot work simultaneously.
+</Note>
+
+---
+
+## Create Different Cashback Values for Different Collections
+
+<Steps>
+<Step title="Access Collection Rules">
+After selecting **Custom Cashback** and clicking **Save**, a new tab called **Collection Rules** will appear.
+
+<Frame>
+  ![Collection Rules Tab](/images/product-docs/programs/loyalty-points-earn/collection-rules-tab.png)
+</Frame>
+</Step>
+
+<Step title="Add a Collection Rule">
+Click **View Collections**, then **Add Collection Rule**.
+
+<Frame>
+  ![Add Collection Rule](/images/product-docs/programs/loyalty-points-earn/add-collection-rule.png)
+</Frame>
+</Step>
+
+<Step title="Configure the Cashback Rule">
+Configure your cashback rule:
+
+<Frame>
+  ![Configure Cashback Rule](/images/product-docs/programs/loyalty-points-earn/configure-cashback-rule.gif)
+</Frame>
+
+- **Select Collection/s:** Mark the collections for this rule.
+- **Collection Rule Name:** Name the rule for easy identification.
+- **Cashback Method:** Choose between:
+
+  - **Cashback value** (percentage-based cashback) -- State the percentage of the cashback you want to grant for orders from that collection.
+  - **Cashback value based on unit** (points-based cashback) -- State the amount of points you want to give for every dollar they spend buying from the specified collection.
+  - **Fixed Cashback Value** -- This is ideal if you want to offer **consistent point rewards per collection**, regardless of the product's price.
+
+<Info>
+**Fixed Cashback Value** is perfect for exclusive items. For example, if you want to reward 100 points per product in the "New Arrivals" collection, regardless of whether an item costs $20 or $200.
+
+To enable fixed cashback, you must send the following details **per item** in the Order API: Collection ID(s), Price, Discount, Taxes, and Product ID.
+</Info>
+
+**Fixed Cashback Key Rules:**
+- If an item belongs to multiple collections, Gameball will reward based on the **highest fixed point value**.
+- If multiple different items from the same collection are purchased, the fixed points reward applies per item.
+- The **fixed points reward will still respect active Points Multiplier Campaigns** (e.g., Double Points: 200 becomes 400).
+</Step>
+
+<Step title="Enter Cashback Value and Save">
+Enter the cashback value.
+
+<Frame>
+  ![Enter Cashback Value](/images/product-docs/programs/loyalty-points-earn/enter-cashback-value.png)
+</Frame>
+
+Click **Save**. Customers will now enjoy collection-specific cashback rates. The newly created rules will be visible under the **Collection Rules** tab.
+</Step>
+</Steps>
+
+<Tip>
+- To add more rules for different collections, click **Add Collection Rule** and repeat the process.
+- To edit a rule, click the **Edit Icon**.
+- To delete a rule, click the **Bin Icon**.
+</Tip>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+<Accordion title="Can I reward customers on higher tiers with different cashback values under the same collection?">
+Yes. After creating a cashback rule for specific collections, you can modify the cashback value based on the customer's tier:
+
+1. Under the configured cashback rule, click **Add tier rule**.
+
+<Frame>
+  ![Add Tier Rule](/images/product-docs/programs/loyalty-points-earn/add-tier-rule.png)
+</Frame>
+
+2. Select the customer **tier**.
+3. Change the cashback value accordingly.
+4. Click **Save**.
+</Accordion>
+
+<Accordion title="What happens if an item belongs to multiple collections with different cashback rules?">
+Gameball will reward based on the **highest cashback point value**.
+</Accordion>
+
+<Accordion title="What happens if multiple different items from the same collection are purchased?">
+The points reward applies per item.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Launch and Configure Your Earn Pointing System" icon="rocket" href="/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system">
+  Configure your default cashback points rules.
+</Card>
+</CardGroup>

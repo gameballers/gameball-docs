@@ -1,0 +1,169 @@
+---
+title: "Product Release 10.11.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## **New Features**
+
+### **1. "Insights" Tab for Redemption Options in Redeem Points**
+
+**Platform**
+
+All
+
+**Plan**
+
+Guru (Shopify, Salla) and Enterprise
+
+**Channel**
+
+All
+
+You can now analyze the performance of each **redemption option** directly within the **Redeem Points** section using the new **Insights** tab. [Read about launching points redemption systems](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/redemption-insights-tab.png" alt="Redemption insights tab" />
+</Frame>
+
+#### **What's New**
+
+- A new **Insights Tab** has been added next to **Configurations**.
+- Displays detailed analytics for every redemption option (coupon type).
+- Includes key metrics such as:
+  - **Issued:** Number of coupons generated.
+  - **Burned:** Coupons redeemed or used.
+  - **Expired:** Coupons that expired unused.
+  - **Burn Rate:** % of issued coupons that were used.
+  - **Expiry Rate:** % of issued coupons that expired unused.
+  - **Total Points:** Total points redeemed to generate coupons.
+- **Time Range Filter** allows analysis for specific date ranges (e.g., last 30 days).
+- **Export Option** lets you download filtered insights in CSV/XLSX format.
+- **Default Sorting:** By _Total Points (descending)_, customizable across all columns.
+
+#### **Why It Matters**
+
+Gain full visibility into how customers engage with your redemption options, understand which rewards drive the most activity, identify underperforming ones, and make data-driven decisions to optimize your loyalty program.
+
+---
+
+### **2. New System Event: `points_redeemed`**
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+We've introduced a new built-in event, `points_redeemed`, that automatically triggers whenever a customer redeems points. This enables deeper tracking, better automation control, and easier integration with external systems like CRMs or analytics tools. [Learn about all the events Gameball automatically fires](http://help.gameball.co/en/articles/12471048-events-gameball-fires-automatically-across-platforms).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/points-redeemed-event.png" alt="Points redeemed event" />
+</Frame>
+
+#### **What's New**
+
+- **New Event Added:**
+  - **Event Name:** `points_redeemed`
+  - **Fires automatically** when a customer successfully redeems points via checkout, or API.
+  - **Includes Standard Metadata:**
+    - `player_id`
+    - `timestamp`
+    - `redeemed_points`
+    - `redeemed_points_value`
+    - `reference_transaction_id` _(if available)_
+
+- **Configurable in Dashboard**
+  - Appears under the **Event Configuration** list.
+  - **Default Status:** Disabled. Can be enabled manually when ready.
+
+- **Event Behavior**
+  - When enabled, this event is automatically logged in the **Activity Log** and can trigger:
+    - Custom automations
+    - Communication Campaigns
+  - When disabled, it will not be fired or recorded.
+
+#### **Why It Matters**
+
+This update gives clients more flexibility and insight into customer redemption activity, allowing better reporting, targeted engagement, and automation triggers based on real-time reward redemption data.
+
+---
+
+## **Other Improvements**
+
+### **1. Enhance Customer Coupons API to Identify Promotions and Display Promotion Rules**
+
+We've enhanced the **Customer Coupons API** to make it easier for apps and storefronts to distinguish **automatic promotions** from **regular coupons** and to display the **promotion rules** that define how customers can qualify for each offer. [Read more](/product-documentation/coupons/creating-coupon-manually).
+
+#### **What's New**
+
+- Added a new boolean flag:
+  - `"isPromotion": true`
+  - `isPromotion = false` → Regular or manually issued coupon.
+  - `isPromotion = true` → Promotion or rule-based discount (e.g., "Buy 2 Get 1 Free", "50% Off Collection").
+
+- Added a new object for **promotion details**:
+  - `"promotionRules": {"type": "Buy X Get Y","description": "Buy 2 items from Summer Collection, get 1 free T-shirt","conditions": {"buyQuantity": 2,"getQuantity": 1,"applicableCollections": ["Summer Collection"],"minOrderValue": 0}}`
+
+- Includes:
+  - Promotion type and description
+  - Applicable collections or products
+  - Minimum order value or eligibility rules
+
+---
+
+### **2. Responsive Game View for Standalone Game URLs**
+
+We've enhanced the **standalone Game URLs** to support a fully **responsive layout**, ensuring that Gameball games now look and perform beautifully across all screen sizes, from mobile and tablets to desktop and large touchscreen displays.
+
+#### **What's New**
+
+- **Responsive Game Display**
+  - Games like _Spin the Wheel_, _Slot Machine_, and _Match Cards_ now automatically scale to fit any device or screen resolution.
+  - Perfect for public activations, malls, events, or in-store experiences on large touchscreens.
+
+- **Adaptive Layout Behavior**
+  - The game's design and lead form now adjust dynamically to the available space.
+  - Proportional scaling ensures visuals and animations remain sharp and centered.
+
+- **Preserved Widget Experience**
+  - When a game is played **inside the Gameball widget** (e.g., on a website or app), it retains its original mobile view for consistency.
+
+#### **Why It Matters**
+
+Marketers and event organizers can now launch engaging Gameball experiences anywhere, without worrying about layout or display issues. Games will look great and perform smoothly, whether accessed on a phone or a 24" touchscreen kiosk.
+
+---
+
+### **3. Improved UX for Customer List in Campaigns**
+
+We've enhanced the **Customer List** tab under campaigns with a new **loading skeleton** (shimmer effect) for a smoother and more intuitive experience.
+
+#### **What's New**
+
+**Visual Feedback While Loading:**
+
+- A shimmering placeholder now appears while the customer list data is being fetched.
+
+**Consistent Look & Feel:**
+
+- The skeleton layout matches the existing table structure across the dashboard, including row spacing and shimmer style.
+
+**Always Active on Fetch:**
+
+- The loading skeleton is triggered during:
+  - Initial page load
+  - Pagination or data refresh
+
+#### **Why It Matters**
+
+This improvement prevents confusion between "no data" and "still loading," providing users with clear feedback and a more polished, responsive dashboard experience.
+
+---

@@ -1,0 +1,160 @@
+---
+title: "Display Available Coupons at Checkout"
+description: "Displays all the eligible rewards for the customers to automatically apply them to their order with just a few clicks."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Pro & Guru |
+
+<Note>
+Checkout app blocks are available for **Shopify Plus** customers only.
+</Note>
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/checkout-available-coupons-hero.png" alt="Display available coupons at checkout" />
+</Frame>
+
+At checkout, customers can now easily apply their available rewards or discounts through a convenient dropdown menu. This streamlined process enhances the checkout experience, making it quick and simple for customers to redeem their loyalty rewards.
+
+**Benefits:**
+
+- **Simplified Redemption Process:** The dropdown menu makes it easy for customers to view and apply their available rewards, reducing friction and speeding up the checkout.
+- **Increased Reward Utilization:** By presenting all available rewards upfront, customers are more likely to redeem their points, boosting loyalty program engagement.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Shopify Plus">
+    This feature is exclusively available to merchants on the **Shopify Plus** plan.
+  </Step>
+  <Step title="Updated Shopify Theme">
+    Your Shopify theme must support app blocks. Without this, the option to add the Gameball block won't appear in the editor. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, make sure the toggle at the top-right is activated. Once this is enabled, you'll be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-coupons-customize.png" alt="Navigate to Onsite customize" />
+    </Frame>
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's Theme Editor.
+  </Step>
+  <Step title="Add the App Block">
+    In the left sidebar, under the "Order Summary," click **Add App Block > Apps**, and search for the **"Checkout available rewards"** block.
+  </Step>
+  <Step title="Save">
+    Select the **"Checkout available rewards"** app block and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-coupons-install.gif" alt="Install checkout available rewards block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How It Works
+
+- **Not Logged-In Customers:** If you are not logged in, the extension will prompt you to log in to view your available rewards.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-coupons-guest.png" alt="Guest customer coupons view" />
+  </Frame>
+
+- **Logged-In Customers:** When the logged-in customer reaches the checkout page, the extension will be displayed, allowing them to select from their available rewards.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-coupons-logged-in.png" alt="Logged-in customer coupons view" />
+  </Frame>
+
+- **Applying Rewards:** Once the customer clicks **'Apply'**, Gameball will automatically apply the discount to their order.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-coupons-applied.png" alt="Reward applied at checkout" />
+  </Frame>
+
+- **Error Handling:** If the coupon is not applicable due to conditions like minimum order value, restrictions on combining with other discounts, or other advanced conditions, an error message will appear explaining why the coupon cannot be applied to the cart.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/checkout-coupons-error.png" alt="Coupon error message" />
+  </Frame>
+
+---
+
+## Customization
+
+### Style Customization
+
+The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+
+### Content & Translation
+
+In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+</Frame>
+
+---
+
+## Important Notes
+
+<Warning>
+This extension will automatically hide from your store if:
+
+- The Gameball program is deactivated.
+- There are no coupons available.
+- The customer is excluded from the loyalty program.
+- Your account is on a plan that doesn't support this feature.
+</Warning>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What happens if I downgrade my plan?">
+    The dropdown will automatically hide if your plan no longer supports the feature.
+  </Accordion>
+  <Accordion title='What should I do if I clicked on Customize but saw a "There is a problem loading the page" message?'>
+    Please review the prerequisites and ensure all conditions are met. If you still encounter an issue, contact us at [support@gameball.co](mailto:support@gameball.co).
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Embed Points in Customer Profile" icon="user" href="/product-documentation/onsite-components/general-components/embed-points-in-customer-profile">
+    Display customers' points balances in their profiles.
+  </Card>
+  <Card title="Display Potential Points on Product Pages" icon="tag" href="/product-documentation/onsite-components/general-components/display-potential-points-on-product-pages">
+    Show potential points directly on product pages.
+  </Card>
+</CardGroup>

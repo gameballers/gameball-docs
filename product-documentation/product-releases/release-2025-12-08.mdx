@@ -1,0 +1,134 @@
+---
+title: "Product Release 8.12.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## **New Features**
+
+### **1. Define and Track Goals for Automation Campaigns**
+
+You can now set one measurable goal for each automation to evaluate how effectively your flows drive customer actions. [Learn more](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+<Frame>
+  <img src="/images/product-docs/product-releases/automation-goals-tracking.png" alt="Automation goals tracking" />
+</Frame>
+
+#### **What's New**
+
+- **Goal Setup in Automations**
+  - Each automation now supports defining **one goal** from any Gameball event (custom or predefined). You can add optional filters (e.g., order value, product category) and set a measurement window such as 7, 14, or 30 days. Goals can be added or edited in draft mode, with changes to published automations applying only to new participants.
+
+- **Automated Goal Tracking for Each Customer**
+  - After a customer completes the automation, Gameball automatically tracks whether they perform the defined goal event within the selected timeframe. Each customer is marked as **Achieved**, **Pending**, or **Not Achieved**, with full visibility inside customer logs.
+
+- **Goal Performance Analytics & Reports**
+  - A new **Goal Performance** tab has been added to automation insights. It displays total participants, completions, goal achievements, and conversion trends over time. All goal results can be exported to CSV for deeper analysis.
+
+---
+
+## **Other Improvements**
+
+### **1. Lead Form Now Supports Custom Customer Attributes**
+
+We have enhanced the Lead Form to give you more flexibility and control over the customer data you collect from guest users. You can now enrich the Lead Form with your own **custom customer attributes**, allowing you to gather more meaningful information beyond the standard fields. [Read about how to create and customize lead forms](/product-documentation/rewards-campaigns/reward-campaign-url).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/lead-form-custom-attributes.png" alt="Lead form custom attributes" />
+</Frame>
+
+#### **What's New**
+
+- **Lead Form now supports up to 5 custom customer attributes:** You can include any previously created customer attributes, such as City, Gender, Favorite Product, Age, and more, using a new multi-select dropdown. Custom fields display with the correct input type (text, number, date picker, toggle) and follow all validation rules.
+
+- **Full control over field configuration:** Rearrange fields, mark them as mandatory or optional, and toggle default fields (Name, Email, Mobile) on/off. Email or Mobile can be selected as the unique identifier, and unique identifiers cannot be removed or set as optional.
+
+- **Smarter data handling for guest users:** All submitted attributes are saved to the guest's temporary profile and automatically mapped to their customer profile once they are identified (e.g., login or purchase).
+
+---
+
+### **2. Test Push Notifications Inside Automation Campaigns**
+
+**Preview push notifications directly inside your automation flows.**
+
+You can now validate the full push notification experience for content, variables, deep links, and delivery without leaving the Automation builder. This helps ensure accuracy and consistency before publishing any automation campaign.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/test-push-notifications-automation.png" alt="Test push notifications in automation" />
+</Frame>
+
+#### **What's New**
+
+- **Send Test Notification Button Inside Automation**
+  - A new **"Send Test Notification"** button is now available within the **Send Push Notification** action node, matching the UI/UX and behavior of test pushes in Communication Campaigns.
+
+- **Accurate Preview of Push Content**
+  - Tests use the exact configured notification: title, body, images, deep links, and variables, sent to a selected valid customer/device.
+
+- **Delivery Feedback & Error Handling**
+  - After sending, users receive clear confirmation if successful, or detailed error messages (e.g., invalid device token, integration issues) when delivery fails.
+
+---
+
+### **3. Improved Date & Time Display Across Dashboard Tables**
+
+We've updated how creation dates appear across multiple dashboard pages to make timelines clearer, more intuitive, and easier to interpret at a glance.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/improved-date-time-display.png" alt="Improved date and time display" />
+</Frame>
+
+#### **What's New**
+
+- **Readable "time-ago" format**
+  - Creation dates are now shown in a friendly relative format (e.g., _3h ago, 7d ago, 10mo ago, 2yr ago_), automatically updating as time passes to keep information fresh and clear.
+
+- **Dual display: relative + exact timestamp**
+  - Under each relative time, users can now see the precise creation timestamp (e.g., _Nov 26, 2025, at 02:16 PM_), both displayed according to the user's local timezone.
+
+- **Unified formatting across main dashboard sections**
+  - The new date format is now live on:
+    - Campaigns → Reward Campaigns
+    - Customers → Customers
+    - Customers → Activities
+    - Customers → Segments
+    - Settings → Users → Account
+
+---
+
+### **4. Separate Coupons Analytics Into a Dedicated Tab in Points & Rewards Section**
+
+We've reorganized your analytics experience to provide clearer, more focused visibility into points and coupon performance. All coupon-related data has now been moved into its own dedicated tab for easier monitoring, deeper insights, and faster decision-making.
+
+#### **What's New**
+
+##### **A. Dedicated Coupons Analytics Tab**
+
+Coupon insights have been separated from the Points & Rewards page and moved into a newly created "Coupons" tab. This provides a clean and structured view of coupon performance without mixing it with points data.
+
+##### **B. Enhanced Overview of Coupon Metrics**
+
+The new tab shows total issued and redeemed coupons, usage distribution by source, and overall coupon activity trends.
+
+##### **C. Revenue & Cost Impact Insights**
+
+Easily track revenue generated from coupons, the cost of redeemed coupons, and view highlights of top-performing coupons.
+
+##### **D. Coupons Expiry Analytics**
+
+A dedicated expiry section shows upcoming expiries and overall expiry trends to help reduce unused coupons.
+
+---

@@ -1,0 +1,52 @@
+---
+title: "Customer Events"
+description: "What are events? What are event rules? And how do they contribute to your customers' experience?"
+---
+
+## Event
+
+An event is a data point that represents any action between your customer and your platform or product. An event can be a single action or a wide range of interactions. For example, it could be something as simple as viewing a product on your platform to something more sequential, such as a customer searching for, placing, and paying for an order.
+
+Your platform sends Gameball when these events occur or these actions are performed by your customer on your platform. [Learn more](https://developer.gameball.co/rest-api/events#post-send-events)
+
+In return, Gameball can act using this information according to your prompts. For example, Gameball can send a notification reminding your customers to complete their order after they have added an item to the cart.
+
+You can also define your own terms for when Gameball should react when a customer completes a certain event; these conditions are applied through your event rules.
+
+## Event Rule
+
+<Frame>
+  ![Event rule example](/images/product-docs/understanding-your-customers/event-rule-example.png)
+</Frame>
+
+Event rules are metadata that represent the event and help you define its specifications. They define the properties of the customer event to which Gameball should track and find before it takes further actions as instructed. In simpler words, each event can have its own characteristics, or event terms. When these terms are satisfied, Gameball then acts accordingly. These rules can have more specifications, which are called "[keys](/product-documentation/events/suggested-events-for-ecommerce)".
+
+For example, for a coffee purchase, the event would be Purchase, and the event metadata could be *Item Type* (in this case, a Coffee) or *Item Price* (in this case, $2.50), and so on.
+
+More examples:
+
+- **Event:** Place Order
+  - **Rules:** Order price, product type, order weight, etc.
+- **Event:** Add to Cart
+  - **Rules:** Number of products, total price, total order weight, etc.
+
+[Read about suggested customer events for your e-commerce website](/product-documentation/events/suggested-events-for-ecommerce)
+
+---
+
+## What Else?
+
+<CardGroup cols={2}>
+  <Card title="Create and Send Events" icon="paper-plane" href="/product-documentation/events/create-and-send-events-to-gameball">
+    How to create and send Events to Gameball.
+  </Card>
+  <Card title="Shopify Events" icon="shopify" href="/product-documentation/integrations/using-events-on-shopify">
+    Use your Shopify Events through Gameball.
+  </Card>
+  <Card title="Event Rule Engine" icon="gears" href="/product-documentation/events/using-the-event-engine">
+    How does the Event(s) Rule Engine work?
+  </Card>
+  <Card title="Events Log" icon="list" href="/product-documentation/events/events-log">
+    View and manage your events log.
+  </Card>
+</CardGroup>

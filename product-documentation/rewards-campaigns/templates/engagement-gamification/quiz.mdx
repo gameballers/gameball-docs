@@ -1,0 +1,165 @@
+---
+title: "Quiz"
+description: "Engage and entertain your customers with this gamified reward campaign and let them win for solving your quiz."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Starter, Pro, & Guru |
+| Salla | Starter, Pro, & Guru |
+| Non-Platform | Add-on |
+
+## Intro
+
+Add an educational and interactive twist to your loyalty program with the **Quiz** campaign. Let your customers answer questions to earn rewards based on their knowledge and engagement.
+
+**Use Cases:**
+
+1. **Brand-Sponsored Quizzes:** Partner with brands to feature their products in quiz questions and offer branded rewards.
+2. **Seasonal Campaigns:** Run themed quizzes for holidays or events like Valentine's Day or Black Friday with exclusive offers.
+3. **Educational Quizzes:** Teach users about your products or industry and reward them for learning.
+
+<Frame>
+  ![Quiz preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/quiz-preview.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select the **Quiz** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+- **On Widget:**
+  Customers can access the quiz through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin.
+
+- **Deep Link:**
+  Use the `#gameball-quiz` deep link to trigger the quiz campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+**Audience**
+
+- **Registered Customers:**
+  Customers who have an account on your platform (signed up)
+
+- **Anonymous Customers:**
+  Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
+
+  <Note>
+  - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
+  - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
+  </Note>
+
+- **Specific Customers:**
+  You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+
+**Repeatability**
+
+- No Repeatability
+- The quiz can only be played once per customer.
+
+**Platform Visibility**
+
+You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
+
+<Frame>
+  ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## Quiz Setup
+
+**Questions**
+
+- Minimum: **1 question**
+- Each question must include:
+    - The question text
+    - An **optional image**
+    - At least **1 answer** should be added
+    - One **correct answer** must be selected
+
+<Frame>
+  ![Quiz questions setup](/images/product-docs/rewards-campaigns/templates/engagement-gamification/quiz-questions.png)
+</Frame>
+
+**Timer**
+
+- Question Timer (**Optional**)
+- At the end of configuring your questions, you can enable a timer that applies to each question individually (e.g., 10 or 20 seconds per question).
+- This helps increase challenge and customer engagement.
+
+<Frame>
+  ![Quiz timer setting](/images/product-docs/rewards-campaigns/templates/engagement-gamification/quiz-timer.png)
+</Frame>
+
+## End User Experience
+
+**How it works**
+
+1. Customers are presented with a set of questions.
+2. Customers will earn the reward only if they answer all questions correctly.
+3. Getting 0 answers right is always considered failure, and the customer will receive the "No Luck" widget screen. Customer must answer **All** questions right for them to win.
+4. The customer is notified via the widget or email, depending on your configuration, when they earn a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+## Customization
+
+**Design & Content**
+
+You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
+
+- **Banner**
+- **Intro / Main Screen**
+- **Questions Screen**
+
+    **Game General Rule:**
+    - **Time Duration**: Set how long each game lasts (e.g., 10s, 20s, 60s).
+    - **Mistakes/Lives**: Choose how many lives a customer has (e.g., 1, 3, or unlimited).
+    - **Default Values**: Existing defaults remain if no customization is made.
+    - **Tooltips**: Added help text explaining how time and lives impact gameplay.
+
+- **Success Screen**
+- **No Luck Screen**
+
+For each screen, you can tailor the following elements:
+
+- **Branding**: Adjust background colors, text colors, and upload custom artworks.
+- **Content**: Edit the headlines, descriptions, and call-to-action messages to match your tone and messaging.
+
+This allows you to create a fully branded, on-theme experience that aligns with your business identity.
+
+<Frame>
+  ![Quiz customization screens](/images/product-docs/rewards-campaigns/templates/engagement-gamification/quiz-customization-1.png)
+</Frame>
+
+<Frame>
+  ![Quiz customization details](/images/product-docs/rewards-campaigns/templates/engagement-gamification/quiz-customization-2.png)
+</Frame>
+
+## Important Note
+
+<Note>
+**Customer Eligibility**
+
+Games in the widget update dynamically based on customer eligibility, ensuring customers only see games they can still participate in.
+
+**Games are hidden when customers become ineligible.**
+
+If a customer no longer belongs to the game's target segment, the game is automatically removed from the widget and won't reappear unless eligibility is restored.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

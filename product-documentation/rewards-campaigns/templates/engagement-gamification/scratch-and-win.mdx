@@ -1,0 +1,202 @@
+---
+title: "Scratch & Win"
+description: "Give your customers an opportunity to scratch a digital loyalty card and win a reward."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Pro & Guru |
+| Salla | Pro & Guru |
+| Non-Platform | Add-on |
+
+## Intro
+
+Introduce an element of chance with the Scratch & Win template. Customers can try their luck to win a reward, allowing them to get various prizes, from discounts to free products or bonus points. You can also organize weekly contests or lucky scratches to encourage customers to return to your platform regularly.
+
+### Use Cases
+
+- **Limited-Time Promotions:** Use scratch cards for seasonal sales, holiday campaigns, or product launches to create excitement and urgency.
+- **Product Awareness & Upselling:** Feature new or high-margin products as potential rewards to introduce users to items they might not have considered.
+
+<Frame>
+  ![Scratch and win preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/scratch-and-win-preview.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select the **Scratch & Win** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+- **Banner on Widget:**
+  Customers can access the scratch card through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin scratching.
+
+- **Deep Link:**
+  Use the `#gameball-scratch` deep link to trigger the scratch the card campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+**Audience**
+
+- **Registered Customers:**
+  Customers who have an account on your platform (signed up)
+
+- **Anonymous Customers:**
+  Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
+
+  <Note>
+  - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
+  - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
+  </Note>
+
+- **Specific Customers:**
+  You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+
+**Repeatability**
+
+- By default, customers can scratch the card **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
+- All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+<Frame>
+  ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
+</Frame>
+
+**Platform Visibility**
+
+You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
+
+<Frame>
+  ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## Rewards Setup
+
+<Frame>
+  ![Scratch and win rewards setup](/images/product-docs/rewards-campaigns/templates/engagement-gamification/scratch-and-win-rewards.png)
+</Frame>
+
+**Types**
+
+- Choose from any of the reward types supported by Gameball. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+- Min & Max Rewards Count:
+    - The **minimum** number of rewards allowed is **2**
+    - The **maximum** number of rewards allowed is **8**
+
+**Probability**
+
+Enter a numerical value (e.g., 2, 3, 4) to represent the probability of a customer receiving this reward. This means that every trial is completely independent of the previous ones, and the chance of landing on a specific reward is always the same, no matter how many times you've scratched the card.
+
+- The probability input can accept a value of 0, meaning the reward will not be available.
+- Probabilities are calculated based on the sum of all assigned probabilities across the rewards.
+
+<Warning>
+While each reward has a set probability, it doesn't guarantee that all rewards will be won equally over time. Some rewards might appear more often, while others might be less frequent. It's all part of the random nature of the game!
+</Warning>
+
+- **Example**:
+    - Reward #1: Probability 1
+    - Reward #2: Probability 1
+    - Reward #3: Probability 1
+
+    After 100 scratches, you might see results like this:
+    - Reward #1: 27 times
+    - Reward #2: 36 times
+    - Reward #3: 37 times
+
+    In another set of 100 scratches:
+    - Reward #1: 28 times
+    - Reward #2: 49 times
+    - Reward #3: 23 times
+
+**Reward Limits**
+
+The maximum number of times a specific reward can be claimed by all customers throughout the campaign.
+
+- **Optional Feature:** You can choose to add a reward limit when configuring the campaign.
+- **Tracking Wins:** Gameball will track how many times each reward has been won. After the limit is reached, the reward will no longer be winnable.
+- **Reward Limit Adjustment:** If you adjust the reward limit while the campaign is running:
+    - **Increase the Limit:** If the new limit is higher, customers can win the reward again.
+    - **Decrease the Limit:** If the new limit is lower, the system will prevent the reward from being won if the initial limit was already reached.
+- **Example:**
+
+    Reward 1: Probability 1, Limit: 1
+    Reward 2: Probability 1, No Limit
+    Reward 3: Probability 1, No Limit
+
+    After 10 scratches, the results might look like this:
+    - Reward 1: 1 win (limit reached)
+    - Reward 2: 5 wins
+    - Reward 3: 4 wins
+
+<Note>
+If all rewards have limits and they are reached, customers will see a "No rewards available at the moment" message.
+</Note>
+
+## End User Experience
+
+**How it works**
+
+1. Customers tap the card and **scratch** to reveal their reward.
+2. Prizes can include discounts, bonus points, free products, and more.
+3. The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+## Customization
+
+**Design & Content**
+
+You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
+
+- **Banner (For game-based campaigns)**
+- **Intro / Main Screen**
+- **Lead Form (if audience set to Anonymous Customers - Not logged in)**
+- **Success Screen**
+- **No Luck Screen**
+
+For each screen, you can tailor the following elements:
+
+- **Branding**: Adjust background colors, text colors, and upload custom artworks.
+- **Content**: Edit the headlines, descriptions, and call-to-action messages to match your tone and messaging.
+
+This allows you to create a fully branded, on-theme experience that aligns with your business identity.
+
+<Frame>
+  ![Scratch and win customization screens](/images/product-docs/rewards-campaigns/templates/engagement-gamification/scratch-and-win-customization-1.png)
+</Frame>
+
+<Frame>
+  ![Scratch and win customization details](/images/product-docs/rewards-campaigns/templates/engagement-gamification/scratch-and-win-customization-2.png)
+</Frame>
+
+<Tip>
+Customizing the lead form also allows you to add a hyperlink to the **"terms and services"** so that customers can read and accept them before clicking submit.
+</Tip>
+
+## Important Note
+
+<Note>
+**Customer Eligibility**
+
+Games in the widget update dynamically based on customer eligibility, ensuring customers only see games they can still participate in.
+
+**Games are hidden when customers become ineligible.**
+
+If a customer no longer belongs to the game's target segment, the game is automatically removed from the widget and won't reappear unless eligibility is restored.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

@@ -1,0 +1,118 @@
+---
+title: "Klaviyo Reviews App Integration"
+description: "Create campaigns and rewards based on your customers’ reviews that are done through your Klaviyo Reviews app."
+---
+
+Integrating Klaviyo Reviews with Gameball allows you to automatically receive review events, enabling you to reward customers, send notifications, and create custom automation campaigns.
+
+Here is a step-by-step guide to set up the integration and receive events to your Gameball account.
+
+## Setup Requirements
+
+-   Ensure the Klaviyo Reviews app is installed in your store. [Learn More.](https://apps.shopify.com/klaviyo-reviews)
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-69.png" />
+</Frame>
+
+
+## Step-by-Step Integration
+
+**1\. Navigate to the Klaviyo Dashboard**
+
+-   Log in to your Klaviyo account.
+
+-   From the side menu, select the **Flows** tab.
+
+
+2\. **Create a New Flow**
+
+-   Click **Create Flow**.
+
+-   Choose **Build Your Own** and enter a name for the flow when prompted.
+
+
+3\. **Set Up the Trigger**
+
+-   Select **Metrics** as the trigger type.
+
+-   Choose **Klaviyo** as the metric source.
+
+-   Select **Submitted Review** as the event.
+
+-   Click **Save**.
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-70.png" />
+</Frame>
+
+
+4\. **Configure the Trigger Filter (to Exclude Store Reviews)**
+
+-   To ignore store-level reviews, add a trigger filter:
+
+    -   Click **Add** on the Trigger Filters card.
+
+    -   Select **Add Trigger Filter**.
+
+    -   Set the field `is_store_review` to **false**.
+
+    -   Click **Save**.
+
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-71.png" />
+</Frame>
+
+
+5\. **Configure the Action for the Trigger**
+
+-   After setting the trigger, configure the webhook action to send the review event data to Gameball:
+
+    -   Select **Webhook Action**.
+
+    -   Set the Destination URL to: `https://api.gameball.co/api/v3/integrations/event`.
+
+    -   Add the following headers:
+
+        -   **ApiKey**: `#{{Gameball API Key}}`
+
+-   Add the JSON body:
+
+    ```
+    {  "playerUniqueId": "#{{ person.external_id|default:'' }}",  "events": {    "review_submitted": {      "rating": "#{{ event.review_rating|default:'' }}",      "productId": "#{{ event.structured_product.id|default:'' }}",      "productTitle": "#{{ event.structured_product.product_name|default:'' }}",      "hasMedia": "#{{ event.review_has_media|default:'' }}"    }  }}
+    ```
+
+-   Click **Save**.
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-72.png" />
+</Frame>
+
+
+6\. **Set the Flow to Live**
+
+-   After completing the setup, switch the flow to **Live** to start receiving events.
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-73.png" />
+</Frame>
+---
+## Gameball Use Cases
+
+With this integration, you can enhance your customer engagement by:
+
+-   **Reward Customers for Reviews**: Use Reward Campaigns to automatically grant points, discounts, or other incentives when customers leave a review. This approach not only shows appreciation for customer feedback but also encourages repeat purchases and positive brand advocacy. [Learn More](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign).
+
+-   **Automated Follow-Up Messaging**: Create Communication Campaigns that send targeted emails or notifications via Klaviyo in response to customer reviews. You can thank customers for high ratings, provide special offers, or reach out to lower-rated reviews with additional support or exclusive discounts. [Learn More.](/product-documentation/communication-campaigns/create-and-configure-email-campaigns)
+
+-   **Review-Triggered Automations**: Incorporate review events as triggers in Automation Campaigns to personalize customer journeys. For instance, automatically add reviewers who gave a high rating to a VIP list or trigger a win-back offer for customers with lower ratings to improve their experience. [Learn More.](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign)
+
+
+With these use cases, you can engage customers thoughtfully, foster loyalty, and create more meaningful interactions based on their feedback, all powered by Gameball and Klaviyo Reviews.
+---
+#### Related Articles:
+
+-   [Klaviyo App Integration](/product-documentation/apps-integrations/klaviyo-integration)
+
+-   [Judge.me App Integration](/product-documentation/apps-integrations/judge-me-integration)

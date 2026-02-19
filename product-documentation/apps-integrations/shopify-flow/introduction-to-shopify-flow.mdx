@@ -1,0 +1,307 @@
+---
+title: "Gameball on Shopify Flow"
+description: "Use Gameball's triggers and actions in your automated workflows with Shopify Flow"
+---
+
+**Platform**
+
+**Plan**
+
+Shopify
+
+Starter, Pro, and Guru
+
+With Gameball's integration into Shopify Flow, you can now automate and enhance your customer loyalty and engagement programs more effectively. This article will walk you through the available triggers and actions, how to set them up within Shopify Flow, and some examples of how you can use Gameball with Shopify Flow.
+
+## Table of Content:
+
+1.  [Triggers](#h_31ab0bddbe)
+
+2.  [Actions](#h_a72a148422)
+
+3.  [Actions Setup](#h_c417181e5d)
+
+4.  [Setting Up Gameball Triggers and Actions in Shopify Flow](#h_8fe92e6e6e)
+
+5.  [Use Cases](#h_49ee25cc07)
+---
+## Triggers
+
+**Trigger Name**
+
+**Trigger Description**
+
+**Reference**
+
+**Customer Tier changed (Up/Down)**
+
+This trigger activates when a customer tiers up or down, either manually or automatically.
+
+_e.g.: When a customer's tier changes to the Gold tier_
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-97.png" />
+</Frame>
+
+**Reward Campaign Achieved**
+
+This trigger activates when a customer achieves a new Reward Campaign, either manually or automatically.
+
+_e.g.: When a customer earns a new reward campaign when they complete their First Order._
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-98.png" />
+</Frame>
+
+**Customer Entered on a New Segment**
+
+The trigger activates once a customer is added to a new Segment.
+
+_e.g.: When a customer is placed in the Inactive segment._
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-99.png" />
+</Frame>
+
+**Customer Added a Birthday**
+
+The trigger activates once a customer adds their birthday to Gameball's widget
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-100.png" />
+</Frame>
+---
+## Actions
+
+**Action Name**
+
+**Action Description**
+
+**Reference**
+
+**Send an Event**
+
+This action allows you to send a custom event to Gameball. [Learn how to set it up.](#h_5dc607c87b)
+
+_e.g.: A customer completed a survey, so we will send this event(Survey\_Completed) to Gameball_
+
+**!Note**: This Action is only available on the Guru Plan.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-101.png" />
+</Frame>
+
+**Reward** **A** **Campaign**
+
+This action rewards a Customer with a specified Reward Campaign manually. [Learn how to set it up.](#h_50b2aadad1)
+
+_e.g.: Rewarding a customer with the 'Completed First Order' Reward Campaign_
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-102.png" />
+</Frame>
+
+**Deduct Points**
+
+This action deducts a specified number of points from a customer's account for a given reason. [Learn how to set it up.](#h_8d39be165c)
+
+_e.g.: Deducting 50 points from a customer's balance for a reward they got in-store._
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-103.png" />
+</Frame>
+
+**Adjust Customer Tier**
+
+This action adjusts a Customer's tier to a specified tier name. [Learn how to set it up](#h_08bbdb546c).
+
+_e.g.: Adjusting the customer tier from the Bronze tier to the Gold tier._
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-104.png" />
+</Frame>
+
+**Add Points**
+
+This action adds a specified number of points to a customer's account for a given reason. [Learn how to set it up](#h_727181869c).
+
+_e.g.: Adding 100 points for a customer for adding a review on your product_
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-105.png" />
+</Frame>
+---
+## Actions Setups:
+
+1.  ## Send an Event
+
+    This action allows you to send a custom event to Gameball. You can set it up by filling in the following attributes as well as adding a description for you and your team for documentation purposes
+
+    **Attributes:**
+
+    -   **Customer Email**: Skip the email if the trigger already passes the ID. Select it from "Add a variable".
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-106.png" />
+</Frame>
+
+    -   **Event Name**: The event name to be sent to Gameball.
+
+    -   **Event Attribute Name X**: The event attribute name for the event. You can add up to 5 attributes.
+
+    -   **Event Attribute Value X**: The event attribute value for the event.
+
+
+    **! Note**: This action is only available on the Guru Plan.
+
+2.  ## Reward a Campaign
+
+    This action rewards a customer with a specified Reward Campaign manually. All you have to do is add the following details.
+
+    **Attributes:**
+
+    -   **Customer Email**: Skip the email if the trigger already passes the ID. Select it from "Add a variable".
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-107.png" />
+</Frame>
+
+    -   **Campaign ID**: Copy the ID next to the title on the campaign details page in Gameball.
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-108.png" />
+</Frame>
+
+
+3.  ## Deduct Points
+
+    This action deducts a specified number of points from a customer's account for a given reason.
+
+    **Attributes:**
+
+    -   **Customer Email**: Skip the email if the trigger already passes the ID. Select it from "Add a variable".
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-109.png" />
+</Frame>
+
+    -   **Points to be deducted:** Number of points to deduct from the customer.
+
+    -   **Reason**: Reason for deducting the points
+
+4.  ## Adjust Customer's Tier
+
+    This action adjusts a Customer's level to a specified level name. You can choose the level behavior (forever, until a specific date, or evaluated normally) and provide a reason for the adjustment.
+
+    **Attributes:**
+
+    -   **Customer Email**: Skip the email if the trigger already passes the ID. Select it from "Add a variable".
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-110.png" />
+</Frame>
+
+    -   **Tier Order:** This is the tier number in Gamball (e.g., 1, 2, 3, etc.).
+
+    -   **Tier Behavior:** This refers to how long a customer remains in the new tier. Select one of these:
+
+        -   **System Evaluate:** This will be based on Gameball's evaluation of the customer's tier according to the chosen tiering-up method and expiry duration and will relocate the customer accordingly.
+
+        -   **Forever**: The customer will stay on this tier unless they are manually assigned to a new Tier.
+
+        -   **Temporarily till Specific Date:** The customer will stay on the mentioned tier until a specific date.
+
+    -   **Temporarily Specific Date:** If you selected the option 'temporarily\_till\_specific\_date' in the previous field, add the date in this format: 'yyyy-MM-dd'
+
+    -   **Reason**: The reason for the tier adjustment.
+
+5.  ## Add Points
+
+    This action adds a specified number of points to a customer's account for a given reason.
+
+    **Attributes:**
+
+    -   **Customer Email**: Skip the email if the trigger already passes the ID. Select it from "Add a variable".
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-111.png" />
+</Frame>
+
+    -   **Points to be added:** Number of points to deduct from the customer.
+
+    -   **Reason**: Reason for adding the points.
+---
+## Setting Up Gameball Triggers and Actions in Shopify Flow
+
+1.  **Access Shopify Flow:**
+
+    -   From your Shopify admin, go to **Apps** > **Shopify Flow**.
+
+2.  **Create a Workflow:**
+
+    -   Click on **Create Workflow**.
+
+    -   Choose a trigger from the Gameball triggers listed above.
+
+3.  **Configure the Trigger:**
+
+    -   Set up the trigger by selecting the appropriate variables and conditions.
+
+4.  **Add an Action:**
+
+    -   Select an action from the Gameball actions listed above.
+
+    -   Configure the action with the necessary details.
+
+5.  **Test and Activate:**
+
+    -   Test your workflow to ensure it works as expected.
+
+    -   Once confirmed, activate the workflow.
+---
+## Use Cases
+
+In this section, we will explore practical examples of how you can use Gameball's integration with Shopify Flow to automate rewarding your customers and enhancing their experience. Imagine you want to implement the following scenarios:
+
+### 1\. **Rewarding a Campaign for Customers Who Gave a Review**
+
+Imagine you want to thank your customers who take the time to leave reviews on your products. With Gameball and Shopify Flow, you can easily automate this process:
+
+-   **Trigger:** You can set up an external rewards collection app like Reviews.io to trigger the action whenever a customer leaves a review.
+
+-   **Action:** Use Gameball's Reward a Campaign action to ensuring that your customers feel appreciated for their feedback.
+
+
+Here is a live example on how to reward customers with a reward campaign when they leave a positive review on Reviews.io. [Check it out.](/product-documentation/apps-integrations/shopify-flow/reviews-io-integration)
+
+This setup helps in building strong customer relationships by recognizing and rewarding their engagement.
+
+### 2\. **Adding Points to Customers Who Filled Out a Survey**
+
+Suppose you want to encourage customers to provide valuable insights by filling out a survey. Gameball's integration with Shopify Flow can make this seamless:
+
+-   **Trigger:** Use an external survey app, such as Okendo, to trigger the action whenever a customer completes a survey.
+
+-   **Action:** Gameball will automatically add points to the customer's account when you use the Add Points action, Incentivizing them to participate in more surveys and gather essential feedback for your business.
+
+
+Here is a live example on how to add points to customers when they fill a survey on Okendo. [Check it out.](http://help.gameball.co/en/articles/9750783-okendo-app-integration-through-shopify-flow)
+
+This method not only helps in gathering customer insights but also keeps your customers engaged and motivated to interact with your brand.
+
+### 3\. **Celebrate Customer's 3-Year Anniversary with Your Store**
+
+Recognizing milestones can significantly enhance customer loyalty. Imagine celebrating your customers' anniversaries with your store using Gameball and Shopify Flow:
+
+-   **Trigger:** You can set a date trigger to automatically recognize when a customer has been with your store for three years.
+
+-   **Action:** Use Gameball's Send Event action and use the event to trigger a personalized communication campaign. This campaign could include a message congratulating the customer on their anniversary, along with a special reward.
+
+
+This personalized approach makes customers feel valued and strengthens their connection with your brand.
+---
+By integrating Gameball with Shopify Flow, you can automate your loyalty programs and enhance customer engagement effortlessly.
+---
+#### Related Articles:
+
+-   [Shopify Flow Integrations](/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow)
