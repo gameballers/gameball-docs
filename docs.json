@@ -1245,11 +1245,6 @@
           "anchor": "Case Studies",
           "href": "https://www.gameball.co/case-study",
           "icon": "briefcase"
-        },
-        {
-          "anchor": "Academy",
-          "href": "https://academy.gameball.co/collections",
-          "icon": "graduation-cap"
         }
       ]
     }
@@ -1263,7 +1258,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@gameball.co"
       }
     ],
     "primary": {
