@@ -1,0 +1,110 @@
+---
+title: "Reward Customers with Different Cashback Based on the Brand"
+description: "Learn how to configure a different cashback rule for every different brand you have using the Merchants feature."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Guru |
+| Salla | Guru |
+| Non-platform Clients | Enterprise |
+
+---
+
+## Prerequisites
+
+- Make sure to create a merchant ID for each of your brands/stores on the Gameball dashboard before configuring cashback rules.
+- Ensure the Merchants feature is activated on your account.
+- To activate this feature on your dashboard, you must request it from our customer support team.
+
+<Warning>
+If you have configured different cashback rules for different collections using the **custom cashback** feature, the **merchant cashback** option will no longer be available. [Learn more about collection-based cashback rules](/product-documentation/programs/loyalty-points-earn/collection-based-earning-rules).
+</Warning>
+
+---
+
+## How to Configure a Cashback Rule for Different Brands
+
+After creating an ID for each of your brands and stores, follow these steps to configure a cashback rule for any of these recognized brands or stores:
+
+<Steps>
+<Step title="Navigate to Merchants Tab">
+On the Gameball dashboard, go to **Programs > Earn Points > Merchants** tab.
+
+<Frame>
+  ![Merchants Tab](/images/product-docs/programs/loyalty-points-earn/crossover/merchants-tab.png)
+</Frame>
+</Step>
+
+<Step title="View Merchants">
+You will find all merchants listed. [Learn how to create a Merchant](/product-documentation/programs/loyalty-points-earn/crossover-reward-program/creating-a-new-merchant)
+
+<Frame>
+  ![Merchants List](/images/product-docs/programs/loyalty-points-earn/crossover/merchants-list.png)
+</Frame>
+</Step>
+
+<Step title="Configure the Cashback Rule">
+Fill in the required information:
+
+- **Choose Merchant:** Select the brand you want to create the new cashback rule for.
+- **Configuration Method:** Choose between:
+  - **Cashback Value:** Set a cashback percentage based on the customer's paid amount. Example: If you offer 5% cashback and a customer pays $100, they will receive $5 cashback worth of points.
+  - **Cashback Value Based on Unit:** Set a fixed number of points per currency unit regardless of the cashback percentage. Example: If a customer pays $100, they could receive 1000 points based on your configuration.
+  - **Fixed Cashback Value:** Set a fixed cashback value for the customer to earn based on their purchase.
+</Step>
+
+<Step title="Save Changes">
+Click **Save Changes**.
+
+<Frame>
+  ![Save Merchant Cashback Rule](/images/product-docs/programs/loyalty-points-earn/crossover/save-merchant-cashback-rule.png)
+</Frame>
+</Step>
+</Steps>
+
+If your cashback program is active, your customers will now receive the specified cashback once they place and pay for an order from the brands you have added and configured a cashback rule for.
+
+---
+
+## Important Notes
+
+<Note>
+- By default, every newly created merchant will fall under your default cashback rules unless a specific rule is configured.
+- You can create different cashback rules based on each merchant's level.
+- Merchant-specific cashback rules override the default cashback rules if the customer purchases from a recognized merchant.
+</Note>
+
+**Example:** If you have different cashback rules per level under your default cashback settings, but only one general cashback rule for a specific merchant, the merchant rule will apply to the customer regardless of their level.
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+<Accordion title="Can I have both collection-based and merchant-based cashback rules active?">
+No, if you use collection-based cashback rules, you cannot activate merchant-based cashback at the same time.
+</Accordion>
+
+<Accordion title="What happens if I do not configure a special cashback rule for a merchant?">
+The default cashback rule will apply.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Collection-Based Earning Rules" icon="layer-group" href="/product-documentation/programs/loyalty-points-earn/collection-based-earning-rules">
+  Set up different cashback values for different collections.
+</Card>
+
+<Card title="Understanding Loyalty Points Calculations" icon="calculator" href="/product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules">
+  Learn how Gameball prioritizes and applies different earning configurations.
+</Card>
+
+<Card title="Create and Manage Merchants" icon="store" href="/product-documentation/programs/loyalty-points-earn/crossover-reward-program/creating-a-new-merchant">
+  Add merchants for each brand and store you own.
+</Card>
+</CardGroup>

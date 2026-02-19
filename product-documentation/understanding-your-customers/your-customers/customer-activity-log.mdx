@@ -1,0 +1,167 @@
+---
+title: "Customer Activity Log"
+description: "Learn where to monitor all your customers' activity, performance, information, and how to extract that data."
+---
+
+The customer activities section is where you can track all the transactions your customers perform on a daily basis, such as earning or redeeming points, tiering up, achieving a campaign, etc.
+
+---
+
+## Overview of the Activities List
+
+To access this, navigate to **Customers > Activities**.
+
+<Frame>
+  ![Customer activities list](/images/product-docs/understanding-your-customers/customer-activities-list.png)
+</Frame>
+
+The **Customer Activities** tab logs all tracked actions made by your customers.
+
+### Understand the Columns in the Activities List
+
+Each record includes:
+
+| Column | Description |
+| --- | --- |
+| **Date** | The timestamp of the recorded activity. |
+| **Customer** | Displays the customer's Gameball ID and full name (if available). |
+| **Activity** | The activity type that was logged (see full list below). |
+| **Points** | Reflects the number of points earned or deducted, if applicable. In case points are pending, you will see a clock icon beside the activity points -- hover over it to see when it will be activated. Hovering over the points amount will allow you to see their expiration date. |
+| **Coupons** | Shows the coupon type and value if one was issued or redeemed as part of the activity. |
+| **Merchant** | Reserved for multi-merchant activities. It shows the merchant name that owns this activity and the corresponding branch name. This is available only in case the [Merchant Module](/product-documentation/merchants/gameball-merchants-crossover-rewards) was used by this account. The Merchant Module is only available for non-platform integration with Gameball. |
+
+<Frame caption="Pending points indicator with activation date">
+  ![Pending points clock icon](/images/product-docs/understanding-your-customers/pending-points-clock-icon.png)
+</Frame>
+
+### Types of Logged Activities
+
+Below is a list of activity types you may encounter in this section:
+
+| Activity | Description | Comment |
+| --- | --- | --- |
+| **Automation Activity** | A customer was rewarded or affected through an automated flow. | The second line shows a link to the automation campaign page. |
+| **Balance Adjustment (+ or -)** | Manual adjustment of points by an admin. Includes both addition and deduction. | By default, it has the "Manual" tag. Hover over the manual tag to read the reason behind the adjustment. |
+| **Bonus Referral Rewarded** | An extra reward given to a customer for referring X number of friends. | -- |
+| **Campaign Rewarded** | A customer completed a reward campaign and received a configured reward. | The second line shows its name and a link to the reward campaign page. |
+| **Cashback Cancelled** | A previously issued cashback was canceled (e.g., order refund or cancellation). | The second line shows the order ID. Clicking the ID opens a side tab with order details. |
+| **Cashback Rewarded** | A cashback was granted as part of a transaction or campaign. | The second line shows the order ID. Clicking the ID opens a side tab with order details. |
+| **Friend Referred** | A new customer was referred successfully by an existing one. | -- |
+| **Tier Downgraded** | The customer was downgraded to a lower VIP tier. | The second line shows the newly reached tier. |
+| **Tier Upgraded** | The customer was upgraded to a higher VIP tier. | The second line shows the newly reached tier. |
+| **Lifetime Coupon** | A lifetime-use coupon was issued to the customer based on the tier. | Read more about this in [Customizing Benefits for Different Tiers](/product-documentation/loyalty-programs/customizing-benefits-for-different-tiers). |
+| **Migration** | Customer activity imported via CSV or API during data migration. | -- |
+| **Points Expiry** | Points expired according to your configured return window and expiration rules. | Read more about [Points Configuration](/product-documentation/loyalty-programs/launch-and-configure-your-earn-pointing-system). |
+| **Points Redeemed** | Points were used to redeem a reward or benefit. | The second line shows the order ID. Clicking the ID opens a side tab with order details. |
+| **Points Refunded** | Previously redeemed points were returned to the customer (e.g., after reward reversal). | The second line shows the order ID. Clicking the ID opens a side tab with order details. |
+| **Referee Reward Received** | The referred customer received their reward. | |
+
+<Note>
+Some activities may include a **"Manual"** tag. This indicates that the action was performed manually by an admin, either on an individual customer or through a bulk action. Examples include **Reward a Campaign** manually, or **Adjust Balance** manually.
+</Note>
+
+---
+
+## Customers Page-Level Actions
+
+This section covers how to filter your customer activities list and how to export it.
+
+### Apply Filters to Refine the View
+
+You can **filter** the list based on any of the activities, and you can **extract** the full list or the filtered list.
+
+<Frame>
+  ![Activity list filters](/images/product-docs/understanding-your-customers/activity-list-filters.png)
+</Frame>
+
+<Steps>
+  <Step title="Open the filter panel">
+    Click the **Filter** icon at the top of the **Activities** page.
+  </Step>
+  <Step title="Select filter options">
+    Select from the available filter options listed below.
+  </Step>
+  <Step title="Define your criteria">
+    Define your criteria (e.g., ranges, keywords, status).
+  </Step>
+  <Step title="Apply the filter">
+    Click **Apply Filter** to view only the activities that match your selected criteria.
+  </Step>
+</Steps>
+
+#### Available Filters
+
+| Filter | Description |
+| --- | --- |
+| **Creation Date** | Filter activities by the date they occurred. |
+| **Customer Type** | Filter between registered customers and guest users. |
+| **Customer ID** | Search activities related to a specific customer by their Gameball ID. |
+| **Customer Name** | Search for activities linked to a customer by name. |
+| **Customer Email** | Filter by a customer's registered email address. |
+| **Customer Phone Number** | Filter by a customer's mobile number. |
+| **Order ID** | Filter by the order ID associated with a cashback or reward. |
+| **Refund ID** | Filter activities related to refunds that triggered a point refund. |
+| **Points Status** | Filter based on the status of points: active, pending, blocked, or expired. |
+| **Manual Actions** | View only manually triggered activities, such as manual rewards or adjustments. |
+| **Activity** | Filter by specific activity types (e.g., Points Expiry, Campaign Rewarded). |
+| **Points** | Filter by points value earned, redeemed, deducted, or refunded. |
+| **Coupon** | Search activities linked to a specific coupon code or type. |
+| **Merchant Name** | Filter by merchant in multi-merchant setups, if applicable. |
+| **Branch Name** | Filter by branch name under a merchant, if applicable. |
+| **Customer Tier** | Filter activities based on the customer's VIP tier at the time of the activity. |
+| **Reward Campaign Name** | Filter by the name of a completed reward campaign. |
+| **Reward Campaign Type** | Filter by the type of campaign completed (e.g., Spin the Wheel, Cashback, Tier-based). |
+
+### Export the Activities Log
+
+<Steps>
+  <Step title="Apply filters">
+    Apply any filters you need.
+  </Step>
+  <Step title="Click Extract">
+    Click the **Extract** button in the top right corner.
+  </Step>
+  <Step title="Download the file">
+    Your filtered activities will be exported to a CSV file.
+  </Step>
+</Steps>
+
+Read more about this through [Export Your Customer Activities Log](/product-documentation/understanding-your-customers/your-customers/export-customer-activities-log).
+
+---
+
+## Rewarded Coupons Log
+
+<Frame>
+  ![Rewarded coupons log](/images/product-docs/understanding-your-customers/rewarded-coupons-log.png)
+</Frame>
+
+**If you're using Gameball's couponing engine**, a separate log for **rewarded coupons** generated through the Gameball couponing engine is now available in the same section.
+
+This log provides a clear view of coupon distribution, redemption rates, and overall coupon-related activity for each customer.
+
+You can also filter this section with: creation date, customer ID, coupon usage, coupon usage limit, source, amount, and status.
+
+---
+
+## Why Use the Customer Activity Log?
+
+Utilizing this feature allows you to:
+
+- Monitor customer engagement and reward activity.
+- Identify trends in customer behavior to tailor your loyalty program.
+- Ensure that rewards, points, and tier statuses are accurately tracked for all customers.
+- Gain insights into the effectiveness of your campaigns, including how and when rewarded coupons are being utilized.
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Explore a Customer Profile" icon="user" href="/product-documentation/understanding-your-customers/customer-profile/explore-and-manage-a-customer-profile">
+    View and manage individual customer data.
+  </Card>
+  <Card title="Group Customers by Tags" icon="tags" href="/product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags">
+    Use tags to group and target customers.
+  </Card>
+</CardGroup>

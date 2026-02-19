@@ -1,0 +1,198 @@
+---
+title: "Segmentation Use Cases"
+description: "Use cases on how to fully utilize Customer Segmentation combined with other Gameball features."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Starter, Pro, & Guru |
+| Salla | Pro, & Guru |
+| Non-platform clients | Growth & Enterprise |
+
+Segmentation is one of the most impactful tools you can use to personalize your marketing efforts and increase return on investment (ROI). With Gameball's segmentation feature, you can identify and act on specific customer behaviors, interests, and engagement levels to optimize your communication and retention tactics.
+
+Targeting the mass market without distinction is no longer an effective approach. Instead, focusing on well-defined customer segments allows you to deliver the right message to the right audience. This article demonstrates how to build and engage with critical customer segments using Gameball's segmentation and other platform features.
+
+---
+
+## Customer Segments and Tactics
+
+Gameball enables you to identify and engage with multiple customer segments. Below are four common and highly valuable segments you may want to target, along with tactics to improve their engagement:
+
+- **The Champions**: Your top-performing VIP customers who contribute a significant portion of your revenue.
+- **Product Viewers**: Customers who explore your products but do not proceed to checkout.
+- **Slipping Away Customers**: Customers who are showing signs of churn and disengagement.
+- **The Buyer**: Segments customers into groups based on different purchasing behavior.
+
+---
+
+### The Champions (VIP Customers)
+
+**Identify Bases for Segmentation**
+
+A VIP customer could be someone who:
+
+- Made a purchase within the last 30 days
+- Spent over $5,000 in total
+
+**Create a New Segment**
+
+<Steps>
+  <Step title="Select Customer Attribute">
+    Select **Customer Attribute** as the segmentation type.
+  </Step>
+  <Step title="Set Last Order Date Filter">
+    Use **Last Order Date** as the filter attribute, set the operator to **less than**, and set the time frame to **30 days**.
+  </Step>
+  <Step title="Add Total Amount Spent Filter">
+    Add another filter: **Total Amount Spent** with the operator **greater than** and the value set to **$5,000**.
+
+    <Frame>
+      ![Champions segment configuration](/images/product-docs/customer-segmentation/champions-segment-config.png)
+    </Frame>
+  </Step>
+</Steps>
+
+**Alternative Segment Criteria**
+
+You may also define VIP customers as those who:
+
+- Placed more than 5 orders
+- Referred more than 3 friends
+- Redeemed points recently
+
+<Steps>
+  <Step title="Add Place Order Event">
+    Select **Event** as the segmentation attribute and choose **Place Order**, with **Count greater than 5**.
+  </Step>
+  <Step title="Add Total Referrals Attribute">
+    Add a **Customer Attribute** for **Total Referrals greater than 3**.
+  </Step>
+  <Step title="Add Last Redemption Date Filter">
+    Optionally, filter by **Last Redemption Date less than 3 days**.
+
+    <Frame>
+      ![Alternative champions segment](/images/product-docs/customer-segmentation/champions-segment-alternative.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Tip>
+**Use Other Gameball Features**
+
+- Create a **custom reward campaign** for this segment to earn extra points.
+- Visit the configured segment, click **Reward a Challenge**, and assign a pre-configured challenge with tailored rewards.
+</Tip>
+
+---
+
+### The Product Viewers
+
+**Identify Bases for Segmentation**
+
+For instance, if your **jeans product page** is frequently visited but sees low conversions:
+
+**Create a New Segment**
+
+<Steps>
+  <Step title="Select View Product Page Event">
+    Choose **Event** as the segmentation type. Select **View Product Page**, and use the **First Occurrence greater than 30 days**.
+  </Step>
+  <Step title="Add Product Title Filter">
+    Add a second filter:
+
+    - Event: **View Product Page**
+    - Add an **Event Filter**: Product Title **contains** "jeans"
+
+    <Frame>
+      ![Product viewers segment configuration](/images/product-docs/customer-segmentation/product-viewers-segment-config.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Tip>
+**Use Other Gameball Features**
+
+- Create a special **redemption rule** for this segment under **Points Redemption Settings**.
+- Offer promotional discounts specific to the product category.
+</Tip>
+
+---
+
+### The Slipping Away Customers
+
+**Identify Bases for Segmentation**
+
+Disengaged customers are at high risk of churn. You may consider a customer as slipping away if:
+
+- No orders in the last 90 days
+- No website visits in the last 60 days
+- No point redemptions in the last 90 days
+
+**Create a New Segment**
+
+<Steps>
+  <Step title="Set Last Order Date Filter">
+    Use **Customer Attribute: Last Order Date More than 90 days**.
+  </Step>
+  <Step title="Add Last Login Date Filter">
+    Add **Customer Attribute: Last Login Date greater than 60 days**.
+  </Step>
+  <Step title="Add Last Redemption Date Filter">
+    Add **Customer Attribute: Last Redemption Date greater than 90 days**.
+
+    <Frame>
+      ![Slipping away customers segment](/images/product-docs/customer-segmentation/slipping-away-segment-config.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Tip>
+**Use Other Gameball Features**
+
+- Create a **scheduled challenge** for this segment with an **achievement reward**.
+- Set up an **email notification** to communicate the reward and encourage re-engagement.
+</Tip>
+
+---
+
+### The Buyer: Product-Level Order Segmentation
+
+You can now create **highly targeted and personalized campaigns** by analyzing **specific product purchase behavior**. Segment customers based on the exact products and quantities purchased in actual orders.
+
+For example:
+
+- Target customers who purchased a specific SKU.
+- Segment customers buying a particular category or high-quantity product.
+
+**Key Features:**
+
+**Product Line Item Filters:**
+
+- Product ID
+- SKU
+- Category
+- Collection
+- Product Title
+- Quantity Purchased (per product)
+- Price (per line item)
+
+---
+
+<Warning>
+- All segments in Gameball are dynamic. This means the system continuously updates customer groupings based on real-time behavior and data.
+- Avoid static segmentation to ensure the ongoing relevance and effectiveness of your campaigns.
+</Warning>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="How to Segment Customers" icon="sliders" href="/product-documentation/customer-segmentation/how-to-segment-customers">
+    Learn how to create and manage customer segments using the segmentation engine.
+  </Card>
+  <Card title="Introduction to RFM Segments" icon="chart-pie" href="/product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments">
+    Understand RFM analysis and how Gameball automatically segments customers.
+  </Card>
+</CardGroup>

@@ -1,0 +1,218 @@
+---
+title: "Steps to Connect Gameball with a Different App on Zapier"
+description: "Step by step guide to creating a connection between Gameball and any other app on Zapier."
+---
+
+Learn how to use Zapier to let Gameball reward your players after completing actions on other apps like subscribing, submitting a survey, reactivating an account, completing payments, etc.
+
+Go over what a Zap is in Zapier A zap consists of a trigger and an action. Gameball is only working as an action. Read more on [Gameball on Zapier](/product-documentation/apps-integrations/zapier-integration).
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-127.png" />
+</Frame>
+
+## How to create a Zapier connection?
+
+## **Step 1:** Choosing a Trigger and an Action Apps
+
+Follow these steps to create a zap between Gameball and any other app on Zapier:
+
+-   Go to [zapier.com](http://zapier.com)
+
+-   In the left box search for any app you want to set as the [trigger app](/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier).
+
+
+In the upcoming steps, we will use **SurveyMonkey** as the trigger app to guide you on how to give players a reward upon survey form submission. Please note that in order to use this feature, you must be on a paid plan on SurveyMonkey.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-128.png" />
+</Frame>
+
+-   Search for "**Gameball**" in the right box
+
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-129.png" />
+</Frame>
+
+-   Select a trigger that will
+
+-   Choose "**Send Event"** to be the selected action Gameball will execute
+
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-130.png" />
+</Frame>
+
+-   Click **Try it**
+
+
+## **Step 2:** Configure Trigger On Zapier
+
+On Zapier, a **trigger** is any event that you want to use to start a Zap. Read more on [triggers](https://zapier.com/help/create/basics/set-up-your-zap-trigger) on Zapier. Once you've set up a Zap, Zapier will keep monitoring that player event.
+
+In this use case, the trigger will be done through SurveyMonkey. But first, you must make sure that your players submit their email addresses in the survey. We will be using the email address to identify your players, so the email address submitted must match the one on your platform that is stored at Gameball.
+
+Follow the below steps to create a Zap between SurveyMonkey and Gameball:
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-131.png" />
+</Frame>
+
+### **A. Choose App and event**
+
+Choose SurveyMonkey app and select Trigger Event as "New Response Notification"
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-132.png" />
+</Frame>
+
+### **B. Choose Account**
+
+In case you have different Surveymonkey accounts, choose the one you are expecting campaigns through.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-133.png" />
+</Frame>
+
+### **C. Customize Response**
+
+Choose the name of the survey you're expecting the response to.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-134.png" />
+</Frame>
+
+### **D. Choose collector**
+
+Choose the collector you're expecting this response on.
+
+**_Note:_** _a collector on Surveymonkey is a shorthand for describing the way responses are being collected on Surveymonkey._
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-135.png" />
+</Frame>
+
+**F. Test Trigger & Find Data**
+
+Click on "Test trigger" to make sure you will find a response and make sure your trigger is working fine before customizing your Zap.
+
+_If you see the below response, you're on the right track!_
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-136.png" />
+</Frame>
+
+## **Step 3:** Configure Action
+
+An **action** is a job your Zap does once your trigger event occurs. Read more on [actions](https://zapier.com/help/create/basics/set-up-your-zap-action) on Zapier.
+
+In this use case, the action will be done on Gameball through the following steps:
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-137.png" />
+</Frame>
+
+### **A. Choose App & Event**
+
+Choose App as Gameball and Action as "Send Event"
+
+**_Note:_** _this is the only event_
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-138.png" />
+</Frame>
+
+### **B. Choose Gameball Account**
+
+**_Note:_** _You might need to add your API key. For more info on how to get it, read [Get Your Account Integration Details: API Key and Transaction Key](/product-documentation/admin-settings/get-api-keys)_
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-139.png" />
+</Frame>
+
+### **C. Customize Event**
+
+Add the event name, event metadata (if needed), and player email.
+
+**_Note:_** Make sure you add the name in this format: "appname\_eventname", leave metadata empty if metadata is not needed and finally add the player email to choose the player you want to give this reward to.
+
+_If you enter an email to a player that is not already created on Gameball, this event will not be sent and the player will be created on Gameball._
+
+### **D. Send Data**
+
+Click on Test & Review or Test & Continue
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-140.png" />
+</Frame>
+
+**_Note:_** _without testing the connection between the two apps and solving all errors, the trigger event will not be sent to Gameball, and you will not be able to reward your players even if they complete the required action._
+
+-   Finally, click **turn on Zap** and move to configure challenge on Gameball.
+
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-141.png" />
+</Frame>
+
+## **Step 3:** Configure challenge on Gameball
+
+In this step, log in to your **Gameball Admin Dashboard**, go to **Programs > Challenges**. Click **Add New Challenge** and follow the below steps:
+
+### A. Set Challenge Type
+
+Choose **Event-based** as challenge type, and click **Next**
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-142.png" />
+</Frame>
+
+### B. Set Challenge Details and Rewards
+
+On this step, you will set the challenge details that will be used internally and displayed to the users including challenge internal name, challenge displayed badge, and displayed information.
+
+You will also choose the size of reward you want to grant your players upon completing the action. Choose the points reward for this challenge achievement, and
+
+the score reward for this challenge achievement. (if you have chosen score as your leveling up method. [Learn more](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods))
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-143.png" />
+</Frame>
+
+### C. Set Challenge Details
+
+In this step, configure the challenge details by clicking the **Edit Icon** next to **Challenge Settings**.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-144.png" />
+</Frame>
+
+-   Activation Settings: Is this Challenge always active for players to achieve?
+
+-   Challenge visibility: is the challenge displayed on the player widget?
+
+-   Unlocking settings: On which, level(s) should this challenge be unlocked?
+
+-   Repeatability Settings: How many times this challenge can be won? Only once? or more?
+
+-   Player Notification Settings: Do you want to notify the player when this challenge is achieved?
+
+-   Event Notification Settings: is the player notified after every action taken that leads to achieving the challenge?
+
+
+### D. Set Event Settings
+
+On this page, from the event list, choose the corresponding **Event** **Name** you have added during the "Customize Event" step. Select it and make sure the number of times this event to be completed is **one**.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-145.png" />
+</Frame>
+
+Finally, review the previously configured steps and go back to making edits if needed, then click **Save**.
+
+🎉 You're all set up now! Your players will start earning this challenge upon survey form submission!
+---
+## What else?
+
+-   [Connecting and Using Zapier With Gameball](/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier)

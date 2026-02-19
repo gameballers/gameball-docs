@@ -1,0 +1,97 @@
+---
+title: "Reviews & Data Collection Automation Templates"
+description: "Understand customer satisfaction levels by collecting reviews and data using Automation Campaigns."
+---
+
+Reviews and feedback are invaluable for businesses to understand customer satisfaction levels and improve products or services. Gameball offers a set of automation templates designed to collect reviews, feedback, and survey responses from customers. In this article, we'll explore in more detail the **Reviews & Data Collection** Automation Templates.
+
+---
+
+## Ask for Reviews
+
+### Goal
+
+Ask customers to leave reviews for purchased products by offering incentives.
+
+### Flow
+
+After a waiting period of 14 days following a customer's purchase, an email is sent inviting them to leave a review. In return for their review, customers are offered X points as an incentive.
+
+<Frame>
+  ![Ask for Reviews automation flow](/images/product-docs/automation-campaigns/templates/ask-for-reviews.png)
+</Frame>
+
+### Trigger
+
+Placed Order
+
+### Instructions
+
+<Note>
+- Along with this automation, you need to reward a customer upon adding a review by enabling the "Reward for Reviews" automation series or activating the "Write a Review" challenge.
+- Adjust the 14-day wait to match your process. It's set to ensure that the customer received the order; change it if needed.
+</Note>
+
+---
+
+## Reward for Reviews
+
+### Goal
+
+Reward customers for writing reviews to incentivize and encourage feedback on products.
+
+### Flow
+
+This automation is triggered by a webhook when a user writes a review. Then, the customer receives 200 points and a special badge as recognition for their contribution.
+
+<Frame>
+  ![Reward for Reviews automation flow](/images/product-docs/automation-campaigns/templates/reward-for-reviews.png)
+</Frame>
+
+### Trigger
+
+Webhook
+
+### Instructions
+
+<Warning>
+- Avoid using the "Write a Review" challenge with this automation to prevent customers from earning rewards twice.
+- Configure the webhook trigger to notify Gameball when someone leaves a review.
+</Warning>
+
+---
+
+## Collect Feedback/Survey
+
+### Goal
+
+Incentivize feedback participation and survey completion to enhance customer engagement and satisfaction.
+
+### Flow
+
+This automation is triggered by a webhook when a customer leaves feedback or fills out a survey. Then, the customer receives 200 points and a special badge as recognition for their contribution.
+
+<Frame>
+  ![Collect Feedback/Survey automation flow](/images/product-docs/automation-campaigns/templates/collect-feedback-survey.png)
+</Frame>
+
+### Trigger
+
+Webhook. [Learn how to set it up](/product-documentation/automation-campaigns/webhooks-in-automation).
+
+### Instructions
+
+<Note>
+Configure the webhook trigger to notify Gameball when someone leaves feedback or fills out a survey.
+</Note>
+
+---
+
+<CardGroup cols={2}>
+  <Card title="How to Create an Automated Workflow" icon="wand-magic-sparkles" href="/product-documentation/automation-campaigns/how-to-create-an-automation-campaign">
+    Step-by-step guide to building automation campaigns.
+  </Card>
+  <Card title="Introduction to Automation Templates" icon="book-open" href="/product-documentation/automation-campaigns/templates/introduction-to-automation-templates">
+    Overview of all available automation templates.
+  </Card>
+</CardGroup>

@@ -1,0 +1,122 @@
+---
+title: "Customer Profile Attributes"
+description: "Discover Gameball's essential customer profile attributes, how to customize them for your business."
+---
+
+Gameball provides one of its most powerful features for personalization -- Customer Attributes. With these attributes, you can enrich each customer profile, store custom data, and create highly targeted campaigns using specific notifications, messages, or emails based on segmented customer groups.
+
+There are three types of customer attributes supported by Gameball:
+
+- **Default Attributes**: Predefined by Gameball and expected to be sent by your platform.
+- **Calculated Attributes**: Automatically generated and updated by Gameball.
+- **Custom Attributes**: Attributes that you define based on your specific business needs.
+
+---
+
+## Default Customer Attributes
+
+These are attributes expected to be sent from your platform to Gameball using API or integration methods. They help form the base of every customer profile.
+
+If you are using Gameball on a supported platform such as **Shopify** or **Salla**, some of these attributes are already included by default through Gameball's plugin integration.
+
+### 1. Attributes Sent Through API or Platform Integration
+
+These attributes should be provided through your system via Gameball's API or are automatically included when using a native integration with platforms like **Shopify** or **Salla**.
+
+| Attribute | Description | Included in Integration |
+| --- | --- | --- |
+| **Customer ID** | Unique identifier for the customer (Required on all customer data sent to Gameball) | Shopify, Salla |
+| **Customer Name** | Full display name | Shopify, Salla |
+| **First Name** | Customer's first name | Shopify, Salla |
+| **Last Name** | Customer's last name | Shopify, Salla |
+| **Customer Email** | Email address (Recommended for communications and tracking) | Shopify, Salla |
+| **Gender** | Gender identity | |
+| **Mobile Number** | Contact phone number | Salla |
+| **Date of Birth** | Customer birth date (editable through the dashboard). You can set a birthday reward campaign that will give the customer an option to add their birthday. | |
+| **Join Date** | Date the customer joined your store, not the loyalty program. | Shopify, Salla |
+| **Country** | Country of customer | |
+| **City** | City of customer | |
+| **Zip Code** | Postal code | |
+| **Preferred Language** | Communication language | |
+| **Guest Status** | Indicates if the customer is a guest who is placing guest orders | Shopify |
+| **Total Amount Spent** | Total value of all purchases | |
+| **Last Order Date** | Date of last order | |
+| **Total Orders Count** | Number of total orders placed | |
+| **Average Order Value** | Total value divided by number of orders | Shopify |
+| **Channel** | Indicates acquisition channel (e.g., mobile, website) | Shopify, Salla |
+
+### 2. Attributes Captured Automatically by Gameball
+
+These attributes do **not** need to be sent from your system. Gameball captures them automatically or when the **Gameball widget** is active on your website.
+
+| Attribute | Description | How It Is Captured |
+| --- | --- | --- |
+| **Gameball Creation Date** | The date the customer profile was created in Gameball | Captured automatically when a new customer profile is created |
+| **UTMs** | Tracks acquisition sources including medium, campaign, source, content, and term | Automatically captured if the customer visits your website via a UTM-tagged URL and the Gameball widget is enabled |
+| **Devices Used** | Devices associated with the customer | Automatically captured if the customer visits your website and the Gameball widget is enabled |
+
+---
+
+## Attributes Calculated by Gameball
+
+These attributes are generated and updated automatically by Gameball based on customer behavior, transactions, and platform activity.
+
+| Attribute | Description | How to Feed into Gameball |
+| --- | --- | --- |
+| **Total Captured Orders** | Total number of orders received by Gameball | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Total Captured Amount Spent** | Total spend from captured orders | Auto-calculated based on the usage of the Order/Payment APIs |
+| **First Captured Order Date** | Date of first captured order | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Last Captured Order Date** | Date of latest captured order | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Average Basket** | Total amount divided by number of orders | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Unit Per Trx** | Average units per transaction | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Average Captured Order Value** | Average order value of captured orders | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Total Referrals** | Number of successful referrals | Auto-calculated if Gameball referral is used |
+| **Last Referral Date** | Date of last successful referral | Auto-calculated if Gameball referral is used |
+| **Total Redemptions** | Number of redemption transactions | Auto-calculated if Gameball points redemption is enabled |
+| **Total Redeemed Amount** | Value of redeemed points | Auto-calculated if Gameball points redemption is enabled |
+| **Redeemed Points** | Total points redeemed | Auto-calculated if Gameball points redemption is enabled |
+| **Last Redemption Date** | Date of most recent redemption transaction | Auto-calculated if Gameball points redemption is enabled |
+| **Total Net Amount of Transactions** | Total transaction value after refunds/discounts | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Last Login Date** | Last time the customer logged in | Auto-calculated |
+| **Last Coupon Usage** | Last time any coupon created by Gameball was used | Auto-calculated |
+| **Last Gameball Coupon Usage** | Last time a Gameball-generated coupon was used | Auto-calculated |
+| **Last Message Sent Date** | Last in-app message sent by Gameball | Auto-calculated |
+| **Last Email Sent Date** | Last email sent by Gameball | Auto-calculated |
+| **Transactions Amount in the Last Rolling Year** | Total spend in the past 12 months | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Earned Points** | Total points earned | Auto-calculated |
+| **Expired Points** | Total points expired | Auto-calculated |
+| **Starting Store** | Store where account was created. This will include the branch ID from Gameball Merchant data. | Auto-calculated based on the usage of the Order API and Merchant data was provided |
+| **Connecting Store** | Store of the latest transaction. This will include the branch ID from Gameball Merchant data. | Auto-calculated based on the usage of the Order API and Merchant data was provided |
+| **Store of First Transaction** | Store where the first order was made. This will include the branch ID from Gameball Merchant data. | Auto-calculated based on the usage of the Order API and Merchant data was provided |
+| **Date of First Transaction** | Date of the customer's first transaction. This will include the branch ID from Gameball Merchant data. | Auto-calculated based on the usage of the Order/Payment APIs |
+| **Is Referred** | Helps you identify whether a customer was referred by another customer or acquired through other channels. | Auto-calculated |
+| **Referral Status** | Distinguishes between customers who were referred but haven't completed the required action ("pending") and those who have successfully completed it ("successful"). | Auto-calculated |
+
+---
+
+## Adding Custom Attributes to Customer Profiles
+
+Need to store additional details like region, area, or membership ID? You can create **custom attributes** to capture unique data specific to your business.
+
+These attributes can be used for segmentation, automation, and personalizing campaigns across Gameball modules. To add custom attributes:
+
+- Define your custom fields via the API
+- Assign values to these fields per customer
+- Use these values to segment your customers
+
+Custom attributes give you full control over what kind of data to track and how to act on it.
+
+[Read more about how to manage your Gameball customer custom attributes](/product-documentation/understanding-your-customers/customer-profile/manage-your-gameball-customer-attributes)
+
+---
+
+## What is Next?
+
+<CardGroup cols={2}>
+  <Card title="Group Your Customers by Tags" icon="tags" href="/product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags">
+    Use tags to manually group and target customers.
+  </Card>
+  <Card title="Manage Customer Attributes" icon="sliders" href="/product-documentation/understanding-your-customers/customer-profile/manage-your-gameball-customer-attributes">
+    Learn how to manage your Gameball customer attributes.
+  </Card>
+</CardGroup>

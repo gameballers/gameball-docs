@@ -1,0 +1,128 @@
+---
+title: "Embed Customers' Points in their Profile"
+description: "Display your customers' points balances in their profiles using our no-code embed feature, enhancing engagement and reward redemptions."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Starter, Pro, & Guru |
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/embed-points-profile-hero.png" alt="Embed customers points in their profile" />
+</Frame>
+
+Boost your customer loyalty program and increase reward redemptions by seamlessly displaying points balances within your customers' accounts. With Gameball, you can integrate point balances directly into your store's theme without writing a single line of code, keeping your customers informed and motivated to redeem their rewards.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Classic Customer Accounts">
+    Ensure you're using Shopify's Classic customer accounts. The new customer accounts don't support third-party apps yet. However, when you are adding the "Account Balance" embedded block, it is only supported by the old account creation method (classic account). This is due to a limitation from Shopify, as they don't allow third-party apps like Gameball to edit the page with the new method.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/embed-points-classic-accounts.png" alt="Classic customer accounts setting" />
+    </Frame>
+  </Step>
+  <Step title="Updated Shopify Theme">
+    Your theme must support app blocks. Without this, the Gameball block will not be visible in the editor. [Learn More](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block-profile.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, make sure the toggle at the top-right is activated. Once this is enabled, you'll be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/embed-points-customize.png" alt="Navigate to Onsite customize" />
+    </Frame>
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's theme editor. If not, double-check the prerequisites.
+  </Step>
+  <Step title="Sign In">
+    Sign in to your store through the theme editor to access the customer account template.
+  </Step>
+  <Step title="Add the App Block">
+    In the left sidebar under **Template**, select **Add section > Apps**, and search for **"Points Balance"**.
+  </Step>
+  <Step title="Save">
+    Select the **Points Balance** app block and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/embed-points-install.png" alt="Install points balance block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Customization
+
+### Style Customization
+
+1. In the Shopify theme editor, click on the **Points Balance app block**.
+2. Customize the icon, text, colors, buttons, and overall style using the right-hand sidebar.
+3. Adjust the block's position in the template from the left sidebar.
+4. Click **Save**.
+
+### Content & Translation
+
+1. In the Gameball dashboard, go to **Widget > Content**.
+2. In the **Onsite** tab, edit the displayed text as needed and click **Save**.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/embed-points-content-translation.png" alt="Content and translation settings" />
+</Frame>
+
+---
+
+## Important Notes
+
+<Warning>
+The block will automatically hide from your store if:
+
+- The Gameball program is deactivated.
+- The customer is excluded from the program.
+- Your account is on a plan that doesn't support this feature.
+</Warning>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Can I display the Points Balance block elsewhere on my website?">
+    Currently, the block can only be embedded on the customer account page.
+  </Accordion>
+  <Accordion title="Does this block work with Shopify's New Customer Accounts?">
+    Gameball supports the "New customer account creation" in the following way: When a user logs in using Email/OTP and Gameball identifies their Shopify account, they are created as a member in Gameball (instead of a guest). This change resolves issues such as users not receiving rewards from birthdays, social campaigns, streaks, and similar benefits.
+
+    However, if you are adding the "Account Balance" embedded block, it is only supported by the old account creation method. This is due to a limitation from Shopify, as they don't allow third-party apps like Gameball to edit the page with the new method.
+  </Accordion>
+  <Accordion title='Why am I seeing an error message after clicking "Customize"?'>
+    If you encounter a "There is a problem loading the page" message, review the prerequisites to ensure all conditions are met. If the issue persists, contact us at [support@gameball.co](mailto:support@gameball.co).
+  </Accordion>
+  <Accordion title="What happens if I downgrade to the Free plan?">
+    The Points Balance block will automatically hide if your plan doesn't support this feature.
+  </Accordion>
+</AccordionGroup>

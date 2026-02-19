@@ -1,0 +1,129 @@
+---
+title: "Tiering-Up Methods"
+description: "Learn more about the different ways to let customers tier up and choose one that resonates with your customers' preferences."
+---
+
+## Plan Availability
+
+<Tabs>
+<Tab title="Shopify & Salla Free">
+| Tiering-Up Method | Available |
+|---|---|
+| Amount Spent | Yes |
+</Tab>
+
+<Tab title="Shopify & Salla Starter">
+| Tiering-Up Method | Available |
+|---|---|
+| Amount Spent | Yes |
+| Points | Yes |
+</Tab>
+
+<Tab title="Pro, Guru & Non-platform">
+| Tiering-Up Method | Available |
+|---|---|
+| Amount Spent | Yes |
+| Points | Yes |
+| Orders Completed | Yes |
+| Friends Referred | Yes |
+| Score | Yes |
+</Tab>
+</Tabs>
+
+Discover the various pathways to empower your customers to progress through tiers and unlock exclusive benefits tailored to their engagement. Motivate them to spend more time on your platform and become more active participants in your community.
+
+<Frame>
+  ![Tiering-Up Methods Overview](/images/product-docs/programs/vip-tiers/tiering-up-methods-overview.png)
+</Frame>
+
+---
+
+## Understanding Tier Progression Methods
+
+At the core of Gameball's tier system lies the ability to define how customers ascend through tiers. By default, all customers start at the initial tier, which serves as the foundation for their journey. While this tier cannot be removed, its attributes can be adjusted to align with your strategy. [Learn more about setting up tiers](/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers).
+
+<Frame>
+  ![Tier Progression](/images/product-docs/programs/vip-tiers/tier-progression.png)
+</Frame>
+
+---
+
+## Enhancing Tier Advantages
+
+As customers progress to higher tiers, they gain access to enhanced benefits such as fixed discounts and increased point earnings. These rewards incentivize continued engagement and foster a sense of value for loyal customers. [Learn more about tier benefits](/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers).
+
+<Frame>
+  ![Tier Advantages](/images/product-docs/programs/vip-tiers/tier-advantages.png)
+</Frame>
+
+---
+
+## Choosing a Tier Progression Method
+
+To select a tier progression method that aligns with your objectives, consider the following approaches:
+
+<AccordionGroup>
+<Accordion title="Amount Spent" icon="dollar-sign">
+Base tier progression on customers' spending habits. The more they invest in purchases, the quicker they ascend through tiers.
+
+<Warning>
+The amount spent is calculated using the actual amount paid by the customer. Amount spent using saved points is not calculated or considered part of the tiering up system.
+</Warning>
+</Accordion>
+
+<Accordion title="Points Earned" icon="star">
+Reward customers with points for their engagement and activity on your platform. Points serve as a universal metric reflecting achievements and can be redeemed for various rewards. Earning more points helps them progress to different tiers.
+</Accordion>
+
+<Accordion title="Orders Completed" icon="bag-shopping">
+Prioritize tier advancement based on the number of orders customers fulfill. Each completed order contributes to their progression, regardless of the order value.
+</Accordion>
+
+<Accordion title="Friends Referred" icon="user-plus">
+Encourage customers to expand your community by referring friends. Tier progression is tied to the number of successful referrals, incentivizing customers to grow your user base.
+</Accordion>
+
+<Accordion title="Score" icon="trophy">
+Introduce a holistic tier progression system that rewards customers for a range of actions beneficial to your platform. Score complements points by recognizing non-monetary contributions, such as referrals and reviews.
+
+With Score, you can design a comprehensive rewards system that encompasses various elements beyond monetary value. Assign scores to specific tasks and achievements, allowing customers to accumulate points based on their contributions to your platform. Score serves as a reflection of their status and tier, distinct from the monetary value of points.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Changing the Tiering-Up Method
+
+When you change the tiering-up method, the following happens:
+
+- All customers will keep their collected data/points.
+- Gameball will recalculate the tiers of the customers based on the newly chosen method from the beginning.
+- All customers' data will be updated accordingly.
+- In the case of downgrading, and the current chosen method is not available in the new plan, the system will switch to **Amount Spent** and will recalculate the tiers of the customers accordingly.
+
+<Info>
+**Example Case of 6, 12, or 24 Months Expiry:** Every time the user changes the tiering-up method, Gameball goes through two steps:
+
+1. **Calculating customers' tiers based on the new method's key value:** Gameball will first calculate every customer's tier based on the new tiering-up method. For example, if the old tiering-up method was based on "amount spent" and then changed to be based on "points," Gameball will check each customer's points and relocate them accordingly; however, this will not necessarily be the customers' final tiers, as it might change during the second step.
+
+2. **Calculating each customer's tier based on their activity during the last 6 or 12 months:** After having known where every customer should be based on the new tiering-up method, Gameball then calculates where they should be according to their last 6 or 12 months' activity. As per the last example, this means if a customer has enough points to get them on tier 3; however, during the last 6 months, their activity was not high enough to keep them on that tier, they might be relocated to a lower tier.
+</Info>
+
+<Note>
+- If a user changed the tiering-up method and the expiry plan on the same day, when changing the tiering-up method, some customers will get relocated to different tiers based on their newly calculated score value. Once they resettle, Gameball will start counting a new 6 or 12 months from the day the tier expiry system has been changed.
+- **In case of a lifetime:** If the tiering expiry system was set to lifetime, and you only changed the tiering-up method, Gameball will only calculate every customer's tier based on the new tiering-up method and will measure their progress from the day they joined your platform till today. In other words, Gameball will only apply the first step mentioned above.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Understanding Tier Expiry" icon="clock" href="/product-documentation/programs/vip-tiers/tier-settings/understanding-tier-expiry">
+  Learn how Gameball manages tier expiry in various scenarios.
+</Card>
+
+<Card title="Customizing Benefits for Different Tiers" icon="gift" href="/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers">
+  Configure entry rewards, lifetime rewards, and custom benefits for each tier.
+</Card>
+</CardGroup>

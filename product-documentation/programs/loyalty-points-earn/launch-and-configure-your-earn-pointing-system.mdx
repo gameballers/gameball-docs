@@ -1,0 +1,197 @@
+---
+title: "Launch and Configure Your Earn Pointing System"
+description: "Learn how to activate and configure Gameball's Earn Pointing System to reward your customers with points based on their purchases."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Free, Starter, Pro & Guru |
+| Salla | Starter, Pro & Guru |
+| Non-platform Clients | Growth & Enterprise |
+
+Rewarding your customers with points is a powerful strategy to foster loyalty and encourage repeat purchases. With **Gameball's Earn Pointing System**, formerly known as the **Cashback Program**, you can activate and fully customize how customers earn points based on their spending behavior.
+
+This guide walks you through the updated features and the steps needed to launch and configure your Earn Pointing System.
+
+---
+
+## Step-by-Step Instructions
+
+<Steps>
+<Step title="Activate the Earn Pointing System">
+1. Log in to the Gameball dashboard.
+2. From the left-side menu, click **Loyalty Points**.
+3. Choose **Earn**, and you will be directed to the Earn Pointing System configuration page.
+4. Locate the **activation toggle** at the upper right section of the page and switch it to **Active**.
+
+<Frame>
+  ![Activate Earn Pointing System](/images/product-docs/programs/loyalty-points-earn/activate-earn-pointing-system.png)
+</Frame>
+
+Once activated, your customers will begin earning points for every amount spent, based on your selected currency.
+</Step>
+
+<Step title="Configure the Earn Rule">
+Click **Edit** in the **Earn Rule** section, then set the number of points customers will earn based on a specific amount of spending.
+
+<Frame>
+  ![Configure Earn Rule](/images/product-docs/programs/loyalty-points-earn/configure-earn-rule.gif)
+</Frame>
+
+A preview of the cashback calculation will be shown for your reference. [Learn more about how the redemption works.](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system)
+
+<Frame>
+  ![Earn Rule Preview](/images/product-docs/programs/loyalty-points-earn/earn-rule-preview.png)
+</Frame>
+
+<Info>
+If you use **score** as your tiering-up method, you will see an additional field to assign the score customers will earn per amount spent. [Learn more about Score](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods).
+</Info>
+</Step>
+</Steps>
+
+---
+
+## Merchant Rules
+
+Set custom earning and redemption rules per merchant or brand, based on your business needs.
+
+<Frame>
+  ![Merchant Rules](/images/product-docs/programs/loyalty-points-earn/merchant-rules.png)
+</Frame>
+
+[Learn more about Merchants' Rules](/product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience)
+
+---
+
+## Collection Rules
+
+Customize how customers earn points based on product collections. For example, you can assign different earning rates for specific categories or exclude others entirely.
+
+<Frame>
+  ![Collection Rules](/images/product-docs/programs/loyalty-points-earn/collection-rules.png)
+</Frame>
+
+---
+
+## Settings
+
+### Include or Exclude Shipping Fee
+
+Decide whether to include the shipping fee in the points calculation. For example, if a customer places an order worth USD 100 with a USD 15 shipping fee, they can either receive points on just the USD 100 or on the full USD 115.
+
+<Frame>
+  ![Shipping Fee Settings](/images/product-docs/programs/loyalty-points-earn/shipping-fee-settings.png)
+</Frame>
+
+### Points Expiry
+
+Define when earned points will expire:
+
+- Choose the **expiry duration**.
+- Select the **duration type** (days, months, or years).
+
+<Frame>
+  ![Points Expiry Settings](/images/product-docs/programs/loyalty-points-earn/points-expiry-settings.png)
+</Frame>
+
+<Accordion title="How does Points Expiry Work?" icon="clock">
+When setting a customer duration for point expiry to 3 days for example, from a Reward Campaign, the points will expire exactly 72 hours after the earning time. Gameball does not round up or down to the nearest day; instead, it calculates the exact time based on the specified duration.
+</Accordion>
+
+### Eligible Collections
+
+Select which products or collections qualify for earning points. Choose from:
+
+- All Products
+- Selected Collection
+- All Products except some collections
+
+<Frame>
+  ![Eligible Collections](/images/product-docs/programs/loyalty-points-earn/eligible-collections.png)
+</Frame>
+
+### Return Window Duration
+
+Specify a time gap between when an order is placed and when points are issued. This helps manage potential product returns and ensures proper point issuance.
+
+<Frame>
+  ![Return Window Duration](/images/product-docs/programs/loyalty-points-earn/return-window-duration.png)
+</Frame>
+
+---
+
+## Cashback Return Window API
+
+You can now control when cashback points become active using the `returnWindow` attribute.
+
+**Available in:**
+
+- **Order API:** under `cashbackConfigurations`
+- **Cashback API:** under `configurations`
+
+**Key Details:**
+
+- `returnWindow` accepts values from 0 to 7300 days.
+- Points remain pending for the set duration, then activate automatically.
+- If not provided, the default duration from your Gameball settings applies.
+
+---
+
+## Insights and Analytics
+
+Access in-depth analytics on how your Earn Points System is performing:
+
+**Total Earned Rewards**
+
+- Track the overall value of rewards customers have earned.
+- Monitor how reward trends evolve over time.
+
+<Frame>
+  ![Total Earned Rewards](/images/product-docs/programs/loyalty-points-earn/total-earned-rewards.png)
+</Frame>
+
+**Total Rewarded Points**
+
+- View the total number of points issued across transactions.
+- Analyze how points are distributed and identify areas for optimization.
+
+<Frame>
+  ![Total Rewarded Points](/images/product-docs/programs/loyalty-points-earn/total-rewarded-points.png)
+</Frame>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+<Accordion title="What happens if a customer returns a product after earning points?">
+Use the **Return Window Duration** setting to delay point issuance, helping avoid rewarding points for refunded purchases.
+</Accordion>
+
+<Accordion title="Can I create different earn rules for different products?">
+Yes, use the **Collection Rules** feature to customize earning by product categories.
+</Accordion>
+
+<Accordion title="Can I have an order-level return window?">
+Yes, you can set a return window at the order level.
+
+To do this, include the `returnWindow` attribute inside the `cashbackConfigurations` object when creating the order using the **Order API**. This allows you to specify a custom return window per order -- for example, 7 days for Order A and 10 days for Order B.
+
+If `returnWindow` is not set in the API request, the default duration from your Gameball settings will apply.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Introduction to Reward Campaigns" icon="bullhorn" href="/product-documentation/programs/rewards-campaigns/introduction-to-rewards-campaigns">
+  Learn about the different types of reward campaigns you can create.
+</Card>
+
+<Card title="Configure Your Redeem Pointing System" icon="coins" href="/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system">
+  Set up how customers can redeem their earned points.
+</Card>
+</CardGroup>

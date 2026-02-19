@@ -1,0 +1,115 @@
+---
+title: "Product Releases 26.5.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## Key Highlights
+
+### 1. Stamps Campaign
+
+**Platform:** Shopify, Salla, Others | **Plan:** Shopify & Salla: PRO+ | Others: Locked by default (Available as an Addon) | **Channel:** Web, Mobile
+
+The Stamps campaign allows you to reward customers for completing a specific action multiple times in a row. It's a powerful way to boost repeat behavior and long-term engagement.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/stamps-campaign.png" alt="Stamps campaign" />
+</Frame>
+
+#### Use Cases:
+
+1. **Drive Repeat Purchases:** Place 3 orders within this month to earn a reward.
+2. **Promote High-Value Orders:** Make 5 orders over $100 each to get rewarded.
+3. **Encourage Category Exploration:** Make 3 orders each one from a specific collection (Kids, Women, Men).
+4. **Boost Referrals:** Refer 3 friends to get a premium membership.
+
+#### More Resources:
+
+- [Help Center Article](/product-documentation/rewards-campaigns/templates/engagement-gamification/streak-campaign)
+- Want to see how it works? [Try our demo](https://demo-store.gameball.co/)
+- You can add your own streak design on your platform using this [API](https://developer.gameball.co/rest-api/customers/customer-progress#get-customer-action-streak-progress).
+
+---
+
+### 2. Exclude Taxes from Reward Calculations
+
+**Platform:** All Platforms | **Plan:** By Request | **Channel:** All
+
+We've introduced a new configuration option allowing you to **exclude taxes from reward calculations**, giving greater accuracy and control over how cashback or points are distributed. [Learn more about points redemption options](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system).
+
+### Business Use Case & Value
+
+- **Financial Precision**: You can now reward customers based only on the **true product value**, excluding tax amounts.
+- **Loyalty Accuracy**: Prevent over-rewarding by basing rewards on net purchases, not tax-inflated totals.
+- **Global Compliance**: Especially valuable for regions with high or variable tax rates.
+
+#### How It Works
+
+- A **new toggle** is available under **Earn Settings**:
+  - **Label:** _"Exclude Taxes from Reward Calculations"_
+  - **Default:** Disabled
+- When **enabled**, all rewards (Cashback, Points, etc.) will be calculated based on the **order subtotal before taxes**.
+
+#### API Requirements
+
+To enable this functionality, you must send the following fields in order-related APIs:
+
+- `total_tax`: Total tax amount for the order.
+- `taxes` (_per lineitem)_: Breakdown of tax amounts per item.
+
+**_Important Note:_**
+
+_If the tax data is **not provided** while the toggle is **enabled**, Gameball will:_
+
+- _Default to using the full order amount (including tax)_
+
+---
+
+### 3. New API: Retrieve Coupon Lock Details
+
+**Platform:** Enterprise | **Plan:** Clients Using our Couponing Engine | **Channel:** All
+
+We've released a new API endpoint that allows you to **fetch detailed information about locked coupons**, giving more transparency and control over coupon management.
+
+#### Use Case & Value
+
+- **Operational Clarity**: Helps support, marketing, and ops teams understand **who has a locked coupon**, when it was locked, and other key metadata.
+- **Issue Resolution**: Speeds up investigation and debugging related to coupon redemption and locking behavior.
+- **Optimized Experience**: Enables you to proactively manage coupon lock durations, re-locking behavior, and customer-specific edge cases.
+
+#### API Overview
+
+- **Endpoint:** `GET /integrations/locks/{lockReference}`
+- **Purpose:** Returns detailed info for a locked coupon using the `lockReference`.
+
+##### Key Response Data Includes:
+
+- **Associated customer** (`CustomerId`)
+- **isUsed (**_Boolean_**)**
+- **usedAt (**_timestamp_)
+- **isExpired (**_Boolean_**)**
+- **ExpiredAt (**_timestamp_)
+- **coupons** _(List of all locked coupons under this reference)_
+
+📘 [View Full API Reference →](https://developer.gameball.co/rest-api/coupons#get-lock-details)
+
+---
+
+## Other Improvements
+
+### 1. Dynamic Rewards Now Support Up to 3 Decimal Places
+
+Dynamic Rewards now support multipliers with up to **three decimal places**, allowing for more accurate point distribution (e.g., 1.015 instead of 1.5).
+
+**Example:** A $1000 spend with a 1.015 multiplier earns **1015 points**. [Learn more about rewards](/product-documentation/rewards-campaigns/faqs/understanding-rewards-types).
+
+### 2. Improved Automation Reactivation Handling
+
+Previously, deactivating an automation would remove all customers from it, causing a loss of their progress when the automation was reactivated. Now, customers' progress within the campaign is preserved. When a customer deactivates and later reactivates an automation, the system saves each customer's position in the flow, allowing them to continue exactly where they left off.
+
+### 3. Game Lead Form Enhancements: Update only missing customer profile attributes
+
+When using a game campaign with a lead form, previously, if a customer who was **already registered** submitted new data, that data was ignored. Now, Gameball uses only the newly entered data and adds it to the customer's profile, ensuring no existing data is overwritten.
+
+---

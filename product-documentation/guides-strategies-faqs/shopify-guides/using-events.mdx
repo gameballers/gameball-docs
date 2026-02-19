@@ -1,0 +1,87 @@
+---
+title: "Using Events on Shopify"
+description: "Get more details about how to use Shopify events through Gameball."
+---
+
+Before starting, please read this article to learn more about the Gameball events engine: [How does the Event(s) Rule Engine work?](/product-documentation/rewards-campaigns/faqs/using-the-event-engine)
+
+The following are the available Shopify events on Gameball:
+
+## place\_order
+
+### Description
+
+This event will be sent to Gameball when your customer places an order on your platform entirely. **(entirely means that the order status is Paid).**
+
+### Keys
+
+- **Total\_discount:** total discount applied on this order
+- **Total\_price:** total order price
+- **Order\_id:** order ID on Shopify
+- **Product\_category:** product **type** of the order (fashion, electronics, etc.) It can be one category or multiple categories based on how many items are in the order. This will also be based on the available categories on your Shopify store.
+
+<Frame>
+  <img src="/images/product-docs/guides-strategies-faqs/product-category-example.png" alt="Product Category Example" />
+</Frame>
+
+- **Tag:** product tag of the order. It can be one tag or multiple tags based on how many items are in the order. This will also be based on the available tags on your Shopify store.
+- **Collection\_id:** collection IDs of the order products. It can be one collection or multiple collections based on the products inside the order. This will also be based on the available collections on your Shopify store.
+
+<Frame>
+  <img src="/images/product-docs/guides-strategies-faqs/collection-id-example.png" alt="Collection ID Example" />
+</Frame>
+
+- **Weight:** order weight
+- **Vendor:** product brand/vendor inside this order (Zara, Nike, etc.) It can be on brand or multiple brands to be sent simultaneously. This will also be based on the available vendors on your Shopify store.
+- **Source:** whether this order has been placed online Shopify store or through Shopify POS. It can be "web" or "pos."
+
+<Warning>**Place\_order** event will not be sent to Gameball unless the order status is "**Paid"** to avoid potential fraud cases for payment methods like COD.</Warning>
+
+## view\_product\_page
+
+### Description
+
+This event should be sent when your customer views a product page on your Shopify store.
+
+### Keys
+
+- **Product\_id:** product ID on Shopify (You can find it in the URL of the product as shown below)
+
+<Frame>
+  <img src="/images/product-docs/guides-strategies-faqs/product-id-url.png" alt="Product ID in URL" />
+</Frame>
+
+- **Product\_category:** product category (fashion, electronics, etc.) This will be based on the available categories on your Shopify store.
+- **Product\_vendor:** product brand/vendor. This will be based on the available vendors on your Shopify store.
+- **Collection\_id:** collection IDs of the product. It can be one collection or multiple collections. This will also be based on the available collections on your Shopify store.
+
+<Frame>
+  <img src="/images/product-docs/guides-strategies-faqs/collection-id-example.png" alt="Collection ID Example" />
+</Frame>
+
+## Friends\_Referred
+
+<Note>All the above events can be used in both the reward campaigns engine and while sending communication campaigns as well.</Note>
+
+## Order\_Refunded
+
+**`order_refunded`**, automatically triggered by Gameball whenever a refund is processed through the platform.
+
+<Note>This event is only applicable when using the **V4.0 Refund APIs**.</Note>
+
+This feature enables you to **track refunded orders directly within the customer profile**, helping them maintain an accurate transaction history and improve your customer support processes.
+
+#### Key Benefits:
+
+- **Full Refund Visibility:** Every refund triggers an `order_refunded` event, logging essential refund data.
+- **Customer Transparency:** Refunded orders are now visible within each customer's activity timeline.
+- **Better Segmentation & Reporting:** You can now segment customers based on refund behavior or integrate this event into your loyalty logic and analytics tools.
+
+#### Data Included in the Event:
+
+- Original order ID
+- Refund ID
+- Refunded Amount
+- Refunded Points
+
+---

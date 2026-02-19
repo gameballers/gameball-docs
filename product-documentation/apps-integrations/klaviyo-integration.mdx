@@ -1,0 +1,193 @@
+---
+title: "Klaviyo App Integration"
+description: "Keep your customers in sync across Gameball and Klaviyo, and target them effectively based on their loyalty data and events."
+---
+
+**Platform**
+
+**Plan**
+
+Shopify
+
+All
+
+Selfserve
+
+All
+
+Gameball and Klaviyo integration allows you to leverage customer engagement data from Gameball to power your email marketing campaigns in Klaviyo. Follow this guide to seamlessly connect the two platforms and maximize the impact of your loyalty and marketing efforts.
+
+## Why Integrate Klaviyo with Your Gameball Account?
+
+By integrating Klaviyo with Gameball, you unlock the ability to target and segment customers based on their loyalty to your app. This powerful integration allows you to:
+
+-   **Segment contact lists** based on Gameball customer attributes (e.g., points balance, tier) and events created.
+
+-   **Send personalized emails** by including loyalty-related data, such as customer tier and reward points, in your email templates.
+
+-   **Track and trigger campaigns** based on specific customer events, such as coupons created, orders placed, and reward achievements.
+
+
+## How to Configure Klaviyo on Gameball
+
+Follow these steps to connect Klaviyo with Gameball and make the most of your loyalty data:
+
+1.  **Ensure Your Widget is Published**
+
+    -   _Note_: Not publishing the widget could impact the integration process, so ensure it's live before proceeding.
+
+2.  **Access the Gameball Admin Dashboard**
+
+    -   Navigate to **Integration** in the left menu.
+
+        <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-65.png" />
+</Frame>
+
+3.  **Add Klaviyo Integration**
+
+    -   Click on **Connect** under **Klaviyo**.
+
+4.  **Install Klaviyo via Shopify App Store**
+
+    -   If you are on Shopify, make sure Klaviyo is installed through the Shopify App Store.
+
+5.  **Create an API Key in Klaviyo**
+
+    -   In your Klaviyo account, go to the top right corner, click **Account Settings** > **Settings** > **API Keys**.
+
+    -   Create a new API key and ensure full access for each API scope.
+
+    -   _Important_: Failing to grant full access may prevent the integration from functioning properly.
+
+6.  **Copy and Paste the API Key into Gameball**
+
+    -   Once you've generated the API key in Klaviyo, copy it.
+
+    -   Go back to your Gameball dashboard, paste the key, and click **Next**.
+
+
+7.  **Set Up a Webhook in Klaviyo**
+
+    Webhooks allow Gameball to send real-time data to Klaviyo.
+
+    1.  Log in to your **Klaviyo Dashboard**.
+
+    2.  Go to **Account Settings > Webhooks**.
+
+    3.  Click **Create Webhook**.
+
+        -   Provide a name for the webhook (e.g., "Gameball Integration").
+
+        -   Enter the **Webhook URL** provided by Gameball in the integration section.
+
+    4.  Save the webhook.
+
+
+8.  **Map Gameball Events to Klaviyo**
+
+    Gameball tracks various customer events (e.g., points earned, redeemed, tiers achieved). Map these events to Klaviyo to use them in your campaigns.
+
+    1.  In the Gameball Dashboard, go to **Integrations**.
+
+    2.  Select **Klaviyo** from the list of available integrations.
+
+    3.  Map the following events to Klaviyo:
+
+        -   **Coupon Created**
+
+        -   **Coupon Redeemed**
+
+        -   **Reward Campaign Achieved**
+
+        -   **Order Placed**
+
+    4.  Confirm the event mappings and save.
+
+
+9.  **Sync Customer Data**
+
+    Syncing customer data ensures Klaviyo receives real-time updates about customer actions.
+
+    1.  In the Gameball Dashboard, navigate to **Integrations > Klaviyo**.
+
+    2.  Enable the **Customer Sync** toggle.
+
+    3.  Choose the customer attributes to sync. Here are all the attributes that can be sent:
+
+        -   **Customer ID**
+
+        -   **Date of Birth**
+
+        -   **Join Date**
+
+        -   **Tier Name**
+
+        -   **Wallet Points**
+
+        -   **Pending Points**
+
+        -   **Tier Progress**
+
+        -   **Tier ID**
+
+        -   **Completed Reward Campaigns**
+
+        -   **Referral Code**
+
+        -   **Referral Link**
+
+        -   **Tags and Segments**
+
+
+    1.  Save your settings.
+
+10.  **Check Out Synced Customer**
+
+     -   In the profile section, you will find a table with all the automatically synced Gameball customers.
+
+
+     <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-66.png" />
+</Frame>
+
+11.  **Verify Custom Properties in Klaviyo**
+
+     -   In Klaviyo, you can view the Gameball customer attributes under **Profile** > **Information** > **Custom Properties** of a specific customer.
+
+12.  **Use Gameball Attributes in Campaigns**
+
+     -   When creating a campaign in Klaviyo, you can insert Gameball attributes by selecting **Insert Property.**
+
+
+     <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-67.png" />
+</Frame>
+
+13.  **Trigger Flows Based on Gameball Events**
+
+     -   In addition to attributes, you can now trigger automated flows in Klaviyo based on real-time Gameball events such as:
+
+         -   **Coupon Created**
+
+         -   **Coupon Redeemed**
+
+         -   **Reward Campaign Achieved**
+
+         -   **Order Placed**
+
+         -   **Points Redeemed**
+
+
+         <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-68.png" />
+</Frame>
+
+
+Each event will be synced in real-time, allowing you to send highly targeted campaigns and flows in Klaviyo.
+---
+#### Related Articles:
+
+-   [Gameball on Moengage](/product-documentation/apps-integrations/moengage-integration)
+
+-   [Gameball Apps and Integrations](/product-documentation/apps-integrations/introduction-to-apps-integrations)

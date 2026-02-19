@@ -1,0 +1,103 @@
+---
+title: "Export Your Customer List"
+description: "Learn how to export your customer data from the Gameball dashboard, what fields are included, and how to interpret them."
+---
+
+Gameball allows you to export your customer data directly from the **Customers** page. You can apply filters to narrow down the list before exporting, or export a broader dataset as needed.
+
+<Warning>
+If a filter is applied, the export will include **only the filtered customers** currently visible in the list.
+</Warning>
+
+## Step-by-Step Instructions
+
+<Frame>
+  ![Export customer list](/images/product-docs/understanding-your-customers/export-customer-list.png)
+</Frame>
+
+<Steps>
+  <Step title="Go to the Customers page">
+    Go to the **Customers** page from the Gameball dashboard.
+  </Step>
+  <Step title="Apply filters (optional)">
+    Apply filters if you'd like to export a specific segment.
+  </Step>
+  <Step title="Export the list">
+    Click **More** then choose **Extract**.
+  </Step>
+  <Step title="Download the file">
+    Your filtered customer list will be exported as a CSV file.
+  </Step>
+</Steps>
+
+<Note>
+If you need a full export of your entire customer database (not limited by filters), please contact the Gameball support team.
+</Note>
+
+---
+
+## Exported Fields and Their Descriptions
+
+Here's a description of all the columns included in your exported file:
+
+| Column Header | Description | Comment |
+| --- | --- | --- |
+| **customer_id** | The unique identifier of the customer in Gameball. | Required for all customer data updates. |
+| **customer_name** | The full name of the customer, if provided. | |
+| **customer_email** | The registered email of the customer. | |
+| **gender** | The gender of the customer. | |
+| **phone_number** | Mobile phone number of the customer. | |
+| **date_of_birth** | Date of birth of the customer. | |
+| **join_date** | Date the customer joined your platform. | |
+| **creation_date** | Date the customer profile was created in Gameball. | |
+| **country** | Country from which the customer registered. | |
+| **city** | Customer's city. | |
+| **zip_code** | Postal or ZIP code. | |
+| **preferred_language** | Customer's preferred communication language. | |
+| **is_guest** | Indicates if the customer is a guest. | **True = guest**, meaning the user has not created a full account. |
+| **utm_source, utm_medium, utm_campaign, utm_content, utm_term** | Tracks how the customer first landed on your site. | Comma-separated. |
+| **device** | The device type used during the customer's session. | |
+| **total_amount_spent** | Total value of transactions made by the customer. | This field is based on the configured [Tiering-up Method](/product-documentation/loyalty-programs/tiering-up-methods). |
+| **last_order_date** | The date the customer placed their most recent order. | |
+| **total_orders_count** | Number of orders the customer has placed. | |
+| **avg_order_value** | Average spend per order. | |
+| **channel** | Source channel where the customer was acquired (e.g., website, mobile app). | |
+| **current_tier_name** | The name of the customer's current VIP tier. | |
+| **current_tier_order** | The internal order of the customer's current tier. | |
+| **score** | Used only if your tiering-up method is score-based. | |
+| **total_points_earned** | All points the customer has earned historically. | |
+| **points** | The current total of active, redeemable points. | Pending points are excluded. |
+| **pending_points** | Points that are not yet redeemable due to the return window or pending state. | |
+| **total_referrals** | Number of successful referrals by the customer. | |
+| **total_redemptions** | Number of rewards redeemed. | |
+| **last_redemption_date** | Date the customer last redeemed a reward. | |
+| **last_login_date** | Last time the customer logged into your platform. | |
+| **last_coupon_usage** | Date the customer last used any coupon. | |
+| **last_gameball_coupon_usage** | Date of last coupon issued through Gameball. | |
+| **last_message_sent_date** | Date of the last in-app message sent to this customer. | |
+| **last_email_sent_date** | Date of the last email sent via Gameball. | |
+| **segments** | List of segments the customer belongs to. | Includes both rule-based and RFM segments. |
+| **Tags** | Each exported row displays all tags associated with the corresponding customer. | Supports multiple tags per customer (comma-separated). |
+
+<Info>
+You can read more about all customer attributes included in the extracted file through the [Customer Profile Attributes](/product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes) article. This also explains how each attribute is added, captured, or calculated by Gameball.
+</Info>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Customer Profile Attributes" icon="user-gear" href="/product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes">
+    Learn about all customer attributes and how they are populated.
+  </Card>
+  <Card title="Manage Your Customer List" icon="users" href="/product-documentation/understanding-your-customers/your-customers/manage-your-customer-list">
+    View and manage your full customer list.
+  </Card>
+  <Card title="Update or Migrate Customers via CSV" icon="file-csv" href="/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify">
+    Migrate customers from other loyalty programs.
+  </Card>
+  <Card title="Group Customers Using Tags" icon="tags" href="/product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags">
+    Use tags to manually group and target customers.
+  </Card>
+</CardGroup>

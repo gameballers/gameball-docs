@@ -1,0 +1,124 @@
+---
+title: "Send Real-Time Notifications for Completing a Reward Campaign"
+description: "Notify your customers upon achieving a reward campaign using Gameball's real-time notifications."
+---
+
+Available for all Gameball customers except for free packages
+
+If you want your customers to engage with your [preset reward campaigns](/product-documentation/rewards-campaigns/introduction-rewards-campaigns), make sure to create automated real-time notifications to inform them when the campaign is unlocked, or achieved, or when you want to motivate them to keep going mid-way.
+
+There are two portals to create a real-time notification for when a reward campaign is achieved:
+
+1. The Global Real-time Notification section on the dashboard.
+2. Create a different notification for each [reward campaign](/product-documentation/rewards-campaigns/introduction-rewards-campaigns) via the internal reward campaign settings.
+
+This article will walk you through how to create a notification through each of the two methods. Follow the steps below to activate real-time notifications for adding or deducting points.
+
+## How to Create Real-Time Notifications for When a Reward is Achieved
+
+You can access the notifications' global settings in the **Gameball Admin Dashboard**.
+
+- From the left bar, Click **Notifications.**
+- Choose between **In-App, Emails, & SMS.**
+- Scroll to **Reward Campaigns,** and select between **Unlocked, Motivate Customers,** and **Achieved.**
+
+<Frame>
+![Reward campaign notifications navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/reward-campaign-navigation.png)
+</Frame>
+
+Start writing the message itself. Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to Write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
+
+## Script Updates for Reward Campaigns Notifications
+
+You can add the transaction notifications script for all notifications through this page:
+
+### 1. Unlocked Message
+
+Send real-time notifications when a customer has a new reward unlocked. This way they notice that there is a possibility to enroll in a new campaign and win a reward when completed.
+
+### 2. Motivate Customers Message
+
+Make sure your customers keep going and are proceeding with the required steps to complete the reward requirements and achieve their final goal by sending them a motivational message informing them that they are steps closer to winning.
+
+### 3. Achieved Message
+
+Send a real-time notification when your customer completes all the requirements of the reward campaign. Inform them of their achievement, and the reward they have earned as a result.
+
+### 4. Preview and Change Notification Icon
+
+Before activating the notification, you might need to take a look at what the notification will look like for customers. You can easily do so by clicking **Preview** on the top right of the edit page.
+
+<Frame>
+![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification-reward.png)
+</Frame>
+
+When clicking on preview, you will be able to see what the notification looks like for customers. You can edit the notification icon and upload one by choosing **Upload Icon**, then click **Upload Icon**.
+
+<Frame>
+![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog-reward.png)
+</Frame>
+
+<Frame>
+![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview-reward.png)
+</Frame>
+
+Click **Update** from the bottom right.
+
+### Status Update for Reward Campaigns Notifications
+
+You can enable or disable the notification through the **Active Toggle**.
+
+<Frame>
+![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle-reward.png)
+</Frame>
+
+<Note>
+Do not forget to click on "**Save**" before you exit.
+</Note>
+
+## Creating a Notification Only For a Specific Reward Campaign
+
+In the [reward campaign](/product-documentation/rewards-campaigns/introduction-rewards-campaigns) creation process in **Gameball Admin Dashboard**, you can add a custom script to be sent for this reward campaign specifically and only and bypass the global settings:
+
+To create a reward campaign from scratch follow the steps in this [article](/product-documentation/rewards-campaigns/create-action-based-reward-campaign).
+
+While creating a new reward campaign, you will come across the **Notifications**. Choose if you want to edit an **In-app Notification**, or an **Email Notification**, or both by clicking on **Edit**.
+
+<Frame>
+![Reward campaign notification edit](/images/product-docs/instant-notifications/real-time-notifications-per-program/reward-campaign-notification-edit.png)
+</Frame>
+
+Select between:
+
+**Global Settings**: This will follow the reward campaign notification created and activated through the main notification section.
+
+**On:** This will allow you to create your own message by writing a different **Head** and **Body** for the notification as shown below.
+
+**Off:** This will not allow your customer to receive a notification upon achieving this reward campaign.
+
+<Frame>
+![Reward campaign notification settings](/images/product-docs/instant-notifications/real-time-notifications-per-program/reward-campaign-notification-settings.png)
+</Frame>
+
+## Script Variables for Reward Campaigns Notifications
+
+To send more personalized, more relevant, and clear notifications, add variables in between your messages by clicking the **+ icon**.
+
+<Frame>
+![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables-reward.png)
+</Frame>
+
+You can use variables in the scripts like the ones below:
+
+- **Customer Variables:** First Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link, Points Earned, Tier-up Progress, Points, Points Before, Level Up total progress.
+- **Reward Campaign Variables:** Equivalent value of total points, Equivalent value of earned points, Currency, Points Name, Reward Campaign Name, Referral Link, Mobile Referral Link, Coupon Code, Coupon Value, Reward Campaign Reward.
+
+---
+
+## What else?
+
+- [Send Real-Time Notifications for Referral Program](/product-documentation/instant-notifications/real-time-notifications-per-program/referral-notifications)
+- [Send Real-Time Notifications for Cashback](/product-documentation/instant-notifications/real-time-notifications-per-program/cashback-notifications)
+- [Send Real-Time Notifications for Transactional Rewards](/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications)
+- [Send Real-Time Notifications for Tier Program](/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications)
+- [Sending Customers Emails Celebrating Achievements](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails)

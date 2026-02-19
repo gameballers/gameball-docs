@@ -1,0 +1,57 @@
+---
+title: "Understand How Gameball Calculates Monthly Rewarded Customers (MRC) [For Shopify]"
+description: "Know who are your MRC players and how Gameball calculates and charges you."
+---
+
+According to Gameball's billing system, you will be charged based on the number of your monthly rewarded customers (MRC.) Here are some of the information you might need to know.
+
+<Warning>
+- This article applies only to Gameball users for anyone who registered after the 4th of March 2024 or migrated to the new plans. If you are on the old Gameball plans (joined before the 4th of March, 2024), this article might be irrelevant. [Please check this article for relevant information](/product-documentation/getting-started/faqs/gameball-plans-and-subscriptions).
+- If you are on the **Shopify Legacy Plan**, [read this section of the article](#h_a131b53e30).
+</Warning>
+
+## **Who are Monthly Rewarded Customers (MRC)**
+
+- A Monthly Rewarded Customer is a customer **who did any of the following during the last 30 days:**
+  - Completed an achievement such as a challenge, level, or referral that may or may not have granted them a reward.
+  - Received a reward, such as points, score, or direct coupon that was granted either manually or automatically.
+  - Redeemed their points.
+  - Used any of their existent rewards such as burning a coupon or direct points deduction in a transaction.
+
+---
+
+- ## List of events that would make a players be considered as a MRC:
+  - ## **Automated Events:**
+    - Earning a challenge achievement with or without a reward.
+    - Earning a cashback reward with score or points.
+    - Completing a successful referral with or without a reward.
+    - Leveling up with or without a reward.
+    - Earning a reward from the automation.
+    - Redeeming points.
+    - Using a reward like burning a coupon or direct points deduction in a transaction.
+  - ## **Manual Actions:**
+    - Manually rewarding a challenge with or without a reward.
+    - Manually adding points or scores.
+    - Manually leveling up a player with or without the level-up reward.
+
+  ## When is a player not considered as MRC?
+
+  - A customer sent one event or more that aren't included in any of the above events to Gameball, i.e. data collection in itself doesn't activate a customer.
+  - A customer logged in to the store's website/app without any of the above conditions being fulfilled.
+  - Manually deducting points.
+  - Points deduction due to points expiry.
+  - Receiving points refund (order cancellation partial or full.)
+  - Adding points during the migration process.
+  - Visitors (unidentifiable guests, i.e. store visitors who didn't make an order or previous guest customers browsing the store but didn't yet place an order to be able to identify them) are not considered active in all cases.
+
+<Warning>
+- All of the above should be using the live API, All the test actions shouldn't be counted in the MRC.
+- The customer could be a player or a guest.
+</Warning>
+
+## **Active Customer Definition for the old plan (Legacy)**
+
+- Old MRC calculation:
+  - Any customer with points through the month based on the invoice dates. Ex: If a customer gained points and used them before the invoice date, they will not be counted, only customers with points during the invoice date will be considered in the calculations.
+
+---

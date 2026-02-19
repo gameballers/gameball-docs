@@ -1,0 +1,74 @@
+---
+title: "Segment App Integration"
+description: "Save yourself the hassle of having to go through a technical integration with the help of developers with Segment integration."
+---
+
+### Why should you integrate Segment with your Gameball account? And how can you make the best out of Gameball customer attributes?
+
+This integration will allow you to target and segment your customers based on how loyal they are to your app. This integration will allow you to:
+
+1.  Segment your contact lists based on Gameball customer attributes.
+
+2.  Trigger an automation based on Gameball customers' attributes.
+
+3.  Send more personalized emails by including Gameball customer information in email templates, for instance, the customer's current tier.
+
+
+## How to configure Segment on Gameball?
+
+-   Add the events you want to track in the **Gameball Admin Dashboard**.
+
+
+For more info on how to do that, [check out this article](/product-documentation/admin-settings/create-and-send-events). Here is an example:
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-89.png" />
+</Frame>
+
+-   Add the Gameball app as a destination from the Segment catalog
+
+-   Add your Gameball API Key in the destinations settings on Segment. Learn [where to find your Gameball API key](/product-documentation/admin-settings/get-api-keys)
+
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-90.png" />
+</Frame>
+
+-   Ensure that the events you track reach Gameball through the Event Tester on Segment with the Event Builder
+
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-91.png" />
+</Frame>
+
+In the previous example, the Event name is (Buy product) and (type) shoes
+
+**_Note:_** _The **Event Name** in Event Tester on Segment is the same Event Name in **Gameball Admin Dashboard, and you must include userId.**_
+
+-   Ensure that the events you track reach Gameball  through the Event Tester in Segment with the JSON Builder
+
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-92.png" />
+</Frame>
+
+Event name is (Buy product) and (type) shoes
+
+**_Note:_** _The only properties supported for updating through events at the moment are the ones in the_ customer _Info box, which are:_
+
+-   ID
+
+-   Join Date
+
+-   Level Name
+
+-   Type ID
+
+-   Points
+
+-   Score Balance
+
+-   Level ID
+
+-   Completed Challenges
+---

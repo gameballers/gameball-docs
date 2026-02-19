@@ -1,0 +1,38 @@
+---
+title: "Request Coupon Creation from Your Couponing Engine"
+description: "Allow Gameball to request creation of coupon from your couponing engine through few configuration steps."
+---
+
+## Request Coupon Creation from Your Couponing Engine
+
+You can reward customers with points for every achievement they complete through your customized loyalty program. These Points can then be redeemed in the form of coupons to be used later on new orders. Gameball allows you to choose the type of reward coupons customers can receive and enjoy. [Learn more](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system)
+
+For a coupon to be created by Gameball, there must first be a backend connection between Gameball and your couponing engine to keep track of your coupons. This way, Gameball can ping your couponing engine to get the required information for a coupon creation like start date, expiry date, code, etc., and the created coupon can sync with real-time orders and be put into action.
+
+If your platform is built using a third-party plugin such as Shopify, then by initially integrating Gameball with your Shopify store, the couponing sync takes place automatically due to the existence of an already built-in couponing system. These internal coupon engines automatically manage your coupon creations without any effort from your side.
+
+If, however, your website is built in-house, and you want to build your own coupon system, then you will need to follow a few coupon configuration steps before you start rewarding customers with various types of coupons.
+
+### How to allow Gameball to create coupons?
+
+- On your **Gameball Admin dashboard**, on the left bar, choose **Settings > Admin Settings > Coupon Configurations** under **Coupons**
+
+<Frame>
+  ![Coupon Configurations](/images/product-docs/admin-settings/coupon-configurations.png)
+</Frame>
+
+Fill in the following details:
+
+1. Request Parameters
+2. Request Headers
+3. Query Parameters
+
+[Follow this technical integration guide for further help.](https://developer.gameball.co/tutorials/redemption/coupons/your-engine)
+
+- Then **select the types of coupons that your gateway supports.**
+
+---
+
+### Related articles:
+
+- [Third-Party Coupons Through the Gameball Dashboard](/product-documentation/admin-settings/third-party-coupons)

@@ -1,0 +1,422 @@
+---
+title: "Product Releases 26.8.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+## **Engagement**
+
+### **1. Milestone: New Reward Campaign**
+
+**Platform:** Available on a non-platform, For Shopify or Salla: Contact Support | **Plan:** Available as an Add-on
+
+The **Milestone Campaign** is a rule-based campaign that accumulates a customer's _eligible_ spend or item count across orders during a defined period (e.g., **SAR 500 per month**). Milestone campaign helps increase **AOV** and **repeat purchase frequency**.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/milestone-campaign.png" alt="Milestone campaign" />
+</Frame>
+
+#### **Use Cases:**
+
+1. **Spending Milestones**
+   - Reward based on total spend within a period.
+   - _Example:_ "Spend **$1000** and get a **$100** gift card."
+
+2. **Collection/Tag/SKU/Branch-Specific Milestones**
+   - Only spending on a chosen collection/category/SKU counts.
+   - _Example:_ "Spend **$500** on **Electronics** and get **$50** off your next order."
+
+3. **Items-Purchased Milestones (count)**
+   - Reward by quantity of items, regardless of price.
+   - _Example:_ "Buy **10** items and get **20%** off next order."
+
+Read this [Help Center Article](/product-documentation/rewards-campaigns/faqs/stamps-milestone-mission-campaigns) to learn more.
+
+---
+
+## **Core & Platform**
+
+### 1. Dynamic Value for Fixed Coupon Rewards
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+We've enhanced the **Fixed Coupon Rewards** by introducing a **Dynamic Value option**. Instead of being limited to a static reward (e.g., $10 off), you can now configure fixed coupons to dynamically calculate their value based on a percentage of a chosen variable (e.g., **15% of Value X**). [Learn more about how to set up each Reward type.](/product-documentation/rewards-campaigns/faqs/understanding-rewards-types)
+
+<Frame>
+  <img src="/images/product-docs/product-releases/dynamic-fixed-coupon-rewards.png" alt="Dynamic fixed coupon rewards" />
+</Frame>
+
+#### Use Case
+
+This update gives you more flexibility in creating promotions that scale with order size or customer actions. For example:
+
+- Instead of always giving $10 off, a merchant can now set the coupon to equal **15% of the customer's cart total or a specific metadata value**, making offers more personalized and impactful.
+
+#### Key Highlights
+
+- **Dynamic Option Added to Fixed Coupons**
+  - You can select whether a fixed coupon has:
+    - A **static fixed value** (e.g., $10).
+    - A **dynamic value** (percentage of a chosen metric).
+- **Flexible Promotions**
+  - Easily adapt offers to cart totals, order values, or metadata-driven actions.
+- **Seamless Setup**
+  - No changes required in workflow, just configure the value type when setting up your fixed coupon rewards.
+
+---
+
+### 2. Coupons Start & End Date
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+We've added **Start and End Date options** for coupons, giving you full control over when your coupons are active. This ensures promotions run only during intended time frames and automatically expire when no longer valid. [Learn more about creating a new coupon](/product-documentation/coupons/creating-coupon-manually).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/coupons-start-end-date.png" alt="Coupons start and end date" />
+</Frame>
+
+#### Use Case
+
+This update makes coupon campaigns more efficient and prevents manual intervention. For example:
+
+- Launch a coupon that starts automatically on **Black Friday** and expires at the end of **Cyber Monday**.
+- Set seasonal coupons (e.g., valid only for the December holiday shopping season).
+- Prevent outdated coupons from being used after a promotion ends.
+
+### Key Highlights
+
+- **Start Date** → Merchants can define when the coupon becomes valid.
+- **End Date** → Coupons automatically expire on the set date.
+- **Automation** → No need to manually activate or deactivate coupons.
+- **Consistency** → Works across all coupon types (fixed, dynamic, third-party, etc.).
+
+**_Note:_** _Coupon start and end dates are only available when the campaign is **scheduled**._
+
+---
+
+### 3. Copy Campaigns Across Workspaces
+
+**Platform:** Non-Platform | **Plan:** Available for clients with active Workspaces
+
+Introducing the ability to **copy reward campaigns across workspaces**, making it easier than ever to replicate successful campaigns without starting from scratch. [Learn about workspaces](/product-documentation/admin-settings/creating-multiple-workspaces).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/copy-campaigns-workspaces.png" alt="Copy campaigns across workspaces" />
+</Frame>
+
+#### Use Case
+
+This feature helps you, if you have multiple workspaces, to save time and maintain consistency. For example:
+
+- Roll out the same loyalty campaign across different regions.
+- Standardize campaign structures while leaving room for local customization.
+- Ensure campaign logic and rewards remain aligned across workspaces.
+
+### Key Highlights
+
+1. **Copy Campaign Action**
+   - A new **"Copy to Workspace"** button is now available in campaign actions.
+   - Copy a campaign to one or multiple workspaces at once.
+
+2. **Event Handling**
+   - If the original campaign is tied to an event not available in the target workspace:
+     - The event will automatically be created.
+     - The copied campaign will link to the newly created event.
+
+3. **Language Compatibility**
+   - If the target workspace has languages not available in the original campaign:
+     - Those language fields will be left empty for the client to update later.
+
+4. **Campaign Status & Audience Defaults**
+   - Copied campaigns will always be **inactive by default** (to avoid unintended launches).
+   - The audience will always be set by default to **All Audience**, even if the original had filters/exclusions.
+
+5. **Data Migration**
+   - The following data will be copied:
+     - Campaign Name
+     - Description
+     - Icon
+     - Rewards configuration (points, coupons, etc.)
+
+---
+
+### 4. Coupon Insights Tab
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+We've added a brand-new **Insights tab** to the coupon details page, giving you deeper visibility into how your **manually created coupons and promotions** are performing. [Learn more](/product-documentation/coupons/introduction-to-coupon-engine)
+
+<Frame>
+  <img src="/images/product-docs/product-releases/coupon-insights-tab.png" alt="Coupon insights tab" />
+</Frame>
+
+#### Use Case
+
+You can now track coupon usage with detailed order- and customer-level data, helping them measure impact and optimize promotional strategies.
+
+#### Key Highlights
+
+1. **New Insights Tab**
+   - Available only for **manually created coupons and promotions**.
+   - Accessible when you navigate to the **Coupons page** and click on the coupon they want to check.
+
+2. Each coupon redemption will display:
+   - **Customer ID**
+   - **Customer Email**
+   - **Discount Value**
+   - **Date of Use**
+
+3. **Export Option**
+   - Export coupon insights data to **CSV** for further reporting or analysis.
+
+4. **Permissions**
+   - Only users with access to the **Coupons section** will be able to view insights.
+
+---
+
+### 5. **Is Referred:** New Customer Attribute
+
+We've added a new **Boolean customer attribute** to help you identify whether a customer was referred by another customer or acquired through other channels. [Learn more](/product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes)
+
+#### API Enhancements
+
+- A new field `isReferred` is now included in the `customerAttributes` object for:
+  - `GET /player/{playerUniqueId}`
+  - `GET /player/details/{playerUniqueId}`
+- **Definition**:
+  - `true` → Customer was referred by another customer.
+  - `false` → Customer was not referred (acquired through other channels).
+
+#### Dashboard Enhancements
+
+- **Customer Profile** → New attribute **Is Referred** added under **Customer Attributes**.
+- Available as a **filter option** in:
+  - Campaigns
+  - Segments
+  - Automations
+
+This allows clients to:
+
+- Target only customers who were not referred (acquired through other channels).
+- Create campaigns, automations, and segments tailored to referred vs. non-referred users.
+
+---
+
+### 6. Full Control Over Internal Gameball Events
+
+**Platform:** All | **Plan:** All | **Channel:** Dashboard → Integrations / Event Settings
+
+You now have the ability to **enable or disable the internal events** that Gameball automatically fires (such as `place_order`, `view_product`, `order_refunded`, `add_to_cart`, etc.) [Learn more about creating and sending events to Gameball](/product-documentation/admin-settings/create-and-send-events).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/control-internal-events.png" alt="Control internal Gameball events" />
+</Frame>
+
+#### Why This Matters
+
+This gives you **complete control** over the events you track and process, allowing you to:
+
+- Eliminate unnecessary or duplicate events.
+- Customize your tracking to fit your business logic.
+- Decide which events should (or shouldn't) be fired to your system.
+
+#### Key Details
+
+- A **dedicated settings page** now lists all auto-fired Gameball events with toggles (Enable/Disable).
+- Changes apply **in real time**; once an event is disabled, it stops being fired immediately.
+- When disabled, the event will no longer:
+  - Be sent to your system.
+  - It is used in internal Gameball flows (unless you manually fire it).
+- **Permissions:** Only Admins, Workspace Owners, or Workspace Admins can control event toggles. If custom roles are enabled, this action is assignable.
+
+---
+
+### 7. Custom Expiry for Points Multiplier Campaigns
+
+**Platform:** All | **Plan:** All
+
+You can now **set a configurable expiry period** for points earned through **point multiplier campaigns**. This gives you full control over **when bonus points are activated** (respecting your return window) and **when they expire**, helping reduce fraud risk and liability. [Read about points multiplier campaigns](/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/custom-expiry-multiplier.png" alt="Custom expiry for points multiplier" />
+</Frame>
+
+#### Why This Matters
+
+Previously, points earned from multiplier campaigns (e.g., Double Points) were **activated immediately** without considering your return/refund window. This exposed merchants to:
+
+- **Fraud risk**: customers could earn and use points before returning items.
+- **Inflated liability:** from early activation of bonus points.
+
+With this update, you can now:
+
+- Delay **point activation** until after the return window passes.
+- Define a **custom expiry period (days)** for multiplier campaign points, just like in other reward campaigns.
+- Align rewards with **finalized, eligible transactions** only.
+
+#### How It Works
+
+1. **Set Expiry in Campaign Setup**
+   - While creating/editing a **Point Multiplier Campaign**, you'll see a new **Expiry (days)** field.
+   - Accepts only numeric values (Min: 1 day, Max: 365 days).
+   - Required field.
+
+2. **Activation Logic**
+   - Points (base + multiplier) are **activated only after the program-level return window ends**.
+   - Ensures no points can be used during refund eligibility.
+
+3. **Expiration Logic**
+   - Once activated, points expire after the **custom expiry period you set** (e.g., 30 days).
+
+4. **Validation & Errors**
+   - If expiry is missing or invalid, you'll see an error message before saving.
+
+---
+
+### 8. Automate "Points to Expire" Notifications
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+You can now configure automations using a **"Points to Expire" trigger**. This gives you full control over **when and how to notify customers about their expiring points**, helping you drive engagement while reducing liability. [Learn how to create an Automation Campaign](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/points-to-expire-automation.png" alt="Points to expire automation" />
+</Frame>
+
+#### Why This Matters
+
+Before today, Gameball had been sending fixed **points expiration notifications** by default. This was rigid and offered limited flexibility.
+
+With this update, you get:
+
+- **Custom timing** for expiry reminders (e.g., 30, 15, 7 days).
+- **Multi-channel communication** (Email, SMS, Push, Webhook).
+- **Full control** (no expiry notifications will be sent unless you set up automations).
+
+#### How It Works
+
+1. **New Trigger: "Points to Expire"**
+   - Available in the **Automation Builder**.
+   - Detects when a customer's points are **approaching expiration**.
+   - Let's you define a **custom timeframe** (e.g., 30, 15, 7, or X days before expiry).
+
+2. **Available Actions**
+   - Choose one or more actions to notify customers:
+     - Send Email
+     - Send SMS
+     - Send Push Notification
+     - Send Webhook
+
+3. **Flexible Automation Flows**
+   - Create multiple automations for different timeframes (e.g., a reminder 30 days before and a final reminder 7 days before).
+   - Add **conditions** like "only trigger if expiring points ≥ 50."
+
+4. **Message Customization**
+   - Use dynamic placeholders in templates:
+     - #{{customer_name}}
+     - #{{expiring_points}}
+     - #{{expiry_date}}
+   - Tailor your messages per channel.
+
+5. **Execution Logs & Reporting**
+   - Gameball logs each automation execution.
+   - You'll see which customers were targeted and what actions were performed.
+
+6. **Important Change ⚠️**
+   - The old **Points Expiry Notifications** section has been removed.
+   - No expiry notifications will be sent **by default** unless you configure this automation.
+
+7. **Premade Template**
+   - A ready-to-use automation template is available.
+   - Mimics the previous expiry notification behavior for quick setup.
+
+---
+
+## **Other Improvements**
+
+### 1. New Security Enhancement: reCAPTCHA Added to Login Flow
+
+**Platform:** All | **Plan:** All
+
+We've strengthened the **Gameball login flow** by introducing **Google reCAPTCHA** as an additional layer of protection.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/recaptcha-login.png" alt="reCAPTCHA on login" />
+</Frame>
+
+#### Why This Matters
+
+To ensure your account remains secure, reCAPTCHA helps safeguard against automated login attempts and unauthorized access, keeping your data and your customers' data safer.
+
+### Key Details
+
+- reCAPTCHA is now integrated into the **dashboard login screen**.
+- Users may be asked to complete a quick verification before accessing their account.
+- This measure helps block **bots, brute force attacks, and malicious login attempts**.
+
+---
+
+### 2. MoEngage Integration: Country & Currency Support
+
+**Platform:** All | **Plan:** All | **Channel:** All
+
+Gameball now includes **Country** and **Currency** information in customer data sent to **MoEngage**, giving you more flexibility to **segment customers, filter transactions, and personalize campaigns** based on location and currency context. [Read about Gameball on Moengage](/product-documentation/apps-integrations/moengage-integration).
+
+#### What's New
+
+##### 1. Customer Events
+
+- For all **Purchase/Order** and **Refund** events sent to MoEngage, the payload now includes:
+  - **country** → The country defined for the workspace.
+  - **currency** → The workspace currency code (e.g., USD, EGP, EUR).
+
+##### 2. Customer Attributes
+
+- New attributes are added when syncing customers with MoEngage:
+  - **Country** → Stores the workspace-defined country.
+  - **Currency** → Stores the workspace currency code.
+
+##### 3. Detection Logic
+
+- **Country** → A new workspace-level attribute is introduced in Gameball to store the defined country (similar to timezone and workspace name).
+- **Currency** → Uses the **existing workspace currency setting**, always sent as a **3-letter currency code** (e.g., USD, EGP).
+
+##### 4. Condition
+
+- These fields are included **only if** the workspace has both country and currency configured **and** MoEngage integration is enabled.
+
+#### Why This Matters
+
+With this enhancement, MoEngage users can:
+
+- Segment customers by **geography**.
+- Personalize campaigns with **currency-aware messaging**.
+- Filter or trigger flows based on **workspace-level country & currency data**
+
+---
+
+### 3. Workspace Information Synced to MoEngage
+
+**Platform:** All (with Multi-Workspace enabled) | **Plan:** Available for all plans supporting MoEngage | **Channel:** MoEngage Integration
+
+We've enhanced our **MoEngage integration** to include **workspace context** in both customer events and attributes, giving you greater flexibility in segmentation and personalization. [Read about Gameball on Moengage](/product-documentation/apps-integrations/moengage-integration).
+
+#### Use Case
+
+For clients managing multiple workspaces, this update makes it possible to **segment and target customers in MoEngage based on the specific workspace** where their activity or data originates.
+
+#### Key Highlights
+
+1. **Customer Events Update**
+   - All customer events sent to MoEngage now include an additional property:
+     - **`gameball_workspace`**: a string containing the workspace name or ID.
+   - This field will be present across **all events** fired to MoEngage.
+
+2. **Customer Attributes Update**
+   - A new customer attribute has been added:
+     - **Gameball Workspace**: a string attribute storing the associated workspace.
+   - This allows MoEngage users to filter and segment customers directly by workspace.
+
+3. **Condition**
+   - These new fields are **only included if the client is using a workspace-enabled setup** (multi-workspace account).
+
+---

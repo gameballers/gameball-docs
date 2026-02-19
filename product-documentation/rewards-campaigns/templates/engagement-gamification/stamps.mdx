@@ -1,0 +1,183 @@
+---
+title: "Stamps"
+description: "Ensure your customers keep coming back to repeat the same action over and over."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Pro & Guru |
+| Salla | Pro & Guru |
+| Non-Platform | Add-on |
+
+## Intro
+
+The **Stamps** campaign allows you to reward customers for completing a specific action multiple times in a row. It's a powerful way to boost repeat behavior and long-term engagement.
+
+**Use Cases:**
+
+1. **Drive Repeat Purchases:**
+   Place 3 orders within this month to earn a reward.
+
+2. **Promote High-Value Orders:**
+   Make 5 orders over $100 each to get rewarded.
+
+3. **Encourage Category Exploration:**
+   Make 3 orders each one from a specific collection (Kids, Women, Men).
+
+4. **Boost Referrals**
+   Refer 3 friends to get a premium membership.
+
+<Frame>
+  ![Stamps preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/stamps-preview.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select the **Stamps** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+1. **Define the Streak Length**
+   Choose how many times a customer needs to complete the action to earn a reward.
+   _Example:_ "The customer must place 5 orders to receive a reward."
+
+2. **Choose the Trigger**
+   Select the action you'd like to track -- such as placing an order, referring a friend, etc.
+
+<Frame>
+  ![Stamps trigger configuration](/images/product-docs/rewards-campaigns/templates/engagement-gamification/stamps-trigger.png)
+</Frame>
+
+3. **(Optional) Add Rule**
+   You can set specific conditions for each action in the streak.
+   _Example:_
+    - Order 1 must be at least $100
+    - Order 2 must be at least $300
+
+<Frame>
+  ![Stamps optional rules](/images/product-docs/rewards-campaigns/templates/engagement-gamification/stamps-rules.png)
+</Frame>
+
+<Note>
+- You can set **one condition per action** in the streak. For example, require an order to meet a minimum amount or come from a specific collection.
+- You **can use different collections for each action**, but you cannot mix condition types (e.g., minimum amount for one action and collection for another). Different values or amounts can be set for each step.
+</Note>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## End User Experience
+
+**How it works**
+
+1. The customer starts by completing the first required action (e.g., placing an order).
+2. They complete each step in the streak in sequence.
+3. They receive notifications after each step if event notification is enabled. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+4. After finishing all the steps, the customer receives the reward immediately (points, discount, badge -- based on your setup).
+5. If allowed, they can repeat the streak to earn the reward again as per the repeatability setup. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+## Customization
+
+**Design & Content**
+
+You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
+
+- **Banner**
+- **Main Screen**
+- **Success Screen**
+- **Terms & conditions**
+
+For each screen, you can tailor the following elements:
+
+- **Branding**: Adjust background colors, text colors, and upload custom artworks.
+- **Content**: Edit the headlines, descriptions, and call-to-action messages to match your tone and messaging.
+
+This allows you to create a fully branded, on-theme experience that aligns with your business identity.
+
+<Frame>
+  ![Stamps customization screens](/images/product-docs/rewards-campaigns/templates/engagement-gamification/stamps-customization-1.png)
+</Frame>
+
+<Frame>
+  ![Stamps customization details](/images/product-docs/rewards-campaigns/templates/engagement-gamification/stamps-customization-2.png)
+</Frame>
+
+## Editing a Live Stamps Campaign
+
+Editing a live campaign should be done with care to ensure a smooth experience for your customers. Below, we break down each scenario and its impact.
+
+### Trigger
+
+- The **trigger event**, **trigger condition**, and **streak length** **cannot be edited**.
+- If changes are required, the admin must **create a new campaign**.
+
+### Audience
+
+**Audience Edited**
+
+- All existing customers are **re-evaluated**.
+- Customers who no longer match the updated audience are **automatically exited** from the campaign.
+
+**Auto-Removed from Audience (e.g., segment change)**
+
+- The same behavior applies -- the customer is **automatically exited** from the campaign.
+
+<Warning>
+**Mid-Cycle Exit Impact**
+
+If a customer exits **in the middle of a cycle**, they will:
+
+- **Lose all progress** made in that cycle.
+- The cycle will still **count toward their repeatability limit**, even if not completed.
+</Warning>
+
+**Widget Behavior**
+
+1. The customer is ineligible and has not earned the streak. The campaign is **hidden** from the widget.
+2. The customer has already earned the streak at least once -- the badge remains **visible in the widget** with an **"Achieved"** status. Any progress in the current cycle is **lost**.
+
+### Repeatability
+
+**New Limit is Higher**
+
+- Customers can **rejoin** the campaign if they are still eligible under the updated limit.
+
+**New Limit is Lower**
+
+- All customers are **re-evaluated**.
+- Customers who have already reached or exceeded the new limit will be **automatically exited** from their current cycle.
+
+<Warning>
+**Mid-Cycle Exit Impact**
+
+If a customer is exited **mid-cycle** due to the limit change:
+
+- They will **lose any progress** made during that cycle.
+- The cycle will still **count toward their repeatability limit**, even if no reward was earned.
+</Warning>
+
+### De-activate
+
+- Customer progress is **saved**.
+- Any actions performed while the campaign is inactive **will not** be counted toward the streak.
+
+### Re-activate
+
+Customers resume from the **last saved step**. Progress continues as normal.
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

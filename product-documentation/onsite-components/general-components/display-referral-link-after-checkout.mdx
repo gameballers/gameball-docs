@@ -1,0 +1,147 @@
+---
+title: "Display Customer Referral Link After Checkout"
+description: "Enable your customers to easily share their referral link directly after placing an order on your store."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Starter, Pro & Guru |
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/referral-link-after-checkout-hero.png" alt="Display customer referral link after checkout" />
+</Frame>
+
+After a customer places an order, it's the perfect time to engage with them while their excitement is at its peak. By introducing your referral program at this moment, you can turn a positive purchase experience into an opportunity for organic growth.
+
+Gameball now offers a referral block that appears once an order is completed, highlighting the reward customers can earn by referring friends and providing their unique referral link.
+
+**Benefits:**
+
+1. **Encourage immediate sharing:** Displaying the referral prompt right after an order is completed taps into the customer's post-purchase enthusiasm, increasing the likelihood of referrals.
+2. **Boost customer acquisition:** Leveraging recent buyers' excitement can lead to more personal recommendations, attracting high-quality new customers through word-of-mouth.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Updated Theme">
+    Your Shopify theme must support app blocks. Without this, the option to add the Gameball block won't appear in the editor. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title="Activate Referral Module">
+    In the Gameball dashboard, navigate to **Referrals**, then activate the module.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-referral-module.png" alt="Activate referral module" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, ensure the top-right toggle is active. Once enabled, you will be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/referral-link-customize.png" alt="Navigate to Onsite customize" />
+    </Frame>
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's theme editor. If not, double-check the prerequisites.
+  </Step>
+  <Step title="Add the App Block">
+    In the left sidebar under **Apps**, select **"Checkout refer a friend"** and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/referral-link-install.png" alt="Install checkout refer a friend block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Customization
+
+### Style Customization
+
+The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+
+### Content & Translation
+
+In the Gameball dashboard, go to **Widget > Content**. In the **Onsite** tab, edit the displayed text as needed and click **Save**.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+</Frame>
+
+---
+
+## Logged-In vs. Guest (Not-Logged-In) Customers
+
+- **Not Logged-In Customers**: If you are not logged in, the extension will prompt you to log in or register to be able to refer your friends and earn the referral reward.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/referral-link-guest.png" alt="Guest customer referral link view" />
+  </Frame>
+
+- **Logged-In Customers:** When the logged-in customer reaches the thank you page after placing an order, the extension will be displayed, allowing the customer to copy their referral link and share it with their friends.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/referral-link-logged-in.png" alt="Logged-in customer referral link view" />
+  </Frame>
+
+---
+
+## Important Notes
+
+<Warning>
+The referral link block will automatically hide if:
+
+- The referral program is deactivated.
+- The customer is excluded from the program.
+- The Gameball program is deactivated.
+- Your account plan doesn't support this feature.
+</Warning>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can the Referral Link Block be displayed on other pages?">
+    Currently, the referral link block can only be embedded on the checkout confirmation page.
+  </Accordion>
+  <Accordion title="What if I downgrade my plan?">
+    The referral link block will automatically hide if your plan no longer supports this feature.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Embed Points in Customer Profile" icon="user" href="/product-documentation/onsite-components/general-components/embed-points-in-customer-profile">
+    Display customers' points balances in their profiles.
+  </Card>
+  <Card title="Display Potential Points on Product Pages" icon="tag" href="/product-documentation/onsite-components/general-components/display-potential-points-on-product-pages">
+    Show potential points directly on product pages.
+  </Card>
+</CardGroup>

@@ -1,0 +1,88 @@
+---
+title: "Subscribe to Newsletter (Shopify Flow)"
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | All Plans |
+| Salla | Not Available |
+| Non-Platform | Not Available |
+
+## Intro
+
+Shopify Flow is a powerful automation tool that lets you seamlessly connect Gameball Loyalty with other Shopify apps. Use it to build custom workflows and enhance your loyalty program in multiple ways.
+
+**Use Cases:**
+
+Use Shopify Flow templates to reward customers on Gameball based on actions from other apps -- for example, subscribe to newsletter on Shopify.
+
+A Shopify Flow workflow consists of three main parts: **Triggers**, **Conditions**, and **Actions**. [Learn more in the full guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+<Frame>
+  ![Subscribe to newsletter widget](/images/product-docs/rewards-campaigns/templates/acquisition-conversion/sub-widget.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+**On Gameball**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Choose the "**Subscribe to newsletter**" template tagged with Shopify Flow.
+4. Edit the campaign's setup
+5. Click **Set Live**
+6. After creating your campaign, **copy the Campaign ID**.
+
+<Frame>
+  ![Subscribe to newsletter campaign setup](/images/product-docs/rewards-campaigns/templates/acquisition-conversion/sub.png)
+</Frame>
+
+**Trigger**
+
+**On Shopify Flow**
+
+1. From your Shopify admin, go to **Apps** > **Shopify Flow** and click **Create Workflow**.
+2. Choose the trigger "**Customer Subscribed to Email Marketing**" from Shopify Triggers (Or use any other trigger from your marketing app)
+3. **Add the customer email** if the trigger doesn't pass the customer identifier automatically. See the important notes below for more details.
+4. Add the **"Reward a Campaign"** action and paste the **Campaign ID** you copied from the campaign details page.
+5. **Save the workflow** to activate it.
+
+<Frame>
+  ![Shopify Flow workflow setup](/images/product-docs/rewards-campaigns/templates/acquisition-conversion/subss.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## End User Experience
+
+**How it works**
+
+1. **Customer Subscribed to Shopify email marketing** (e.g., via Checkout or a Popup).
+2. **Shopify Flow triggers the workflow** when they subscribe.
+3. **Gameball rewards the customer** with the reward set in the "Subscribe to newsletter" campaign.
+4. The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+## Important Notes
+
+<Note>
+**Skip Email Field**
+
+When setting up Gameball as an action in Shopify Flow, you may not need to fill in the email field if the trigger app already passes the customer identifier automatically. In this case, the identifier will appear just above the email field.
+</Note>
+
+<Frame>
+  ![Shopify Flow email field](/images/product-docs/rewards-campaigns/templates/acquisition-conversion/dd.png)
+</Frame>
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Shopify Flow Guide" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

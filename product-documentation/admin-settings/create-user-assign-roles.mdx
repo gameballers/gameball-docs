@@ -1,0 +1,299 @@
+---
+title: "How to Create a New User on Gameball Dashboard and Assign Roles"
+description: "Learn how to give different users access to your Gameball dashboard by creating multiple user accounts."
+---
+
+---
+
+### Table of Contents
+
+- [Creating a new user account on Gameball Dashboard](#creating-a-new-user-account-on-gameball-dashboard)
+- [Choosing Roles](#choosing-roles)
+- [Customize Role](#customize-role)
+- [Changing Passwords](#changing-passwords)
+- [Editing, Deleting, and Resending invitations](#editing-deleting-and-resending-invitations)
+
+---
+
+After setting up your loyalty program, you always need to make adjustments along the way. You can give access to as many people as you want to allow other employees to make the appropriate changes to your program.
+
+### Creating a new user account on Gameball Dashboard
+
+- To create a new account, go to **Gameball dashboard** > **Settings > Admin Settings > Scroll down, and click Accounts under Users.**
+
+<Frame>
+  ![User Accounts](/images/product-docs/admin-settings/user-accounts.png)
+</Frame>
+
+- To create a new account, click **Invite a teammate** on the top right of the page.
+
+<Frame>
+  ![Invite Teammate](/images/product-docs/admin-settings/invite-teammate.png)
+</Frame>
+
+- Then fill new user's details:
+  - User first name
+  - User last name
+  - User email
+  - User password: create a password your teammate can use for their first login. (<Warning>**Note:** users can change their password once they log in</Warning>)
+  - User Role: choose the role to decide the level of authority this teammate should have over the dashboard.
+  - User Workspace: in case you have multiple workspaces; choose which of them should your teammate have access to. [Learn more](/product-documentation/admin-settings/creating-multiple-workspaces)
+
+<Frame>
+  ![User Details Form](/images/product-docs/admin-settings/user-details-form.png)
+</Frame>
+
+- Lastly, click **Send invitation**.
+
+Once the invitation is sent, the teammate will receive an email with their credentials.
+
+On the **Dashboard**, the user **Status will appear as Pending until they log in once**. The status will then change from **Pending** to **Active.**
+
+<Frame>
+  ![User Status](/images/product-docs/admin-settings/user-status.png)
+</Frame>
+
+---
+
+## Choosing Roles
+
+You can decide the level of access your invited teammate should have from the following:
+
+### Owner
+
+This role gives full authority allowing teammates to edit, configure, or even add new admins to the dashboard.
+
+### Admin
+
+This role gives full authority allowing teammates to edit, configure, or even add new admins to the dashboard, except for creating new workspaces or accessing workspaces they are not given access to by the owner.
+
+**Allowed Actions:**
+
+- Access premium features (features with a crown icon)
+- View and update the Gameball Program Status (from the top bar)
+- View all customer details, including segmenting and achievements
+- Manually adjust customer levels, and add/deduct points to customers' accounts
+- Access detailed points transactions and view referral data
+- Set and configure points-earning rules and redeeming settings for your loyalty program
+- View, create, and manage automation (set conditions and triggers for customer actions)
+- Send and test notifications (like emails or push notifications) and manage communication campaign
+- View and configure app integrations (add, update, or remove apps)
+- Manage settings (including account settings and integrations)
+- Configure the widget settings (like launcher branding, languages, and visibility on the website)
+- Create workspaces
+- Access reports and analytics related to customer activity and rewards
+
+**Disabled/Hidden Actions:**
+
+- Deleting workspaces (Admins cannot delete workspaces)
+
+### Customer Support
+
+This role only allows the teammate to make a few changes related to the **customers only,** such as:
+
+**Allowed Actions:**
+
+- View the Gameball Status from the top bar
+- Access and view basic customer details (including segments and points transactions)
+- View points earning and redeem history
+- View notifications and access communication campaigns (emails, messages)
+- View settings for accounts and manage communication preferences
+- Access reports for customer interactions and referrals (read-only)
+
+**Disabled/Hidden Actions:**
+
+- Premium features access is hidden (these features are restricted)
+- Cannot update the Gameball Status
+- Cannot adjust customer levels or manually adjust points
+- Cannot create or manage automation
+- Cannot modify or update any app integrations
+- Restricted from changing any settings (e.g., time zone, account setup, widget configurations)
+- Widget configuration options are hidden
+- Essentially, all actions involving changes to configurations or updates are restricted.
+
+<Warning>
+**Note:** the above actions are applied manually only to single customer. They can not execute this action on a bulk of customers.
+</Warning>
+
+As for the rest of the dashboard, the customer support role does not allow them to make edits; however, they can view all dashboard sections and buttons **except for**: Analytics, Update/import button, Admin Settings, Billing page, removing Gameball, writing a review, and workspaces they are not assigned to.
+
+### Customer Support Lite
+
+This role only allows the teammate to make a few changes related to the **customers only,** such as:
+
+**Allowed Actions:**
+
+- View the Gameball Status from the top bar
+- Access and view basic customer details (including segments and points transactions)
+- View points earning and redeem history
+- View notifications and access communication campaigns (emails, messages)
+- View settings for accounts and manage communication preferences
+
+**Disabled/Hidden Actions:**
+
+- Premium features access is hidden (these features are restricted)
+- Cannot update the Gameball Status
+- Restricted from changing any settings (e.g., time zone, account setup, widget configurations)
+- Widget configuration options are hidden
+- All Campaigns are hidden
+- Essentially, all actions involving changes to configurations or updates are restricted.
+
+<Warning>
+**Note:** the above actions are applied manually only to single customer. They can not execute this action on a bulk of customers.
+</Warning>
+
+As for the rest of the dashboard, the customer support role does not allow them to make edits; however, they can view all dashboard sections and buttons **except for**: Analytics, Update/import button, Admin Settings, Billing page, removing Gameball, writing a review, and workspaces they are not assigned to.
+
+### Dashboard Viewer
+
+This role does not allow the user to execute any action on the dashboard. They can only view the dashboard section for information.
+
+**Allowed Actions:**
+
+- View the Gameball Status from the top bar
+- View all customer details, points transactions, and referrals
+- View notifications and communications campaigns to track customer interactions
+- View automation and settings for general monitoring purposes (read-only)
+- Access reports and dashboards for data analysis on customer activities
+
+**Disabled/Hidden Actions:**
+
+- Premium features access is hidden (these are restricted)
+- Cannot update the Gameball Status
+- Cannot adjust customer levels or manually modify points
+- Cannot create or manage any automation
+- Cannot edit any apps integrations or change any settings
+- Widget configurations (e.g., branding, launcher settings) are hidden
+- Essentially, all functionalities related to changing or modifying system settings are restricted.
+
+### Analyst
+
+**Allowed Actions:**
+
+- View the Gameball Status from the top bar
+- Access all customer data, including points transactions and referral statistics (view-only)
+- Access points earning and redeem history data for analysis
+- View notifications and communications campaigns (e.g., email or push notifications sent to Customers)
+- View automation to monitor customer triggers and rules (but no editing allowed)
+- Access reports for customer behavior, rewards data, and referrals
+
+**Disabled/Hidden Actions:**
+
+- Premium features access is hidden
+- Cannot update the Gameball Status
+- Cannot manually adjust customer levels or modify points
+- Cannot create, edit, or manage automation
+- Restricted from editing any settings or changing app integrations
+- Widget configuration (launcher, languages) is hidden
+- Any actions that allow making modifications to the platform are restricted.
+
+### Developer
+
+**Allowed Actions:**
+
+- View the Gameball Status from the top bar
+- Access all customer data, including points transactions and referral statistics (view-only)
+- Add points to customers manually
+- Access points earning and redeem history data for analysis
+- View notifications and communications campaigns (e.g., email or push notifications sent to Customers)
+- View automation to monitor customer triggers and rules (but no editing allowed)
+- Allowed to edit settings and changing app integrations
+- Access reports for customer behavior, rewards data, and referrals
+
+**Disabled/Hidden Actions:**
+
+- Premium features access is hidden
+- Cannot update the Gameball Status
+- Cannot manually adjust customer levels
+- Cannot create, edit, or manage automation
+- Widget configuration (launcher, languages) is disabled
+- Any actions that allow making modifications to the platform are restricted.
+
+### Marketer
+
+**Allowed Actions:**
+
+- View the Gameball Status from the top bar
+- Access all customer data, including points transactions and referral statistics
+- Add points to customers manually
+- Access points earning and redeem history data for analysis
+- View and Edit notifications and communications Campaigns (e.g., email or push notifications sent to Customers)
+- View and Edit automation to monitor customer triggers and rules
+- View settings and changing app integrations
+- Access reports for customer behavior, rewards data, and referrals
+
+**Disabled/Hidden Actions:**
+
+- Premium features access is hidden
+- Cannot update the Gameball Status
+- Widget configuration (launcher, languages) is disabled
+- Any actions that allow making modifications to the platform are restricted.
+
+---
+
+## Customize Role
+
+**Admins** can easily grant each user **precisely the permissions they need**, improving data security and operational control.
+
+<Frame>
+  ![Customize Role](/images/product-docs/admin-settings/customize-role.png)
+</Frame>
+
+- **Granular Permissions at Invitation:**
+
+  While inviting a new user, Admins can set permissions per dashboard section:
+
+  - **Hide**: Section hidden from the user.
+  - **Disabled**: The user can view but not edit it.
+  - **Allow**: User has full access (including create/delete, where applicable).
+
+- **Permissions Configuration UI:**
+
+  Permissions options are presented during invitation via toggles or radio buttons for each key section:
+
+  - Customers
+  - Campaigns
+  - Coupons
+  - Analytics
+  - Settings
+  - Notifications
+  - Integrations
+  - Billing
+  - And more…
+
+- **Edit Permissions Anytime:**
+
+  - Admins can modify any user's permissions later from the User Management page.
+
+- **Security by Default:**
+  - New users are granted **No Access** by default and must be explicitly assigned permissions
+
+---
+
+## Changing Passwords
+
+When the user signs in, they can change their password by navigating to the page, then next to your user email, click the **Three dots** icon, then **Reset Password**.
+
+<Frame>
+  ![Reset Password](/images/product-docs/admin-settings/reset-password.png)
+</Frame>
+
+---
+
+### Editing, Deleting, and Resending invitations
+
+- To execute any of these actions on another user account, your account must be under the **Admin** role.
+- Click on the **Three dots** icon, and choose between:
+  - **Resend Invitation:** only valid on pending accounts/users who have yet to sign in. The teammate will once again receive an email with their credentials.
+  - **Edit:** you can only change their **Role** and **Workspaces** they are allowed on.
+  - **Delete:** their account will be terminated, and they will no longer have access to the dashboard.
+
+<Frame>
+  ![Edit Delete User](/images/product-docs/admin-settings/edit-delete-user.png)
+</Frame>
+
+<Warning>
+**Note:** You can not delete the account you are signed in from and currently using.
+</Warning>
+
+---

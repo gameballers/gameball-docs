@@ -1,0 +1,30 @@
+---
+title: "Integrate Gameball With branch.io"
+description: "Learn how to set up Branch.io integration on Gameball."
+---
+
+**Platform**
+
+**Plan**
+
+Non-Platform
+
+All Plans
+
+Checkout app blocks are available for **Shopify Plus** customers only.
+
+Gameball supports **Branch.io** as a dynamic link provider for referral programs. This integration enables you to generate dynamic links that track referrals and enhance your user acquisition strategy.
+
+To learn how to set up the integration between Branch.io and Gameball, [follow the steps in the document](https://developer.gameball.co/branch.io-integration).
+
+##### Can I create a referral links without using deep link generators like Branch.io?
+
+The referral process can be completed without using a deep link generator like Branch.io. In such cases, you will need to provide your own referral link. Gameball will simply append the referral code to it.
+
+Deep link generators are only responsible for generating the link that appears in the referral widget. If you’re not using one, the referral link will follow this format:
+
+-   {referralLink}?GbReferral={referralCode}
+
+
+You will then need to handle the referral logic manually, including capturing the referral code and passing it in the _create customer_ request.
+---

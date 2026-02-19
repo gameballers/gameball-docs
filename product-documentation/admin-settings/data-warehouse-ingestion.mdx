@@ -1,0 +1,202 @@
+---
+title: "Data Warehouse Ingestion Module"
+description: "Learn how the Data Warehouse (DWH) Ingestion Module enables you to automatically sync Gameball data with your own analytics and BI systems."
+---
+
+---
+
+## Packages and Platforms
+
+**Platform**
+
+**Plan**
+
+Non-platform
+
+All
+
+Shopify
+
+Add-on
+
+Salla
+
+Add-on
+
+---
+
+## Overview
+
+The **Data Warehouse Ingestion Module** allows you to push selected loyalty data directly into your own data warehouse. This enables you to combine Gameball data with data from other business systems and analyze everything in one centralized analytics environment.
+
+This feature was designed primarily for you if you already rely on internal dashboards and BI tools (such as PowerBI, Metabase, or similar) for daily reporting and decision-making.
+
+Instead of building and maintaining analytics separately inside each tool, businesses can centralize their data in a data warehouse and build unified dashboards across all systems.
+
+---
+
+## Why This Feature Exists
+
+Most large organizations already store their operational data in a **data warehouse**, which acts as a single source of truth. Data from multiple systems—such as order management, inventory, CRM, and communication tools—is pushed into the warehouse and then consumed by analytics tools.
+
+With the Data Warehouse Ingestion Module, Gameball becomes part of this ecosystem. You can now:
+
+- Combine loyalty data with revenue, inventory, and customer communication data
+- Build cross-system dashboards in one place
+- Run advanced analysis without relying solely on Gameball's in-dashboard reports
+
+---
+
+## How You Typically Use It
+
+A common setup looks like this:
+
+- **Order / POS system** (e.g. Microsoft Dynamics) → pushes revenue and order data
+- **Inventory management system** → pushes stock and product data
+- **Customer engagement platform** (e.g. Braze) → pushes communication and campaign data
+- **Gameball** → pushes loyalty and rewards data
+
+All of this data is stored in the **data warehouse**, and an analytics tool (such as PowerBI or Metabase) reads from it to create dashboards.
+
+This allows you to answer questions like:
+
+- How does revenue trend by loyalty tier?
+- How many points were earned from completed orders?
+- What is the distribution of customers across tiers?
+- How do loyalty actions correlate with repeat purchases?
+
+---
+
+## Available Gameball Data Models
+
+Gameball currently provides **four built-in data models** that can be pushed to a data warehouse. You can choose which models to enable during setup.
+
+### 1. Members
+
+Contains customer-level loyalty data, including:
+
+- Customer ID
+- Display name
+- Current tier name
+- Referral status
+- Total earned points
+- Total expired points
+- Additional loyalty-related attributes
+
+This model is useful for segmentation, tier analysis, and customer-level reporting.
+
+---
+
+### 2. Transactions
+
+Represents all **points and order-related movements**, including:
+
+- Transaction ID
+- Points earned from orders
+- Points redeemed
+- Points expired
+- Transaction type
+- Direction (points added or deducted)
+- Related transaction details
+
+This model allows customers to analyze how points are earned and spent over time.
+
+---
+
+### 3. Achievements
+
+Includes all **loyalty events and campaign-related actions**, such as:
+
+- Reward campaign achievements
+- Referrals
+- Tier upgrades
+- Tier downgrades
+
+Each record includes details like campaign name, achievement type, and related metadata. This data closely matches what is available today in Gameball's activity logs and reports.
+
+---
+
+### 4. Coupons
+
+Contains coupon-related data, including:
+
+- Coupon code
+- Coupon type
+- Coupon status
+- Other coupon attributes
+
+This model supports reporting on reward redemption and coupon usage.
+
+---
+
+## Example Use Case
+
+You may want to build a dashboard showing:
+
+- Revenue from your order management system
+- Points earned from those same orders (from Gameball)
+
+By joining **order data** from your POS system with **transaction data** from Gameball inside the data warehouse, you can create a single dashboard that visualizes both revenue and loyalty performance together.
+
+---
+
+## How to Set Up the Integration
+
+To configure the Data Warehouse Ingestion Module:
+
+1. Go to **Admin Settings** in the Gameball dashboard
+2. Navigate to **Data Warehouse Integration**
+3. Click **Set Up Connection**
+
+<Frame>
+  ![Data Warehouse Integration](/images/product-docs/admin-settings/data-warehouse-integration.png)
+</Frame>
+
+### Step 1: Select Data Warehouse Provider
+
+Choose your data warehouse provider (for example, Amazon Redshift), then click **Next**.
+
+### Step 2: Add Connection Details
+
+Enter the required account and connection details, then click **Next**.
+
+### Step 3: Define Data Push Frequency
+
+Choose how often Gameball should push data:
+
+- Daily
+- Weekly
+- Monthly
+
+You will also define the exact time (for example, daily at midnight). Please note that **higher frequencies come with higher costs**.
+
+### Step 4: Select Data Models
+
+Choose which Gameball data models you want to push (Members, Transactions, Achievements, Coupons).
+
+### Step 5: Submit Request
+
+Once submitted, the request is sent to Gameball's technical team.
+
+---
+
+## What Happens After Submission
+
+The connection is **not established automatically**.
+
+- The setup acts as a **configuration and request flow**
+- Gameball's technical team manually completes the integration
+- Once ready, the connection status will change to **Connected**
+
+After the connection is live, each scheduled data push (daily, weekly, or monthly) will appear in the dashboard with its status and details.
+
+---
+
+## Availability & Enablement
+
+The Data Warehouse Ingestion Module is offered as an **add-on**.
+
+To use it:
+
+1. The feature must be enabled on your account
+2. You should coordinate with your Customer Success Manager to start the implementation process

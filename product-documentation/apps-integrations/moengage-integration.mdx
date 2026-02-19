@@ -1,0 +1,331 @@
+---
+title: "Gameball on MoEngage"
+description: "Enhance Your Customer Engagement with Gameball Integration with MoEngage"
+---
+
+[MoEngage](https://www.moengage.com/) is an Intelligent Customer Engagement Platform that allows brands to personalize every customer interaction, driving better engagement, retention, loyalty, and lifetime value. The MoEngage and Gameball integration enables you to harness the full potential of both platforms to enhance your customer engagement strategies.
+
+In this article, we will explore the use cases for this integration and guide you through the setup process.
+
+## Data Import Scenarios:
+
+The integration between Gameball and MoEngage ensures that your customer data is always up-to-date in MoEngage. Gameball's customer attributes will be imported into MoEngage whenever a customer is created or performs any action.
+
+This allows MoEngage to have the latest information, enabling you to deliver personalized and timely communication to your customers. The following table outlines the specific scenarios in which data is imported and updated.
+
+**Scenario**
+
+**Trigger**
+
+**Description**
+
+**Customer Attributes Sync to MoEngage**
+
+-   Upon Customer Creation
+
+-   After any new action created by the customer (e.g.: achievement, transaction, points expiry, etc.)
+
+
+Gameball's customer attributes will be imported into MoEngage. The data will be imported and updated once a customer is created or if they perform any action.
+
+**Imported Data:**
+
+-   ID
+
+-   Email
+
+-   Join Date
+
+-   Mobile Number
+
+-   Birthday
+
+-   Gender
+
+-   Country
+
+-   Currency
+
+-   Points balance
+
+-   Pending points
+
+-   Current level name
+
+-   Current level order
+
+-   Next Level
+
+-   Next level threshold
+
+-   Level Progress
+
+-   Progress to achieve next level
+
+-   Last order awarded points
+
+-   Referral Code
+
+-   Referral Link
+
+-   Tags
+
+-   Segments
+
+-   RFM segments
+
+-   Latest created coupon
+
+-   Latest used coupon
+
+-   Count of rewarded campaigns
+
+-   Starting Store (store of account creation)
+
+-   Connecting Store (store of the last transaction)
+
+-   Store of First Transaction
+
+-   Average Basket
+
+-   Number of Transactions:
+
+-   Transactions Amount in the Last Rolling Year
+
+-   Total Net Amount of Transactions
+
+-   Unit per Transaction (Unit Per Trx)
+
+-   Earned Points:
+
+-   Redeemed Points:
+
+-   Expired Points:
+
+-   Date of First Transaction
+
+-   Date of Last Transaction
+
+
+**Update & Notify MoEngage with Every Order Placed by the Customer**
+
+-   **"Order Placed" Event:** Order Placed by Customer & Received by Gamebll
+
+
+Once an order is placed by a customer, the following order attribute data is sent to MoEngage:
+
+-   Order ID
+
+-   Order Date
+
+-   Total Paid
+
+-   Total Price
+
+-   TotalShipping
+
+-   TotalTax
+
+-   TotalDiscount
+
+-   Discount Codes
+
+-   Extra
+
+-   Redeemed Amount
+
+-   Rewarded Points
+
+-   Equivalent Points Value
+
+
+**Update & Notify MoEngage with Every Coupon Created for the Customer**
+
+-   **"Coupon Created" Event**: Coupon Created for the Customer
+
+
+Once a coupon is created for the customer, the following Coupon details will be available on MoEngage linked to the customer's data:
+
+-   Coupon Code
+
+-   Type
+
+-   Value
+
+-   Coupon Name
+
+
+**Update & Notify MoEngage with Every Coupon Burnt within an Order**
+
+-   **"Coupon Used" Event**: Customer Burnt the coupon while placing an order.
+
+
+Once a coupon is used by the customer, the following details will be available on MoEngage linked to the customer's data:
+
+-   Coupon Code
+
+-   Type
+
+-   Value
+
+-   Order ID
+
+-   Coupon Name
+
+-   Channel(POS, Online, etc.)
+
+-   Order Quantity
+
+
+**Update & Notify MoEngage with Every Reward** **Campaign** **Achieved**
+
+-   **"Reward Campaign Achieved" Event**: Customer Achieved a Reward Campaign
+
+
+Once a Reward Campaign is achieved by the customer, the following details will be available on MoEngage linked to the customer's data:
+
+-   Internal Name
+
+-   Name
+
+-   Reward (Points, Points&Score, Coupon Values)
+
+-   Coupon Type (in case the reward was a coupon)
+
+-   Equivalent Value of Rewarded points (in case the reward was in the form of points, Points&Score)
+
+-   Achievement Date
+
+
+**Notify MoEngage upon points redemption**
+
+-   **"Points Redeemed" Event**: Customer redeemed their saved points.
+
+
+Each `points_redeemed` The event includes:
+
+-   Redeemed points
+
+-   Redemption amount
+
+-   Redemption transaction ID (if available)
+
+
+**Update & Notify MoEngage with Customer Deletion**
+
+-   Customer was removed from Gameball
+
+
+Once a customer is deleted from Gameball, after **24HRs** the customer gets deleted from MoEngage
+
+!**Note**: You have the option to disable the deletion feature from MoEnagage
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-26.png" />
+</Frame>
+
+**Notifiy MoEngage after every order placed by the customer** **for each line item bought**
+
+-   Order received by Gameball
+
+
+Send event call to MoEngage "Item Purchased" with all attributes of the Item and the order ID
+
+-   orderId
+
+-   Product Title
+
+-   Product Price
+
+-   Vendor Name
+
+-   Product ID
+
+-   Weight
+
+-   Quantity
+
+-   SKU
+
+-   Collections array
+
+-   Tags array
+
+-   Categories array
+
+-   "Extra" any added attributes to this object will be sent inside the event
+
+
+**Workspace Information Synced to MoEngage**
+
+Workspace context in both customer events and attributes, giving you greater flexibility in segmentation and personalization.
+
+-   **`gameball_workspace`**: a string containing the workspace name or ID.
+
+-   **Gameball Workspace**: a string attribute storing the associated workspace.
+
+
+## How to Set Up the Integration
+
+Setting up the Gameball integration with MoEngage is simple and can be done through the Gameball dashboard. Follow these steps:
+
+1.  Navigate to the **App Store** on Gameball's dashboard.
+
+2.  Select **MoEngage** from the list of available app integrations.
+
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-27.png" />
+</Frame>
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-28.png" />
+</Frame>
+
+3.  Enter the **App ID and Data API Key** from MoEngage's settings page.
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-29.png" />
+</Frame>
+
+4.  Select your **Data Center**
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-30.png" />
+</Frame>
+
+5.  Complete the setup and start leveraging the powerful combination of Gameball and MoEngage for enhanced customer engagement.
+
+    <Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-31.png" />
+</Frame>
+
+
+**Note**: If you're unsure which data center you're on, you can find your code on your dashboard's URL.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-32.png" />
+</Frame>
+
+## How to Use the Data on MoEngage
+
+Once the data from Gameball is imported into MoEngage, you can leverage it to create more personalized and effective customer engagement strategies. Here are some ways to use the data:
+
+1.  **Personalized Campaigns**: Use customer attributes such as name, email, birthday, and purchase history to create highly personalized marketing campaigns. For instance, send birthday greetings with special discounts or recommend products based on past purchases.
+
+2.  **Segmentation**: Utilize the synced segments and tags to group customers based on their behavior, preferences, and activity. This allows you to target specific groups with tailored messages, increasing the relevance and impact of your communications.
+
+3.  **Event-Triggered Campaigns**: Set up automated campaigns triggered by specific events such as order placement, coupon creation, or coupon usage. For example, send a thank-you email with a reward when a customer places an order or notify them of their new coupon.
+
+4.  **Customer Journey Mapping**: Track and analyze the customer journey using the imported data to identify key touchpoints and optimize your engagement strategies. Understanding how customers interact with your brand at different stages helps in crafting more effective and timely interventions.
+
+5.  **Retention Strategies**: Monitor points balance, tier progress, and achievements to identify loyal customers and those at risk of churning. Create targeted campaigns to reward loyal customers and re-engage those who have shown signs of inactivity.
+
+
+By integrating Gameball with MoEngage, you can ensure that your customer data is always up-to-date in MoEngage, allowing for more personalized and timely communication. This integration helps you stay ahead of the competition by delivering exceptional customer experiences.
+---
+#### Related Articles:
+
+-   [Gameball on Zapier](/product-documentation/apps-integrations/zapier-integration)
+
+-   [Gameball Apps Integration](/product-documentation/apps-integrations/introduction-to-apps-integrations)

@@ -1,0 +1,86 @@
+---
+title: "Webhooks in Automation"
+description: "Use actions that your players do on external apps to build you custom automation."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Guru |
+| Salla | Guru |
+| Non-platform Clients | Included in Automation Add-on |
+
+---
+
+In this article, we will explore the exciting new capabilities of using webhooks as triggers or actions within Gameball's custom automation feature. Now, you can seamlessly send and receive customer information or actions to and from external applications, all while effortlessly setting up your automation flows. [Learn more about Automated Workflows](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
+
+## Using Webhooks as a Trigger
+
+You can now create a new automation triggered by an action that the player initiates on an external app. Let's take this scenario as an example: you want to reward your customers with 100 points for each review they leave on your review app.
+
+**Here's how you can do that:**
+
+1. From Triggers, drag '**Webhook Trigger**' and drop it into the canvas.
+2. Set up the webhook's configuration:
+   - Copy the **Webhook URL** that we provide and paste it into the integration section of your external app, along with your API key for authentication.
+   - Select how you want to **identify your players** (Email, External Customer ID, or Mobile Number)
+   - Fill the **payload** based on the selected identifier to confirm the format (e.g., `{payload.data.email}`)
+   - Press Save
+3. Set Up your action to Add 100 Points
+   - Connect your trigger with the **Add Points action**
+   - Click on **Add points**
+   - Fill in the reward information
+   - Press **Save**
+4. Press **Save**
+
+<Frame>
+  <img src="/images/product-docs/automation-campaigns/webhook-trigger-setup.gif" alt="Setting up a webhook trigger in automation" />
+</Frame>
+
+## Using Webhooks as an Action
+
+You can now also use the webhooks as an action within your custom automation to send out customers' information to your external app. For example, you want to send a welcome email using your external mailing app to a new customer who just created an account.
+
+**Here's how you can do that:**
+
+1. Drag the **Account Created** trigger to the canvas
+2. Connect it to the **Send Webhook** action
+3. Set up the webhook configuration:
+   - Paste your external app's webhook URL in the **Webhook URL** field
+   - Choose your **HTTP method** (POST, Get, or Put)
+   - Add the players' information that you want to send out to the app in the **Webhook body**. You can add the payload in JSON format, use our builder, or choose from the customer variables.
+
+     <Frame>
+       <img src="/images/product-docs/automation-campaigns/webhook-action-body.png" alt="Webhook action body configuration" />
+     </Frame>
+
+   - Add the **Headers**
+
+     <Frame>
+       <img src="/images/product-docs/automation-campaigns/webhook-action-headers.png" alt="Webhook action headers configuration" />
+     </Frame>
+
+   - Press **Save**
+4. Press **Save**
+
+<Frame>
+  <img src="/images/product-docs/automation-campaigns/webhook-action-setup.gif" alt="Setting up a webhook action in automation" />
+</Frame>
+
+<Note>
+  **Payload Configuration:**
+
+  - If the action is to send an email within Gameball, a new configuration field should be added to specify the payload part for the customer's email (`{payload.data.email}`).
+  - If the action is external, users should be able to add all required details for the webhook link and payload in JSON format.
+
+  ```json
+  {"email": "email"}
+  ```
+</Note>
+
+---
+
+### Related Articles
+
+- [Introduction to Automation Campaigns](/product-documentation/automation-campaigns/introduction-to-automation-campaigns)
+- [How to Create an Automation Campaign](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign)
+- [Making Edits on Active Automation](/product-documentation/automation-campaigns/making-edits-on-active-automation)

@@ -1,0 +1,146 @@
+---
+title: "Making Edits on Active Automation"
+description: "Learn what happens to customers engaged with a running automation when you make changes to the workflow."
+---
+
+**Understanding the Impact of Editing Active Automation**
+
+Making changes to active automation can impact customer journeys, so it's important to understand what happens in each case. This article outlines how edits affect existing and new participants in Gameball automation.
+
+## General Behavior
+
+- Changes **do not affect** customers already in the automation, **unless stated otherwise**.
+- **Newly enrolled** customers will follow the **updated version**.
+- If **"Auto-exit on audience or frequency mismatch"** is enabled, existing customers will be **re-evaluated** before each step and may exit if they no longer qualify.
+- These rules apply whether the automation is **active or inactive**, as long as it's **not a draft**.
+
+Editing a live automation should be done with care to ensure a smooth experience for your customers. Below, we break down each scenario and its impact.
+
+## Settings
+
+### Editing Audience
+
+**Existing customers:**
+
+- Customers already inside the automation will **stay** and continue their flow.
+- The new audience rules apply **only to new entrants**.
+
+**If "Auto-exit on mismatch" is enabled:**
+
+- Existing customers are **re-evaluated** before the next step.
+- If they no longer match the updated audience, they'll be **automatically exited** from their current cycle.
+
+### Editing Frequency
+
+**If the new limit is higher (e.g., from one-time to multiple):**
+
+- Customers can now re-enter if they trigger the automation again.
+- Ongoing cycles continue normally.
+
+**If the new limit is lower (e.g., from multiple to one-time):**
+
+- Customers inside the automation and already reached the new limit will complete their current cycle, and won't re-enter.
+
+**If "Auto-exit on mismatch" is enabled, while the frequency is edited:**
+
+- Customers are re-evaluated before their next step. Those exceeding the updated frequency will automatically exit the current cycle.
+
+### Auto-exit if audience/frequency mismatch
+
+When **enabled**:
+
+- Existing customers are **re-evaluated before each step**.
+- If they no longer match the audience or have exceeded their entry frequency, they are **automatically exited** from the automation.
+
+When **disabled**:
+
+- Customers will continue their journey **without re-checks** once they start a cycle, even if they no longer meet the original criteria.
+
+### Editing Scheduling
+
+**Start Date:**
+It can be edited if it hasn't passed yet.
+
+**End Date:**
+It can be changed anytime, regardless of the campaign status.
+
+### Editing Exit Rule
+
+**When added or edited:**
+
+- Existing customers are **re-evaluated before their next step**.
+- If they now match the exit condition, they'll be **automatically exited** from the automation.
+
+## Trigger & Actions
+
+### Trigger
+
+**Updating/Changing Trigger:**
+
+- Existing customers already in the automation are **not affected**.
+- The new trigger applies **only to new entrants**.
+
+### Action
+
+**Add, Update, Delete Action:**
+
+- If a customer has already passed this step, they won't be affected.
+- The new action or values will apply to all customers who haven't reached that step yet.
+
+## Controllers
+
+### Time Delay
+
+When **updated**:
+
+- Customers already waiting in this step follow the **original delay**.
+- The new delay applies **only to new entrants**.
+
+When **deleted**:
+
+- All customers currently in this step will be **exited** from the automation.
+
+### Wait for an Event
+
+**Updating the duration:**
+
+- Existing customers continue based on the **original duration**.
+- The new duration applies to **new entrants**.
+
+**Updating the event:**
+
+- Allowed only in draft.
+- Once the campaign is set live, this can no longer be changed.
+
+**Deleting the node:**
+
+- All customers in this step will be **exited** from the automation.
+
+## Deactivating an Automation
+
+### Deactivate an automation
+
+When **deactivated**:
+
+- **Customer progress is saved** -- they will resume from the same step when the automation is reactivated.
+
+### Reactivate an automation
+
+When **reactivated**, customers will be re-evaluated based on the following rules:
+
+- If the customer was in a **Time Delay**:
+  1. If the wait time **has passed** while it was inactive, the next step is triggered immediately.
+  2. If the wait time **has not passed**, the customer continues waiting as expected.
+  3. If the wait time was **edited while inactive**, customers who were waiting in this block resume based on the **original duration**. The new duration applies only to new entrants.
+
+- If the customer was in a **Wait for Event**:
+  1. If the wait time has elapsed and the event didn't occur, the customer will be exited.
+  2. If the event happens during inactivity and the wait time has passed, the step will be marked as elapsed.
+  3. Events that occur while the automation is inactive are not detected or counted.
+
+---
+
+### Related Articles
+
+- [How to Create an Automation Campaign](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign)
+- [Introduction to Automation Campaigns Templates](/product-documentation/automation-campaigns/templates/introduction-to-automation-templates)

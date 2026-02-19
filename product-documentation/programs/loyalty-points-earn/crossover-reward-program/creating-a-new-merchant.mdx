@@ -1,0 +1,87 @@
+---
+title: "Creating a New Merchant for Every Brand and Store You Own"
+description: "Learn how to unify your loyalty experience by creating a new merchant for every brand and store you own on the Gameball dashboard."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Guru |
+| Salla | Guru |
+| Non-platform Clients | Guru |
+
+As a multi-brand company, you might be facing some difficulties with unifying your customer engagement under one loyalty experience. Gameball has now made that possible with its [Merchants feature](/product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience).
+
+You can easily create a crossover rewards experience where your customers can redeem and use cashback points with every purchase they make at any of your brands or stores. They can also receive a different cashback value depending on the brand.
+
+This article tackles the first step, which is creating a new merchant for your brand or store.
+
+---
+
+## Prerequisites
+
+- Ensure your subscription plan is **Guru**.
+- Contact Gameball support to enable the Merchants feature.
+
+---
+
+## How to Create a New Merchant
+
+<Steps>
+<Step title="Navigate to Merchants">
+On the Gameball Admin Dashboard, go to **Admin Settings > Merchants**.
+</Step>
+
+<Step title="Create a New Merchant">
+Click **Create New Merchant**.
+</Step>
+
+<Step title="Enter Merchant Details">
+Enter the brand ID and name under **Merchant Unique ID** and **Merchant Name**.
+</Step>
+
+<Step title="Add Branches (Optional)">
+If you want to add different branches to the brand, click **Add Branches**. Enter the branch ID and name under **Branch Unique ID** and **Branch Name**.
+</Step>
+
+<Step title="Save the Merchant">
+Once all details are filled in, click **Create**.
+
+<Frame>
+  ![Create New Merchant](/images/product-docs/programs/loyalty-points-earn/crossover/create-new-merchant.gif)
+</Frame>
+</Step>
+</Steps>
+
+---
+
+## Important Notes
+
+<Warning>
+- Merchant ID and Branch ID must be **unique**. They are used by Gameball APIs to identify the merchant/brand and branch.
+- If you have completed the integration process using Gameball APIs and a transaction is made with a brand or branch that does not exist in Gameball, the system will automatically create a new merchant name and ID to complete the transaction.
+- After adding all the brands to your platform, you must configure the cashback rules for each brand.
+</Warning>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+<Accordion title="Can I add multiple branches under the same merchant?">
+Yes, you can add different branches under the same merchant by clicking **Add Branches** during the merchant creation process.
+</Accordion>
+
+<Accordion title="What happens if a transaction is made with an unregistered brand?">
+Gameball will automatically create a new merchant and ID to complete the transaction if it does not exist.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Configure Cashback per Brand" icon="percent" href="/product-documentation/programs/loyalty-points-earn/crossover-reward-program/reward-customers-with-different-cashback-per-brand">
+  Set up different cashback values for each brand or store.
+</Card>
+</CardGroup>

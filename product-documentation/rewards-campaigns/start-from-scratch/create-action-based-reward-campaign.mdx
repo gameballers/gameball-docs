@@ -1,0 +1,254 @@
+---
+title: "Create an Action-based Reward Campaign"
+description: "Learn how to create and configure an Action-Based reward campaign from scratch."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Pro & Guru |
+| Salla | Pro & Guru |
+| Non-Platform | Growth & Enterprise |
+
+Reward campaigns are powerful tools for driving customer engagement and loyalty. With Gameball, you can easily create and configure reward campaigns tailored to your business objectives, and reward your customers for any action that they perform on your platform.
+
+Let's say, for example, that you want to reward your customers when they visit a certain product page with a 100-point reward. Once the customer completes this action, the event will be sent to Gameball, and the customer will earn their reward. [Learn more about Gameball Events](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+Here is a step-by-step process of creating and configuring an **Action-based** reward campaign from scratch.
+
+## Creating a New Action-Based Reward Campaign
+
+- Log in to your **Gameball Dashboard**.
+- Navigate to the **Campaigns** section on the left side menu and click on **Rewards**.
+- Click **Create Reward Campaign**.
+- Choose **Action Based Reward** from the **'Start from Scratch'** Section.
+- Give your new campaign an **internal name** for your team, and then start the configuration.
+
+<Frame>
+  ![Create action-based reward campaign](/images/product-docs/rewards-campaigns/start-from-scratch/create-action-based-campaign.gif)
+</Frame>
+
+## Configuration of an Action-Based Reward Campaign
+
+### Step 1: Rule
+
+Define the rules that determine when customers receive the campaign's rewards. Utilize Gameball's event-based engine to create sequences of rules that customers must follow to earn rewards.
+
+#### Audience
+
+Choose who is eligible to view and participate in this campaign:
+
+- All Customers
+- Specific Customers:
+    - Segments
+    - Tags
+    - Customer Attributes
+    - Combination of Segments, Tags, or Customer Attributes
+
+After choosing the campaign's audience, you will be able to view the number of customers that are currently eligible to participate in this campaign.
+
+<Frame>
+  ![Audience selection](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-audience.png)
+</Frame>
+
+#### Trigger
+
+Choose the rules that grant the customers the campaign's reward once achieved.
+
+Let's say you want to reward the campaign's audience once they complete **1 order from Collection X, and 1 order from Collection Y**:
+
+- Select **Place Order** for the **Choose Event** dropdown menu.
+- Make your **After Counter** to **1** (this sets how many times the event should be achieved before rewarding the campaign).
+- **Add** a **Rule**, where the **Collection ID** equals **X**.
+- Add another Rule to complete the second part of the trigger. Click on **Add Rule**.
+- Select **Place Order** for the **Choose Event** dropdown menu.
+- Make your **After Counter** to **1** (this sets how many times the event should be achieved before rewarding the campaign).
+- **Add** a **Rule**, where the **Collection ID** equals **Y**.
+
+<Note>
+Check this article about [using the event engine](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) to understand more about how to create a campaign trigger.
+</Note>
+
+<Frame>
+  ![Trigger configuration](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-trigger.gif)
+</Frame>
+
+#### Repeatability
+
+Define the repeatability settings to specify how many times customers can achieve the campaign's rewards.
+
+<Frame>
+  ![Repeatability settings](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-repeatability.png)
+</Frame>
+
+You can choose for it to be with **no Limit Per Customer**:
+
+- **Unlimited per customer**: this campaign can be achieved by your customers every time the trigger is fulfilled.
+
+<Frame>
+  ![Unlimited repeatability](/images/product-docs/rewards-campaigns/start-from-scratch/repeatability-unlimited.png)
+</Frame>
+
+- **Limited to 1 time or more:** this campaign can be achieved 1 time(s) after fulfilling the trigger.
+
+<Frame>
+  ![Limited repeatability](/images/product-docs/rewards-campaigns/start-from-scratch/repeatability-limited.png)
+</Frame>
+
+You can choose for it to be with **a Limit Per Customer**:
+
+- **Unlimited Repeatability with a limit of 1 per day**: This campaign can be achieved by your customers every time the trigger is fulfilled, however, every customer can achieve it only 1 or more times/day.
+
+<Frame>
+  ![Unlimited with daily limit](/images/product-docs/rewards-campaigns/start-from-scratch/repeatability-unlimited-daily.png)
+</Frame>
+
+- **Limited Repeatability with a limit of 1 per day**: This campaign can be achieved by your customers every time the trigger is fulfilled until the limit you've set, however, every customer can achieve it only 1 or more times/day.
+
+<Frame>
+  ![Limited with daily limit](/images/product-docs/rewards-campaigns/start-from-scratch/repeatability-limited-daily.png)
+</Frame>
+
+### Step 2: Activation Settings
+
+Choose when this campaign will be available for your customers:
+
+1. **Always Active**: The campaign will always be available for its audience unless you deactivate it.
+2. **Scheduled**: The campaign will have a certain **start date** and **end date**. Before and after these dates, the campaign will not be visible to the audience.
+
+<Frame>
+  ![Activation settings](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-activation.png)
+</Frame>
+
+### Step 3: Details
+
+Set up the information that will be displayed to the customers on Gameball's widget on your website/mobile app:
+
+- Reward Name
+- Reward Information
+- \[Optional\] Redirection Link (Navigates the customers to a desired page on the website/mobile app).
+
+<Frame>
+  ![Campaign details](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-details.png)
+</Frame>
+
+### Step 4: Rewards & Badges
+
+**Rewards**
+
+Choose the type of reward that you will offer the audience once they achieve this campaign, and define the reward parameters to ensure it aligns with your campaign goals.
+
+Choose one of the following **Reward Types**:
+
+- Points
+- Free Product
+- Free Delivery
+- Fixed Amount
+- Percentage Based Discount
+
+[Learn more on how to set up each Reward type.](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+<Frame>
+  ![Reward types](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-reward-types.png)
+</Frame>
+
+**Badge**
+
+Along with the reward, the customer will be rewarded a Badge for the campaigns they achieve.
+
+Customize badge settings to visually represent the campaign's achievement. Let's see how we can set it up:
+
+1. Choose a **Badge Icon** from available options or upload your own:
+
+<Frame>
+  ![Badge icon selection](/images/product-docs/rewards-campaigns/start-from-scratch/badge-icon-selection.png)
+</Frame>
+
+2. Configure **Badge Visibility**:
+
+    - By **default, no badge** will be chosen (Campaign not visible on the widget).
+    - You can choose for it to be:
+        - Dimmed and becomes bright upon earning
+
+        <Frame>
+          ![Badge dimmed visibility](/images/product-docs/rewards-campaigns/start-from-scratch/badge-dimmed.png)
+        </Frame>
+
+        - Only **show badge when earned**
+
+        <Frame>
+          ![Badge show when earned](/images/product-docs/rewards-campaigns/start-from-scratch/badge-show-earned.png)
+        </Frame>
+
+3. Configure **Badge Unlocking Process:**
+
+    By default, the badge will be unlocked to all tiers; it will appear dimmed until earned. However, you can choose for the badge to start appearing to customers when they are on a certain tier:
+
+    <Frame>
+      ![Badge unlocking process](/images/product-docs/rewards-campaigns/start-from-scratch/badge-unlocking.png)
+    </Frame>
+
+### Step 5: Notifications
+
+Configure **in-app and email notifications** to keep customers informed about their progress and achievements.
+
+**Achievement Notifications:**
+
+Decide whether you'd like to inform your customers upon achieving a reward campaign.
+
+**Event Notification:**
+
+Select whether to notify customers after every completed action that brings them closer to achieving the reward campaign.
+
+For both Notification types, you have the option to choose from the following:
+
+<Frame>
+  ![Notification options](/images/product-docs/rewards-campaigns/start-from-scratch/notification-options.png)
+</Frame>
+
+- **Follow Global Settings:** Notifications will adhere to the predefined notification settings you configured in the notifications section. [Learn more about sending real-time notifications for reward campaign programs.](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+- **Always Enabled**: Customers will receive a notification after completing an event or reward campaign. All you have to do in this is add the following, in case of the **In-app Notification**:
+    - Notification **Title**
+    - Notification **Body**
+
+    <Frame>
+      ![In-app notification setup](/images/product-docs/rewards-campaigns/start-from-scratch/notification-inapp.png)
+    </Frame>
+
+    In the case of the **Email**:
+    - Email Subject
+    - Use the Email Builder to Customize the Email
+
+    <Frame>
+      ![Email notification setup](/images/product-docs/rewards-campaigns/start-from-scratch/notification-email.png)
+    </Frame>
+
+- **Always Disabled:** Customers will not receive any notifications after completing an event or reward campaign.
+
+### Step 6: Goal
+
+Define the campaign's goal to monitor its performance and effectiveness. All you have to do is:
+
+- Toggle the goal setting on or off based on your preference.
+- Set event-based goals using the event engine to track customer actions and outcomes.
+
+<Frame>
+  ![Goal configuration](/images/product-docs/rewards-campaigns/start-from-scratch/action-based-goal.gif)
+</Frame>
+
+Now that you have created and configured your campaign, remember to press **Save**, **Preview**, and then **Activate** your campaign.
+
+<Note>
+There are other types of Reward Campaigns. Learn how to create and configure each of them below:
+
+- [Create & Configure a Time-based Reward Campaign](/product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign)
+- [Create & Configure a Points Multiplier Reward Campaign](/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign)
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Reward Campaign Insights" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

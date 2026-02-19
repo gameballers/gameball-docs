@@ -1,0 +1,135 @@
+---
+title: "Manually Updating Customers' Tiers"
+description: "Learn how to manually relocate a customer to a specific tier and how Gameball treats this change."
+---
+
+| Platform | Plan |
+|---|---|
+| Available on all Platforms | All Plans |
+
+If you want to put certain customers on specific tiers regardless of where the system's calculations are putting them, you can manually relocate any of your customers to different tiers with a few steps.
+
+---
+
+## How to Manually Update a Customer's Tier
+
+You can change the tier of a single customer or multiple customers.
+
+### Changing the Tier of a Single Customer
+
+1. Go to the **Gameball Admin Dashboard**, click **Customers**, and then choose or search for the customer you want to apply the manual change to.
+2. When you are on the customer's profile, click **More**, then **Adjust Tier**, found on the top right of the page.
+
+<Frame>
+  ![Adjust Tier - Single Customer](/images/product-docs/programs/vip-tiers/adjust-tier-single.png)
+</Frame>
+
+### Changing the Tiers of Multiple Customers
+
+1. Go to **Gameball Admin Dashboard**, then click **Customers**.
+2. Filter the customers' list to include only the customers you want to apply the manual change to.
+3. Click **More**, then **Export**.
+4. Update the CSV file with the customers' tiers, then upload it back again to Gameball.
+
+<Frame>
+  ![Adjust Tier - Multiple Customers](/images/product-docs/programs/vip-tiers/adjust-tier-multiple.png)
+</Frame>
+
+### Applying the Tier Adjustment
+
+The following steps are the same for both single and multiple customer adjustments:
+
+<Steps>
+<Step title="Choose the Target Tier">
+Choose the tier you want to relocate the customer to.
+</Step>
+
+<Step title="Select the Tier Behavior">
+Choose the behavior of the new tier you want Gameball to apply to the customer:
+
+- The customer will be placed into the manual tier, and the system will depend on the customer's progress later according to the chosen tiering method.
+- The customer will be placed into the manual tier forever with no later evaluation.
+- The customer will be placed into the manual tier temporarily with no evaluation till a specific date.
+</Step>
+
+<Step title="Set Expiry Date (If Applicable)">
+Choose the expiry date if you have chosen to apply the temporary behavior.
+</Step>
+
+<Step title="Add a Reason and Confirm">
+Type down the reason for the manual tier adjustment.
+
+<Frame>
+  ![Tier Adjustment Options](/images/product-docs/programs/vip-tiers/tier-adjustment-options.png)
+</Frame>
+
+Click **Adjust Tier**.
+</Step>
+</Steps>
+
+---
+
+## What Happens When You Manually Update a Customer's Tier?
+
+Below is a list of all rules for manually changing the tier of a customer:
+
+- You will be able to see if the customer resides on a tier because of manual intervention. You will also be able to see the type of tier behavior you set and the reason for the manual adjustment if you have written any.
+- When extracting a CSV file of the customers' data, you will find a column that includes information about whether there was a manual tier adjustment for each customer.
+- If a customer is manually added to a tier, they will be able to see that and will see the expiry date for staying on that tier (if it exists).
+
+<Frame>
+  ![Customer Widget - Manual Tier](/images/product-docs/programs/vip-tiers/widget-manual-tier.png)
+</Frame>
+
+- Gameball integrated apps will be updated with the new tier of the customer.
+- When manually adjusting the tier for single or multiple customers, they will receive the tier welcome reward that you have assigned to each tier. They will also receive an email if they were relocated to a higher tier and if the tier email achievement is **on**.
+
+---
+
+## Tier Behavior Details
+
+<AccordionGroup>
+<Accordion title="Progress-based (system will depend on customer's progress later)" icon="chart-line">
+Gameball will place the customer on the new tier and count the progress starting from the moment the adjustment is applied.
+</Accordion>
+
+<Accordion title="Permanent (manual tier forever with no evaluation)" icon="lock">
+- Any customer added to a tier manually will be excluded from any evaluation that is done on their tier.
+- In case of changing the tiering-up method or the tier expiry, the customer will still stay on the manual tier.
+</Accordion>
+
+<Accordion title="Temporary (manual tier until a specific date)" icon="calendar">
+- Any customer added to a tier manually will be excluded from any evaluation that is done on their tier.
+- Once the expiry date of the manual tier arrives, Gameball will start applying the evaluation according to the current tiering-up method and expiry.
+- In case of changing the tiering-up method or tier expiry, the customer will stay on the manual tier until the manual expiry date arrives, then Gameball evaluation will start taking place.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## How to Reset a Manual Tier Adjustment
+
+If you want to reset the manually adjusted tier for a customer, go to the customer's profile and click **reset** under the customer's tier.
+
+<Frame>
+  ![Reset Manual Tier](/images/product-docs/programs/vip-tiers/reset-manual-tier.png)
+</Frame>
+
+<Note>
+- When resetting the manual tier, Gameball will evaluate the customer tier according to the chosen tiering-up method/expiry and relocate the customer accordingly.
+- If, after resetting the customer's tier, they tiered up according to the evaluation, a tier welcome reward will be given, and an email will be sent to the customer if the tier achievement notification is on.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Configuring Gameball VIP Tiers" icon="crown" href="/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers">
+  Set up and manage your VIP tiers structure.
+</Card>
+
+<Card title="Understanding Tier Expiry" icon="clock" href="/product-documentation/programs/vip-tiers/tier-settings/understanding-tier-expiry">
+  Learn how tier expiry works in different scenarios.
+</Card>
+</CardGroup>

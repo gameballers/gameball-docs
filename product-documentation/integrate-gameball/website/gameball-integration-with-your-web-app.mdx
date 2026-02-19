@@ -1,0 +1,74 @@
+---
+title: "Gameball Integration With Your Web App"
+description: "Start engaging your customers and adding a game-like flavor to your web app."
+---
+
+Before you start with the integration, you need to have your **API Key** and **Transaction Key** through your Gameball account. Read about [how you can get your account integration details (API Key & Transaction Key)](/product-documentation/admin-settings/get-api-keys).
+
+<Steps>
+  <Step title="Install Gameball Customer Widget on Your Web App">
+    It only takes a few minutes to install **Gameball Customer Widget** on your web app. Read [Install Gameball on your web app](https://developer.gameball.co/installing-gameball/web/quick-start).
+
+    Once installed, your customers will be able to:
+
+    - See Gameball Customer Profile on your web app
+
+    <Frame caption="Gameball Customer Profile on web app">
+      ![Gameball Customer Profile](/images/product-docs/integrate-gameball/web-app-customer-profile.png)
+    </Frame>
+
+    - Receive in-app notifications and messages from Gameball
+
+    <Frame caption="In-app notifications from Gameball">
+      ![In-app notifications](/images/product-docs/integrate-gameball/web-app-notifications.png)
+    </Frame>
+  </Step>
+
+  <Step title="Send Customer Events to Gameball">
+    You can track actions your customers take as **Customer Events**, while logged into your platform only. Learn about sending events through the [Send actions (events) API](https://developer.gameball.co/rest-api/events).
+
+    You can use these customer events in the below:
+
+    - Create action-based reward campaigns. Read about [action-based reward campaigns and the engine](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign).
+    - Send customer messages based on events. Read about [how to create and configure your customer web message campaign](/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns).
+  </Step>
+
+  <Step title="Configure Friends Referral Integration">
+    <Note>
+    If you are not going to use the referral program, skip this step.
+    </Note>
+
+    Gameball can reward your customers for referring their friends to join your platform. [Read about the referral program](/product-documentation/programs/referral-program/launching-referral-program).
+
+    You should follow the below:
+
+    1. Add your website registration URL to the Gameball Customer Profile referral tab. [Read about referral tab configurations](/product-documentation/customer-widget/player-profile-tabs/update-referral-tab).
+    2. Follow the integration step in the [configure referral module](https://developer.gameball.co/installing-gameball/web/build-and-track-referrals).
+  </Step>
+
+  <Step title="Reward Your Customers Based on the Paid Amount through the Cashback Program">
+    Through the cashback program, for every paid placed order on your web app using cash, credit card, PayPal, etc., you can reward your customers **with points** based on a predefined equation as cashback. Follow the steps below to complete the integration:
+
+    1. Configure the reward equation on the Gameball Admin Dashboard. [Read about how to launch the cashback program](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system).
+
+    <Note>
+    The program must be **Active**.
+    </Note>
+
+    2. On every successful paid placed order on your website, use the [cashback API](https://developer.gameball.co/installing-gameball/web/cashback-and-redeemption) to update Gameball.
+
+    <Warning>
+    It is recommended to send the Cashback API call when the order status is completely paid. In case the payment method, for example, is Cash on delivery (COD), you should send the API call when the customer has actually paid the order amount.
+    </Warning>
+  </Step>
+</Steps>
+
+---
+
+## What is next?
+
+<CardGroup cols={1}>
+  <Card title="Enable Points Redemption on Your Web App" icon="coins" href="/product-documentation/integrate-gameball/website/enable-points-redemption-on-your-web-app">
+    Allow your customers to redeem their points in the form of discount coupons on your platform.
+  </Card>
+</CardGroup>

@@ -1,0 +1,113 @@
+---
+title: "Gameball Integration With Your Mobile App"
+description: "Start engaging your customers and add a game-like flavor to your mobile app."
+---
+
+Before you start the integration, you need to have your **API Key** and **Transaction Key** through your Gameball account. [Read about how you can get your account integration details (API Key & Transaction Key)](/product-documentation/admin-settings/get-api-keys).
+
+<Steps>
+  <Step title="Install the Gameball customer profile on your mobile app">
+    It only takes a few minutes to install the Gameball customer widget on your mobile app. Follow the steps below on our technical docs based on your app:
+
+    <Tabs>
+      <Tab title="iOS">
+        Follow the [iOS integration guide](https://docs.gameball.co/installing-gameball/gameball-for-ios) covering:
+        1. Installation
+        2. Initialization
+        3. Show Gameball Customer Profile
+      </Tab>
+      <Tab title="Android">
+        Follow the [Android integration guide](https://docs.gameball.co/installing-gameball/gameball-for-android) covering:
+        1. Installation
+        2. Initialization
+        3. Show Gameball Customer Profile
+      </Tab>
+      <Tab title="React Native">
+        Follow the [React Native integration guide](https://docs.gameball.co/installing-gameball/gameball-for-react) covering:
+        1. Installation
+        2. Initialization
+        3. Show Gameball Customer Profile
+      </Tab>
+    </Tabs>
+
+    Once installed, your customers will be able to view their **Gameball Customer Profile** on your mobile app. The Gameball profile will be added as a popup/overlay and can be accessed through any button:
+
+    <Frame caption="Gameball Customer Profile on mobile app">
+      ![Gameball Customer Profile on mobile](/images/product-docs/integrate-gameball/mobile-app-customer-profile.png)
+    </Frame>
+  </Step>
+
+  <Step title="Configure your Firebase account details on Gameball">
+    You must have a Firebase account, and it should be configured on your Gameball Admin Dashboard account through [Configure your Firebase account on Gameball](/product-documentation/admin-settings/configure-firebase-push-notifications).
+
+    Configuring your Firebase account on Gameball will allow Gameball to:
+
+    ### Send in-app and push notifications/messages on your app to your customers
+
+    <Frame caption="Push notifications on mobile">
+      ![Push notifications](/images/product-docs/integrate-gameball/mobile-app-push-notifications.png)
+    </Frame>
+
+    ### Generate Gameball referral dynamic links and complete the referral experience on mobile
+
+    This is required if you plan to use the Referral Program.
+  </Step>
+
+  <Step title="Send Customer Events to Gameball">
+    You can track actions your customers take as Customer Events, while logged into your platform only. Sending events will be through the [Send actions (events) API](https://developer.gameball.co/rest-api/events#post-send-events).
+
+    You can use these customer events in the below:
+
+    - Create action-based campaigns and rewards. [Read about the events creation engine](/product-documentation/rewards-campaigns/faqs/using-the-event-engine).
+    - Create referral campaigns and rewards. [Read about the referral program](/product-documentation/programs/referral-program/launching-referral-program).
+    - Send customer messages based on events. [Read about how to create and configure your customer messages](/product-documentation/communication-campaigns/introduction-to-communication-campaigns).
+  </Step>
+
+  <Step title="Configure Referral Integration">
+    <Note>
+    If you are not going to use the referral program, skip this step.
+    </Note>
+
+    Gameball can reward your customers for referring their friends to join your platform. [Read about the Referral Program](/product-documentation/programs/referral-program/launching-referral-program).
+
+    You should follow the integration steps based on your mobile app:
+
+    <Tabs>
+      <Tab title="iOS">
+        Follow the [iOS referrals module guide](https://docs.gameball.co/installing-gameball/gameball-for-ios/referrals-module-on-ios).
+      </Tab>
+      <Tab title="Android">
+        Follow the [Android referrals module guide](https://developer.gameball.co/installing-gameball/android/referrals-module).
+      </Tab>
+      <Tab title="React Native">
+        Follow the [React Native referrals module guide](https://docs.gameball.co/installing-gameball/gameball-for-react/referrals-module-on-react-native).
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Reward your customers based on the paid amount through the Cashback Program">
+    Through the cashback program, for every paid placed order on your mobile app using cash, credit card, PayPal, etc., you can reward your customers **with points** based on a predefined equation. Follow the steps below to complete the integration:
+
+    1. Configure the reward equation on the Gameball Admin Dashboard. [Read about the Points earn and redeem settings](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system).
+
+    <Note>
+    The program must be **Active**.
+    </Note>
+
+    2. On every successful paid placed order on your mobile app, use the [Cashback API](https://developer.gameball.co/rest-api/transactions/cashback-and-redemptions#post-reward-cashback) to update Gameball.
+
+    <Warning>
+    It is recommended to send the Cashback API call when the order status is completely paid. In case the payment method, for example, is COD (Cash on delivery), you should send the API call when the customer actually pays the order amount.
+    </Warning>
+  </Step>
+</Steps>
+
+---
+
+## What is next?
+
+<CardGroup cols={1}>
+  <Card title="Integrate Points Redemption on Your Mobile App" icon="coins" href="/product-documentation/integrate-gameball/mobile-app/integrate-points-redemption-on-your-mobile-app">
+    Allow your customers to redeem their points in the form of discount coupons on your platform.
+  </Card>
+</CardGroup>

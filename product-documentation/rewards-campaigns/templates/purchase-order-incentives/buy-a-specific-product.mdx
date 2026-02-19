@@ -1,0 +1,81 @@
+---
+title: "Buy a Specific Product"
+description: "Reward customers for purchasing select products to drive targeted sales and increase product visibility."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Starter, Pro, Guru |
+| Salla | Starter, Pro, Guru |
+| Non-Platform | All Plans |
+
+## Intro
+
+Use the **_Buy a Specific Product_** campaign to highlight and promote key items in your catalog. By rewarding customers for purchasing select products, you can drive targeted sales, increase product visibility, and encourage repeat purchases of high-priority or new stock.
+
+<Frame>
+  ![Buy a specific product campaign widget](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-specific-product-widget.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select **Buy a Specific Product** template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+1. **Action**: Place Order
+2. **Times**: 1 _(Number of orders required with this condition)_
+3. **Rule**: Add the **Product ID** to the trigger to specify which product you ask them to purchase.
+
+<Frame>
+  ![Buy a specific product trigger setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-specific-product-trigger.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## End User Experience
+
+**How it works**
+
+1. A customer **places an order** that includes the configured product/s.
+2. Gameball automatically triggers the reward.
+3. The customer receives the reward immediately (points, discount, badge -- based on your setup).
+4. The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+## Important Notes
+
+<Note>
+**Product-Specific Only**
+
+The reward will only trigger if the customer's order includes the **Product ID(s)** you've specified.
+</Note>
+
+<Note>
+**Multiple Products**
+
+- You can add several product IDs if you want to reward purchases that contain **all** the configured products as a group.
+- To do this: Click **Add Rule -> Select Product ID -> Choose "Equals" -> Enter the Product ID**
+- The reward will only trigger when the customer's order includes **every product ID** listed in the campaign setup.
+</Note>
+
+<Frame>
+  ![Multiple product IDs setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-specific-product-multiple-ids.png)
+</Frame>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

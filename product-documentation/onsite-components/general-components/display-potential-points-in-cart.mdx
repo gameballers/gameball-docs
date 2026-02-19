@@ -1,0 +1,160 @@
+---
+title: "Display Potential Points Earned in the Cart"
+description: "Encourage your customers to complete their orders by showing the points they'll earn with each purchase—directly in their cart."
+---
+
+| **Platform** | **Plan** |
+|---|---|
+| Shopify | Starter, Pro, & Guru |
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/cart-points-hero.png" alt="Display potential points earned in the cart" />
+</Frame>
+
+With Gameball's potential points display, customers can instantly see the rewards they'll earn for their cart items before completing their purchase. This engaging feature highlights the value of each purchase, motivating customers to check out and start earning points.
+
+**Benefits:**
+
+- **Increase average order value**: Customers are more likely to add additional items to their cart when they see the direct rewards tied to each product, leading to increased spending.
+- **Reduce cart abandonment:** Motivate customers to complete the purchase by showing the reward they will get by completing their purchase.
+
+---
+
+## Prerequisites
+
+<Steps>
+  <Step title="Updated Shopify Theme">
+    Your theme must support app blocks. Without this, the Gameball block will not be visible in the editor. [Learn more](https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/apps).
+  </Step>
+  <Step title="Enable Gameball Embed Block">
+    Go to the **Theme Editor** in your Shopify admin. Select **App Embeds** from the left menu, search for "Gameball," and toggle it on.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/enable-gameball-embed-block.gif" alt="Enable Gameball embed block" />
+    </Frame>
+  </Step>
+  <Step title='Activate the "Earn Points" Module'>
+    In the Gameball dashboard, navigate to **Programs > Earn Points**, then activate the module.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-earn-points.png" alt="Activate earn points module" />
+    </Frame>
+  </Step>
+  <Step title="Activate Gameball Program">
+    In the Gameball dashboard, make sure the toggle at the top-right is activated. Once this is enabled, you'll be able to add the Gameball block.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/activate-gameball-program.png" alt="Activate Gameball program" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## How to Install the Block
+
+<Steps>
+  <Step title="Navigate to Onsite">
+    In Gameball, navigate to **Onsite**, click **Customize**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/cart-points-customize.png" alt="Navigate to Onsite customize" />
+    </Frame>
+  </Step>
+  <Step title="Open Theme Editor">
+    You'll be redirected to Shopify's theme editor. If not, double-check the prerequisites.
+  </Step>
+  <Step title="Sign In">
+    Sign in to your store through the theme editor to access the customer account template.
+  </Step>
+  <Step title="Add the App Block">
+    In the left sidebar under **Template**, select **Add section > Apps**, and search for **"Cart Points"**.
+  </Step>
+  <Step title="Save">
+    Select the **"Cart Points"** app block and click **Save**.
+
+    <Frame>
+      <img src="/images/product-docs/onsite-components/cart-points-install.gif" alt="Install cart points block" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Customization
+
+### Style Customization
+
+1. In the Shopify theme editor, click on the **"Cart Points"** app block.
+2. On the right sidebar, adjust the icon, text, colors, and styles as needed.
+3. On the left sidebar, you can also change the block's position within the template section.
+4. Click **Save**.
+
+### Content & Translation
+
+1. In the Gameball dashboard, go to **Widget > Content**.
+2. In the **Onsite** tab, edit the displayed text as needed and click **Save**.
+
+<Frame>
+  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+</Frame>
+
+---
+
+## Logged-In vs. Guest (Not-Logged-In) Customers
+
+- **Guest Customers**: If the customer isn't logged in, the block will show the potential points they can earn based on default "earn points" rules, ignoring any custom order reward per tier.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/cart-points-guest.png" alt="Guest customer cart points view" />
+  </Frame>
+
+- **Logged-In Customers**: For logged-in customers, the block displays points based on any customized reward rules per collection, merchant, or level, giving a tailored view of rewards.
+
+  <Frame>
+    <img src="/images/product-docs/onsite-components/cart-points-logged-in.png" alt="Logged-in customer cart points view" />
+  </Frame>
+
+---
+
+## Important Notes
+
+<Warning>
+The potential points block will automatically hide if:
+
+- The "Earn Points" module is deactivated.
+- The customer is excluded from the rewards program.
+- The Gameball program is deactivated.
+- The product offers 0 points.
+- The product is excluded from the "Earn Points" rules.
+- Your account is on a plan that doesn't support this feature.
+</Warning>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I display the Potential Points Block on other pages?">
+    Currently, this block can only be embedded on the cart page.
+  </Accordion>
+  <Accordion title="What if I downgrade my plan?">
+    The points-in-cart block will automatically hide if your plan no longer supports this feature.
+  </Accordion>
+  <Accordion title='What should I do if I clicked on Customize but saw a "There is a problem loading the page" message?'>
+    Please review the prerequisites and ensure all conditions are met. If you still encounter an issue, contact us at [support@gameball.co](mailto:support@gameball.co).
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Embed Points in Customer Profile" icon="user" href="/product-documentation/onsite-components/general-components/embed-points-in-customer-profile">
+    Display customers' points balances in their profiles.
+  </Card>
+  <Card title="Display Potential Points on Product Pages" icon="tag" href="/product-documentation/onsite-components/general-components/display-potential-points-on-product-pages">
+    Show potential points directly on product pages.
+  </Card>
+</CardGroup>

@@ -1,0 +1,304 @@
+---
+title: "Understanding Rewards Types in Gameball"
+description: "Let's dive deeper into each reward type that you can offer your customers and how you can set them up."
+---
+
+Rewarding customers is a key strategy to gamify their experience and foster loyalty. Gameball offers a variety of reward types that enable you to incentivize your customers effectively, whether they complete a specific campaign or redeem rewards for points they've collected.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-types-overview.png" alt="Reward types overview" />
+</Frame>
+
+In this article, we will walk you through the different reward types available in Gameball and how to set them up.
+
+## Types of Rewards Offered by Gameball
+
+Gameball provides several reward types across various platforms, each designed to enhance the customer experience. Here's an overview:
+
+| Reward Type | Subcategories | Platform |
+|-------------|---------------|----------|
+| **Online Only Rewards** | Points, Free Product, Free Shipping, Fixed Amount-based Discount (Available in Dynamic mode), Percentage-based Discount, Custom Rewards (Third-party), External Reward, Coupon Engine Rewards (Third-party redemption, External Reward API call, Percentage-based cashback coupon, Fixed Amount-based cashback coupon, Percentage-based fee discount) | All platforms |
+| **POS Rewards** | POS Fixed Amount-based Discount, POS Percentage-based Discount | Shopify |
+| **Shopify-Specific Rewards** | Store Credit, Recharge Fixed Amount-based Discount, Recharge Percentage-based Discount | Shopify |
+| **Recharge Rewards** | Fixed Amount-based Discount, Percentage-based Discount | Shopify - Recharge Subscription Users |
+
+---
+
+## Setting Up Each Reward Type
+
+### 1. Points Reward
+
+<Note>This reward is available as a campaign reward only.</Note>
+
+| Platform | Plan |
+|----------|------|
+| All | All |
+
+- **Add Points**: Specify the number of points to award customers.
+- **Tiering Up Method**: If you are using Gameball's score feature for tiering, you can reward customers with scores in addition to points. [Learn more about Score](/product-documentation/programs/vip-tiers/tier-settings).
+- **Points Expiry Options**:
+  - **Default Expiry**: Uses the platform's default points expiration setting. [Learn how to configure your default expiry settings](/product-documentation/programs/loyalty-points-earn)
+  - **Custom Expiry**: Override the default by setting a specific expiration for that particular reward.
+    - **Duration Type**: Choose from Days, Months, or Years.
+    - **Duration**: Define the duration based on the selected type.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-points.gif" alt="Points reward configuration" />
+</Frame>
+
+---
+
+### 2. Free Product
+
+<Note>This reward is available as a campaign reward as well as a redemption option.</Note>
+
+| Platform | Plan |
+|----------|------|
+| All | All except for free plans |
+
+- **Reward Campaign**:
+  - **Reward Image**: Select the product's image.
+
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-free-product-image.png" alt="Free product image selection" />
+    </Frame>
+
+  - **Advanced Options:**
+    - **Prefix:** Add Coupon Prefix.
+    - **Reward expires after a specific amount of time:** Set the expiry for the reward.
+    - **Minimum purchase amount:** The amount required for usage. (Default: 1)
+    - **Reward combined with other coupons:** Compatibility with other coupons or to be won alongside other coupons.
+    - **Show "How to redeem" instructions.**
+
+  <Frame>
+    <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-free-product-advanced.png" alt="Free product advanced options" />
+  </Frame>
+
+- **Custom Redemption Rule:**
+  - Follow the same steps as the Reward Campaign setup.
+  - Add the points needed to redeem this reward in the Redemption Value section.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-free-product-redemption.png" alt="Free product redemption rule" />
+</Frame>
+
+---
+
+### 3. Free Shipping
+
+<Note>This reward is available as a campaign reward as well as a redemption option.</Note>
+
+| Platform | Plan |
+|----------|------|
+| All | All except for free plans |
+
+- **Reward Campaign**:
+  - **Reward Name:** Choose a name for the reward.
+  - **Reward Image**: Choose to have the default or upload an image for display.
+  - **Advanced Options**:
+    - **Prefix:** Add Coupon Prefix.
+    - **Reward expires after a specific amount of time:** Set the expiry for the reward.
+    - **Minimum purchase amount:** The amount required for usage. (Default: 1)
+    - **Reward combined with other coupons:** Compatibility with other coupons, or to be won alongside other coupons.
+    - **Show "How to redeem" instructions.**
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-free-shipping.png" alt="Free shipping reward configuration" />
+</Frame>
+
+- **Custom Redemption Rule:**
+  - Follow the same steps as the Reward Campaign setup.
+  - Add the points needed to redeem this reward in the Redemption Value section.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-free-shipping-redemption.png" alt="Free shipping redemption rule" />
+</Frame>
+
+---
+
+### 4. Amount-based Discount
+
+<Note>This reward is available as a campaign reward as well as a redemption option.</Note>
+
+| Platform | Plan |
+|----------|------|
+| All | All |
+
+- **Reward Campaign**:
+  - **Reward Image**: Choose an image.
+  - **Reward Value**: Set the value (e.g., $100).
+  - **Applicability**: Specify if it applies to all purchases or specific **Collections** and/or specific **Merchants.**
+  - **Advanced Options**:
+    - **Prefix:** Add Coupon Prefix.
+    - **Reward expires after a specific amount of time:** Set the expiry for the reward.
+    - **Minimum purchase amount:** The amount required for usage. (Default: 1)
+    - **Reward combined with other coupons:** Compatibility with other coupons, or to be won alongside other coupons.
+    - **Show "How to redeem" instructions.**
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-amount-discount.png" alt="Amount-based discount configuration" />
+</Frame>
+
+- **Custom Redemption Rule:**
+  - Follow the same steps as the Reward Campaign setup.
+  - Add the points needed to redeem this reward in the Redemption Value section.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-amount-discount-redemption.png" alt="Amount-based discount redemption rule" />
+</Frame>
+
+---
+
+### 5. Percentage-based Discount
+
+<Note>This reward is available as a campaign reward as well as a redemption option.</Note>
+
+| Platform | Plan |
+|----------|------|
+| All | All |
+
+- **Reward Campaign**:
+  - **Reward Image**: Choose an image.
+  - **Discount Value**: Set the discount (e.g., 20% off).
+  - **Applicability**: Specify if it applies to all purchases or specific **Collections** and/or specific **Merchants.**
+  - **Advanced Options**:
+    - **Prefix:** Add Coupon Prefix.
+    - **Reward expires after a specific amount of time:** Set the expiry for the reward.
+    - **Minimum purchase amount:** The amount required for usage. (Default: 1)
+    - **Reward combined with other coupons:** Compatibility with other coupons, or to be won alongside other coupons.
+    - **Show "How to redeem" instructions.**
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-percentage-discount.png" alt="Percentage-based discount configuration" />
+</Frame>
+
+- **Custom Redemption Rule:**
+  - Follow the same steps as the Reward Campaign setup.
+  - Add the points needed to redeem this reward in the Redemption Value section.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-percentage-discount-redemption.png" alt="Percentage-based discount redemption rule" />
+</Frame>
+
+---
+
+### 6. Store Credit
+
+<Note>This reward is available as a campaign reward only.</Note>
+
+| Platform | Plan |
+|----------|------|
+| Shopify only | Starter, Pro and Guru (Newly enrolled) |
+
+- **Reward Campaign:**
+  - **Credit Value:** Set the Credit value (e.g., $100).
+  - **Bonus Expiry**: Set a specific expiry for this reward, overriding the default expiry
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-store-credit.png" alt="Store credit configuration" />
+</Frame>
+
+To reward your customers with store credit, you need to complete the following steps:
+
+<Steps>
+  <Step title="Enable Shopify store credit feature">
+    Enable the Shopify store credit feature and Shopify new accounts from Shopify's Customer Accounts Settings.
+
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-store-credit-shopify.png" alt="Shopify store credit settings" />
+    </Frame>
+  </Step>
+  <Step title="Grant Gameball permission">
+    Grant Gameball permission to use Shopify's store credit APIs.
+  </Step>
+</Steps>
+
+---
+
+## Dynamic Value for "Fixed Coupon Rewards"
+
+**Fixed Coupon Rewards** has a **Dynamic Value option**. Instead of being limited to a static reward (e.g., $10 off), you can now configure fixed coupons to dynamically calculate their value based on a percentage of a chosen variable (e.g., **15% of Value X**). In short, instead of always giving $10 off, a merchant can now set the coupon to equal **15% of the customer's cart total or a specific metadata value**, making offers more personalized and impactful.
+
+<Frame>
+  <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-dynamic-value.png" alt="Dynamic value configuration" />
+</Frame>
+
+- You can select whether a fixed coupon has:
+  - A **static fixed value** (e.g., $10).
+  - A **dynamic value** (percentage of a chosen metric).
+
+- Easily adapt offers to cart totals, order values, or metadata-driven actions.
+
+- No changes required in workflow, just configure the value type when setting up your fixed coupon rewards.
+
+---
+
+## Extra Reward Types
+
+In addition to the online rewards, Gameball supports special rewards for Shopify POS systems and Recharge-enabled subscriptions.
+
+### 1. POS Rewards
+
+<Note>This reward is available as a redemption option only.</Note>
+
+Read about how to [Enable Customers to Spend Their Gameball Points on Shopify POS](/product-documentation/rewards-campaigns/faqs/understanding-rewards-types).
+
+| Platform | Plan |
+|----------|------|
+| Shopify | All |
+| Salla | Starter, Pro, Guru |
+| Non-platform | Contact Support |
+
+- **POS Amount-based Discount**: Reward customers with a fixed discount (e.g., $10 off) when they purchase in-store.
+- **POS Percentage-based Discount**: Offer a percentage discount (e.g., 10% off) for in-store purchases.
+
+  <Frame>
+    <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-pos.png" alt="POS rewards configuration" />
+  </Frame>
+
+Setting up these rewards follows the same steps as the online rewards, ensuring you have integrated your POS system with Gameball.
+
+---
+
+### 2. Recharge Rewards
+
+- **Recharge Amount-based Discount**: Provide customers with a fixed discount on their Recharge subscription orders.
+- **Recharge Percentage-based Discount**: Offer a percentage discount on recurring Recharge subscription orders.
+
+  <Frame>
+    <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-recharge.png" alt="Recharge rewards configuration" />
+  </Frame>
+
+Both Recharge rewards work similarly to the online discount rewards but require your store to be integrated with Recharge for subscriptions.
+
+---
+
+## Customizing Your Reward Campaign
+
+[Learn how to set up a customized reward campaign](/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide).
+
+For all rewards, you can adjust the following advanced options to suit your business needs:
+
+- **Prefix:** Add Coupon Prefix.
+- **Reward expires after a specific amount of time:** Set the expiry for the reward.
+- **Minimum purchase amount:** The amount required for usage. (Default: 1)
+- **Reward combined with other coupons:** Compatibility with other coupons or to be won alongside other coupons.
+- **Show "How to redeem" instructions.**
+
+Ensure your coupon configuration is compatible with the reward type and platform.
+
+<Note>
+- A **"Check Coupons Details"** button will be displayed on the **success screen** of any game **only if the reward type is a coupon**.
+- The button **will not** appear for any other reward types (e.g., points, badges, items).
+- When the player clicks **"Check Coupons Details"**, they will be redirected to the **Coupon Details Page** inside the widget.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Create an action-based Reward Campaign from scratch" href="/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign" />
+  <Card title="Create a time-based Reward Campaign from scratch" href="/product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign" />
+  <Card title="Setting Custom ways to redeem points" href="/product-documentation/programs/loyalty-points-redeem" />
+</CardGroup>

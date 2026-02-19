@@ -1,0 +1,222 @@
+---
+title: "Creating a Coupon Manually with Gameball"
+description: "Easily create customized coupons tailored to your marketing strategies and customer needs directly through the Gameball Dashboard."
+---
+
+| Platform | Plan |
+|----------|------|
+| Selfserve | Add-on ([Contact Support](mailto:support@gameball.co)) |
+
+With Gameball's couponing engine, you can manually create unique coupons to reward your customers or drive specific business objectives. In this article, we will walk you through the process of accessing the coupon creation feature and setting up a coupon manually.
+
+## Accessing the Coupon Creation Feature
+
+<Steps>
+  <Step title="Log in">
+    Log in to your **Gameball Dashboard**.
+  </Step>
+  <Step title="Navigate">
+    From the left-side menu, navigate to **Coupons**.
+  </Step>
+  <Step title="Create">
+    Click on the **Create Coupon** button at the top of the page.
+  </Step>
+</Steps>
+
+<Frame>
+![Create coupon button](/images/product-docs/coupons/create-coupon-button.png)
+</Frame>
+
+---
+
+## How to Create a New Coupon
+
+When creating a coupon manually, follow these steps to set it up:
+
+### Step 1: Choose the Coupon Type
+
+Define the type of coupon you want to create:
+
+- **Free Product**
+- **Free Shipping**
+- **Fixed Amount-Based Discount** (e.g., $10 off)
+- **Percentage Amount-Based Discount** (e.g., 15% off)
+- **Buy X Get Y** (For automatically applied coupons only)
+- **Percentage-Based Cashback**
+- **Fixed Amount-Based Cashback**
+- **Percentage Amount-Based Fees Discount**
+
+<Frame>
+![Coupon types](/images/product-docs/coupons/coupon-types.png)
+</Frame>
+
+### Step 2: Add the Coupon Details
+
+<Frame>
+![Coupon details](/images/product-docs/coupons/coupon-details.png)
+</Frame>
+
+1. Set how the coupon will be applied: Choose between Discount Code or Automatic
+   - **Discount Code:** A code that you will share with your customers that they will use while checking out
+   - **Automatic:** Once the customer meets, a discount will be applied automatically
+2. **Internal Name the Coupon**: Provide a unique name for your coupon for better monitoring on the dashboard.
+3. **Set the Coupon Code**: You can manually enter a code or allow Gameball to auto-generate it.
+4. **External Name:** Customers can see the **localized display name** in their widget, emails, and web messages.
+5. **Terms & Conditions:** Add localized Terms & Conditions for manual coupons, helping you clearly communicate coupon rules and usage limits to customers in their preferred language.
+
+<Frame>
+![Terms and conditions](/images/product-docs/coupons/terms-conditions.png)
+</Frame>
+
+6. **Set the Coupon Value**: Enter the value based on the type chosen.
+7. **Set the Minimum Purchase Amount:** Define the minimum amount required for the coupon to apply.
+8. **Apply the Coupon**: Decide whether it applies to **All Orders** or **Specific Collections**.
+
+<Frame>
+![Apply coupon settings](/images/product-docs/coupons/apply-coupon-settings.png)
+</Frame>
+
+<Note>
+Clients can specify whether the coupon should apply to **both merchants and collections (AND)** or **either merchants or collections (OR)**.
+</Note>
+
+<Frame>
+![Coupon application logic](/images/product-docs/coupons/coupon-application-logic.png)
+</Frame>
+
+<Info>
+**General notes on "Display Name" and "Terms & Conditions":**
+
+- Supports **multiple languages**, matching your widget's configured languages.
+- **Customer-Facing Experience:**
+  - Customers now see the **localized display name** in their widget, emails, and web messages.
+  - If no translation exists for a customer's language, the **default language name** will be shown instead.
+- **API Updates:**
+  - `displayName` is included in coupon API responses as a **multi-language object (key-value pairs)**.
+  - No breaking changes for existing API integrations.
+- **Terms & Conditions Field:**
+  - A dedicated "Terms & Conditions" section is now available when creating or editing manual coupons.
+- **API Updates:**
+  - The coupon API includes an `termsAndConditions` object containing multilingual key-value pairs.
+  - No impact on existing coupon API consumers.
+</Info>
+
+#### How to distinguish regular coupons from automatic promotions?
+
+We've enhanced the **Customer Coupons API** to make it easier for apps and storefronts to distinguish **automatic promotions** from **regular coupons** and to display the **promotion rules** that define how customers can qualify for each offer. Here is what you will find:
+
+- Gameball added a new boolean flag: `"isPromotion": true`
+  - `isPromotion = false` → Regular or manually issued coupon.
+  - `isPromotion = true` → Promotion or rule-based discount (e.g., "Buy 2 Get 1 Free", "50% Off Collection").
+
+- Added a new object for **promotion details**:
+
+```json
+"promotionRules": {
+  "type": "Buy X Get Y",
+  "description": "Buy 2 items from Summer Collection, get 1 free T-shirt",
+  "conditions": {
+    "buyQuantity": 2,
+    "getQuantity": 1,
+    "applicableCollections": ["Summer Collection"],
+    "minOrderValue": 0
+  }
+}
+```
+
+Includes:
+- Promotion type and description
+- Applicable collections or products
+- Minimum order value or eligibility rules
+
+### Step 3: Choose the Audience
+
+Select the target audience for the coupon:
+
+- **All Customers**: The coupon will be accessible to all customers.
+- **Specific Customers**: Target specific customer groups with precision using these options:
+  - **Segments**: Based on predefined customer behaviors.
+  - **RFM Segments**: Utilize Recency, Frequency, and Monetary metrics.
+  - **Tags**: Assign tags to filter customers.
+  - **Customer Attributes**: Filter customers based on attributes such as:
+    - **Customer ID**
+    - **Customer Email**
+
+<Frame>
+![Audience selection](/images/product-docs/coupons/audience-selection.png)
+</Frame>
+
+### Step 4: Configure Advanced Options (if needed)
+
+Add optional configurations to customize the coupon further:
+
+- **Start Date**: Specify when the coupon will become active.
+- **End Date:** Specify when the coupon will expire.
+
+<Frame>
+![Advanced options](/images/product-docs/coupons/advanced-options.png)
+</Frame>
+
+- **Expiry Date**: Set an end date for the coupon.
+- **Coupon Usage Per Customer Limit**: Set how many times an individual customer can use the coupon.
+- **Coupon Usage Limit**: Establish a total usage cap for the coupon.
+- **Reward Combined with Other Coupons**: Specify whether the coupon can be used alongside other offers.
+
+### Step 5: Save the Coupon
+
+Once all details have been added, click the **Save** button to finalize your coupon.
+
+---
+
+## Manage Your Coupons Efficiently
+
+### Edit each coupon
+
+Gameball offers shortcuts to help you manage your coupons effectively:
+
+| Shortcut | Description |
+|----------|-------------|
+| **Duplicate** | Create an identical copy of an existing coupon for similar campaigns or promotions. |
+| **Activate/Deactivate** | Toggle the coupon's status to control its availability. |
+| **Edit** | Update the coupon's details, including name, value, usage limits, and more. |
+| **Delete** | Permanently remove a coupon. Use this with caution, as deleted coupons cannot be recovered. |
+
+Click on the **three-dot icon** beside each coupon.
+
+<Frame>
+![Coupon management options](/images/product-docs/coupons/coupon-management-options.png)
+</Frame>
+
+By utilizing these options, you can streamline your couponing efforts and maintain an effective marketing strategy.
+
+### Configure Locking coupon duration
+
+To set the duration during which coupons should be locked before they are usable, click **Settings** on the top right of the page.
+
+<Frame>
+![Coupon settings button](/images/product-docs/coupons/coupon-settings-button.png)
+</Frame>
+
+Set up the time and click **Save**.
+
+<Frame>
+![Lock duration settings](/images/product-docs/coupons/lock-duration-settings.png)
+</Frame>
+
+### Export Created Coupons
+
+Click **Export**, then **Extract**
+
+<Frame>
+![Export button](/images/product-docs/coupons/export-button.png)
+</Frame>
+
+<Frame>
+![Extract confirmation](/images/product-docs/coupons/extract-confirmation.png)
+</Frame>
+
+---
+
+## Related Articles:
+
+- [Request a coupon creation from your couponing engine](/product-documentation/apps-integrations/integration-use-cases/request-coupon-creation)

@@ -1,0 +1,84 @@
+---
+title: "Get Your Account Integration Details: API Key and Secret Key"
+description: "To start the integration process, this is where you can get your integration keys or activate your high security mode on Gameball dashboard."
+---
+
+## Get Your Account Integration Details: API Key and Secret Key
+
+**E-commerce Platforms**
+
+**Custom Integrations**
+
+Shopify (Guru)
+
+Supported
+
+Salla (Guru)
+
+Supported
+
+Self Serve
+
+Supported
+
+To start your account integration with your platform, you will need to access your Gameball API keys, secret Key, as well as enable some security measures if needed, such as your high Security Mode, or apply key rotation. The following will show you where to find those keys and how to apply strong security measures.
+
+You can access your **Account Integration** settings section in **Gameball Admin Dashboard** through **Settings** > **Admin Settings** > **Account Integration**
+
+<Frame>
+  ![Account Integration](/images/product-docs/admin-settings/account-integration.png)
+</Frame>
+
+## Integration Keys
+
+### Live API Key
+
+This is your account key, which will be used in the integration between your platform and Gameball.
+
+<Warning>
+You will have **Test API Key** and **Live API Key,** use the test one during your integration and the live one after going live. [Read more about Test/Live Data API Keys](/product-documentation/integrate-gameball/other-integration-notes/test-and-live-data)
+</Warning>
+
+### Test API Key
+
+This is your account key, which will be used for test environments.
+
+### Secret Key
+
+This is your account points transactions key, it will be used with all points transactions APIs.
+
+### High Security Mode for API Authentication
+
+When enabled, this mode ensures that all API requests are verified and secure, preventing unauthorized access and data exposure. This feature is disabled by default and can be easily activated in the Integration settings within the Admin panel. Once enabled, any integration that previously required only an API key will now also require a Secret Key, ensuring that even if the API key is exposed, it cannot be misused.
+
+<Frame>
+  ![High Security Mode](/images/product-docs/admin-settings/high-security-mode.png)
+</Frame>
+
+### API & Secret Key Rotation
+
+You can now **secure your accounts by rotating keys** without affecting your existing platform connections, helping them comply with security best practices (e.g., periodic credential rotation) and mitigate potential key exposure risks.
+
+<Frame>
+  ![Key Rotation](/images/product-docs/admin-settings/key-rotation.png)
+</Frame>
+
+Key Features:
+
+- **Individual Key Rotation:** API keys and Secret Key can each be rotated separately with dedicated actions.
+- **Immediate Replacement:** Upon rotation, a new key is generated instantly, and the old key is immediately disabled.
+- **Automated Updates for Shopify & Salla:**
+  - Rotated keys are automatically updated in connected Shopify and Salla stores.
+  - On these platforms, you do **not need to manually update** your store configuration after key rotation.
+- **Access Control:**
+  - Only Admins, Workspace Owners, and Workspace Admins can rotate keys.
+  - If using custom roles, key rotation permission is configurable.
+
+---
+
+## What else?
+
+- [Test and Live Data](/product-documentation/integrate-gameball/other-integration-notes/test-and-live-data)
+- [Gameball Integration with your Web App](/product-documentation/integrate-gameball/website/gameball-integration-with-your-web-app)
+- [Gameball Integration with your Mobile App](/product-documentation/integrate-gameball/mobile-app/gameball-integration-with-your-mobile-app)
+- [Publish Gameball Experience and Widget on your Store](/product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience)

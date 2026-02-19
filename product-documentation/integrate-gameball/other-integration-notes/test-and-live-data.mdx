@@ -1,0 +1,58 @@
+---
+title: "Test and Live Data"
+description: "Test your designed experience through Gameball on your staging/UAT environment before rolling it out on production."
+---
+
+## What is the difference between test/live data?
+
+### Test Data
+
+These data are the ones used while you are testing your Gameball engagement experience before going live, mostly used by your team. Gameball will give you the ability to test the whole experience you designed on your staging/UAT environment. No need to care about deleting the test data that you have used during the integration cycle.
+
+### Live Data
+
+These data are the ones used once you start going live with Gameball on your platform, with the Gameball engagement experience exposed to your customers according to your configurations.
+
+## How to use the test/live data?
+
+Your account will have 2 different **API Keys**, one for Test and the other one for Live data. You can access your **API Keys** settings section in Gameball Admin Dashboard through **Settings > Admin Settings > Account Integration**.
+
+<Frame caption="API Keys in Account Integration settings">
+  ![API Keys settings](/images/product-docs/integrate-gameball/test-live-api-keys.png)
+</Frame>
+
+You will find both your **Live API Key** and **Test API Key**.
+
+<Tip>
+Use **Test API Key** on your staging/UAT environment and **Live API Key** on your production environment.
+</Tip>
+
+## Test/Live data dependency
+
+Your designed and configured experience will be the same using both API Keys (tiers, campaigns, etc). The only difference will be with the below:
+
+- Analytics section
+- Customers list
+- Customers' Game Plan Achievements
+- Customer Points Transactions
+
+## How to switch between test and live data on the Gameball admin dashboard?
+
+You can switch between both live/test data inside the **dashboard** using the **toggle** at the top left section of any page, as shown below.
+
+<Frame caption="Live/Test data toggle in the dashboard">
+  ![Live/Test data toggle](/images/product-docs/integrate-gameball/test-live-toggle.png)
+</Frame>
+
+---
+
+## What else?
+
+<CardGroup cols={2}>
+  <Card title="Publish Gameball Experience on Your Store" icon="rocket" href="/product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience">
+    Publish the Gameball experience and widget on your Shopify store.
+  </Card>
+  <Card title="Understand Your Customers' Basic Analytics" icon="chart-line" href="/product-documentation/analytics/introduction-to-gameball-analytics">
+    Introduction to Gameball Analytics.
+  </Card>
+</CardGroup>

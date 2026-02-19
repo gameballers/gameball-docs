@@ -1,0 +1,174 @@
+---
+title: "The Catcher"
+description: "Test your customers' reaction time and let them win a reward with an engaging game, such as the Catcher."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Pro & Guru |
+| Salla | Pro & Guru |
+| Non-Platform | Add-on |
+
+## Intro
+
+An interactive gamification tool that boosts engagement and brand awareness. Customers try to catch positive icons and miss bad ones to unlock rewards, driving interaction, visibility, and new revenue opportunities.
+
+**Use Cases:**
+
+1. **Boost Activity:** Encourage daily or weekly logins with regular gameplay and rewards to drive retention.
+2. **Brand-Sponsored Challenges**: Brands can sponsor games, driving engagement and creating new revenue streams for Gameball customers.
+
+<Frame>
+  ![The catcher gameplay](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-gameplay.gif)
+</Frame>
+
+<Frame>
+  ![The catcher preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-preview.png)
+</Frame>
+
+## Creation Experience
+
+**How to Set Up**
+
+1. Open Gameball
+2. Click **Add Reward Campaign**
+3. Select the **Catcher** Template
+4. Edit the campaign's setup
+5. Click **Set Live**
+
+**Trigger**
+
+- **On Widget:**
+  Customers can access the catcher game through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin playing.
+
+- **Deep Link:**
+  Use the deep link to trigger the catcher campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+**Audience**
+
+- **Registered Customers:**
+  Customers who have an account on your platform (signed up)
+
+- **Anonymous Customers:**
+  Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
+
+  <Note>
+  - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
+  - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
+  </Note>
+
+- **Specific Customers:**
+  You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+
+**Repeatability**
+
+- By default, customers can play **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
+- All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+<Frame>
+  ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
+</Frame>
+
+**Platform Visibility**
+
+You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
+
+<Frame>
+  ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
+</Frame>
+
+**More Setup**
+
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+
+## Game Rules
+
+**Dropping Items**
+
+Go to **Customize Design -> Game** to set up the rules.
+
+1. The game includes **items to catch** and **items to avoid** by default, and you can add up to 5 items each.
+2. Customers must catch enough items and reach the required score **before the timer runs out**.
+
+<Frame>
+  ![The catcher dropping items](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-items.png)
+</Frame>
+
+**Minimum items to collect & Time**
+
+- Specify the minimum amount of items that should be caught to win before time runs out.
+- Specify the duration (in seconds) during which the customer is allowed to play the game.
+
+<Frame>
+  ![The catcher minimum items and time](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-time.png)
+</Frame>
+
+**Lives**
+
+- To add difficulty, you can **limit the number of lives**. If customers lose more lives than specified by collecting bad items, they lose.
+
+<Frame>
+  ![The catcher lives setting](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-lives.png)
+</Frame>
+
+## End User Experience
+
+**How it works**
+
+1. Customers move the cursor to slide the basket left and right. Random items are dropping.
+2. Customer tries to catch good items and must avoid bad ones to win.
+3. The game ends when the time ends or when they lose a maximum number of lives.
+4. The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+
+## Customization
+
+**Design & Content**
+
+You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
+
+- **Banner**
+- **Intro / Main Screen**
+- **Success Screen**
+- **No Luck Screen**
+- **Game General Rule Customizations:**
+    - **Time Duration**: Set how long each game lasts (e.g., 10s, 20s, 60s).
+    - **Mistakes/Lives**: Choose how many lives a customer has (e.g., 1, 3, or unlimited).
+    - **Minimum Number of Items to Collect**.
+    - **Tooltips**: Added help text explaining how time and lives impact gameplay.
+
+For each screen, you can tailor the following elements:
+
+- **Branding**: Adjust background colors, text colors, and upload custom artwork.
+- **Content**: Edit the headlines, descriptions, and call-to-action messages to match your tone and messaging.
+
+This allows you to create a fully branded, on-theme experience that aligns with your business identity.
+
+<Frame>
+  ![The catcher customization screens](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-customization-1.png)
+</Frame>
+
+<Frame>
+  ![The catcher customization details](/images/product-docs/rewards-campaigns/templates/engagement-gamification/the-catcher-customization-2.png)
+</Frame>
+
+## Important Note
+
+<Note>
+**Customer Eligibility**
+
+Games in the widget update dynamically based on customer eligibility, ensuring customers only see games they can still participate in.
+
+**Games are hidden when customers become ineligible.**
+
+If a customer no longer belongs to the game's target segment, the game is automatically removed from the widget and won't reappear unless eligibility is restored.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+</CardGroup>

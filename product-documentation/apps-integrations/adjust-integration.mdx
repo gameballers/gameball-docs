@@ -1,0 +1,28 @@
+---
+title: "Integrate Gameball With Adjust"
+description: "Learn how to set up Adjust integration on Gameball."
+---
+
+**Platform**
+
+**Plan**
+
+Non-Platform
+
+All Plans
+
+Gameball supports **Adjust.io** as a dynamic link provider for referral programs. This integration enables you to generate dynamic links that track referrals and enhance your user acquisition strategy.
+
+To learn how to set up the integration between Adjust.io and Gameball, [follow the steps in the document](https://developer.gameball.co/adjust-integration).
+
+##### Can I create a referral links without using deep link generators like Adjust?
+
+The referral process can be completed without using a deep link generator like Adjust. In such cases, you will need to provide your own referral link. Gameball will simply append the referral code to it.
+
+Deep link generators are only responsible for generating the link that appears in the referral widget. If you’re not using one, the referral link will follow this format:
+
+-   {referralLink}?GbReferral={referralCode}
+
+
+You will then need to handle the referral logic manually, including capturing the referral code and passing it in the _create customer_ request.
+---

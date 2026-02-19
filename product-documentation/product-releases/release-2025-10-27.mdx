@@ -1,0 +1,376 @@
+---
+title: "Product Release 27.10.2025"
+description: "Gameball's latest product updates and enhancements."
+---
+
+Take a look at what the Gameball product team has been working on recently.
+
+## New Features
+
+### 1. Enable Guest Play with Lead Form for Games
+
+**Platform**
+
+Self-Serve Only
+
+**Plan**
+
+Self-Serve
+
+**Channel**
+
+All
+
+We've introduced the ability for customers to enjoy **AI-powered games as guests** while submitting their details through a **lead form**, just like other Gameball games. [Learn how to set up your lead form](/product-documentation/rewards-campaigns/reward-campaign-url).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/guest-play-lead-form.png" alt="Guest play with lead form" />
+</Frame>
+
+#### Why This Matters
+
+You can now capture new leads from anonymous customers, turning gameplay engagement into a conversion opportunity.
+
+**Supported Games:**
+
+- 🎮 Tic Tac Toe
+- 🎯 Tap the Target
+- 🚗 Driving
+- 🔫 Shooter
+- 🧩 Puzzle
+
+**New Configuration Options:**
+
+- **Audience Tab:** Enable the **Anonymous Option** to allow guest participation.
+- **Customize Tab:** A new **Lead Form** section is available, complete with a **Preview** feature to visualize your form setup.
+
+#### Example Use Case
+
+Allow visitors to try your games without signing in, then prompt them to fill out a short lead form (e.g., name, email), perfect for collecting new leads from interactive experiences.
+
+This update brings games in line with other Gameball games, providing both **guest play** and **lead capture** functionality.
+
+---
+
+### 2. Test API Call Configurations in Reward Campaigns and Automation Triggers
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+You can now test API call configurations directly while setting up **Reward Campaigns** or **Automation Triggers**, ensuring your integrations work correctly before activation. [Learn more](/product-documentation/rewards-campaigns/send-external-rewards-using-api).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/test-api-call-configurations.png" alt="Test API call configurations" />
+</Frame>
+
+#### Why This Matters
+
+Previously, admins had no way to verify API call settings (URL, headers, payload) without activating the campaign or automation, often leading to failed executions and troubleshooting delays.
+
+#### What's New
+
+- Added a **"Test API"** button within API configuration screens.
+- Instantly view **response status**, **HTTP code**, and **error details**.
+- Receive clear guidance for issues such as missing headers or invalid payloads.
+- Test calls are **isolated** and do **not** affect live campaigns or customers.
+
+#### Benefits
+
+- Verify integrations instantly before launch.
+- Prevent misconfigurations and API errors early.
+- Save time debugging and reduce failed executions in live environments.
+
+#### Example
+
+When configuring an API call in a reward campaign, click **"Test API"** to send a sample request and view:
+
+`Response: 200 OK – Connection successful`
+
+This makes it easier than ever to validate your setup confidently before going live.
+
+---
+
+### 3. Google Wallet Loyalty Card Integration
+
+**Platform**
+
+All
+
+**Plan**
+
+Upon Request
+
+**Channel**
+
+Mobile
+
+Gameball now supports **Google Wallet loyalty cards**, allowing your customers to easily access their loyalty points directly from their phones, and even receive nearby store notifications.
+
+#### Why This Matters
+
+Previously, loyalty interactions were limited to the Gameball platform or your store system. With Google Wallet integration, customers can now engage with your loyalty program seamlessly in real life, improving retention and convenience.
+
+#### What's New
+
+- Each customer can generate a **unique Google Wallet loyalty card** from their Gameball account.
+- The card displays key loyalty details:
+  - Customer name
+  - Current points balance
+  - Tier/level
+  - QR or barcode for scanning
+  - Client-branded design (logo, colors, theme)
+- Customers can **add the card to Google Wallet** directly from your loyalty portal.
+- **Automatic synchronization:** points balance and tier updates reflect in near real-time.
+- **POS compatibility:** cards can be scanned at checkout to earn or redeem points instantly.
+
+#### Benefits
+
+- Boost customer engagement with easy access to loyalty details.
+- Strengthen your brand with a custom, branded digital card.
+- Ensure a seamless omnichannel experience across web, mobile, and in-store.
+
+---
+
+### 4. Multiple Winning Icons for Game Success Screens
+
+**Platform**
+
+All
+
+**Plan**
+
+Following the game's plan
+
+**Channel**
+
+All
+
+You can now display **unique icons or visuals for each reward** in your game's success screen, making every win feel more personalized and exciting.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/multiple-winning-icons.png" alt="Multiple winning icons for games" />
+</Frame>
+
+#### Why This Matters
+
+Previously, all rewards in multi-reward games shared the same generic success icon. This made it difficult to visually distinguish between different reward types (e.g., cashback vs. discount), reducing the impact of higher-value prizes.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/game-success-icon-customization.png" alt="Game success icon customization" />
+</Frame>
+
+When customizing your success screen of the widget, choose **Success Image for Each Reward** instead of **One Success Image** and start choosing or uploading an image for each reward type.
+
+#### What's New
+
+- **Per-Reward Icons:** You can now assign a specific icon or image to each individual reward while setting up your game.
+- **Dynamic Display:** The success screen automatically updates to show the correct icon for the reward the customer wins.
+- **Default Fallback:** If no custom icon is configured, a default icon will still appear.
+- **Live Preview:** The dashboard includes a visual preview to see how each reward's icon will look in the success screen.
+- **Supported Games:** Available for all multi-reward games, including:
+  - 🎯 Spin the Wheel
+  - 🎰 Slot Machine
+  - 🃏 Scratch & Win
+
+#### Benefits
+
+- Enhance the customer experience with visually distinct reward outcomes.
+- Improve branding consistency across reward types.
+- Make high-value rewards feel more special and engaging.
+
+#### Example
+
+In **Spin the Wheel**, if a customer wins a **"Free Shipping"** reward, the success screen now displays a **truck icon**, while a **cashback reward** might show a **coin icon**. Each win looks and feels unique, boosting customer excitement and recognition.
+
+---
+
+### 5. Send Test Emails Inside Automation
+
+**Platform**
+
+All
+
+**Plan**
+
+Following the automation plans
+
+**Channel**
+
+All
+
+You can now send **test emails directly from within an automation**, allowing you to preview and validate your email content before publishing your journey. [Learn more about how to set up an automation campaign](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
+
+<Frame>
+  <img src="/images/product-docs/product-releases/send-test-email-automation.png" alt="Send test email in automation" />
+</Frame>
+
+#### Why This Matters
+
+Previously, admins had no way to test automation emails without activating the full flow, increasing the risk of typos, layout issues, or misconfigured variables reaching real customers.
+
+#### Benefits
+
+- Confidently review your automation emails before they go live.
+- Catch content or layout issues early.
+- Ensure personalization variables display correctly.
+- Save time and reduce errors when launching automated campaigns.
+
+#### Example
+
+When creating an automation with an email action titled **"Welcome New Customer"**, clicking **Send Test Email** will send a preview message to your chosen inbox, showing exactly how your customers will see it.
+
+---
+
+### 6. "Check Coupon Details" Button on Game Success Screens
+
+**Platform**
+
+All
+
+**Plan**
+
+All
+
+**Channel**
+
+All
+
+Customers can now **view their coupon rewards instantly** after winning a game through a new **"Check Coupon Details"** button on the success screen.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/check-coupon-details-button.png" alt="Check coupon details button" />
+</Frame>
+
+When editing the Success screen content of the widget, you can choose to display this button by clicking on the "**Add Check Coupon Link**" and "**Add Button**" then filling the required content like button text and redirection URL.
+
+#### Why This Matters
+
+Previously, customers had no direct way to access or review their coupon details after winning them in a game. This often caused confusion about expiry dates or redemption instructions.
+
+#### What's New
+
+- **New CTA Button:** A "Check Coupon Details" button now appears on the game success screen whenever the reward type is a coupon.
+- **Smart Display Logic:**
+  - Shown **only** when the customer wins a coupon.
+  - Hidden for all other reward types (e.g., points, badges, items).
+- **Redirection:** Clicking the button takes the customer directly to the **Coupon Details page** within the widget.
+- **Configurable Settings:**
+  - Clients can enable or disable the button globally from the **Game Customization → Success Page** in the dashboard.
+  - Button label can be customized (e.g., "View Coupon" or "See My Reward").
+
+#### Benefits
+
+- Instantly access coupon details, expiry dates, and usage instructions.
+- Improve clarity and reduce support inquiries about earned rewards.
+- Provide a smoother, more rewarding post-game experience.
+
+#### Example
+
+When a customer wins a **10% Off Coupon** from a Spin & Win game, they'll now see:
+
+🎉 You Won a Coupon!
+
+[Check Coupon Details]
+
+Clicking the button opens the detailed view of the coupon, including its expiry date and redemption instructions.
+
+---
+
+## Other Improvements
+
+### 1. **Enhancement: Use "Preferred Language" Attribute in Automation Conditional Splits**
+
+You can now use the **Preferred Language** customer attribute within the **[Conditional Split](/product-documentation/automation-campaigns/automation-controls)** node in Automation Journeys.
+
+This allows you to personalize message flows and actions based on each customer's language preference.
+
+<Frame>
+  <img src="/images/product-docs/product-releases/preferred-language-conditional-split.png" alt="Preferred language in conditional split" />
+</Frame>
+
+#### **Example:**
+
+- If _Preferred Language_ = Arabic → Send Arabic message
+- Otherwise → Send English message
+
+#### **Key Details:**
+
+- The **Preferred Language** attribute now appears as a selectable condition in the Conditional Split node.
+- Admins can choose from available system languages (e.g., English, Arabic, French, etc.) through a dropdown.
+- Supports the same comparison operators as other text-based attributes (e.g., equals, not equals).
+
+#### **Impact:**
+
+This update enables more personalized and localized customer communication within automated workflows.
+
+---
+
+### 2. Add "Happens One Time" Option for Multi-Step Referral Event Triggers
+
+You can now configure multi-step referral flows to mark an event as **"Happens One Time"**, without needing to define additional metadata or complex custom rules. [Read about the Multi-Step Referrals on Gameball](/product-documentation/programs/referral-program/launching-referral-program).
+
+#### Why This Matters
+
+Previously, setting up event-based referral steps required manual metadata configuration to ensure actions only triggered once. This made the setup more complex and error-prone for marketers and admins.
+
+#### Benefits
+
+- Simplifies multi-step referral setup.
+- Reduces errors from duplicate event triggers.
+- Brings consistency with standard referral campaign configurations.
+- Saves time for marketers setting up referral journeys.
+
+#### Example
+
+When creating a multi-step referral flow, you can now select:
+
+**Event:** `place_order`
+
+**Trigger Type:** _Happens One Time_
+
+Once the referred friend places an order, that step completes automatically; no need to add metadata filters.
+
+---
+
+### 3. Configure Custom Game Rules for All Game Campaigns
+
+You can now customize key game rules for games, including time duration and number of mistakes or lives, giving you more control over difficulty and customer experience. [Check out our Engagement and Gamification Campaigns](/product-documentation/rewards-campaigns/reward-campaign-intro).
+
+#### Why This Matters
+
+Previously, games had fixed durations and life limits, which made it difficult to tailor gameplay to your campaign goals or audience. With configurable rules, you can now adjust the challenge level and engagement style to better suit your customers.
+
+#### What's New
+
+- **Time Duration**: Set how long each game lasts (e.g., 10s, 20s, 60s).
+- **Mistakes/Lives**: Choose how many lives a customer has (e.g., 1, 3, or unlimited).
+- **Dashboard Controls**: Easily configure these settings in the game setup screen.
+- **Default Values**: Existing defaults remain if no customization is made.
+- **Tooltips**: Added help text explaining how time and lives impact gameplay.
+
+#### Benefits
+
+- Fine-tune game difficulty to match your campaign objectives.
+- Increase engagement by balancing challenge and reward.
+- Maintain flexibility across different AI-powered games.
+
+#### Example
+
+When setting up a **Tic Tac Toe** or **Shooter** game, you can now select:
+
+**Time Duration:** 30 seconds
+
+**Lives:** 3
+
+If the customer runs out of time or uses all lives, the game ends automatically based on your chosen rules.
+
+---

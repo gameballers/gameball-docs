@@ -40,7 +40,496 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Installation Guide",
+        "tab": "Product Docs",
+        "groups": [
+          {
+            "group": "Product Documentation",
+            "pages": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "product-documentation/getting-started/what-is-gameball",
+                  "product-documentation/getting-started/launch-checklist",
+                  {
+                    "group": "FAQs",
+                    "pages": [
+                      "product-documentation/getting-started/faqs/enable-customer-account-creation-on-shopify",
+                      "product-documentation/getting-started/faqs/gameball-plans-and-subscriptions"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Understanding Your Customers",
+                "pages": [
+                  {
+                    "group": "Gameball Customers",
+                    "pages": [
+                      "product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball"
+                    ]
+                  },
+                  {
+                    "group": "Customer Profile",
+                    "pages": [
+                      "product-documentation/understanding-your-customers/customer-profile/explore-and-manage-a-customer-profile",
+                      "product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes",
+                      "product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags",
+                      "product-documentation/understanding-your-customers/customer-profile/customer-events"
+                    ]
+                  },
+                  {
+                    "group": "Your Customers",
+                    "pages": [
+                      "product-documentation/understanding-your-customers/your-customers/manage-your-customer-list",
+                      "product-documentation/understanding-your-customers/your-customers/export-your-customer-list",
+                      "product-documentation/understanding-your-customers/your-customers/customer-activity-log",
+                      "product-documentation/understanding-your-customers/your-customers/export-customer-activities-log",
+                      "product-documentation/understanding-your-customers/your-customers/view-order-details-from-activity-logs",
+                      "product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Programs",
+                "pages": [
+                  {
+                    "group": "Loyalty Points - Earn",
+                    "pages": [
+                      "product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system",
+                      "product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules",
+                      "product-documentation/programs/loyalty-points-earn/collection-based-earning-rules",
+                      {
+                        "group": "Crossover Reward Program",
+                        "pages": [
+                          "product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience",
+                          "product-documentation/programs/loyalty-points-earn/crossover-reward-program/creating-a-new-merchant",
+                          "product-documentation/programs/loyalty-points-earn/crossover-reward-program/reward-customers-with-different-cashback-per-brand"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Loyalty Points - Redeem",
+                    "pages": [
+                      "product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system"
+                    ]
+                  },
+                  {
+                    "group": "Referral Program",
+                    "pages": [
+                      "product-documentation/programs/referral-program/launching-referral-program",
+                      "product-documentation/programs/referral-program/referrals-on-gameball-widget"
+                    ]
+                  },
+                  {
+                    "group": "VIP Tiers",
+                    "pages": [
+                      "product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers",
+                      "product-documentation/programs/vip-tiers/manually-updating-customers-tiers",
+                      "product-documentation/programs/vip-tiers/tiers-on-gameball-widget",
+                      {
+                        "group": "Tier Settings",
+                        "pages": [
+                          "product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods",
+                          "product-documentation/programs/vip-tiers/tier-settings/understanding-tier-expiry",
+                          "product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Customer Segmentation",
+                "pages": [
+                  "product-documentation/customer-segmentation/introduction-to-segmentation",
+                  "product-documentation/customer-segmentation/how-to-segment-customers",
+                  "product-documentation/customer-segmentation/segmentation-use-cases",
+                  {
+                    "group": "RFM Segments",
+                    "pages": [
+                      "product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments",
+                      "product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Analytics",
+                "pages": [
+                  "product-documentation/analytics/introduction-to-gameball-analytics",
+                  "product-documentation/analytics/member-analytics",
+                  "product-documentation/analytics/track-your-campaign-performance",
+                  "product-documentation/analytics/track-your-purchase-behaviour",
+                  "product-documentation/analytics/track-your-referral-performance",
+                  "product-documentation/analytics/export-your-points-data"
+                ]
+              },
+              {
+                "group": "Rewards Campaigns",
+                "pages": [
+                  "product-documentation/rewards-campaigns/reward-campaign-intro",
+                  "product-documentation/rewards-campaigns/reward-campaign-general-setup-guide",
+                  "product-documentation/rewards-campaigns/reward-campaign-url",
+                  "product-documentation/rewards-campaigns/reward-campaigns-insights",
+                  "product-documentation/rewards-campaigns/send-external-rewards-using-api",
+                  {
+                    "group": "FAQs",
+                    "pages": [
+                      "product-documentation/rewards-campaigns/faqs/understanding-rewards-types",
+                      "product-documentation/rewards-campaigns/faqs/stamps-milestone-mission-campaigns",
+                      "product-documentation/rewards-campaigns/faqs/configure-reward-campaigns-based-on-tags",
+                      "product-documentation/rewards-campaigns/faqs/using-the-event-engine"
+                    ]
+                  },
+                  {
+                    "group": "Start from Scratch",
+                    "pages": [
+                      "product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign",
+                      "product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign",
+                      "product-documentation/rewards-campaigns/start-from-scratch/create-recurring-customer-date-reward-campaign",
+                      "product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign"
+                    ]
+                  },
+                  {
+                    "group": "Templates - Acquisition & Conversion",
+                    "pages": [
+                      "product-documentation/rewards-campaigns/templates/acquisition-conversion/create-an-account",
+                      "product-documentation/rewards-campaigns/templates/acquisition-conversion/subscribe-to-newsletter",
+                      "product-documentation/rewards-campaigns/templates/acquisition-conversion/unlock-15-percent-off-first-order"
+                    ]
+                  },
+                  {
+                    "group": "Templates - Engagement & Gamification",
+                    "pages": [
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/spin-the-wheel",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/scratch-and-win",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/slot-machine",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/quiz",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/match-cards",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/tic-tac-toe",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/space-shooter",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/the-catcher",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/tap-the-target",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/driving-game",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/sliding-puzzle",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/calendar-campaign",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/stamps",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/milestone",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/mission",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/streak-campaign",
+                      "product-documentation/rewards-campaigns/templates/engagement-gamification/fill-a-survey"
+                    ]
+                  },
+                  {
+                    "group": "Templates - Purchase & Order Incentives",
+                    "pages": [
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/first-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/second-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/third-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/fifth-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/tenth-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-a-specific-product",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-from-a-specific-collection",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-3-items-from-collection",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-from-3-different-collections",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-x-get-y-next-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-over-50-get-5-next-order",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/exceed-highest-order-value",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/free-shipping-orders-over-500",
+                      "product-documentation/rewards-campaigns/templates/purchase-order-incentives/get-20-percent-coupon-after-spending-1000"
+                    ]
+                  },
+                  {
+                    "group": "Templates - Social Sharing & Reviews",
+                    "pages": [
+                      "product-documentation/rewards-campaigns/templates/social-sharing-reviews/write-a-review"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Communication Campaigns",
+                "pages": [
+                  "product-documentation/communication-campaigns/introduction-to-communication-campaigns",
+                  "product-documentation/communication-campaigns/create-and-configure-email-campaigns",
+                  "product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns",
+                  "product-documentation/communication-campaigns/create-and-configure-sms-campaigns",
+                  "product-documentation/communication-campaigns/create-and-configure-web-message-campaigns",
+                  "product-documentation/communication-campaigns/dynamic-variables-in-communication-campaigns",
+                  {
+                    "group": "Templates",
+                    "pages": [
+                      "product-documentation/communication-campaigns/templates/email-campaigns-templates",
+                      "product-documentation/communication-campaigns/templates/push-notification-campaigns-templates",
+                      "product-documentation/communication-campaigns/templates/web-messages-campaigns-templates"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Automation Campaigns",
+                "pages": [
+                  "product-documentation/automation-campaigns/introduction-to-automation-campaigns",
+                  "product-documentation/automation-campaigns/how-to-create-an-automation-campaign",
+                  "product-documentation/automation-campaigns/attributes-across-automation-nodes",
+                  "product-documentation/automation-campaigns/automation-triggers",
+                  "product-documentation/automation-campaigns/automation-controls",
+                  "product-documentation/automation-campaigns/automation-actions",
+                  "product-documentation/automation-campaigns/webhooks-in-automation",
+                  "product-documentation/automation-campaigns/making-edits-on-active-automation",
+                  {
+                    "group": "Templates",
+                    "pages": [
+                      "product-documentation/automation-campaigns/templates/introduction-to-automation-templates",
+                      "product-documentation/automation-campaigns/templates/acquire-new-customers",
+                      "product-documentation/automation-campaigns/templates/boost-sales-and-upselling",
+                      "product-documentation/automation-campaigns/templates/encourage-repurchase",
+                      "product-documentation/automation-campaigns/templates/reviews-and-data-collection",
+                      "product-documentation/automation-campaigns/templates/time-limited-promotions"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Onsite Components",
+                "pages": [
+                  {
+                    "group": "Checkout Components",
+                    "pages": [
+                      "product-documentation/onsite-components/checkout-components/display-earned-points-at-checkout",
+                      "product-documentation/onsite-components/checkout-components/display-available-coupons-at-checkout",
+                      "product-documentation/onsite-components/checkout-components/display-points-redemption-at-checkout",
+                      "product-documentation/onsite-components/checkout-components/display-redemption-options-at-checkout",
+                      "product-documentation/onsite-components/checkout-components/automatically-add-tier-rewards-at-checkout"
+                    ]
+                  },
+                  {
+                    "group": "General Components",
+                    "pages": [
+                      "product-documentation/onsite-components/general-components/display-potential-points-on-product-pages",
+                      "product-documentation/onsite-components/general-components/display-potential-points-in-cart",
+                      "product-documentation/onsite-components/general-components/display-earn-points-after-checkout",
+                      "product-documentation/onsite-components/general-components/display-referral-link-after-checkout",
+                      "product-documentation/onsite-components/general-components/embed-points-in-customer-profile"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Instant Notifications",
+                "pages": [
+                  "product-documentation/instant-notifications/send-real-time-notifications",
+                  {
+                    "group": "Email Notifications",
+                    "pages": [
+                      "product-documentation/instant-notifications/email-notifications/sending-achievement-emails",
+                      "product-documentation/instant-notifications/email-notifications/placeholder-variables"
+                    ]
+                  },
+                  {
+                    "group": "Real-Time Notifications per Program",
+                    "pages": [
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/welcome-notifications",
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/cashback-notifications",
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/manual-points-notifications",
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/referral-notifications",
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications",
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications",
+                      "product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Admin Settings",
+                "pages": [
+                  "product-documentation/admin-settings/get-api-keys",
+                  "product-documentation/admin-settings/create-and-send-events",
+                  "product-documentation/admin-settings/events-log",
+                  "product-documentation/admin-settings/manage-customer-attributes",
+                  "product-documentation/admin-settings/configure-currency-settings",
+                  "product-documentation/admin-settings/configure-time-zone",
+                  "product-documentation/admin-settings/configure-dashboard-language",
+                  "product-documentation/admin-settings/create-user-assign-roles",
+                  "product-documentation/admin-settings/track-user-activity",
+                  "product-documentation/admin-settings/configure-firebase-push-notifications",
+                  "product-documentation/admin-settings/update-fcm-to-http-v1",
+                  "product-documentation/admin-settings/request-coupon-creation",
+                  "product-documentation/admin-settings/third-party-coupons",
+                  "product-documentation/admin-settings/upload-products-collections-csv",
+                  "product-documentation/admin-settings/reset-your-data",
+                  "product-documentation/admin-settings/creating-multiple-workspaces",
+                  "product-documentation/admin-settings/data-warehouse-ingestion"
+                ]
+              },
+              {
+                "group": "Apps & Integrations",
+                "pages": [
+                  "product-documentation/apps-integrations/introduction-to-apps-integrations",
+                  "product-documentation/apps-integrations/activecampaign-integration",
+                  "product-documentation/apps-integrations/adjust-integration",
+                  "product-documentation/apps-integrations/attentive-integration",
+                  "product-documentation/apps-integrations/bloomreach-integration",
+                  "product-documentation/apps-integrations/branch-io-integration",
+                  "product-documentation/apps-integrations/drip-integration",
+                  "product-documentation/apps-integrations/google-wallet-integration",
+                  "product-documentation/apps-integrations/hubspot-integration",
+                  "product-documentation/apps-integrations/insider-integration",
+                  "product-documentation/apps-integrations/intercom-integration",
+                  "product-documentation/apps-integrations/judge-me-integration",
+                  "product-documentation/apps-integrations/klaviyo-integration",
+                  "product-documentation/apps-integrations/klaviyo-reviews-integration",
+                  "product-documentation/apps-integrations/mailchimp-integration",
+                  "product-documentation/apps-integrations/moengage-integration",
+                  "product-documentation/apps-integrations/omnisend-integration",
+                  "product-documentation/apps-integrations/postscript-integration",
+                  "product-documentation/apps-integrations/recharge-integration",
+                  "product-documentation/apps-integrations/segment-integration",
+                  "product-documentation/apps-integrations/zapier-integration",
+                  {
+                    "group": "Integration Use Cases",
+                    "pages": [
+                      "product-documentation/apps-integrations/integration-use-cases/judge-me-use-cases",
+                      "product-documentation/apps-integrations/integration-use-cases/klaviyo-use-cases",
+                      "product-documentation/apps-integrations/integration-use-cases/mailchimp-use-cases",
+                      "product-documentation/apps-integrations/integration-use-cases/omnisend-use-cases"
+                    ]
+                  },
+                  {
+                    "group": "Shopify Flow",
+                    "pages": [
+                      "product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow",
+                      "product-documentation/apps-integrations/shopify-flow/reviews-io-integration",
+                      "product-documentation/apps-integrations/shopify-flow/yotpo-integration"
+                    ]
+                  },
+                  {
+                    "group": "Zapier",
+                    "pages": [
+                      "product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier",
+                      "product-documentation/apps-integrations/zapier/connect-gameball-with-apps"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Customer Widget",
+                "pages": [
+                  "product-documentation/customer-widget/introduction-to-customer-widget",
+                  {
+                    "group": "Player Profile Tabs",
+                    "pages": [
+                      "product-documentation/customer-widget/player-profile-tabs/widget-deep-links",
+                      "product-documentation/customer-widget/player-profile-tabs/update-referral-tab"
+                    ]
+                  },
+                  {
+                    "group": "Start Configuring Your Profile",
+                    "pages": [
+                      "product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand",
+                      "product-documentation/customer-widget/start-configuring-profile/customize-your-loyalty-launcher-to-fit-your-platforms-interface",
+                      "product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+                      "product-documentation/customer-widget/start-configuring-profile/configure-customer-widget-language-on-your-platform",
+                      "product-documentation/customer-widget/start-configuring-profile/control-gameball-widget-visibility-on-your-platform",
+                      "product-documentation/customer-widget/start-configuring-profile/control-gameball-leaderboard-on-widget",
+                      "product-documentation/customer-widget/start-configuring-profile/guest-widget-configuration-for-web",
+                      "product-documentation/customer-widget/start-configuring-profile/edit-guest-view-content-and-faq-section-of-the-widget",
+                      "product-documentation/customer-widget/start-configuring-profile/hiding-gameballs-widget-button"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Coupons",
+                "pages": [
+                  "product-documentation/coupons/introduction-to-coupon-engine",
+                  "product-documentation/coupons/creating-coupon-manually"
+                ]
+              },
+              {
+                "group": "Enhancing Your Loyalty Program",
+                "pages": [
+                  "product-documentation/enhancing-loyalty-program/encourage-customer-enrollment",
+                  "product-documentation/enhancing-loyalty-program/improve-campaign-effectiveness"
+                ]
+              },
+              {
+                "group": "Guides, Strategies & FAQs",
+                "pages": [
+                  "product-documentation/guides-strategies-faqs/allow-huawei-push-notifications",
+                  {
+                    "group": "FAQs",
+                    "pages": [
+                      "product-documentation/guides-strategies-faqs/faqs/points-vs-score",
+                      "product-documentation/guides-strategies-faqs/faqs/mobile-web-integration-faqs",
+                      "product-documentation/guides-strategies-faqs/faqs/remove-tiers-from-widget",
+                      "product-documentation/guides-strategies-faqs/faqs/communication-preferences",
+                      "product-documentation/guides-strategies-faqs/faqs/contact-support"
+                    ]
+                  },
+                  {
+                    "group": "Shopify Guides",
+                    "pages": [
+                      "product-documentation/guides-strategies-faqs/shopify-guides/use-pos-get-rewards",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/differentiate-pos-online-campaigns",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/use-points-as-discounts",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/shopify-recipes-badges",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/track-email-consumption",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/customer-tags-sync",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/using-events",
+                      "product-documentation/guides-strategies-faqs/shopify-guides/calculate-monthly-rewarded-customers"
+                    ]
+                  },
+                  {
+                    "group": "Supportive Guides",
+                    "pages": [
+                      "product-documentation/guides-strategies-faqs/supportive-guides/ecommerce-events",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/automatic-events",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/how-refunds-work",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/rename-points-score",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/control-program-visibility",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/badge-sharing-social-media",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/apply-filters-data-lists",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/customer-update-migration-errors",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/include-exclude-customers",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/integrate-guest-customers",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/manually-adjust-points",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience",
+                      "product-documentation/guides-strategies-faqs/supportive-guides/view-dashboard-demo-mode"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Product Releases",
+                "pages": [
+                  "product-documentation/product-releases/play-and-win-new-home-for-games",
+                  "product-documentation/product-releases/release-2025-12-08",
+                  "product-documentation/product-releases/release-2025-12-01",
+                  "product-documentation/product-releases/release-2025-11-17",
+                  "product-documentation/product-releases/release-2025-11-10",
+                  "product-documentation/product-releases/release-2025-11-03",
+                  "product-documentation/product-releases/release-2025-10-27",
+                  "product-documentation/product-releases/release-2025-10-20",
+                  "product-documentation/product-releases/release-2025-10-01",
+                  "product-documentation/product-releases/release-2025-08-26",
+                  "product-documentation/product-releases/release-2025-07-28",
+                  "product-documentation/product-releases/release-2025-07-07",
+                  "product-documentation/product-releases/release-2025-06-16",
+                  "product-documentation/product-releases/release-2025-05-26",
+                  "product-documentation/product-releases/release-2025-05-12"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Installation",
         "versions": [
           {
             "version": "SDK v2",
@@ -358,7 +847,7 @@
         ]
       },
       {
-        "tab": "Tutorials",
+        "tab": "Technical Tutorials",
         "groups": [
           {
             "group": "Getting Started",
@@ -729,7 +1218,7 @@
         ]
       },
       {
-        "tab": "API Updates",
+        "tab": "Updates",
         "groups": [
           {
             "group": "Getting started",
@@ -743,14 +1232,24 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Help Center",
-          "href": "https://help.gameball.co",
-          "icon": "book-open-cover"
+          "anchor": "Gameball Website",
+          "href": "https://gameball.co/",
+          "icon": "globe"
         },
         {
           "anchor": "Blog",
           "href": "https://www.gameball.co/blog",
           "icon": "newspaper"
+        },
+        {
+          "anchor": "Case Studies",
+          "href": "https://www.gameball.co/case-study",
+          "icon": "briefcase"
+        },
+        {
+          "anchor": "Academy",
+          "href": "https://academy.gameball.co/collections",
+          "icon": "graduation-cap"
         }
       ]
     }
