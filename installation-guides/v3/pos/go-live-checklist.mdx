@@ -1,0 +1,122 @@
+---
+title: "Go-Live Checklist"
+description: "Verify your POS integration before going live"
+---
+
+Use this comprehensive checklist to ensure your POS integration is ready for production use.
+
+## Pre-Launch Verification
+
+### API Configuration
+
+- [ ] API credentials are configured correctly
+- [ ] All API calls use HTTPS
+- [ ] API endpoints are accessible from your POS system
+- [ ] Error handling is implemented for API failures
+
+### Customer Management
+
+- [ ] Customer registration flow is tested
+- [ ] Customer identification works with both mobile and email
+- [ ] Customer balance retrieval displays correctly
+- [ ] Customer profiles update correctly when called multiple times
+
+### Order Tracking
+
+- [ ] Order submission includes all required fields
+- [ ] `orderId` values are unique and not reused
+- [ ] Order dates are in ISO 8601 format
+- [ ] Points are awarded correctly based on order value
+- [ ] Order tracking works for both new and existing customers
+
+### Redemption Flow
+
+- [ ] Balance retrieval works before redemption
+- [ ] Hold Points API successfully reserves points
+- [ ] Order submission with hold reference completes redemption
+- [ ] Hold release works if transaction is cancelled
+- [ ] Redemption amounts are calculated correctly
+- [ ] `totalPaid` reflects discounted amount after redemption
+
+### QR Code Support (If Applicable)
+
+- [ ] QR code scanning works correctly
+- [ ] QR code parsing extracts customerId and hash correctly
+- [ ] Hash validation works in Hold Points API
+- [ ] QR codes work with both mobile apps and virtual passes
+- [ ] POS scanners support digital screen QR codes
+
+### Error Handling
+
+- [ ] Network failures are handled gracefully
+- [ ] Invalid customer IDs are handled
+- [ ] Duplicate order IDs are rejected appropriately
+- [ ] Insufficient balance errors are displayed to staff
+- [ ] Hold expiration is handled correctly
+
+### Security
+
+- [ ] API credentials are stored securely
+- [ ] No API keys are exposed in logs or client-side code
+- [ ] HTTPS is used for all API communications
+- [ ] Hash validation is implemented for QR-based redemptions
+
+### User Experience
+
+- [ ] Store staff can easily identify customers
+- [ ] Balance information is displayed clearly
+- [ ] Redemption prompts are user-friendly
+- [ ] Error messages are clear and actionable
+- [ ] Transaction flow is smooth and doesn't slow down checkout
+
+## Testing Scenarios
+
+### Test Case 1: New Customer Registration
+- [ ] Register a new customer at checkout
+- [ ] Verify customer profile is created in Gameball
+- [ ] Confirm welcome bonus is awarded (if configured)
+
+### Test Case 2: Existing Customer Purchase
+- [ ] Identify existing customer
+- [ ] Display current balance
+- [ ] Complete purchase without redemption
+- [ ] Verify points are awarded correctly
+
+### Test Case 3: Point Redemption
+- [ ] Retrieve customer balance
+- [ ] Hold points for redemption
+- [ ] Complete order with redemption
+- [ ] Verify points are deducted correctly
+- [ ] Confirm new points are awarded on remaining amount
+
+### Test Case 4: Cancelled Transaction
+- [ ] Hold points for redemption
+- [ ] Cancel the transaction
+- [ ] Release the hold
+- [ ] Verify points are returned to customer
+
+### Test Case 5: QR Code Redemption
+- [ ] Scan customer QR code
+- [ ] Parse customerId and hash
+- [ ] Complete redemption with hash validation
+- [ ] Verify transaction completes successfully
+
+## Post-Launch Monitoring
+
+- [ ] Monitor API response times
+- [ ] Track error rates and types
+- [ ] Review customer registration success rate
+- [ ] Monitor redemption completion rate
+- [ ] Check for duplicate order submissions
+- [ ] Verify point calculations are accurate
+
+## Support Resources
+
+- **API Documentation**: [Gameball API Reference](/api-reference/introduction)
+- **Support**: Contact your Gameball account manager for integration support
+- **Dashboard**: Monitor integration health in your Gameball dashboard
+
+<Check>
+Once all items are verified, your POS integration is ready for production use!
+</Check>
+

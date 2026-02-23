@@ -1,0 +1,240 @@
+---
+title: "Initialize Gameball Customer Widget"
+description: "Get started on integrating the Gameball customer's profile into your website or web app"
+---
+
+The Gameball widget is a customized loyalty interface your customers see when they are on your platform. The widget is where they can learn more about the loyalty program, track their progress, find their referral URL, and find other loyalty profile information. Learn more about [Gameball widget](https://help.gameball.co/en/articles/3464193-gameball-player-widget).
+
+To show the Gameball widget on your website or web application, you need to add the widget JavaScript code snippet to every webpage where you want the widget to appear. Paste the code snippet immediately before the closing `</body>` tag. If you use templates to dynamically generate pages for your site, like PHP, ASP, or similar technology, you can paste the code snippet into its file, then include it in your page header.
+
+## Basic Widget Setup
+
+```javascript
+<script>
+    window.GbLoadInit = function(){
+        GbSdk.init({
+            APIKey: '{{Your_API_Key}}',
+            lang: 'en',
+            playerUniqueId: '',
+            playerAttributes:{}
+        });
+    };
+</script>
+<script defer src="https://assets.gameball.co/widget/js/gameball-init.min.js"></script>
+```
+
+## Widget Modes
+
+The widget supports two different modes: a **guest view** and a **customer view**. Each can be shown to your website visitors with the same code snippet and serve different use cases.
+
+<CardGroup cols={2}>
+  <Card title="Guest View" icon="user-slash">
+    What guests (non-logged-in users) see about your programs. This can encourage guests to create accounts and sign in to enjoy your rewards programs.
+  </Card>
+
+  <Card title="Customer View" icon="user-check">
+    Used to let customers (logged-in users) track their programs in your rewards program and enjoy their benefits.
+  </Card>
+</CardGroup>
+
+## Guest View Implementation
+
+For non-logged-in customers, use the below snippet with just your Gameball APIKey. Please check the article [How can you get your account integration details? (API Key & Secret Key)](https://help.gameball.co/en/articles/3467114-how-can-you-get-your-account-integration-details-api-key-transaction-key) to learn more on how to get your unique APIKey.
+
+```javascript
+<script>
+    window.GbLoadInit = function(){
+        GbSdk.init({
+            APIKey: '{{Your_API_Key}}',
+            lang: 'en',
+            playerUniqueId: '',
+            playerAttributes:{}
+        });
+    };
+</script>
+<script defer src="https://assets.gameball.co/widget/js/gameball-init.min.js"></script>
+```
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FN9KTpQ3lh4qmb1bXrVMu%2Fgameball-guest-view-integration.gif?alt=media&token=7c663d39-c35b-4383-8d14-785dcaf5be70" alt="Gameball Guest View Integration" />
+</Frame>
+
+## Customer View Implementation
+
+For customer view, all you need to do is to set the `playerUniqueId` value to the currently logged-in user. This is how your customer will be identified and tracked at Gameball, hence make sure to send a permanent consistent id across a user's lifetime. It could be a database ID, random string, email, or anything that uniquely identifies the customer.
+
+In addition to the `playerUniqueId`, optional player attributes can be sent to enrich the customer's profile at Gameball. You can send non, all, or selected attributes to Gameball depending on how you would like to enrich your customer's profile.
+
+<Check>
+Every time the widget is initialized with customer data, the customer profile is created or updated on Gameball side. You may consider enriching your Gameball's customer profile with attributes that are not available to the UI by using the server-side [Create/Update Customer API](/api-reference/customers/management/create-customer)
+</Check>
+
+```javascript
+<script>
+    window.GbLoadInit = function(){
+        GbSdk.init({
+            APIKey: '{{Your_API_Key}}',
+            lang: 'en',
+            playerUniqueId: '{{logged_in_player_unique_id}}',
+            playerAttributes: {
+                displayName: 'john austin',
+                email: 'example@example.com',
+                firstName: "john",
+                lastName: "austin",
+                gender: "M",
+                dateOfBirth: "1982-01-01",
+                joinDate: "2024-10-23",
+                custom: {
+                    'height': '1.8'
+                }
+            },
+        });
+    };
+</script>
+<script defer src="https://assets.gameball.co/widget/js/gameball-init.min.js"></script>
+```
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F0mWBHQsi4JKiRCjL4chu%2Fgameball-player-view-integration.gif?alt=media&token=ce0b1f36-7643-4650-af07-15e7aa613616" alt="Gameball Player View Integration" />
+</Frame>
+
+<Warning>
+**Choose an Unchangeable Player Unique ID**
+
+Gameball user profile gets created using the `playerUniqueId`. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+## Widget Parameters Description
+
+**APIKey** `string` **Required**
+
+The unique identifier for the player whose attributes are being updated.
+
+---
+
+**lang** `string` `Optional`
+
+Your platform language preference to view **Gameball** Widget with.
+
+**Note:** The language provided should be as per configured languages in your account. If not provided the Gameball profile widget will be shown with your account default language
+
+**Example:** `"en"`, `"fr"`.
+
+---
+
+**shop** `string` **Required** `Shopify Only`
+
+Store name with myshopify.com domain. Used if your app is a mobile app for a Shopify store connected to Gameball
+
+---
+
+**shopify** `boolean` **Required** `Shopify Only`
+
+Indicates that you're using Shopify
+
+---
+
+**platform** `string` `Optional`
+
+The platform you application used:
+
+* `Shopify`
+* `Salla`
+* `any`
+
+---
+
+**playerUniqueId** `string` **Required**
+
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+
+---
+
+**playerAttributes** `Object` `Optional`
+
+Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.
+
+<Expandable title="playerAttributes Object">
+  **displayName** `string` `Optional`
+
+  The display name of the player.
+
+  ---
+
+  **firstName** `string` `Optional`
+
+  The first name of the player.
+
+  ---
+
+  **lastName** `string` `Optional`
+
+  The last name of the player.
+
+  ---
+
+  **email** `string` `Optional`
+
+  The email address of the player.
+
+  ---
+
+  **gender** `string` `Optional`
+
+  The gender of the player. Use "M" for male, "F" for female, or other identifiers as needed.
+
+  ---
+
+  **dateOfBirth** `string` `Optional`
+
+  The player's date of birth in the format `YYYY-MM-DD`.
+
+  ---
+
+  **joinDate** `string` `Optional`
+
+  The date the player joined, in the format `YYYY-MM-DD`.
+
+  ---
+
+  **custom** `Object` `Optional`
+
+  Custom attributes related to the player, defined by specific key-value pairs.
+</Expandable>
+
+## Profile Languages
+
+For websites with multiple languages, how you can change **Gameball** widget language based on active website language. **Gameball** supports multiple languages for the customer profile widget. The widget language can be changed based on your customer's active language on the website.
+
+<Info>
+Learn how you can configure the languages on your Gameball account through this [article](https://help.gameball.co/en/articles/3464234).
+</Info>
+
+<Expandable title="Supported languages and their codes">
+| Language | Code |
+|----------|------|
+| English | en |
+| Arabic | ar |
+| French | fr |
+| Spanish | es |
+| German | de |
+| Portuguese | pt |
+| Polish | pl |
+| Italian | it |
+| Hungarian | hu |
+| Chinese (Traditional, Taiwan) | zh-tw |
+| Dutch | nl |
+| Swedish | sv |
+| Norwegian | no |
+| Danish | dk |
+| Japanese | ja |
+
+</Expandable>
+
+In order to show the correct language of the widget based on the active language on the website, you just need to use the language code inside the `lang` variable in the code snippet.
+
+## Next Steps
+
+- [Customer Management](/installation-guides/v2/web/customer-management) - Create and manage customer profiles
+- [Track Events](/installation-guides/v2/web/track-events) - Start tracking customer events
+- [Track Orders](/installation-guides/v2/web/track-orders) - Process orders and award points

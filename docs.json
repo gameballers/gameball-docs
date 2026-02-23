@@ -517,7 +517,7 @@
               {
                 "group": "Overview",
                 "pages": [
-                  "installation-guide/index"
+                  "installation-guides/v2/index"
                 ]
               },
               {
@@ -526,33 +526,33 @@
                   {
                     "group": "Web",
                     "pages": [
-                      "installation-guide/web/index",
-                      "installation-guide/web/getting-started",
-                      "installation-guide/web/initialize-widget",
-                      "installation-guide/web/customer-management",
-                      "installation-guide/web/track-events",
-                      "installation-guide/web/track-orders",
-                      "installation-guide/web/integrate-redemption",
-                      "installation-guide/web/track-referrals",
-                      "installation-guide/web/go-live-checklist"
+                      "installation-guides/v2/web/index",
+                      "installation-guides/v2/web/getting-started",
+                      "installation-guides/v2/web/initialize-widget",
+                      "installation-guides/v2/web/customer-management",
+                      "installation-guides/v2/web/track-events",
+                      "installation-guides/v2/web/track-orders",
+                      "installation-guides/v2/web/integrate-redemption",
+                      "installation-guides/v2/web/track-referrals",
+                      "installation-guides/v2/web/go-live-checklist"
                     ]
                   },
                   {
                     "group": "POS",
                     "pages": [
-                      "installation-guide/pos-v3/index",
-                      "installation-guide/pos-v3/getting-started",
-                      "installation-guide/pos-v3/api-setup",
-                      "installation-guide/pos-v3/customer-management",
-                      "installation-guide/pos-v3/customer-balance",
-                      "installation-guide/pos-v3/integrate-redemption",
-                      "installation-guide/pos-v3/track-orders",
-                      "installation-guide/pos-v3/refund-order",
-                      "installation-guide/pos-v3/fetch-order-details",
-                      "installation-guide/pos-v3/track-events",
-                      "installation-guide/pos-v3/track-referrals",
-                      "installation-guide/pos-v3/go-live-checklist",
-                      "installation-guide/pos-v3/migration-notes"
+                      "installation-guides/v2/pos/index",
+                      "installation-guides/v2/pos/getting-started",
+                      "installation-guides/v2/pos/api-setup",
+                      "installation-guides/v2/pos/customer-management",
+                      "installation-guides/v2/pos/customer-balance",
+                      "installation-guides/v2/pos/integrate-redemption",
+                      "installation-guides/v2/pos/track-orders",
+                      "installation-guides/v2/pos/refund-order",
+                      "installation-guides/v2/pos/fetch-order-details",
+                      "installation-guides/v2/pos/track-events",
+                      "installation-guides/v2/pos/track-referrals",
+                      "installation-guides/v2/pos/go-live-checklist",
+                      "installation-guides/v2/pos/migration-notes"
                     ]
                   }
                 ]
@@ -563,67 +563,67 @@
                   {
                     "group": "iOS",
                     "pages": [
-                      "installation-guide/ios/index",
-                      "installation-guide/ios/getting-started",
-                      "installation-guide/ios/initialize-profile",
-                      "installation-guide/ios/track-events",
-                      "installation-guide/ios/track-orders",
-                      "installation-guide/ios/integrate-redemption",
-                      "installation-guide/ios/push-notifications",
-                      "installation-guide/ios/track-referrals",
-                      "installation-guide/ios/go-live-checklist"
+                      "installation-guides/v2/ios/index",
+                      "installation-guides/v2/ios/getting-started",
+                      "installation-guides/v2/ios/initialize-profile",
+                      "installation-guides/v2/ios/track-events",
+                      "installation-guides/v2/ios/track-orders",
+                      "installation-guides/v2/ios/integrate-redemption",
+                      "installation-guides/v2/ios/push-notifications",
+                      "installation-guides/v2/ios/track-referrals",
+                      "installation-guides/v2/ios/go-live-checklist"
                     ]
                   },
                   {
                     "group": "Android",
                     "pages": [
-                      "installation-guide/android/index",
-                      "installation-guide/android/getting-started",
-                      "installation-guide/android/initialize-profile",
-                      "installation-guide/android/track-events",
-                      "installation-guide/android/track-orders",
-                      "installation-guide/android/integrate-redemption",
-                      "installation-guide/android/push-notifications",
-                      "installation-guide/android/go-live-checklist"
+                      "installation-guides/v2/android/index",
+                      "installation-guides/v2/android/getting-started",
+                      "installation-guides/v2/android/initialize-profile",
+                      "installation-guides/v2/android/track-events",
+                      "installation-guides/v2/android/track-orders",
+                      "installation-guides/v2/android/integrate-redemption",
+                      "installation-guides/v2/android/push-notifications",
+                      "installation-guides/v2/android/go-live-checklist"
                     ]
                   },
                   {
                     "group": "React Native",
                     "pages": [
-                      "installation-guide/react-native/index",
-                      "installation-guide/react-native/getting-started",
-                      "installation-guide/react-native/initialize-profile",
-                      "installation-guide/react-native/track-events",
-                      "installation-guide/react-native/track-orders",
-                      "installation-guide/react-native/integrate-redemption",
-                      "installation-guide/react-native/track-referrals",
-                      "installation-guide/react-native/push-notifications",
-                      "installation-guide/react-native/go-live-checklist"
+                      "installation-guides/v2/react-native/index",
+                      "installation-guides/v2/react-native/getting-started",
+                      "installation-guides/v2/react-native/initialize-profile",
+                      "installation-guides/v2/react-native/track-events",
+                      "installation-guides/v2/react-native/track-orders",
+                      "installation-guides/v2/react-native/integrate-redemption",
+                      "installation-guides/v2/react-native/track-referrals",
+                      "installation-guides/v2/react-native/push-notifications",
+                      "installation-guides/v2/react-native/go-live-checklist"
                     ]
                   },
                   {
                     "group": "Flutter",
                     "pages": [
-                      "installation-guide/flutter/index",
-                      "installation-guide/flutter/getting-started",
-                      "installation-guide/flutter/initialize-profile",
-                      "installation-guide/flutter/track-events",
-                      "installation-guide/flutter/track-orders",
-                      "installation-guide/flutter/integrate-redemption",
-                      "installation-guide/flutter/track-referrals",
-                      "installation-guide/flutter/go-live-checklist"
+                      "installation-guides/v2/flutter/index",
+                      "installation-guides/v2/flutter/getting-started",
+                      "installation-guides/v2/flutter/initialize-profile",
+                      "installation-guides/v2/flutter/track-events",
+                      "installation-guides/v2/flutter/track-orders",
+                      "installation-guides/v2/flutter/integrate-redemption",
+                      "installation-guides/v2/flutter/track-referrals",
+                      "installation-guides/v2/flutter/go-live-checklist"
                     ]
                   },
                   {
                     "group": "Generic Mobile App",
                     "pages": [
-                      "installation-guide/generic-mobile/index",
-                      "installation-guide/generic-mobile/initialize-profile",
-                      "installation-guide/generic-mobile/track-events",
-                      "installation-guide/generic-mobile/track-orders",
-                      "installation-guide/generic-mobile/integrate-redemption",
-                      "installation-guide/generic-mobile/track-referrals",
-                      "installation-guide/generic-mobile/push-notifications"
+                      "installation-guides/v2/generic-mobile/index",
+                      "installation-guides/v2/generic-mobile/initialize-profile",
+                      "installation-guides/v2/generic-mobile/track-events",
+                      "installation-guides/v2/generic-mobile/track-orders",
+                      "installation-guides/v2/generic-mobile/integrate-redemption",
+                      "installation-guides/v2/generic-mobile/track-referrals",
+                      "installation-guides/v2/generic-mobile/push-notifications"
                     ]
                   }
                 ]
@@ -637,7 +637,7 @@
               {
                 "group": "Overview",
                 "pages": [
-                  "installation-guide/index-v3"
+                  "installation-guides/v3/index"
                 ]
               },
               {
@@ -646,33 +646,33 @@
                   {
                     "group": "Web",
                     "pages": [
-                      "installation-guide/web/index",
-                      "installation-guide/web/getting-started",
-                      "installation-guide/web/initialize-widget",
-                      "installation-guide/web/customer-management",
-                      "installation-guide/web/track-events",
-                      "installation-guide/web/track-orders",
-                      "installation-guide/web/integrate-redemption",
-                      "installation-guide/web/track-referrals",
-                      "installation-guide/web/go-live-checklist"
+                      "installation-guides/v3/web/index",
+                      "installation-guides/v3/web/getting-started",
+                      "installation-guides/v3/web/initialize-widget",
+                      "installation-guides/v3/web/customer-management",
+                      "installation-guides/v3/web/track-events",
+                      "installation-guides/v3/web/track-orders",
+                      "installation-guides/v3/web/integrate-redemption",
+                      "installation-guides/v3/web/track-referrals",
+                      "installation-guides/v3/web/go-live-checklist"
                     ]
                   },
                   {
                     "group": "POS",
                     "pages": [
-                      "installation-guide/pos-v3/index",
-                      "installation-guide/pos-v3/getting-started",
-                      "installation-guide/pos-v3/api-setup",
-                      "installation-guide/pos-v3/customer-management",
-                      "installation-guide/pos-v3/customer-balance",
-                      "installation-guide/pos-v3/integrate-redemption",
-                      "installation-guide/pos-v3/track-orders",
-                      "installation-guide/pos-v3/refund-order",
-                      "installation-guide/pos-v3/fetch-order-details",
-                      "installation-guide/pos-v3/track-events",
-                      "installation-guide/pos-v3/track-referrals",
-                      "installation-guide/pos-v3/go-live-checklist",
-                      "installation-guide/pos-v3/migration-notes"
+                      "installation-guides/v3/pos/index",
+                      "installation-guides/v3/pos/getting-started",
+                      "installation-guides/v3/pos/api-setup",
+                      "installation-guides/v3/pos/customer-management",
+                      "installation-guides/v3/pos/customer-balance",
+                      "installation-guides/v3/pos/integrate-redemption",
+                      "installation-guides/v3/pos/track-orders",
+                      "installation-guides/v3/pos/refund-order",
+                      "installation-guides/v3/pos/fetch-order-details",
+                      "installation-guides/v3/pos/track-events",
+                      "installation-guides/v3/pos/track-referrals",
+                      "installation-guides/v3/pos/go-live-checklist",
+                      "installation-guides/v3/pos/migration-notes"
                     ]
                   }
                 ]
@@ -686,31 +686,31 @@
                       {
                         "group": "Overview & Setup",
                         "pages": [
-                          "installation-guide/ios-v3/overview-setup/index",
-                          "installation-guide/ios-v3/overview-setup/getting-started",
-                          "installation-guide/ios-v3/overview-setup/initialize-sdk",
-                          "installation-guide/ios-v3/overview-setup/initialize-profile"
+                          "installation-guides/v3/ios/index",
+                          "installation-guides/v3/ios/getting-started",
+                          "installation-guides/v3/ios/initialize-sdk",
+                          "installation-guides/v3/ios/initialize-profile"
                         ]
                       },
                       {
                         "group": "Core SDK Capabilities",
                         "pages": [
-                          "installation-guide/ios-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/ios-v3/core-sdk-capabilities/track-events"
+                          "installation-guides/v3/ios/show-profile",
+                          "installation-guides/v3/ios/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/ios-v3/extended-features/push-notifications",
-                          "installation-guide/ios-v3/extended-features/track-referrals"
+                          "installation-guides/v3/ios/push-notifications",
+                          "installation-guides/v3/ios/track-referrals"
                         ]
                       },
                       {
                         "group": "Deployment & Maintenance",
                         "pages": [
-                          "installation-guide/ios-v3/deployment-maintenance/go-live-checklist",
-                          "installation-guide/ios-v3/deployment-maintenance/migration-notes"
+                          "installation-guides/v3/ios/go-live-checklist",
+                          "installation-guides/v3/ios/migration-notes"
                         ]
                       }
                     ]
@@ -721,31 +721,31 @@
                       {
                         "group": "Overview & Setup",
                         "pages": [
-                          "installation-guide/android-v3/overview-setup/index",
-                          "installation-guide/android-v3/overview-setup/getting-started",
-                          "installation-guide/android-v3/overview-setup/initialize-sdk",
-                          "installation-guide/android-v3/overview-setup/initialize-profile"
+                          "installation-guides/v3/android/index",
+                          "installation-guides/v3/android/getting-started",
+                          "installation-guides/v3/android/initialize-sdk",
+                          "installation-guides/v3/android/initialize-profile"
                         ]
                       },
                       {
                         "group": "Core SDK Capabilities",
                         "pages": [
-                          "installation-guide/android-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/android-v3/core-sdk-capabilities/track-events"
+                          "installation-guides/v3/android/show-profile",
+                          "installation-guides/v3/android/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/android-v3/extended-features/push-notifications",
-                          "installation-guide/android-v3/extended-features/track-referrals"
+                          "installation-guides/v3/android/push-notifications",
+                          "installation-guides/v3/android/track-referrals"
                         ]
                       },
                       {
                         "group": "Deployment & Maintenance",
                         "pages": [
-                          "installation-guide/android-v3/deployment-maintenance/go-live-checklist",
-                          "installation-guide/android-v3/deployment-maintenance/migration-notes"
+                          "installation-guides/v3/android/go-live-checklist",
+                          "installation-guides/v3/android/migration-notes"
                         ]
                       }
                     ]
@@ -756,31 +756,31 @@
                       {
                         "group": "Overview & Setup",
                         "pages": [
-                          "installation-guide/flutter-v3/overview-setup/index",
-                          "installation-guide/flutter-v3/overview-setup/getting-started",
-                          "installation-guide/flutter-v3/overview-setup/initialize-sdk",
-                          "installation-guide/flutter-v3/overview-setup/initialize-profile"
+                          "installation-guides/v3/flutter/index",
+                          "installation-guides/v3/flutter/getting-started",
+                          "installation-guides/v3/flutter/initialize-sdk",
+                          "installation-guides/v3/flutter/initialize-profile"
                         ]
                       },
                       {
                         "group": "Core SDK Capabilities",
                         "pages": [
-                          "installation-guide/flutter-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/flutter-v3/core-sdk-capabilities/track-events"
+                          "installation-guides/v3/flutter/show-profile",
+                          "installation-guides/v3/flutter/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/flutter-v3/extended-features/track-referrals",
-                          "installation-guide/flutter-v3/extended-features/push-notifications"
+                          "installation-guides/v3/flutter/track-referrals",
+                          "installation-guides/v3/flutter/push-notifications"
                         ]
                       },
                       {
                         "group": "Deployment & Maintenance",
                         "pages": [
-                          "installation-guide/flutter-v3/deployment-maintenance/go-live-checklist",
-                          "installation-guide/flutter-v3/deployment-maintenance/migration-notes"
+                          "installation-guides/v3/flutter/go-live-checklist",
+                          "installation-guides/v3/flutter/migration-notes"
                         ]
                       }
                     ]
@@ -791,31 +791,31 @@
                       {
                         "group": "Overview & Setup",
                         "pages": [
-                          "installation-guide/react-native-v3/overview-setup/index",
-                          "installation-guide/react-native-v3/overview-setup/getting-started",
-                          "installation-guide/react-native-v3/overview-setup/initialize-sdk",
-                          "installation-guide/react-native-v3/overview-setup/initialize-profile"
+                          "installation-guides/v3/react-native/index",
+                          "installation-guides/v3/react-native/getting-started",
+                          "installation-guides/v3/react-native/initialize-sdk",
+                          "installation-guides/v3/react-native/initialize-profile"
                         ]
                       },
                       {
                         "group": "Core SDK Capabilities",
                         "pages": [
-                          "installation-guide/react-native-v3/core-sdk-capabilities/show-profile",
-                          "installation-guide/react-native-v3/core-sdk-capabilities/track-events"
+                          "installation-guides/v3/react-native/show-profile",
+                          "installation-guides/v3/react-native/track-events"
                         ]
                       },
                       {
                         "group": "Extended Features",
                         "pages": [
-                          "installation-guide/react-native-v3/extended-features/track-referrals",
-                          "installation-guide/react-native-v3/extended-features/push-notifications"
+                          "installation-guides/v3/react-native/track-referrals",
+                          "installation-guides/v3/react-native/push-notifications"
                         ]
                       },
                       {
                         "group": "Deployment & Maintenance",
                         "pages": [
-                          "installation-guide/react-native-v3/deployment-maintenance/go-live-checklist",
-                          "installation-guide/react-native-v3/deployment-maintenance/migration-notes"
+                          "installation-guides/v3/react-native/go-live-checklist",
+                          "installation-guides/v3/react-native/migration-notes"
                         ]
                       }
                     ]

@@ -1,0 +1,69 @@
+---
+title: "Customer Management"
+description: "Register new customers or identify existing ones during checkout at your POS"
+---
+
+## Get or Create a Customer
+
+### Lookup Customer Balance
+
+First, check if the customer exists by retrieving their balance:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
+
+<Info>
+**Automatic Customer Creation**: If the customer doesn't exist when you call the balance endpoint, you can create them using the Create Customer endpoint below. If the customer is found, skip the creation step.
+</Info>
+
+### Create Customer
+
+If the customer isn't found, create a new customer profile:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
+  -d '{
+    "customerId": "12345",
+    "customerAttributes": {
+      "displayName": "John Doe",
+      "email": "john@doe.com",
+      "mobile": "+20123456789"
+    }
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "customerId": "12345",
+  "name": "John Doe",
+  "email": "john@doe.com",
+  "mobile": "+20123456789",
+  "createdAt": "2025-10-19T12:00:00Z"
+}
+```
+</ResponseExample>
+
+### What Gameball Does Behind the Scenes
+
+- Creates a new customer profile in the loyalty database
+- Triggers any configured onboarding campaigns (e.g., welcome bonus)
+- Prepares the profile for earning, tiering, and redemption
+
+### Key Takeaways for Developers
+
+- Use a persistent and unique `customerId` across all platforms (POS, online, app)
+- Call this API immediately before checkout or as soon as the identifier is collected
+- Ensure your POS UI clearly captures at least one contact field (mobile/email)
+- This API is idempotent—if the customer already exists, the profile will be updated instead of duplicated
+

@@ -1,0 +1,199 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show Gameball customer profile in your React Native app"
+---
+
+Showing the Gameball widget on your mobile application is slightly different than showing it on the website. You have two options; first, if you want to design your customer interface, you will use our set of REST APIs. To know more information, you can use the [Configurations API](/api-reference/configurations/configurations) 👑.
+
+The other option as this section elaborates, is through using our react native SDK.
+
+Using the SDK, you can open the Gameball customer profile from a button in your app, programmatically when someone does something, or from a persistent button that sits over your app's UI.
+
+When you trigger the Gameball customer profile, your customer is presented with a home screen. This is configurable inside Gameball to change how it looks and what's presented.
+
+From there, your customer can check his progress across different Gameball programs as per your configurations.
+
+To show the Gameball customer profile that contains the customer details, customer reward campaigns, and the leaderboard use the below steps.
+
+```typescript
+import {GameballWidget} from 'react-native-gameball';
+```
+
+There are two ways to view the widget.
+
+## Show as Standalone Screen
+
+```jsx
+<GameballWidget />
+```
+
+## Show as Modal
+
+```jsx
+<GameballWidget 
+  modal={true}
+/>
+```
+
+and then to open the widget you need to call the **showProfile** function on the ref property of the widget
+
+The below is description of show customer profile parameters.
+
+<ParamField body="modal" type="boolean">
+Boolean value used to Indicates if you want to show the widget in modal view
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+Specify if you want the widget to open on a specific view. [See available values](/tutorials-new/experiences/more/widget-deep-links#id-4.-using-the-sdk-mobile-apps)
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+Set to true to stop widget navigation otherwise leave as null
+</ParamField>
+
+## Usage
+
+### Class component
+
+```tsx
+return (
+  <View style={{ flex: 1 }}>
+    <Button
+      title={'open widget'}
+      onPress={() => this.widget.showProfile()}
+    />
+    <GameballWidget
+      ref={(ref) => this.widget = ref}
+      modal={true}
+    />
+  </View>
+)
+```
+
+### Functional component
+
+```tsx
+const ref = createRef();
+return (
+  <View>
+    <Button title="Open modal" onPress={() => ref.current.showProfile()} />
+    <GameballWidget modal={true} ref={ref} />
+  </View>
+)
+```
+
+## Advanced Techniques: Deep Links
+
+In certain scenarios, where you offer a product as a free reward, you might want to showcase this product within the Gameball widget along with a deep link. When customers click on the deep link, they will be seamlessly redirected to the product page within your app, where they can obtain more information and take further action. To enable this functionality, you need to follow the steps outlined below.
+
+1. Create a custom Gameball widget that is based on the default widget and implemented as a ForwardRefRenderFunction.
+2. Override the WebView's 'onShouldStartLoadWithRequest' event with a customized implementation.
+   * In this implementation, detect URLs that begin with '{your_app_deep_link_prefix}://' to identify deep links specific to your app.
+   * Handle these deep links using the main app's action to process and dispatch them, instead of relying on the WebView.
+
+## Register Customer
+
+Register player method is used to create or update customers at Gameball. It is called when your login network call is successful.
+
+First, import Gameball SDK as follows:
+
+```typescript
+import {GameballSDK} from 'react-native-gameball';
+```
+
+then
+
+```typescript
+GameballSDK.registerPlayer({
+  "playerUniqueId": "{CUST_ID}",
+  "deviceToken": "{deviceToken}",
+  "referrerCode": "{referrerCode}",
+  "playerAttributes": {
+    "displayName": "{displayName}",
+    "email": "{email}",
+    "gender": "{gender}",
+    "mobileNumber": "{mobile}",
+    "dateOfBirth": "{dateOfBirth}",
+    "joinDate": "{joinDate}"
+  }
+}).then(res => res.json()).then(jsonResponse => {...}) // on success
+```
+
+Once the **APIKey** and **playerUniqueId** have been registered, Gameball views can be made visible to the user.
+
+<ParamField body="playerUniqueId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="email" type="string">
+Customer's unique Email address.
+</ParamField>
+
+<ParamField body="mobile" type="string">
+Customer's unique Mobile number.
+</ParamField>
+
+<ParamField body="deviceToken" type="string">
+Token used to identify the device.
+</ParamField>
+
+<ParamField body="referrerCode" type="string">
+The referral code of an existing customer who is referring the customer being created. This is required in the create customer request to process the referral. Check [Track Referrals](/installation-guides/v2/react-native/track-referrals) for more details
+</ParamField>
+
+<ParamField body="playerAttributes" type="object">
+Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.
+
+<Expandable title="playerAttributes Object">
+  <ParamField body="displayName" type="string">
+  The display name of the customer.
+  </ParamField>
+  
+  <ParamField body="firstName" type="string">
+  The first name of the customer.
+  </ParamField>
+  
+  <ParamField body="lastName" type="string">
+  The last name of the customer.
+  </ParamField>
+  
+  <ParamField body="email" type="string">
+  Customer's unique Email address.
+  </ParamField>
+  
+  <ParamField body="mobileNumber" type="string">
+  Customer's unique Mobile number.
+  </ParamField>
+  
+  <ParamField body="gender" type="string">
+  The gender of the customer. Use "M" for male, "F" for female, or other identifiers as needed.
+  </ParamField>
+  
+  <ParamField body="dateOfBirth" type="string">
+  The customer's date of birth in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="joinDate" type="string">
+  The date the customer joined your system, in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="preferredLanguage" type="string">
+  The language the customer prefers for receiving notifications.
+  </ParamField>
+  
+  <ParamField body="customAttributes" type="object">
+  Custom attributes related to the customer, defined by specific key-value pairs.
+  </ParamField>
+</Expandable>
+</ParamField>
+
+<Warning>
+**Choose an Unchangeable Player Unique ID**
+
+Gameball user profile gets created using the **`playerUniqueId`**. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guides/v2/react-native/track-events)
+- [Track Orders & Cashback](/installation-guides/v2/react-native/track-orders)

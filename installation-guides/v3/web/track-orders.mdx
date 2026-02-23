@@ -1,0 +1,100 @@
+---
+title: "Track Orders & Cashback Reward"
+description: "Track your customer's orders for cashback and achievements"
+---
+
+Start tracking customer's orders on your platform upon order completion and successful payment. This enables rewarding the customer with cashback wallet points for paid amounts as per your cashback program configuration on Gameball.
+
+## Order Tracking Overview
+
+<CardGroup cols={2}>
+  <Card title="Server-Side Order API" icon="server">
+    Tailored API to support e-commerce platforms for order tracking and cashback rewards
+  </Card>
+
+  <Card title="Cashback API" icon="wallet">
+    Use for scenarios other than e-commerce order placement to reward customers with cashback wallet points
+  </Card>
+</CardGroup>
+
+## When to Use Each API
+
+### Order API
+Use the [Order API](/api-reference/order/order) when you want to track e-commerce orders and automatically calculate cashback rewards based on your configured program settings.
+
+### Cashback API
+Use the [Cashback API](/api-reference/transactions/cashback-and-redemptions/cashback) for custom scenarios where you want to manually award cashback points outside of standard order processing.
+
+## Implementation Flow
+
+<Steps>
+<Step title="Order Completion">
+  Customer completes an order and payment is successful
+</Step>
+
+<Step title="Send Order Data">
+  Send order information to Gameball via Order API or Cashback API
+</Step>
+
+<Step title="Calculate Rewards">
+  Gameball calculates cashback points based on your program configuration
+</Step>
+
+<Step title="Award Points">
+  Cashback wallet points are automatically awarded to the customer
+</Step>
+
+<Step title="Update Profile">
+  Customer's loyalty profile is updated with new points and achievements
+</Step>
+</Steps>
+
+## Order API Integration
+
+The Order API is specifically designed for e-commerce platforms to track orders and automatically handle cashback rewards.
+
+<Note>
+For detailed implementation examples, refer to the [Submitting Orders tutorial](/tutorials-new/experiences/order-handling/submit-order) and [Previewing Potential Points Before Purchase](/tutorials-new/experiences/order-handling/preview-points).
+</Note>
+
+## Cashback API Integration
+
+The Cashback API allows you to manually award cashback points for custom scenarios beyond standard order processing.
+
+<Note>
+For detailed cashback implementation, refer to the [Transactions API Reference](/api-reference/transactions/cashback-and-redemptions/cashback).
+</Note>
+
+## Best Practices
+
+<Steps>
+<Step title="Track After Payment">
+  Only track orders after successful payment to ensure accurate cashback rewards
+</Step>
+
+<Step title="Include Complete Order Data">
+  Send comprehensive order information including items, amounts, and customer details
+</Step>
+
+<Step title="Handle Errors Gracefully">
+  Implement proper error handling for failed API calls
+</Step>
+
+<Step title="Test Cashback Calculations">
+  Verify that cashback calculations match your program configuration
+</Step>
+</Steps>
+
+## Related Resources
+
+- [Order API Reference](/api-reference/order/order)
+- [Order Tracking](/api-reference/order/order-tracking)
+- [Calculate Order Cashback](/api-reference/order/calculate-order-cashback)
+- [Cashback API Reference](/api-reference/transactions/cashback-and-redemptions/cashback)
+- [Submitting Orders Tutorial](/tutorials-new/experiences/order-handling/submit-order)
+- [Previewing Potential Points Before Purchase](/tutorials-new/experiences/order-handling/preview-points)
+
+## Next Steps
+
+- [Integrate Redemption](/installation-guides/v3/web/integrate-redemption)
+- [Track Referrals](/installation-guides/v3/web/track-referrals)

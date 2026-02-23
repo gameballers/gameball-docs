@@ -1,0 +1,219 @@
+---
+title: "Getting Started"
+description: "Install the Gameball Android SDK into your app"
+---
+
+Gameball's Android SDK enables you to use the show Gameball customer profile in your app, track app customer events, integrate referrals and display Gameball's in-app push notifications.
+
+## Setting up Gameball SDK
+
+Follow the below steps to start installing Gameball's Android SDK to your app.
+
+Add JitPack and Huawei repositories to your project's `build.gradle` (or `settings.gradle` if you're on newer versions) file.
+
+```gradle
+dependencyResolutionManagement {
+    ...
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+}
+```
+
+Add the following dependency to the application's `build.gradle` file to import Gameball's SDK into your project.
+
+```gradle
+dependencies {
+    ...
+    implementation 'com.github.gameballers:gb-mobile-android:2.2.0'  
+}
+```
+
+Make sure that you added the INTERNET permission in your application's `AndroidManifest.xml` file as follows:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
+    ...
+    <uses-permission android:name="android.permission.INTERNET" />
+    ...
+</manifest>
+```
+
+## To install Firebase Google Play Services dependencies
+
+Gameball SDK uses Firebase Dynamic Links to track referrals and Firebase Messaging for sending push notifications, you'll need to add the following dependencies.
+
+```gradle
+dependencies {
+    ...
+    // Make sure to include this dependency even if you won't include Firebase Messaging
+    implementation platform('com.google.firebase:firebase-bom:<latest_version>')
+    // Firebase Dynamic Links only - must be included
+    implementation "com.google.firebase:firebase-dynamic-links"    
+    // Firebase Messaging only - optional depending on whether or not you want to use FCM
+    implementation 'com.google.firebase:firebase-messaging'  
+}
+```
+
+For the latest Firebase SDK (BOM, Cloud Messaging, Deep Links, and Google Services) versions check their release notes.
+
+You also need to add `google-services` plugin to your application.
+
+**App's** `build.gradle` file:
+
+```gradle
+plugins {
+    ...
+    id 'com.google.gms.google-services'
+}
+```
+
+**Project**'s `build.gradle` file:
+
+```gradle
+buildscript{
+    ...
+    dependencies {
+        ...
+        classpath 'com.google.gms:google-services:<latest_version>'
+
+    }
+}
+```
+
+Don't forget to include your `google-services.json` to your `app` root after registering it to a Firebase project.
+
+Follow this tutorial to learn more on how to register your Android application to Firebase.
+
+When publishing your app, make sure if you are using ProGuard rules, to exclude gameball packages to avoid Reductions/Code obfuscation by adding the following line in the `proguard-rules.pro` file.
+
+```proguard
+-keep class com.gameball.gameball.** { *; }
+```
+
+## Initialization
+
+To create a GameballApp instance you need to call the **getInstance** method and pass it a **Context** instance of the current `Activity` holding the GameballApp.
+
+<CodeGroup>
+```java Java
+GameballApp gameballApp = GameballApp.getInstance(getApplicationContext());
+```
+
+```kotlin Kotlin
+val gameballApp = GameballApp.getInstance(applicationContext)
+```
+</CodeGroup>
+
+Then initialize it as the following:
+
+<CodeGroup>
+```java Java
+// Using the instantiated instance of GameballApp
+gameballApp.init("{your API Key}", "{lang}", "{your Platform name}", "{your Shop name}");
+
+//You can access the init method directly as follows
+GameballApp.getInstance(getApplicationContext()).init("{your API Key}", "{lang}", "{your Platform name}", "{your Shop name}");
+```
+
+```kotlin Kotlin
+// Using the instantiated instance of GameballApp
+gameballApp.init("{your API Key}", "{lang}", "{your Platform name}", "{your Shop name}")
+
+//You can access the init method directly as follows
+GameballApp.getInstance(applicationContext).init("{your API Key}", "{lang}", "{your Platform name}", "{your Shop name}")
+```
+</CodeGroup>
+
+## Widget Parameters Description
+
+<ParamField body="APIKey" type="string" required>
+The API key of the Client account
+</ParamField>
+
+<ParamField body="lang" type="string">
+The language that the SDK should be initialized with (based on the Client's configuration)
+</ParamField>
+
+<ParamField body="shop" type="string">
+Store name with myshopify.com domain. Used if your app is a mobile app for a Shopify store connected to Gameball
+</ParamField>
+
+<ParamField body="platform" type="string">
+The platform you application used:
+
+* `Shopify`
+* `Salla`
+* `any`
+</ParamField>
+
+## Profile Languages
+
+For websites with multiple languages, how you can change **Gameball** widget language based on active website language. **Gameball** supports multiple languages for the customer profile widget. The widget language can be changed based on your customer's active language on the website.
+
+<Info>
+Learn how you can configure the languages on your Gameball account through this [article](https://help.gameball.co/en/articles/3464234).
+</Info>
+
+### Supported Languages & Codes
+
+<Expandable title="Supported languages and their codes">
+| Language | Code |
+|----------|------|
+| English | en |
+| Arabic | ar |
+| French | fr |
+| Spanish | es |
+| German | de |
+| Portuguese | pt |
+| Polish | pl |
+| Italian | it |
+| Hungarian | hu |
+| Chinese (Traditional, Taiwan) | zh-tw |
+| Dutch | nl |
+| Swedish | sv |
+| Norwegian | no |
+| Danish | dk |
+| Japanese | ja |
+</Expandable>
+
+In order to show the correct language of the widget based on the active language on the website, you just need to use the language code inside the `lang` variable in the code snippet.
+
+## Initialize Push Notifications
+
+To use the Push Notifications feature through Gameball with Firebase or Huawei services, ensure the appropriate dependencies are added. Then, initialize the device token by calling the following method—either immediately after the `init` method or before registering the customer.
+
+### Firebase Push Service
+
+<CodeGroup>
+```java Java
+gameballApp.initializeFirebase();
+```
+
+```kotlin Kotlin
+// Using the instantiated instance of GameballApp
+gameballApp.initializeFirebase()
+```
+</CodeGroup>
+
+### Huawei Push Service
+
+<CodeGroup>
+```java Java
+String appId = "123456789";
+gameballApp.initializeHuawei(appId);
+```
+
+```kotlin Kotlin
+val appId = "123456789"
+gameballApp.initializeHuawei(appId)
+```
+</CodeGroup>
+
+## Next Steps
+
+- [Initialize Gameball Customer Profile](/installation-guides/v2/android/initialize-profile)
+- [Track Customer Events](/installation-guides/v2/android/track-events)

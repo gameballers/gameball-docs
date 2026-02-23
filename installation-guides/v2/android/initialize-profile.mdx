@@ -1,0 +1,420 @@
+---
+title: "Initialize Gameball Customer Profile"
+description: "Show Gameball customer profile in your Android app"
+---
+
+Show your customer's profile including all details and progress on your Android app.
+
+Showing the Gameball widget on your mobile application is slightly different than showing it on the website. You have two options; first, if you want to design your customer interface, you will use our set of REST APIs. To know more information, you can use the [Configurations API](/api-reference/configurations/configurations) 👑. The other option as this section is describing is using the Android SDK to show the Gameball customer widget.
+
+## Showing Gameball Customer Profile
+
+To show the Gameball customer profile that contains the customer details, available reward campaigns, and the leaderboard use the `showProfile()` SDK method.
+
+Using the SDK, you can open the Gameball customer profile with the magic of a press of button in your app, programmatically when someone does a specific action, or from a persistent button (ex: [FAB](https://developer.android.com/develop/ui/views/components/floating-action-button)) that sits over your app's UI.
+
+When you trigger the Gameball customer profile, your customer is presented with a default screen that is configurable inside Gameball to change the look and feel of it.
+
+From there, your customer can check their progress across different Gameball programs as per your configurations.
+
+<CodeGroup>
+```java Java
+gameballApp.showProfile(this, "{CUST_ID}", "{openDetail}", "{hideNavigation}");
+```
+
+```kotlin Kotlin
+gameballApp.showProfile(this, "{CUST_ID}", "{openDetail}", "{hideNavigation}")
+```
+</CodeGroup>
+
+<Info>
+Use showProfile with a button and call this method in the onClick() method of this button to show the customer profile.
+</Info>
+
+<ParamField body="activity" type="Activity" required>
+Current activity instance holding the GameballApp which will be used in showing the customer's profile.
+</ParamField>
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="openDetail" type="string">
+Specify if you want the widget to open on a specific view. [See available values](/tutorials-new/experiences/more/widget-deep-links#id-4.-using-the-sdk-mobile-apps)
+</ParamField>
+
+<ParamField body="hideNavigation" type="boolean">
+Set to true to stop widget navigation, otherwise leave as null
+</ParamField>
+
+## Change Customer Profile Widget language
+
+***`changeLanguage(String language)`***
+
+Use `changeLanguage` SDK method to change the widget language. The language provided should be as per configured languages in your account. If not provided the Gameball profile widget will be shown with your account default language.
+
+**Example:** `"en"`, `"fr"`, `"ar"`
+
+<CodeGroup>
+```java Java
+gameballApp.changeLanguage("en");
+```
+
+```kotlin Kotlin
+gameballApp.changeLanguage("en")
+```
+</CodeGroup>
+
+## Register/Update Customer
+
+To register your customers with Gameball, use **`registerCustomer`** method which can be used to create or update the customer details at Gameball. Ideally, it is called when your login or register network call is successful.
+
+<ParamField body="activity" type="Activity" deprecated>
+Current activity instance holding the GameballApp which will be used in showing the customer's profile.
+</ParamField>
+
+<ParamField body="intent" type="Intent" deprecated>
+An intent instance that will be used in combination with the Activity to detect the referral code from the dynamic link.
+</ParamField>
+
+<ParamField body="customerId" type="string" required>
+Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+</ParamField>
+
+<ParamField body="customerEmail" type="string">
+Customer's unique Email address.
+</ParamField>
+
+<ParamField body="customerMobile" type="string">
+Customer's unique Mobile number.
+</ParamField>
+
+<ParamField body="customerAttributes" type="object">
+Additional customer-specific attributes. Includes attributes such as the customer's name, contact details, and purchase history.
+
+<Expandable title="customerAttributes Object">
+  <ParamField body="withDisplayName" type="string">
+  The display name of the customer.
+  </ParamField>
+  
+  <ParamField body="withFirstName" type="string">
+  The first name of the customer.
+  </ParamField>
+  
+  <ParamField body="withLastName" type="string">
+  The last name of the customer.
+  </ParamField>
+  
+  <ParamField body="withEmail" type="string">
+  Customer's unique Email address.
+  </ParamField>
+  
+  <ParamField body="withMobileNumber" type="string">
+  Customer's unique Mobile number.
+  </ParamField>
+  
+  <ParamField body="withGender" type="string">
+  The gender of the customer. Use "M" for male, "F" for female, or other identifiers as needed.
+  </ParamField>
+  
+  <ParamField body="withDateOfBirth" type="string">
+  The customer's date of birth in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="withJoinDate" type="string">
+  The date the customer joined your system, in the format `YYYY-MM-DD`.
+  </ParamField>
+  
+  <ParamField body="withPreferredLanguage" type="string">
+  The language the customer prefers for receiving notifications.
+  </ParamField>
+  
+  <ParamField body="withCustomAttribute" type="object">
+  Custom attributes related to the customer, defined by specific key-value pairs.
+  </ParamField>
+  
+  <ParamField body="withAdditionalAttribute" type="object">
+  Any additional attributes related to the customer, defined by specific key-value pairs.
+  </ParamField>
+</Expandable>
+</ParamField>
+
+<ParamField body="referralCode" type="string">
+Customer's referrer's referral code
+</ParamField>
+
+<ParamField body="isGuest" type="boolean">
+Flag indicating the customer is guest or not (if null, isGuest is set to false by default)
+</ParamField>
+
+<ParamField body="callback" type="function">
+Callback is used for providing the developer with the response status and payload.
+</ParamField>
+
+<Tip>
+Every time the **SDK** is initialized with a new customerId, the customer profile is created or updated on Gameball side. You may consider enriching your Gameball customer profile with attributes that are not available to the UI by using server side [Create/Update Customer API](/api-reference/customers/management/create-customer)
+</Tip>
+
+<Warning>
+**Choose an Unchangeable Customer ID**
+
+Gameball user profile gets created using the **`customerId`**. It is highly recommended to have the unique ID as an identifier that would NEVER be changed. If this unique ID changes for a given customer, you risk losing all original data for that customer and hence losing their points and rewards on Gameball. Accordingly, it is NOT recommended to use the email address or the mobile number as the unique ID as both can be changed by the user at anytime.
+</Warning>
+
+<Warning>
+Note that if you set a Preferred Language, it will override the language value provided in the ***init*** method. If neither were provided, the device's default locale will be used.
+</Warning>
+
+<Info>
+You can find the complete list of Customer Attributes [here](/api-reference/customers/management/create-customer#customerattributes-object), if its not included in the **CustomerAttributes** builder you can add them as Key/Value pairs using ***withAdditionalAttribute*** builder method and it will automatically added upon request.
+</Info>
+
+### An example to create CustomerAttributes object
+
+<CodeGroup>
+```java Java
+CustomerAttributes customerAttributes = new CustomerAttributes.Builder()
+        .withDisplayName("John Doe")
+        .withFirstName("John")
+        .withLastName("Doe")
+        .withMobileNumber("0123456789")
+        .withPreferredLanguage("en")
+        .withCustomAttribute("{key}", "{Value}")
+        .withAdditionalAttribute("{key}", "{Value}")
+        .build();
+```
+
+```kotlin Kotlin
+val customerAttributes = CustomerAttributes.Builder()
+    .withDisplayName("John Doe")
+    .withFirstName("John")
+    .withLastName("Doe")
+    .withMobileNumber("0123456789")
+    .withPreferredLanguage("en")
+    .withCustomAttribute("{key}", "{Value}")
+    .withAdditionalAttribute("{key}", "{Value}")
+    .build()
+```
+</CodeGroup>
+
+The previous example will return an object of CustomerAttributes with the configured attributes.
+
+## Register the Customer
+
+Using the previously created GameballApp instance or by creating a new one, call the ***registerCustomer()*** method as shown below
+
+<Info>
+Since Firebase Dynamic Links will soon be deprecated, we've deprecated its usage on our side, and started depending on either Branch.io or Adjust providers to provide for referral links, depending on your implementation, you should be able to fetch the referralCode from the sent query param `GBReferral` and provide it to the register customer method.
+</Info>
+
+<CodeGroup>
+```java Java
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+    
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}", 
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes, 
+    "{referralCode}",
+    false, //isGuest
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+            // TODO Handle on success result.
+        }
+
+        override fun onError(e: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}",
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes,
+    "{referralCode}",
+    false, //isGuest
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+                // TODO Handle on success result
+            }
+
+            override fun onError(e: Throwable?) {
+                 // TODO Handle on failure result.
+            }
+    }
+)
+```
+</CodeGroup>
+
+### Deprecated Register Customer overloads
+
+<Warning>
+Due to the deprecation of Firebase Dynamic Links in the old manner, we've updated the usage approach. If you still need to use the old method, you'll have to use the alternative `handleFirebaseDynamicLink` method to retrieve the referral code as before.
+</Warning>
+
+<CodeGroup>
+```java Java
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes, 
+    this, 
+    this.getIntent(), 
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+    
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}", 
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes,
+    this, 
+    this.getIntent(), 
+    new Callback<CustomerRegisterResponse>() {
+        @Override
+        public void onSuccess(CustomerRegisterResponse customerRegisterResponse) {
+            // TODO Handle on success result.
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.registerCustomer(
+    "{customerId}", 
+    customerAttributes, 
+    this, 
+    this.getIntent(), 
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+                // TODO Handle on success result.
+            }
+
+            override fun onError(e: Throwable?) {
+                 // TODO Handle on failure result.
+            }
+    }
+)
+
+//Overloaded with Email and Mobile Number
+gameballApp.registerCustomer(
+    "{customerId}", 
+    "{customerEmail}",
+    "{customerMobile}",
+    customerAttributes,
+    this, 
+    this.getIntent(), 
+    object: Callback<CustomerRegisterResponse> {
+            override fun onSuccess(t: CustomerRegisterResponse?) {
+                // TODO Handle on success result.
+        }
+
+        override fun onError(e: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+```
+</CodeGroup>
+
+### handleFirebaseDynamicLink method
+
+<CodeGroup>
+```java Java
+gameballApp.handleFirebaseDynamicLink(
+    this, 
+    this.intent, 
+    new Callback<String>() {
+        @Override
+        public void onSuccess(String referralCode) {
+            // Capture the referral code using firebase dynamic link 
+            // and begin the registration flow using the newer overloads
+        }
+    
+        @Override
+        public void onError(Throwable e) {
+            // TODO Handle on failure result.
+        }
+    }
+);
+```
+
+```kotlin Kotlin
+gameballApp.handleFirebaseDynamicLink(
+    this, 
+    this.intent, 
+    object: Callback<String> {
+        override fun onSuccess(referralCode: String?) {
+            // Capture the referral code using firebase dynamic link 
+            // and begin the registration flow using the newer overloads
+        }
+
+        override fun onError(p0: Throwable?) {
+            // TODO Handle on failure result.
+        }
+    }
+)
+```
+</CodeGroup>
+
+## Next Steps
+
+- [Track Customer Events](/installation-guides/v2/android/track-events)
+- [Track Orders & Cashback](/installation-guides/v2/android/track-orders)
+- [Integrate Redemption](/installation-guides/v2/android/integrate-redemption)

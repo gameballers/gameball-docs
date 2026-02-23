@@ -1,0 +1,188 @@
+title: "Getting Started"
+description: "Install Gameball React Native SDK v3.1.1"
+---
+
+# Getting Started
+
+## Requirements
+
+- **React Native**: 0.70+
+- **Node.js**: 18+
+- **TypeScript**: 4.0+ (optional but recommended)
+- **iOS**: iOS 12.0+
+- **Android**: API level 21+
+
+## Install the SDK
+
+Install the package using npm or yarn:
+
+<CodeGroup>
+```bash npm
+npm install react-native-gameball@^3.1.1
+```
+
+```bash yarn
+yarn add react-native-gameball@^3.1.1
+```
+</CodeGroup>
+
+## Install Dependencies
+
+The SDK depends on `react-native-webview` for the profile widget. Install it (and optionally AsyncStorage for enhanced functionality):
+
+<CodeGroup>
+```bash npm
+npm install react-native-webview
+npm install @react-native-async-storage/async-storage
+```
+
+```bash yarn
+yarn add react-native-webview
+yarn add @react-native-async-storage/async-storage
+```
+</CodeGroup>
+
+## iOS Setup
+
+Navigate to the iOS folder and install pods:
+
+```bash
+cd ios && pod install && cd ..
+```
+
+Make sure your iOS deployment target is at least 12.0 in `ios/Podfile`:
+
+```ruby
+platform :ios, '12.0'
+```
+
+## Android Setup
+
+Ensure `INTERNET` permission is declared in `android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+Your `android/app/build.gradle` should have minimum SDK version 21:
+
+```gradle
+android {
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+    }
+}
+```
+
+## ProGuard Configuration (Android)
+
+If using ProGuard, add to `android/app/proguard-rules.pro`:
+
+```proguard
+-keep class com.gameballsdk.** { *; }
+-keepnames class * extends com.gameballsdk.**
+-dontwarn com.gameballsdk.**
+```
+
+## Metro Configuration
+
+Add to your `metro.config.js`:
+
+```javascript
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+
+const config = {
+  resolver: {
+    assetExts: ['bin', 'txt', 'jpg', 'png', 'json', 'woff', 'woff2', 'ttf', 'otf'],
+  },
+};
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+```
+
+## Verify Installation
+
+Import the package in your code to verify:
+
+```typescript
+import { GameballApp } from 'react-native-gameball';
+```
+
+If there are no import errors, you're ready to initialize the SDK!
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+<Accordion title="Widget Not Displaying">
+**Symptoms:** Profile widget doesn't appear when called
+
+**Solutions:**
+- Ensure `react-native-webview` is properly installed and linked
+- Check that the API key is valid and the customer is initialized
+- Verify network connectivity
+- Check console for error messages
+</Accordion>
+
+<Accordion title="Build Errors on iOS">
+**Symptoms:** Pod installation or build failures
+
+**Solutions:**
+- Clean build folder: `cd ios && xcodebuild clean`
+- Reinstall pods: `cd ios && pod install --repo-update`
+- Ensure iOS deployment target is at least 12.0
+- Try `pod deintegrate && pod install`
+</Accordion>
+
+<Accordion title="Build Errors on Android">
+**Symptoms:** Gradle build failures
+
+**Solutions:**
+- Clean gradle cache: `cd android && ./gradlew clean`
+- Verify minimum SDK version is 21
+- Check React Native version compatibility
+- Ensure all dependencies are properly installed
+</Accordion>
+
+<Accordion title="TypeScript Errors">
+**Symptoms:** Type definition errors
+
+**Solutions:**
+- Ensure TypeScript version is 4.0+
+- Run `npx tsc --noEmit` to check type errors
+- Verify type definitions are imported correctly
+- Clear TypeScript cache if needed
+</Accordion>
+
+<Accordion title="Metro Bundler Issues">
+**Symptoms:** Asset loading errors or bundling failures
+
+**Solutions:**
+- Clear Metro cache: `npx react-native start --reset-cache`
+- Ensure Metro configuration includes necessary asset extensions
+- Check `metro.config.js` configuration
+</Accordion>
+</AccordionGroup>
+
+### Debug Logging
+
+For detailed debug logging during development:
+
+```bash
+# iOS
+npx react-native run-ios --verbose
+
+# Android
+npx react-native run-android --verbose
+```
+
+<Tip>
+Use the `--verbose` flag when running your app to see detailed SDK logs and network operations during development.
+</Tip>
+
+## Next Steps
+
+- [Initialize SDK](/installation-guides/v3/react-native/initialize-sdk)
+- [Initialize Customer Profile](/installation-guides/v3/react-native/initialize-profile)

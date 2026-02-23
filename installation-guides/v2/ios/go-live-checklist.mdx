@@ -1,0 +1,80 @@
+---
+title: "Go-Live Checklist"
+description: "Comprehensive checklist to ensure a smooth transition when taking your iOS integration live"
+---
+
+If you are a developer, or had a developer perform an integration for you between your web application and Gameball, you should also consider the following items before going live.
+
+<Info>
+During development, you can use your account Test Key to authenticate your requests. Once integration is completed and validated you can swap to Production API Key.
+</Info>
+
+## Step 1: Install Gameball SDK
+
+- [ ] Install and import Gameball SDK into your App
+- [ ] Initialize Gameball SDK
+
+<Tip>
+For information please read more at [Getting Started](/installation-guides/v2/ios/getting-started)
+</Tip>
+
+## Step 2: Register Your Customer
+
+- [ ] Send customer data to Gameball within your login/registration flows.
+
+## Step 3: Gameball Customer Widget Integration
+
+- [ ] Show Gameball customer profile widget within your App experience
+
+👑 *If you're building your own UI components to maintain your branding*
+
+- [ ] Custom UI components are built and integrated with Gameball within your App UI
+
+<Tip>
+For information please read more at [Initialize Gameball Customer Profile](/installation-guides/v2/ios/initialize-profile).
+</Tip>
+
+## Step 4: Tracking Customer Events
+
+- [ ] Customer events are sent to Gameball with correspondent metadata and properties to track UI events within your App
+- [ ] Customer events are sent to Gameball with correspondent metadata and properties to track server-side events related to the player
+
+<Tip>
+For information, please read more at [Tracking Customer Events](/installation-guides/v2/ios/track-events).
+</Tip>
+
+## Step 5: Tracking Orders/Payments for Cashback Rewards
+
+- [ ] Completed/Paid orders are tracked and sent to Gameball with all order data you wish to track within Gameball.
+
+<Tip>
+For more information, please read more at [Track Orders & Cashback Rewards](/installation-guides/v2/ios/track-orders).
+</Tip>
+
+## Step 6: Redemption is Integrated
+
+- [ ] Customers can view their wallet points balance within your experience.
+- [ ] Customers can redeem their Gameball wallet points within your experience.
+
+<Tip>
+For more information, please read more at [Integrate Redemption](/installation-guides/v2/ios/integrate-redemption).
+</Tip>
+
+## Step 7: Integrate Notifications
+
+- [ ] Add the Firebase dependency to your project.
+- [ ] Add SDK code snippet to show in-app notifications.
+
+<Tip>
+For more information, please read more at [Push Notifications](/installation-guides/v2/ios/push-notifications).
+</Tip>
+
+## Step 8: Referrals Tracking
+
+- [ ] Add the Firebase dynamic links dependency to your project.
+- [ ] Configure your Firebase dynamic links settings from your Firebase console and add it to your Gameball account dashboard.
+- [ ] Invoke SDK referral method upon successful customer registration.
+
+<Tip>
+For information please check [Track Referrals](/installation-guides/v2/ios/track-referrals).
+</Tip>

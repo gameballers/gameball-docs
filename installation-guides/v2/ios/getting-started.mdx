@@ -1,0 +1,180 @@
+---
+title: "Getting Started"
+description: "Install the Gameball iOS SDK into your app"
+---
+
+The Gameball SDK for iOS enables you to use the show Gameball customer profile in your app, track app customer events, integrate referrals and display Gameball's in-app push notifications.
+
+## Installation
+
+Follow the below steps to start installing the iOS SDK to your app
+
+### 1. Add CocoaPods to Your Project
+
+If your project is using CocoaPods, skip to the next part of this article, Add Gameball Pod.
+
+<Steps>
+<Step title="Open Terminal">
+  Open the terminal window and navigate to the root folder of your Xcode project
+</Step>
+
+<Step title="Initialize CocoaPods">
+  Run the following command in terminal:
+  
+  ```bash
+  $ pod init
+  ```
+</Step>
+
+<Step title="Open Workspace">
+  Close Xcode if open then open your project's newly created .xcworkspace
+</Step>
+
+<Step title="Verify Setup">
+  Your project is now using CocoaPods to install dependencies
+</Step>
+</Steps>
+
+### 2. Add Gameball Pod
+
+<Steps>
+<Step title="Update Podfile">
+  Add the code below in your Podfile which was created by CocoaPods:
+  
+  ```ruby
+  source 'https://github.com/CocoaPods/Specs.git'
+  target 'YourAppName' do
+               use_frameworks!
+               pod 'Gameball',
+  end
+  ```
+</Step>
+
+<Step title="Install Dependencies">
+  Navigate to your project's root folder in a terminal window and run:
+  
+  ```bash
+  $ pod install
+  ```
+</Step>
+
+<Step title="Verify Installation">
+  Gameball will install several Pods that it has as dependencies.
+  
+  When the Pod command finishes execution, you will have Gameball installed and ready to use.
+</Step>
+</Steps>
+
+## Swift Package Manager
+
+Gameball is also available through **Swift Package Manager**. To install it, simply search for 'Gameball' or add the repo URL:
+
+```swift
+https://github.com/gameballers/gameball-ios.git
+```
+
+## Initialization
+
+In order to use Gameball SDK, apply the below step into the created pod, using CocoaPods, to setup the Gameball Widget in the best way for your use-case.
+
+<Steps>
+<Step title="Import Gameball">
+  Import our pod to your viewController:
+  
+  ```swift
+  import Gameball
+  ```
+</Step>
+
+<Step title="Create Global Variable">
+  Create a global GameballApp variable in your viewController to access anywhere within your viewController:
+  
+  ```swift
+  var gameball: Gameball?
+  ```
+</Step>
+
+<Step title="Initialize SDK">
+  Then initialize it as the following:
+  
+  ```swift
+  gameball = Gameball(
+      apiKey: "YOUR_API_KEY", // The only required field
+      lang: "ar",
+      shop: "MyShop", // Required for Shopify clients only
+      platform: "iOS",
+      completion: { [weak self] in // Completion block when SDK init is completed
+          guard let self = self else {return}
+          // You can enable showing profile, registering player, etc. see next section
+      }
+  )
+  ```
+</Step>
+</Steps>
+
+## Widget Parameters Description
+
+<ParamField body="APIKey" type="string" required>
+The API key of the Client account
+</ParamField>
+
+<ParamField body="lang" type="string">
+The language that the SDK should be initialized with (based on the Client's configuration)
+</ParamField>
+
+<ParamField body="shop" type="string">
+Store name with myshopify.com domain. Used if your app is a mobile app for a Shopify store connected to Gameball
+</ParamField>
+
+<ParamField body="platform" type="string">
+The platform you application used:
+
+* `Shopify`
+* `Salla`
+* `any`
+</ParamField>
+
+<ParamField body="completion" type="closure">
+Completion block that gets called when the initialization of the SDK is completed
+</ParamField>
+
+<Note>
+You may also check the sample project here to view full implementation.
+</Note>
+
+## Profile Languages
+
+For websites with multiple languages, how you can change **Gameball** widget language based on active website language. **Gameball** supports multiple languages for the customer profile widget. The widget language can be changed based on your customer's active language on the website.
+
+<Info>
+Learn how you can configure the languages on your Gameball account through this [article](https://help.gameball.co/en/articles/3464234).
+</Info>
+
+### Supported Languages & Codes
+
+<Expandable title="Supported languages and their codes">
+| Language | Code |
+|----------|------|
+| English | en |
+| Arabic | ar |
+| French | fr |
+| Spanish | es |
+| German | de |
+| Portuguese | pt |
+| Polish | pl |
+| Italian | it |
+| Hungarian | hu |
+| Chinese (Traditional, Taiwan) | zh-tw |
+| Dutch | nl |
+| Swedish | sv |
+| Norwegian | no |
+| Danish | dk |
+| Japanese | ja |
+</Expandable>
+
+In order to show the correct language of the widget based on the active language on the website, you just need to use the language code inside the `lang` variable in the code snippet.
+
+## Next Steps
+
+- [Initialize Gameball Customer Profile](/installation-guides/v2/ios/initialize-profile)
+- [Track Customer Events](/installation-guides/v2/ios/track-events)

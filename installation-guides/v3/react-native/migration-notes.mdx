@@ -1,0 +1,314 @@
+title: "Migration Notes"
+description: "Migrate from v2 to v3.1.1"
+---
+
+# Migration Notes & Changelog
+
+This guide helps you migrate from Gameball React Native SDK v2 to v3.1.1.
+
+## What's New in v3.1.1
+
+<Info>
+**Guest Mode & Easier Widget Init** — v3.1.1 makes `ShowProfileRequest` non-throwing and allows `customerId` to be optional so you can launch the profile widget in guest mode.
+</Info>
+
+- `customerId` optional on profile widget (guest mode supported)
+- Existing v3.1.0/v3.0.0 code continues to work without changes
+
+## What's New in v3.1.0
+
+<Info>
+**Session Token Authentication** — v3.1.0 introduces optional Session Token authentication for enhanced security with automatic v4.1 endpoint routing.
+</Info>
+
+### New Features in v3.1.0
+
+- **Session Token Support**: Optional token-based authentication
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
+- **Per-Request Token Override**: Override global token on individual API calls
+- **Global Token Management**: Token updates globally when passed to any method
+- **Backward Compatible**: All existing code works unchanged
+
+<CardGroup cols={2}>
+<Card title="TypeScript Support" icon="code">
+Full TypeScript support with type definitions and interfaces
+</Card>
+
+<Card title="Async/Await" icon="clock">
+Modern async/await support alongside callback pattern
+</Card>
+
+<Card title="Better Error Handling" icon="triangle-exclamation">
+Improved error messages and validation
+</Card>
+
+<Card title="Simplified API" icon="sliders">
+Cleaner API design with consistent patterns
+</Card>
+</CardGroup>
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2:**
+```typescript
+import {GameballSDK} from 'react-native-gameball';
+
+GameballSDK.init("api-key", "en", "platform", "shop");
+```
+
+**v3.1.1:**
+```typescript
+import { GameballApp, GameballConfig } from 'react-native-gameball';
+
+const config: GameballConfig = {
+  apiKey: 'api-key',
+  lang: 'en',
+  platform: 'react-native',
+  shop: 'shop-id',
+  sessionToken: 'session-token',  // Optional - New in v3.1.0
+};
+
+GameballApp.getInstance().init(config);
+```
+
+### 2. Customer Registration
+
+**v2:**
+```typescript
+GameballSDK.registerPlayer({
+  playerUniqueId: "customer-123",
+  deviceToken: "token",
+  referrerCode: "ref",
+  playerAttributes: {...}
+});
+```
+
+**v3.1.1:**
+```typescript
+const request: InitializeCustomerRequest = {
+  customerId: 'customer-123',
+  deviceToken: 'token',
+  referralCode: 'ref',
+  customerAttributes: {...},
+};
+
+await GameballApp.getInstance().initializeCustomer(request);
+
+// Optional: Override session token for this request (updates global token)
+await GameballApp.getInstance().initializeCustomer(request, undefined, 'customer-token');
+```
+
+### 3. Event Tracking
+
+**v2:**
+```typescript
+GameballSdk.sendEvent({"review": {}})
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
+```
+
+**v3.1.1:**
+```typescript
+const event: Event = {
+  customerId: 'customer-123',
+  events: {
+    review: {
+      rating: 5
+    }
+  },
+};
+
+await GameballApp.getInstance().sendEvent(event);
+
+// Optional: Override session token for this request (updates global token)
+await GameballApp.getInstance().sendEvent(event, undefined, 'customer-token');
+```
+
+### 4. Show Profile Widget
+
+**v2:**
+```typescript
+import {GameballWidget} from 'react-native-gameball';
+
+<GameballWidget 
+  modal={true}
+  ref={ref}
+/>
+```
+
+**v3.1.1:**
+```typescript
+import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
+
+const profileRequest: ShowProfileRequest = {
+  customerId: 'customer-123', // Optional (omit for guest mode)
+  showCloseButton: true,
+};
+
+await GameballApp.getInstance().showProfile(profileRequest);
+
+// Optional: Override session token for this request (updates global token)
+await GameballApp.getInstance().showProfile(profileRequest, undefined, 'customer-token');
+```
+
+### 5. Key Naming Changes
+
+| v2 | v3.1.x |
+|--------|--------|
+| `playerUniqueId` | `customerId` |
+| `playerAttributes` | `customerAttributes` |
+| `referrerCode` | `referralCode` |
+| `GameballSDK` | `GameballApp.getInstance()` |
+| `GameballSdk.sendEvent` | `GameballApp.getInstance().sendEvent` |
+
+## Migration Steps
+
+### From v3.1.0 to v3.1.1 (No Breaking Changes)
+
+<Info>
+v3.1.1 is a patch release (guest mode support). Update the dependency version; no code changes required.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.1:
+
+```json
+{
+  "dependencies": {
+    "react-native-gameball": "^3.1.1"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="Test Guest Mode (Optional)">
+If you plan to use guest mode, verify that `showProfile` works without a `customerId`.
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged.
+</Step>
+</Steps>
+
+### From v3.0.0 to v3.1.x (No Breaking Changes)
+
+<Info>
+v3.1.x is fully backward compatible. Simply update the dependency version. Session Token is optional.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.1:
+
+```json
+{
+  "dependencies": {
+    "react-native-gameball": "^3.1.1"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="(Optional) Add Session Token">
+If enhanced security is needed, add session token to your configuration:
+
+```typescript
+const config: GameballConfig = {
+  apiKey: 'api-key',
+  lang: 'en',
+  sessionToken: 'your-session-token',
+};
+```
+
+**Important**: In React Native SDK, the `sessionToken` parameter updates the global token when passed to any method.
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged.
+</Step>
+</Steps>
+
+### From v2.x to v3.1.1
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.1:
+
+```json
+{
+  "dependencies": {
+    "react-native-gameball": "^3.1.1"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="Update Imports">
+Update all Gameball imports to use `react-native-gameball`:
+```typescript
+import { GameballApp } from 'react-native-gameball';
+```
+</Step>
+
+<Step title="Update Initialization">
+Replace SDK initialization with the new config object pattern.
+</Step>
+
+<Step title="Update Customer Registration">
+Replace `registerPlayer` with `initializeCustomer` using the new request structure.
+</Step>
+
+<Step title="Update Event Tracking">
+Update event structure to use `events` object with nested properties.
+</Step>
+
+<Step title="Update Profile Widget">
+Replace `GameballWidget` component with `showProfile` method calls.
+</Step>
+
+<Step title="Add Type Definitions">
+If using TypeScript, add type annotations to leverage full type safety.
+</Step>
+
+<Step title="Test on Both Platforms">
+Test all Gameball functionality on both iOS and Android to ensure the migration is successful.
+</Step>
+</Steps>
+
+## Compatibility
+
+- **React Native**: 0.70+
+- **Node.js**: 18+
+- **TypeScript**: 4.0+ (optional)
+- **iOS**: iOS 12.0+
+- **Android**: API level 21+
+
+## Additional Resources
+
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/RELEASE_NOTES.md) for v3.1.1 release details
+- Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
+
+<Warning>
+For version-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.1) on branch `release-3.1.1`.
+</Warning>
+
+<Tip>
+If you encounter any issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+
+## Next Steps
+
+- [Getting Started](/installation-guides/v3/react-native/getting-started)
+- [Initialize SDK](/installation-guides/v3/react-native/initialize-sdk)
+- [Go-Live Checklist](/installation-guides/v3/react-native/go-live-checklist)

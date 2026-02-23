@@ -1,0 +1,59 @@
+---
+title: "Track Events"
+description: "Track customer events and actions at your POS"
+---
+
+## Overview
+
+Event tracking allows you to capture customer actions and behaviors at your POS system, enabling Gameball to trigger campaigns, rewards, and personalized experiences based on customer activity.
+
+## When to Use Event Tracking
+
+While order tracking (via the Track Order API) automatically captures purchase events, you may want to track additional customer actions such as:
+
+- Customer visits to the store
+- Product category preferences
+- Special promotions or campaigns
+- Non-purchase activities
+
+## Implementation
+
+Use the Send Events API to track customer actions:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/events' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
+  -d '{
+    "customerId": "mobile_966500001234",
+    "eventName": "store_visit",
+    "metadata": {
+      "store_location": "Mall Branch A",
+      "visit_date": "2025-09-29T15:00:00Z"
+    }
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "success": true,
+  "message": "Event tracked successfully"
+}
+```
+</ResponseExample>
+
+## Key Considerations
+
+- Events can trigger automated campaigns configured in your Gameball dashboard
+- Use descriptive event names that align with your business logic
+- Include relevant metadata to enable advanced targeting and segmentation
+- Events are processed asynchronously and may not reflect immediately in customer profiles
+
+<Note>
+For most POS integrations, order tracking is sufficient. Event tracking is optional and typically used for advanced use cases or specific campaign requirements.
+</Note>
+

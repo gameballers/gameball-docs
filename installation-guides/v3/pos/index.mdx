@@ -1,0 +1,125 @@
+---
+title: "POS Integration"
+description: "Complete guide to integrate Gameball with your point-of-sale (POS) system using REST APIs"
+---
+
+This documentation provides a comprehensive guide to integrating Gameball's loyalty program with your point-of-sale (POS) system, enabling you to deliver a consistent and rewarding experience to your in-store shoppers—without requiring a mobile app or separate interface.
+
+<Info>
+Whether you're operating in retail chains, mall kiosks, or standalone stores, Gameball's REST APIs enable seamless loyalty integration directly into your existing POS workflow.
+</Info>
+
+## Integration Overview
+
+By integrating Gameball directly into your existing POS workflow, you eliminate the need for third-party apps or additional overhead while giving customers a visible, valuable reason to come back.
+
+This integration guide will walk you through a modular, use-case-driven approach to integrating Gameball's loyalty logic into your POS operations—complete with business context, implementation flows, example payloads, and backend reactions.
+
+## What You Can Do
+
+Integrating Gameball's loyalty program with your POS system allows you to:
+
+- **Register new customers** or identify existing ones during checkout
+- **Retrieve customer balance** to display loyalty information
+- **Reward purchases** with points and campaigns in real time
+- **Redeem points** for discounts or gifts—seamlessly, securely, and quickly
+- **Track customer events** for additional engagement opportunities
+- **Verify identity** via secure QR codes or virtual passes (optional)
+
+## Typical Workflow
+
+The standard POS integration workflow follows these steps:
+
+<Steps>
+  <Step title="1. Lookup Customer">
+    GET `/integrations/customers/{customerId}/balance` - Check if customer exists and retrieve balance
+  </Step>
+  <Step title="2. Create Customer (if needed)">
+    POST `/integrations/customers` - Create new customer profile if not found
+  </Step>
+  <Step title="3. Display Balance">
+    Show available points, monetary value, and expiring points to the customer
+  </Step>
+  <Step title="4. Offer Redemption">
+    POST `/integrations/transactions/hold` - Hold points if customer wants to redeem
+  </Step>
+  <Step title="5. Place Order">
+    POST `/integrations/orders` - Submit order with hold reference to finalize redemption
+  </Step>
+  <Step title="6. Show Earned Points">
+    Display `rewardedPoints` from order response to show points earned
+  </Step>
+  <Step title="7. Handle Refunds (if needed)">
+    POST `/integrations/transactions/refund` - Reverse order and restore points
+  </Step>
+</Steps>
+
+## Integration Guide
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/installation-guides/v3/pos/getting-started">
+    Learn about POS integration requirements and setup
+  </Card>
+
+  <Card title="API Setup" icon="code" href="/installation-guides/v3/pos/api-setup">
+    Set up API authentication and environment configuration
+  </Card>
+
+  <Card title="Customer Management" icon="user" href="/installation-guides/v3/pos/customer-management">
+    Get or create customers at checkout
+  </Card>
+
+  <Card title="Customer Balance" icon="wallet" href="/installation-guides/v3/pos/customer-balance">
+    Retrieve and display customer loyalty balance
+  </Card>
+
+  <Card title="Integrate Redemption" icon="gift" href="/installation-guides/v3/pos/integrate-redemption">
+    Enable point redemption at checkout
+  </Card>
+
+  <Card title="Track Orders" icon="shopping-cart" href="/installation-guides/v3/pos/track-orders">
+    Submit in-store orders to award loyalty points
+  </Card>
+
+  <Card title="Refund Order" icon="arrow-rotate-left" href="/installation-guides/v3/pos/refund-order">
+    Refund or cancel orders and restore customer points
+  </Card>
+
+  <Card title="Fetch Order Details" icon="receipt" href="/installation-guides/v3/pos/fetch-order-details">
+    Retrieve order transaction history and customer activities
+  </Card>
+
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/pos/track-events">
+    Track customer events and actions at your POS
+  </Card>
+
+  <Card title="Track Referrals" icon="users" href="/installation-guides/v3/pos/track-referrals">
+    Implement referral tracking and rewards
+  </Card>
+
+  <Card title="Go-Live Checklist" icon="check" href="/installation-guides/v3/pos/go-live-checklist">
+    Verify your integration before going live
+  </Card>
+
+  <Card title="Migration Notes" icon="arrow-right" href="/installation-guides/v3/pos/migration-notes">
+    Migration guide from previous versions
+  </Card>
+</CardGroup>
+
+## Requirements
+
+- **POS System**: Must support API integration (REST API calls)
+- **Network**: Internet connectivity for API calls
+- **Authentication**: Gameball API key and secret
+- **QR Scanner** (Optional): For QR code-based customer verification
+
+## Key Differences from Mobile SDKs
+
+Unlike mobile SDKs, POS integration:
+
+- Uses **REST APIs** instead of native SDKs
+- Requires **server-side API calls** from your POS backend
+- Focuses on **checkout workflows** rather than app experiences
+- Supports **QR code verification** for customer identification
+- Enables **real-time point redemption** during checkout
+

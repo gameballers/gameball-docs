@@ -1,0 +1,173 @@
+---
+title: "Track Customer Events"
+description: "Start sending your customer's events on your platform to Gameball"
+---
+
+Send your customer's **events** on your platform to Gameball, along with any **metadata** that describes the event. Depending on your Gameball programs configuration, the customers can be rewarded based on the sent events.
+
+Customer **events** can be sent to Gameball via the [Track Events API](/api-reference/events/send-events).
+
+## What are Events?
+
+Every `Track Event` call records a single user action. We call these "**events**". We recommend that you make your event names human-readable, so that everyone can know what they mean instantly.
+
+**Event metadata** are extra pieces of information you can tie to events you track. They can be anything that will be useful while designing your program.
+
+<Info>
+Tracked **events** can be UI events or server side events depending on how you would like to design your programs.
+</Info>
+
+## Event Tracking Benefits
+
+Tracking events allows you to:
+
+1. **Gain insights** into what your customers are doing on your platform
+2. **Reward actions** in real-time to drive more engagement
+3. **Personalize experiences** based on customer interests and behaviors
+
+## How Gameball Event Engine Works
+
+Gameball listens to your system, takes note of your customers' actions, and uses that data to trigger rewards or personalized messages.
+
+<Steps>
+<Step title="Send Event Data">
+  Send customer events to Gameball via API calls with relevant metadata
+</Step>
+
+<Step title="Gameball Processing">
+  Gameball processes the events and checks against your configured reward rules
+</Step>
+
+<Step title="Trigger Rewards">
+  Based on your program configuration, rewards and notifications are triggered
+</Step>
+</Steps>
+
+## Example: E-commerce Event Tracking
+
+Let's say you run an online store and want to reward customers when they add items to their carts.
+
+### Basic Add to Cart Event
+
+When a customer clicks "Add to Cart", you can send a simple event to Gameball:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/v4.0/events' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'TransactionKey: YOUR_TRANSACTION_KEY' \
+  -d '{
+    "events": {
+      "add_to_cart": {}
+    },
+    "customerId": "CUST_ID"
+  }'
+```
+</RequestExample>
+
+### Enhanced Add to Cart Event
+
+If you want to go further, add details like product ID, price, and category:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/v4.0/events' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'TransactionKey: YOUR_TRANSACTION_KEY' \
+  -d '{
+    "events": {
+      "add_to_cart": {
+        "product_id": "231402",
+        "product_title": "iPhone 12",
+        "price": 1350.00,
+        "category": "Electronics",
+        "quantity": 1
+      }
+    },
+    "customerId": "CUST_ID"
+  }'
+```
+</RequestExample>
+
+## Common Event Types
+
+<CardGroup cols={2}>
+  <Card title="E-commerce Events" icon="shopping-cart">
+    - `add_to_cart`
+    - `view_product`
+    - `purchase`
+    - `wishlist_add`
+  </Card>
+
+  <Card title="User Engagement" icon="user-heart">
+    - `signup`
+    - `login`
+    - `profile_update`
+    - `newsletter_subscribe`
+  </Card>
+
+  <Card title="Content Interaction" icon="play">
+    - `video_watch`
+    - `article_read`
+    - `download`
+    - `share`
+  </Card>
+
+  <Card title="Custom Events" icon="cog">
+    - Any custom event name
+    - Business-specific actions
+    - Platform-specific behaviors
+  </Card>
+</CardGroup>
+
+## Event Metadata Best Practices
+
+<Steps>
+<Step title="Use Descriptive Names">
+  Make event names human-readable and descriptive:
+  
+  ✅ Good: `product_viewed`, `checkout_started`, `review_submitted`
+  
+  ❌ Bad: `evt1`, `action_a`, `click_btn`
+</Step>
+
+<Step title="Include Relevant Metadata">
+  Add useful information that can be used for targeting and analytics:
+  
+  ```json
+  {
+    "events": {
+      "product_viewed": {
+        "product_id": "12345",
+        "category": "Electronics",
+        "price": 299.99,
+        "brand": "Apple"
+      }
+    }
+  }
+  ```
+</Step>
+
+<Step title="Be Consistent">
+  Use consistent naming conventions and data structures across your events
+</Step>
+</Steps>
+
+## API Integration
+
+<Note>
+For detailed API implementation, refer to the [Events API Reference](/api-reference/events/send-events) and [Tracking Customer Events tutorial](/tutorials-new/experiences/tracking-events).
+</Note>
+
+## Related Resources
+
+- [Events API Reference](/api-reference/events/send-events)
+- [Tracking Customer Events Tutorial](/tutorials-new/experiences/tracking-events)
+- [Build Custom UI Elements](/tutorials-new/experiences/more/build-your-own-ui/index)
+
+## Next Steps
+
+- [Track Orders & Cashback](/installation-guides/v2/web/track-orders)
+- [Integrate Redemption](/installation-guides/v2/web/integrate-redemption)

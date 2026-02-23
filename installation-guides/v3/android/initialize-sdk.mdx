@@ -1,0 +1,160 @@
+---
+title: "Initialize SDK"
+description: "Configure and initialize Gameball Android SDK v3.1.1"
+---
+
+Before you can register customers, track events, or show the profile widget, you must initialize the **Gameball Android SDK** with your configuration.
+
+Initialization is typically done once in your `Application` class.
+
+---
+
+## Application-Level Initialization
+
+Create (or update) your `Application` class and initialize Gameball in `onCreate`.
+
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter during SDK initialization (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
+
+<CodeGroup>
+
+```kotlin Kotlin
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        val config = GameballConfig.builder()
+            .apiKey("your-api-key")            // Required
+            .lang("en")                        // Required
+            .platform("android")               // Optional
+            .shop("your-shop-id")              // Optional
+            .sessionToken("your-session-token")// Optional - enables v4.1 endpoints
+            .build()
+
+        GameballApp.getInstance(this).init(config)
+    }
+}
+```
+
+
+```java Java
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        GameballConfig config = GameballConfig.builder()
+            .apiKey("your-api-key")             // Required
+            .lang("en")                         // Required
+            .platform("android")                // Optional
+            .shop("your-shop-id")               // Optional
+            .sessionToken("your-session-token") // Optional - enables v4.1 endpoints
+            .build();
+
+        GameballApp.getInstance(this).init(config);
+    }
+}
+```
+
+</CodeGroup>
+
+<Tip>
+  Make sure your `Application` class is registered in your `AndroidManifest.xml`:
+
+  \<application
+
+  android:name=".MyApplication"
+
+  ... \>
+</Tip>
+
+---
+
+## Configuration Parameters
+
+<ParamField body="apiKey" type="string" required>
+  Your Gameball API key from the dashboard. Required.
+</ParamField>
+
+<ParamField body="lang" type="string" required>
+  Language code for SDK localization (for example, "en", "ar", "fr"). Required.
+</ParamField>
+
+<ParamField body="platform" type="string">
+  Platform identifier. Defaults to `"android"`.
+</ParamField>
+
+<ParamField body="shop" type="string">
+  Your Gameball shop identifier for multi-shop setups.
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+  Optional Session Token used for secure authentication and automatic v4.1 endpoint routing. Required in upcoming SDK v4.
+</ParamField>
+
+### Validation Rules
+
+**GameballConfig requires:**
+
+- apiKey cannot be null
+- lang cannot be null
+
+If either is missing, initialization will fail and API calls will not succeed.
+
+---
+
+## Environment Configuration (Test vs Production)
+
+You can switch between Test and Production keys based on your build type:
+
+```kotlin
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        val apiKey = if (BuildConfig.DEBUG) {
+            "gb_test_your-key"      // Test key
+        } else {
+            "gb_live_your-key"      // Production key
+        }
+
+        val config = GameballConfig.builder()
+            .apiKey(apiKey)
+            .lang("en")
+            .build()
+
+        GameballApp.getInstance(this).init(config)
+    }
+}
+```
+
+<Info>
+  Always use your **Test Key** in development and staging builds, and your **Production Key** only in live builds.
+</Info>
+
+---
+
+## Common Initialization Issues
+
+<AccordionGroup>
+  <Accordion title="SDK Not Initialized Error">
+    **Error:** `API key is required for customer initialization` **Cause:** `GameballApp.getInstance(context).init(config)` was not called before other SDK methods.
+
+    **Solution:** Ensure initialization happens in your `Application.onCreate()` and that the Application class is correctly registered in `AndroidManifest.xml`.
+  </Accordion>
+  <Accordion title="Invalid API Key">
+    **Symptoms:** Requests failing with authentication or 4xx errors. **Solution:** Verify the API key used in `GameballConfig` matches the key shown in your Gameball dashboard (and that you are using the correct environment key: Test vs Production).
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+Once the SDK is initialized, you can proceed with:
+
+- [Initialize Customer Profile](/installation-guides/v3/android/initialize-profile)

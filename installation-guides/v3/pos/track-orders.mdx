@@ -1,0 +1,98 @@
+---
+title: "Track Orders"
+description: "Track in-store orders to award loyalty points"
+---
+
+## Use Case: Tracking In-Store Orders to Award Loyalty Points
+
+### What This Is
+
+This use case explains how to track an in-store purchase by submitting the order details to Gameball. This allows the customer to earn loyalty points based on the transaction value and configured earning rules.
+
+### Why It Matters
+
+- Enables customers to accumulate points for in-store purchases
+- Drives program participation and repeat visits
+- Allows Gameball to evaluate campaign logic, trigger milestone rewards, and calculate tier progression
+- Without tracking the order, no points can be rewarded, and the customer receives no benefit from their purchase
+
+### How to Implement It
+
+Use the Track Order API to submit each completed order.
+
+Required fields include:
+
+- `customerId`: the unique identifier for the customer
+- `orderId`: a unique transaction ID from your POS system
+- `orderDate`: the exact time the order occurred
+- `totalPaid`: the amount paid by the customer after discounts and redemptions
+- `totalPrice`: the full value of the order before any discounts
+
+Optional: `totalTax`, `totalShipping`, `discounts`, and `lineItems`.
+
+### Validation Rules
+
+- `orderId` must be unique per store environment
+- `customerId` must refer to an existing Gameball profile
+
+### Example Scenario
+
+A customer completes a purchase. The POS submits the order to Gameball:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
+  -d '{
+    "customerId": "12345",
+    "orderId": "ORD000123",
+    "orderDate": "2025-10-19T12:10:00Z",
+    "totalPaid": 95.00,
+    "totalPrice": 100.00,
+    "totalDiscount": 5.00,
+    "totalTax": 2.00,
+    "totalShipping": 0,
+    "redemption": {
+      "pointsHoldReference": "HOLD-abc123"
+    }
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "orderId": "ORD000123",
+  "customerId": "12345",
+  "pointsRedeemed": 100,
+  "pointsEarned": 9.5,
+  "rewardedPoints": 9.5,
+  "status": "completed"
+}
+```
+</ResponseExample>
+
+<Info>
+**Automatic Customer Creation**: If the customer specified by `customerId` doesn't exist in Gameball, a new customer profile will be automatically created when using this API. You don't need to create the customer separately before tracking orders.
+</Info>
+
+<Info>
+**Automatic Points Rewarding**: Gameball finalizes the order and automatically rewards points based on your configured earning rules. Check the `rewardedPoints` field in the response to display the points earned to the customer.
+</Info>
+
+### What Gameball Does Behind the Scenes
+
+- Evaluates earning rules based on the transaction value
+- Issues points according to the business logic defined in the dashboard
+- Logs the order in the customer's purchase history
+- May trigger campaign or tier logic based on cumulative spend or conditions
+
+### Key Takeaways for Developers
+
+- Always submit final prices with appropriate tax and shipping data if they affect point logic
+- Use consistent, timestamped `orderDate` values in ISO 8601 format
+- Do not reuse `orderId`. Duplicate values will be rejected
+- Submit the order after confirming payment but before closing the POS session to ensure reward accuracy
+

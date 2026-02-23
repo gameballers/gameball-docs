@@ -1,0 +1,169 @@
+---
+title: "Track Customer Events"
+description: "Send events to power actions, campaigns and rewards"
+---
+
+# Track Customer Events
+
+Send events to Gameball when users perform important actions within your app.
+
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter when sending events (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
+
+```typescript
+import { GameballApp, Event } from 'react-native-gameball';
+
+const event: Event = {
+  customerId: 'customer-123',
+  email: 'john@example.com',
+  mobile: '+1234567890',
+  events: {
+    purchase: {
+      order_id: 'ORD-12345',
+      amount: 149.99,
+      currency: 'USD',
+      category: 'electronics',
+      channel: 'mobile_app',
+    },
+  },
+};
+
+// Using async/await
+try {
+  const success = await GameballApp.getInstance().sendEvent(event);
+  console.log('Event sent successfully:', success);
+} catch (error) {
+  console.error('Error sending event:', error);
+}
+
+// With session token override
+try {
+  const success = await GameballApp.getInstance().sendEvent(event, undefined, 'customer-token');
+  console.log('Event sent with custom token');
+} catch (error) {
+  console.error('Error:', error);
+}
+
+// Using callbacks
+GameballApp.getInstance().sendEvent(event, {
+  onSuccess: (success) => console.log('Event sent:', success),
+  onError: (error) => console.error('Error:', error.message)
+});
+```
+
+## Event Structure
+
+<ParamField body="customerId" type="string" required>
+The unique identifier of the customer performing the event.
+</ParamField>
+
+<ParamField body="events" type="Record<string, Record<string, any>>" required>
+Event data where keys are event names and values are nested properties/metadata.
+</ParamField>
+
+<ParamField body="email" type="string">
+Customer's email address.
+</ParamField>
+
+<ParamField body="mobile" type="string">
+Customer's mobile number.
+</ParamField>
+
+<ParamField body="sessionToken" type="string">
+Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
+</ParamField>
+
+<Info>
+In React Native SDK, passing a sessionToken parameter updates the global session token. Pass `undefined` to clear the global token, or omit it to use the current global token.
+</Info>
+
+### Validation Rules
+
+**Event requires:**
+- `customerId` cannot be empty or whitespace
+- `events` object must contain at least one event
+- Event names should be meaningful and descriptive
+- Event metadata values can be string, number, boolean, or nested objects
+
+## Best Practices
+
+<Steps>
+<Step title="Use Clear Event Names">
+Make event names human-readable and consistent (e.g., `purchase_completed`, `review_submitted`).
+</Step>
+
+<Step title="Send After Action Completion">
+Send events when an action is fully completed (e.g., after payment confirmation).
+</Step>
+
+<Step title="Include Relevant Metadata">
+Add metadata that will be useful for segmentation and campaign targeting.
+</Step>
+
+<Step title="Keep Keys Consistent">
+Use consistent metadata keys across similar events.
+</Step>
+</Steps>
+
+## Common Event Examples
+
+### Purchase Event
+
+```typescript
+const purchaseEvent: Event = {
+  customerId: 'customer-123',
+  events: {
+    purchase_completed: {
+      order_id: 'ORD-12345',
+      amount: 149.99,
+      currency: 'USD',
+      category: 'electronics'
+    }
+  },
+};
+
+await GameballApp.getInstance().sendEvent(purchaseEvent);
+```
+
+### Review Event
+
+```typescript
+const reviewEvent: Event = {
+  customerId: 'customer-123',
+  events: {
+    review_submitted: {
+      product_id: 'PROD-789',
+      rating: 5
+    }
+  },
+};
+```
+
+<Info>
+Events are the foundation of Gameball's reward and engagement system. Configure how events trigger rewards and actions in your Gameball dashboard.
+</Info>
+
+## Error Handling
+
+```typescript
+try {
+  await GameballApp.getInstance().sendEvent(event);
+} catch (error) {
+  if (error.message.includes('HTTP 401')) {
+    // Handle authentication error
+  } else if (error.message.includes('HTTP 500')) {
+    // Handle server error
+  } else {
+    // Handle general error
+  }
+}
+```
+
+## Next Steps
+
+- [Show Profile Widget](/installation-guides/v3/react-native/show-profile)
+- [Go-Live Checklist](/installation-guides/v3/react-native/go-live-checklist)

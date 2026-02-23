@@ -1,0 +1,87 @@
+---
+title: "Refund Order"
+description: "Refund or cancel orders and restore customer points"
+---
+
+## Refund / Cancel an Order
+
+When a customer returns items or cancels an order, use the Refund API to reverse the transaction and restore points to the customer's balance.
+
+### What This Is
+
+This use case explains how to process refunds or cancellations for completed orders, ensuring that:
+- Points redeemed during the original order are restored
+- Points earned from the original order are deducted
+- The customer's balance is accurately updated
+
+### Why It Matters
+
+- Maintains accurate customer point balances
+- Prevents point manipulation or fraud
+- Ensures fair treatment of customers during returns
+- Required for proper financial reconciliation
+
+### How to Implement It
+
+Use the Refund Transaction API to reverse a completed order:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/refund' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
+  -d '{
+    "customerId": "12345",
+    "refundTransactionId": "REFUND0001",
+    "reverseTransactionId": "ORD000123",
+    "transactionTime": "2025-10-19T12:30:00Z",
+    "refundAmount": 100.00
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "gameballTransactionId": "11034735",
+  "refundTransactionId": "REFUND0001",
+  "refundAmount": 100.00,
+  "refundEquivalentPoints": 100
+}
+```
+</ResponseExample>
+
+<Note>
+The response schema follows the API v4 format. The `gameballTransactionId` is the unique identifier for the refund transaction in the Gameball system, and `refundEquivalentPoints` represents the number of points equivalent to the monetary value refunded.
+</Note>
+
+### Required Fields
+
+- **customerId**: The unique identifier for the customer
+- **refundTransactionId**: A unique identifier for this refund transaction
+- **reverseTransactionId**: The original order ID that is being refunded
+- **transactionTime**: The timestamp when the refund occurred
+- **refundAmount**: The amount being refunded to the customer
+
+### What Gameball Does Behind the Scenes
+
+- Reverses the original order transaction
+- Restores any points that were redeemed during the original order
+- Deducts any points that were earned from the original order
+- Updates the customer's balance accordingly
+- Records the refund in the transaction history
+
+### Key Takeaways for Developers
+
+- Always use a unique `refundTransactionId` for each refund
+- The `reverseTransactionId` must match an existing order ID
+- Refunds should be processed as soon as the return is confirmed
+- Partial refunds are supported—adjust the `refundAmount` accordingly
+- The refund amount should match the original order's `totalPaid` value for full refunds
+
+### Related Resources
+
+<Card title="Refund Transaction API" icon="arrow-rotate-left" href="/api-reference/transactions/cashback-and-redemptions/refund">
+  Complete API reference for refund transactions
+</Card>

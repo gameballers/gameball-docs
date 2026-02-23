@@ -1,0 +1,87 @@
+---
+title: "Customer Balance"
+description: "Retrieve an existing customer's loyalty balance from Gameball during checkout"
+---
+
+## Use Case: Retrieving an Existing Customer's Loyalty Balance
+
+### What This Is
+
+This use case explains how to retrieve a returning customer's current loyalty balance from Gameball using their unique identifier (e.g., mobile number or email) during checkout.
+
+This enables your store staff to show customers their current point balance, validate redemption eligibility, or simply reinforce the value of participating in the loyalty program.
+
+### Why It Matters
+
+- Increases visibility of rewards and boosts engagement
+- Enables point redemption eligibility checks at the point of sale
+- Encourages loyalty usage by creating a "use it before you lose it" prompt
+- Failing to retrieve a customer's balance at the right moment often results in missed redemptions, lower perceived value, and a disjointed experience
+
+### How to Implement It
+
+Call the Get Customer Balance API as soon as the customer is identified in the POS system.
+
+Required input:
+
+- `customerId` (the unique ID used in their Gameball profile)
+
+The API returns all relevant data needed to display available and pending balances, monetary value, and expiring points.
+
+### Example Scenario
+
+The customer returns to the store and provides their phone number. The cashier enters the number into the POS, which triggers the following call:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "totalPointsBalance": 1500,
+  "availablePointsBalance": 1200,
+  "availablePointsValue": 120.0,
+  "pendingPoints": 300,
+  "pendingPointsValue": 30.0,
+  "currency": "SAR",
+  "pointsName": "Reward Points",
+  "nextExpiringPointsAmount": 200,
+  "nextExpiringPointsValue": 20.0,
+  "nextExpiringPointsDate": "2024-12-01T00:00:00"
+}
+```
+</ResponseExample>
+
+### Display Fields
+
+After fetching the balance, display the following fields on-screen:
+
+<Checklist>
+  <Check>**availablePointsBalance**: Points the customer can redeem immediately</Check>
+  <Check>**availablePointsValue**: Monetary equivalent of available points</Check>
+  <Check>**pendingPoints**: Points not yet confirmed</Check>
+  <Check>**nextExpiringPointsAmount** / **nextExpiringPointsDate**: Points expiring soon</Check>
+</Checklist>
+
+### What Gameball Does Behind the Scenes
+
+- Retrieves the most up-to-date view of the customer's reward profile
+- Calculates point values and any pending or expiring balances
+- Returns metadata that can be shown in-store to prompt redemption or urgency
+
+### Clerk Prompt (Optional)
+
+"You currently have 1,200 reward points, worth 120 SAR. Would you like to use them today? Keep in mind, 200 points will expire soon."
+
+### Key Takeaways for Developers
+
+- Always retrieve the customer's balance before enabling redemption or prompting for point usage
+- Display both the numeric point balance and its monetary equivalent (`availablePointsValue`)
+- Use `nextExpiringPointsDate` and `nextExpiringPointsValue` to inform customer-facing prompts
+- Consider caching logic only if you're controlling refresh timing; otherwise, rely on real-time API calls
+
