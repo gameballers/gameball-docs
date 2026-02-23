@@ -503,26 +503,6 @@
                     ]
                   }
                 ]
-              },
-              {
-                "group": "Product Releases",
-                "pages": [
-                  "product-documentation/product-releases/play-and-win-new-home-for-games",
-                  "product-documentation/product-releases/release-2025-12-08",
-                  "product-documentation/product-releases/release-2025-12-01",
-                  "product-documentation/product-releases/release-2025-11-17",
-                  "product-documentation/product-releases/release-2025-11-10",
-                  "product-documentation/product-releases/release-2025-11-03",
-                  "product-documentation/product-releases/release-2025-10-27",
-                  "product-documentation/product-releases/release-2025-10-20",
-                  "product-documentation/product-releases/release-2025-10-01",
-                  "product-documentation/product-releases/release-2025-08-26",
-                  "product-documentation/product-releases/release-2025-07-28",
-                  "product-documentation/product-releases/release-2025-07-07",
-                  "product-documentation/product-releases/release-2025-06-16",
-                  "product-documentation/product-releases/release-2025-05-26",
-                  "product-documentation/product-releases/release-2025-05-12"
-                ]
               }
             ]
           }
@@ -1221,9 +1201,10 @@
         "tab": "Updates",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Updates",
             "pages": [
-              "changelog/updates"
+              "changelog/updates",
+              "changelog/product-updates"
             ]
           }
         ]
