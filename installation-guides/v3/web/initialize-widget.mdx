@@ -9,6 +9,13 @@ To show the Gameball widget on your website or web application, you need to add 
 
 ## Basic Widget Setup
 
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter during SDK initialization (optional now, required in SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
+
 ```javascript
 <script>
     window.GbLoadInit = function(){
@@ -16,7 +23,8 @@ To show the Gameball widget on your website or web application, you need to add 
             APIKey: '{{Your_API_Key}}',
             lang: 'en',
             playerUniqueId: '',
-            playerAttributes:{}
+            playerAttributes:{},
+            sessionToken: '{{your_session_token}}', // Optional now, required in SDK v4
         });
     };
 </script>
@@ -69,6 +77,13 @@ In addition to the `playerUniqueId`, optional player attributes can be sent to e
 Every time the widget is initialized with customer data, the customer profile is created or updated on Gameball side. You may consider enriching your Gameball's customer profile with attributes that are not available to the UI by using the server-side [Create/Update Customer API](/api-reference/customers/management/create-customer)
 </Check>
 
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter during SDK initialization (optional now, required in SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
+
 ```javascript
 <script>
     window.GbLoadInit = function(){
@@ -88,6 +103,7 @@ Every time the widget is initialized with customer data, the customer profile is
                     'height': '1.8'
                 }
             },
+            sessionToken: '{{your_session_token}}', // Optional now, required in SDK v4
         });
     };
 </script>
@@ -147,6 +163,12 @@ The platform you application used:
 **playerUniqueId** `string` **Required**
 
 Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email or anything that uniquely identifies the customer.
+
+---
+
+**sessionToken** `string` `Optional`
+
+Session token for secure authentication, enables automatic routing to v4.1 secure endpoints. Optional now, required in SDK v4.
 
 ---
 
