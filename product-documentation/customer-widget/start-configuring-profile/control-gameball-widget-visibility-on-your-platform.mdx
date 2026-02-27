@@ -5,11 +5,13 @@ description: "Learn about the three different stages that help you control the p
 
 There are different ways to control your customer's interaction with the widget, starting from entirely eliminating the widget to only hiding the button.
 
-Here are the three different through which you can control the Gameball widget:
+Here are the three different stages through which you can control the Gameball widget:
 
-## Stage 1: Publish and unpublish Gameball loyalty experience
+---
 
-By toggling the switch at the top right of any page on **Gameball Admin Dashboard**, you will be able to activate or deactivate Gameball loyalty experience.
+## Stage 1: Publish and Unpublish Gameball Loyalty Experience
+
+By toggling the switch at the top right of any page on the **Gameball Admin Dashboard**, you will be able to activate or deactivate the Gameball loyalty experience.
 
 <Frame>
   <img src="/images/product-docs/customer-widget/publish-unpublish-toggle.png" alt="Publish and unpublish toggle for loyalty experience" />
@@ -27,7 +29,7 @@ When the Gameball program is switched to unpublished, any customer event will st
 
 Once you switch it back on, the widget will appear again on your platform, and your customers will start getting rewarded again.
 
-## What happens when you deactivate the program by switching off the toggle?
+### What happens when you deactivate the program by switching off the toggle?
 
 When you disable Gameball:
 
@@ -42,32 +44,66 @@ When you disable Gameball:
 - Publishing Gameball means that your customers will be able to see the Gameball widget (if the widget is not hidden), and they will start getting rewards based on the designed loyalty experience.
 </Warning>
 
-## Stage 2: Hiding and unhiding Gameball widget
+---
+
+## Stage 2: Hiding and Unhiding Gameball Widget
 
 You can completely hide Gameball's widget without deactivating the loyalty program, which means your customers will still be rewarded for their interaction; however, they will not be able to track their progress or find anything related to the configured loyalty program.
 
-To only hide the widget, go to **Gameball Admin Dashboard**, click **Widget > General: Visibilty**, choose whether to display or hide Gameball widget by checking **Show** or **Hide** under **Customer** and **Guests**, then click **Save**.
+<Steps>
+<Step title="Go to Widget Visibility Settings">
+  In the **Gameball Admin Dashboard**, click **Widget > General: Visibility**.
+</Step>
 
-<Frame>
-  <img src="/images/product-docs/customer-widget/widget-visibility-settings.png" alt="Widget visibility settings for customers and guests" />
-</Frame>
+<Step title="Set Visibility for Customers and Guests">
+  Choose whether to display or hide the Gameball widget by checking **Show** or **Hide** under **Customer** and **Guests**.
+</Step>
 
-## Stage 3: Hiding and unhiding Gameball widget button
+<Step title="Save Changes">
+  Click **Save** to apply your changes.
 
-Lastly, you can choose between hiding or displaying the Gameball Launch button on your platform. Suppose there is no space for the Gameball launch button on your platform, or none of Gameball's available buttons match your brand theme. In that case, you can simply hide it and let other inline buttons or any other interactive elements open the Gameball widget. Read more on [Enabling Opening Gameball Widget by Using Deeplinks](/product-documentation/customer-widget/player-profile-tabs/enable-opening-gameball-widget-through-inline-links-using-deeplinks).
+  <Frame>
+    <img src="/images/product-docs/customer-widget/widget-visibility-settings.png" alt="Widget visibility settings for customers and guests" />
+  </Frame>
+</Step>
+</Steps>
 
-To only hide the button, go to **Gameball Admin Dashboard**, click **Widget > Launcher: Shape**, choose the **Hide** option to hide the Gameball launch button, then click **Save**.
+---
 
-<Frame>
-  <img src="/images/product-docs/customer-widget/hide-launcher-button.png" alt="Hide launcher button option" />
-</Frame>
+## Stage 3: Hiding and Unhiding Gameball Widget Button
+
+Lastly, you can choose between hiding or displaying the Gameball launch button on your platform. If there is no space for the Gameball launch button on your platform, or none of Gameball's available buttons match your brand theme, you can simply hide it and let other inline buttons or any other interactive elements open the Gameball widget. Read more on [Enabling Opening Gameball Widget by Using Deeplinks](/product-documentation/customer-widget/player-profile-tabs/enable-opening-gameball-widget-through-inline-links-using-deeplinks).
+
+<Steps>
+<Step title="Go to Launcher Shape Settings">
+  In the **Gameball Admin Dashboard**, click **Widget > Launcher: Shape**.
+</Step>
+
+<Step title="Choose Hide">
+  Under **Launcher**, choose the **Hide** option to hide the Gameball launch button.
+</Step>
+
+<Step title="Save Changes">
+  Click **Save** to apply your changes.
+
+  <Frame>
+    <img src="/images/product-docs/customer-widget/hide-launcher-button.png" alt="Hide launcher button option" />
+  </Frame>
+</Step>
+</Steps>
 
 Now, the Gameball button will no longer appear on your platform, so make sure to use our [Deep Links](/product-documentation/customer-widget/player-profile-tabs/enable-opening-gameball-widget-through-inline-links-using-deeplinks) if you still want your customers to access the widget from a different place on your platform.
 
 ---
 
-## What else?
+## Related Articles
 
-- [Customize Your Gameball Customer Widget to Match Your Brand](/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand)
-- [Customize the Widget Launcher to Fit Your Platform's Interface](/product-documentation/customer-widget/start-configuring-profile/customize-your-loyalty-launcher-to-fit-your-platforms-interface)
+<CardGroup cols={2}>
+<Card title="Customize Widget to Match Your Brand" icon="palette" href="/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand">
+  Adjust colors, fonts, and identity to align the widget with your platform's look and feel.
+</Card>
 
+<Card title="Customize the Widget Launcher" icon="rocket" href="/product-documentation/customer-widget/start-configuring-profile/customize-your-loyalty-launcher-to-fit-your-platforms-interface">
+  Control the shape, position, icon, and visibility of your loyalty launcher button.
+</Card>
+</CardGroup>

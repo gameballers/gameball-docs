@@ -15,87 +15,105 @@ Explore how the Gameball widget appears in a live store environment by visiting 
 ![Gameball widget demonstration](/images/product-docs/customer-widget/widget-demonstration.gif)
 </Frame>
 
+---
+
 ## Explore the Gameball Widget Features
 
 Learn about the different sections and features your customers can access directly through the Gameball widget.
 
 The Gameball widget provides your customers with a centralized space to track their progress, redeem rewards, engage with your loyalty program, and more. Here's an overview of each section they will find inside the widget:
 
-### Points Section
+<AccordionGroup>
+<Accordion title="Points Section" icon="coins">
+  This section displays the customer's current points balance and its equivalent monetary value.
+</Accordion>
 
-This section displays the customer's current points balance and its equivalent monetary value.
+<Accordion title="Earn Tab" icon="star">
+  Customers can explore how to earn more rewards. This tab includes:
 
-### Earn Tab
+  1. **Cashback Section**: Shows how customers earn points through purchases.
+  2. **Badges Section**: Displays all earned and unearned challenges that have been customized for the customer. It also includes progress indicators and status updates for each challenge.
+</Accordion>
 
-Customers can explore how to earn more rewards. This tab includes:
+<Accordion title="Play & Win Tab" icon="gamepad">
+  Play & Win is a widget section that displays all active game campaigns in one place. It helps customers quickly discover games and clearly separates games from standard earning actions. The section appears automatically when at least one game is active and disappears when no games are available.
+</Accordion>
 
-1. Cashback Section: Shows how customers earn points through purchases.
-2. Badges Section: Displays all earned and unearned challenges that have been customized for the customer. It also includes progress indicators and status updates for each challenge.
+<Accordion title="Redeem Tab" icon="ticket">
+  Here, customers can exchange their collected points for different types of discount coupons or other available rewards.
+</Accordion>
 
-### Play & Win Tab
+<Accordion title="Levels Tab" icon="layer-group">
+  This tab shows the customer's current level, the upcoming levels they can unlock, and the benefits and rewards associated with each level.
+</Accordion>
 
-Play & Win is a widget section that displays all active game campaigns in one place.
-It helps customers quickly discover games and clearly separates games from standard earning actions. The section appears automatically when at least one game is active and disappears when no games are available.
+<Accordion title="Referral Tab" icon="user-plus">
+  Gameball's referral feature allows customers to refer your platform to their friends. Once a referred friend signs up, the referring customer receives rewards. The more friends they refer, the bigger the rewards they can earn.
+</Accordion>
 
-### Redeem Tab
+<Accordion title="Transaction History" icon="clock-rotate-left">
+  Customers can view the full history of their points activity, including how and when they earned or redeemed points.
 
-Here, customers can exchange their collected points for different types of discount coupons or other available rewards.
+  You can use a **deep link** to open the Gameball widget directly in the **Customer History** section.
 
-### Levels Tab
+  **Deep Link Identifier:** `#gameball-history`
 
-This tab shows the customer's current level, the upcoming levels they can unlock, and the benefits and rewards associated with each level.
+  **Use Case:** Include the link in your message campaigns:
 
-### Referral Tab
+  "Check your latest rewards here: [YourWebsite.com#gameball-history](http://YourWebsite.com#gameball-history)"
+</Accordion>
 
-Gameball's referral feature allows customers to refer your platform to their friends. Once a referred friend signs up, the referring customer receives rewards. The more friends they refer, the bigger the rewards they can earn.
+<Accordion title="Notifications Tab" icon="bell">
+  A log of real-time updates related to the customer's progress, such as earning a badge or reaching a new level.
+</Accordion>
 
-### Transaction History
-
-Customers can view the full history of their points activity, including how and when they earned or redeemed points.
-
-You can now use a **new deep link** to open the Gameball widget directly in the **Customer History** section.
-
-**Deep Link Identifier:** `#gameball-history`
-
-**Use Case:** Include the link in your message campaigns:
-
-"Check your latest rewards here: [YourWebsite.com#gameball-history](http://YourWebsite.com#gameball-history)"
-
-### Notifications Tab
-
-A log of real-time updates related to the customer's progress, such as earning a badge or reaching a new level.
-
-### Activated Game Campaigns
-
-If any game campaigns are activated, such as Spin the Wheel, they will appear as interactive sections within the widget for the customer to engage with.
-
-## How Will Gameball Customer Widget Be Displayed on Your Platform?
-
-### For Web Customer Widget:
-
-<Frame>
-![Web customer widget](/images/product-docs/customer-widget/web-customer-widget.png)
-</Frame>
-
-### For Mobile Customer Widget:
-
-**A. Gameball Customer Profile can be added as a new tab in your app**
-
-<Frame>
-![Mobile widget as tab](/images/product-docs/customer-widget/mobile-widget-tab.png)
-</Frame>
-
-**B. Gameball Customer Profile can be added as an overlay accessed by any button in the app**
-
-<Frame>
-![Mobile widget as overlay](/images/product-docs/customer-widget/mobile-widget-overlay.png)
-</Frame>
+<Accordion title="Activated Game Campaigns" icon="trophy">
+  If any game campaigns are activated, such as Spin the Wheel, they will appear as interactive sections within the widget for the customer to engage with.
+</Accordion>
+</AccordionGroup>
 
 ---
 
-## What is next?
+## How Will Gameball Customer Widget Be Displayed on Your Platform?
 
-- [Customizing Tabs Visibility and Order in Gameball Widget Settings](/product-documentation/customer-widget/start-configuring-profile/customize-tabs-visibility)
-- [Customize Your Gameball Customer Widget to Match Your Brand](/product-documentation/customer-widget/start-configuring-profile/customize-widget-branding)
-- [Configure Customer Widget Language on Your Platform](/product-documentation/customer-widget/start-configuring-profile/configure-widget-language)
+<Tabs>
+<Tab title="Web">
+  <Frame>
+  ![Web customer widget](/images/product-docs/customer-widget/web-customer-widget.png)
+  </Frame>
+</Tab>
 
+<Tab title="Mobile">
+  Gameball's customer profile can be integrated into your mobile app in two ways:
+
+  **A. As a new tab in your app**
+
+  <Frame>
+  ![Mobile widget as tab](/images/product-docs/customer-widget/mobile-widget-tab.png)
+  </Frame>
+
+  **B. As an overlay accessed by any button in the app**
+
+  <Frame>
+  ![Mobile widget as overlay](/images/product-docs/customer-widget/mobile-widget-overlay.png)
+  </Frame>
+</Tab>
+</Tabs>
+
+---
+
+## What's Next?
+
+<CardGroup cols={2}>
+<Card title="Customize Tabs Visibility and Order" icon="eye" href="/product-documentation/customer-widget/start-configuring-profile/customize-tabs-visibility">
+  Control which tabs appear in your widget and in what order they are displayed.
+</Card>
+
+<Card title="Customize Widget to Match Your Brand" icon="palette" href="/product-documentation/customer-widget/start-configuring-profile/customize-widget-branding">
+  Adjust colors, fonts, icons, and identity to align the widget with your platform's look and feel.
+</Card>
+
+<Card title="Configure Widget Language" icon="language" href="/product-documentation/customer-widget/start-configuring-profile/configure-widget-language">
+  Set a default language and add additional languages to serve a multilingual audience.
+</Card>
+</CardGroup>
