@@ -1,75 +1,60 @@
 ---
-title: "How Do I Integrate Segment with Gameball?"
+title: "Segment App Integration"
 description: "Save yourself the hassle of having to go through a technical integration with the help of developers with Segment integration."
 ---
 
-### Why should you integrate Segment with your Gameball account? And how can you make the best out of Gameball customer attributes?
+## Why Integrate Segment with Gameball?
 
-This integration will allow you to target and segment your customers based on how loyal they are to your app. This integration will allow you to:
+This integration allows you to target and segment your customers based on how loyal they are to your app. With this integration, you can:
 
-1.  Segment your contact lists based on Gameball customer attributes.
+- **Segment your contact lists** based on Gameball customer attributes.
+- **Trigger automations** based on Gameball customer attributes.
+- **Send personalized emails** by including Gameball customer information in email templates, such as the customer's current tier.
 
-2.  Trigger an automation based on Gameball customers' attributes.
+---
 
-3.  Send more personalized emails by including Gameball customer information in email templates, for instance, the customer's current tier.
+## How to Configure Segment on Gameball
 
-
-## How to configure Segment on Gameball?
-
--   Add the events you want to track in the **Gameball Admin Dashboard**.
-
-
-For more info on how to do that, [check out this article](/product-documentation/admin-settings/create-and-send-events). Here is an example:
+<Steps>
+<Step title="Add Events to Track">
+Add the events you want to track in the **Gameball Admin Dashboard**. For more info on how to do that, [check out this article](/product-documentation/admin-settings/create-and-send-events).
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-89.png" />
 </Frame>
+</Step>
 
--   Add the Gameball app as a destination from the Segment catalog
-
--   Add your Gameball API Key in the destinations settings on Segment. Learn [where to find your Gameball API key](/product-documentation/admin-settings/get-api-keys)
-
+<Step title="Add Gameball as a Destination">
+Add the Gameball app as a destination from the Segment catalog. Then add your Gameball API Key in the destination settings on Segment. Learn [where to find your Gameball API key](/product-documentation/admin-settings/get-api-keys).
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-90.png" />
 </Frame>
+</Step>
 
--   Ensure that the events you track reach Gameball through the Event Tester on Segment with the Event Builder
-
+<Step title="Test with Event Builder">
+Ensure that the events you track reach Gameball through the Event Tester on Segment with the Event Builder.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-91.png" />
 </Frame>
 
-In the previous example, the Event name is (Buy product) and (type) shoes
+In this example, the Event name is "Buy product" and the type is "shoes".
 
-**_Note:_** _The **Event Name** in Event Tester on Segment is the same Event Name in **Gameball Admin Dashboard, and you must include userId.**_
+<Note>
+The **Event Name** in Event Tester on Segment must match the Event Name in the **Gameball Admin Dashboard**, and you must include the `userId`.
+</Note>
+</Step>
 
--   Ensure that the events you track reach Gameball  through the Event Tester in Segment with the JSON Builder
-
+<Step title="Test with JSON Builder">
+You can also verify events through the Event Tester in Segment using the JSON Builder.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-92.png" />
 </Frame>
 
-Event name is (Buy product) and (type) shoes
-
-**_Note:_** _The only properties supported for updating through events at the moment are the ones in the_ customer _Info box, which are:_
-
--   ID
-
--   Join Date
-
--   Level Name
-
--   Type ID
-
--   Points
-
--   Score Balance
-
--   Level ID
-
--   Completed Challenges
----
-
+<Info>
+The only properties supported for updating through events at the moment are: ID, Join Date, Level Name, Type ID, Points, Score Balance, Level ID, and Completed Challenges.
+</Info>
+</Step>
+</Steps>

@@ -1,431 +1,241 @@
 ---
-title: "How Do I Integrate Insider with Gameball?"
-description: ""
+title: "Insider App Integration"
+description: "Leverage customer engagement data from Gameball to power your marketing campaigns in Insider."
 ---
 
-Gameball and Insider integration allows you to leverage customer engagement data from Gameball to power your email marketing campaigns in Insider. Follow this guide to seamlessly connect the two platforms and maximize the impact of your loyalty and marketing efforts.
+Gameball and Insider integration allows you to leverage customer engagement data from Gameball to power your marketing campaigns in Insider. Follow this guide to seamlessly connect the two platforms and maximize the impact of your loyalty and marketing efforts.
 
-## Why Integrate Insider with Your Gameball Account?
+## Why Integrate Insider with Gameball?
 
 By integrating Insider with Gameball, you unlock the ability to target and segment customers based on their loyalty to your app. This powerful integration allows you to:
 
--   **Segment contact lists** based on Gameball customer attributes (e.g., points balance, tier), and events created.
+- **Segment contact lists** based on Gameball customer attributes (e.g., points balance, tier) and events created.
+- **Send personalized emails** by including loyalty-related data, such as customer tier and reward points, in your email templates.
+- **Track and trigger campaigns** based on specific customer events, such as coupons created, orders placed, and reward achievements.
+
+---
+
+## Data Import Scenarios
 
--   **Send personalized emails** by including loyalty-related data, such as customer tier and reward points, in your email templates.
+The integration between Gameball and Insider ensures that your customer data is always up-to-date. Gameball's customer attributes will be imported into Insider whenever a customer is created or performs any action.
+
+<AccordionGroup>
+<Accordion title="Customer Attributes Sync" icon="users">
+**Trigger:** Upon customer creation or after any new action (e.g., achievement, transaction, points expiry).
+
+Gameball's customer attributes will be imported and updated in Insider automatically. The following data is synced:
+
+| Category | Attributes |
+|---|---|
+| **Profile** | ID, Email, Join Date, Mobile Number, Birthday, Gender |
+| **Points** | Points Balance, Pending Points, Earned Points, Redeemed Points, Expired Points |
+| **Tiers** | Current Level Name, Current Level Order, Next Level, Next Level Threshold, Level Progress, Progress to Achieve Next Level |
+| **Orders** | Last Order Awarded Points, Average Basket, Number of Transactions, Transactions Amount (Last Rolling Year), Total Net Amount, Unit per Transaction, Date of First/Last Transaction |
+| **Referrals** | Referral Code, Referral Link |
+| **Coupons** | Latest Created Coupon, Latest Used Coupon |
+| **Segments** | Tags, Segments, RFM Segments |
+| **Other** | Count of Rewarded Campaigns, Starting Store, Connecting Store, Store of First Transaction |
+</Accordion>
+
+<Accordion title="Order Placed Event" icon="cart-shopping">
+**Trigger:** Order placed by customer and received by Gameball.
+
+Once an order is placed, the following order data is sent to Insider:
+
+| Attribute | Description |
+|---|---|
+| Order ID | Unique order identifier |
+| Order Date | Date the order was placed |
+| Total Paid | Amount paid by the customer |
+| Total Price | Full order price |
+| Total Shipping | Shipping cost |
+| Total Tax | Tax amount |
+| Total Discount | Discount applied |
+| Discount Codes | Codes used |
+| Redeemed Amount | Points redeemed as currency |
+| Rewarded Points | Points earned from order |
+| Equivalent Points Value | Monetary value of rewarded points |
+</Accordion>
+
+<Accordion title="Coupon Created Event" icon="ticket">
+**Trigger:** Coupon created for the customer.
+
+The following coupon details will be available on Insider:
+
+- Coupon Code
+- Type
+- Value
+- Coupon Name
+</Accordion>
+
+<Accordion title="Coupon Used Event" icon="receipt">
+**Trigger:** Customer used a coupon while placing an order.
+
+The following details will be available on Insider:
+
+- Coupon Code, Type, Value, Coupon Name
+- Order ID, Order Quantity
+- Channel (POS, Online, etc.)
+</Accordion>
+
+<Accordion title="Reward Campaign Achieved Event" icon="trophy">
+**Trigger:** Customer achieved a reward campaign.
+
+The following details will be available on Insider:
+
+- Internal Name, Name
+- Reward (Points, Points & Score, Coupon Values)
+- Coupon Type (if the reward was a coupon)
+- Equivalent Value of Rewarded Points
+- Achievement Date
+</Accordion>
+
+<Accordion title="Points Redeemed Event" icon="coins">
+**Trigger:** Customer redeemed their saved points.
+
+Each `points_redeemed` event includes:
+
+- Redeemed Points
+- Redemption Amount
+- Redemption Transaction ID (if available)
+</Accordion>
+
+<Accordion title="Purchase Line Item Event" icon="box">
+**Trigger:** Order received by Gameball.
+
+A "Purchase" event is sent to Insider for each line item with the following attributes:
+
+- Order ID, Product Title, Unit Price, Vendor Name
+- Product ID, Weight, Quantity, SKU
+- Collections Array, Tags Array, Taxonomy Array
+- Any extra attributes added to the object
+</Accordion>
 
--   **Track and trigger campaigns** based on specific customer events, such as coupons created, orders placed, and reward achievements.
+<Accordion title="Customer Deletion Sync" icon="user-minus">
+**Trigger:** Customer removed from Gameball.
 
+Once a customer is deleted from Gameball, the customer gets deleted from Insider after **24 hours**.
 
-## Data Import Scenarios:
+<Note>
+You have the option to disable the deletion feature from Insider.
+</Note>
+</Accordion>
+</AccordionGroup>
 
-The integration between Gameball and Insider ensures that your customer data is always up-to-date in Insider. Gameball's customer attributes will be imported into Insider whenever a customer is created or performs any action.
-
-This allows Insider to have the latest information, enabling you to deliver personalized and timely communication to your customers. The following table outlines the specific scenarios in which data is imported and updated.
-
-**Scenario**
-
-**Trigger**
-
-**Description**
-
-**Customer Attributes Sync to** Insider
-
--   Upon Customer Creation
-
--   After any new action created by the customer (e.g.: achievement, transaction, points expiry, etc.)
-
-
-Gameball's customer attributes will be imported into Insider. The data will be imported and updated once a customer is created or if they perform any action.
-
-**Imported Data:**
-
--   ID
-
--   Email
-
--   Join Date
-
--   Mobile Number
-
--   Birthday
-
--   Gender
-
--   Points balance
-
--   Pending points
-
--   Current level name
-
--   Current level order
-
--   Next Level
-
--   Next level threshold
-
--   Level Progress
-
--   Progress to achieve next level
-
--   Last order awarded points
-
--   Referral Code
-
--   Referral Link
-
--   Tags
-
--   Segments
-
--   RFM segments
-
--   Latest created coupon
-
--   Latest used coupon
-
--   Count of rewarded campaigns
-
--   Starting Store (store of account creation)
-
--   Connecting Store (store of the last transaction)
-
--   Store of First Transaction
-
--   Average Basket
-
--   Number of Transactions:
-
--   Transactions Amount in the Last Rolling Year
-
--   Total Net Amount of Transactions
-
--   Unit per Transaction (Unit Per Trx)
-
--   Earned Points:
-
--   Redeemed Points:
-
--   Expired Points:
-
--   Date of First Transaction
-
--   Date of Last Transaction
-
-
-**Update & Notify Insider with Every Order Placed by the Customer**
-
--   **"Order Placed" Event:** Order Placed by Customer & Received by Gamebll
-
-
-Once an order is placed by a customer, the following order attribute data is sent to Insider:
-
--   Order ID
-
--   Order Date
-
--   Total Paid
-
--   Total Price
-
--   TotalShipping
-
--   TotalTax
-
--   TotalDiscount
-
--   Discount Codes
-
--   Extra
-
--   Redeemed Amount
-
--   Rewarded Points
-
--   Equivalent Points Value
-
-
-**Update & Notify Insider with Every Coupon Created for the Customer**
-
--   **"Coupon Created" Event**: Coupon Created for the Customer
-
-
-Once a coupon is created for the customer, the following Coupon details will be available on Insider linked to the customer's data:
-
--   Coupon Code
-
--   Type
-
--   Value
-
--   Coupon Name
-
-
-**Update & Notify Insider with Every Coupon Burnt within an Order**
-
--   **"Coupon Used" Event**: Customer burnt the coupon while placing an order.
-
-
-Once a coupon is used by the customer, the following details will be available on Insider linked to the customer's data:
-
--   Coupon Code
-
--   Type
-
--   Value
-
--   Order ID
-
--   Coupon Name
-
--   Channel(POS, Online, etc.)
-
--   Order Quantity
-
-
-**Update & Notify Insider** **with Every Reward** **Campaign** **Achieved**
-
--   **"Reward Campaign Achieved" Event**: Customer Achieved a Reward Campaign
-
-
-Once a Reward Campaign is achieved by the customer, the following details will be available on Insider linked to the customer's data:
-
--   Internal Name
-
--   Name
-
--   Reward (Points, Points&Score, Coupon Values)
-
--   Coupon Type (in case the reward was a coupon)
-
--   Equivalent Value of Rewarded points (in case the reward was in the form of points, Points&Score)
-
--   Achievement Date
-
-
-**Notify Insider upon points redemption**
-
--   **"Points Redeemed" Event**: Customer redeemed their saved points.
-
-
-Each `points_redeemed` The event includes:
-
--   Redeemed points
-
--   Redemption amount
-
--   Redemption transaction ID (if available)
-
-
-**Update & Notify Insider with Customer Deletion**
-
--   Customer was removed from Gameball
-
-
-Once a customer is deleted from Gameball, after **24 hours,** the customer gets deleted from Insider
-
-!**Note**: You have the option to disable the deletion feature from Insider
-
-**Notify Insider after every order placed by the customer** **for each line item bought**
-
--   Order received by Gameball
-
-
-Send event call to Insider "Purchase" with all attributes of the Item and the order ID
-
--   orderId
-
--   Product Title
-
--   Unit Price
-
--   Vendor Name
-
--   Product ID
-
--   Weight
-
--   Quantity
-
--   SKU
-
--   Collections array
-
--   Tags array
-
--   Taxonomy array
-
--   "Extra." Any added attributes to this object will be sent inside the event
-
+---
 
 ## How to Configure Insider on Gameball
 
-Follow these steps to connect Insider with Gameball and make the most of your loyalty data:
+<Steps>
+<Step title="Ensure Your Widget is Published">
 
-1.  **Ensure Your Widget is Published**
+<Info>
+Not publishing the widget could impact the integration process, so ensure it's live before proceeding.
+</Info>
+</Step>
 
-    -   _Note_: Not publishing the widget could impact the integration process, so ensure it's live before proceeding.
-
-2.  **Access the Gameball Admin Dashboard**
-
-    -   Navigate to **Integrations** in the menu.
-
-3.  **Add Insider Integration**
-
-    -   Scroll down to Insider app and click on **Connect**.
+<Step title="Access the Integrations Page">
+Navigate to **Integrations** in your **Gameball Admin Dashboard** menu. Scroll down to **Insider** and click **Connect**.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-47.png" />
 </Frame>
+</Step>
 
-
-
-4.  **Copy and Paste Partner Name into Gameball**
-
-    -   In your Insider account, go to the top right corner, click **Settings > "App Name" Settings > Account Settings**.
-
-    -   Copy **Partner Name**
-
+<Step title="Copy and Paste Partner Name">
+1. In your **Insider** account, go to **Settings > "App Name" Settings > Account Settings**.
+2. Copy the **Partner Name**.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-48.png" />
 </Frame>
 
-    -   Go back to your Gameball dashboard, paste the Name.
+3. Go back to your Gameball dashboard and paste the name.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-49.png" />
 </Frame>
+</Step>
 
-
-5.  **Create an API Key in Insider**
-
-    -   In your Insider account, go to the top right corner, click **Settings > "App Name" Settings > Integration Settings**.
-
+<Step title="Create an API Key in Insider">
+1. In your **Insider** account, go to **Settings > "App Name" Settings > Integration Settings**.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-50.png" />
 </Frame>
 
-
-
-    -   Scroll down and you will find, **Generate API key**
+2. Scroll down and click **Generate API key**.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-51.png" />
 </Frame>
 
-
-
-    -   Choose **Unified Customer Database** and click **Next**
+3. Choose **Unified Customer Database** and click **Next**.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-52.png" />
 </Frame>
 
+<Warning>
+Choosing a different type for the API Key may prevent the integration from functioning properly.
+</Warning>
+</Step>
 
-_Important_: Choosing a different type for the API Key may prevent the integration from functioning properly.
-
-1.  **Copy and Paste the API Key into Gameball**
-
-    -   Once you've generated the API key in Insider, copy it.
-
-    -   Go back to your Gameball dashboard, paste the key, and click **Next**.
+<Step title="Copy and Paste the API Key">
+1. Once you've generated the API key in Insider, copy it.
+2. Go back to your Gameball dashboard, paste the key, and click **Next**.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-53.png" />
 </Frame>
+</Step>
 
-2.  **Map Gameball Events to Insider**
+<Step title="Map Gameball Events to Insider">
+Gameball tracks various customer events (e.g., points earned, redeemed, tiers achieved). Map these events to Insider to use them in your campaigns.
 
-    Gameball tracks various customer events (e.g., points earned, redeemed, tiers achieved). Map these events to Insider to use them in your campaigns.
+1. In the Gameball Dashboard, go to **Integrations**.
+2. Select **Insider** from the list of available integrations.
+3. Map the following events:
+   - Coupon Created
+   - Coupon Redeemed
+   - Reward Campaign Achieved
+   - Order Placed
+4. Confirm the event mappings and save.
+</Step>
 
-    1.  In the Gameball Dashboard, go to **Integrations**.
+<Step title="Sync Customer Data">
+Syncing customer data ensures Insider receives real-time updates about customer actions.
 
-    2.  Select **Insider** from the list of available integrations.
+1. In the Gameball Dashboard, navigate to **Integrations > Insider**.
+2. Enable the **Customer Sync** toggle.
+3. Choose the customer attributes to sync (Customer ID, Date of Birth, Join Date, Tier Name, Wallet Points, Pending Points, Tier Progress, Tier ID, Completed Reward Campaigns, Referral Code, Referral Link, Tags and Segments).
+4. Save your settings.
+</Step>
 
-    3.  Map the following events to Insider:
-
-        -   **Coupon Created**
-
-        -   **Coupon Redeemed**
-
-        -   **Reward Campaign Achieved**
-
-        -   **Order Placed**
-
-    4.  Confirm the event mappings and save.
-
-
-3.  **Sync Customer Data**
-
-    Syncing customer data ensures Insider receives real-time updates about customer actions.
-
-    1.  In the Gameball Dashboard, navigate to **Integrations >** Insider.
-
-    2.  Enable the **Customer Sync** toggle.
-
-    3.  Choose the customer attributes to sync. Here are all the attributes that can be sent:
-
-        -   **Customer ID**
-
-        -   **Date of Birth**
-
-        -   **Join Date**
-
-        -   **Tier Name**
-
-        -   **Wallet Points**
-
-        -   **Pending Points**
-
-        -   **Tier Progress**
-
-        -   **Tier ID**
-
-        -   **Completed Reward Campaigns**
-
-        -   **Referral Code**
-
-        -   **Referral Link**
-
-        -   **Tags and Segments**
-
-
-    1.  Save your settings.
-
-4.  **Check Out Synced Customer**
-
-    -   In the User Profiles section, you will find a table with all the automatically synced Gameball customers.
-
+<Step title="Verify Synced Customers">
+In the **User Profiles** section, you will find a table with all automatically synced Gameball customers.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-54.png" />
 </Frame>
 
-5.  **Trigger Flows Based on Gameball Events**
-
-    -   In addition to attributes, you will see real-time Gameball events such as:
-
-        -   **Coupon Created**
-
-        -   **Coupon Used**
-
-        -   **Reward Campaign Achieved**
-
-        -   **Order Placed**
-
-        -   **Purchase**
-
+You will also see real-time Gameball events such as Coupon Created, Coupon Used, Reward Campaign Achieved, Order Placed, and Purchase.
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-55.png" />
 </Frame>
 
-Each event will be synced in real-time, allowing you to send highly targeted campaigns and flows in Insider.
+Each event is synced in real-time, allowing you to send highly targeted campaigns and flows in Insider.
+</Step>
+</Steps>
+
 ---
-### Related Articles:
 
--   [Gameball on Zapier](/product-documentation/apps-integrations/zapier-integration)
-
--   [Gameball Apps Integration](/product-documentation/apps-integrations/introduction-to-apps-integrations)
-
+<CardGroup cols={2}>
+  <Card title="Gameball on Zapier" icon="bolt" href="/product-documentation/apps-integrations/zapier-integration">
+    Connect Gameball with thousands of apps via Zapier.
+  </Card>
+  <Card title="Apps & Integrations Overview" icon="grid-2" href="/product-documentation/apps-integrations/introduction-to-apps-integrations">
+    Explore all available Gameball integrations.
+  </Card>
+</CardGroup>
