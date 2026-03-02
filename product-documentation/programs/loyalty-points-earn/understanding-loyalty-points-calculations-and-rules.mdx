@@ -125,19 +125,21 @@ If the customer purchases an item from the Cheese collection, the 5x multiplier 
 
 ## Refund Rules
 
-### Partial Refunds
-
+<AccordionGroup>
+<Accordion title="Partial Refunds" icon="rotate-left">
 Gameball deducts points proportionally based on the refunded item's value.
 
 **Example:** If an item worth $12.50 is refunded, 12 points will be deducted.
+</Accordion>
 
-### Full Refunds
-
+<Accordion title="Full Refunds" icon="xmark">
 All points earned from the order will be removed, including points from campaigns.
 
 <Warning>
 To correctly deduct both base and campaign points, the product ID and quantity must be submitted during the refund process. If this data is not provided, Gameball will only deduct the base points value.
 </Warning>
+</Accordion>
+</AccordionGroup>
 
 ---
 
@@ -168,4 +170,3 @@ To correctly deduct both base and campaign points, the product ID and quantity m
   Set up how customers can redeem their earned points.
 </Card>
 </CardGroup>
-

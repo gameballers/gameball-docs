@@ -5,16 +5,30 @@ description: "A Step-by-Step guide to create and configure an SMS Communication 
 
 SMS campaigns are an effective and immediate way to connect with customers through their mobile devices. With high open and response rates, SMS serves as a valuable communication channel for time-sensitive promotions, transactional updates, and personalized offers that drive real-time engagement.
 
+---
+
 ## Utilizing Gameball's SMS Communication Campaigns
 
-Gameball's SMS Communication Campaign feature allows businesses to craft and send tailored messages to customers based on behavior, segmentation, or specific triggers. Use SMS to:
+Gameball's SMS Communication Campaign feature allows businesses to craft and send tailored messages to customers based on behavior, segmentation, or specific triggers.
 
-- Share limited-time promo codes
-- Notify customers about flash sales
-- Remind them of abandoned carts
-- Send thank-you messages or order updates
+<CardGroup cols={2}>
+  <Card title="Promo Codes" icon="percent">
+    Share limited-time promo codes directly to customers' phones for instant redemption.
+  </Card>
+  <Card title="Flash Sale Alerts" icon="bolt">
+    Notify customers about flash sales and time-sensitive offers they cannot miss.
+  </Card>
+  <Card title="Abandoned Cart Reminders" icon="cart-shopping">
+    Remind customers about their abandoned carts to recover lost sales.
+  </Card>
+  <Card title="Thank-You & Order Updates" icon="circle-check">
+    Send thank-you messages or order status updates to keep customers informed.
+  </Card>
+</CardGroup>
 
 SMS campaigns provide a concise and direct way to reach your audience, keeping them informed and engaged at the right moment.
+
+---
 
 ## Configuring an SMS Communication Campaign
 
@@ -35,89 +49,139 @@ To set up an SMS communication campaign from scratch in Gameball, follow these s
   </Step>
 </Steps>
 
+---
+
 ### Step 1: Rules
 
-- In the **Audience** section, choose who will receive this SMS:
-  - **All Customers** (Registered & Unregistered)
-  - **Guest customers** (Unregistered Customer)
-  - **Registered Customers** (Customers with Accounts)
-  - **Specific Customers** based on:
-    - Segments
-    - RFM Segments
-    - Tags
-    - Customer Attributes
-    - Combination for Segments, Tags, or Customer Attributes
+<Steps>
+  <Step title="Set Your Audience">
+    In the **Audience** section, choose who will receive this SMS:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/sms-audience-selection.png" alt="SMS audience selection" />
-</Frame>
+    - **All Customers** (Registered & Unregistered)
+    - **Guest customers** (Unregistered Customer)
+    - **Registered Customers** (Customers with Accounts)
+    - **Specific Customers** based on:
+      - Segments
+      - RFM Segments
+      - Tags
+      - Customer Attributes
+      - Combination for Segments, Tags, or Customer Attributes
 
-- Define what **Triggers** sending this SMS to your audience. You can choose between:
-  - **Scheduled Based:** All your audience will receive this SMS at a scheduled time. You can decide between:
-    - **One-time:** SMS will be sent only once
-    - **Recurring:** SMS will be sent more than once
-  - **Action Based:** All of your audience will receive this SMS once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/sms-audience-selection.png" alt="SMS audience selection" />
+    </Frame>
+  </Step>
+  <Step title="Define Triggers">
+    Define what **Triggers** sending this SMS to your audience. You can choose between:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/sms-trigger-selection.png" alt="SMS trigger selection" />
-</Frame>
+    - **Scheduled Based:** All your audience will receive this SMS at a scheduled time. You can decide between:
+      - **One-time:** SMS will be sent only once
+      - **Recurring:** SMS will be sent more than once
+    - **Action Based:** All of your audience will receive this SMS once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
 
-- Click **Save and Continue**
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/sms-trigger-selection.png" alt="SMS trigger selection" />
+    </Frame>
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
+
+---
 
 ### Step 2: Scheduling
 
 Now let's set the timing for sending the SMS, based on the trigger that you chose in the previous step.
 
-- In case you choose **Scheduled Based**, and for it to be sent **one time**, you can choose one of these options:
-  - **Now**: The SMS will be sent once the campaign is set live
-  - **Later**: The SMS will be sent on the Start Date that you choose
+<Tabs>
+  <Tab title="Scheduled Based — One-Time">
+    Choose one of these options:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/sms-scheduling-one-time.png" alt="One-time scheduling options" />
-</Frame>
+    - **Now**: The SMS will be sent once the campaign is set live
+    - **Later**: The SMS will be sent on the Start Date that you choose
 
-- In case you chose **Scheduled Based**, and for it to be **recurring**, you need to set up the following:
-  - **Start Date:** The date that we will start sending the SMS
-  - **Repetition:** The number of times that the SMS should be sent, and the duration between each one.
-  - **End Date:** The date when we should stop sending the SMS. You can choose:
-    - **Never**: the SMS will always be sent out
-    - **Till**: A certain date that the SMS will stop being sent out after.
-  - **Configure frequency:** Specify how often customers will receive the SMS:
-    - An unlimited number of messages per customer (Default)
-    - Limit the Number of messages per customer (Choose the Maximum number)
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/sms-scheduling-one-time.png" alt="One-time scheduling options" />
+    </Frame>
+  </Tab>
+  <Tab title="Scheduled Based — Recurring">
+    Set up the following:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/sms-scheduling-recurring.png" alt="Recurring scheduling options" />
-</Frame>
+    - **Start Date:** The date that we will start sending the SMS
+    - **Repetition:** The number of times that the SMS should be sent, and the duration between each one.
+    - **End Date:** The date when we should stop sending the SMS. You can choose:
+      - **Never**: the SMS will always be sent out
+      - **Till**: A certain date that the SMS will stop being sent out after.
+    - **Configure frequency:** Specify how often customers will receive the SMS:
+      - An unlimited number of messages per customer (Default)
+      - Limit the Number of messages per customer (Choose the Maximum number)
 
-- In case you chose **Action Based**, you need to set up the following:
-  - **Start Date:** The date that we will start sending the SMS
-  - **End Date:** The date when we should stop sending the SMS. You can choose:
-    - **Never**: the SMS will always be sent out
-    - **Till**: A certain date that the SMS will stop being sent out after.
-  - **Configure frequency:** Specify how often customers will receive the SMS:
-    - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
-    - **Custom**: Choose the number of times the SMS should be sent out, the duration between each SMS, and the maximum number of times the SMS should be sent.
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/sms-scheduling-recurring.png" alt="Recurring scheduling options" />
+    </Frame>
+  </Tab>
+  <Tab title="Action Based">
+    Set up the following:
 
-- Click **Save and Continue**
+    - **Start Date:** The date that we will start sending the SMS
+    - **End Date:** The date when we should stop sending the SMS. You can choose:
+      - **Never**: the SMS will always be sent out
+      - **Till**: A certain date that the SMS will stop being sent out after.
+    - **Configure frequency:** Specify how often customers will receive the SMS:
+      - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
+      - **Custom**: Choose the number of times the SMS should be sent out, the duration between each SMS, and the maximum number of times the SMS should be sent.
+  </Tab>
+</Tabs>
+
+Click **Save and Continue**.
+
+---
 
 ### Step 3: Compose
 
-- Customize the content and design of the communication campaign, including the message title and body text.
-- Craft a compelling message that grabs users' attention and encourages action, such as promoting new collections, products, sales, or promo codes.
-- Click **Save and Continue**
+<Steps>
+  <Step title="Customize Message Content">
+    Customize the content and design of the communication campaign, including the message title and body text.
+  </Step>
+  <Step title="Craft a Compelling Message">
+    Craft a compelling message that grabs users' attention and encourages action, such as promoting new collections, products, sales, or promo codes.
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
+
+---
 
 ### Step 4: Goal
 
-- Define the goal of the communication campaign, such as increasing product views, driving conversions, or boosting engagement.
-- Set event triggers and timeframes to monitor user actions in response to the communication campaign.
+<Steps>
+  <Step title="Define the Campaign Goal">
+    Define the goal of the communication campaign, such as increasing product views, driving conversions, or boosting engagement.
+  </Step>
+  <Step title="Set Event Triggers and Timeframes">
+    Set event triggers and timeframes to monitor user actions in response to the communication campaign.
+  </Step>
+</Steps>
+
+---
 
 ### Step 5: Preview
 
-- Review and edit the configured settings to ensure alignment with campaign objectives and user preferences.
-- Send a test message to preview the communication campaign before sending it to users.
+<Steps>
+  <Step title="Review Configurations">
+    Review and edit the configured settings to ensure alignment with campaign objectives and user preferences.
+  </Step>
+  <Step title="Send a Test Message">
+    Send a test message to preview the communication campaign before sending it to users.
+  </Step>
+  <Step title="Set Live">
+    Lastly, click **Set live**.
+  </Step>
+</Steps>
 
-- Lastly, click **Set live**
+---
 
 ## Viewing and Managing Communication Campaigns
 
@@ -128,6 +192,8 @@ Now let's set the timing for sending the SMS, based on the trigger that you chos
   <img src="/images/product-docs/communication-campaigns/sms-campaigns-list.png" alt="SMS campaigns list" />
 </Frame>
 
+---
+
 ## Tracking User Interaction and Performance
 
 - Gain insights into user interaction with communication campaigns by **selecting a specific campaign** and viewing details.
@@ -137,6 +203,8 @@ Now let's set the timing for sending the SMS, based on the trigger that you chos
   <img src="/images/product-docs/communication-campaigns/sms-performance-tracking.png" alt="SMS performance tracking" />
 </Frame>
 
+---
+
 ## Deactivating or Deleting Communication Campaigns
 
 - From the Communication Campaign section in the Gameball Dashboard, select the desired communication campaign.
@@ -145,14 +213,13 @@ Now let's set the timing for sending the SMS, based on the trigger that you chos
 ---
 
 <CardGroup cols={3}>
-  <Card title="Create and Configure Email Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
-    Set up email campaigns.
+  <Card title="Create and Configure Email Campaigns" icon="envelope" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
+    Set up email campaigns to reach customers with personalized messages.
   </Card>
-  <Card title="Create and Configure Web Message Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
-    Set up web message campaigns.
+  <Card title="Create and Configure Web Message Campaigns" icon="browser" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
+    Set up web message campaigns to engage customers during their platform journey.
   </Card>
-  <Card title="Create and Configure Mobile Push Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns">
-    Set up mobile push campaigns.
+  <Card title="Create and Configure Mobile Push Campaigns" icon="mobile" href="/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns">
+    Set up push notification campaigns to reach customers directly on their devices.
   </Card>
 </CardGroup>
-

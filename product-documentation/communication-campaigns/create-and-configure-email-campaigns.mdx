@@ -5,14 +5,28 @@ description: "A Step-by-Step guide to create and configure an Email Communicatio
 
 Email marketing remains a cornerstone strategy for businesses, especially in e-commerce, offering a direct line of communication with customers. It's a vital tool for sharing updates on new products, collections, promo codes, and flash sales, fostering lasting relationships with buyers.
 
+---
+
 ## Utilizing Gameball's Email Communication Campaigns
 
 Gameball empowers you to customize email communication campaigns, including Guest emails, to enhance the customers' journey and drive engagement. With Gameball's Email Communication Campaign feature, you can create personalized emails for various scenarios, such as:
 
-- **Introducing new collections**
-- **Showcasing products**
-- **Offering promo codes**
-- **Expressing appreciation to customers**
+<CardGroup cols={2}>
+  <Card title="Introduce New Collections" icon="sparkles">
+    Announce new product lines and collections to keep customers informed and excited.
+  </Card>
+  <Card title="Showcase Products" icon="tag">
+    Highlight featured or top-selling products to drive customer interest.
+  </Card>
+  <Card title="Offer Promo Codes" icon="percent">
+    Deliver exclusive discount codes directly to customers' inboxes.
+  </Card>
+  <Card title="Express Appreciation" icon="heart">
+    Send thank-you messages to strengthen customer relationships and loyalty.
+  </Card>
+</CardGroup>
+
+---
 
 ## Configuring an Email Campaign
 
@@ -39,114 +53,168 @@ To set up an email communication campaign from scratch in Gameball, follow these
 
 Now you have created a new Email communication campaign. Follow these steps to customize it based on your preferences:
 
+---
+
 ### Step 1: Rules
 
-- In the **Audience** section, choose who will receive this email:
-  - **All Customers** (Registered & Unregistered)
-  - **Guest customers** (Unregistered Customer)
-  - **Registered Customers** (Customers with Accounts)
-  - **Specific Customers** based on:
-    - Segments
-    - RFM Segments
-    - Tags
-    - Customer Attributes
-    - Combination for Segments, Tags, or Customer Attributes
+<Steps>
+  <Step title="Set Your Audience">
+    In the **Audience** section, choose who will receive this email:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-audience-selection.png" alt="Email audience selection" />
-</Frame>
+    - **All Customers** (Registered & Unregistered)
+    - **Guest customers** (Unregistered Customer)
+    - **Registered Customers** (Customers with Accounts)
+    - **Specific Customers** based on:
+      - Segments
+      - RFM Segments
+      - Tags
+      - Customer Attributes
+      - Combination for Segments, Tags, or Customer Attributes
 
-- Define what **Triggers** sending this email to your audience. You can choose between:
-  - **Scheduled Based:** All your audience will receive this email at a scheduled time. You can decide between:
-    - **One-time:** Email will be sent only once
-    - **Recurring:** Email will be sent more than once
-  - **Action Based:** All of your audience will receive this email once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-audience-selection.png" alt="Email audience selection" />
+    </Frame>
+  </Step>
+  <Step title="Define Triggers">
+    Define what **Triggers** sending this email to your audience. You can choose between:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-trigger-selection.png" alt="Email trigger selection" />
-</Frame>
+    - **Scheduled Based:** All your audience will receive this email at a scheduled time. You can decide between:
+      - **One-time:** Email will be sent only once
+      - **Recurring:** Email will be sent more than once
+    - **Action Based:** All of your audience will receive this email once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
 
-- Click **Save and Continue**
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-trigger-selection.png" alt="Email trigger selection" />
+    </Frame>
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-save-continue.png" alt="Save and continue" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-save-continue.png" alt="Save and continue" />
+    </Frame>
+  </Step>
+</Steps>
+
+---
 
 ### Step 2: Scheduling
 
 Now let's set the timing for sending the email, based on the trigger that you chose in the previous step.
 
-- In case you chose **Scheduled Based**, and for it to be sent **One-Time**, you can choose one of these options:
-  - **Now**: The email will be sent once the campaign is set live
-  - **Later**: The email will be sent on the Start Date that you choose
+<Tabs>
+  <Tab title="Scheduled Based — One-Time">
+    Choose one of these options:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-scheduling-one-time.png" alt="One-time scheduling options" />
-</Frame>
+    - **Now**: The email will be sent once the campaign is set live
+    - **Later**: The email will be sent on the Start Date that you choose
 
-- In case you chose **Scheduled Based**, and for it to be **recurring**, you need to set up the following:
-  - **Start Date:** The date that we will start sending the emails
-  - **Repetition:** The number of times that the email should be sent, and the duration between each one.
-  - **End Date:** The date when we should stop sending the emails. You can choose:
-    - **Never**: the emails will always be sent out
-    - **Till**: A certain date after which the emails will stop being sent out.
-  - **Configure frequency:** Specify how often customers will receive the email:
-    - Unlimited number of messages per customer (Default)
-    - Limit the Number of messages per customer (Choose the Maximum number)
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-scheduling-one-time.png" alt="One-time scheduling options" />
+    </Frame>
+  </Tab>
+  <Tab title="Scheduled Based — Recurring">
+    Set up the following:
 
-- In case you chose **Action Based**, you need to set up the following:
-  - **Start Date:** The date that we will start sending the emails
-  - **End Date:** The date when we should stop sending the emails. You can choose:
-    - **Never**: the emails will always be sent out
-    - **Till**: A certain date after which the emails will stop being sent out.
-  - **Configure frequency:** Specify how often customers will receive the email:
-    - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
-    - **Custom**: Choose the number of times the email should be sent out, the duration between each email, and the maximum number of times the email should be sent.
+    - **Start Date:** The date that we will start sending the emails
+    - **Repetition:** The number of times that the email should be sent, and the duration between each one.
+    - **End Date:** The date when we should stop sending the emails. You can choose:
+      - **Never**: the emails will always be sent out
+      - **Till**: A certain date after which the emails will stop being sent out.
+    - **Configure frequency:** Specify how often customers will receive the email:
+      - Unlimited number of messages per customer (Default)
+      - Limit the Number of messages per customer (Choose the Maximum number)
+  </Tab>
+  <Tab title="Action Based">
+    Set up the following:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-scheduling-action-based.png" alt="Action-based scheduling options" />
-</Frame>
+    - **Start Date:** The date that we will start sending the emails
+    - **End Date:** The date when we should stop sending the emails. You can choose:
+      - **Never**: the emails will always be sent out
+      - **Till**: A certain date after which the emails will stop being sent out.
+    - **Configure frequency:** Specify how often customers will receive the email:
+      - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
+      - **Custom**: Choose the number of times the email should be sent out, the duration between each email, and the maximum number of times the email should be sent.
 
-- Click **Save and Continue**
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-scheduling-action-based.png" alt="Action-based scheduling options" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+Click **Save and Continue**.
+
+---
 
 ### Step 3: Compose
 
-- Customize the email header with sender information, subject line, and domain.
-- Design the email body using a range of customization options, including text, images, buttons, links, dividers, menus, and HTML.
-- Ensure the email content aligns with the campaign goals and resonates with the target audience.
+<Steps>
+  <Step title="Customize the Email Header">
+    Customize the email header with sender information, subject line, and domain.
+  </Step>
+  <Step title="Design the Email Body">
+    Design the email body using a range of customization options, including text, images, buttons, links, dividers, menus, and HTML.
+  </Step>
+  <Step title="Align with Campaign Goals">
+    Ensure the email content aligns with the campaign goals and resonates with the target audience.
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-compose.gif" alt="Composing an email campaign" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-compose.gif" alt="Composing an email campaign" />
+    </Frame>
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
 
-- Click **Save and Continue**
+---
 
 ### Step 4: Goal
 
-- Define the goal of the email campaign, such as increasing sales or driving traffic to specific product pages.
-- Set event triggers and timeframes to monitor customer actions in response to the email.
+<Steps>
+  <Step title="Define the Campaign Goal">
+    Define the goal of the email campaign, such as increasing sales or driving traffic to specific product pages.
+  </Step>
+  <Step title="Set Event Triggers and Timeframes">
+    Set event triggers and timeframes to monitor customer actions in response to the email.
 
-<Tip>
-Include strong calls-to-action in the email content to encourage desired customer behavior.
-</Tip>
+    <Tip>
+    Include strong calls-to-action in the email content to encourage desired customer behavior.
+    </Tip>
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-goal.png" alt="Email campaign goal configuration" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-goal.png" alt="Email campaign goal configuration" />
+    </Frame>
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
 
-- Click **Save and Continue**
+---
 
 ### Step 5: Preview
 
-- Review and edit configurations as needed.
-- Send a test message to preview the email before sending it to customers.
-- Finalize and send the email communication campaign to the target audience.
+<Steps>
+  <Step title="Review Configurations">
+    Review and edit configurations as needed.
+  </Step>
+  <Step title="Send a Test Message">
+    Send a test message to preview the email before sending it to customers.
+  </Step>
+  <Step title="Finalize and Set Live">
+    Finalize and send the email communication campaign to the target audience.
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/email-preview.png" alt="Email campaign preview" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/email-preview.png" alt="Email campaign preview" />
+    </Frame>
+  </Step>
+  <Step title="Set Live">
+    Lastly, click **Set live**.
+  </Step>
+</Steps>
 
-- Lastly, click **Set live**
+---
 
 ## Viewing and Managing Configured Emails
 
@@ -157,6 +225,8 @@ Include strong calls-to-action in the email content to encourage desired custome
   <img src="/images/product-docs/communication-campaigns/email-campaigns-list.png" alt="Communication campaigns list" />
 </Frame>
 
+---
+
 ## Tracking Email Performance and Customer Interaction
 
 - Gain insights into email performance and customer interaction by **selecting a specific campaign** and viewing details.
@@ -165,6 +235,8 @@ Include strong calls-to-action in the email content to encourage desired custome
 <Frame>
   <img src="/images/product-docs/communication-campaigns/email-performance-tracking.gif" alt="Tracking email performance" />
 </Frame>
+
+---
 
 ## Deactivating or Deleting Email Communication Campaigns
 
@@ -178,14 +250,13 @@ Include strong calls-to-action in the email content to encourage desired custome
 ---
 
 <CardGroup cols={3}>
-  <Card title="Create & Configure Web Messages" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
-    Set up web message campaigns.
+  <Card title="Create & Configure Web Messages" icon="browser" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
+    Set up web message campaigns to reach customers during their platform journey.
   </Card>
-  <Card title="Create & Configure Push Notifications" href="/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns">
-    Set up push notification campaigns.
+  <Card title="Create & Configure Push Notifications" icon="mobile" href="/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns">
+    Set up push notification campaigns to engage customers on mobile devices.
   </Card>
-  <Card title="Create & Configure SMS Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-sms-campaigns">
-    Set up SMS campaigns.
+  <Card title="Create & Configure SMS Campaigns" icon="message-sms" href="/product-documentation/communication-campaigns/create-and-configure-sms-campaigns">
+    Set up SMS campaigns for high-visibility, time-sensitive communications.
   </Card>
 </CardGroup>
-

@@ -5,50 +5,56 @@ description: "A step-by-step guide to configuring campaign settings, audience ta
 
 This guide walks you through the essential setup steps for any reward campaign on Gameball, including how to define your audience, choose triggers and rewards, control repeatability, and track success with goal-based performance metrics.
 
+---
+
 ## Audience
 
-This is where you decide who will see and interact with your campaign. Gameball gives you flexible options to target the right users:
+This is where you decide who will see and interact with your campaign. Gameball gives you flexible options to target the right users.
 
 <Frame>
   <img src="/images/product-docs/rewards-campaigns/setup-audience-options.png" alt="Audience targeting options" />
 </Frame>
 
-**All Customers**
+<AccordionGroup>
+  <Accordion title="All Customers" icon="users">
+    The campaign will be visible to everyone, whether they are signed in or not.
+  </Accordion>
 
-The campaign will be visible to everyone, whether they are signed in or not.
+  <Accordion title="Registered Customers" icon="user-check">
+    Only customers who are logged into their accounts will be able to see and engage with the campaign.
 
-**Registered Customers**
+    <Note>This option is not available for all campaigns.</Note>
+  </Accordion>
 
-Only customers who are logged into their accounts will be able to see and engage with the campaign.
+  <Accordion title="Anonymous Customers" icon="user-secret">
+    Targets visitors who haven't signed up yet. Great for encouraging signups or collecting emails before they can join the campaign.
 
-<Note>This option is not available for all campaigns.</Note>
+    - If you choose **Anonymous** as the audience, the campaign will be available to visitors who are not yet identified on your store.
+    - Once enabled, a lead form will automatically appear prompting the customer to enter their information (e.g. name, email).
+    - This is a great way to collect leads and retarget potential customers later.
+    - You can fully customize this form by navigating to **Customize Design > Lead Form**.
 
-**Anonymous Customers**
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/setup-anonymous-lead-form.png" alt="Anonymous audience lead form" />
+    </Frame>
 
-Targets visitors who haven't signed up yet. Great for encouraging signups or collecting emails before they can join the campaign.
+    <Note>
+    - Available for **Shopify** and **Non-platform** only.
+    - This option is not available for all campaigns.
+    </Note>
+  </Accordion>
 
-- If you choose **Anonymous** as the audience, the campaign will be available to visitors who are not yet identified on your store.
-- Once enabled, a lead form will automatically appear prompting the customer to enter their information (e.g. name, email).
-- This is a great way to collect leads and retarget potential customers later.
-- You can fully customize this form by navigating to **Customize Design > Lead Form**.
+  <Accordion title="Specific Customers" icon="filter">
+    Narrow down your audience using detailed filters:
 
-<Frame>
-  <img src="/images/product-docs/rewards-campaigns/setup-anonymous-lead-form.png" alt="Anonymous audience lead form" />
-</Frame>
+    - **Segment**: Target predefined or custom audience segments from your dashboard. [Learn more](/product-documentation/customer-segmentation)
+    - **RFM Segment**: Reach users based on their Recency, Frequency, and Monetary values. [Learn more](/product-documentation/customer-segmentation)
+    - **Tag**: Include or exclude users based on specific tags assigned to them. [Learn more](/product-documentation/understanding-your-customers/gameball-customers)
+    - **Customer Attribute**: Use custom fields like level, join date, total orders, etc.
+  </Accordion>
+</AccordionGroup>
 
-<Note>
-- Available for **Shopify** and **Non-platform** only.
-- This option is not available for all campaigns.
-</Note>
-
-**Specific Customers**
-
-Narrow down your audience using detailed filters:
-
-- **Segment**: Target predefined or custom audience segments from your dashboard. [Learn more](/product-documentation/customer-segmentation)
-- **RFM Segment**: Reach users based on their Recency, Frequency, and Monetary values. [Learn more](/product-documentation/customer-segmentation)
-- **Tag**: Include or exclude users based on specific tags assigned to them. [Learn more](/product-documentation/understanding-your-customers/gameball-customers)
-- **Customer Attribute**: Use custom fields like level, join date, total orders, etc.
+---
 
 ## Trigger
 
@@ -56,51 +62,50 @@ Triggers vary between campaigns, some are based on actions like orders or referr
 
 [Check the guide for trigger details per campaign](/product-documentation/rewards-campaigns/reward-campaign-intro)
 
+---
+
 ## Repeatability
 
 Set how many times a customer can receive the reward from your campaign.
 
-**Unlimited**
+<Tabs>
+  <Tab title="Unlimited">
+    Customers can receive the reward every time the trigger is fulfilled, with no limit.
 
-Customers can receive the reward every time the trigger is fulfilled, with no limit.
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/setup-repeatability-unlimited.png" alt="Unlimited repeatability" />
+    </Frame>
+  </Tab>
+  <Tab title="Limited to X Times">
+    Customers can receive the reward only a specific number of times (e.g., 1 time only), even if the trigger keeps happening.
 
-<Frame>
-  <img src="/images/product-docs/rewards-campaigns/setup-repeatability-unlimited.png" alt="Unlimited repeatability" />
-</Frame>
+    e.g., 10 times only
 
-**Limited to X Times**
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/setup-repeatability-limited.png" alt="Limited repeatability" />
+    </Frame>
+  </Tab>
+  <Tab title="Unlimited with Time-Based Limit">
+    Customers can receive the reward every time the trigger is fulfilled, but only once (or a set number of times) per day.
 
-Customers can receive the reward only a specific number of times (e.g., 1 time only), even if the trigger keeps happening.
+    e.g., 1 time per day
 
-e.g., 10 times only
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/setup-repeatability-unlimited-time-limit.png" alt="Unlimited with time-based limit" />
+    </Frame>
+  </Tab>
+  <Tab title="Limited with Time-Based Limit">
+    Customers can receive the reward a limited number of times overall, and also only once (or a set number of times) per day.
 
-<Frame>
-  <img src="/images/product-docs/rewards-campaigns/setup-repeatability-limited.png" alt="Limited repeatability" />
-</Frame>
+    e.g., 1 time per day, with a maximum of 10 times in total.
 
-### Limited With Time-Based Restrictions
+    <Frame>
+      <img src="/images/product-docs/rewards-campaigns/setup-repeatability-limited-time-limit.png" alt="Limited with time-based limit" />
+    </Frame>
+  </Tab>
+</Tabs>
 
-You can also set a **time-based limit**, such as per day, week, month, or year. In this case, customers can only achieve the reward within the time window you choose.
-
-**Unlimited Overall But Limit per Day/Week/etc.**
-
-Customers can receive the reward every time the trigger is fulfilled, but only once (or a set number of times) per day.
-
-e.g., 1 time per day
-
-<Frame>
-  <img src="/images/product-docs/rewards-campaigns/setup-repeatability-unlimited-time-limit.png" alt="Unlimited with time-based limit" />
-</Frame>
-
-**Limited to X Times But Limit per Day/Week/etc.**
-
-Customers can receive the reward a limited number of times overall, and also only once (or a set number of times) per day.
-
-e.g., 1 time per day, with a maximum of 10 times in total.
-
-<Frame>
-  <img src="/images/product-docs/rewards-campaigns/setup-repeatability-limited-time-limit.png" alt="Limited with time-based limit" />
-</Frame>
+---
 
 ## Activation
 
@@ -110,13 +115,16 @@ Decide when the campaign will be active for your customers.
   <img src="/images/product-docs/rewards-campaigns/setup-activation-settings.png" alt="Activation settings" />
 </Frame>
 
-**Always Active**
+<Tabs>
+  <Tab title="Always Active">
+    The campaign will run continuously unless you manually deactivate it.
+  </Tab>
+  <Tab title="Scheduled">
+    Set a start and end date for the campaign. It will only be visible and active during that time period.
+  </Tab>
+</Tabs>
 
-The campaign will run continuously unless you manually deactivate it.
-
-**Scheduled**
-
-Set a start and end date for the campaign. It will only be visible and active during that time period.
+---
 
 ## Details
 
@@ -141,6 +149,8 @@ A short message explaining what the campaign is about.
 3. **Query Parameters (optional)**: Add custom parameters to personalize or track the link (e.g., UTM-source)
 4. This option is not available in all campaigns.
 
+---
+
 ## Reward
 
 Set the type of reward customers will receive when they complete the campaign.
@@ -148,6 +158,8 @@ Set the type of reward customers will receive when they complete the campaign.
 Choose one of the following reward types: points, free product, free shipping, etc.
 
 [Learn how to set up each reward type and advanced options.](/product-documentation/rewards-campaigns/faqs/understanding-rewards-types)
+
+---
 
 ## Badge
 
@@ -175,6 +187,8 @@ By default, no badge is selected, meaning the campaign won't appear on the widge
   <img src="/images/product-docs/rewards-campaigns/setup-badge-tier-locked.png" alt="Tier-locked badge settings" />
 </Frame>
 
+---
+
 ## Notification
 
 Keep your customers engaged and informed by setting up notifications for their actions and achievements.
@@ -191,20 +205,21 @@ Choose whether to notify customers when they **successfully achieve** the campai
 
 Notify customers when they complete an **action that brings them closer** to achieving the campaign.
 
-**Option 1 - Global Setting**
+<Tabs>
+  <Tab title="Global Setting">
+    Uses the default notification preferences you've already set in your Notifications settings.
 
-- Uses the default notification preferences you've already set in your Notifications settings.
-- [Learn more about configuring global notifications](/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide)
+    [Learn more about configuring global notifications](/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide)
+  </Tab>
+  <Tab title="Always ON">
+    This overrides global settings and **forces notifications ON**, even if they are disabled globally. Allows you to customize the notification content.
+  </Tab>
+  <Tab title="Always OFF">
+    This overrides global settings and **forces notifications OFF**, even if they are enabled globally. Customers will not receive any notifications for this campaign.
+  </Tab>
+</Tabs>
 
-**Option 2 - Always-ON**
-
-- This overrides global settings and **forces notifications ON**, even if they are disabled globally.
-- Allows you to customize the notification content.
-
-**Option 3 - Always OFF**
-
-- This overrides global settings and **forces notifications OFF**, even if they are enabled globally.
-- Customers will not receive any notifications for this campaign.
+---
 
 ## Goal
 
@@ -221,6 +236,8 @@ Choose an event like `place_order`, and optionally add filters such as order val
 **Time Frame**
 
 The goal time frame defines how long customers have to complete the action after the campaign starts (e.g., within 7 days). The count starts from when the campaign starts, not when it ends.
+
+---
 
 ## Customization
 
@@ -271,30 +288,31 @@ When editing an existing budget, the system prevents you from saving a value low
 
 You will also receive automated email alerts when spending reaches 50%, 80%, and 100% of the budget, and the campaign is automatically deactivated upon hitting 100% to prevent any further spending.
 
-### If a campaign budget is fully consumed, will the campaign automatically stop? Will its badge still appear in the widget?
+<AccordionGroup>
+  <Accordion title="If a campaign budget is fully consumed, will the campaign automatically stop? Will its badge still appear in the widget?" icon="circle-question">
+    Yes. Once a campaign reaches 100% of its budget, it is automatically deactivated. You will also receive email notifications when the budget reaches 50%, 80%, and 100%.
 
-Yes. Once a campaign reaches 100% of its budget, it is automatically deactivated. You will also receive email notifications when the budget reaches 50%, 80%, and 100%.
+    As for the badge, its visibility depends on two things:
 
-As for the badge, its visibility depends on two things:
+    1. Whether the customer has completed the campaign.
+    2. The badge visibility setting you selected when configuring the campaign.
 
-1. Whether the customer has completed the campaign.
-2. The badge visibility setting you selected when configuring the campaign.
+    If a customer has earned the campaign reward, the badge will still appear for them. If not, its visibility will follow the rules you set.
 
-If a customer has earned the campaign reward, the badge will still appear for them. If not, its visibility will follow the rules you set.
+    **What does "badge visibility" mean?**
 
-**What does "badge visibility" mean?**
+    When setting up a campaign, you can choose how (or if) the campaign's badge appears inside the widget. You have three options:
 
-When setting up a campaign, you can choose how (or if) the campaign's badge appears inside the widget. You have three options:
+    **1. No Badge**
 
-**1. No Badge**
+    The campaign will not appear anywhere in the widget, whether the customer earns it or not.
 
-The campaign will not appear anywhere in the widget, whether the customer earns it or not.
+    **2. Always Visible**
 
-**2. Always Visible**
+    The badge will appear dimmed before the customer earns it. Once earned, it becomes highlighted and will remain visible permanently, even if the campaign is later deactivated.
 
-The badge will appear dimmed before the customer earns it. Once earned, it becomes highlighted and will remain visible permanently, even if the campaign is later deactivated.
+    **3. Visible If Earned**
 
-**3. Visible If Earned**
-
-The badge remains hidden until the customer earns the reward. After achievement, it appears highlighted and stays visible permanently, even if the campaign is deactivated.
-
+    The badge remains hidden until the customer earns the reward. After achievement, it appears highlighted and stays visible permanently, even if the campaign is deactivated.
+  </Accordion>
+</AccordionGroup>

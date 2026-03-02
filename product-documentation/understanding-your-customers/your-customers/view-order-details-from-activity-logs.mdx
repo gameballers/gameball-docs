@@ -33,15 +33,23 @@ When an activity is linked to an order (e.g., cashback reward or refund), the **
 
 The order details side panel includes:
 
-- **Order ID** and **Order Date**
-- **Merchant Name** and **Branch Name**
-- A breakdown of all **products** in the order, including:
-  - Name & ID
-  - Quantity, SKU, Category
-  - Price, Tax, and Discounts
-- **Points Redeemed** or **Points Earned** through this order
-- **Order Subtotals**: shipping, discount, and tax
-- **Total Paid**, **Total Price**, and **Payment Method**
+<AccordionGroup>
+  <Accordion title="Order Summary" icon="receipt">
+    - **Order ID** and **Order Date**
+    - **Merchant Name** and **Branch Name**
+    - **Points Redeemed** or **Points Earned** through this order
+    - **Total Paid**, **Total Price**, and **Payment Method**
+  </Accordion>
+  <Accordion title="Product Breakdown" icon="box">
+    A breakdown of all **products** in the order, including:
+    - Name & ID
+    - Quantity, SKU, Category
+    - Price, Tax, and Discounts
+  </Accordion>
+  <Accordion title="Order Subtotals" icon="calculator">
+    - **Order Subtotals**: shipping, discount, and tax
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -86,4 +94,3 @@ This allows you to connect refund activity back to the original transaction for 
     View and manage individual customer profiles.
   </Card>
 </CardGroup>
-

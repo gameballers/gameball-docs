@@ -9,11 +9,9 @@ description: "Give your customers an opportunity to scratch a digital loyalty ca
 | Salla | Pro & Guru |
 | Non-Platform | Add-on |
 
-## Intro
-
 Introduce an element of chance with the Scratch & Win template. Customers can try their luck to win a reward, allowing them to get various prizes, from discounts to free products or bonus points. You can also organize weekly contests or lucky scratches to encourage customers to return to your platform regularly.
 
-### Use Cases
+**Use Cases:**
 
 - **Limited-Time Promotions:** Use scratch cards for seasonal sales, holiday campaigns, or product launches to create excitement and urgency.
 - **Product Awareness & Upselling:** Feature new or high-margin products as potential rewards to introduce users to items they might not have considered.
@@ -22,39 +20,47 @@ Introduce an element of chance with the Scratch & Win template. Customers can tr
   ![Scratch and win preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/scratch-and-win-preview.png)
 </Frame>
 
-## Creation Experience
+---
 
-**How to Set Up**
+## How to Set Up
 
-1. Open Gameball
-2. Click **Add Reward Campaign**
-3. Select the **Scratch & Win** template
-4. Edit the campaign's setup
-5. Click **Set Live**
+<Steps>
+  <Step title="Open Gameball">
+    Log in to your Gameball dashboard.
+  </Step>
+  <Step title="Add a Reward Campaign">
+    Click **Add Reward Campaign**.
+  </Step>
+  <Step title="Select the Template">
+    Choose the **Scratch & Win** template.
+  </Step>
+  <Step title="Configure the Campaign">
+    Edit the campaign's setup to match your goals.
+  </Step>
+  <Step title="Activate">
+    Click **Set Live** to activate the campaign.
+  </Step>
+</Steps>
 
-**Trigger**
+---
 
-- **Banner on Widget:**
-  Customers can access the scratch card through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin scratching.
+## Campaign Trigger
 
-- **Deep Link:**
-  Use the `#gameball-scratch` deep link to trigger the scratch the card campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+Customers can access the scratch card through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin scratching.
+
+Use the `#gameball-scratch` deep link to trigger the scratch the card campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
 
 **Audience**
 
-- **Registered Customers:**
-  Customers who have an account on your platform (signed up)
-
-- **Anonymous Customers:**
-  Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
+- **Registered Customers:** Customers who have an account on your platform (signed up).
+- **Anonymous Customers:** Visitors browsing anonymously without providing any contact information or identifiable details (not signed up).
 
   <Note>
   - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
   - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
   </Note>
 
-- **Specific Customers:**
-  You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+- **Specific Customers:** You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
 
 **Repeatability**
 
@@ -72,8 +78,6 @@ You can choose whether the game campaign is shown on web, mobile, or both, givin
 <Frame>
   ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
 </Frame>
-
-**More Setup**
 
 This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
 
@@ -140,13 +144,21 @@ The maximum number of times a specific reward can be claimed by all customers th
 If all rewards have limits and they are reached, customers will see a "No rewards available at the moment" message.
 </Note>
 
-## End User Experience
+---
 
-**How it works**
+## How It Works for Customers
 
-1. Customers tap the card and **scratch** to reveal their reward.
-2. Prizes can include discounts, bonus points, free products, and more.
-3. The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+<Steps>
+  <Step title="Scratch Card">
+    Customers tap the card and **scratch** to reveal their reward.
+  </Step>
+  <Step title="Win a Prize">
+    Prizes can include discounts, bonus points, free products, and more.
+  </Step>
+  <Step title="Notification">
+    The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+  </Step>
+</Steps>
 
 ## Customization
 
@@ -179,7 +191,9 @@ This allows you to create a fully branded, on-theme experience that aligns with 
 Customizing the lead form also allows you to add a hyperlink to the **"terms and services"** so that customers can read and accept them before clicking submit.
 </Tip>
 
-## Important Note
+---
+
+## Important Notes
 
 <Note>
 **Customer Eligibility**
@@ -196,7 +210,13 @@ If a customer no longer belongs to the game's target segment, the game is automa
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Set up a reward campaign" icon="flag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Step-by-step guide to configuring any reward campaign.
+  </Card>
+  <Card title="Reward types in Gameball" icon="gift" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Explore the different reward types you can offer customers.
+  </Card>
+  <Card title="Notification after earning a reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Configure how customers are notified when they earn a reward.
+  </Card>
 </CardGroup>

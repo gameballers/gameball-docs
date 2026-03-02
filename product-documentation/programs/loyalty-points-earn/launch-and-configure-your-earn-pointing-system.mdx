@@ -76,16 +76,16 @@ Customize how customers earn points based on product collections. For example, y
 
 ## Settings
 
-### Include or Exclude Shipping Fee
-
+<AccordionGroup>
+<Accordion title="Include or Exclude Shipping Fee" icon="truck">
 Decide whether to include the shipping fee in the points calculation. For example, if a customer places an order worth USD 100 with a USD 15 shipping fee, they can either receive points on just the USD 100 or on the full USD 115.
 
 <Frame>
   ![Shipping Fee Settings](/images/product-docs/programs/loyalty-points-earn/shipping-fee-settings.png)
 </Frame>
+</Accordion>
 
-### Points Expiry
-
+<Accordion title="Points Expiry" icon="clock">
 Define when earned points will expire:
 
 - Choose the **expiry duration**.
@@ -95,12 +95,10 @@ Define when earned points will expire:
   ![Points Expiry Settings](/images/product-docs/programs/loyalty-points-earn/points-expiry-settings.png)
 </Frame>
 
-<Accordion title="How does Points Expiry Work?" icon="clock">
 When setting a customer duration for point expiry to 3 days for example, from a Reward Campaign, the points will expire exactly 72 hours after the earning time. Gameball does not round up or down to the nearest day; instead, it calculates the exact time based on the specified duration.
 </Accordion>
 
-### Eligible Collections
-
+<Accordion title="Eligible Collections" icon="layer-group">
 Select which products or collections qualify for earning points. Choose from:
 
 - All Products
@@ -110,14 +108,16 @@ Select which products or collections qualify for earning points. Choose from:
 <Frame>
   ![Eligible Collections](/images/product-docs/programs/loyalty-points-earn/eligible-collections.png)
 </Frame>
+</Accordion>
 
-### Return Window Duration
-
+<Accordion title="Return Window Duration" icon="rotate-left">
 Specify a time gap between when an order is placed and when points are issued. This helps manage potential product returns and ensures proper point issuance.
 
 <Frame>
   ![Return Window Duration](/images/product-docs/programs/loyalty-points-earn/return-window-duration.png)
 </Frame>
+</Accordion>
+</AccordionGroup>
 
 ---
 
@@ -165,15 +165,15 @@ Access in-depth analytics on how your Earn Points System is performing:
 ## Common Questions
 
 <AccordionGroup>
-<Accordion title="What happens if a customer returns a product after earning points?">
+<Accordion title="What happens if a customer returns a product after earning points?" icon="rotate-left">
 Use the **Return Window Duration** setting to delay point issuance, helping avoid rewarding points for refunded purchases.
 </Accordion>
 
-<Accordion title="Can I create different earn rules for different products?">
+<Accordion title="Can I create different earn rules for different products?" icon="layer-group">
 Yes, use the **Collection Rules** feature to customize earning by product categories.
 </Accordion>
 
-<Accordion title="Can I have an order-level return window?">
+<Accordion title="Can I have an order-level return window?" icon="receipt">
 Yes, you can set a return window at the order level.
 
 To do this, include the `returnWindow` attribute inside the `cashbackConfigurations` object when creating the order using the **Order API**. This allows you to specify a custom return window per order -- for example, 7 days for Order A and 10 days for Order B.
@@ -195,4 +195,3 @@ If `returnWindow` is not set in the API request, the default duration from your 
   Set up how customers can redeem their earned points.
 </Card>
 </CardGroup>
-

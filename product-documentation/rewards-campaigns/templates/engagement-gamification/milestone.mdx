@@ -9,8 +9,6 @@ description: "Reward customers when they hit spending or item-count thresholds w
 | Salla | Add-on |
 | Non-Platform | Add-on |
 
-## Intro
-
 The **Milestone Campaign** is a rule-based campaign that accumulates a customer's eligible spend or item count across orders during a defined period (e.g., **SAR 500 per month**). Help increase **AOV** and **repeat purchase frequency**.
 
 **Use Cases:**
@@ -31,39 +29,71 @@ The **Milestone Campaign** is a rule-based campaign that accumulates a customer'
   ![Milestone preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/milestone-preview.png)
 </Frame>
 
-## Creation Experience
+---
 
-**How to Set Up**
+## How to Set Up
 
-1. Open Gameball
-2. Click **Add Reward Campaign**
-3. Select the **Milestone** template
-4. Edit the campaign's setup
-5. Click **Set Live**
+<Steps>
+  <Step title="Open Gameball">
+    Log in to your Gameball dashboard.
+  </Step>
+  <Step title="Add a Reward Campaign">
+    Click **Add Reward Campaign**.
+  </Step>
+  <Step title="Select the Template">
+    Choose the **Milestone** template.
+  </Step>
+  <Step title="Configure the Campaign">
+    Edit the campaign's setup to match your goals.
+  </Step>
+  <Step title="Activate">
+    Click **Set Live** to activate the campaign.
+  </Step>
+</Steps>
 
-**Trigger**
+---
 
-1. Select the **attribute to track** (e.g., _Total price_).
-2. Choose the **progress method**: **Cumulative** (adds up across orders).
-3. Set the **milestone threshold** that triggers the reward (e.g., **$1,000**).
-4. (Optional) Add **filters/conditions** -- e.g., item **quantity**, specific **collection/category/SKU**, branch, etc.
+## Campaign Trigger
+
+<Steps>
+  <Step title="Select Attribute">
+    Select the **attribute to track** (e.g., _Total price_).
+  </Step>
+  <Step title="Choose Progress Method">
+    Choose the **progress method**: **Cumulative** (adds up across orders).
+  </Step>
+  <Step title="Set Threshold">
+    Set the **milestone threshold** that triggers the reward (e.g., **$1,000**).
+  </Step>
+  <Step title="Add Filters (Optional)">
+    Add **filters/conditions** -- e.g., item **quantity**, specific **collection/category/SKU**, branch, etc.
+  </Step>
+</Steps>
 
 <Frame>
   ![Milestone trigger configuration](/images/product-docs/rewards-campaigns/templates/engagement-gamification/milestone-trigger.png)
 </Frame>
 
-**More Setup**
-
 This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
 
-## End User Experience
+---
 
-**How it works**
+## How It Works for Customers
 
-1. A customer begins the milestone by placing an order that **meets the configured conditions**.
-2. Each **eligible order** counts **toward** the customer's progress.
-3. Once the milestone is **completed**, the configured reward is issued **immediately** (e.g., points, discount, badge).
-4. If the milestone is **repeatable**, completion starts a **new round**: the next eligible order resets progress, and the widget displays the **new progress** toward the next milestone.
+<Steps>
+  <Step title="Begin Milestone">
+    A customer begins the milestone by placing an order that **meets the configured conditions**.
+  </Step>
+  <Step title="Progress Accumulates">
+    Each **eligible order** counts **toward** the customer's progress.
+  </Step>
+  <Step title="Milestone Completed">
+    Once the milestone is **completed**, the configured reward is issued **immediately** (e.g., points, discount, badge).
+  </Step>
+  <Step title="New Round (if repeatable)">
+    If the milestone is **repeatable**, completion starts a **new round**: the next eligible order resets progress, and the widget displays the **new progress** toward the next milestone.
+  </Step>
+</Steps>
 
 ## Customization
 
@@ -91,7 +121,13 @@ This allows you to create a fully branded, on-theme experience that aligns with 
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Set up a reward campaign" icon="flag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Step-by-step guide to configuring any reward campaign.
+  </Card>
+  <Card title="Reward types in Gameball" icon="gift" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Explore the different reward types you can offer customers.
+  </Card>
+  <Card title="Notification after earning a reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Configure how customers are notified when they earn a reward.
+  </Card>
 </CardGroup>

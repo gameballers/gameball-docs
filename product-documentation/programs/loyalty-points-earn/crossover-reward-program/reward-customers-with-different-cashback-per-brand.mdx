@@ -49,9 +49,20 @@ Fill in the required information:
 
 - **Choose Merchant:** Select the brand you want to create the new cashback rule for.
 - **Configuration Method:** Choose between:
-  - **Cashback Value:** Set a cashback percentage based on the customer's paid amount. Example: If you offer 5% cashback and a customer pays $100, they will receive $5 cashback worth of points.
-  - **Cashback Value Based on Unit:** Set a fixed number of points per currency unit regardless of the cashback percentage. Example: If a customer pays $100, they could receive 1000 points based on your configuration.
-  - **Fixed Cashback Value:** Set a fixed cashback value for the customer to earn based on their purchase.
+
+<AccordionGroup>
+<Accordion title="Cashback Value" icon="percent">
+Set a cashback percentage based on the customer's paid amount. Example: If you offer 5% cashback and a customer pays $100, they will receive $5 cashback worth of points.
+</Accordion>
+
+<Accordion title="Cashback Value Based on Unit" icon="coins">
+Set a fixed number of points per currency unit regardless of the cashback percentage. Example: If a customer pays $100, they could receive 1000 points based on your configuration.
+</Accordion>
+
+<Accordion title="Fixed Cashback Value" icon="lock">
+Set a fixed cashback value for the customer to earn based on their purchase.
+</Accordion>
+</AccordionGroup>
 </Step>
 
 <Step title="Save Changes">
@@ -82,11 +93,11 @@ If your cashback program is active, your customers will now receive the specifie
 ## Common Questions
 
 <AccordionGroup>
-<Accordion title="Can I have both collection-based and merchant-based cashback rules active?">
+<Accordion title="Can I have both collection-based and merchant-based cashback rules active?" icon="layer-group">
 No, if you use collection-based cashback rules, you cannot activate merchant-based cashback at the same time.
 </Accordion>
 
-<Accordion title="What happens if I do not configure a special cashback rule for a merchant?">
+<Accordion title="What happens if I do not configure a special cashback rule for a merchant?" icon="store">
 The default cashback rule will apply.
 </Accordion>
 </AccordionGroup>
@@ -108,4 +119,3 @@ The default cashback rule will apply.
   Add merchants for each brand and store you own.
 </Card>
 </CardGroup>
-

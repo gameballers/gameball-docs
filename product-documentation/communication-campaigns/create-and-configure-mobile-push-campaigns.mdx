@@ -9,14 +9,30 @@ Mobile push notifications serve as a powerful tool for engaging users and drivin
 **Prerequisites:** Firebase Integration is required to send push notifications.
 </Note>
 
+---
+
 ## Understanding Mobile Push Notifications
 
-Mobile push notifications are brief, timely messages that appear on users' mobile device screens, allowing businesses to communicate with their audience in real-time. Unlike other forms of communication, mobile push notifications are highly visible and are less likely to be overlooked by users. Here are some **ideas** for campaigns that you can send out:
+Mobile push notifications are brief, timely messages that appear on users' mobile device screens, allowing businesses to communicate with their audience in real-time. Unlike other forms of communication, mobile push notifications are highly visible and are less likely to be overlooked by users.
 
-- Ask Loyal Customers For Referrals
-- Promote Social Engagement
-- Offer them a Welcome Reward
-- Ask them to subscribe to the Newsletter
+Here are some **ideas** for campaigns that you can send out:
+
+<CardGroup cols={2}>
+  <Card title="Ask for Referrals" icon="users">
+    Prompt loyal customers to share their referral link and earn rewards for bringing in new users.
+  </Card>
+  <Card title="Promote Social Engagement" icon="share-nodes">
+    Encourage customers to follow, share, or interact with your brand on social platforms.
+  </Card>
+  <Card title="Offer a Welcome Reward" icon="gift">
+    Greet new customers with a push notification offering a welcome reward to boost early engagement.
+  </Card>
+  <Card title="Newsletter Subscription" icon="newspaper">
+    Ask customers to subscribe to your newsletter for exclusive updates and offers.
+  </Card>
+</CardGroup>
+
+---
 
 ## Configuring a Mobile Push Communication Campaign
 
@@ -37,90 +53,144 @@ To set up a Mobile Push communication campaign from scratch in Gameball, follow 
   </Step>
 </Steps>
 
+---
+
 ### Step 1: Rules
 
-- In the **Audience** section, choose who will receive this mobile push:
-  - **All Customers** (Registered & Unregistered)
-  - **Guest customers** (Unregistered Customer)
-  - **Registered Customers** (Customers with Accounts)
-  - **Specific Customers** based on:
-    - Segments
-    - RFM Segments
-    - Tags
-    - Customer Attributes
-    - Combination for Segments, Tags, or Customers Attributes
+<Steps>
+  <Step title="Set Your Audience">
+    In the **Audience** section, choose who will receive this mobile push:
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/push-audience-selection.png" alt="Mobile push audience selection" />
-</Frame>
+    - **All Customers** (Registered & Unregistered)
+    - **Guest customers** (Unregistered Customer)
+    - **Registered Customers** (Customers with Accounts)
+    - **Specific Customers** based on:
+      - Segments
+      - RFM Segments
+      - Tags
+      - Customer Attributes
+      - Combination for Segments, Tags, or Customers Attributes
 
-- Define what **Triggers** sending this mobile push to your audience. You can choose between:
-  - **Scheduled Based:** All your audience will receive this mobile push at a scheduled time. You can decide between:
-    - **One-time:** Mobile Push will be sent only once
-    - **Recurring:** Mobile Push will be sent more than once
-  - **Action Based:** All of your audience will receive this mobile push once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/push-audience-selection.png" alt="Mobile push audience selection" />
+    </Frame>
+  </Step>
+  <Step title="Define Triggers">
+    Define what **Triggers** sending this mobile push to your audience. You can choose between:
 
-- Click **Save and Continue**
+    - **Scheduled Based:** All your audience will receive this mobile push at a scheduled time. You can decide between:
+      - **One-time:** Mobile Push will be sent only once
+      - **Recurring:** Mobile Push will be sent more than once
+    - **Action Based:** All of your audience will receive this mobile push once they complete a specific action. All you have to do is select the event from the drop-down and add its filters.
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
+
+---
 
 ### Step 2: Scheduling
 
 Now let's set the timing for sending the push notification, based on the trigger that you chose in the previous step.
 
-- In case you chose **Scheduled Based**, and for it to be sent **One-Time**, you can choose one of these options:
-  - **Now**: The mobile push will be sent once the campaign is set live
-  - **Later**: The mobile push will be sent on the Start Date that you choose
+<Tabs>
+  <Tab title="Scheduled Based — One-Time">
+    Choose one of these options:
 
-- In case you chose **Scheduled Based**, and for it to be **recurring**, you need to set up the following:
-  - **Start Date:** The date that we will start sending the mobile push
-  - **Repetition:** The number of times that the mobile push should be sent, and the duration between each one.
-  - **End Date:** The date when we should stop sending the mobile push. You can choose:
-    - **Never**: the mobile push will always be sent out
-    - **Till**: A certain date that the mobile push will stop being sent out after.
-  - **Configure frequency:** Specify how often customers will receive the mobile push:
-    - An unlimited number of messages per customer (Default)
-    - Limit the Number of messages per customer (Choose the Maximum number)
+    - **Now**: The mobile push will be sent once the campaign is set live
+    - **Later**: The mobile push will be sent on the Start Date that you choose
+  </Tab>
+  <Tab title="Scheduled Based — Recurring">
+    Set up the following:
 
-- In case you chose **Action Based**, you need to set up the following:
-  - **Start Date:** The date that we will start sending the mobile push
-  - **End Date:** The date when we should stop sending the mobile push. You can choose:
-    - **Never**: the mobile push will always be sent out
-    - **Till**: A certain date that the mobile push will stop being sent out after.
-  - **Configure frequency:** Specify how often customers will receive the mobile push:
-    - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
-    - **Custom**: Choose the number of times the mobile push should be sent out, the duration between each mobile push, and the maximum number of times the mobile push should be sent.
+    - **Start Date:** The date that we will start sending the mobile push
+    - **Repetition:** The number of times that the mobile push should be sent, and the duration between each one.
+    - **End Date:** The date when we should stop sending the mobile push. You can choose:
+      - **Never**: the mobile push will always be sent out
+      - **Till**: A certain date that the mobile push will stop being sent out after.
+    - **Configure frequency:** Specify how often customers will receive the mobile push:
+      - An unlimited number of messages per customer (Default)
+      - Limit the Number of messages per customer (Choose the Maximum number)
+  </Tab>
+  <Tab title="Action Based">
+    Set up the following:
 
-- Click **Save and Continue**
+    - **Start Date:** The date that we will start sending the mobile push
+    - **End Date:** The date when we should stop sending the mobile push. You can choose:
+      - **Never**: the mobile push will always be sent out
+      - **Till**: A certain date that the mobile push will stop being sent out after.
+    - **Configure frequency:** Specify how often customers will receive the mobile push:
+      - **Default**: Each customer will keep receiving messages without any capping until the end of the campaign
+      - **Custom**: Choose the number of times the mobile push should be sent out, the duration between each mobile push, and the maximum number of times the mobile push should be sent.
+  </Tab>
+</Tabs>
+
+Click **Save and Continue**.
+
+---
 
 ### Step 3: Compose
 
-- Customize the content and design of the communication campaign, including the message title and body text.
-- Craft a compelling message that grabs users' attention and encourages action, such as promoting new collections, products, sales, or promo codes.
+<Steps>
+  <Step title="Customize Message Content">
+    Customize the content and design of the communication campaign, including the message title and body text.
+  </Step>
+  <Step title="Craft a Compelling Message">
+    Craft a compelling message that grabs users' attention and encourages action, such as promoting new collections, products, sales, or promo codes.
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
 
-- Click **Save and Continue**
+---
 
 ### Step 4: Goal
 
-- Define the goal of the communication campaign, such as increasing product views, driving conversions, or boosting engagement.
-- Set event triggers and timeframes to monitor user actions in response to the communication campaign.
+<Steps>
+  <Step title="Define the Campaign Goal">
+    Define the goal of the communication campaign, such as increasing product views, driving conversions, or boosting engagement.
+  </Step>
+  <Step title="Set Event Triggers and Timeframes">
+    Set event triggers and timeframes to monitor user actions in response to the communication campaign.
+  </Step>
+  <Step title="Save and Continue">
+    Click **Save and Continue**.
+  </Step>
+</Steps>
 
-- Click **Save and Continue**
+---
 
 ### Step 5: Preview
 
-- Review and edit the configured settings to ensure alignment with campaign objectives and user preferences.
-- Send a test message to preview the communication campaign before sending it to users.
+<Steps>
+  <Step title="Review Configurations">
+    Review and edit the configured settings to ensure alignment with campaign objectives and user preferences.
+  </Step>
+  <Step title="Send a Test Message">
+    Send a test message to preview the communication campaign before sending it to users.
+  </Step>
+  <Step title="Set Live">
+    Lastly, click **Set live**.
+  </Step>
+</Steps>
 
-- Lastly, click **Set live**
+---
 
 ## Viewing and Managing Communication Campaigns
 
 - Access the Communication Campaign section in the Gameball Dashboard to view all configured campaigns, including mobile push.
 - Monitor key metrics such as triggers, audience, state, number of sent campaigns, clicks, and goal achievement percentage.
 
+---
+
 ## Tracking User Interaction and Performance
 
 - Gain insights into user interaction with communication campaigns by **selecting a specific campaign** and viewing details.
 - Identify users who received the notification and track their engagement, including clicks and goal achievements.
+
+---
 
 ## Deactivating or Deleting Communication Campaigns
 
@@ -130,14 +200,13 @@ Now let's set the timing for sending the push notification, based on the trigger
 ---
 
 <CardGroup cols={3}>
-  <Card title="Create and Configure Email Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
-    Set up email campaigns.
+  <Card title="Create and Configure Email Campaigns" icon="envelope" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
+    Set up email campaigns to reach customers with personalized messages.
   </Card>
-  <Card title="Create and Configure Web Message Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
-    Set up web message campaigns.
+  <Card title="Create and Configure Web Message Campaigns" icon="browser" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
+    Set up web message campaigns to engage customers during their platform journey.
   </Card>
-  <Card title="Create and Configure SMS Campaigns" href="/product-documentation/communication-campaigns/create-and-configure-sms-campaigns">
-    Set up SMS campaigns.
+  <Card title="Create and Configure SMS Campaigns" icon="message-sms" href="/product-documentation/communication-campaigns/create-and-configure-sms-campaigns">
+    Set up SMS campaigns for fast, high-visibility mobile communications.
   </Card>
 </CardGroup>
-

@@ -7,9 +7,17 @@ You can use attributes to set your own rules for each trigger, action, or contro
 
 By clicking the **Plus Icon** inside any trigger or actions, a small pop-up will appear giving you a list of attributes under 3 different tabs:
 
-- **Previous Steps:** Dynamic attributes passed by previously chosen Event, Condition, or API (such as Order ID, Points Earned, or Friend Name) from one node to another inside your automations. Variables here will be dependant on attributes used in the previous trigger or action.
-- **Customer Variables:** All customer-related variables such as name, ID, number, referral link, etc.
-- **Global Variables:** Variables that have to do with your general configurations, like chosen currency, points name, score name, etc.
+<CardGroup cols={3}>
+  <Card title="Previous Steps" icon="arrow-right-arrow-left">
+    Dynamic attributes passed by previously chosen Event, Condition, or API (such as Order ID, Points Earned, or Friend Name). Variables depend on attributes used in the previous trigger or action.
+  </Card>
+  <Card title="Customer Variables" icon="user">
+    All customer-related variables such as name, ID, number, referral link, etc.
+  </Card>
+  <Card title="Global Variables" icon="globe">
+    Variables related to your general configurations, like chosen currency, points name, score name, etc.
+  </Card>
+</CardGroup>
 
 <Frame>
   <img src="/images/product-docs/automation-campaigns/attributes-tabs-popup.png" alt="Attributes popup showing Previous Steps, Customer Variables, and Global Variables" />
@@ -21,6 +29,8 @@ Here is a list of attributes you will find while creating your automation:
 |---|---|---|
 | Depends on the previously used variables in the former step. (check the table below) | Unique ID, First Name, Last Name, Display Name, Customer's Mobile, Referral Link, Mobile Referral Link, Points, Tier Up total progress, Score Name, Points, Coupon Code, Coupon Value, Reward Campaign Reward, Tier Entry Reward, Tier Lifetime Reward, location, membershipLevel, graduationDate, isMarried, occupation, company, hobbies | Equivalent value of total points, Currency, Points Name, Referral Link, Mobile Referral Link |
 
+---
+
 ## Carry Over Attributes Across Automation Nodes
 
 Dynamic attributes are passed from one node to another, such as Order ID, Points Earned, or Friend Name, from one node to another inside your automations. This enables richer personalization, smarter branching, and more context-aware automation actions.
@@ -31,19 +41,27 @@ Previously, attributes generated in one node (e.g., an event or Add Points) coul
 
 Now, attributes flow seamlessly across nodes, allowing for **smarter, fully contextual automation journeys**.
 
-## How it works
+---
 
-- **Attribute Persistence**
-  - Attributes created or received in one node (Event, Condition, or API) are automatically available to all subsequent nodes in the same automation branch.
-  - Attributes remain accessible for personalization in later actions.
+## How It Works
 
-- **Dynamic Variable Usage**
-  - Action nodes (e.g., Send Email, Send SMS, Assign Points) can now reference these carried-over attributes.
-  - The variable picker in the dashboard displays available attributes grouped by source node.
+<AccordionGroup>
+  <Accordion title="Attribute Persistence" icon="database">
+    Attributes created or received in one node (Event, Condition, or API) are automatically available to all subsequent nodes in the same automation branch. Attributes remain accessible for personalization in later actions.
+  </Accordion>
 
-- **Editing & Safety**
-  - If an earlier node is edited or removed, any dependent attributes trigger a warning: "This attribute is no longer available."
-  - Missing attributes are safely replaced with placeholders to prevent automation errors.
+  <Accordion title="Dynamic Variable Usage" icon="code">
+    Action nodes (e.g., Send Email, Send SMS, Assign Points) can now reference these carried-over attributes. The variable picker in the dashboard displays available attributes grouped by source node.
+  </Accordion>
+
+  <Accordion title="Editing & Safety" icon="shield">
+    If an earlier node is edited or removed, any dependent attributes trigger a warning: "This attribute is no longer available." Missing attributes are safely replaced with placeholders to prevent automation errors.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Subsequent Variables by Event Type
 
 Here are some examples of what you will find as a subsequent of a chosen first attribute:
 
@@ -100,4 +118,3 @@ Here are some examples of what you will find as a subsequent of a chosen first a
 | Event/attribute chosen in the first Node | Subsequent variables in the next nodes under "Previous Steps" |
 |---|---|
 | Expiring Points | Next Expiring Points Date, Next Expiring Points Value, Next Expiring Points |
-

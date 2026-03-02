@@ -9,60 +9,78 @@ For example, you can use info such as customer name, tier, referral line, etc. T
 
 Now, with every transactional-related action a customer takes, you can use a new set of dynamic action-related variables in your message based on the type of event that took place. For example, if a customer just completed an order, a triggered message could be sent that includes details of the order like the price and order id.
 
+---
+
 ## What to Use the Dynamic Variables For
 
 By allowing event-triggered messages to dynamically incorporate event properties into their content. Whether you're sending an email, web message, push notification, or SMS, you can now use event-specific data as variables within the message body.
 
 This update is particularly useful for **transactional messages**, ensuring that every communication is relevant, personalized, and **context-aware**.
 
+---
+
 ## Use Cases
 
 <AccordionGroup>
-  <Accordion title="Subscription Renewal Completion with Personalized Details">
+  <Accordion title="Subscription Renewal Completion with Personalized Details" icon="rotate">
     Send an **automated renewal thank you message** via email, push, or SMS, including **customer-specific details** like the **subscription plan name, ID, and the amount charged**.
 
     Example: _"Hey [Customer Name], your [Gold Membership] subscription was renewed successfully for [Amount] and your payment ID is [Payment ID]. Enjoy our uninterrupted benefits!"_
   </Accordion>
-  <Accordion title="Shipment & Delivery Updates with Live Tracking Links">
+  <Accordion title="Shipment & Delivery Updates with Live Tracking Links" icon="truck">
     For e-commerce stores, dynamically **insert tracking numbers, estimated delivery dates, and tracking links** in emails and SMS.
 
     Example: _"Your order [#Order ID] has been shipped! Track your package here: [Tracking Link]. Expected delivery: [Delivery Date]."_
   </Accordion>
 </AccordionGroup>
 
+---
+
 ## How to Set Up and Trigger Transactional Communication Campaigns Using Dynamic Variables
 
-Like creating any communication campaign, from the left bar, go to **Campaigns** then **Communication**, then click **Create Communication Campaign**.
+<Steps>
+  <Step title="Navigate to Communication Campaigns">
+    From the left bar, go to **Campaigns** then **Communication**, then click **Create Communication Campaign**.
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/dynamic-vars-create-campaign.png" alt="Create communication campaign" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/dynamic-vars-create-campaign.png" alt="Create communication campaign" />
+    </Frame>
+  </Step>
+  <Step title="Choose the Campaign Type">
+    Choose the type of campaign.
 
-Choose the type of campaign.
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/dynamic-vars-choose-type.png" alt="Choose campaign type" />
+    </Frame>
+  </Step>
+  <Step title="Follow the Configuration Steps">
+    Follow the normal configuration steps for creating a communication campaign.
+  </Step>
+  <Step title="Select Action-Based Trigger">
+    Under **Triggers**, you must choose **Action based**.
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/dynamic-vars-choose-type.png" alt="Choose campaign type" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/dynamic-vars-action-based.png" alt="Select action-based trigger" />
+    </Frame>
+  </Step>
+  <Step title="Choose the Transactional Action">
+    Choose the type of transactional action you want to set as a trigger for the message. You can choose actions.
+  </Step>
+  <Step title="Proceed to Scheduling">
+    Proceed with the scheduling step. Afterwards, you will move to the **Composing** part.
+  </Step>
+  <Step title="Use Dynamic Variables in the Message">
+    In the **Composing** part, while composing the **Head** and **Body** of your message, you can integrate some variables into the message.
 
-Follow the normal configuration steps for creating a communication campaign.
+    To use the event-related **Dynamic Variables**, scroll down the list to find them under **Event Variables**.
 
-However, under **Triggers**, you must choose **Action based**.
+    <Frame>
+      <img src="/images/product-docs/communication-campaigns/dynamic-vars-event-variables.png" alt="Event variables in message composer" />
+    </Frame>
+  </Step>
+</Steps>
 
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/dynamic-vars-action-based.png" alt="Select action-based trigger" />
-</Frame>
-
-Choose the type of transactional action you want to set as a trigger for the message. You can choose actions.
-
-Proceed with the scheduling step. Afterwards, you will move to the **Composing** part.
-
-In this part, while composing the **Head** and **Body** of your message, you can integrate some variables into the message.
-
-To use the event-related **Dynamic Variables**, scroll down the list to find them under **Event Variables**.
-
-<Frame>
-  <img src="/images/product-docs/communication-campaigns/dynamic-vars-event-variables.png" alt="Event variables in message composer" />
-</Frame>
+---
 
 ## How to Set Up and Trigger Transactional Email Campaigns Using Dynamic Variables
 
@@ -74,3 +92,11 @@ Emails usually have a slightly different configuration process. To create an ema
 
 ---
 
+<CardGroup cols={2}>
+  <Card title="Create & Configure Email Campaigns" icon="envelope" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
+    Learn how to build and configure email communication campaigns step by step.
+  </Card>
+  <Card title="Create & Configure Web Message Campaigns" icon="browser" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
+    Learn how to build and configure web message campaigns for real-time customer engagement.
+  </Card>
+</CardGroup>

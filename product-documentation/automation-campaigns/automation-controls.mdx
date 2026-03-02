@@ -7,36 +7,36 @@ Automation controls play a crucial role in orchestrating seamless workflows, all
 
 ## Exploring Automation Controls
 
-Automation controls provide businesses with the flexibility to tailor their workflows based on specific conditions or events. Let's explore each automation control offered by Gameball in detail:
+Automation controls provide businesses with the flexibility to tailor their workflows based on specific conditions or events.
 
 <AccordionGroup>
-  <Accordion title="Wait for Event">
+  <Accordion title="Wait for Event" icon="clock">
     Wait for Event enables you to pause workflow execution until a specific customer action occurs, and a certain amount of time (e.g., wait for a customer to place an order within the upcoming 7 days). This control allows for the creation of two action paths:
 
-    1. **Received**: The expected event occurs within the specified timeframe, triggering the subsequent action.
-    2. **Elapsed**: The specified event does not occur within the timeframe, prompting an alternative action.
+    - **Received**: The expected event occurs within the specified timeframe, triggering the subsequent action.
+    - **Elapsed**: The specified event does not occur within the timeframe, prompting an alternative action.
 
     <Frame>
       <img src="/images/product-docs/automation-campaigns/control-wait-for-event.png" alt="Wait for Event control configuration" />
     </Frame>
   </Accordion>
 
-  <Accordion title="Time Delay">
+  <Accordion title="Time Delay" icon="hourglass">
     Time Delay introduces a specified period of time before executing the next action in the workflow. This control is ideal for scheduling actions to occur after a certain delay, enabling businesses to sequence tasks effectively.
   </Accordion>
 
-  <Accordion title="Conditional Splits">
+  <Accordion title="Conditional Splits" icon="code-branch">
     Conditional Splits allow businesses to evaluate whether a previous event meets specified criteria or not. Based on the result, businesses can create two action paths:
 
-    1. **Yes**: The condition is met, triggering one set of actions.
-    2. **No**: The condition is not met, prompting an alternative set of actions.
+    - **Yes**: The condition is met, triggering one set of actions.
+    - **No**: The condition is not met, prompting an alternative set of actions.
 
     <Frame>
       <img src="/images/product-docs/automation-campaigns/control-conditional-split.png" alt="Conditional Split control configuration" />
     </Frame>
   </Accordion>
 
-  <Accordion title="A/B Test">
+  <Accordion title="A/B Test" icon="flask">
     A powerful feature that lets you test, compare, and optimize your customer engagement strategies directly within Gameball.
 
     ### How does it work?
@@ -57,7 +57,14 @@ Automation controls provide businesses with the flexibility to tailor their work
 
 ### Related Articles
 
-- [How to Create an Automated Workflow](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign)
-- [What are Gameball's Automation Triggers](/product-documentation/automation-campaigns/automation-triggers)
-- [What are Gameball's Automation Actions](/product-documentation/automation-campaigns/automation-actions)
-
+<CardGroup cols={3}>
+  <Card title="How to Create an Automated Workflow" icon="wand-magic-sparkles" href="/product-documentation/automation-campaigns/how-to-create-an-automation-campaign">
+    Step-by-step guide to building your first automation campaign.
+  </Card>
+  <Card title="Automation Triggers" icon="bolt" href="/product-documentation/automation-campaigns/automation-triggers">
+    Learn about all available triggers that can initiate your automation workflows.
+  </Card>
+  <Card title="Automation Actions" icon="play" href="/product-documentation/automation-campaigns/automation-actions">
+    Explore all actions you can execute when automation conditions are met.
+  </Card>
+</CardGroup>

@@ -19,6 +19,8 @@ Gameball makes it easier than ever to engage your customers, no technical integr
   <img src="/images/product-docs/rewards-campaigns/campaign-url-card.png" alt="Campaign URL card" />
 </Frame>
 
+---
+
 ## How to Access the Campaign URL
 
 <Steps>
@@ -34,6 +36,8 @@ Gameball makes it easier than ever to engage your customers, no technical integr
   <img src="/images/product-docs/rewards-campaigns/campaign-url-access.png" alt="Accessing Campaign URL" />
 </Frame>
 
+---
+
 ## Campaign URL Options
 
 The URL may either open directly for customers to play the game or prompt a lead form to identify the customer first, depending on the selected audience.
@@ -47,15 +51,21 @@ The URL may either open directly for customers to play the game or prompt a lead
 | **1. Audience: Registered / Specific Customers** | The URL will contain a customer ID placeholder `{customerid}`. Replace `{customerid}` with the actual customer value or your dynamic variable. The customer is automatically identified and enters the game directly. Example: `https://play.gameball.app?k=xxx&p={customerid}&d=details_spin_123` |
 | **2. Audience: Anonymous** | No ID is passed in the URL. The customer will see a form requesting their Email or Mobile Number before playing. You can customize the lead form from the customization page. Example: `https://play.gameball.app?k=xxx&d=details_spin_123` |
 
-**Notes for Registered/Specific audience:**
-- If the URL is missing the ID, the game will not load.
-- If the customer ID passed in the URL doesn't exist in Gameball, we will create a new customer account.
-- Customers are created as **members**.
+<AccordionGroup>
+  <Accordion title="Notes for Registered / Specific Audience" icon="user-check">
+    - If the URL is missing the ID, the game will not load.
+    - If the customer ID passed in the URL doesn't exist in Gameball, we will create a new customer account.
+    - Customers are created as **members**.
+  </Accordion>
 
-**Notes for Anonymous audience:**
-- You can set whether the customer identifier field on the form is **Email** (default) or **Mobile.**
-- If the customer fills out the form and does not already exist in Gameball, a new customer account will be created.
-- Customers are created as **guests**.
+  <Accordion title="Notes for Anonymous Audience" icon="user-secret">
+    - You can set whether the customer identifier field on the form is **Email** (default) or **Mobile.**
+    - If the customer fills out the form and does not already exist in Gameball, a new customer account will be created.
+    - Customers are created as **guests**.
+  </Accordion>
+</AccordionGroup>
+
+---
 
 ## Lead Form Configuration (When Audience is Anonymous)
 
@@ -93,11 +103,15 @@ The lead Form gives you more flexibility and control over the customer data you 
 - If the customer provides the mobile number without following this format (e.g., missing the `+`), a new account will be created instead of linking to the existing one.
 </Warning>
 
-**What happens if a registered customer fills out the lead form?**
+<AccordionGroup>
+  <Accordion title="What happens if a registered customer fills out the lead form?" icon="circle-question">
+    If an already registered customer filled out the lead form, Gameball will add the missing data to their profile and ignore the already collected data. For example, a registered customer fills out the lead form, providing their name, email address, and phone number.
 
-If an already registered customer filled out the lead form, Gameball will add the missing data to their profile and ignore the already collected data. For example, a registered customer fills out the lead form, providing their name, email address, and phone number.
+    Gameball checks and finds out that this is, in fact, a registered customer and that it already has their name and email filled, but it has no phone number. Gameball will only add the phone number to their stored profile data and will not overwrite the name and email, as this information has already been previously collected.
+  </Accordion>
+</AccordionGroup>
 
-Gameball checks and finds out that this is, in fact, a registered customer and that it already has their name and email filled, but it has no phone number. Gameball will only add the phone number to their stored profile data and will not overwrite the name and email, as this information has already been previously collected.
+---
 
 ## Important Notes
 
@@ -144,7 +158,10 @@ The pop-up will not appear for customers who are no longer eligible to play the 
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+  <Card title="Set Up a Reward Campaign" icon="gear" href="/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide">
+    A complete guide to configuring all reward campaign settings from audience to activation.
+  </Card>
+  <Card title="Reward Types in Gameball" icon="gift" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types">
+    Understand the full range of reward types you can offer customers.
+  </Card>
 </CardGroup>
-

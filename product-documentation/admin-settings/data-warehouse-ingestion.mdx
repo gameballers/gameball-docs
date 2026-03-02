@@ -3,25 +3,25 @@ title: "What Is the Data Warehouse Ingestion Module?"
 description: "Learn how the Data Warehouse (DWH) Ingestion Module enables you to automatically sync Gameball data with your own analytics and BI systems."
 ---
 
----
+## Plan Availability
 
-## Packages and Platforms
-
-**Platform**
-
-**Plan**
-
-Non-platform
-
-All
-
-Shopify
-
-Add-on
-
-Salla
-
-Add-on
+<Tabs>
+  <Tab title="Non-platform">
+    | Plan | Available |
+    |---|---|
+    | All | Yes |
+  </Tab>
+  <Tab title="Shopify">
+    | Plan | Available |
+    |---|---|
+    | All | Add-on |
+  </Tab>
+  <Tab title="Salla">
+    | Plan | Available |
+    |---|---|
+    | All | Add-on |
+  </Tab>
+</Tabs>
 
 ---
 
@@ -51,10 +51,12 @@ With the Data Warehouse Ingestion Module, Gameball becomes part of this ecosyste
 
 A common setup looks like this:
 
-- **Order / POS system** (e.g. Microsoft Dynamics) → pushes revenue and order data
-- **Inventory management system** → pushes stock and product data
-- **Customer engagement platform** (e.g. Braze) → pushes communication and campaign data
-- **Gameball** → pushes loyalty and rewards data
+| System | Data Pushed |
+|---|---|
+| Order / POS system (e.g. Microsoft Dynamics) | Revenue and order data |
+| Inventory management system | Stock and product data |
+| Customer engagement platform (e.g. Braze) | Communication and campaign data |
+| Gameball | Loyalty and rewards data |
 
 All of this data is stored in the **data warehouse**, and an analytics tool (such as PowerBI or Metabase) reads from it to create dashboards.
 
@@ -71,61 +73,57 @@ This allows you to answer questions like:
 
 Gameball currently provides **four built-in data models** that can be pushed to a data warehouse. You can choose which models to enable during setup.
 
-### 1. Members
+<AccordionGroup>
+  <Accordion title="Members" icon="users">
+    Contains customer-level loyalty data, including:
 
-Contains customer-level loyalty data, including:
+    - Customer ID
+    - Display name
+    - Current tier name
+    - Referral status
+    - Total earned points
+    - Total expired points
+    - Additional loyalty-related attributes
 
-- Customer ID
-- Display name
-- Current tier name
-- Referral status
-- Total earned points
-- Total expired points
-- Additional loyalty-related attributes
+    This model is useful for segmentation, tier analysis, and customer-level reporting.
+  </Accordion>
 
-This model is useful for segmentation, tier analysis, and customer-level reporting.
+  <Accordion title="Transactions" icon="arrow-right-arrow-left">
+    Represents all **points and order-related movements**, including:
 
----
+    - Transaction ID
+    - Points earned from orders
+    - Points redeemed
+    - Points expired
+    - Transaction type
+    - Direction (points added or deducted)
+    - Related transaction details
 
-### 2. Transactions
+    This model allows customers to analyze how points are earned and spent over time.
+  </Accordion>
 
-Represents all **points and order-related movements**, including:
+  <Accordion title="Achievements" icon="trophy">
+    Includes all **loyalty events and campaign-related actions**, such as:
 
-- Transaction ID
-- Points earned from orders
-- Points redeemed
-- Points expired
-- Transaction type
-- Direction (points added or deducted)
-- Related transaction details
+    - Reward campaign achievements
+    - Referrals
+    - Tier upgrades
+    - Tier downgrades
 
-This model allows customers to analyze how points are earned and spent over time.
+    Each record includes details like campaign name, achievement type, and related metadata. This data closely matches what is available today in Gameball's activity logs and reports.
+  </Accordion>
 
----
+  <Accordion title="Coupons" icon="ticket">
+    Contains coupon-related data, including:
 
-### 3. Achievements
+    - Coupon code
+    - Coupon type
+    - Coupon status
+    - Other coupon attributes
 
-Includes all **loyalty events and campaign-related actions**, such as:
-
-- Reward campaign achievements
-- Referrals
-- Tier upgrades
-- Tier downgrades
-
-Each record includes details like campaign name, achievement type, and related metadata. This data closely matches what is available today in Gameball's activity logs and reports.
-
----
-
-### 4. Coupons
-
-Contains coupon-related data, including:
-
-- Coupon code
-- Coupon type
-- Coupon status
-- Other coupon attributes
-
-This model supports reporting on reward redemption and coupon usage.
+    This model supports reporting on reward redemption and coupon usage.
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -142,41 +140,45 @@ By joining **order data** from your POS system with **transaction data** from Ga
 
 ## How to Set Up the Integration
 
-To configure the Data Warehouse Ingestion Module:
+<Steps>
+  <Step title="Open Data Warehouse Integration">
+    Go to **Admin Settings** in the Gameball dashboard, then navigate to **Data Warehouse Integration** and click **Set Up Connection**.
 
-1. Go to **Admin Settings** in the Gameball dashboard
-2. Navigate to **Data Warehouse Integration**
-3. Click **Set Up Connection**
+    <Frame>
+      ![Data Warehouse Integration](/images/product-docs/admin-settings/data-warehouse-integration.png)
+    </Frame>
+  </Step>
 
-<Frame>
-  ![Data Warehouse Integration](/images/product-docs/admin-settings/data-warehouse-integration.png)
-</Frame>
+  <Step title="Select Data Warehouse Provider">
+    Choose your data warehouse provider (for example, Amazon Redshift), then click **Next**.
+  </Step>
 
-### Step 1: Select Data Warehouse Provider
+  <Step title="Add Connection Details">
+    Enter the required account and connection details, then click **Next**.
+  </Step>
 
-Choose your data warehouse provider (for example, Amazon Redshift), then click **Next**.
+  <Step title="Define Data Push Frequency">
+    Choose how often Gameball should push data:
 
-### Step 2: Add Connection Details
+    - Daily
+    - Weekly
+    - Monthly
 
-Enter the required account and connection details, then click **Next**.
+    You will also define the exact time (for example, daily at midnight).
 
-### Step 3: Define Data Push Frequency
+    <Warning>
+      Higher frequencies come with higher costs.
+    </Warning>
+  </Step>
 
-Choose how often Gameball should push data:
+  <Step title="Select Data Models">
+    Choose which Gameball data models you want to push: Members, Transactions, Achievements, or Coupons.
+  </Step>
 
-- Daily
-- Weekly
-- Monthly
-
-You will also define the exact time (for example, daily at midnight). Please note that **higher frequencies come with higher costs**.
-
-### Step 4: Select Data Models
-
-Choose which Gameball data models you want to push (Members, Transactions, Achievements, Coupons).
-
-### Step 5: Submit Request
-
-Once submitted, the request is sent to Gameball's technical team.
+  <Step title="Submit Request">
+    Once submitted, the request is sent to Gameball's technical team.
+  </Step>
+</Steps>
 
 ---
 
@@ -184,11 +186,16 @@ Once submitted, the request is sent to Gameball's technical team.
 
 The connection is **not established automatically**.
 
-- The setup acts as a **configuration and request flow**
-- Gameball's technical team manually completes the integration
-- Once ready, the connection status will change to **Connected**
+| Stage | Detail |
+|---|---|
+| Initial submission | Acts as a configuration and request flow |
+| Technical setup | Gameball's technical team manually completes the integration |
+| Connection live | Status changes to **Connected** |
+| Ongoing pushes | Each scheduled push appears in the dashboard with its status and details |
 
+<Info>
 After the connection is live, each scheduled data push (daily, weekly, or monthly) will appear in the dashboard with its status and details.
+</Info>
 
 ---
 
@@ -196,8 +203,11 @@ After the connection is live, each scheduled data push (daily, weekly, or monthl
 
 The Data Warehouse Ingestion Module is offered as an **add-on**.
 
-To use it:
-
-1. The feature must be enabled on your account
-2. You should coordinate with your Customer Success Manager to start the implementation process
-
+<Steps>
+  <Step title="Enable the Feature">
+    The feature must be enabled on your account before use.
+  </Step>
+  <Step title="Coordinate with Your CSM">
+    You should coordinate with your Customer Success Manager to start the implementation process.
+  </Step>
+</Steps>

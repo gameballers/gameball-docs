@@ -9,17 +9,27 @@ description: "Enable external rewards through Gameball campaigns without additio
 
 Gameball now supports engaging customers with gamified campaigns, even if you use your own loyalty program. You can leverage Gameball's campaign engine while sending external rewards -- like points, cashback, or physical gifts -- directly through their existing systems.
 
-Gameball now offers a new **External Reward (API Call)** option directly within campaign rewards.
+Gameball offers a new **External Reward (API Call)** option directly within campaign rewards.
 
 <Frame>
   <img src="/images/product-docs/rewards-campaigns/external-reward-option.png" alt="External Reward API Call option" />
 </Frame>
 
-This new feature allows you to:
+This feature allows you to:
 
-- Connect your loyalty program without any additional backend development.
-- Reward customers with external benefits (points, cashback, physical goods, etc.) using a customizable API payload.
-- Speed up campaign activation and reduce technical dependencies.
+<CardGroup cols={3}>
+  <Card title="No Extra Development" icon="code">
+    Connect your loyalty program without any additional backend development.
+  </Card>
+  <Card title="External Benefits" icon="gift">
+    Reward customers with external benefits (points, cashback, physical goods, etc.) using a customizable API payload.
+  </Card>
+  <Card title="Fast Activation" icon="bolt">
+    Speed up campaign activation and reduce technical dependencies.
+  </Card>
+</CardGroup>
+
+---
 
 ## How to Configure External Rewards in Campaigns
 
@@ -64,6 +74,8 @@ This new feature allows you to:
 
 <Note>This feature is available for campaign rewards only. It is not supported as a redemption method.</Note>
 
+---
+
 ## Test API
 
 Test API call configurations directly while setting up **Reward Campaigns** or **Automation Triggers**, ensuring your integrations work correctly before activation.
@@ -83,10 +95,10 @@ This makes it easier than ever to validate your setup confidently before going l
 ## Common Questions
 
 <AccordionGroup>
-  <Accordion title="Can I use this reward type with any loyalty system?">
+  <Accordion title="Can I use this reward type with any loyalty system?" icon="circle-question">
     Yes, as long as your system accepts external API requests with the necessary data format.
   </Accordion>
-  <Accordion title="Does this replace the webhook listener?">
+  <Accordion title="Does this replace the webhook listener?" icon="circle-question">
     Yes. This eliminates the need to develop and maintain a webhook listener for reward distribution.
   </Accordion>
 </AccordionGroup>
@@ -96,7 +108,10 @@ This makes it easier than ever to validate your setup confidently before going l
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Introduction to Reward Campaigns" href="/product-documentation/rewards-campaigns/reward-campaign-intro" />
-  <Card title="Introduction to Rewards Types" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
+  <Card title="Introduction to Reward Campaigns" icon="flag" href="/product-documentation/rewards-campaigns/reward-campaign-intro">
+    An overview of all reward campaign types and ready-made templates available in Gameball.
+  </Card>
+  <Card title="Introduction to Rewards Types" icon="gift" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types">
+    A detailed breakdown of every reward type and how to configure each one.
+  </Card>
 </CardGroup>
-

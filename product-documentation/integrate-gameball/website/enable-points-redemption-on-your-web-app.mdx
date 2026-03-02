@@ -5,6 +5,10 @@ description: "Allow your customers to redeem their points in the form of discoun
 
 Through Gameball, you can allow your customers to transform and use their collected points as discount coupons on their customer widget through your web app.
 
+---
+
+## Integration Steps
+
 <Steps>
   <Step title="Enable points redemption on your web app">
     Configure the redemption equation on the Gameball Admin Dashboard. [Read about the Points earn and redeem settings](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system).
@@ -23,19 +27,20 @@ Through Gameball, you can allow your customers to transform and use their collec
   </Step>
 
   <Step title="Important operations to consider">
-    ### Reverse Transaction
+    <AccordionGroup>
+      <Accordion title="Reverse Transaction" icon="rotate-left">
+        When you need to cancel a cashback transaction or refund the redeemed points transaction, follow the steps below:
 
-    When you need to cancel a cashback transaction or refund the redeemed points transaction, follow the steps below:
+        1. While you are creating a payment reward or points redemption transaction, you will store the original transaction ID of your platform on Gameball.
+        2. You can reverse the reward/redemption transactions through the [Reverse Points Transactions API](https://developer.gameball.co/rest-api/transactions/hold-management#delete-release-hold).
+      </Accordion>
 
-    1. While you are creating a payment reward or points redemption transaction, you will store the original transaction ID of your platform on Gameball.
-    2. You can reverse the reward/redemption transactions through the [Reverse Points Transactions API](https://developer.gameball.co/rest-api/transactions/hold-management#delete-release-hold).
+      <Accordion title="Reverse Hold Transaction" icon="hand">
+        You might need to reverse the held points during the **10-minute** hold time. Follow the steps below:
 
-    ### Reverse Hold Transaction
-
-    You might need to reverse the held points during the **10-minute** hold time. Follow the steps below:
-
-    1. While holding points, a hold reference ID will be created for this hold transaction.
-    2. You can reverse the held points through the [Reverse Hold Transaction API](https://developer.gameball.co/rest-api/transactions/hold-management#delete-release-hold).
+        1. While holding points, a hold reference ID will be created for this hold transaction.
+        2. You can reverse the held points through the [Reverse Hold Transaction API](https://developer.gameball.co/rest-api/transactions/hold-management#delete-release-hold).
+      </Accordion>
+    </AccordionGroup>
   </Step>
 </Steps>
-

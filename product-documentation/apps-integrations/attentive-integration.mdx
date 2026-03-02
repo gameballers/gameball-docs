@@ -4,108 +4,163 @@ description: "Integrate Gameball with Attentive to Enhance Your SMS Marketing Ca
 ---
 
 Gameball and Attentive integration allows you to leverage customer engagement data from Gameball to power your SMS marketing campaigns in Attentive. Follow this guide to seamlessly connect the two platforms and maximize the impact of your loyalty and marketing efforts.
+
 ---
-### **Step 1: Prerequisites**
+
+## Step 1: Prerequisites
 
 Before starting the integration, ensure the following:
 
--   You have an active **Gameball** account.
+<CardGroup cols={3}>
+  <Card title="Active Gameball Account" icon="gamepad">
+    You have an active Gameball account ready to connect.
+  </Card>
+  <Card title="Active Attentive Account" icon="mobile">
+    You have an active Attentive account for SMS campaigns.
+  </Card>
+  <Card title="Admin Permissions" icon="shield-check">
+    You have admin permissions in both platforms.
+  </Card>
+</CardGroup>
 
--   You have an active **Attentive** account.
-
--   Access to admin permissions in both platforms.
 ---
-### **Step 2: Enable Gameball API Access**
 
-1.  Log in to your **Gameball Dashboard**.
+## Step 2: Enable Gameball API Access
 
-2.  Navigate to the **Integrations** section from the left menu.
+<Steps>
+  <Step title="Log in to Your Gameball Dashboard">
+    Log in to your **Gameball Dashboard** and navigate to the **Integrations** section from the left menu.
+  </Step>
 
-3.  Select **Attentive** and click **Connect,** then **next**.
+  <Step title="Connect Attentive">
+    Select **Attentive** and click **Connect**, then **Next**.
+  </Step>
 
-4.  You will be redirected to the **Attentive dashboard.** Scroll down and click **Authorize**.
+  <Step title="Authorize in Attentive">
+    You will be redirected to the **Attentive dashboard**. Scroll down and click **Authorize**.
+  </Step>
 
-5.  Go back to the integration section on the dashboard to ensure that the attentive app is now connected to your Gameball account.
+  <Step title="Confirm Connection">
+    Go back to the integration section on the dashboard to ensure that the Attentive app is now connected to your Gameball account.
 
+    <Frame>
+      <img src="/images/product-docs/apps-integrations/apps-integrations-25.png" />
+    </Frame>
+  </Step>
+</Steps>
 
-<Frame>
-  <img src="/images/product-docs/apps-integrations/apps-integrations-25.png" />
-</Frame>
 ---
-### **Synced Customer Data**
 
-Here are all the attributes that can be sent:
+## Synced Customer Data
 
--   **Customer ID**
+The following attributes are automatically synced from Gameball to Attentive:
 
--   **Date of Birth**
+| Attribute | Description |
+|---|---|
+| Customer ID | Unique customer identifier |
+| Date of Birth | Customer's birthday |
+| Join Date | Date the customer joined |
+| Tier Name | Current loyalty tier name |
+| Wallet Points | Current points balance |
+| Pending Points | Points awaiting confirmation |
+| Tier Progress | Progress toward next tier |
+| Tier ID | Current tier identifier |
+| Completed Reward Campaigns | Campaigns the customer has achieved |
+| Referral Code | Customer's unique referral code |
+| Referral Link | Customer's shareable referral link |
+| Tags and Segments | Customer tags and segment membership |
 
--   **Join Date**
+<Steps>
+  <Step title="Save Your Settings">
+    After reviewing the attributes, save your settings to begin syncing.
+  </Step>
+</Steps>
 
--   **Tier Name**
-
--   **Wallet Points**
-
--   **Pending Points**
-
--   **Tier Progress**
-
--   **Tier ID**
-
--   **Completed Reward Campaigns**
-
--   **Referral Code**
-
--   **Referral Link**
-
--   **Tags and Segments**
-
-
-1.  Save your settings.
 ---
-### **Test the Integration**
+
+## Test the Integration
 
 Before launching your campaigns, test the integration to ensure it works as expected:
 
-1.  Perform a test action in Gameball (e.g., award points to a test user).
+<Steps>
+  <Step title="Perform a Test Action in Gameball">
+    Award points to a test user or trigger a loyalty event.
+  </Step>
 
-2.  Check if the event appears in Attentive under the corresponding profile.
+  <Step title="Verify in Attentive">
+    Check if the event appears in Attentive under the corresponding profile.
+  </Step>
 
-3.  Send a test SMS using the synced data in Attentive.
+  <Step title="Send a Test SMS">
+    Send a test SMS using the synced data in Attentive to confirm the data appears correctly.
+  </Step>
+</Steps>
+
 ---
-### **Create SMS Campaigns in Attentive**
+
+## Create SMS Campaigns in Attentive
 
 Now that the integration is live, use Gameball data to personalize your Attentive campaigns:
 
-1.  Navigate to **Campaigns** in Attentive.
+<Steps>
+  <Step title="Navigate to Campaigns">
+    Navigate to **Campaigns** in Attentive.
+  </Step>
 
-2.  Create a new campaign and select your target audience based on Gameball data (e.g., customers who achieved a certain tier or redeemed rewards).
+  <Step title="Create a New Campaign">
+    Create a new campaign and select your target audience based on Gameball data (e.g., customers who achieved a certain tier or redeemed rewards).
+  </Step>
 
-3.  Use dynamic variables (e.g., `{total_points}`, `{current_level}`) to personalize your messages.
+  <Step title="Personalize Your Messages">
+    Use dynamic variables (e.g., `{total_points}`, `{current_level}`) to personalize your messages.
+  </Step>
 
-4.  Launch your campaign.
+  <Step title="Launch Your Campaign">
+    Review your campaign settings and launch your campaign.
+  </Step>
+</Steps>
+
 ---
-### **Troubleshooting**
 
-If you encounter issues:
+## Troubleshooting
 
-1.  Verify that the API key and webhook URL are correctly configured.
+<AccordionGroup>
+  <Accordion title="API key or webhook URL not configured correctly" icon="triangle-exclamation">
+    Verify that the API key and webhook URL are correctly configured in both Gameball and Attentive settings.
+  </Accordion>
 
-2.  Check the integration logs in Gameball for error messages.
+  <Accordion title="Integration errors appearing in logs" icon="bug">
+    Check the integration logs in Gameball for error messages and review the error details to identify the cause.
+  </Accordion>
 
-3.  Contact Gameball support or Attentive support for further assistance.
+  <Accordion title="Need additional support" icon="headset">
+    Contact Gameball support or Attentive support for further assistance with your integration.
+  </Accordion>
+</AccordionGroup>
+
 ---
+
 ## Frequently Asked Questions
 
-**Q: What happens if my Gameball data doesn’t sync immediately with Attentive?**
-**A:** We’ve built a retry mechanism for quick data synchronization. However, if you encounter delays, check your integration settings or contact support.
+<AccordionGroup>
+  <Accordion title="What happens if my Gameball data doesn't sync immediately with Attentive?" icon="circle-question">
+    We've built a retry mechanism for quick data synchronization. However, if you encounter delays, check your integration settings or contact support.
+  </Accordion>
 
-**Q: Will my customer data be secure?**
-**A:** Yes, only Gameball-related loyalty data is passed to Attentive, ensuring data safety and compliance with privacy regulations.
+  <Accordion title="Will my customer data be secure?" icon="lock">
+    Yes, only Gameball-related loyalty data is passed to Attentive, ensuring data safety and compliance with privacy regulations.
+  </Accordion>
+</AccordionGroup>
+
 ---
-### Related Articles:
 
--   [Gameball on MoEngage](/product-documentation/apps-integrations/moengage-integration)
+## Related Articles
 
--   [Gameball on Shopify Flow](/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow)
-
+<CardGroup cols={2}>
+  <Card title="Gameball on MoEngage" icon="mobile-screen" href="/product-documentation/apps-integrations/moengage-integration">
+    Integrate Gameball with MoEngage for intelligent, personalized customer engagement.
+  </Card>
+  <Card title="Gameball on Shopify Flow" icon="arrow-right-arrow-left" href="/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow">
+    Automate loyalty workflows using Gameball triggers and actions in Shopify Flow.
+  </Card>
+</CardGroup>
