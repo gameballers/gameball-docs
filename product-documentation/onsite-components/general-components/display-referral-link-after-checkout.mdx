@@ -17,8 +17,14 @@ Gameball now offers a referral block that appears once an order is completed, hi
 
 **Benefits:**
 
-1. **Encourage immediate sharing:** Displaying the referral prompt right after an order is completed taps into the customer's post-purchase enthusiasm, increasing the likelihood of referrals.
-2. **Boost customer acquisition:** Leveraging recent buyers' excitement can lead to more personal recommendations, attracting high-quality new customers through word-of-mouth.
+<CardGroup cols={2}>
+  <Card title="Encourage Immediate Sharing" icon="share-nodes">
+    Displaying the referral prompt right after an order is completed taps into the customer's post-purchase enthusiasm, increasing the likelihood of referrals.
+  </Card>
+  <Card title="Boost Customer Acquisition" icon="users">
+    Leveraging recent buyers' excitement can lead to more personal recommendations, attracting high-quality new customers through word-of-mouth.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -79,33 +85,39 @@ Gameball now offers a referral block that appears once an order is completed, hi
 
 ## Customization
 
-### Style Customization
+<AccordionGroup>
+  <Accordion title="Style Customization" icon="palette">
+    The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+  </Accordion>
+  <Accordion title="Content & Translation" icon="language">
+    In the Gameball dashboard, go to **Widget > Content**. In the **Onsite** tab, edit the displayed text as needed and click **Save**.
 
-The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
-
-### Content & Translation
-
-In the Gameball dashboard, go to **Widget > Content**. In the **Onsite** tab, edit the displayed text as needed and click **Save**.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+    </Frame>
+  </Accordion>
+</AccordionGroup>
 
 ---
 
 ## Logged-In vs. Guest (Not-Logged-In) Customers
 
-- **Not Logged-In Customers**: If you are not logged in, the extension will prompt you to log in or register to be able to refer your friends and earn the referral reward.
+<Tabs>
+  <Tab title="Not Logged-In Customers">
+    If you are not logged in, the extension will prompt you to log in or register to be able to refer your friends and earn the referral reward.
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/referral-link-guest.png" alt="Guest customer referral link view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/referral-link-guest.png" alt="Guest customer referral link view" />
+    </Frame>
+  </Tab>
+  <Tab title="Logged-In Customers">
+    When the logged-in customer reaches the thank you page after placing an order, the extension will be displayed, allowing the customer to copy their referral link and share it with their friends.
 
-- **Logged-In Customers:** When the logged-in customer reaches the thank you page after placing an order, the extension will be displayed, allowing the customer to copy their referral link and share it with their friends.
-
-  <Frame>
-    <img src="/images/product-docs/onsite-components/referral-link-logged-in.png" alt="Logged-in customer referral link view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/referral-link-logged-in.png" alt="Logged-in customer referral link view" />
+    </Frame>
+  </Tab>
+</Tabs>
 
 ---
 
@@ -125,10 +137,10 @@ The referral link block will automatically hide if:
 ## Frequently Asked Questions
 
 <AccordionGroup>
-  <Accordion title="Can the Referral Link Block be displayed on other pages?">
+  <Accordion title="Can the Referral Link Block be displayed on other pages?" icon="circle-question">
     Currently, the referral link block can only be embedded on the checkout confirmation page.
   </Accordion>
-  <Accordion title="What if I downgrade my plan?">
+  <Accordion title="What if I downgrade my plan?" icon="circle-question">
     The referral link block will automatically hide if your plan no longer supports this feature.
   </Accordion>
 </AccordionGroup>
@@ -145,4 +157,3 @@ The referral link block will automatically hide if:
     Show potential points directly on product pages.
   </Card>
 </CardGroup>
-

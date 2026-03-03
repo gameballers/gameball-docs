@@ -19,8 +19,14 @@ Make your VIP customers feel special by automating their loyalty benefits. With 
 
 **Benefits:**
 
-- **Effortless Experience for VIPs:** VIP customers don't need to manually apply their discount, streamlining the checkout process and adding convenience.
-- **Increased Loyalty and Retention:** Automatically applying rewards reinforces the value of being a VIP, fostering loyalty and encouraging repeat purchases.
+<CardGroup cols={2}>
+  <Card title="Effortless Experience for VIPs" icon="crown">
+    VIP customers don't need to manually apply their discount, streamlining the checkout process and adding convenience.
+  </Card>
+  <Card title="Increased Loyalty and Retention" icon="heart">
+    Automatically applying rewards reinforces the value of being a VIP, fostering loyalty and encouraging repeat purchases.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -80,21 +86,24 @@ Make your VIP customers feel special by automating their loyalty benefits. With 
 
 ## How It Works
 
-- **Logged-In Customers:** When a logged-in customer reaches the checkout page, the extension will automatically apply a discount if the customer is part of a tier that qualifies for a lifetime reward.
+<Tabs>
+  <Tab title="Logged-In Customers">
+    When a logged-in customer reaches the checkout page, the extension will automatically apply a discount if the customer is part of a tier that qualifies for a lifetime reward.
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-tier-rewards-logged-in.png" alt="Logged-in customer tier reward applied" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-tier-rewards-logged-in.png" alt="Logged-in customer tier reward applied" />
+    </Frame>
 
-- If the discount cannot be applied due to conditions such as meeting a minimum order value, restrictions on combining discounts, or other advanced rules, an error message will appear explaining why the coupon cannot be used for the current cart.
+    If the discount cannot be applied due to conditions such as meeting a minimum order value, restrictions on combining discounts, or other advanced rules, an error message will appear explaining why the coupon cannot be used for the current cart.
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-tier-rewards-error.png" alt="Tier reward error message" />
-  </Frame>
-
-- **Non-Logged-In (Guest) Customers:**
-  - Non-logged-in customers will not be able to receive a discount until they log in and become eligible for a tier with a lifetime reward.
-  - Once logged in, the same rules for applicable discounts will apply, including any restrictions that may prevent the coupon from being used.
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-tier-rewards-error.png" alt="Tier reward error message" />
+    </Frame>
+  </Tab>
+  <Tab title="Guest (Not Logged-In) Customers">
+    Non-logged-in customers will not be able to receive a discount until they log in and become eligible for a tier with a lifetime reward. Once logged in, the same rules for applicable discounts will apply, including any restrictions that may prevent the coupon from being used.
+  </Tab>
+</Tabs>
 
 ---
 
@@ -113,10 +122,10 @@ This extension will automatically not work if:
 ## Frequently Asked Questions
 
 <AccordionGroup>
-  <Accordion title="Is this feature available for all Shopify stores?">
+  <Accordion title="Is this feature available for all Shopify stores?" icon="circle-question">
     This feature is exclusive to Shopify stores on Shopify Plus and select new Gameball plans.
   </Accordion>
-  <Accordion title="What happens if my account is downgraded?">
+  <Accordion title="What happens if my account is downgraded?" icon="circle-question">
     The block will appear blurred in your store, and the Customize button in the dashboard will be disabled.
   </Accordion>
 </AccordionGroup>
@@ -133,4 +142,3 @@ This extension will automatically not work if:
     Let customers redeem points directly at checkout.
   </Card>
 </CardGroup>
-

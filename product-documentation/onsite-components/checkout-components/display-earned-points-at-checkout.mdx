@@ -19,8 +19,14 @@ Displaying the potential points customers can earn from their order on the check
 
 **Benefits:**
 
-- **Increases Order Value:** Showing potential points encourages customers to add more items to their cart to maximize their rewards, leading to higher average order value.
-- **Boosts Loyalty Program Engagement:** By highlighting the rewards they'll earn, customers are more likely to engage with the loyalty program and make repeat purchases to accumulate more points.
+<CardGroup cols={2}>
+  <Card title="Increases Order Value" icon="arrow-trend-up">
+    Showing potential points encourages customers to add more items to their cart to maximize their rewards, leading to higher average order value.
+  </Card>
+  <Card title="Boosts Loyalty Program Engagement" icon="heart">
+    By highlighting the rewards they'll earn, customers are more likely to engage with the loyalty program and make repeat purchases to accumulate more points.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -85,35 +91,41 @@ Displaying the potential points customers can earn from their order on the check
 
 ---
 
-## How it Works
+## How It Works
 
-- **Guest Customers**: If not logged in, the extension will show the earned points in addition to asking you to log in to collect the points.
+<Tabs>
+  <Tab title="Guest Customers">
+    If not logged in, the extension will show the earned points in addition to asking you to log in to collect the points.
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-earned-points-guest.png" alt="Guest customer earned points view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-earned-points-guest.png" alt="Guest customer earned points view" />
+    </Frame>
+  </Tab>
+  <Tab title="Logged-In Customers">
+    When the logged-in customer reaches the checkout page after placing an order, the extension will be displayed, showing the number of points earned from the last order, in addition to a call-to-action that opens the widget on the redemption option to let the user redeem their points.
 
-- **Logged-In Customers:** When the logged-in customer reaches the checkout page after placing an order, the extension will be displayed, showing the number of points earned from the last order, in addition to a call-to-action that opens the widget on the redemption option to let the user redeem their points.
-
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-earned-points-logged-in.png" alt="Logged-in customer earned points view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-earned-points-logged-in.png" alt="Logged-in customer earned points view" />
+    </Frame>
+  </Tab>
+</Tabs>
 
 ---
 
 ## Customization
 
-### Style Customization
+<AccordionGroup>
+  <Accordion title="Style Customization" icon="palette">
+    The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+  </Accordion>
+  <Accordion title="Content & Translation" icon="language">
+    In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
 
-The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
-
-### Content & Translation
-
-In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+    </Frame>
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -134,10 +146,10 @@ The block will automatically hide if:
 ## Frequently Asked Questions
 
 <AccordionGroup>
-  <Accordion title="What happens if I downgrade my plan?">
+  <Accordion title="What happens if I downgrade my plan?" icon="circle-question">
     The block will automatically hide if your plan no longer supports the feature.
   </Accordion>
-  <Accordion title='What should I do if I clicked on Customize but saw a "There is a problem loading the page" message?'>
+  <Accordion title='What should I do if I clicked on Customize but saw a "There is a problem loading the page" message?' icon="circle-question">
     Please review the prerequisites and ensure all conditions are met. If you still encounter an issue, contact us at [support@gameball.co](mailto:support@gameball.co).
   </Accordion>
 </AccordionGroup>
@@ -154,4 +166,3 @@ The block will automatically hide if:
     Show potential points directly on product pages.
   </Card>
 </CardGroup>
-

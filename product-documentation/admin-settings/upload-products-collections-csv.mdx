@@ -3,60 +3,83 @@ title: "How Do I Upload your Stores' Products and Collections through a CSV File
 description: "Upload, download, or delete your stores' data on Gameball."
 ---
 
-## Upload your Stores' Products and Collections through a CSV File
+## Overview
 
-If you want to create loyalty events that involve specific products or collections, Gameball will need some information about them first. To provide this data, you can easily upload a CSV file containing all the details of your products or collections. Here's how to do it.
+If you want to create loyalty events that involve specific products or collections, Gameball will need some information about them first. To provide this data, you can easily upload a CSV file containing all the details of your products or collections.
+
+---
 
 ## How to Access
 
-1. Go to **Dashboard → Settings → Admin Settings →** **Products and Collections** under **Integrations**.
+<Steps>
+<Step title="Navigate to Products and Collections">
+  Go to **Dashboard > Settings > Admin Settings > Products and Collections** under **Integrations**.
 
-<Frame>
-  ![Products and Collections Menu](/images/product-docs/admin-settings/products-collections-menu.png)
-</Frame>
+  <Frame>
+    ![Products and Collections Menu](/images/product-docs/admin-settings/products-collections-menu.png)
+  </Frame>
 
-<Frame>
-  ![Products and Collections Page](/images/product-docs/admin-settings/products-collections-page.png)
-</Frame>
+  <Frame>
+    ![Products and Collections Page](/images/product-docs/admin-settings/products-collections-page.png)
+  </Frame>
+</Step>
 
-Under **Products** or under **Collections**, click "**Click to uploard**" or drag and drop your file.
+<Step title="Upload Your CSV File">
+  Under **Products** or under **Collections**, click **"Click to upload"** or drag and drop your file.
 
-<Frame>
-  ![Upload File](/images/product-docs/admin-settings/upload-file.png)
-</Frame>
+  <Frame>
+    ![Upload File](/images/product-docs/admin-settings/upload-file.png)
+  </Frame>
+</Step>
+</Steps>
 
-Here is the CSV file format for you need to follow for the **Products**:
+---
 
-- Column 1: Product ID
-- Column 2: Product Name
-- Column 3: Variant ID
-- Column 4: Variant Name
-- Column 5: Price
-- Column 6: URL
+## CSV File Formats
 
-<Frame>
-  ![Products CSV Format](/images/product-docs/admin-settings/products-csv-format.png)
-</Frame>
+<Tabs>
+<Tab title="Products">
+  Follow this column format for your **Products** CSV file:
 
-Here is the CSV file format for you need to follow for the **Collections**:
+  | Column | Field |
+  |---|---|
+  | Column 1 | Product ID |
+  | Column 2 | Product Name |
+  | Column 3 | Variant ID |
+  | Column 4 | Variant Name |
+  | Column 5 | Price |
+  | Column 6 | URL |
 
-- Column 1: Collection ID
-- Column 2: Collection Name
-- Column 3: URL
+  <Frame>
+    ![Products CSV Format](/images/product-docs/admin-settings/products-csv-format.png)
+  </Frame>
+</Tab>
 
-<Frame>
-  ![Collections CSV Format](/images/product-docs/admin-settings/collections-csv-format.png)
-</Frame>
+<Tab title="Collections">
+  Follow this column format for your **Collections** CSV file:
+
+  | Column | Field |
+  |---|---|
+  | Column 1 | Collection ID |
+  | Column 2 | Collection Name |
+  | Column 3 | URL |
+
+  <Frame>
+    ![Collections CSV Format](/images/product-docs/admin-settings/collections-csv-format.png)
+  </Frame>
+</Tab>
+</Tabs>
 
 <Frame>
   ![CSV Upload Success](/images/product-docs/admin-settings/csv-upload-success.png)
 </Frame>
+
+---
+
+## Manage Uploaded Files
 
 To download or delete the previously uploaded file, click on the **Download Current File** option or the **Delete Icon**. The latest uploaded CSV file will be downloaded instantly.
 
 <Frame>
   ![Download Delete CSV](/images/product-docs/admin-settings/download-delete-csv.png)
 </Frame>
-
----
-

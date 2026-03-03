@@ -5,80 +5,86 @@ description: "Send your new customers a welcoming message using Gameball's real-
 
 When a new customer signs up for your loyalty program, ensure that they receive a warm welcome to get them started on the journey you have set for them.
 
+---
+
 ## How to Create Real-Time Notifications for New Signups
 
-You can access the notifications' global settings in the **Gameball Admin Dashboard**.
+<Steps>
+  <Step title="Navigate to Welcome Notifications">
+    In the **Gameball Admin Dashboard**, from the left bar, click **Notifications**. Choose between **In-App, Emails, & SMS**. Scroll to **Welcome** and select **New Signup**.
 
-- From the left bar, Click **Notifications.**
-- Choose between **In-App, Emails, & SMS.**
-- Scroll to **Welcome,** and select **New Signup.**
+    <Frame>
+      ![Welcome navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/welcome-navigation.png)
+    </Frame>
+  </Step>
+  <Step title="Write the Notification Message">
+    Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
+  </Step>
+  <Step title="Configure the New Signup Script">
+    Send real-time notifications for every new signup that takes place. Welcome your new customers and inform them of any details they should know at this stage.
+  </Step>
+  <Step title="Add Script Variables">
+    To send more personalized, relevant, and clearer notifications, add variables in between your messages by clicking the **+ icon**.
 
-<Frame>
-![Welcome navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/welcome-navigation.png)
-</Frame>
+    <Frame>
+      ![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables-welcome.png)
+    </Frame>
 
-Start writing the message itself. Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to Write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
+    You can use variables in the scripts like the ones below:
 
-## Script Update for New Signup Notifications
+    - **Customer Variables:** First Name, Last Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link.
+    - **Variables:** Currency, Points Name.
+  </Step>
+  <Step title="Preview and Update Notification Icon">
+    Before activating the notification, click **Preview** on the top right of the edit page to see what the notification will look like for customers.
 
-You can add the transaction notifications script for all notifications through this page:
+    <Frame>
+      ![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification-welcome.png)
+    </Frame>
 
-### New Signup
+    You can edit the notification icon by choosing **Upload Icon**, then click **Upload Icon**.
 
-Send real-time transaction notifications for every new signup that takes place. Welcome your new customers and inform them of any details they should know at this stage.
+    <Frame>
+      ![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog-welcome.png)
+    </Frame>
 
-### Script Variables for Cashback Notifications
+    <Frame>
+      ![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview-welcome.png)
+    </Frame>
 
-To send more personalized, more relevant, and clearer notifications, add variables in between your messages by clicking the **+ icon**.
+    Click **Update** from the bottom right.
+  </Step>
+  <Step title="Activate the Notification">
+    Enable or disable the notification through the **Active Toggle**.
 
-<Frame>
-![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables-welcome.png)
-</Frame>
+    <Frame>
+      ![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle-welcome.png)
+    </Frame>
 
-You can use variables in the scripts like the ones below:
-
-- **Customer Variables:** First Name, Last Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link.
-- **Variables:** Currency, Points Name.
-
-### Preview and Change Notification Icon
-
-Before activating the notification, you might need to take a look at what the notification will look like for customers. You can easily do so by clicking **Preview** on the top right of the edit page.
-
-<Frame>
-![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification-welcome.png)
-</Frame>
-
-When clicking on preview, you will be able to see what the notification looks like for customers. You can edit the notification icon and upload one by choosing **Upload Icon**, then click **Upload Icon**.
-
-<Frame>
-![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog-welcome.png)
-</Frame>
-
-<Frame>
-![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview-welcome.png)
-</Frame>
-
-Click **Update** from the bottom right.
-
-### Status Update for Cashback Notifications
-
-You can enable or disable the notification through the **Active Toggle**.
-
-<Frame>
-![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle-welcome.png)
-</Frame>
-
-<Note>
-Do not forget to click on "**Save**" before you exit.
-</Note>
+    <Note>
+    Do not forget to click on "**Save**" before you exit.
+    </Note>
+  </Step>
+</Steps>
 
 ---
 
-## What else?
+## Related Articles
 
-- [Send Real-Time Notifications for Tier Program](/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications)
-- [Send Real-Time Notifications for Completing a Rewards Campaign](/product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications)
-- [Send Real-Time Notifications for Referrals](/product-documentation/instant-notifications/real-time-notifications-per-program/referral-notifications)
-- [Send Real-Time Notifications for Transactional Rewards](/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications)
-- [Sending Customers Emails Celebrating Achievements](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails)
-
+<CardGroup cols={2}>
+  <Card title="Send Real-Time Notifications for Tiers" icon="layer-group" href="/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications">
+    Notify customers when they level up to a new tier in your loyalty program.
+  </Card>
+  <Card title="Send Real-Time Notifications for Reward Campaigns" icon="trophy" href="/product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications">
+    Keep customers informed of reward campaign unlocks, progress, and achievements.
+  </Card>
+  <Card title="Send Real-Time Notifications for Referrals" icon="people-arrows" href="/product-documentation/instant-notifications/real-time-notifications-per-program/referral-notifications">
+    Alert customers when a referral is successful or when a referral reward is earned.
+  </Card>
+  <Card title="Send Real-Time Notifications for Transactional Rewards" icon="coins" href="/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications">
+    Notify customers about points redemption, refunds, and expiry events.
+  </Card>
+  <Card title="Sending Customers Emails Celebrating Achievements" icon="envelope" href="/product-documentation/instant-notifications/email-notifications/sending-achievement-emails">
+    Send achievement emails to drive customers back to your platform.
+  </Card>
+</CardGroup>

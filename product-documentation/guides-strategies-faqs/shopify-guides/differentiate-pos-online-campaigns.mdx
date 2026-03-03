@@ -3,32 +3,41 @@ title: "How Do I Differentiate Between Reward Campaigns Through POS and Online S
 description: "A quick guide on how to give different rewards based on the channel used by your customers."
 ---
 
-**Platform**
+## Plan Availability
 
-**Plan**
+| Platform | Plan |
+|---|---|
+| Shopify | All Plans |
 
-Shopify
+<Info>This article applies to the [Reward Campaigns program](/product-documentation/rewards-campaigns/reward-campaign-intro) only.</Info>
 
-All Plans
+If you want to give your customers different reward campaigns based on the used channel — whether an order has been placed online on a Shopify store or through Shopify POS — you will be able to do this through the `place_order` event.
 
-**This article applies to the [Reward Campaigns program](/product-documentation/rewards-campaigns/reward-campaign-intro) only.**
-
-If you want to give your customers different rewards campaigns based on the used channel, whether this order has been placed online on a Shopify store or through Shopify POS, you will be able to do this through the "place\_order" event.
-
-```
-Read more on how to use events on Shopify.
-```
-
-## Create a Reward Campaign That is Action-Based
-
-While creating a [reward campaign with type **Action-Based**](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign), you can use the "**Source**" key to differentiate between a POS and an Online store.
-
-This key will always return "web" and "POS" to let you differentiate. So, in case you want this campaign applied to both channels, do not use this key and use it to separate both channels.
+<Tip>Read more on [how to use events on Shopify](/product-documentation/guides-strategies-faqs/shopify-guides/using-events) to understand all available event keys.</Tip>
 
 ---
 
-## What else?
+## Using the Source Key to Differentiate Channels
 
-- [How does Gameball work on Shopify POS, and how can customers get rewards?](/product-documentation/guides-strategies-faqs/shopify-guides/use-pos-get-rewards)
-- [How can customers use their Gameball wallet points on Shopify POS?](/product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos)
+While creating a [reward campaign with type **Action-Based**](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign), you can use the **"Source"** key to differentiate between a POS and an Online store.
 
+| Source Value | Channel |
+|---|---|
+| `web` | Online Shopify store |
+| `pos` | Shopify POS (in-store) |
+
+This key will always return `"web"` or `"pos"` to let you differentiate. In case you want this campaign applied to both channels, do not use this key. Use it only to target a specific channel.
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="How Gameball Works on Shopify POS" icon="store" href="/product-documentation/guides-strategies-faqs/shopify-guides/use-pos-get-rewards">
+  Learn how customers can get rewards through Shopify POS.
+</Card>
+
+<Card title="Enable Customers to Spend Points on Shopify POS" icon="coins" href="/product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos">
+  Let customers use their Gameball wallet points during in-store purchases.
+</Card>
+</CardGroup>

@@ -3,93 +3,131 @@ title: "How Do I Set Up Streak Campaign?"
 description: "Make your consistent customers feel special using the streak reward campaign template."
 ---
 
-| Platform | Plan |
-|----------|------|
-| Shopify | Starter, Pro & Guru |
-| Salla | Starter, Pro & Guru |
-| Non-Platform | All |
+## Plan Availability
+
+<Tabs>
+<Tab title="Shopify & Salla">
+| Plan | Available |
+|---|---|
+| Starter | Yes |
+| Pro & Guru | Yes |
+</Tab>
+
+<Tab title="Non-Platform">
+| Plan | Available |
+|---|---|
+| All | Yes |
+</Tab>
+</Tabs>
 
 Streak campaigns help you increase customer engagement by rewarding consecutive actions over time. You can configure streaks based on any customer action, such as purchases, reviews, or visits, and reward customers with points, coupons, or badges as they maintain their streak. This habit-forming campaign keeps your brand top-of-mind and encourages regular interaction.
 
+---
+
 ## How to Create a Streak Campaign
 
-To create a Streak campaign, from the left bar, choose **Reward** under **Campaigns**. Click **Create New Reward Campaign**.
+<Steps>
+<Step title="Navigate to Reward Campaigns">
+  From the left bar, choose **Reward** under **Campaigns**. Click **Create New Reward Campaign**.
 
-<Frame>
-  ![Create streak campaign](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-create.png)
-</Frame>
+  <Frame>
+    ![Create streak campaign](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-create.png)
+  </Frame>
+</Step>
 
-Scroll to choose the **Streak** under **Engagement & Gamification**.
+<Step title="Select the Template">
+  Scroll to choose the **Streak** under **Engagement & Gamification**.
 
-<Frame>
-  ![Select streak template](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-select-template.png)
-</Frame>
+  <Frame>
+    ![Select streak template](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-select-template.png)
+  </Frame>
+</Step>
 
-**Actions Required:**
+<Step title="Configure General Settings">
+  You may follow the steps in this article to configure the general settings of this campaign. [Learn more about setting up a Reward Campaign.](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign)
+</Step>
 
-1. You may follow the steps in this article to configure the general settings of this campaign. [Learn more about setting up a Reward Campaign.](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign)
+<Step title="Select Streak Actions">
+  Select the actions that will count toward the streak. Examples:
 
-2. Select the actions that will count toward the streak. Examples:
-    - Purchases
-    - Reviews
-    - Website visits
+  - Purchases
+  - Reviews
+  - Website visits
+</Step>
 
-3. In the **Rewards** section, set up the streak rewarding system. Let's say for example, you want your customers to get 10 points every day they purchase until the 5th day, then they start getting 20 points daily until the 10th day then they start getting 50 points.
+<Step title="Set Up the Rewards">
+  In the **Rewards** section, set up the streak rewarding system. For example, you might want customers to get 10 points every day they purchase until the 5th day, then 20 points daily until the 10th day, then 50 points thereafter.
 
-<Warning>
-If the customer misses a day, they start over. The streak resets, but milestone badges already earned remain with the customer.
-</Warning>
+  <Warning>
+  If the customer misses a day, they start over. The streak resets, but milestone badges already earned remain with the customer.
+  </Warning>
 
-<Frame>
-  ![Streak rewards configuration](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-rewards.png)
-</Frame>
+  <Frame>
+    ![Streak rewards configuration](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-rewards.png)
+  </Frame>
+</Step>
 
-4. You can also add up to **10 Daily Rewards.** Rewards should increase with longer streaks to encourage continued engagement.
+<Step title="Add Daily Rewards and Badges">
+  You can add up to **10 Daily Rewards**. Rewards should increase with longer streaks to encourage continued engagement.
 
-5. Add the Badges of each streak. _Reminder: badges are awarded when customers reach a milestone and remain permanently, even if the streak resets._
+  Add the Badges of each streak. Badges are awarded when customers reach a milestone and remain permanently, even if the streak resets.
 
-<Frame>
-  ![Streak badges configuration](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-badges.png)
-</Frame>
+  <Frame>
+    ![Streak badges configuration](/images/product-docs/rewards-campaigns/templates/engagement-gamification/streak-badges.png)
+  </Frame>
+</Step>
+</Steps>
 
 ---
 
-## If the Trigger Chosen Is Daily Visits, How Does Gameball Track Customers' Check-ins/Daily Visits?
+## How Gameball Tracks Daily Visits
 
-A **daily visit (check-in)** is recorded when a registered customer interacts with your platform after **midnight (00:00 AM)** in their local time. But what exactly qualifies as a "check-in"?
+If the trigger chosen is **Daily Visits**, here is how Gameball records customer check-ins:
 
-### For Web Visits
+A **daily visit (check-in)** is recorded when a registered customer interacts with your platform after **midnight (00:00 AM)** in their local time.
 
-A customer visit is counted as a daily check-in in any of the following cases:
+<Tabs>
+<Tab title="Web Visits">
+  A customer visit is counted as a daily check-in in any of the following cases:
 
-- The customer is **logged in** and loads any page that includes the **Gameball widget** (typically added via a JavaScript snippet).
-- If the customer is **logged out**, they must **log in** for the visit to count.
-- The platform sends **any event** on behalf of the customer (e.g., a purchase or tier-up event).
-- You **retrieve customer details via the Gameball API** (e.g., calling `Get Customer` endpoint).
+  - The customer is **logged in** and loads any page that includes the **Gameball widget** (typically added via a JavaScript snippet).
+  - If the customer is **logged out**, they must **log in** for the visit to count.
+  - The platform sends **any event** on behalf of the customer (e.g., a purchase or tier-up event).
+  - You **retrieve customer details via the Gameball API** (e.g., calling `Get Customer` endpoint).
 
-<Note>
-If you're not using a built-in Gameball plugin like **Shopify** or **Salla**, make sure the widget is integrated using our JavaScript SDK [guide](https://developer.gameball.co/installing-gameball/web) to ensure proper tracking.
-</Note>
+  <Note>
+  If you're not using a built-in Gameball plugin like **Shopify** or **Salla**, make sure the widget is integrated using our JavaScript SDK [guide](https://developer.gameball.co/installing-gameball/web) to ensure proper tracking.
+  </Note>
+</Tab>
 
-### For Mobile App Visits
+<Tab title="Mobile App Visits">
+  On mobile, a check-in is registered under the following conditions:
 
-On mobile, a check-in is registered under the following conditions:
+  - The customer **clicks on the loyalty program button** to launch the Gameball widget.
+  - The app **initializes the Gameball SDK**, even in the background, when the customer opens the app.
+  - The app sends **any event** related to the customer through Gameball's event tracking.
+  - You **retrieve customer details via the API** (same as on web).
 
-- The customer **clicks on the loyalty program button** to launch the Gameball widget.
-- The app **initializes the Gameball SDK**, even in the background, when the customer opens the app.
-- The app sends **any event** related to the customer through Gameball's event tracking.
-- You **retrieve customer details via the API** (same as on web).
-
-<Note>
-Simply opening the app without triggering the widget or an event **will not** count as a check-in.
-</Note>
+  <Note>
+  Simply opening the app without triggering the widget or an event **will not** count as a check-in.
+  </Note>
+</Tab>
+</Tabs>
 
 ---
 
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+<Card title="Set Up a Reward Campaign" icon="gift" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Learn the full setup process for creating and activating reward campaigns.
+</Card>
+
+<Card title="Reward Types in Gameball" icon="tag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Explore all reward types available and how to configure each one.
+</Card>
+
+<Card title="Notification After Earning a Reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Configure in-app and email notifications triggered when customers earn rewards.
+</Card>
 </CardGroup>

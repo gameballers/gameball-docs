@@ -5,28 +5,34 @@ description: "Learn about the automatically tracked events in Gameball vs events
 
 Gameball offers a set of **standard events** that are automatically tracked and sent by default, without the need for additional technical integration. These events are available out-of-the-box across different platforms and allow you to start capturing valuable customer actions right away.
 
-In contrast, if you'd like to track **custom or advanced events** beyond this list, you can do so using the **Track Event API**, which requires developer integration. This article explains both categories: automatically fired events and events that need to be tracked through the API.
+In contrast, if you'd like to track **custom or advanced events** beyond this list, you can do so using the **Track Event API**, which requires developer integration.
 
 This article will walk you through the list of standard events Gameball fires automatically, along with the platforms where they're supported.
 
-## **Automatically Fired Events**
+---
+
+## Automatically Fired Events
 
 The following events are triggered automatically by Gameball:
 
 | **Event** | **Platform** | **Event Properties** |
 |-----------|-------------|---------------------|
-| place\_order | All platforms (Must be using Gameball Order API) | 'Tag', 'Weight', 'cart\_id', 'collection\_id', 'order\_id', 'product\_category', 'product\_id', 'product\_sku', 'product\_vendor', 'source', 'total\_discount', 'total\_items', 'total\_price', 'unique\_items' |
-| friend\_referred | All platforms (Must be using Gameball Player API) | 'referred\_friend\_id', 'referred\_friend\_name', 'total\_price', 'merchant\_id', 'merchant\_name', 'total\_discount', 'discount\_codes' |
-| order\_refunded | All platforms _(Requires V4 Refund API)_ (Must be using Gameball Order API) | 'refund\_id', 'refunded\_amount', 'refunded\_points', 'order\_id' |
-| view\_product\_page | Shopify / Zid Plugin | For Shopify: 'collection\_id', 'shop\_name', 'customer\_id', 'product\_id', 'product\_title', 'product\_vendor', 'product\_category'<br/><br/>For zid: 'collection\_id', 'customer\_id', 'product\_id', 'product\_title' |
-| checkout\_create | Shopify only | 'total\_price', 'total\_discount', 'total\_items', 'vendor', 'unique\_items', 'product\_id', 'collection\_id', 'cart\_id' |
-| review\_judgeme | Shopify only _(Requires Judge.me App)_ | 'has\_pictures', 'has\_videos', 'product\_id', 'product\_title', 'rating' |
-| write\_review | Salla / Zid | 'product\_id', 'product\_title', 'rating' |
-| add\_to\_cart | Salla | 'cart\_id', 'total\_discount', 'total\_items', 'total\_price', 'total\_unique\_items' |
-| abandoned\_cart | Salla | 'line\_Items', 'source', 'total\_discount', 'total\_items', 'total\_price', 'total\_unique\_items' |
-| points\_redeemed | All Platforms | player\_id, timestamp, redeemed\_points, redeemed\_points\_value, reference\_transaction\_id (if available) |
+| `place_order` | All platforms (Must be using Gameball Order API) | `Tag`, `Weight`, `cart_id`, `collection_id`, `order_id`, `product_category`, `product_id`, `product_sku`, `product_vendor`, `source`, `total_discount`, `total_items`, `total_price`, `unique_items` |
+| `friend_referred` | All platforms (Must be using Gameball Player API) | `referred_friend_id`, `referred_friend_name`, `total_price`, `merchant_id`, `merchant_name`, `total_discount`, `discount_codes` |
+| `order_refunded` | All platforms _(Requires V4 Refund API)_ (Must be using Gameball Order API) | `refund_id`, `refunded_amount`, `refunded_points`, `order_id` |
+| `view_product_page` | Shopify / Zid Plugin | For Shopify: `collection_id`, `shop_name`, `customer_id`, `product_id`, `product_title`, `product_vendor`, `product_category`<br/><br/>For Zid: `collection_id`, `customer_id`, `product_id`, `product_title` |
+| `checkout_create` | Shopify only | `total_price`, `total_discount`, `total_items`, `vendor`, `unique_items`, `product_id`, `collection_id`, `cart_id` |
+| `review_judgeme` | Shopify only _(Requires Judge.me App)_ | `has_pictures`, `has_videos`, `product_id`, `product_title`, `rating` |
+| `write_review` | Salla / Zid | `product_id`, `product_title`, `rating` |
+| `add_to_cart` | Salla | `cart_id`, `total_discount`, `total_items`, `total_price`, `total_unique_items` |
+| `abandoned_cart` | Salla | `line_Items`, `source`, `total_discount`, `total_items`, `total_price`, `total_unique_items` |
+| `points_redeemed` | All Platforms | `player_id`, `timestamp`, `redeemed_points`, `redeemed_points_value`, `reference_transaction_id` (if available) |
 
 <Note>Please note that the above are the only events automatically triggered by Gameball.</Note>
+
+---
+
+## Custom and Advanced Events
 
 While standard events are ready to go, there are many situations where you may want to track specific customer interactions unique to your business. These can include actions that Gameball does not automatically capture, such as engagement with certain features, custom purchase flows, or any other key behaviors you define. [Learn More](/product-documentation/guides-strategies-faqs/supportive-guides/ecommerce-events).
 
@@ -36,11 +42,22 @@ For more information and implementation guidance, check out the official Gamebal
 
 ---
 
-### **Related Articles:**
+## Related Articles
 
-- [What are Customer Events?](/product-documentation/understanding-your-customers/customer-profile/customer-events)
-- [Create and send Events on Gameball](/product-documentation/admin-settings/create-and-send-events)
-- [Events Log](/product-documentation/admin-settings/events-log)
-- [Using Events on Shopify](/product-documentation/guides-strategies-faqs/shopify-guides/using-events)
-- [Events you can create for your E-Commerce website](/product-documentation/guides-strategies-faqs/supportive-guides/ecommerce-events)
+<CardGroup cols={2}>
+<Card title="What are Customer Events?" icon="bolt" href="/product-documentation/understanding-your-customers/customer-profile/customer-events">
+  Understand how customer events are tracked within Gameball.
+</Card>
 
+<Card title="Create and Send Events on Gameball" icon="paper-plane" href="/product-documentation/admin-settings/create-and-send-events">
+  Learn how to configure and send custom events to Gameball.
+</Card>
+
+<Card title="Events Log" icon="list" href="/product-documentation/admin-settings/events-log">
+  Review the full log of events received and processed by Gameball.
+</Card>
+
+<Card title="Using Events on Shopify" icon="shopify" href="/product-documentation/guides-strategies-faqs/shopify-guides/using-events">
+  Deep dive into the Shopify-specific events available in Gameball.
+</Card>
+</CardGroup>

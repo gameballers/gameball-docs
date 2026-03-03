@@ -3,111 +3,121 @@ title: "What Is Third-Party Coupons Through the Gameball Dashboard?"
 description: "Learn how to upload, organize, and manage third-party coupon codes directly from your Gameball dashboard for seamless distribution."
 ---
 
-## Third-Party Coupons Through the Gameball Dashboard
+## Plan Availability
 
-Platfrom
-
-Plan
-
-All
-
-Upon Request ([Contact Support](mailto:support@gameball.co))
+| Platform | Plan |
+|---|---|
+| All | Upon Request ([Contact Support](mailto:support@gameball.co)) |
 
 Gameball allows you to upload and manage third-party coupon codes efficiently through the dashboard. This feature helps you deliver coupon codes to customers automatically and track their redemption without manual work.
 
+---
+
 ## Prerequisites
 
+<Info>
 Ensure you have the necessary permission levels to access this feature. Only users with the roles of **Workspace Owner**, **Admin**, or **Merchant/Branch Manager** can manage third-party coupons.
+</Info>
 
-## Step-by-Step Instructions:
+---
 
-### 1. Create a New Coupon Group
+## Step-by-Step Instructions
 
-- Go to your Gameball dashboard and click **Settings.**
-- Navigate to the **Admin Settings** section.
+<Steps>
+<Step title="Create a New Coupon Group">
+  Go to your Gameball dashboard and click **Settings**, then navigate to the **Admin Settings** section.
 
-<Frame>
-  ![Admin Settings](/images/product-docs/admin-settings/third-party-admin-settings.png)
-</Frame>
+  <Frame>
+    ![Admin Settings](/images/product-docs/admin-settings/third-party-admin-settings.png)
+  </Frame>
 
-- Under the **Coupons** section, click on **3rd Party Coupons**.
+  Under the **Coupons** section, click on **3rd Party Coupons**.
 
-<Frame>
-  ![Third Party Coupons](/images/product-docs/admin-settings/third-party-coupons-menu.png)
-</Frame>
+  <Frame>
+    ![Third Party Coupons](/images/product-docs/admin-settings/third-party-coupons-menu.png)
+  </Frame>
 
-To add a new coupon group, click **Add New Group.**
+  To add a new coupon group, click **Add New Group**.
 
-<Frame>
-  ![Add New Group](/images/product-docs/admin-settings/add-new-group.png)
-</Frame>
+  <Frame>
+    ![Add New Group](/images/product-docs/admin-settings/add-new-group.png)
+  </Frame>
 
-- Enter the following details:
+  Enter the following details and then click **Save**:
+
   - **Name**
   - **Group URL**
   - **Title**
   - **Description**
   - Upload Image under **Group Icon**
-- Then click **Save**.
 
-<Frame>
-  ![Group Details](/images/product-docs/admin-settings/group-details.png)
-</Frame>
+  <Frame>
+    ![Group Details](/images/product-docs/admin-settings/group-details.png)
+  </Frame>
+</Step>
 
-### 2. Upload a CSV File of Coupons
+<Step title="Upload a CSV File of Coupons">
+  Once the coupon group is created, you can upload a CSV file that includes third-party coupon codes. Next to the new coupon group created, click **Upload CSV**.
 
-- Once the coupon group is created, you can upload a CSV file that includes third-party coupon codes.
-- Next to the new coupon group created, click **Upload CSV**.
+  <Frame>
+    ![Upload CSV](/images/product-docs/admin-settings/upload-csv.png)
+  </Frame>
 
-<Frame>
-  ![Upload CSV](/images/product-docs/admin-settings/upload-csv.png)
-</Frame>
+  The CSV file must include the following columns:
 
-- The CSV file must include the following columns:
-  - **Coupon Code** (required)
-  - **Start Date** (optional)
-  - **Expiry Date** (optional)
-  - **Expiry Window** (optional)
-  - **Capping** (optional)
-  - **Minimum Order Value** (optional)
-  - **Combine with Product Discounts** (optional)
-  - **Combine with Order Discounts** (optional)
-  - **Combine with Shipping Discounts** (optional)
-- Upload the file to the respective coupon group.
-- The system will validate your file for any missing or duplicate codes.
-- You will receive an email notification confirming whether the upload was successful or not.
+  | Column | Required |
+  |---|---|
+  | Coupon Code | Required |
+  | Start Date | Optional |
+  | Expiry Date | Optional |
+  | Expiry Window | Optional |
+  | Capping | Optional |
+  | Minimum Order Value | Optional |
+  | Combine with Product Discounts | Optional |
+  | Combine with Order Discounts | Optional |
+  | Combine with Shipping Discounts | Optional |
 
-### 3. Manage Coupon Inventory
+  The system will validate your file for any missing or duplicate codes. You will receive an email notification confirming whether the upload was successful or not.
+</Step>
 
-- Go to the **Coupon Inventory** tab to view all uploaded third-party coupons.
-- The table displays each coupon along with its status:
-  - **Available**: The coupon has not yet been claimed by any customer.
-  - **Used**: The coupon has already been redeemed.
+<Step title="Manage Coupon Inventory">
+  Go to the **Coupon Inventory** tab to view all uploaded third-party coupons. The table displays each coupon along with its status:
 
-### 4. Track Coupon Redemption
+  | Status | Meaning |
+  |---|---|
+  | Available | The coupon has not yet been claimed by any customer |
+  | Used | The coupon has already been redeemed |
+</Step>
 
-- Gameball automatically marks a coupon as **Used** once it is claimed by a customer.
-- You can track redemption statuses directly from the dashboard.
-
-<Note>
-**Important Notes:**
-
-- Ensure your CSV file is correctly formatted to avoid upload issues.
-- Only users with the appropriate permission levels can manage coupons.
-</Note>
-
-## Common Questions:
-
-- **What happens if I upload duplicate coupon codes?**
-
-  - The system will reject duplicates during validation and notify you via email.
-
-- **Can I reuse a coupon code that has been marked as Used?**
-  - No, once a coupon is used, it cannot be reassigned or reused.
+<Step title="Track Coupon Redemption">
+  Gameball automatically marks a coupon as **Used** once it is claimed by a customer. You can track redemption statuses directly from the dashboard.
+</Step>
+</Steps>
 
 ---
 
-## Related Articles:
+## Common Questions
 
-- [Request Coupon Creation from Your Couponing Engine](/product-documentation/admin-settings/request-coupon-creation)
+<AccordionGroup>
+<Accordion title="What happens if I upload duplicate coupon codes?" icon="circle-question">
+  The system will reject duplicates during validation and notify you via email.
+</Accordion>
 
+<Accordion title="Can I reuse a coupon code that has been marked as Used?" icon="circle-question">
+  No, once a coupon is used, it cannot be reassigned or reused.
+</Accordion>
+</AccordionGroup>
+
+<Note>
+Ensure your CSV file is correctly formatted to avoid upload issues. Only users with the appropriate permission levels can manage coupons.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Request Coupon Creation from Your Couponing Engine" icon="gear" href="/product-documentation/admin-settings/request-coupon-creation">
+  Configure Gameball to request coupons from your custom couponing engine.
+</Card>
+</CardGroup>

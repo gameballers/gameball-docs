@@ -15,8 +15,14 @@ Displaying the number of earned points on the Thank You page is an important way
 
 **Benefits:**
 
-- **Increases Loyalty Program Awareness:** By showcasing earned points and offering clear redemption options, customers are reminded of the value of the loyalty program, strengthening their connection with the brand.
-- **Encourages Repeat Purchases:** Seeing how many points they've earned motivates customers to come back and redeem their rewards, which drives repeat purchases and enhances customer retention.
+<CardGroup cols={2}>
+  <Card title="Increases Loyalty Program Awareness" icon="bell">
+    By showcasing earned points and offering clear redemption options, customers are reminded of the value of the loyalty program, strengthening their connection with the brand.
+  </Card>
+  <Card title="Encourages Repeat Purchases" icon="repeat">
+    Seeing how many points they've earned motivates customers to come back and redeem their rewards, which drives repeat purchases and enhances customer retention.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -80,33 +86,39 @@ Displaying the number of earned points on the Thank You page is an important way
 
 ## Logged-In vs. Guest (Not-Logged-In) Customers
 
-- **Not Logged-In Customers:** If you are not logged in, the extension will show the earned points in addition to asking you to log in or register to be able to use your points.
+<Tabs>
+  <Tab title="Not Logged-In Customers">
+    If you are not logged in, the extension will show the earned points in addition to asking you to log in or register to be able to use your points.
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/earn-points-after-checkout-guest.png" alt="Guest customer earned points view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/earn-points-after-checkout-guest.png" alt="Guest customer earned points view" />
+    </Frame>
+  </Tab>
+  <Tab title="Logged-In Customers">
+    When the logged-in customer reaches the thank you page after placing an order, the extension will be displayed, showing the number of points earned from the last order, in addition to a call-to-action that opens the widget on the redemption option to let the user redeem their points.
 
-- **Logged-In Customers:** When the logged-in customer reaches the thank you page after placing an order, the extension will be displayed, showing the number of points earned from the last order, in addition to a call-to-action that opens the widget on the redemption option to let the user redeem their points.
-
-  <Frame>
-    <img src="/images/product-docs/onsite-components/earn-points-after-checkout-logged-in.png" alt="Logged-in customer earned points view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/earn-points-after-checkout-logged-in.png" alt="Logged-in customer earned points view" />
+    </Frame>
+  </Tab>
+</Tabs>
 
 ---
 
 ## Customization
 
-### Style Customization
+<AccordionGroup>
+  <Accordion title="Style Customization" icon="palette">
+    The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+  </Accordion>
+  <Accordion title="Content & Translation" icon="language">
+    In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
 
-The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
-
-### Content & Translation
-
-In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+    </Frame>
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -127,10 +139,10 @@ This extension will automatically hide from your store if:
 ## Frequently Asked Questions
 
 <AccordionGroup>
-  <Accordion title="I downgraded to the Free plan. What will happen to the block?">
+  <Accordion title="I downgraded to the Free plan. What will happen to the block?" icon="circle-question">
     The block will automatically hide once you're on a plan that doesn't support it.
   </Accordion>
-  <Accordion title='What should I do if I clicked on Customize but saw a "There is a problem loading the page" message?'>
+  <Accordion title='What should I do if I clicked on Customize but saw a "There is a problem loading the page" message?' icon="circle-question">
     Please review the prerequisites and ensure all conditions are met. If you still encounter an issue, contact us at [support@gameball.co](mailto:support@gameball.co).
   </Accordion>
 </AccordionGroup>
@@ -147,4 +159,3 @@ This extension will automatically hide from your store if:
     Show potential points directly on product pages.
   </Card>
 </CardGroup>
-

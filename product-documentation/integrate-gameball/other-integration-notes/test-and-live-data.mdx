@@ -3,19 +3,22 @@ title: "What Is the Difference Between Test and Live Data?"
 description: "Test your designed experience through Gameball on your staging/UAT environment before rolling it out on production."
 ---
 
-## What is the difference between test/live data?
+## Test Data vs. Live Data
 
-### Test Data
+<AccordionGroup>
+  <Accordion title="Test Data" icon="flask">
+    These data are the ones used while you are testing your Gameball engagement experience before going live, mostly used by your team. Gameball will give you the ability to test the whole experience you designed on your staging/UAT environment. No need to care about deleting the test data that you have used during the integration cycle.
+  </Accordion>
+  <Accordion title="Live Data" icon="rocket">
+    These data are the ones used once you start going live with Gameball on your platform, with the Gameball engagement experience exposed to your customers according to your configurations.
+  </Accordion>
+</AccordionGroup>
 
-These data are the ones used while you are testing your Gameball engagement experience before going live, mostly used by your team. Gameball will give you the ability to test the whole experience you designed on your staging/UAT environment. No need to care about deleting the test data that you have used during the integration cycle.
+---
 
-### Live Data
+## How to Use the Test/Live Data
 
-These data are the ones used once you start going live with Gameball on your platform, with the Gameball engagement experience exposed to your customers according to your configurations.
-
-## How to use the test/live data?
-
-Your account will have 2 different **API Keys**, one for Test and the other one for Live data. You can access your **API Keys** settings section in Gameball Admin Dashboard through **Settings > Admin Settings > Account Integration**.
+Your account will have 2 different **API Keys** — one for Test and the other for Live data. You can access your **API Keys** settings section in the Gameball Admin Dashboard through **Settings > Admin Settings > Account Integration**.
 
 <Frame caption="API Keys in Account Integration settings">
   ![API Keys settings](/images/product-docs/integrate-gameball/test-live-api-keys.png)
@@ -27,16 +30,22 @@ You will find both your **Live API Key** and **Test API Key**.
 Use **Test API Key** on your staging/UAT environment and **Live API Key** on your production environment.
 </Tip>
 
-## Test/Live data dependency
+---
+
+## Test/Live Data Dependency
 
 Your designed and configured experience will be the same using both API Keys (tiers, campaigns, etc). The only difference will be with the below:
 
-- Analytics section
-- Customers list
-- Customers' Game Plan Achievements
-- Customer Points Transactions
+| Affected Area | Notes |
+|---------------|-------|
+| Analytics section | Tracked separately per environment |
+| Customers list | Separate customer records per environment |
+| Customers' Game Plan Achievements | Independent per environment |
+| Customer Points Transactions | Separate transaction history per environment |
 
-## How to switch between test and live data on the Gameball admin dashboard?
+---
+
+## How to Switch Between Test and Live Data on the Dashboard
 
 You can switch between both live/test data inside the **dashboard** using the **toggle** at the top left section of any page, as shown below.
 
@@ -46,7 +55,7 @@ You can switch between both live/test data inside the **dashboard** using the **
 
 ---
 
-## What else?
+## Related Articles
 
 <CardGroup cols={2}>
   <Card title="Publish Gameball Experience on Your Store" icon="rocket" href="/product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience">
@@ -56,4 +65,3 @@ You can switch between both live/test data inside the **dashboard** using the **
     Introduction to Gameball Analytics.
   </Card>
 </CardGroup>
-

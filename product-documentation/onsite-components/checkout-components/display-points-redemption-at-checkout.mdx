@@ -19,8 +19,14 @@ Offering customers the ability to redeem loyalty points at checkout is a powerfu
 
 **Benefits:**
 
-- **Simplify Redemption:** Providing a direct input field for point redemption at checkout makes it easier for users to apply their rewards, reducing friction.
-- **Increase Reward Utilization:** Displaying the redeem option at checkout encourages customers to use their points, leading to higher reward usage and satisfaction.
+<CardGroup cols={2}>
+  <Card title="Simplify Redemption" icon="hand-pointer">
+    Providing a direct input field for point redemption at checkout makes it easier for users to apply their rewards, reducing friction.
+  </Card>
+  <Card title="Increase Reward Utilization" icon="chart-line">
+    Displaying the redeem option at checkout encourages customers to use their points, leading to higher reward usage and satisfaction.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -81,53 +87,53 @@ Offering customers the ability to redeem loyalty points at checkout is a powerfu
 
 ---
 
-## How it Works
+## How It Works
 
-### Guest Customers
+<Tabs>
+  <Tab title="Guest Customers">
+    If not logged in, customers will see a login prompt to access their balance. Once identified (email entered), the block updates to the logged-in version.
 
-- If not logged in, customers will see a login prompt to access their balance.
-- Once identified (email entered), the block updates to the logged-in version.
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-input-guest.png" alt="Guest customer redeem input view" />
+    </Frame>
+  </Tab>
+  <Tab title="Logged-In Customers">
+    The block displays the total available points as a default in the input field. Customers can enter the desired amount to redeem.
 
-<Frame>
-  <img src="/images/product-docs/onsite-components/checkout-redeem-input-guest.png" alt="Guest customer redeem input view" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-input-logged-in.png" alt="Logged-in customer redeem input view" />
+    </Frame>
 
-### Logged-In Customers
+    After adding the points, the customer clicks on **"Redeem"**, and Gameball will deduct points from the customer's balance and automatically generate a discount code, which is then applied to the order.
 
-- The block displays the total available points as a default in the input field.
-- Customers can enter the desired amount to redeem.
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-input-applied.png" alt="Points redeemed and discount applied" />
+    </Frame>
 
-<Frame>
-  <img src="/images/product-docs/onsite-components/checkout-redeem-input-logged-in.png" alt="Logged-in customer redeem input view" />
-</Frame>
+    If the coupon is not applicable due to conditions like minimum order value, restrictions on combining with other discounts, or other advanced conditions, an error message will appear explaining why the coupon cannot be applied to the cart.
 
-- After adding the points, the customer clicks on **"Redeem"**, and Gameball will deduct points from the customer's balance and automatically generate a discount code, which is then applied to the order.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/checkout-redeem-input-applied.png" alt="Points redeemed and discount applied" />
-</Frame>
-
-- **Error Handling**: If the coupon is not applicable due to conditions like minimum order value, restrictions on combining with other discounts, or other advanced conditions, an error message will appear explaining why the coupon cannot be applied to the cart.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/checkout-redeem-input-error.png" alt="Redeem input error message" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-input-error.png" alt="Redeem input error message" />
+    </Frame>
+  </Tab>
+</Tabs>
 
 ---
 
 ## Customization
 
-### Style Customization
+<AccordionGroup>
+  <Accordion title="Style Customization" icon="palette">
+    The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+  </Accordion>
+  <Accordion title="Content & Translation" icon="language">
+    In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
 
-The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
-
-### Content & Translation
-
-In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+    </Frame>
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -147,13 +153,13 @@ The block will automatically hide if:
 ## Frequently Asked Questions
 
 <AccordionGroup>
-  <Accordion title='I clicked on Customize but saw a "There is a problem loading the page" message. What is the issue?'>
+  <Accordion title='I clicked on Customize but saw a "There is a problem loading the page" message. What is the issue?' icon="circle-question">
     Please review the prerequisites and ensure all conditions are met. If you still encounter an issue, contact us at [support@gameball.co](mailto:support@gameball.co).
   </Accordion>
-  <Accordion title="I downgraded to the Free plan. What will happen to the block?">
+  <Accordion title="I downgraded to the Free plan. What will happen to the block?" icon="circle-question">
     The block will automatically hide once you're on a plan that doesn't support it.
   </Accordion>
-  <Accordion title="What happens if the customer redeems points but doesn't use the coupon?">
+  <Accordion title="What happens if the customer redeems points but doesn't use the coupon?" icon="circle-question">
     If the customer redeems points but does not use the generated coupon immediately, they can access the coupon later through the widget. The coupon will remain available for future use, but it cannot be reverted to points.
   </Accordion>
 </AccordionGroup>
@@ -170,4 +176,3 @@ The block will automatically hide if:
     Show potential points directly on product pages.
   </Card>
 </CardGroup>
-

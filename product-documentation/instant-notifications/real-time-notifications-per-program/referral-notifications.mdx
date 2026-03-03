@@ -5,88 +5,97 @@ description: "Notify your customers upon a successful referral using Gameball's 
 
 Available for all Gameball customers except for free packages
 
-When a customer refers a friend they will want to know if their referral was completed. It is important to notify your customer instantaneously with a message that tells them their referral was successful. You might also want to send them if they receive a reward for that successful referral.
-
-Follow the steps below to activate real-time notifications for successful referrals.
-
-## How to Create Real-Time Notifications for Referrals
-
-You can access the notifications' global settings in the **Gameball Admin Dashboard**.
-
-- From the left bar, Click **Notifications.**
-- Choose between **In-App, Emails, & SMS.**
-- Scroll to **Referrals,** and select between **Successful Referral** and **Referred Friend Achievement.**
-
-<Frame>
-![Referrals navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/referrals-navigation.png)
-</Frame>
-
-Start writing the message itself. Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to Write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
-
-## Script Updates for Referral Notifications
-
-You can add the transaction notifications script for all notifications through this page:
-
-### 1. Successful Referral Message
-
-Send real-time transaction notifications for every successful referral. Inform your customer when the friend they referred has completed the required action.
-
-### 2. Referred Friend Achievement Message
-
-If you reward your customers when their referral attempt becomes successful, then ensure that your customer receives a real-time notification informing them that they have received an award due to their successful referral attempt.
-
-### Script Variables for Referral Notifications
-
-To send more personalized, more relevant, and clear notifications, add variables in between your messages by clicking the **+ icon**.
-
-<Frame>
-![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables-referral.png)
-</Frame>
-
-You can use variables in the scripts like the ones below:
-
-- **Customer Variables:** First Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link, Points Earned, Tier-up Progress, Points, Points Before, Tier Up total progress, Total Friends Referred.
-- **Referral Variables:** Equivalent value of total points, Equivalent value of earned points, Currency, Points Name, Referral Link, Mobile Referral Link.
-
-### Preview and Change Notification Icon
-
-Before activating the notification, you might need to take a look at what the notification will look like for customers. You can easily do so by clicking **Preview** on the top right of the edit page.
-
-<Frame>
-![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification-referral.png)
-</Frame>
-
-When clicking on preview, you will be able to see what the notification looks like for customers. You can edit the notification icon and upload one by choosing **Upload Icon**, then click **Upload Icon**.
-
-<Frame>
-![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog-referral.png)
-</Frame>
-
-<Frame>
-![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview-referral.png)
-</Frame>
-
-Click **Update** from the bottom right.
-
-### Status Update for Referral Program Notifications
-
-You can enable or disable the notification through the **Active Toggle**.
-
-<Frame>
-![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle-referral.png)
-</Frame>
-
-<Note>
-Do not forget to click on "**Save**" before you exit.
-</Note>
+When a customer refers a friend they will want to know if their referral was completed. It is important to notify your customer instantaneously with a message that tells them their referral was successful. You might also want to send a notification when they receive a reward for that successful referral.
 
 ---
 
-## What else?
+## How to Create Real-Time Notifications for Referrals
 
-- [Send Real-Time Notifications for Tier Program](/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications)
-- [Send Real-Time Notifications for Completing a Rewards Campaign](/product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications)
-- [Send Real-Time Notifications for Cashback](/product-documentation/instant-notifications/real-time-notifications-per-program/cashback-notifications)
-- [Send Real-Time Notifications for Transactional Rewards](/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications)
-- [Sending Customers Emails Celebrating Achievements](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails)
+<Steps>
+  <Step title="Navigate to Referral Notifications">
+    In the **Gameball Admin Dashboard**, from the left bar, click **Notifications**. Choose between **In-App, Emails, & SMS**. Scroll to **Referrals** and select between **Successful Referral** and **Referred Friend Achievement**.
 
+    <Frame>
+      ![Referrals navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/referrals-navigation.png)
+    </Frame>
+  </Step>
+  <Step title="Write the Notification Message">
+    Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
+  </Step>
+  <Step title="Configure the Notification Script">
+    Add your message script for each referral notification type:
+
+    <AccordionGroup>
+      <Accordion title="Successful Referral Message" icon="check-circle">
+        Send real-time transaction notifications for every successful referral. Inform your customer when the friend they referred has completed the required action.
+      </Accordion>
+      <Accordion title="Referred Friend Achievement Message" icon="gift">
+        If you reward your customers when their referral attempt becomes successful, ensure that your customer receives a real-time notification informing them that they have received an award due to their successful referral attempt.
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+  <Step title="Add Script Variables">
+    To send more personalized, relevant, and clear notifications, add variables in between your messages by clicking the **+ icon**.
+
+    <Frame>
+      ![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables-referral.png)
+    </Frame>
+
+    You can use variables in the scripts like the ones below:
+
+    - **Customer Variables:** First Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link, Points Earned, Tier-up Progress, Points, Points Before, Tier Up total progress, Total Friends Referred.
+    - **Referral Variables:** Equivalent value of total points, Equivalent value of earned points, Currency, Points Name, Referral Link, Mobile Referral Link.
+  </Step>
+  <Step title="Preview and Update Notification Icon">
+    Before activating the notification, click **Preview** on the top right of the edit page to see what the notification will look like for customers.
+
+    <Frame>
+      ![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification-referral.png)
+    </Frame>
+
+    You can edit the notification icon by choosing **Upload Icon**, then click **Upload Icon**.
+
+    <Frame>
+      ![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog-referral.png)
+    </Frame>
+
+    <Frame>
+      ![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview-referral.png)
+    </Frame>
+
+    Click **Update** from the bottom right.
+  </Step>
+  <Step title="Activate the Notification">
+    Enable or disable the notification through the **Active Toggle**.
+
+    <Frame>
+      ![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle-referral.png)
+    </Frame>
+
+    <Note>
+    Do not forget to click on "**Save**" before you exit.
+    </Note>
+  </Step>
+</Steps>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Send Real-Time Notifications for Tiers" icon="layer-group" href="/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications">
+    Notify customers when they level up to a new tier in your loyalty program.
+  </Card>
+  <Card title="Send Real-Time Notifications for Reward Campaigns" icon="trophy" href="/product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications">
+    Keep customers informed of reward campaign unlocks, progress, and achievements.
+  </Card>
+  <Card title="Send Real-Time Notifications for Cashback" icon="money-bill-wave" href="/product-documentation/instant-notifications/real-time-notifications-per-program/cashback-notifications">
+    Notify customers of cashback rewards earned or canceled for their transactions.
+  </Card>
+  <Card title="Send Real-Time Notifications for Transactional Rewards" icon="coins" href="/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications">
+    Notify customers about points redemption, refunds, and expiry events.
+  </Card>
+  <Card title="Sending Customers Emails Celebrating Achievements" icon="envelope" href="/product-documentation/instant-notifications/email-notifications/sending-achievement-emails">
+    Send achievement emails to drive customers back to your platform.
+  </Card>
+</CardGroup>

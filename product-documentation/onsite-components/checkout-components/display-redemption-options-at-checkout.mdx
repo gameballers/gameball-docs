@@ -19,8 +19,14 @@ Elevate your customers' checkout experience with Gameball's Redemption Options D
 
 **Benefits:**
 
-- **Boost Reward Usage:** Offering multiple redemption options at checkout motivates customers to redeem their points, increasing overall utilization.
-- **Increase Customer Satisfaction:** Giving customers the flexibility to choose rewards that fit their preferences enhances their satisfaction and loyalty.
+<CardGroup cols={2}>
+  <Card title="Boost Reward Usage" icon="arrow-trend-up">
+    Offering multiple redemption options at checkout motivates customers to redeem their points, increasing overall utilization.
+  </Card>
+  <Card title="Increase Customer Satisfaction" icon="face-smile">
+    Giving customers the flexibility to choose rewards that fit their preferences enhances their satisfaction and loyalty.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -85,47 +91,53 @@ Elevate your customers' checkout experience with Gameball's Redemption Options D
 
 ---
 
-## How it Works
+## How It Works
 
-- **Guest (Not Logged-In) Customers:** For customers who are not logged in, the extension will prompt them to sign in to access their points balance and redeem rewards. Without logging in, you won't be able to view or use your points at checkout.
+<Tabs>
+  <Tab title="Guest (Not Logged-In) Customers">
+    For customers who are not logged in, the extension will prompt them to sign in to access their points balance and redeem rewards. Without logging in, you won't be able to view or use your points at checkout.
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-guest.png" alt="Guest customer redeem dropdown view" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-guest.png" alt="Guest customer redeem dropdown view" />
+    </Frame>
+  </Tab>
+  <Tab title="Logged-In Customers">
+    When a logged-in customer reaches the checkout page, the extension will automatically display, allowing them to view their points balance and choose a reward in exchange for points.
 
-- **Logged-In Customers**: When a logged-in customer reaches the checkout page, the extension will automatically display, allowing them to view their points balance and choose a reward in exchange for points.
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-logged-in.png" alt="Logged-in customer redeem dropdown view" />
+    </Frame>
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-logged-in.png" alt="Logged-in customer redeem dropdown view" />
-  </Frame>
+    After selecting a reward and entering the desired number of points, the customer clicks **'Redeem'**. Gameball will then deduct the points from the customer's balance and automatically generate a discount code, which will be applied to the order.
 
-- **Redeeming Points**: After selecting a reward and entering the desired number of points, the customer clicks **'Redeem'**. Gameball will then deduct the points from the customer's balance and automatically generate a discount code, which will be applied to the order.
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-applied.png" alt="Points redeemed via dropdown" />
+    </Frame>
 
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-applied.png" alt="Points redeemed via dropdown" />
-  </Frame>
+    If the discount code cannot be applied due to specific conditions (e.g., minimum order value not met, restrictions on combining discounts, or other advanced rules), an error message will appear, explaining why the coupon cannot be used with the current cart.
 
-- **Error Handling**: If the discount code cannot be applied due to specific conditions (e.g., minimum order value not met, restrictions on combining discounts, or other advanced rules), an error message will appear, explaining why the coupon cannot be used with the current cart.
-
-  <Frame>
-    <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-error.png" alt="Redeem dropdown error message" />
-  </Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/checkout-redeem-dropdown-error.png" alt="Redeem dropdown error message" />
+    </Frame>
+  </Tab>
+</Tabs>
 
 ---
 
 ## Customization
 
-### Style Customization
+<AccordionGroup>
+  <Accordion title="Style Customization" icon="palette">
+    The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
+  </Accordion>
+  <Accordion title="Content & Translation" icon="language">
+    In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
 
-The checkout extensions have no style customization options. However, you can customize its position by simply dragging and dropping it to your desired location on the checkout page.
-
-### Content & Translation
-
-In the Gameball Dashboard, go to **Widget > Content**. Under the **Onsite** tab, edit the text and customize it for supported languages.
-
-<Frame>
-  <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
-</Frame>
+    <Frame>
+      <img src="/images/product-docs/onsite-components/onsite-content-translation.png" alt="Content and translation settings" />
+    </Frame>
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -145,10 +157,10 @@ The Redemption Options Dropdown will automatically hide if:
 ## Frequently Asked Questions
 
 <AccordionGroup>
-  <Accordion title="What happens if the customer redeems points but doesn't use the coupon?">
+  <Accordion title="What happens if the customer redeems points but doesn't use the coupon?" icon="circle-question">
     If the customer redeems points but does not use the generated coupon immediately, they can access the coupon later through the widget. The coupon will remain available for future use, but it cannot be reverted to points.
   </Accordion>
-  <Accordion title="What happens if I downgrade my plan?">
+  <Accordion title="What happens if I downgrade my plan?" icon="circle-question">
     The dropdown will automatically hide if your plan no longer supports the feature.
   </Accordion>
 </AccordionGroup>
@@ -165,4 +177,3 @@ The Redemption Options Dropdown will automatically hide if:
     Show potential points directly on product pages.
   </Card>
 </CardGroup>
-

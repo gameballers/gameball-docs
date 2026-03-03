@@ -3,13 +3,21 @@ title: "How Do I Set Up Space Shooter?"
 description: "Test your customers' competitiveness and let them win a reward with an engaging game such as Space Shooter."
 ---
 
-| Platform | Plan |
-|----------|------|
-| Shopify | Pro & Guru |
-| Salla | Pro & Guru |
-| Non-Platform | Add-on |
+## Plan Availability
 
-## Intro
+<Tabs>
+<Tab title="Shopify & Salla">
+| Plan | Available |
+|---|---|
+| Pro & Guru | Yes |
+</Tab>
+
+<Tab title="Non-Platform">
+| Plan | Available |
+|---|---|
+| Add-on | Yes |
+</Tab>
+</Tabs>
 
 An interactive gamification tool that boosts engagement and brand awareness. Customers play Space Shooter to win and unlock rewards, driving interaction, visibility, and new revenue opportunities.
 
@@ -17,89 +25,139 @@ An interactive gamification tool that boosts engagement and brand awareness. Cus
   ![Space shooter preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/space-shooter-preview.png)
 </Frame>
 
-## Creation Experience
+---
 
-**How to Set Up**
+## Creating a Space Shooter Campaign
 
-1. Open Gameball
-2. Click **Add Reward Campaign**
-3. Select the **Space Shooter** template
-4. Edit the campaign's setup
-5. Click **Set Live**
+<Steps>
+<Step title="Open Gameball and Create Campaign">
+  Open Gameball and click **Add Reward Campaign**.
+</Step>
 
-**Trigger**
+<Step title="Select the Template">
+  Select the **Space Shooter** template.
+</Step>
 
-- **On Widget:**
-  Customers can access the game through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin playing.
+<Step title="Edit Campaign Setup">
+  Edit the campaign's setup (see configuration sections below).
+</Step>
 
-**Audience**
+<Step title="Go Live">
+  Click **Set Live** to activate the campaign.
+</Step>
+</Steps>
 
-- **Registered Customers:**
-  Customers who have an account on your platform (signed up)
+---
 
-- **Anonymous Customers:**
-  Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
+## Campaign Configuration
 
-  <Note>
-  - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
-  - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
-  </Note>
+<AccordionGroup>
+<Accordion title="Trigger" icon="bolt">
+  - **On Widget:**
+    Customers can access the game through the **Badges** section in the widget. Tapping the badge redirects them to a screen where they can start playing and trigger the campaign to begin playing.
+</Accordion>
 
-- **Specific Customers:**
-  You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+<Accordion title="Audience" icon="users">
+  - **Registered Customers:**
+    Customers who have an account on your platform (signed up)
 
-**Repeatability**
+  - **Anonymous Customers:**
+    Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
 
-- By default, customers can play **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
-- All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+    <Note>
+    - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
+    - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
+    </Note>
 
-<Frame>
-  ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
-</Frame>
+  - **Specific Customers:**
+    You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+</Accordion>
 
-**Platform Visibility**
+<Accordion title="Repeatability" icon="repeat">
+  By default, customers can play **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
 
-You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
+  All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
 
-<Frame>
-  ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
-</Frame>
+  <Frame>
+    ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
+  </Frame>
+</Accordion>
 
-**More Setup**
+<Accordion title="Platform Visibility" icon="desktop">
+  You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
 
+  <Frame>
+    ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
+  </Frame>
+</Accordion>
+</AccordionGroup>
+
+<Info>
 This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+</Info>
+
+---
 
 ## End User Experience
 
-**How it works**
+**How it works:**
 
-1. Customers start by trying to hit the gifts and rewards and intentionally miss the bombs.
-2. Customers win if they reach a certain score before time ends.
-3. The game ends when time ends.
-4. The customer is notified via the widget or email, depending on your configuration, when they earn a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+<Steps>
+<Step title="Shoot Rewards, Avoid Bombs">
+  Customers start by trying to hit the gifts and rewards and intentionally miss the bombs.
+</Step>
+
+<Step title="Reach the Score Target">
+  Customers win if they reach a certain score before time ends.
+</Step>
+
+<Step title="Game Ends">
+  The game ends when time ends.
+</Step>
+
+<Step title="Get Notified">
+  The customer is notified via the widget or email, depending on your configuration, when they earn a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+</Step>
+</Steps>
+
+---
 
 ## Customization
 
-**Content**
-
 You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
 
-- **Banner**
-- **Intro / Main Screen**
-- **Game General Rule:**
-    - **Time Duration**: Set how long each game lasts (e.g., 10s, 20s, 60s).
-    - **Tooltips**: Added help text explaining how time and lives impact gameplay.
-- **Lead Form (if audience set to Anonymous Customers - Not logged in)**
-- **Success Screen**
-- **No Luck Screen**
+<Tabs>
+<Tab title="Banner">
+  Configure the banner that appears in the widget to promote the Space Shooter campaign.
+</Tab>
 
-For each screen, you can tailor the following elements:
+<Tab title="Intro / Main Screen">
+  Set up the main game screen with headlines, descriptions, and call-to-action messages.
+</Tab>
+
+<Tab title="Game General Rules">
+  - **Time Duration**: Set how long each game lasts (e.g., 10s, 20s, 60s).
+  - **Tooltips**: Added help text explaining how time and lives impact gameplay.
+</Tab>
+
+<Tab title="Lead Form">
+  Shown when audience is set to **Anonymous Customers (Not logged in)**. Collect visitor information before gameplay.
+</Tab>
+
+<Tab title="Success / No Luck Screens">
+  Customize the message and visuals shown when a customer wins or does not win.
+</Tab>
+</Tabs>
+
+For each screen, you can tailor:
 
 - **Content**: Edit the headlines, descriptions, and call-to-action messages to match your tone and messaging.
 
 <Frame>
   ![Space shooter customization](/images/product-docs/rewards-campaigns/templates/engagement-gamification/space-shooter-customization.png)
 </Frame>
+
+---
 
 ## Important Note
 
@@ -118,7 +176,15 @@ If a customer no longer belongs to the game's target segment, the game is automa
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+<Card title="Set Up a Reward Campaign" icon="gift" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Learn the full setup process for creating and activating reward campaigns.
+</Card>
+
+<Card title="Reward Types in Gameball" icon="tag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Explore all reward types available and how to configure each one.
+</Card>
+
+<Card title="Notification After Earning a Reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Configure in-app and email notifications triggered when customers earn rewards.
+</Card>
 </CardGroup>

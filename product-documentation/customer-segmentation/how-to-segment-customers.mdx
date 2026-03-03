@@ -9,11 +9,13 @@ description: "Understand how to create and manage customer segments using Gameba
 | Salla | Pro, & Guru |
 | Non-platform clients | Growth & Enterprise |
 
-When creating different segments with specific conditions and rules, you will gain valuable insights into your overall pool of customers and their behavior. This allows you to plan more efficient, data-driven marketing strategies that improve overall performance.
+When creating segments with specific conditions and rules, you gain valuable insights into your customer base and their behavior. This allows you to plan more efficient, data-driven marketing strategies that improve overall performance.
+
+---
 
 ## How to Create Segments
 
-Creating a new segment is simple. Begin by identifying the criteria you want to target from your wide customer base. For instance, you can create a segment for female customers who have been active within the past 30 days and frequently visit a specific product category. Once these rules are configured, Gameball will automatically identify any customer who meets the criteria and add them to the segment.
+Creating a new segment is simple. Begin by identifying the criteria you want to target from your wide customer base. For instance, you can create a segment for female customers who have been active within the past 30 days and frequently visit a specific product category. Once these rules are configured, Gameball automatically identifies any customer who meets the criteria and adds them to the segment.
 
 <Steps>
   <Step title="Open the Gameball Dashboard">
@@ -26,97 +28,100 @@ Creating a new segment is simple. Begin by identifying the criteria you want to 
     Click **Create New Segment**.
 
     <Frame>
-      ![Create new segment button](/images/product-docs/customer-segmentation/create-segment-button.png)
+      <img src="/images/product-docs/customer-segmentation/create-segment-button.png" alt="Create new segment button" />
     </Frame>
   </Step>
   <Step title="Fill in General Information">
     Fill in the segment's general information:
 
-    - **Segment Name**: Use a descriptive name, e.g., _Engaged Customers_.
-    - **Segment Tag Name**: Provide a short label, e.g., _Engaged_.
-    - **Color**: Choose a color for the tag.
+    - **Segment Name:** Use a descriptive name, e.g., _Engaged Customers_.
+    - **Segment Tag Name:** Provide a short label, e.g., _Engaged_.
+    - **Color:** Choose a color for the tag.
 
     <Frame>
-      ![Segment general information](/images/product-docs/customer-segmentation/segment-general-info.png)
+      <img src="/images/product-docs/customer-segmentation/segment-general-info.png" alt="Segment general information" />
     </Frame>
   </Step>
   <Step title="Add Segmentation Rules">
-    Proceed to add segmentation rules.
+    Proceed to add segmentation rules using the rule engine described below.
   </Step>
 </Steps>
+
+---
 
 ## How to Use the Segmentation Rule Engine
 
 You can create a segment using a single or multiple conditions. Begin by creating the first rule.
 
-### Choosing "Customer Attribute"
+<AccordionGroup>
+  <Accordion title="Choosing 'Customer Attribute'" icon="user">
+    When selecting **Customer Attribute**, choose the customer profile data that will determine segment membership.
 
-When selecting **Customer Attribute**, choose the customer profile data that will determine segment membership.
+    <Frame>
+      <img src="/images/product-docs/customer-segmentation/customer-attribute-selection.png" alt="Customer attribute selection" />
+    </Frame>
 
-<Frame>
-  ![Customer attribute selection](/images/product-docs/customer-segmentation/customer-attribute-selection.png)
-</Frame>
+    | Category | Attributes |
+    |---|---|
+    | **Customer Info** | Customer Email, Mobile Number, Gender, Date Of Birth, Customer Creation Date, Customer Join Date, Is Guest Customer, Is Referred, Country, City, Zip Code |
+    | **Engagement** | Score, Points, Tier, Channel, Merchant, Branch, Last Login Date |
+    | **Order Data** | Total Orders Count, Total Amount Spent, Last Order Date, Average Order Value |
+    | **Gameball Tracked** | Last Captured Order Date, Average Captured Order Value, Total Captured Orders, Total Captured Amount Spent |
+    | **Redemption** | Total Redeemed Amount, Total Redemptions, Last Redemption Date, Last Coupon Usage, Last Gameball Coupon Usage |
+    | **Referral** | Total Referrals, Last Referral Date |
+    | **Communication** | Last Message Sent Date, Last Email Sent Date |
+    | **UTM Tracking** | UTM Campaign, UTM Source, UTM Medium, UTM Content, UTM Term |
+    | **Device Info** | Device, Browser, Operating System |
+    | **Product Data** | Product ID, SKU, Category, Collection, Product Title, Quantity Purchased (per product), Price (per line item) |
+    | **Spending** | Total Spent, Orders Count |
 
-Available attributes include:
+    After choosing the attribute, define its metadata values accordingly.
 
-| Category | Attributes |
-|---|---|
-| **Customer Info** | Customer Email, Mobile Number, Gender, Date Of Birth, Customer Creation Date, Customer Join Date, Is Guest Customer, Is Referred, Country, City, Zip Code |
-| **Engagement** | Score, Points, Tier, Channel, Merchant, Branch, Last Login Date |
-| **Order Data** | Total Orders Count, Total Amount Spent, Last Order Date, Average Order Value |
-| **Gameball Tracked** | Last Captured Order Date, Average Captured Order Value, Total Captured Orders, Total Captured Amount Spent |
-| **Redemption** | Total Redeemed Amount, Total Redemptions, Last Redemption Date, Last Coupon Usage, Last Gameball Coupon Usage |
-| **Referral** | Total Referrals, Last Referral Date |
-| **Communication** | Last Message Sent Date, Last Email Sent Date |
-| **UTM Tracking** | UTM Campaign, UTM Source, UTM Medium, UTM Content, UTM Term |
-| **Device Info** | Device, Browser, Operating System |
-| **Product Data** | Product ID, SKU, Category, Collection, Product Title, Quantity Purchased (per product), Price (per line item) |
-| **Spending** | Total Spent, Orders Count |
+    <Note>
+      1. "Total captured orders" is calculated via Gameball, which counts the number of orders sent via the Order API. However, "total amount spent" relies on you sending the total orders of every customer via the API. Choose the correct attribute based on whether you need data from your side or data counted by Gameball.
 
-After choosing the attribute, define its metadata values accordingly.
+      2. All attributes automatically calculated and maintained by Gameball are visually prefixed with **"Gameball"** so you can recognize them amongst your custom attributes sent through API.
+    </Note>
+  </Accordion>
 
-<Note>
-1. "Total captured orders" is calculated via Gameball, which counts the number of orders sent via the Order API. However, the "total amount spent" relies on you sending the total orders of every customer via the API from your side. Therefore, choose the correct attribute based on whether you need the source of data from your side or data counted by Gameball.
+  <Accordion title="Choosing 'Customer Event'" icon="bolt">
+    Events represent actions customers perform on your platform.
 
-2. All attributes that are automatically calculated and maintained by Gameball are visually prefixed with **"Gameball"** so you can recognize them amongst your custom attributes sent through API.
-</Note>
+    To create an event-based segment rule:
 
-### Choosing "Customer Event"
+    1. Select the relevant **Customer Event**.
+    2. Define the **event metadata**.
 
-Events represent actions customers perform on your platform.
+    For example, if the event is "viewing a product," you can filter it to include customers who viewed a product in the _Accessories_ category at least three times.
 
-To create an event-based segment rule:
+    You can also:
 
-1. Select the relevant **Customer Event**.
-2. Define the **event metadata**.
-   Example: If the event is "viewing a product," you can filter it to include customers who viewed a product in the _Accessories_ category at least three times.
+    - Click **Add Event Filter** to add more metadata filters to a single event.
+    - Click **Add Condition** to include multiple conditions under the same rule.
 
-You can also:
+    <Frame>
+      <img src="/images/product-docs/customer-segmentation/add-event-filter.png" alt="Add event filter" />
+    </Frame>
+  </Accordion>
 
-- Click **Add Event Filter** to add more metadata filters to a single event.
-- Click **Add Condition** to include multiple conditions under the same rule.
+  <Accordion title="Choosing 'Order'" icon="bag-shopping">
+    You can create customer segments based on **actual order data**, providing more accurate, real-time customer targeting.
 
-<Frame>
-  ![Add event filter](/images/product-docs/customer-segmentation/add-event-filter.png)
-</Frame>
+    Available order data includes:
 
-### Choosing "Order"
+    - Count
+    - First Occurrence
+    - Last Occurrence
+    - Total Order Value (excluding fully refunded orders)
+    - Order Date Range
+    - Average Order Value
+    - Specific Order Value Ranges
 
-You can create customer segments based on **actual order data**, providing more accurate, real-time customer targeting.
-
-**Order data includes:**
-
-- Count
-- First Occurrence
-- Last Occurrence
-- Total Order Value (excluding fully refunded orders)
-- Order Date Range
-- Average Order Value
-- Specific Order Value Ranges
-
-<Note>
-Fully refunded orders are excluded by default from the calculations.
-</Note>
+    <Note>
+      Fully refunded orders are excluded by default from the calculations.
+    </Note>
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -124,7 +129,7 @@ Fully refunded orders are excluded by default from the calculations.
 
 <AccordionGroup>
   <Accordion title="Can multiple segment conditions include both Customer Attribute and Customer Event at the same time?">
-    Yes. You can combine both customer profile attributes and behavior-based events in one segment. For example, you can create a segment that includes:
+    Yes. You can combine both customer profile attributes and behavior-based events in one segment. For example:
 
     - Female customers
     - Under 50 years old
@@ -133,19 +138,21 @@ Fully refunded orders are excluded by default from the calculations.
 
     This allows for precise targeting using detailed, multi-criteria rules.
   </Accordion>
+
   <Accordion title="How do you create multiple conditions under one segment?">
     After adding the first rule:
 
     1. Click **Add Rule**.
     2. Choose the correlation type between rules:
-        - **AND**: Customers must meet all rules.
-        - **OR**: Customers must meet at least one rule.
+       - **AND:** Customers must meet all rules.
+       - **OR:** Customers must meet at least one rule.
     3. Repeat the rule setup process for each additional rule.
 
     <Frame>
-      ![Add new segment rule](/images/product-docs/customer-segmentation/add-new-segment-rule.png)
+      <img src="/images/product-docs/customer-segmentation/add-new-segment-rule.png" alt="Add new segment rule" />
     </Frame>
   </Accordion>
+
   <Accordion title="Where to find data on existing segments?">
     To view details about an existing segment:
 
@@ -161,9 +168,10 @@ Fully refunded orders are excluded by default from the calculations.
     - A full list of customers in the segment
 
     <Frame>
-      ![Segment details page](/images/product-docs/customer-segmentation/segment-details-page.png)
+      <img src="/images/product-docs/customer-segmentation/segment-details-page.png" alt="Segment details page" />
     </Frame>
   </Accordion>
+
   <Accordion title="How to filter customer segments?">
     **Advanced Filters**
 
@@ -176,22 +184,23 @@ Fully refunded orders are excluded by default from the calculations.
     Multiple filters can be applied together and updated instantly. A **Clear Filters** control restores the full segment list with one click.
 
     <Frame>
-      ![Segment filters](/images/product-docs/customer-segmentation/segment-filters.png)
+      <img src="/images/product-docs/customer-segmentation/segment-filters.png" alt="Segment filters" />
     </Frame>
 
     **Table Sorting**
 
     You can sort segments directly from the table by selecting column headers:
 
-    - **Segment Name** (A-Z / Z-A)
-    - **Creation Date** (Newest / Oldest)
-    - **Customer Count** (High to Low / Low to High)
+    | Column | Sort Options |
+    |--------|-------------|
+    | **Segment Name** | A-Z / Z-A |
+    | **Creation Date** | Newest / Oldest |
+    | **Customer Count** | High to Low / Low to High |
 
     The chosen sorting order remains active until manually reset.
 
     <Frame>
-      ![Segment table sorting](/images/product-docs/customer-segmentation/segment-table-sorting.png)
+      <img src="/images/product-docs/customer-segmentation/segment-table-sorting.png" alt="Segment table sorting" />
     </Frame>
   </Accordion>
 </AccordionGroup>
-

@@ -5,169 +5,191 @@ description: "Your existing customers deserve to be on the Gameball loyalty prog
 
 After integrating Gameball with your platform, you can import the data of the previously existing customers to Gameball in a few easy steps.
 
-## **Step 1:** Export old rewards program data
+---
+
+## Step 1: Export Old Rewards Program Data
 
 All you need to do is head to your current rewards program and ask for your customers' export files.
 
 It is preferable that you collect the following information for every customer:
 
-**For Shopify:**
+<Tabs>
+<Tab title="Shopify">
+| Field | Required |
+|---|---|
+| Customer Email | Mandatory |
+| Birthday | Optional |
+| Customer Points | Optional |
+| Required Tier Name (Level) | Optional |
+</Tab>
 
-- Customer Email \[Mandatory\]
-- Birthday \[Optional\]
-- Customer Points \[Optional\]
-- Required Tier name (Level) \[Optional\]
-
-**For non-Shopify:**
-
-- Customer ID \[Mandatory\] (Could be email address)
-- Customer Email \[Optional\]
-- Birthday \[Optional\]
-- Mobile Number \[Optional\]
-- Customer Points \[Optional\]
-- Required Tier name (Level) \[Optional\]
+<Tab title="Non-Shopify">
+| Field | Required |
+|---|---|
+| Customer ID (could be email address) | Mandatory |
+| Customer Email | Optional |
+| Birthday | Optional |
+| Mobile Number | Optional |
+| Customer Points | Optional |
+| Required Tier Name (Level) | Optional |
+</Tab>
+</Tabs>
 
 Pause your current loyalty program on the old platform, and follow the next step to complete the migration process.
 
-## **Step 2:** Migrate to Gameball
+---
 
-### A. Go to the importing page
+## Step 2: Migrate to Gameball
 
-From **Gameball Admin Dashboard**, go to **Customers > Customers Tab > More > Update/Migrate Customers**
+<Steps>
+<Step title="Go to the Importing Page">
+  From **Gameball Admin Dashboard**, go to **Customers > Customers Tab > More > Update/Migrate Customers**.
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/navigate-update-migrate-customers.png" alt="Navigate to Update/Migrate Customers" />
-</Frame>
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/navigate-update-migrate-customers.png" alt="Navigate to Update/Migrate Customers" />
+  </Frame>
+</Step>
 
-### B. Upload your CSV file
+<Step title="Upload Your CSV File">
+  Choose **CSV** as data source.
 
-Choose **CSV** as data source:
+  <Tabs>
+  <Tab title="Shopify">
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/shopify-csv-upload.png" alt="Shopify CSV Upload" />
+  </Frame>
 
-**For Shopify:**
+  Click on **"CSV."**
+  </Tab>
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/shopify-csv-upload.png" alt="Shopify CSV Upload" />
-</Frame>
+  <Tab title="Non-Shopify">
+  Click on **"Click to upload."**
 
-Click on "**CSV.**"
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/non-shopify-csv-upload.png" alt="Non-Shopify CSV Upload" />
+  </Frame>
+  </Tab>
+  </Tabs>
+</Step>
 
-**For non-Shopify:**
+<Step title="Upload Your Extracted Customers File">
+  Choose the downloaded CSV file and click **Open**.
 
-Click on "**Click to upload.**"
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/select-csv-file.png" alt="Select CSV File" />
+  </Frame>
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/non-shopify-csv-upload.png" alt="Non-Shopify CSV Upload" />
-</Frame>
+  Once the file is read by Gameball, click **Continue**.
 
-### C. Upload your extracted customers file from the previous loyalty engine
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/csv-file-read-continue.png" alt="CSV File Read Continue" />
+  </Frame>
+</Step>
 
-Choose the downloaded CSV file and click **Open**.
+<Step title="Map Your Attributes">
+  In order for Gameball to correctly place the customers' data into their corresponding attributes, you will have to map the CSV file headers with Gameball's requested attributes.
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/select-csv-file.png" alt="Select CSV File" />
-</Frame>
+  For example: if the CSV file has a column titled "Email address," then select this header under **Your File Attribute**, right beside **"Customer Email."** This way Gameball will understand that data under the "Email Address" column should be placed in the **Customer Email** attribute.
 
-Once the file is read by Gameball, click **Continue.**
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/map-attributes.png" alt="Map Attributes" />
+  </Frame>
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/csv-file-read-continue.png" alt="CSV File Read Continue" />
-</Frame>
+  <Note>The only mandatory data/customer attribute is the **Customer Identifier**, which could be placed with the email address if no unique ID/number is assigned to each customer.</Note>
 
-### D. Map your attributes
+  Choose the Tiering-up Recalculation Method by clicking on the **Edit Icon** under **"Tier Name"**:
 
-In order for Gameball to correctly place the customers' data into their corresponding attributes, you will have to map the CSV file headers with Gameball's requested attributes.
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/tier-recalculation-method.png" alt="Tier Recalculation Method" />
+  </Frame>
 
-For example: if the CSV file has a column titled "Email address," then select this header under **Your File Attribute**, right beside **"Customer Email."** This way Gameball will understand that data under the "Email Address" column should be placed in the **Customer Email** attribute and so on.
+  | Option | Description |
+  |---|---|
+  | Re-evaluate on next cycle | Customers will be re-evaluated with the next recalculation cycle based on your tier expiry configuration |
+  | Place in tier forever | Customers are placed into this tier forever with no later evaluation |
+  | Place in tier until a date | Customers are placed into this tier until a specific date |
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/map-attributes.png" alt="Map Attributes" />
-</Frame>
+  If you are adding customers' birth dates, choose the date format under **Date of Birth** that matches the format in the CSV file:
 
-<Note>The only mandatory data/customer attribute is the **Customer Identifier** which could be placed with the email address if no unique id/number is assigned to each customer.</Note>
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/date-format-mapping.png" alt="Date Format Mapping" />
+  </Frame>
 
-- Choose the Tiering-up Recalculation Method by clicking on the **Edit Icon** under **"Tier Name"**
+  Supported formats: `YYYY-MM-DD`, `MM-DD-YYYY`, `DD-MM-YYYY`, `YYYY/MM/DD`, `DD/MM/YYYY`, `MM/DD/YYYY`
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/tier-recalculation-method.png" alt="Tier Recalculation Method" />
-</Frame>
+  Click **Import**.
 
-Choose between:
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/click-import-button.png" alt="Click Import Button" />
+  </Frame>
+</Step>
 
-- Customers will be re-evaluated with the next recalculation cycle based on your tier expiry configuration.
-- Customers are placed into this tier forever with no later evaluation.
-- Customers are placed into this tier till a specific date.
+<Step title="Review Your Errors">
+  If the CSV file you uploaded has unmatching data that doesn't comply with the original format, Gameball will show you the errors that need to be fixed for a successful migration.
 
-- If you are adding the customers' birth dates, choose date format under **Date of Birth** and choose the format that matches the one in the CSV file.
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/review-errors.png" alt="Review Errors" />
+  </Frame>
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/date-format-mapping.png" alt="Date Format Mapping" />
-</Frame>
+  <Note>If there are more than 10 errors in the file, you will need to **download** the error sheet to check all your errors, as you will not see all the errors on the reviewing page.</Note>
 
-Choose between:
+  After fixing all the errors on the sheet, click **re-upload**. If you find that the addressed errors will not cause a problem, click **Submit**.
+</Step>
 
-- YYYY-MM-DD
-- MM-DD-YYYY
-- DD-MM-YYYY
-- YYYY/MM/DD
-- DD/MM/YYYY
-- MM/DD/YYYY
+<Step title="Submit the File to Complete the Migration">
+  If you have fixed all your errors, you can submit your file.
 
-- Click **Import**
+  You will then be redirected to the Customers page, where you will find the list of the new customers added, as well as a sheet of all the existing errors to be downloaded.
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/click-import-button.png" alt="Click Import Button" />
-</Frame>
+  <Note>An email will be sent with the errors sheet to the admin account's registered email.</Note>
 
-### E. Review your Errors
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/migration-complete.png" alt="Migration Complete" />
+  </Frame>
 
-If the CSV file you uploaded has unmatching data that doesn't comply with the original format, Gameball will show you the errors that need to be fixed for a successful migration.
+  The migration/customer update process is now over, and the new customers are now part of your Gameball loyalty program.
 
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/review-errors.png" alt="Review Errors" />
-</Frame>
-
-<Note>If there are more than 10 errors in the file, you will need to **download** the error sheet to check all your errors, as you will not see all the errors on the reviewing page.</Note>
-
-After fixing all the errors on the sheet, click **re-upload**.
-
-If you find that the addressed errors will not cause a problem, click **Submit**.
-
-### F. Submit the File to complete the migration
-
-If you have fixed all your errors, you can submit your file.
-
-You will then be redirected to the Customers page, where you will find the list of the new customers added, as well as a sheet of all the existing errors to be downloaded.
-
-<Note>An email will be sent with the errors sheet to the admin account's registered email.</Note>
-
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/migration-complete.png" alt="Migration Complete" />
-</Frame>
-
-The migration/customer update process is now over, and the new customers are now part of your Gameball loyalty program.
-
-<Warning>
-- If you are a Shopidy user, you can only update the information of existing customers from your customer list that was automatically migrated to Gameball during the integration process. As for non-Shopify users, by following this process, you will be able to migrate your customers or update the information of existing ones.
-- In the case of updating the data of an existing customer, any value in the migration sheet overrides what exists in the system. Ex: if the customer has 300 points in the system and the sheet value for the same customer is 100, the customer's balance will be 100 after the successful migration. If the customer has 0 points on the sheet, the customer's balance will be 0 after migration. If the points cell is empty, the customer balance will be 300.
-</Warning>
-
-## How to migrate guests (customers who are not registered)?
-
-When migrating your customers from other loyalty programs or through a CSV file, some of the customers' data might not be registered. If you still want these customers to be part of your loyalty program, you will have to enable guest customers to integrate them with your loyalty program. [Learn how to integrate your guest customers into your rewards program](/product-documentation/guides-strategies-faqs/supportive-guides/integrate-guest-customers).
-
-## How to extract your current Customer data?
-
-- Go to your **Customers section** on **Gameball Admin Dashboard**
-- On the top right of the page, click **More**, then **Extract**
-
-<Frame>
-  <img src="/images/product-docs/guides-strategies-faqs/extract-customers-data.png" alt="Extract Customers Data" />
-</Frame>
+  <Warning>
+  - If you are a Shopify user, you can only update the information of existing customers from your customer list that was automatically migrated to Gameball during the integration process. As for non-Shopify users, by following this process, you will be able to migrate your customers or update the information of existing ones.
+  - In the case of updating the data of an existing customer, any value in the migration sheet overrides what exists in the system. Example: if the customer has 300 points in the system and the sheet value for the same customer is 100, the customer's balance will be 100 after the successful migration. If the customer has 0 points on the sheet, the customer's balance will be 0 after migration. If the points cell is empty, the customer balance will be 300.
+  </Warning>
+</Step>
+</Steps>
 
 ---
 
-## What else?
+## How to Migrate Guests (Customers Who Are Not Registered)
 
-- [Learn more about your customer's data](/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball)
-- [Common Customer Update/Migration Errors](/product-documentation/guides-strategies-faqs/supportive-guides/customer-update-migration-errors)
+When migrating your customers from other loyalty programs or through a CSV file, some of the customers' data might not be registered. If you still want these customers to be part of your loyalty program, you will have to enable guest customers to integrate them with your loyalty program. [Learn how to integrate your guest customers into your rewards program](/product-documentation/guides-strategies-faqs/supportive-guides/integrate-guest-customers).
 
+---
+
+## How to Extract Your Current Customer Data
+
+<Steps>
+<Step title="Go to the Customers Section">
+  Navigate to your **Customers section** on the **Gameball Admin Dashboard**.
+</Step>
+
+<Step title="Export Your Data">
+  On the top right of the page, click **More**, then **Extract**.
+
+  <Frame>
+    <img src="/images/product-docs/guides-strategies-faqs/extract-customers-data.png" alt="Extract Customers Data" />
+  </Frame>
+</Step>
+</Steps>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Introduction to Customers on Gameball" icon="users" href="/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball">
+  Learn more about how customer data is managed in Gameball.
+</Card>
+
+<Card title="Common Customer Update/Migration Errors" icon="triangle-exclamation" href="/product-documentation/guides-strategies-faqs/supportive-guides/customer-update-migration-errors">
+  Troubleshoot errors that may occur during the customer migration process.
+</Card>
+</CardGroup>

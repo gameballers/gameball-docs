@@ -5,88 +5,99 @@ description: "Notify your customers upon a cashback transaction using Gameball's
 
 Available for all Gameball customers except for free packages
 
-When a customer earns points for completing a purchase they might earn some points back as cashback. It is important to notify your customers instantaneously with a message that informs them of the amount of points they have received for that transaction.
+When a customer earns points for completing a purchase, they might earn some points back as cashback. It is important to notify your customers instantaneously with a message that informs them of the amount of points they have received for that transaction.
 
-The same applies in case points were revoked for a cancellation or a refund. Inform the customer of the canceled cashback points and let them know their current points balance. Follow the steps below to activate real-time notifications for cashback transactions.
-
-## How to Create Real-Time Notifications for Cashback
-
-You can access the notifications' global settings in the **Gameball Admin Dashboard**.
-
-- From the left bar, Click **Notifications.**
-- Choose between **In-App, Emails, & SMS.**
-- Scroll to **Cashback,** and select between **Cashback Rewards** or **Cashback Cancelled.**
-
-<Frame>
-![Cashback notifications navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/cashback-navigation.png)
-</Frame>
-
-Start writing the message itself. Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to Write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
-
-## Script Update for Cashback Notifications
-
-You can add the transaction notifications script for all notifications through this page:
-
-### 1. Cashback Reward Message
-
-Send real-time transaction notifications for every cashback transaction. Inform your customer how many points they have earned just after they have completed a purchase, and with their current points balance.
-
-### 2. Cashback Cancelled
-
-Send a real-time notification to your Customers upon canceling a purchase. If the points earned for a specific purchase have been revoked for any reason, make sure to inform them of how many points have been taken back and what their current points balance is.
-
-### Script Variables for Cashback Notifications
-
-To send more personalized, more relevant, and clear notifications, add variables in between your messages by clicking the **+ icon**.
-
-<Frame>
-![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables.png)
-</Frame>
-
-You can use variables in the scripts like the ones below:
-
-- **Customer Variables:** First Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link, Points Earned, Tier-up Progress, Points, Points Before, Level Up total progress.
-- **Transaction Variables:** Equivalent value of total points, Equivalent value of earned points, Currency, Points Name, Referral Link, Mobile Referral Link, Paid Amount, Merchant Name, Branch Name, Return Days, Available Points, Pending Points.
-
-### Preview and Change Notification Icon
-
-Before activating the notification, you might need to take a look at what the notification will look like for customers. You can easily do so by clicking **Preview** on the top right of the edit page.
-
-<Frame>
-![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification.png)
-</Frame>
-
-When clicking on preview, you will be able to see what the notification looks like for customers. You can edit the notification icon and upload one by choosing **Upload Icon**, then click **Upload Icon**.
-
-<Frame>
-![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog.png)
-</Frame>
-
-<Frame>
-![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview.png)
-</Frame>
-
-Click **Update** from the bottom right.
-
-### Status Update for Cashback Notifications
-
-You can enable or disable the notification through the **Active Toggle**.
-
-<Frame>
-![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle.png)
-</Frame>
-
-<Note>
-Do not forget to click on "**Save**" before you exit.
-</Note>
+The same applies in case points were revoked for a cancellation or a refund. Inform the customer of the canceled cashback points and let them know their current points balance.
 
 ---
 
-## What else?
+## How to Create Real-Time Notifications for Cashback
 
-- [Send Real-Time Notifications for Tier Program](/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications)
-- [Send Real-Time Notifications for Completing a Rewards Campaign](/product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications)
-- [Send Real-Time Notifications for Referrals](/product-documentation/instant-notifications/real-time-notifications-per-program/referral-notifications)
-- [Send Real-Time Notifications for Transactional Rewards](/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications)
-- [Sending Customers Emails Celebrating Achievements](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails)
+<Steps>
+  <Step title="Navigate to Cashback Notifications">
+    In the **Gameball Admin Dashboard**, from the left bar, click **Notifications**. Choose between **In-App, Emails, & SMS**. Scroll to **Cashback** and select between **Cashback Rewards** or **Cashback Cancelled**.
 
+    <Frame>
+      ![Cashback notifications navigation](/images/product-docs/instant-notifications/real-time-notifications-per-program/cashback-navigation.png)
+    </Frame>
+  </Step>
+  <Step title="Write the Notification Message">
+    Construct a heading and a body for the notification. In case you are creating an email notification, write a clear subject line and body. [Learn how to write an email notification](/product-documentation/instant-notifications/email-notifications/sending-achievement-emails).
+  </Step>
+  <Step title="Configure the Notification Script">
+    Add your message script for each cashback notification type:
+
+    <AccordionGroup>
+      <Accordion title="Cashback Reward Message" icon="money-bill-wave">
+        Send real-time transaction notifications for every cashback transaction. Inform your customer how many points they have earned just after they have completed a purchase, along with their current points balance.
+      </Accordion>
+      <Accordion title="Cashback Cancelled" icon="circle-xmark">
+        Send a real-time notification to your customers upon canceling a purchase. If the points earned for a specific purchase have been revoked for any reason, inform them of how many points have been taken back and what their current points balance is.
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+  <Step title="Add Script Variables">
+    To send more personalized, relevant, and clear notifications, add variables in between your messages by clicking the **+ icon**.
+
+    <Frame>
+      ![Script variables](/images/product-docs/instant-notifications/real-time-notifications-per-program/script-variables.png)
+    </Frame>
+
+    You can use variables in the scripts like the ones below:
+
+    - **Customer Variables:** First Name, Display Name, Customer's Email, Referral Link, Mobile Referral Link, Points Earned, Tier-up Progress, Points, Points Before, Level Up total progress.
+    - **Transaction Variables:** Equivalent value of total points, Equivalent value of earned points, Currency, Points Name, Referral Link, Mobile Referral Link, Paid Amount, Merchant Name, Branch Name, Return Days, Available Points, Pending Points.
+  </Step>
+  <Step title="Preview and Update Notification Icon">
+    Before activating the notification, click **Preview** on the top right of the edit page to see what the notification will look like for customers.
+
+    <Frame>
+      ![Preview notification](/images/product-docs/instant-notifications/real-time-notifications-per-program/preview-notification.png)
+    </Frame>
+
+    You can edit the notification icon by choosing **Upload Icon**, then click **Upload Icon**.
+
+    <Frame>
+      ![Upload icon dialog](/images/product-docs/instant-notifications/real-time-notifications-per-program/upload-icon-dialog.png)
+    </Frame>
+
+    <Frame>
+      ![Notification icon preview](/images/product-docs/instant-notifications/real-time-notifications-per-program/notification-icon-preview.png)
+    </Frame>
+
+    Click **Update** from the bottom right.
+  </Step>
+  <Step title="Activate the Notification">
+    Enable or disable the notification through the **Active Toggle**.
+
+    <Frame>
+      ![Active toggle](/images/product-docs/instant-notifications/real-time-notifications-per-program/active-toggle.png)
+    </Frame>
+
+    <Note>
+    Do not forget to click on "**Save**" before you exit.
+    </Note>
+  </Step>
+</Steps>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Send Real-Time Notifications for Tiers" icon="layer-group" href="/product-documentation/instant-notifications/real-time-notifications-per-program/tier-notifications">
+    Notify customers when they level up to a new tier in your loyalty program.
+  </Card>
+  <Card title="Send Real-Time Notifications for Reward Campaigns" icon="trophy" href="/product-documentation/instant-notifications/real-time-notifications-per-program/reward-campaign-notifications">
+    Keep customers informed of reward campaign unlocks, progress, and achievements.
+  </Card>
+  <Card title="Send Real-Time Notifications for Referrals" icon="people-arrows" href="/product-documentation/instant-notifications/real-time-notifications-per-program/referral-notifications">
+    Alert customers when a referral is successful or when a referral reward is earned.
+  </Card>
+  <Card title="Send Real-Time Notifications for Transactional Rewards" icon="coins" href="/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications">
+    Notify customers about points redemption, refunds, and expiry events.
+  </Card>
+  <Card title="Sending Customers Emails Celebrating Achievements" icon="envelope" href="/product-documentation/instant-notifications/email-notifications/sending-achievement-emails">
+    Send achievement emails to drive customers back to your platform.
+  </Card>
+</CardGroup>

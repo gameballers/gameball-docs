@@ -3,13 +3,22 @@ title: "How Do I Set Up Slot Machine?"
 description: "Engage your customers with Gameball's slot machine and ask them to try their luck."
 ---
 
-| Platform | Plan |
-|----------|------|
-| Shopify | Starter, Pro, & Guru |
-| Salla | Starter, Pro, & Guru |
-| Non-Platform | Add-on |
+## Plan Availability
 
-## Intro
+<Tabs>
+<Tab title="Shopify & Salla">
+| Plan | Available |
+|---|---|
+| Starter | Yes |
+| Pro & Guru | Yes |
+</Tab>
+
+<Tab title="Non-Platform">
+| Plan | Available |
+|---|---|
+| Add-on | Yes |
+</Tab>
+</Tabs>
 
 Add excitement to your customer experience with the Slot Machine campaign. This gamified feature lets customers try their luck -- if all three slots align, they win a prize! From discounts and free products to bonus points, the rewards keep them coming back.
 
@@ -17,60 +26,81 @@ Add excitement to your customer experience with the Slot Machine campaign. This 
   ![Slot machine preview](/images/product-docs/rewards-campaigns/templates/engagement-gamification/slot-machine-preview.png)
 </Frame>
 
-## Creation Experience
+---
 
-**How to Set Up**
+## Creating a Slot Machine Campaign
 
-1. Open Gameball
-2. Click **Add Reward Campaign**
-3. Select the **Slot Machine** template
-4. Edit the campaign's setup
-5. Click **Set Live**
+<Steps>
+<Step title="Open Gameball and Create Campaign">
+  Open Gameball and click **Add Reward Campaign**.
+</Step>
 
-**Trigger**
+<Step title="Select the Template">
+  Select the **Slot Machine** template.
+</Step>
 
-- **Machine Banner on Widget:**
-  A banner will display on your widget's homepage. When customers click the banner, they'll be taken to the game screen where they can roll the machine.
+<Step title="Edit Campaign Setup">
+  Edit the campaign's setup (see configuration sections below).
+</Step>
 
-- **Deep Link:**
-  Use the `#gameball-slot` deep link to trigger the slot machine campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+<Step title="Go Live">
+  Click **Set Live** to activate the campaign.
+</Step>
+</Steps>
 
-**Audience**
+---
 
-- **Registered Customers:**
-  Customers who have an account on your platform (signed up)
+## Campaign Configuration
 
-- **Anonymous Customers:**
-  Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
+<AccordionGroup>
+<Accordion title="Trigger" icon="bolt">
+  - **Machine Banner on Widget:**
+    A banner will display on your widget's homepage. When customers click the banner, they'll be taken to the game screen where they can roll the machine.
 
-  <Note>
-  - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
-  - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
-  </Note>
+  - **Deep Link:**
+    Use the `#gameball-slot` deep link to trigger the slot machine campaign from a custom banner or button on your website or app. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+</Accordion>
 
-- **Specific Customers:**
-  You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+<Accordion title="Audience" icon="users">
+  - **Registered Customers:**
+    Customers who have an account on your platform (signed up)
 
-**Repeatability**
+  - **Anonymous Customers:**
+    Visitors browsing anonymously without providing any contact information or identifiable details (not signed up)
 
-- By default, customers can roll the machine **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
-- All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+    <Note>
+    - Visitors can open the game, submit basic information through the lead form, play, and receive rewards, matching the standalone game URL experience.
+    - Widget deep links that open a specific game work for guests as well. The widget would open directly into the game screen and allow participation without login.
+    </Note>
 
-<Frame>
-  ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
-</Frame>
+  - **Specific Customers:**
+    You can choose for a specific selection of customers to participate in this campaign by filtering using segments, tags or customer attributes.
+</Accordion>
 
-**Platform Visibility**
+<Accordion title="Repeatability" icon="repeat">
+  By default, customers can roll the machine **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
 
-You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
+  All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
 
-<Frame>
-  ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
-</Frame>
+  <Frame>
+    ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
+  </Frame>
+</Accordion>
 
-**More Setup**
+<Accordion title="Platform Visibility" icon="desktop">
+  You can choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
 
+  <Frame>
+    ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
+  </Frame>
+</Accordion>
+</AccordionGroup>
+
+<Info>
 This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+</Info>
+
+---
 
 ## Rewards Setup
 
@@ -78,90 +108,115 @@ This template uses the standard reward campaign setup. See the [Generic Setup Gu
   ![Slot machine rewards setup](/images/product-docs/rewards-campaigns/templates/engagement-gamification/slot-machine-rewards.png)
 </Frame>
 
-**Types**
+<AccordionGroup>
+<Accordion title="Reward Types" icon="tag">
+  Choose from any of the reward types supported by Gameball. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
 
-- Choose from any of the reward types supported by Gameball. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
-- Min & Max Rewards Count:
-    - The **minimum** number of rewards allowed is **2**
-    - The **maximum** number of rewards allowed is **8**
+  | Setting | Value |
+  |---|---|
+  | Minimum rewards allowed | 2 |
+  | Maximum rewards allowed | 8 |
+</Accordion>
 
-**Probability**
+<Accordion title="Probability" icon="dice">
+  Enter a numerical value (e.g., 2, 3, 4) to represent the probability of a customer receiving this reward. Every spin is completely independent of the previous ones, and the chance of landing on a specific reward is always the same, no matter how many times the machine has been rolled.
 
-Enter a numerical value (e.g., 2, 3, 4) to represent the probability of a customer receiving this reward. This means that every spin is completely independent of the previous ones, and the chance of landing on a specific reward is always the same, no matter how many times you've spun the machine.
+  - The probability input can accept a value of 0, meaning the reward will not be available.
+  - Probabilities are calculated based on the sum of all assigned probabilities across the rewards.
 
-- The probability input can accept a value of 0, meaning the reward will not be available.
-- Probabilities are calculated based on the sum of all assigned probabilities across the rewards.
+  <Warning>
+  While each reward has a set probability, it doesn't guarantee that all rewards will be won equally over time. Some rewards might appear more often, while others might be less frequent. It's all part of the random nature of the game!
+  </Warning>
 
-<Warning>
-While each reward has a set probability, it doesn't guarantee that all rewards will be won equally over time. Some rewards might appear more often, while others might be less frequent. It's all part of the random nature of the game!
-</Warning>
+  **Example:**
+  - Reward #1: Probability 1
+  - Reward #2: Probability 1
+  - Reward #3: Probability 1
 
-- **Example**:
-    - Reward #1: Probability 1
-    - Reward #2: Probability 1
-    - Reward #3: Probability 1
+  After 100 trials, you might see results like this:
+  - Reward #1: 27 times
+  - Reward #2: 36 times
+  - Reward #3: 37 times
+</Accordion>
 
-    After 100 trials, you might see results like this:
-    - Reward #1: 27 times
-    - Reward #2: 36 times
-    - Reward #3: 37 times
+<Accordion title="Reward Limits" icon="lock">
+  The maximum number of times a specific reward can be claimed by all customers throughout the campaign.
 
-    In another set of 100 trials:
-    - Reward #1: 28 times
-    - Reward #2: 49 times
-    - Reward #3: 23 times
+  - **Optional Feature:** You can choose to add a reward limit when configuring the campaign.
+  - **Tracking Wins:** Gameball will track how many times each reward has been won. After the limit is reached, the reward will still appear on the machine but will no longer be winnable.
+  - **Reward Limit Adjustment:**
+      - **Increase the Limit:** If the new limit is higher, customers can win the reward again.
+      - **Decrease the Limit:** If the new limit is lower, the system will prevent the reward from being won if the initial limit was already reached.
 
-**Reward Limits**
+  **Example:**
+  - Reward 1: Probability 1, Limit: 1
+  - Reward 2: Probability 1, No Limit
+  - Reward 3: Probability 1, No Limit
 
-The maximum number of times a specific reward can be claimed by all customers throughout the campaign.
+  After 10 trials: Reward 1 hits 1 win (limit reached), Reward 2 hits 5 wins, Reward 3 hits 4 wins.
 
-- **Optional Feature:** You can choose to add a reward limit when configuring the campaign.
-- **Tracking Wins:** Gameball will track how many times each reward has been won. After the limit is reached, the reward will still appear on the machine but will no longer be winnable.
-- **Reward Limit Adjustment:** If you adjust the reward limit while the campaign is running:
-    - **Increase the Limit:** If the new limit is higher, customers can win the reward again.
-    - **Decrease the Limit:** If the new limit is lower, the system will prevent the reward from being won if the initial limit was already reached.
-- **Example:**
+  <Note>
+  If all rewards have limits and they are reached, customers will see a "No rewards available at the moment" message.
+  </Note>
+</Accordion>
+</AccordionGroup>
 
-    Reward 1: Probability 1, Limit: 1
-    Reward 2: Probability 1, No Limit
-    Reward 3: Probability 1, No Limit
-
-    After 10 trials, the results might look like this:
-    - Reward 1: 1 win (limit reached)
-    - Reward 2: 5 wins
-    - Reward 3: 4 wins
-
-<Note>
-If all rewards have limits and they are reached, customers will see a "No rewards available at the moment" message.
-</Note>
+---
 
 ## End User Experience
 
-**How it works**
+**How it works:**
 
-1. Customers earn rewards through rolling the machine.
-2. If all three windows match, they win a reward.
-3. Prizes can include discounts, free items, bonus points, and more.
-4. The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+<Steps>
+<Step title="Roll the Machine">
+  Customers earn rewards through rolling the machine.
+</Step>
+
+<Step title="Match All Three Windows">
+  If all three windows match, they win a reward.
+</Step>
+
+<Step title="Receive a Prize">
+  Prizes can include discounts, free items, bonus points, and more.
+</Step>
+
+<Step title="Get Notified">
+  The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+</Step>
+</Steps>
+
+---
 
 ## Customization
 
-**Design & Content**
-
 You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
 
-- **Banner (For game-based campaigns)**
-- **Intro / Main Screen**
-- **Lead Form (if audience set to Anonymous Customers - Not logged in)**
-- **Success Screen**
-- **No Luck Screen**
+<Tabs>
+<Tab title="Banner">
+  Configure the banner that appears in the widget to promote the Slot Machine campaign.
+</Tab>
 
-For each screen, you can tailor the following elements:
+<Tab title="Intro / Main Screen">
+  Set up the main game screen with headlines, descriptions, and call-to-action messages.
+</Tab>
+
+<Tab title="Lead Form">
+  Shown when audience is set to **Anonymous Customers (Not logged in)**. Collect visitor information before gameplay.
+</Tab>
+
+<Tab title="Success Screen">
+  Customize the message and visuals shown when a customer wins.
+</Tab>
+
+<Tab title="No Luck Screen">
+  Configure the message shown when a customer does not win.
+</Tab>
+</Tabs>
+
+For each screen, you can tailor:
 
 - **Branding**: Adjust background colors, text colors, and upload custom artworks.
 - **Content**: Edit the headlines, descriptions, and call-to-action messages to match your tone and messaging.
-
-This allows you to create a fully branded, on-theme experience that aligns with your business identity.
 
 <Frame>
   ![Slot machine customization screens](/images/product-docs/rewards-campaigns/templates/engagement-gamification/slot-machine-customization-1.png)
@@ -171,15 +226,19 @@ This allows you to create a fully branded, on-theme experience that aligns with 
   ![Slot machine customization details](/images/product-docs/rewards-campaigns/templates/engagement-gamification/slot-machine-customization-2.png)
 </Frame>
 
+---
+
 ## Important Notes
 
 ### Fraud Prevention
 
-In the "Slot Machine" campaigns for guests (**Audience is Anonymous/Not Logged-in**), there was a risk of fraud as users can re-enter the campaign by using a new email address, allowing them to gain additional rewards. To address this, the following improvements have been introduced:
+In the "Slot Machine" campaigns for guests (**Audience is Anonymous/Not Logged-in**), the following protections apply:
 
-1. **Single play Per Session:** Guest users can try the game only once per session. After their initial play, they will be prevented from re-trying the same game within the same session. If they attempt to re-enter, a message will display: "You have already spun the Machine."
-2. **Multiple Machines in Campaign:** For campaigns with multiple machines, this restriction applies individually to each machine. Guests can still roll any other machine they haven't tried, but they cannot re-roll the same machine they've already used.
-3. **Session Restriction:** If a guest opens a new browser tab or window after playing, the same "You have already spun the machine" message will appear to ensure consistent limitations across the session.
+| Protection | Description |
+|---|---|
+| **Single Play Per Session** | Guest users can try the game only once per session. If they attempt to re-enter, a message displays: "You have already spun the Machine." |
+| **Multiple Machines in Campaign** | For campaigns with multiple machines, this restriction applies individually to each machine. Guests can still roll any other machine they haven't tried. |
+| **Session Restriction** | If a guest opens a new browser tab or window after playing, the same restriction message will appear. |
 
 <Note>
 **Customer Eligibility**
@@ -211,7 +270,15 @@ Customizing the lead form also allows you to add a hyperlink to the **"terms and
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+<Card title="Set Up a Reward Campaign" icon="gift" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Learn the full setup process for creating and activating reward campaigns.
+</Card>
+
+<Card title="Reward Types in Gameball" icon="tag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Explore all reward types available and how to configure each one.
+</Card>
+
+<Card title="Notification After Earning a Reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Configure in-app and email notifications triggered when customers earn rewards.
+</Card>
 </CardGroup>

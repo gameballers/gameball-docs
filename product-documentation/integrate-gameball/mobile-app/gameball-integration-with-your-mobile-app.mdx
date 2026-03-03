@@ -5,8 +5,12 @@ description: "Start engaging your customers and add a game-like flavor to your m
 
 Before you start the integration, you need to have your **API Key** and **Transaction Key** through your Gameball account. [Read about how you can get your account integration details (API Key & Transaction Key)](/product-documentation/admin-settings/get-api-keys).
 
+---
+
+## Integration Steps
+
 <Steps>
-  <Step title="Install the Gameball customer profile on your mobile app">
+  <Step title="Install the Gameball Customer Profile on Your Mobile App">
     It only takes a few minutes to install the Gameball customer widget on your mobile app. Follow the steps below on our technical docs based on your app:
 
     <Tabs>
@@ -37,30 +41,41 @@ Before you start the integration, you need to have your **API Key** and **Transa
     </Frame>
   </Step>
 
-  <Step title="Configure your Firebase account details on Gameball">
+  <Step title="Configure Your Firebase Account Details on Gameball">
     You must have a Firebase account, and it should be configured on your Gameball Admin Dashboard account through [Configure your Firebase account on Gameball](/product-documentation/admin-settings/configure-firebase-push-notifications).
 
     Configuring your Firebase account on Gameball will allow Gameball to:
 
-    ### Send in-app and push notifications/messages on your app to your customers
+    <AccordionGroup>
+      <Accordion title="Send In-App and Push Notifications on Your App" icon="bell">
+        Deliver real-time messages and push notifications to your customers directly through your mobile app.
 
-    <Frame caption="Push notifications on mobile">
-      ![Push notifications](/images/product-docs/integrate-gameball/mobile-app-push-notifications.png)
-    </Frame>
-
-    ### Generate Gameball referral dynamic links and complete the referral experience on mobile
-
-    This is required if you plan to use the Referral Program.
+        <Frame caption="Push notifications on mobile">
+          ![Push notifications](/images/product-docs/integrate-gameball/mobile-app-push-notifications.png)
+        </Frame>
+      </Accordion>
+      <Accordion title="Generate Gameball Referral Dynamic Links" icon="link">
+        Complete the referral experience on mobile by generating dynamic referral links. This is required if you plan to use the Referral Program.
+      </Accordion>
+    </AccordionGroup>
   </Step>
 
   <Step title="Send Customer Events to Gameball">
     You can track actions your customers take as Customer Events, while logged into your platform only. Sending events will be through the [Send actions (events) API](https://developer.gameball.co/rest-api/events#post-send-events).
 
-    You can use these customer events in the below:
+    You can use these customer events for the following:
 
-    - Create action-based campaigns and rewards. [Read about the events creation engine](/product-documentation/rewards-campaigns/faqs/using-the-event-engine).
-    - Create referral campaigns and rewards. [Read about the referral program](/product-documentation/programs/referral-program/launching-referral-program).
-    - Send customer messages based on events. [Read about how to create and configure your customer messages](/product-documentation/communication-campaigns/introduction-to-communication-campaigns).
+    <CardGroup cols={3}>
+      <Card title="Action-Based Campaigns" icon="trophy">
+        Create action-based campaigns and rewards. [Read about the events creation engine](/product-documentation/rewards-campaigns/faqs/using-the-event-engine).
+      </Card>
+      <Card title="Referral Campaigns" icon="people-arrows">
+        Create referral campaigns and rewards. [Read about the referral program](/product-documentation/programs/referral-program/launching-referral-program).
+      </Card>
+      <Card title="Customer Messages" icon="message">
+        Send customer messages based on events. [Read about how to create and configure your customer messages](/product-documentation/communication-campaigns/introduction-to-communication-campaigns).
+      </Card>
+    </CardGroup>
   </Step>
 
   <Step title="Configure Referral Integration">
@@ -85,8 +100,8 @@ Before you start the integration, you need to have your **API Key** and **Transa
     </Tabs>
   </Step>
 
-  <Step title="Reward your customers based on the paid amount through the Cashback Program">
-    Through the cashback program, for every paid placed order on your mobile app using cash, credit card, PayPal, etc., you can reward your customers **with points** based on a predefined equation. Follow the steps below to complete the integration:
+  <Step title="Reward Your Customers Based on the Paid Amount Through the Cashback Program">
+    Through the cashback program, for every paid placed order on your mobile app using cash, credit card, PayPal, etc., you can reward your customers **with points** based on a predefined equation.
 
     1. Configure the reward equation on the Gameball Admin Dashboard. [Read about the Points earn and redeem settings](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system).
 
@@ -104,11 +119,10 @@ Before you start the integration, you need to have your **API Key** and **Transa
 
 ---
 
-## What is next?
+## Related Articles
 
-<CardGroup cols={1}>
+<CardGroup cols={2}>
   <Card title="Integrate Points Redemption on Your Mobile App" icon="coins" href="/product-documentation/integrate-gameball/mobile-app/integrate-points-redemption-on-your-mobile-app">
     Allow your customers to redeem their points in the form of discount coupons on your platform.
   </Card>
 </CardGroup>
-
