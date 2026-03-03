@@ -9,46 +9,77 @@ description: "Reward customers who shop from selected collections to boost seaso
 | Salla | Starter, Pro, Guru |
 | Non-Platform | All Plans |
 
-## Intro
-
 Use the **_Buy from a Specific Collection_** campaign to promote entire product categories by rewarding customers who shop from selected collections. This is a great way to boost seasonal sales, highlight new arrivals, or push slower-moving inventory by creating targeted incentives for collection-based purchases.
 
 <Frame>
   ![Buy from a specific collection campaign widget](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-from-collection-widget.png)
 </Frame>
 
-## Creation Experience
+---
 
-**How to Set Up**
+## How to Set Up
 
-1. Open Gameball
-2. Click **Add Reward Campaign**
-3. Select **Buy from a Specific Collection** template
-4. Edit the campaign's setup
-5. Click **Set Live**
+<Steps>
+<Step title="Open Gameball">
+  Log in to your Gameball Admin Dashboard.
+</Step>
 
-**Trigger**
+<Step title="Add a New Reward Campaign">
+  Click **Add Reward Campaign**.
+</Step>
 
-1. **Action**: Place Order
-2. **Times**: 1 _(Number of orders required with this condition)_
-3. **Rule**: Add the **Collection ID** to the trigger to define which collection(s) qualify
+<Step title="Select the Template">
+  Select the **Buy from a Specific Collection** template.
+</Step>
+
+<Step title="Edit the Campaign Setup">
+  Configure your campaign's audience, rewards, and other settings.
+</Step>
+
+<Step title="Set Live">
+  Click **Set Live** to activate your campaign.
+</Step>
+</Steps>
+
+---
+
+## Campaign Trigger
+
+The campaign trigger is configured as follows:
+
+1. **Action:** Place Order
+2. **Times:** 1 _(Number of orders required with this condition)_
+3. **Rule:** Add the **Collection ID** to the trigger to define which collection(s) qualify.
 
 <Frame>
   ![Buy from a specific collection trigger setup](/images/product-docs/rewards-campaigns/templates/purchase-order-incentives/buy-from-collection-trigger.png)
 </Frame>
 
-**More Setup**
-
 This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
 
-## End User Experience
+---
 
-**How it works**
+## How It Works for Customers
 
-1. A customer **places an order** that includes at least one product from the configured collection.
-2. Gameball automatically triggers the reward.
-3. The customer receives the reward immediately (points, discount, badge -- based on your setup).
-4. The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+<Steps>
+<Step title="Customer Places an Order">
+  A customer **places an order** that includes at least one product from the configured collection.
+</Step>
+
+<Step title="Reward is Triggered">
+  Gameball automatically triggers the reward.
+</Step>
+
+<Step title="Customer Receives the Reward">
+  The customer receives the reward immediately (points, discount, badge — based on your setup).
+</Step>
+
+<Step title="Reward Notification">
+  The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+</Step>
+</Steps>
+
+---
 
 ## Important Notes
 
@@ -75,7 +106,13 @@ The reward will only trigger if the customer's order includes a product that bel
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Set Up a Reward Campaign" icon="flag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Learn the full setup process for creating and launching reward campaigns.
+  </Card>
+  <Card title="Reward Types in Gameball" icon="gift" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types">
+    Explore the different reward types available in Gameball campaigns.
+  </Card>
+  <Card title="Notification After Earning a Reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Configure how customers are notified when they earn a reward.
+  </Card>
 </CardGroup>

@@ -8,13 +8,9 @@ title: "How Do I Set Up Write a Review (Shopify Flow)?"
 | Salla | Not Available |
 | Non-Platform | Not Available |
 
-## Intro
-
 Shopify Flow is a powerful automation tool that lets you seamlessly connect Gameball Loyalty with other Shopify apps. Use it to build custom workflows and enhance your loyalty program in multiple ways.
 
-**Use Cases:**
-
-Use Shopify Flow templates to reward customers on Gameball based on actions from other apps -- for example, leaving a review on Yotpo.
+Use Shopify Flow templates to reward customers on Gameball based on actions from other apps — for example, leaving a review on Yotpo.
 
 A Shopify Flow workflow consists of three main parts: **Triggers**, **Conditions**, and **Actions**. [Learn more in the full guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
 
@@ -22,49 +18,100 @@ A Shopify Flow workflow consists of three main parts: **Triggers**, **Conditions
   ![Write a review widget](/images/product-docs/rewards-campaigns/templates/social-sharing-reviews/review-widget.png)
 </Frame>
 
-## Creation Experience
+---
 
-**How to Set Up**
+## How to Set Up
 
-**On Gameball**
+<Tabs>
+<Tab title="On Gameball">
 
-1. Open Gameball
-2. Click **Add Reward Campaign**
-3. Choose the "**Write a review**" template tagged with Shopify Flow.
-4. Edit the campaign's setup
-5. Click **Set Live**
-6. After creating your campaign, **copy the Campaign ID**.
+<Steps>
+<Step title="Open Gameball">
+  Log in to your Gameball Admin Dashboard.
+</Step>
 
-<Frame>
-  ![Write a review campaign setup](/images/product-docs/rewards-campaigns/templates/social-sharing-reviews/review.png)
-</Frame>
+<Step title="Add a New Reward Campaign">
+  Click **Add Reward Campaign**.
+</Step>
 
-**Trigger**
+<Step title="Select the Template">
+  Choose the **"Write a review"** template tagged with Shopify Flow.
+</Step>
 
-**On Shopify Flow**
+<Step title="Edit the Campaign Setup">
+  Configure your campaign's audience, rewards, and other settings.
+</Step>
 
-1. From your Shopify admin, go to **Apps** > **Shopify Flow** and click **Create Workflow**.
-2. Choose the app you use for review as the trigger (e.g Yotpo).
-3. **Add the customer email** if the trigger doesn't pass the customer identifier automatically. See the important notes below for more details.
-4. Add the **"Reward a Campaign"** action and paste the **Campaign ID** you copied from the campaign details page.
-5. **Save the workflow** to activate it.
+<Step title="Set Live">
+  Click **Set Live** to activate your campaign.
+</Step>
 
-<Frame>
-  ![Shopify Flow workflow for reviews](/images/product-docs/rewards-campaigns/templates/social-sharing-reviews/yot.png)
-</Frame>
+<Step title="Copy the Campaign ID">
+  After creating your campaign, **copy the Campaign ID** from the campaign details page.
 
-**More Setup**
+  <Frame>
+    ![Write a review campaign setup](/images/product-docs/rewards-campaigns/templates/social-sharing-reviews/review.png)
+  </Frame>
+</Step>
+</Steps>
+
+</Tab>
+<Tab title="On Shopify Flow">
+
+<Steps>
+<Step title="Open Shopify Flow">
+  From your Shopify admin, go to **Apps > Shopify Flow** and click **Create Workflow**.
+</Step>
+
+<Step title="Set the Trigger">
+  Choose the app you use for reviews as the trigger (e.g., Yotpo).
+</Step>
+
+<Step title="Add Customer Email">
+  **Add the customer email** if the trigger doesn't pass the customer identifier automatically. See the Important Notes section below for more details.
+</Step>
+
+<Step title="Add the Gameball Action">
+  Add the **"Reward a Campaign"** action and paste the **Campaign ID** you copied from the Gameball campaign details page.
+</Step>
+
+<Step title="Save the Workflow">
+  **Save the workflow** to activate it.
+
+  <Frame>
+    ![Shopify Flow workflow for reviews](/images/product-docs/rewards-campaigns/templates/social-sharing-reviews/yot.png)
+  </Frame>
+</Step>
+</Steps>
+
+</Tab>
+</Tabs>
 
 This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
 
-## End User Experience
+---
 
-**How it works**
+## How It Works for Customers
 
-1. **Customer leaves a review** (e.g., via Yotpo).
-2. **Shopify Flow triggers the workflow** based on the review response.
-3. **Gameball rewards the customer** with the reward set in the "write a review" campaign.
-4. The customer is notified via the widget or email, depending on your configuration when they earned a reward. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+<Steps>
+<Step title="Customer Leaves a Review">
+  The customer leaves a review (e.g., via Yotpo).
+</Step>
+
+<Step title="Shopify Flow Triggers">
+  Shopify Flow triggers the workflow based on the review response.
+</Step>
+
+<Step title="Gameball Rewards the Customer">
+  Gameball rewards the customer with the reward set in the "write a review" campaign.
+</Step>
+
+<Step title="Reward Notification">
+  The customer is notified via the widget or email, depending on your configuration. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+</Step>
+</Steps>
+
+---
 
 ## Important Notes
 
@@ -78,11 +125,21 @@ When setting up Gameball as an action in Shopify Flow, you may not need to fill 
   ![Shopify Flow email field](/images/product-docs/rewards-campaigns/templates/social-sharing-reviews/dd.png)
 </Frame>
 
+---
+
 ## Related Articles
 
 <CardGroup cols={2}>
-  <Card title="Shopify Flow Guide" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Set up a reward campaign" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Reward types in Gameball" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
-  <Card title="Notification after earning a reward" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign" />
+  <Card title="Shopify Flow Guide" icon="arrow-right-arrow-left" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Learn how to build custom workflows using Shopify Flow with Gameball.
+  </Card>
+  <Card title="Set Up a Reward Campaign" icon="flag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Learn the full setup process for creating and launching reward campaigns.
+  </Card>
+  <Card title="Reward Types in Gameball" icon="gift" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Explore the different reward types available in Gameball campaigns.
+  </Card>
+  <Card title="Notification After Earning a Reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+    Configure how customers are notified when they earn a reward.
+  </Card>
 </CardGroup>
