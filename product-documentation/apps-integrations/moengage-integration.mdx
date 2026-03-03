@@ -1,5 +1,5 @@
 ---
-title: "How Do I Use Gameball on MoEngage?"
+title: "How Do I Integrate MoEngage with Gameball?"
 description: "Enhance Your Customer Engagement with Gameball Integration with MoEngage"
 ---
 
@@ -9,144 +9,115 @@ description: "Enhance Your Customer Engagement with Gameball Integration with Mo
 
 ## Data Import Scenarios
 
-The integration between Gameball and MoEngage ensures that your customer data is always up-to-date in MoEngage. Gameball's customer attributes will be imported into MoEngage whenever a customer is created or performs any action.
+The integration between Gameball and MoEngage ensures that your customer data is always up-to-date. Gameball's customer attributes will be imported into MoEngage whenever a customer is created or performs any action.
 
 <AccordionGroup>
-<Accordion title="Customer Attributes Sync to MoEngage" icon="user">
-  **Trigger:** Upon customer creation, or after any new action by the customer (e.g., achievement, transaction, points expiry).
+<Accordion title="Customer Attributes Sync" icon="users">
+**Trigger:** Upon customer creation or after any new action (e.g., achievement, transaction, points expiry).
 
-  **Description:** Gameball's customer attributes will be imported into MoEngage and updated once a customer is created or performs any action.
+Gameball's customer attributes will be imported and updated in MoEngage automatically. The following data is synced:
 
-  **Imported Data:**
-
-  | Attribute | Attribute |
-  |---|---|
-  | ID | Level Progress |
-  | Email | Progress to achieve next level |
-  | Join Date | Last order awarded points |
-  | Mobile Number | Referral Code |
-  | Birthday | Referral Link |
-  | Gender | Tags |
-  | Country | Segments |
-  | Currency | RFM segments |
-  | Points balance | Latest created coupon |
-  | Pending points | Latest used coupon |
-  | Current level name | Count of rewarded campaigns |
-  | Current level order | Starting Store |
-  | Next Level | Connecting Store |
-  | Next level threshold | Store of First Transaction |
-  | Average Basket | Number of Transactions |
-  | Transactions Amount in the Last Rolling Year | Total Net Amount of Transactions |
-  | Unit per Transaction | Earned Points |
-  | Redeemed Points | Expired Points |
-  | Date of First Transaction | Date of Last Transaction |
+| Category | Attributes |
+|---|---|
+| **Profile** | ID, Email, Join Date, Mobile Number, Birthday, Gender, Country, Currency |
+| **Points** | Points Balance, Pending Points, Earned Points, Redeemed Points, Expired Points |
+| **Tiers** | Current Level Name, Current Level Order, Next Level, Next Level Threshold, Level Progress, Progress to Achieve Next Level |
+| **Orders** | Last Order Awarded Points, Average Basket, Number of Transactions, Transactions Amount (Last Rolling Year), Total Net Amount, Unit per Transaction, Date of First/Last Transaction |
+| **Referrals** | Referral Code, Referral Link |
+| **Coupons** | Latest Created Coupon, Latest Used Coupon |
+| **Segments** | Tags, Segments, RFM Segments |
+| **Other** | Count of Rewarded Campaigns, Starting Store, Connecting Store, Store of First Transaction |
 </Accordion>
 
-<Accordion title="Update & Notify MoEngage with Every Order Placed" icon="bag-shopping">
-  **Trigger:** "Order Placed" Event — Order placed by customer and received by Gameball.
+<Accordion title="Order Placed Event" icon="cart-shopping">
+**Trigger:** Order placed by customer and received by Gameball.
 
-  Once an order is placed by a customer, the following order attribute data is sent to MoEngage:
+Once an order is placed, the following order data is sent to MoEngage:
 
-  - Order ID
-  - Order Date
-  - Total Paid
-  - Total Price
-  - TotalShipping
-  - TotalTax
-  - TotalDiscount
-  - Discount Codes
-  - Extra
-  - Redeemed Amount
-  - Rewarded Points
-  - Equivalent Points Value
+| Attribute | Description |
+|---|---|
+| Order ID | Unique order identifier |
+| Order Date | Date the order was placed |
+| Total Paid | Amount paid by the customer |
+| Total Price | Full order price |
+| Total Shipping | Shipping cost |
+| Total Tax | Tax amount |
+| Total Discount | Discount applied |
+| Discount Codes | Codes used |
+| Redeemed Amount | Points redeemed as currency |
+| Rewarded Points | Points earned from order |
+| Equivalent Points Value | Monetary value of rewarded points |
 </Accordion>
 
-<Accordion title="Update & Notify MoEngage with Every Coupon Created" icon="ticket">
-  **Trigger:** "Coupon Created" Event — Coupon created for the customer.
+<Accordion title="Coupon Created Event" icon="ticket">
+**Trigger:** Coupon created for the customer.
 
-  Once a coupon is created for the customer, the following coupon details will be available on MoEngage linked to the customer's data:
+The following coupon details will be available on MoEngage:
 
-  - Coupon Code
-  - Type
-  - Value
-  - Coupon Name
+- Coupon Code
+- Type
+- Value
+- Coupon Name
 </Accordion>
 
-<Accordion title="Update & Notify MoEngage with Every Coupon Used" icon="check-circle">
-  **Trigger:** "Coupon Used" Event — Customer burnt the coupon while placing an order.
+<Accordion title="Coupon Used Event" icon="receipt">
+**Trigger:** Customer used a coupon while placing an order.
 
-  Once a coupon is used by the customer, the following details will be available on MoEngage:
+The following details will be available on MoEngage:
 
-  - Coupon Code
-  - Type
-  - Value
-  - Order ID
-  - Coupon Name
-  - Channel (POS, Online, etc.)
-  - Order Quantity
+- Coupon Code, Type, Value, Coupon Name
+- Order ID, Order Quantity
+- Channel (POS, Online, etc.)
 </Accordion>
 
-<Accordion title="Update & Notify MoEngage with Every Reward Campaign Achieved" icon="trophy">
-  **Trigger:** "Reward Campaign Achieved" Event — Customer achieved a reward campaign.
+<Accordion title="Reward Campaign Achieved Event" icon="trophy">
+**Trigger:** Customer achieved a reward campaign.
 
-  Once a Reward Campaign is achieved by the customer, the following details will be available on MoEngage:
+The following details will be available on MoEngage:
 
-  - Internal Name
-  - Name
-  - Reward (Points, Points & Score, Coupon Values)
-  - Coupon Type (in case the reward was a coupon)
-  - Equivalent Value of Rewarded points (in case the reward was in the form of points or Points & Score)
-  - Achievement Date
+- Internal Name, Name
+- Reward (Points, Points & Score, Coupon Values)
+- Coupon Type (if the reward was a coupon)
+- Equivalent Value of Rewarded Points
+- Achievement Date
 </Accordion>
 
-<Accordion title="Notify MoEngage upon Points Redemption" icon="coins">
-  **Trigger:** "Points Redeemed" Event — Customer redeemed their saved points.
+<Accordion title="Points Redeemed Event" icon="coins">
+**Trigger:** Customer redeemed their saved points.
 
-  Each `points_redeemed` event includes:
+Each `points_redeemed` event includes:
 
-  - Redeemed points
-  - Redemption amount
-  - Redemption transaction ID (if available)
+- Redeemed Points
+- Redemption Amount
+- Redemption Transaction ID (if available)
 </Accordion>
 
-<Accordion title="Update & Notify MoEngage with Customer Deletion" icon="trash">
-  **Trigger:** Customer was removed from Gameball.
+<Accordion title="Purchase Line Item Event" icon="box">
+**Trigger:** Order received by Gameball.
 
-  Once a customer is deleted from Gameball, after **24 hours** the customer gets deleted from MoEngage.
+An "Item Purchased" event is sent to MoEngage for each line item with the following attributes:
 
-  <Note>
-  You have the option to disable the deletion feature from MoEngage.
-  </Note>
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-26.png" />
-  </Frame>
+- Order ID, Product Title, Product Price, Vendor Name
+- Product ID, Weight, Quantity, SKU
+- Collections Array, Tags Array, Categories Array
+- Any extra attributes added to the object
 </Accordion>
 
-<Accordion title="Notify MoEngage for Each Line Item Purchased" icon="list">
-  **Trigger:** Order received by Gameball.
+<Accordion title="Customer Deletion Sync" icon="user-minus">
+**Trigger:** Customer removed from Gameball.
 
-  Gameball sends an "Item Purchased" event call to MoEngage with all attributes of the item and the order ID:
+Once a customer is deleted from Gameball, the customer gets deleted from MoEngage after **24 hours**.
 
-  - orderId
-  - Product Title
-  - Product Price
-  - Vendor Name
-  - Product ID
-  - Weight
-  - Quantity
-  - SKU
-  - Collections array
-  - Tags array
-  - Categories array
-  - "Extra" — any added attributes to this object will be sent inside the event
+<Note>
+You have the option to disable the deletion feature from MoEngage.
+</Note>
 </Accordion>
 
-<Accordion title="Workspace Information Synced to MoEngage" icon="building">
-  Workspace context is included in both customer events and attributes, giving you greater flexibility in segmentation and personalization.
+<Accordion title="Workspace Information" icon="building">
+Workspace context is included in both customer events and attributes, giving you greater flexibility in segmentation and personalization.
 
-  - **`gameball_workspace`**: A string containing the workspace name or ID.
-  - **Gameball Workspace**: A string attribute storing the associated workspace.
+- **`gameball_workspace`**: a string containing the workspace name or ID.
+- **Gameball Workspace**: a string attribute storing the associated workspace.
 </Accordion>
 </AccordionGroup>
 
@@ -155,52 +126,52 @@ The integration between Gameball and MoEngage ensures that your customer data is
 ## How to Set Up the Integration
 
 <Steps>
-<Step title="Navigate to the App Store on Gameball">
-  From the Gameball dashboard, navigate to the **App Store**.
+<Step title="Navigate to MoEngage in App Store">
+Go to the **App Store** on Gameball's dashboard and select **MoEngage** from the list of available app integrations.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-27.png" />
+</Frame>
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-28.png" />
+</Frame>
 </Step>
 
-<Step title="Select MoEngage">
-  Select **MoEngage** from the list of available app integrations.
+<Step title="Enter API Credentials">
+Enter the **App ID** and **Data API Key** from MoEngage's settings page.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-27.png" />
-  </Frame>
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-28.png" />
-  </Frame>
-</Step>
-
-<Step title="Enter Your MoEngage Credentials">
-  Enter the **App ID and Data API Key** from MoEngage's settings page.
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-29.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-29.png" />
+</Frame>
 </Step>
 
 <Step title="Select Your Data Center">
-  Select your **Data Center**.
+Select your **Data Center**.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-30.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-30.png" />
+</Frame>
 
-  <Note>
-  If you're unsure which data center you're on, you can find your code on your dashboard's URL.
-  </Note>
+<Info>
+If you're unsure which data center you're on, you can find your code in your dashboard's URL.
+</Info>
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-32.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-32.png" />
+</Frame>
 </Step>
 
 <Step title="Complete the Setup">
-  Complete the setup and start leveraging the powerful combination of Gameball and MoEngage for enhanced customer engagement.
+Complete the setup and start leveraging the powerful combination of Gameball and MoEngage.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-31.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-31.png" />
+</Frame>
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-26.png" />
+</Frame>
 </Step>
 </Steps>
 
@@ -210,38 +181,19 @@ The integration between Gameball and MoEngage ensures that your customer data is
 
 Once the data from Gameball is imported into MoEngage, you can leverage it to create more personalized and effective customer engagement strategies:
 
-<AccordionGroup>
-<Accordion title="Personalized Campaigns" icon="envelope">
-  Use customer attributes such as name, email, birthday, and purchase history to create highly personalized marketing campaigns. For instance, send birthday greetings with special discounts or recommend products based on past purchases.
-</Accordion>
-
-<Accordion title="Segmentation" icon="filter">
-  Utilize the synced segments and tags to group customers based on their behavior, preferences, and activity. This allows you to target specific groups with tailored messages, increasing the relevance and impact of your communications.
-</Accordion>
-
-<Accordion title="Event-Triggered Campaigns" icon="bolt">
-  Set up automated campaigns triggered by specific events such as order placement, coupon creation, or coupon usage. For example, send a thank-you email with a reward when a customer places an order or notify them of their new coupon.
-</Accordion>
-
-<Accordion title="Customer Journey Mapping" icon="map">
-  Track and analyze the customer journey using the imported data to identify key touchpoints and optimize your engagement strategies. Understanding how customers interact with your brand at different stages helps in crafting more effective and timely interventions.
-</Accordion>
-
-<Accordion title="Retention Strategies" icon="heart">
-  Monitor points balance, tier progress, and achievements to identify loyal customers and those at risk of churning. Create targeted campaigns to reward loyal customers and re-engage those who have shown signs of inactivity.
-</Accordion>
-</AccordionGroup>
+1. **Personalized Campaigns** - Use customer attributes such as name, email, birthday, and purchase history to create highly personalized marketing campaigns.
+2. **Segmentation** - Utilize synced segments and tags to group customers based on their behavior, preferences, and activity.
+3. **Event-Triggered Campaigns** - Set up automated campaigns triggered by specific events such as order placement, coupon creation, or coupon usage.
+4. **Customer Journey Mapping** - Track and analyze the customer journey using imported data to identify key touchpoints.
+5. **Retention Strategies** - Monitor points balance, tier progress, and achievements to identify loyal customers and those at risk of churning.
 
 ---
 
-## Related Articles
-
 <CardGroup cols={2}>
-<Card title="Gameball on Zapier" icon="zap" href="/product-documentation/apps-integrations/zapier-integration">
-  Connect Gameball with thousands of apps through Zapier workflows.
-</Card>
-
-<Card title="Gameball Apps Integration" icon="grid-2" href="/product-documentation/apps-integrations/introduction-to-apps-integrations">
-  Explore all available app integrations supported by Gameball.
-</Card>
+  <Card title="Gameball on Zapier" icon="bolt" href="/product-documentation/apps-integrations/zapier-integration">
+    Connect Gameball with thousands of apps via Zapier.
+  </Card>
+  <Card title="Apps & Integrations Overview" icon="grid-2" href="/product-documentation/apps-integrations/introduction-to-apps-integrations">
+    Explore all available Gameball integrations.
+  </Card>
 </CardGroup>

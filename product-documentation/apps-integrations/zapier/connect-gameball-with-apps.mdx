@@ -1,13 +1,11 @@
 ---
-title: "What Is Steps to Connect Gameball with a Different App on Zapier?"
+title: "How Do I Connect Gameball with Apps on Zapier?"
 description: "Step by step guide to creating a connection between Gameball and any other app on Zapier."
 ---
 
-Learn how to use Zapier to let Gameball reward your players after completing actions on other apps like subscribing, submitting a survey, reactivating an account, completing payments, etc.
+Learn how to use Zapier to let Gameball reward your players after completing actions on other apps like subscribing, submitting a survey, reactivating an account, completing payments, and more.
 
-<Info>
-A Zap consists of a trigger and an action. Gameball is only working as an action. Read more on [Gameball on Zapier](/product-documentation/apps-integrations/zapier-integration).
-</Info>
+A Zap consists of a trigger and an action. Gameball works as an action. Read more on [Gameball on Zapier](/product-documentation/apps-integrations/zapier-integration).
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-127.png" />
@@ -18,213 +16,160 @@ A Zap consists of a trigger and an action. Gameball is only working as an action
 ## How to Create a Zapier Connection
 
 <Steps>
-<Step title="Choose a Trigger and an Action App">
-  Follow these steps to create a Zap between Gameball and any other app on Zapier:
+<Step title="Choose a Trigger and Action App">
+1. Go to [zapier.com](http://zapier.com).
+2. In the left box, search for any app you want to set as the [trigger app](/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier).
 
-  - Go to [zapier.com](http://zapier.com)
-  - In the left box, search for any app you want to set as the [trigger app](/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier).
+<Info>
+In this guide, we will use **SurveyMonkey** as the trigger app to reward players upon survey form submission. You must be on a paid plan on SurveyMonkey to use this feature.
+</Info>
 
-  In the upcoming steps, we will use **SurveyMonkey** as the trigger app to guide you on how to give players a reward upon survey form submission.
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-128.png" />
+</Frame>
 
-  <Note>
-  In order to use this feature, you must be on a paid plan on SurveyMonkey.
-  </Note>
+3. Search for **Gameball** in the right box.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-128.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-129.png" />
+</Frame>
 
-  - Search for **"Gameball"** in the right box.
+4. Select a trigger, then choose **Send Event** as the Gameball action.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-129.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-130.png" />
+</Frame>
 
-  - Select a trigger, then choose **"Send Event"** to be the selected action Gameball will execute.
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-130.png" />
-  </Frame>
-
-  - Click **Try it**.
+5. Click **Try it**.
 </Step>
 
-<Step title="Configure the Trigger on Zapier">
-  On Zapier, a **trigger** is any event that you want to use to start a Zap. Read more on [triggers](https://zapier.com/help/create/basics/set-up-your-zap-trigger) on Zapier.
+<Step title="Configure the Trigger">
+A **trigger** is any event that starts a Zap. Read more on [triggers](https://zapier.com/help/create/basics/set-up-your-zap-trigger) on Zapier.
 
-  In this use case, the trigger will be done through SurveyMonkey. Make sure that your players submit their email addresses in the survey. The email address submitted must match the one on your platform stored at Gameball.
+In this use case, make sure your players submit their email addresses in the survey. The email address submitted must match the one stored at Gameball.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-131.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-131.png" />
+</Frame>
 
-  <AccordionGroup>
-  <Accordion title="A. Choose App and Event" icon="wand-magic-sparkles">
-    Choose SurveyMonkey app and select Trigger Event as **"New Response Notification"**.
+**A. Choose App and Event** - Select SurveyMonkey and "New Response Notification" as the trigger event.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-132.png" />
-    </Frame>
-  </Accordion>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-132.png" />
+</Frame>
 
-  <Accordion title="B. Choose Account" icon="user">
-    In case you have different SurveyMonkey accounts, choose the one you are expecting campaigns through.
+**B. Choose Account** - Select the SurveyMonkey account you are expecting campaigns through.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-133.png" />
-    </Frame>
-  </Accordion>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-133.png" />
+</Frame>
 
-  <Accordion title="C. Customize Response" icon="pen-to-square">
-    Choose the name of the survey you're expecting the response to.
+**C. Customize Response** - Choose the name of the survey you're expecting the response to.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-134.png" />
-    </Frame>
-  </Accordion>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-134.png" />
+</Frame>
 
-  <Accordion title="D. Choose Collector" icon="inbox">
-    Choose the collector you're expecting this response on.
+**D. Choose Collector** - Choose the collector you're expecting this response on.
 
-    <Note>
-    A collector on SurveyMonkey is a shorthand for describing the way responses are being collected on SurveyMonkey.
-    </Note>
+<Note>
+A collector on SurveyMonkey is a shorthand for describing the way responses are being collected.
+</Note>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-135.png" />
-    </Frame>
-  </Accordion>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-135.png" />
+</Frame>
 
-  <Accordion title="F. Test Trigger & Find Data" icon="flask">
-    Click on **"Test trigger"** to make sure you will find a response and verify your trigger is working fine before customizing your Zap.
+**E. Test Trigger** - Click "Test trigger" to make sure your trigger is working fine before customizing your Zap.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-136.png" />
-    </Frame>
-  </Accordion>
-  </AccordionGroup>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-136.png" />
+</Frame>
 </Step>
 
 <Step title="Configure the Action">
-  An **action** is a job your Zap does once your trigger event occurs. Read more on [actions](https://zapier.com/help/create/basics/set-up-your-zap-action) on Zapier.
+An **action** is a job your Zap does once your trigger event occurs. Read more on [actions](https://zapier.com/help/create/basics/set-up-your-zap-action) on Zapier.
 
-  In this use case, the action will be done on Gameball:
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-137.png" />
+</Frame>
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-137.png" />
-  </Frame>
+**A. Choose App & Event** - Choose Gameball as the app and "Send Event" as the action.
 
-  <AccordionGroup>
-  <Accordion title="A. Choose App & Event" icon="wand-magic-sparkles">
-    Choose App as **Gameball** and Action as **"Send Event"**.
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-138.png" />
+</Frame>
 
-    <Note>
-    This is the only available event.
-    </Note>
+**B. Choose Gameball Account**
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-138.png" />
-    </Frame>
-  </Accordion>
+<Note>
+You might need to add your API key. Learn [where to find your Gameball API key](/product-documentation/admin-settings/get-api-keys).
+</Note>
 
-  <Accordion title="B. Choose Gameball Account" icon="key">
-    <Note>
-    You might need to add your API key. For more info on how to get it, read [Get Your Account Integration Details: API Key and Transaction Key](/product-documentation/admin-settings/get-api-keys).
-    </Note>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-139.png" />
+</Frame>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-139.png" />
-    </Frame>
-  </Accordion>
+**C. Customize Event** - Add the event name, event metadata (if needed), and player email.
 
-  <Accordion title="C. Customize Event" icon="pen-to-square">
-    Add the event name, event metadata (if needed), and player email.
+<Note>
+Make sure you add the name in this format: `appname_eventname`. Leave metadata empty if not needed. Add the player email to choose the player you want to reward.
 
-    <Note>
-    Make sure you add the name in this format: `appname_eventname`. Leave metadata empty if metadata is not needed. Add the player email to choose the player you want to give this reward to.
+If you enter an email for a player that is not already created on Gameball, the player will be created automatically.
+</Note>
 
-    If you enter an email for a player that is not already created on Gameball, this event will not be sent and the player will be created on Gameball.
-    </Note>
-  </Accordion>
+**D. Send Data** - Click **Test & Review** or **Test & Continue**.
 
-  <Accordion title="D. Send Data" icon="paper-plane">
-    Click on **Test & Review** or **Test & Continue**.
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-140.png" />
+</Frame>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-140.png" />
-    </Frame>
+<Warning>
+Without testing the connection between the two apps and solving all errors, the trigger event will not be sent to Gameball, and you will not be able to reward your players even if they complete the required action.
+</Warning>
 
-    <Warning>
-    Without testing the connection between the two apps and resolving all errors, the trigger event will not be sent to Gameball, and you will not be able to reward your players even if they complete the required action.
-    </Warning>
-  </Accordion>
-  </AccordionGroup>
+Finally, click **Turn on Zap**.
 
-  Finally, click **Turn on Zap** and move to configure the challenge on Gameball.
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-141.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-141.png" />
+</Frame>
 </Step>
 
-<Step title="Configure the Challenge on Gameball">
-  Log in to your **Gameball Admin Dashboard**, go to **Programs > Challenges**, and click **Add New Challenge**.
+<Step title="Configure Challenge on Gameball">
+Log in to your **Gameball Admin Dashboard**, go to **Programs > Challenges**, and click **Add New Challenge**.
 
-  <AccordionGroup>
-  <Accordion title="A. Set Challenge Type" icon="list-check">
-    Choose **Event-based** as the challenge type, and click **Next**.
+**A. Set Challenge Type** - Choose **Event-based** as the challenge type and click **Next**.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-142.png" />
-    </Frame>
-  </Accordion>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-142.png" />
+</Frame>
 
-  <Accordion title="B. Set Challenge Details and Rewards" icon="gift">
-    Set the challenge details that will be used internally and displayed to users, including challenge internal name, challenge displayed badge, and displayed information.
+**B. Set Challenge Details and Rewards** - Set the challenge details (internal name, displayed badge, displayed information) and choose the reward size (points and score).
 
-    Choose the points reward for this challenge achievement and the score reward (if you have chosen score as your leveling up method). [Learn more](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods).
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-143.png" />
+</Frame>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-143.png" />
-    </Frame>
-  </Accordion>
+**C. Set Challenge Settings** - Click the **Edit Icon** next to **Challenge Settings** to configure activation, visibility, unlocking, repeatability, and notification settings.
 
-  <Accordion title="C. Set Challenge Settings" icon="gear">
-    Configure the challenge details by clicking the **Edit Icon** next to **Challenge Settings**.
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-144.png" />
+</Frame>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-144.png" />
-    </Frame>
+**D. Set Event Settings** - From the event list, choose the corresponding **Event Name** you added during the "Customize Event" step. Make sure the number of times to complete is **one**.
 
-    - **Activation Settings:** Is this challenge always active for players to achieve?
-    - **Challenge visibility:** Is the challenge displayed on the player widget?
-    - **Unlocking settings:** On which level(s) should this challenge be unlocked?
-    - **Repeatability Settings:** How many times can this challenge be won?
-    - **Player Notification Settings:** Do you want to notify the player when this challenge is achieved?
-    - **Event Notification Settings:** Is the player notified after every action taken that leads to achieving the challenge?
-  </Accordion>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-145.png" />
+</Frame>
 
-  <Accordion title="D. Set Event Settings" icon="bolt">
-    From the event list, choose the corresponding **Event Name** you added during the "Customize Event" step. Select it and make sure the number of times this event must be completed is **one**.
-
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-145.png" />
-    </Frame>
-
-    Finally, review the previously configured steps, go back to make edits if needed, then click **Save**.
-  </Accordion>
-  </AccordionGroup>
-
-  Your players will start earning this challenge upon survey form submission.
+Review the configured steps, make edits if needed, then click **Save**. Your players will start earning this challenge upon survey form submission!
 </Step>
 </Steps>
 
 ---
 
-## Related Articles
-
 <CardGroup cols={2}>
-<Card title="Connecting and Using Zapier With Gameball" icon="zap" href="/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier">
-  Explore Gameball templates on Zapier and learn how Zaps work.
-</Card>
+  <Card title="Connecting and Using Zapier with Gameball" icon="plug" href="/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier">
+    Explore Gameball templates and use cases on Zapier.
+  </Card>
 </CardGroup>

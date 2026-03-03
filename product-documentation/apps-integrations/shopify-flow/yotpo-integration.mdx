@@ -1,27 +1,15 @@
 ---
-title: "What Is Yotpo App Integration Through Shopify Flow?"
+title: "How Do I Integrate Yotpo Through Shopify Flow?"
 description: "Use Gameball's integration with Yotpo through Shopify Flow to reward your customers for their valuable feedback."
 ---
 
 Through Gameball's integration with Yotpo via Shopify Flow, you can automatically reward customers for leaving reviews. This seamless integration enhances customer engagement and loyalty by providing incentives for their valuable feedback.
 
----
-
 ## Benefits
 
-<CardGroup cols={2}>
-<Card title="Increased Engagement" icon="chart-line">
-  More reviews lead to higher interaction with your brand.
-</Card>
-
-<Card title="Strengthened Loyalty" icon="heart">
-  Rewarding customers for their feedback builds stronger relationships.
-</Card>
-
-<Card title="Valuable Insights" icon="magnifying-glass-chart">
-  Gain more insights through increased review volume.
-</Card>
-</CardGroup>
+- **Increased Engagement** - More reviews lead to higher interaction with your brand.
+- **Strengthened Loyalty** - Rewarding customers for their feedback builds stronger relationships.
+- **Valuable Insights** - Gain more insights through increased review volume.
 
 ---
 
@@ -32,52 +20,31 @@ Through Gameball's integration with Yotpo via Shopify Flow, you can automaticall
 </Frame>
 
 <Steps>
-<Step title="Log in to the Gameball Dashboard">
-  Log in to the **Gameball Dashboard**.
+<Step title="Create a Reward Campaign in Gameball">
+1. Log in to the **Gameball Dashboard**.
+2. Navigate to **Campaigns > Rewards > Create New Reward Campaign**.
+3. Select the **Shopify Flows' Write a Review** template under **Social Sharing & Reviews**.
+4. Configure your campaign settings and click **Save**.
+5. Copy the **Campaign ID**.
 </Step>
 
-<Step title="Navigate to Rewards Campaigns Templates">
-  Navigate to the **Rewards Campaigns Templates** page by clicking **Campaigns > Rewards > Create New Reward Campaign**.
-</Step>
-
-<Step title="Select the Shopify Flows Template">
-  Select the **Shopify Flows' Write a Review** Template under **Social Sharing & Reviews**.
-</Step>
-
-<Step title="Configure and Save the Campaign">
-  Configure your campaign settings and click **Save**. Then copy the **Campaign ID**.
-</Step>
-
-<Step title="Create a Workflow in Shopify Flow">
-  Open Shopify Flow and create a new workflow (as per the video above).
-</Step>
-
-<Step title="Set the Yotpo Trigger">
-  Set **Yotpo** as your **trigger**.
-</Step>
-
-<Step title="Configure the Gameball Action">
-  Choose Gameball's **Reward a Campaign** as the **action**. [Learn More](/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow)
-
-  1. Add your customer **email** by clicking on **add variable** (skip the email if the trigger already passes the ID).
-  2. Copy and paste the **Campaign ID** from the campaign details page on Gameball.
-</Step>
-
-<Step title="Activate the Workflow">
-  Activate your workflow and track its impact on customer engagement.
+<Step title="Set Up the Shopify Flow Workflow">
+1. Open Shopify Flow and create a new workflow.
+2. Set **Yotpo** as your **trigger**.
+3. Choose Gameball's **Reward a Campaign** as the **action**. [Learn More](/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow)
+   - Add your customer **email** by clicking **Add variable** (skip the email if the trigger already passes the ID).
+   - Copy and paste the **Campaign ID** from the campaign details page on Gameball.
+4. Activate your workflow and track its impact on customer engagement.
 </Step>
 </Steps>
 
 ---
 
-## Related Articles
-
 <CardGroup cols={2}>
-<Card title="Reviews.io Integration Through Shopify Flow" icon="star" href="/product-documentation/apps-integrations/shopify-flow/reviews-io-integration">
-  Reward customers for Reviews.io reviews using the same Shopify Flow approach.
-</Card>
-
-<Card title="Gameball on Shopify Flow" icon="shopify" href="/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow">
-  Explore all available Gameball triggers and actions in Shopify Flow.
-</Card>
+  <Card title="Gameball on Shopify Flow" icon="shuffle" href="/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow">
+    Learn more about Shopify Flow triggers and actions.
+  </Card>
+  <Card title="Reviews.io via Shopify Flow" icon="star" href="/product-documentation/apps-integrations/shopify-flow/reviews-io-integration">
+    Set up Reviews.io reviews integration.
+  </Card>
 </CardGroup>

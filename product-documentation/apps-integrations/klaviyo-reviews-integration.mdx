@@ -7,9 +7,7 @@ Integrating Klaviyo Reviews with Gameball allows you to automatically receive re
 
 ## Setup Requirements
 
-<Info>
-Ensure the Klaviyo Reviews app is installed in your store before proceeding. [Learn More.](https://apps.shopify.com/klaviyo-reviews)
-</Info>
+Ensure the Klaviyo Reviews app is installed in your store. [Learn More.](https://apps.shopify.com/klaviyo-reviews)
 
 <Frame>
   <img src="/images/product-docs/apps-integrations/apps-integrations-69.png" />
@@ -20,75 +18,75 @@ Ensure the Klaviyo Reviews app is installed in your store before proceeding. [Le
 ## Step-by-Step Integration
 
 <Steps>
-  <Step title="Navigate to the Klaviyo Dashboard">
-    Log in to your Klaviyo account. From the side menu, select the **Flows** tab.
-  </Step>
+<Step title="Navigate to the Klaviyo Dashboard">
+Log in to your Klaviyo account and select the **Flows** tab from the side menu.
+</Step>
 
-  <Step title="Create a New Flow">
-    Click **Create Flow**. Choose **Build Your Own** and enter a name for the flow when prompted.
-  </Step>
+<Step title="Create a New Flow">
+Click **Create Flow**, choose **Build Your Own**, and enter a name for the flow when prompted.
+</Step>
 
-  <Step title="Set Up the Trigger">
-    - Select **Metrics** as the trigger type.
-    - Choose **Klaviyo** as the metric source.
-    - Select **Submitted Review** as the event.
-    - Click **Save**.
+<Step title="Set Up the Trigger">
+1. Select **Metrics** as the trigger type.
+2. Choose **Klaviyo** as the metric source.
+3. Select **Submitted Review** as the event.
+4. Click **Save**.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-70.png" />
-    </Frame>
-  </Step>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-70.png" />
+</Frame>
+</Step>
 
-  <Step title="Configure the Trigger Filter (to Exclude Store Reviews)">
-    To ignore store-level reviews, add a trigger filter:
+<Step title="Configure the Trigger Filter">
+To exclude store-level reviews, add a trigger filter:
 
-    - Click **Add** on the Trigger Filters card.
-    - Select **Add Trigger Filter**.
-    - Set the field `is_store_review` to **false**.
-    - Click **Save**.
+1. Click **Add** on the Trigger Filters card.
+2. Select **Add Trigger Filter**.
+3. Set the field `is_store_review` to **false**.
+4. Click **Save**.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-71.png" />
-    </Frame>
-  </Step>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-71.png" />
+</Frame>
+</Step>
 
-  <Step title="Configure the Action for the Trigger">
-    After setting the trigger, configure the webhook action to send the review event data to Gameball:
+<Step title="Configure the Webhook Action">
+Set up the webhook action to send review event data to Gameball:
 
-    - Select **Webhook Action**.
-    - Set the Destination URL to: `https://api.gameball.co/api/v3/integrations/event`.
-    - Add the following headers:
-      - **ApiKey**: `#{{Gameball API Key}}`
-    - Add the JSON body:
+1. Select **Webhook Action**.
+2. Set the Destination URL to: `https://api.gameball.co/api/v3/integrations/event`
+3. Add the following header:
+   - **ApiKey**: `#{{Gameball API Key}}`
+4. Add the JSON body:
 
-    ```json
-    {
-      "playerUniqueId": "#{{ person.external_id|default:'' }}",
-      "events": {
-        "review_submitted": {
-          "rating": "#{{ event.review_rating|default:'' }}",
-          "productId": "#{{ event.structured_product.id|default:'' }}",
-          "productTitle": "#{{ event.structured_product.product_name|default:'' }}",
-          "hasMedia": "#{{ event.review_has_media|default:'' }}"
-        }
-      }
+```json
+{
+  "playerUniqueId": "#{{ person.external_id|default:'' }}",
+  "events": {
+    "review_submitted": {
+      "rating": "#{{ event.review_rating|default:'' }}",
+      "productId": "#{{ event.structured_product.id|default:'' }}",
+      "productTitle": "#{{ event.structured_product.product_name|default:'' }}",
+      "hasMedia": "#{{ event.review_has_media|default:'' }}"
     }
-    ```
+  }
+}
+```
 
-    - Click **Save**.
+5. Click **Save**.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-72.png" />
-    </Frame>
-  </Step>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-72.png" />
+</Frame>
+</Step>
 
-  <Step title="Set the Flow to Live">
-    After completing the setup, switch the flow to **Live** to start receiving events.
+<Step title="Set the Flow to Live">
+After completing the setup, switch the flow to **Live** to start receiving events.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-73.png" />
-    </Frame>
-  </Step>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-73.png" />
+</Frame>
+</Step>
 </Steps>
 
 ---
@@ -97,31 +95,17 @@ Ensure the Klaviyo Reviews app is installed in your store before proceeding. [Le
 
 With this integration, you can enhance your customer engagement by:
 
-<AccordionGroup>
-  <Accordion title="Reward Customers for Reviews" icon="star">
-    Use Reward Campaigns to automatically grant points, discounts, or other incentives when customers leave a review. This approach not only shows appreciation for customer feedback but also encourages repeat purchases and positive brand advocacy. [Learn More](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign).
-  </Accordion>
-
-  <Accordion title="Automated Follow-Up Messaging" icon="envelope">
-    Create Communication Campaigns that send targeted emails or notifications via Klaviyo in response to customer reviews. You can thank customers for high ratings, provide special offers, or reach out to lower-rated reviews with additional support or exclusive discounts. [Learn More.](/product-documentation/communication-campaigns/create-and-configure-email-campaigns)
-  </Accordion>
-
-  <Accordion title="Review-Triggered Automations" icon="bolt">
-    Incorporate review events as triggers in Automation Campaigns to personalize customer journeys. For instance, automatically add reviewers who gave a high rating to a VIP list or trigger a win-back offer for customers with lower ratings to improve their experience. [Learn More.](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign)
-  </Accordion>
-</AccordionGroup>
-
-With these use cases, you can engage customers thoughtfully, foster loyalty, and create more meaningful interactions based on their feedback, all powered by Gameball and Klaviyo Reviews.
+- **Reward Customers for Reviews** - Use Reward Campaigns to automatically grant points, discounts, or other incentives when customers leave a review. [Learn More](/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign).
+- **Automated Follow-Up Messaging** - Create Communication Campaigns that send targeted emails or notifications in response to customer reviews. [Learn More](/product-documentation/communication-campaigns/create-and-configure-email-campaigns).
+- **Review-Triggered Automations** - Incorporate review events as triggers in Automation Campaigns to personalize customer journeys. [Learn More](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign).
 
 ---
 
-## Related Articles
-
 <CardGroup cols={2}>
-  <Card title="Klaviyo App Integration" icon="envelope-open-text" href="/product-documentation/apps-integrations/klaviyo-integration">
-    Connect Klaviyo with Gameball to sync customer data and trigger campaigns based on loyalty events.
+  <Card title="Klaviyo App Integration" icon="chart-line" href="/product-documentation/apps-integrations/klaviyo-integration">
+    Set up the main Klaviyo integration with Gameball.
   </Card>
-  <Card title="Judge.me App Integration" icon="star" href="/product-documentation/apps-integrations/judge-me-integration">
-    Reward customers for product reviews submitted through Judge.me.
+  <Card title="Judge.me App Integration" icon="gavel" href="/product-documentation/apps-integrations/judge-me-integration">
+    Reward customers for Judge.me reviews.
   </Card>
 </CardGroup>

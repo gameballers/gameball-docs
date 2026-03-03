@@ -3,88 +3,95 @@ title: "How Do I Integrate ActiveCampaign with Gameball?"
 description: "Keep your customers in sync across Gameball and ActiveCampaign, and target them based on your loyalty data."
 ---
 
-Integrating ActiveCampaign with Gameball allows you to target and segment your customers based on how loyal they are to your app.
-
 ## Why Integrate ActiveCampaign with Gameball?
 
-<CardGroup cols={3}>
-  <Card title="Segment Contact Lists" icon="filter">
-    Segment your contact lists based on Gameball customer attributes.
-  </Card>
-  <Card title="Trigger Automations" icon="bolt">
-    Trigger an automation based on Gameball customers' attributes.
-  </Card>
-  <Card title="Personalized Emails" icon="envelope">
-    Send more personalized emails by including Gameball customer information in email templates, such as the customer's current tier.
-  </Card>
-</CardGroup>
+This integration allows you to target and segment your customers based on how loyal they are to your app. With this integration, you can:
+
+- **Segment your contact lists** based on Gameball customer attributes.
+- **Trigger automations** based on Gameball customer attributes.
+- **Send personalized emails** by including Gameball customer information in email templates, such as the customer's current tier.
 
 ---
 
 ## How to Configure ActiveCampaign on Gameball
 
 <Steps>
-  <Step title="Navigate to Integrations">
-    Go to **Integrations** on your **Gameball Admin Dashboard**.
+<Step title="Connect ActiveCampaign">
+Go to **Integrations** on your **Gameball Admin Dashboard** and click **Connect** under **ActiveCampaign**.
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-1.png" />
-    </Frame>
-  </Step>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-1.png" />
+</Frame>
+</Step>
 
-  <Step title="Connect ActiveCampaign">
-    Click **Connect** under **ActiveCampaign**. Install ActiveCampaign from the Shopify App Store.
-  </Step>
+<Step title="Get Your API Credentials">
+1. Install ActiveCampaign from the Shopify App Store.
+2. In your ActiveCampaign account, go to **Settings > Developer**.
+3. Copy the **URL** and **API Key**.
 
-  <Step title="Get Your API Credentials">
-    Get your URL and API Key from your ActiveCampaign account through **Settings > Developer**. Copy the URL and API Key.
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-2.png" />
+</Frame>
+</Step>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-2.png" />
-    </Frame>
-  </Step>
+<Step title="Paste Credentials in Gameball">
+Paste the URL and API Key into your Gameball account and click **Next**.
 
-  <Step title="Paste Credentials into Gameball">
-    Paste the key and URL into your Gameball account and click **Next**.
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-3.png" />
+</Frame>
+</Step>
 
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-3.png" />
-    </Frame>
-  </Step>
+<Step title="Add Customer Attributes">
+Click **Add** so the list of customer attributes will be automatically added to your ActiveCampaign account.
 
-  <Step title="Add Customer Attributes">
-    Click **Add** so this list of customer attributes will be automatically added to your ActiveCampaign account.
+<Note>
+Make sure you use these attributes with the notation provided on your Gameball Admin Dashboard, as described below.
+</Note>
 
-    <Note>
-      Make sure you use these attributes with the notation provided on your Gameball Admin Dashboard, as described below.
-    </Note>
-
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-4.png" />
-    </Frame>
-  </Step>
-
-  <Step title="Use Gameball Data in ActiveCampaign">
-    Go to your ActiveCampaign account to check customer contact general details, including Gameball customer Profile Attributes, trigger automation, send personalized emails with Gameball attributes, and more.
-
-    Check the custom fields of a customer:
-
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-5.png" />
-    </Frame>
-
-    While creating a campaign, segment customers based on a Gameball customer profile attribute:
-
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-6.png" />
-    </Frame>
-
-    Split an automation based on Gameball customer profile attributes:
-
-    <Frame>
-      <img src="/images/product-docs/apps-integrations/apps-integrations-7.png" />
-    </Frame>
-  </Step>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-4.png" />
+</Frame>
+</Step>
 </Steps>
 
 ---
+
+## Using Gameball Data in ActiveCampaign
+
+Once connected, go to your ActiveCampaign account to leverage Gameball loyalty data in your marketing.
+
+### Check Customer Fields
+
+View Gameball customer profile attributes in a customer's contact details.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-5.png" />
+</Frame>
+
+### Segment Customers
+
+While creating a campaign, segment customers based on a Gameball customer profile attribute.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-6.png" />
+</Frame>
+
+### Split Automations
+
+Split an automation based on Gameball customer profile attributes.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-7.png" />
+</Frame>
+
+---
+
+<CardGroup cols={2}>
+  <Card title="Apps & Integrations Overview" icon="grid-2" href="/product-documentation/apps-integrations/introduction-to-apps-integrations">
+    Explore all available Gameball integrations.
+  </Card>
+  <Card title="Gameball on Zapier" icon="bolt" href="/product-documentation/apps-integrations/zapier-integration">
+    Connect Gameball with thousands of apps via Zapier.
+  </Card>
+</CardGroup>

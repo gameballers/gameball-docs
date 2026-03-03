@@ -1,194 +1,157 @@
 ---
-title: "How Do I Use Gameball on Postscript?"
+title: "How Do I Integrate Postscript with Gameball?"
 description: "Integrate Gameball with Postscript to Enhance Your SMS Marketing Campaigns."
 ---
 
-Gameball and Postscript integration allows you to leverage customer engagement data from Gameball to power your SMS marketing campaigns in Postscript.
-
----
+Gameball and Postscript integration allows you to leverage customer engagement data from Gameball to power your SMS marketing campaigns in Postscript. Follow this guide to seamlessly connect the two platforms and maximize the impact of your loyalty and marketing efforts.
 
 ## Key Benefits
 
-<CardGroup cols={2}>
-<Card title="Increase Engagement" icon="chart-line">
-  Use loyalty data to deliver messages at pivotal moments in a customer's journey, fostering a stronger connection.
-</Card>
-
-<Card title="Boost Conversion Rates" icon="arrow-trend-up">
-  Tailor SMS campaigns with Gameball data for higher conversions.
-</Card>
-
-<Card title="Automate for Consistency" icon="rotate">
-  Set automated flows to keep your brand top-of-mind with your customers.
-</Card>
-
-<Card title="Personalize Communication" icon="user-pen">
-  Customize SMS content using Gameball properties to deliver more personalized, engaging messages.
-</Card>
-</CardGroup>
-
----
+- **Increase Engagement:** Use loyalty data to deliver messages at pivotal moments in a customer's journey.
+- **Boost Conversion Rates:** Tailor SMS campaigns with Gameball data for higher conversions.
+- **Automate for Consistency:** Set automated flows to keep your brand top-of-mind with your customers.
 
 ## Integration Highlights
 
 This integration enables you to:
 
-1. **Add Loyalty Data to Subscriber Profiles:** Gameball loyalty data, like points balance and loyalty tier, appears as custom properties within Postscript.
-2. **Automate Messaging with Loyalty Triggers:** Trigger flows based on loyalty events, such as points earned.
-3. **Segment for Targeted Campaigns:** Use Gameball properties to create specific customer segments in Postscript, ensuring campaigns reach the right audience.
-4. **Personalize Communication Campaigns:** Customize SMS content using Gameball properties to deliver more personalized, engaging messages.
+1. **Add Loyalty Data to Subscriber Profiles** - Gameball loyalty data, like points balance and loyalty tier, appears as custom properties within Postscript.
+2. **Automate Messaging with Loyalty Triggers** - Trigger flows based on loyalty events, such as points earned.
+3. **Segment for Targeted Campaigns** - Use Gameball properties to create specific customer segments in Postscript.
+4. **Personalize Communication Campaigns** - Customize SMS content using Gameball properties.
 
 ---
 
-## Setup Guide
+## Prerequisites
+
+Before starting the integration, ensure the following:
+
+- You have an active **Gameball** account.
+- You have an active **Postscript** account.
+- Access to admin permissions in both platforms.
+
+---
+
+## How to Configure Postscript on Gameball
 
 <Steps>
-<Step title="Prerequisites">
-  Before starting the integration, ensure the following:
-
-  - You have an active **Gameball** account.
-  - You have an active **Postscript** account.
-  - Access to admin permissions in both platforms.
-</Step>
-
 <Step title="Copy the API Key from Postscript">
-  Go to the Postscript dashboard and follow these steps:
+1. Log in to your **Postscript Dashboard**.
+2. Go to **Settings > API**.
+3. Click **Create Security Key Pair**.
+4. Once the new key is generated, enter the label.
+5. Click **Show** and copy the private key.
 
-  1. Log in to your **Postscript Dashboard**.
-  2. Go to **Settings > API**.
-  3. Click **Create Security Key Pair**.
-  4. Once the new key is generated, enter the label.
-  5. Click **Show** and copy the private key.
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-33.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-33.png" />
+</Frame>
 </Step>
 
-<Step title="Install Postscript on Gameball">
-  1. Log in to your **Gameball Dashboard**.
-  2. Navigate to **Integrations** from the left menu.
+<Step title="Connect Postscript in Gameball">
+1. Log in to your **Gameball Dashboard**.
+2. Navigate to **Integrations** from the left menu.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-34.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-34.png" />
+</Frame>
 
-  3. Select **PostScript** and click **Connect**.
-  4. Paste the **Generated API Key** from PostScript and click **Next**.
+3. Select **PostScript** and click **Connect**.
+4. Paste the **Generated API Key** from PostScript and click **Next**.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-35.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-35.png" />
+</Frame>
 </Step>
 </Steps>
 
 ---
 
-## Synced Events and Data
+## Synced Events
 
-<Tabs>
-<Tab title="Events Synced to Postscript">
-  Gameball tracks various customer events and automatically maps these to Postscript for use in your campaigns:
+Gameball automatically maps the following events to Postscript:
 
-  - **Coupon Created**
-  - **Coupon Redeemed**
-  - **Reward Campaign Achieved**
-  - **Order Placed**
-</Tab>
+- **Coupon Created**
+- **Coupon Redeemed**
+- **Reward Campaign Achieved**
+- **Order Placed**
 
-<Tab title="Synced Customer Attributes">
-  These customer attributes are automatically synced to Postscript in real time:
+---
 
-  | Attribute | Property Key |
-  |---|---|
-  | Customer ID | `gb_id` |
-  | Date of Birth | `gb_birthday` |
-  | Join Date | `gb_join_date` |
-  | Tier Name | `gb_level_name` |
-  | Wallet Points | `gb_wallet_points` |
-  | Pending Points | `gb_pending_points` |
-  | Tier Progress | `gb_level_name` |
-  | Tier ID | `gb_level_id` |
-  | Completed Reward Campaigns | `gb_completed_challenges` |
-  | Referral Code | `gb_referral_code` |
-  | Referral Link | `gb_referral_link` |
-  | Tags and Segments | `gb_tags_and_segments` |
-</Tab>
-</Tabs>
+## Synced Customer Data
+
+The following customer attributes are automatically synced:
+
+| Attribute | Property Key |
+|---|---|
+| Customer ID | `gb_id` |
+| Date of Birth | `gb_birthday` |
+| Join Date | `gb_join_date` |
+| Tier Name | `gb_level_name` |
+| Wallet Points | `gb_wallet_points` |
+| Pending Points | `gb_pending_points` |
+| Tier Progress | `gb_level_name` |
+| Tier ID | `gb_level_id` |
+| Completed Reward Campaigns | `gb_completed_challenges` |
+| Referral Code | `gb_referral_code` |
+| Referral Link | `gb_referral_link` |
+| Tags and Segments | `gb_tags_and_segments` |
 
 ---
 
 ## Creating Segments Based on Loyalty Data
 
-Segmentation allows you to send targeted messages to a specific group of subscribers based on the existing Gameball attributes.
-
 <Steps>
-<Step title="Open Segments in Postscript">
-  From your Postscript Dashboard, go to **Messaging > Segments > Create Segment**. Enter the name of your new segment.
+<Step title="Create a Segment">
+1. From your Postscript Dashboard, go to **Messaging**.
+2. Click **Segments > Create Segment**.
+3. Enter the name of your new segment.
+4. Below **Segment Criteria**, click on the pre-selected filter to replace it.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-36.png" />
+</Frame>
 </Step>
 
-<Step title="Set Segment Criteria">
-  Below **Segment Criteria**, click on the pre-selected filter to replace it.
+<Step title="Configure Segment Filters">
+1. From the dropdown menu, select any of the Gameball available attributes.
+2. Optionally, click **+ Add Rule** to add an `or` connector within the same filter.
+3. Optionally, add more filters for your segment if needed.
+4. Click **Save Segment**.
 
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-36.png" />
-  </Frame>
-</Step>
-
-<Step title="Select a Gameball Attribute">
-  From the dropdown menu, select any of the Gameball available attributes.
-
-  - Optionally, click **+ Add Rule** to add an `or` connector within the same filter.
-  - Optionally, add more filters for your segment if needed.
-</Step>
-
-<Step title="Save the Segment">
-  Click **Save Segment**.
-
-  <Frame>
-    <img src="/images/product-docs/apps-integrations/apps-integrations-37.png" />
-  </Frame>
+<Frame>
+  <img src="/images/product-docs/apps-integrations/apps-integrations-37.png" />
+</Frame>
 </Step>
 </Steps>
 
 ---
 
-## Other Suggested Set Ups
+## Other Suggested Setups
 
-<AccordionGroup>
-<Accordion title="Trigger Automation Flows" icon="bolt">
-  Within Postscript, set up an automation flow. Choose from the Gameball events listed (e.g., **Points Earned**) and configure personalized SMS content for each event.
-</Accordion>
-
-<Accordion title="Personalizing Communication Campaigns" icon="user-pen">
-  Use Gameball properties directly in SMS content, enabling unique and relevant messages for each customer's loyalty journey.
-</Accordion>
-</AccordionGroup>
+1. **Trigger Automation Flows** - Within Postscript, set up an automation flow. Choose from the Gameball events listed (e.g., **Points Earned**) and configure personalized SMS content for each event.
+2. **Personalize Communication Campaigns** - Use Gameball properties directly in SMS content, enabling unique and relevant messages for each customer's loyalty journey.
 
 ---
 
 ## Frequently Asked Questions
 
 <AccordionGroup>
-<Accordion title="What happens if my Gameball data doesn't sync immediately with Postscript?" icon="circle-question">
-  A retry mechanism is built in for quick data synchronization. However, if you encounter delays, check your integration settings or contact support.
+<Accordion title="What happens if my Gameball data doesn't sync immediately with Postscript?">
+We've built a retry mechanism for quick data synchronization. However, if you encounter delays, check your integration settings or contact support.
 </Accordion>
 
-<Accordion title="Will my customer data be secure?" icon="shield-halved">
-  Yes, only Gameball-related loyalty data is passed to Postscript, ensuring data safety and compliance with privacy regulations.
+<Accordion title="Will my customer data be secure?">
+Yes, only Gameball-related loyalty data is passed to Postscript, ensuring data safety and compliance with privacy regulations.
 </Accordion>
 </AccordionGroup>
 
 ---
 
-## Related Articles
-
 <CardGroup cols={2}>
-<Card title="Gameball on MoEngage" icon="mobile-screen" href="/product-documentation/apps-integrations/moengage-integration">
-  Learn how to sync Gameball data with MoEngage for omnichannel engagement.
-</Card>
-
-<Card title="Gameball on Shopify Flow" icon="shopify" href="/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow">
-  Use Gameball triggers and actions in your Shopify Flow automation workflows.
-</Card>
+  <Card title="Gameball on MoEngage" icon="bell" href="/product-documentation/apps-integrations/moengage-integration">
+    Integrate Gameball with MoEngage for engagement campaigns.
+  </Card>
+  <Card title="Gameball on Shopify Flow" icon="shuffle" href="/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow">
+    Automate loyalty workflows with Shopify Flow.
+  </Card>
 </CardGroup>

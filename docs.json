@@ -369,10 +369,8 @@
                 "pages": [
                   "product-documentation/apps-integrations/introduction-to-apps-integrations",
                   "product-documentation/apps-integrations/activecampaign-integration",
-                  "product-documentation/apps-integrations/adjust-integration",
                   "product-documentation/apps-integrations/attentive-integration",
                   "product-documentation/apps-integrations/bloomreach-integration",
-                  "product-documentation/apps-integrations/branch-io-integration",
                   "product-documentation/apps-integrations/drip-integration",
                   "product-documentation/apps-integrations/google-wallet-integration",
                   "product-documentation/apps-integrations/hubspot-integration",
@@ -388,6 +386,13 @@
                   "product-documentation/apps-integrations/recharge-integration",
                   "product-documentation/apps-integrations/segment-integration",
                   "product-documentation/apps-integrations/zapier-integration",
+                  {
+                    "group": "Dynamic Link Providers",
+                    "pages": [
+                      "product-documentation/apps-integrations/adjust-integration",
+                      "product-documentation/apps-integrations/branch-io-integration"
+                    ]
+                  },
                   {
                     "group": "Integration Use Cases",
                     "pages": [
@@ -1043,7 +1048,13 @@
                     "group": "Payment",
                     "pages": [
                       "api-reference/payment/payment",
-                      "api-reference/payment/payment-tracking"
+                      "api-reference/payment/payment-tracking",
+                      {
+                        "group": "Payment Rewards & History",
+                        "pages": [
+                          "api-reference/payment/calculate-payment-cashback"
+                        ]
+                      }
                     ]
                   },
                   {
