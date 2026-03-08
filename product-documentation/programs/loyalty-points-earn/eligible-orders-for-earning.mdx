@@ -1,0 +1,118 @@
+---
+title: "How Do I Set Which Orders Are Eligible for Points Earning?"
+description: "Learn how to use order attributes and conditions to control which orders qualify for loyalty points in Gameball."
+---
+
+Gameball lets you define exactly which orders qualify for points earning. Rather than rewarding all orders equally, you can build rules based on any order attribute — such as price, payment method, product category, or custom metadata.
+
+---
+
+## How to Configure Eligible Orders
+
+<Steps>
+  <Step title="Navigate to Earn Points">
+    Go to **Programs > Earn Points** in your Gameball dashboard.
+  </Step>
+  <Step title="Open Settings">
+    Click **Settings**, then find the **Earn Points Applies On** section.
+  </Step>
+  <Step title="Add a Rule">
+    Click **Add Rule** and choose the order attribute you want to filter by (e.g., `total_price`, `payment_method`, `product_category`).
+  </Step>
+  <Step title="Choose an Operator and Value">
+    Select the appropriate operator and enter your target value (e.g., `total_price` **greater than** `50`).
+  </Step>
+  <Step title="Save">
+    Click **Save** to apply the rule.
+  </Step>
+</Steps>
+
+---
+
+## Extra Attributes
+
+Beyond standard fields like product names and SKUs, you can use custom order data for more advanced targeting:
+
+- Payment methods (e.g., reward only credit card orders)
+- Regional zones or store locations
+- Subscription tier or membership level
+- Product classifications or custom tags
+
+These can be passed via the Order API inside the order metadata.
+
+---
+
+## Understanding the Path Field
+
+For **nested attributes**, use **dot notation** to navigate to the value you need.
+
+**Example:** To target a specific card type within a payment method:
+```
+payment_methods.credit_card.card_type
+```
+
+For **line-item attributes**, the path starts directly from the extra field without additional nesting.
+
+---
+
+## Available Operators
+
+| Operator | Description |
+|----------|-------------|
+| **Equals** | Exact match |
+| **Not Equals** | Excludes exact match |
+| **Contains** | Value includes the specified string |
+| **Does Not Contain** | Value excludes the specified string |
+| **Starts With** | Value begins with the specified string |
+| **Ends With** | Value ends with the specified string |
+| **Is Empty** | Field has no value |
+| **Is Not Empty** | Field has a value |
+| **Greater Than** | Numeric value above threshold |
+| **Greater Than or Equal To** | Numeric value at or above threshold |
+| **Less Than** | Numeric value below threshold |
+| **Less Than or Equal To** | Numeric value at or below threshold |
+| **Exists** | Field is present in the order data |
+| **Does Not Exist** | Field is absent from the order data |
+| **Between** | Numeric value falls within a defined range |
+
+---
+
+## Combining Multiple Conditions
+
+You can combine multiple attribute rules using **AND** or **OR** logic:
+
+- **AND**: All conditions must be true for the order to qualify.
+- **OR**: Any one condition being true makes the order eligible.
+
+**Example:** Reward only orders where `total_price > 50` **AND** `payment_method = credit_card`.
+
+---
+
+## Rewarding All Orders Except Certain Ones
+
+To reward all orders except those matching specific conditions, choose the **"All except some attributes"** option. This inverts your rule — all orders qualify unless they match the defined exclusion criteria.
+
+---
+
+## Common Examples
+
+| Goal | Rule |
+|------|------|
+| Reward orders above a minimum value | `total_price` **greater than** `50` |
+| Reward only online orders, not POS | `channel_type` **equals** `online` |
+| Exclude a specific collection | Use exclusion mode, `collection_id` **equals** `[collection]` |
+| Reward a specific payment method | `payment_method` **equals** `paypal` |
+| Target a product category | `product_category` **equals** `electronics` |
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Launch and Configure Your Earn Pointing System" icon="rocket" href="/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system">
+    Set up your base earn rule and pointing system configuration.
+  </Card>
+  <Card title="Understanding Loyalty Points Calculations" icon="calculator" href="/product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules">
+    Learn how Gameball prioritizes and calculates points across different rules.
+  </Card>
+</CardGroup>

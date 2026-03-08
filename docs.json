@@ -85,7 +85,8 @@
                       "product-documentation/understanding-your-customers/your-customers/customer-activity-log",
                       "product-documentation/understanding-your-customers/your-customers/export-customer-activities-log",
                       "product-documentation/understanding-your-customers/your-customers/view-order-details-from-activity-logs",
-                      "product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify"
+                      "product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+                      "product-documentation/understanding-your-customers/your-customers/update-customer-data-in-bulk"
                     ]
                   }
                 ]
@@ -97,6 +98,7 @@
                     "group": "Loyalty Points - Earn",
                     "pages": [
                       "product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system",
+                      "product-documentation/programs/loyalty-points-earn/eligible-orders-for-earning",
                       "product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules",
                       "product-documentation/programs/loyalty-points-earn/collection-based-earning-rules",
                       {

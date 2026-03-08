@@ -116,6 +116,39 @@ A **daily visit (check-in)** is recorded when a registered customer interacts wi
 
 ---
 
+## Streak Achievement Events
+
+Every time a customer progresses in a streak, Gameball fires a `streak_progression` event. You can use this event to trigger automations, send personalized messages, or build custom segmentation logic.
+
+### Event Fired on Every Streak Progression
+
+The `streak_progression` event fires automatically whenever a customer advances their streak — regardless of whether a reward milestone was reached.
+
+### Using Streak Events for Automation and Personalization
+
+You can reference this event in:
+
+- **Automation campaigns** — trigger a flow when a customer reaches a specific streak length
+- **Communication campaigns** — send a congratulatory message at key milestones
+- **Segmentation** — group customers based on their current or longest streak
+
+### Event Metadata
+
+| Field | Description |
+|-------|-------------|
+| `campaign_id` | The ID of the streak campaign |
+| `campaign_name` | The name of the streak campaign |
+| `current_streak_duration` | The customer's current consecutive streak count |
+| `longest_streak_duration` | The highest streak the customer has ever reached in this campaign |
+
+<Note>
+- The `streak_progression` event fires on every progression, not just on reward milestones.
+- If the streak resets, `current_streak_duration` resets to 0, but `longest_streak_duration` retains the historical maximum.
+- Milestone badges earned remain with the customer even after a reset.
+</Note>
+
+---
+
 ## Related Articles
 
 <CardGroup cols={2}>
