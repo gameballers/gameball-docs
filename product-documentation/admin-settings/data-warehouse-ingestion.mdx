@@ -75,53 +75,98 @@ Gameball currently provides **four built-in data models** that can be pushed to 
 
 <AccordionGroup>
   <Accordion title="Members" icon="users">
-    Contains customer-level loyalty data, including:
+    Contains customer-level loyalty data. Useful for segmentation, tier analysis, and customer-level reporting.
 
-    - Customer ID
-    - Display name
-    - Current tier name
-    - Referral status
-    - Total earned points
-    - Total expired points
-    - Additional loyalty-related attributes
-
-    This model is useful for segmentation, tier analysis, and customer-level reporting.
+    | Field | Description |
+    |-------|-------------|
+    | `customer_unique_id` | Customer identifier from the client's external system, used for integration and mapping |
+    | `display_name` | Customer's display name as shown in the loyalty program interface |
+    | `is_migrate` | Integer flag indicating if this customer was migrated from another system (1 = migrated, 0 = native) |
+    | `referred_by_unique_id` | Customer identifier of the person who referred this customer, if applicable |
+    | `referral_activation_date` | Date when the customer's referral was activated and confirmed |
+    | `is_referred_customer` | Integer flag indicating if this customer was referred by another customer (1 = referred, 0 = not referred) |
+    | `current_tier_name` | Current loyalty tier name the customer belongs to |
+    | `current_tier_order` | Current loyalty tier order the customer belongs to |
+    | `customer_points` | Current number of loyalty points the customer has available for use |
+    | `total_earned_points` | The lifetime amount of points that the customer have earned |
+    | `total_redeemed_points` | The lifetime amount of points that the customer have redeemed |
+    | `total_expired_points` | The lifetime amount of customer's points that have been expired |
+    | `customer_score` | Current customer score (frubies) value the customer has accumulated |
+    | `customer_pending_points` | Points that have been earned but not yet activated or confirmed for the customer |
+    | `tier_entry_date` | Date when the customer entered their current loyalty tier |
+    | `customer_type` | Customer lifecycle state: Registered (full customer profile) or Guest (limited profile) |
+    | `is_included` | Integer flag indicating if the customer is included in active program participation |
+    | `created_at` | Date when the customer record was created in the Gameball platform |
+    | `updated_at` | Date when the customer record was last updated |
+    | `is_deleted` | Indicates if this is a deleted row |
   </Accordion>
 
   <Accordion title="Transactions" icon="arrow-right-arrow-left">
-    Represents all **points and order-related movements**, including:
+    Represents all points and order-related movements. Use this model to analyze how points are earned and spent over time.
 
-    - Transaction ID
-    - Points earned from orders
-    - Points redeemed
-    - Points expired
-    - Transaction type
-    - Direction (points added or deducted)
-    - Related transaction details
-
-    This model allows customers to analyze how points are earned and spent over time.
+    | Field | Description |
+    |-------|-------------|
+    | `gameball_transaction_id` | Unique identifier for the transaction |
+    | `transaction_id` | Unique identifier for the transaction in the client system |
+    | `customer_unique_id` | Identifier of the customer who did the transaction |
+    | `merchant_name` | The merchant name where this transaction happened |
+    | `branch_name` | The branch name where this transaction happened |
+    | `transaction_type` | The type of the transaction: cashback, redemption, expiry, etc. |
+    | `direction` | The direction of the points transaction: + or - |
+    | `tier_name` | The name of the tier the customer was on when this transaction happened |
+    | `tier_order` | The order of the tier the customer was on when this transaction happened |
+    | `points_amount` | The amount of points in the transaction |
+    | `points_used_amount` | The amount of points that has been used from this transaction (for positive transactions only) |
+    | `redemption_factor` | The factor used to calculate the value of points |
+    | `points_value` | The monetary value of the points at the time of the transaction |
+    | `transaction_status` | The status of the transaction: active or pending (for positive transactions only) |
+    | `points_expiry_date` | The date when the points will expire (for positive transactions only) |
+    | `created_at` | Timestamp when the transaction record was created in Gameball |
+    | `updated_at` | Timestamp when the transaction record was last updated in Gameball |
+    | `is_deleted` | Indicates if this is a deleted row |
   </Accordion>
 
   <Accordion title="Achievements" icon="trophy">
-    Includes all **loyalty events and campaign-related actions**, such as:
+    Includes all loyalty events and campaign-related actions such as reward campaigns, referrals, and tier progressions. This data closely matches what is available in Gameball's activity logs and reports.
 
-    - Reward campaign achievements
-    - Referrals
-    - Tier upgrades
-    - Tier downgrades
-
-    Each record includes details like campaign name, achievement type, and related metadata. This data closely matches what is available today in Gameball's activity logs and reports.
+    | Field | Description |
+    |-------|-------------|
+    | `gameball_achievement_id` | Unique identifier for the achievement event |
+    | `customer_unique_id` | Identifier of the customer who earned the achievement |
+    | `achievement_type` | Broader grouping of the achievement type (e.g., Level, Campaign, Referral, Transaction, Manual) |
+    | `achievement_sub_type` | Detailed classification such as Level, Challenge, Milestone, Quest, Referral, Purchase Reward, Manual action |
+    | `campaign_name` | Identifier of the campaign associated with the achievement event |
+    | `is_coupon_rewarded` | Indicates whether a coupon was issued as part of the achievement |
+    | `current_tier_name` | Customer's current tier name at the time of achievement |
+    | `current_tier_order` | Customer's current tier order at the time of achievement |
+    | `achieved_tier_name` | The name of the tier reached by the customer if achievement type is related to tier progression |
+    | `achieved_tier_order` | The order of the tier reached by the customer if achievement type is related to tier progression |
+    | `achieved_points` | Number of points earned from this achievement event |
+    | `points_value` | Monetary equivalent of the achieved points in the client's currency |
+    | `achieved_score` | Score gained from this achievement (if the leveling method is based on score) |
+    | `created_at` | Timestamp when the achievement record was created in Gameball |
+    | `updated_at` | Timestamp when the achievement record was last updated in Gameball |
+    | `is_deleted` | Indicates if this is a deleted row |
   </Accordion>
 
   <Accordion title="Coupons" icon="ticket">
-    Contains coupon-related data, including:
+    Contains coupon assignment data with lifecycle status, discount amounts, and usage metrics. Supports reporting on reward redemption and coupon usage.
 
-    - Coupon code
-    - Coupon type
-    - Coupon status
-    - Other coupon attributes
-
-    This model supports reporting on reward redemption and coupon usage.
+    | Field | Description |
+    |-------|-------------|
+    | `gameball_unique_id` | Unique identifier for each coupon per customer per assignment |
+    | `coupon_code` | The actual coupon code that customers use to redeem the offer |
+    | `customer_unique_id` | Identifier of the customer who received this coupon assignment |
+    | `coupon_type` | Coupon discount mechanism: Fixed, Percentage, Free Shipping, Free Product, Store Credit, etc. |
+    | `coupon_source` | Source usage context: Online, POS, Permanent, Reward Campaign, or Automation |
+    | `coupon_sub_source` | Origin of the coupon creation: Campaign, Reaching a Tier, Referral, or Automation |
+    | `amount` | Discount amount — for fixed types this is the actual discount amount; for percentage types this is the percentage value |
+    | `total_paid_amount` | Total monetary value across all orders where this coupon was applied (only for used coupons) |
+    | `total_order_count` | Total number of orders where this coupon was applied (values > 1 indicate multiple uses if multi-use enabled) |
+    | `current_state` | Current lifecycle status: deleted, expired, used, or assigned (default) |
+    | `created_at` | Timestamp when the coupon was originally created |
+    | `updated_at` | Timestamp when the coupon was last updated |
+    | `is_deleted` | Indicates if this is a deleted row |
   </Accordion>
 </AccordionGroup>
 

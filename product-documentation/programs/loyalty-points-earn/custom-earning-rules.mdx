@@ -1,0 +1,95 @@
+---
+title: "How Do I Give Different Point Earning Rules for Different Order Types?"
+description: "Create customized point-earning rules based on order attributes to reward customers differently depending on how and what they buy."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Guru |
+| Salla | Guru |
+| Non-Platform | Enterprise |
+
+Gameball lets you create custom point-earning rules based on any order attribute. Rather than applying a single flat earning rate across all purchases, you can define specific conditions — such as order value, payment method, or product category — and assign different point rewards to each scenario.
+
+---
+
+## How to Set Up Custom Earning Rules
+
+<Steps>
+<Step title="Navigate to Earn Points">
+  Go to **Programs > Earn Points** in your Gameball dashboard.
+</Step>
+
+<Step title="Open the Custom Tab">
+  Click on the **Custom** tab.
+</Step>
+
+<Step title="Add a New Rule">
+  Click **Add Rule**, then define your conditions. You can filter by any order attribute, such as:
+
+  - Order total price
+  - Product collection or category
+  - Payment method
+  - Custom order metadata
+</Step>
+
+<Step title="Choose a Point Assignment Method">
+  Select how points are calculated for orders that match your conditions:
+
+  <AccordionGroup>
+    <Accordion title="Cashback Value (Percentage-Based)" icon="percent">
+      Award a percentage of the order total as points. For example, give 5% cashback for orders from a specific collection.
+    </Accordion>
+
+    <Accordion title="Cashback Value Based on Unit" icon="coins">
+      Award a fixed number of points per currency unit spent. For example, give 2 points for every 1 EGP spent on orders paid by credit card.
+    </Accordion>
+
+    <Accordion title="Fixed Cashback Value" icon="lock">
+      Award a set number of points regardless of the order value. For example, give 10 points for any order above $50.
+    </Accordion>
+  </AccordionGroup>
+</Step>
+
+<Step title="Save">
+  Click **Save** to activate the rule. The rule will apply when all specified conditions are met.
+</Step>
+</Steps>
+
+---
+
+## Combining Multiple Conditions
+
+You can stack multiple conditions within a single rule. All conditions must be met for the rule to apply.
+
+**Examples:**
+
+- Reward 10 points for orders where `total_price` **greater than** `50`
+- Give 5 points per $1 for `product_category` **equals** `Electronics`, versus 2 points per $1 for `product_category` **equals** `Accessories`
+- Award bonus points for high-value purchases from the Summer Collection paid by credit card
+
+---
+
+## How Custom Rules Interact with Other Earn Rules
+
+When multiple earning rules could apply to the same order, Gameball evaluates them based on rule priority. Custom rules take precedence over the default earn rule when their conditions are matched.
+
+<Note>
+Custom cashback rules and collection-based cashback rules cannot be active simultaneously. Enabling custom cashback deactivates the Merchant feature on the system.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Launch and Configure Your Earn Pointing System" icon="rocket" href="/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system">
+    Set up your base earn rule and pointing system configuration.
+  </Card>
+  <Card title="Collection-Based Earning Rules" icon="layer-group" href="/product-documentation/programs/loyalty-points-earn/collection-based-earning-rules">
+    Customize earning rates by product collection.
+  </Card>
+  <Card title="Understanding Loyalty Points Calculations" icon="calculator" href="/product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules">
+    Learn how Gameball prioritizes and calculates points across different rules.
+  </Card>
+</CardGroup>
