@@ -11,67 +11,63 @@ description: "Learn how to set ways for your customer to redeem the points that 
 
 Offering customers multiple ways to redeem their points is crucial for enhancing gamification and their loyalty to your brand. With Gameball's versatile redemption system, you can create a seamless and rewarding experience for your customers. By setting up various redemption options, you empower your customers to choose how they want to utilize their points.
 
-In this article, we will walk you through configuring the points redemption system and customizing redemption options to cater to your customers' diverse preferences and needs.
-
 <Frame>
   <video autoplay muted loop playsinline src="/images/product-docs/programs/new-design.mov" />
 </Frame>
 
 ---
 
-## Launching Redeem Loyalty Points
+## Navigating to Redeem Points
 
-<Steps>
-<Step title="Navigate to Redeem Points">
-1. Login to your **Gameball Dashboard**.
-2. From the left side menu, click on **Programs**.
-3. Choose **Redeem Points**, and you will be directed to the Redeem Pointing System configuration page.
-
-<Frame>
-  ![Redeem Points Navigation](/images/product-docs/programs/loyalty-points-redeem/redeem-points-navigation.png)
-</Frame>
-</Step>
-</Steps>
+From the left-side menu, go to **Programs** and click **Redeem Points**. The page opens on the **Configuration** tab, where all your redemption options are listed.
 
 ---
 
-## Activating the Point-to-Cash Redemption
+## Managing Redemption Options
 
-This allows your customers to convert the points they have in their balance into a cash equivalent.
+All configured redemption options appear in the **Redemption Options** section. You can toggle between a **card view** and a **list view** using the icons at the top right of the section.
+
+Each option displays its redemption type, the points required to redeem it, and a toggle to enable or disable it directly.
+
+### Adding a New Redemption Option
 
 <Steps>
-<Step title="Edit Redemption Options">
-Under the redemption options, click on the three dots on the first card then click on edit.
+<Step title="Click Add Redemption Option">
+On the **Redeem Points** page, click **Add Redemption Option**.
 </Step>
 
-<Step title="Set Monetary Value">
-Enter the **equivalent monetary value** of one point based on your chosen currency.
+<Step title="Configure the Option">
+You will be taken to the **Flexible Redemption Option** page. Fill in the following:
+
+**Redemption Configuration**
+- **Redemption Type** — choose the type of reward (e.g., Amount-based Discount, Percentage-based Discount, Free Shipping, Free Product)
+- **Value of 1 point** — the monetary equivalent of a single point
+
+**Rule**
+- Define the number of points required to redeem this option.
+
+**Advanced Options** (optional)
+
+| Option | Description |
+|--------|-------------|
+| **Prefix** | Add a custom prefix to the generated coupon code |
+| **Reward expires after specific amount of time** | Set an expiry window for the issued coupon |
+| **Minimum purchase amount** | Require a minimum order value for the coupon to apply |
 </Step>
 
-<Step title="Save and Activate">
-Click **Save**.
-
-<Frame>
-  ![Point-to-Cash Configuration](/images/product-docs/programs/loyalty-points-redeem/point-to-cash-config.gif)
-</Frame>
-
-Make sure the toggle at the upper right of the **Point-to-Cash Redemption** section is set to **Active**.
-
-<Frame>
-  ![Point-to-Cash Active Toggle](/images/product-docs/programs/loyalty-points-redeem/point-to-cash-active.png)
-</Frame>
+<Step title="Save">
+Click **Save** to create the redemption option. It will appear in your Redemption Options list.
 </Step>
 </Steps>
 
-<Note>
-The toggle will remain active unless another redemption rule is added.
-</Note>
+Learn more about setting up each type:
+
+- [Set Online Only Redemption Types](/product-documentation/rewards-campaigns/faqs/understanding-rewards-types)
+- [Set POS Redemption Types](/product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos)
 
 ---
 
-## Customizing Redemption Options
-
-Gameball offers additional customization options for redemption values. Customers can redeem their points for the following reward types:
+## Available Reward Types
 
 <AccordionGroup>
 <Accordion title="Online Only Rewards" icon="globe">
@@ -81,7 +77,7 @@ Gameball offers additional customization options for redemption values. Customer
 3. **Free Shipping:** Customers can use their points to get free shipping on their order.
 4. **Free Product:** Customers can redeem their points to receive specific products at no cost.
 5. **Percentage-Based Cashback (Non-Platform Only):** Customers can use a coupon to receive a percentage of their purchase amount back as cashback, credited to their wallet in points or store credit.
-6. **Fixed Amount Cashback (Non-Platform Only):** Customers can use a coupon to receive a fixed amount of cashback, credited to their wallet in points or store credit -- regardless of the total purchase amount.
+6. **Fixed Amount Cashback (Non-Platform Only):** Customers can use a coupon to receive a fixed amount of cashback, credited to their wallet in points or store credit — regardless of the total purchase amount.
 7. **Percentage-Based Fees Discount (Non-Platform Only):** Customers can receive a coupon that applies a percentage discount to transaction fees.
 </Accordion>
 
@@ -92,81 +88,24 @@ Gameball offers additional customization options for redemption values. Customer
 </Accordion>
 </AccordionGroup>
 
-### Adding a New Redemption Option
-
-<Steps>
-<Step title="Add Redemption Option">
-On the **Redeem Points** page, click **Add Redemption Option**.
-</Step>
-
-<Step title="Configure the Option">
-You will be redirected to a new page to add an **Extra Redemption Rule**. Choose the **Redemption Type** and configure the reward based on the type selected.
-</Step>
-
-<Step title="Save">
-Click **Save**.
-
-<Frame>
-  ![Add Redemption Option](/images/product-docs/programs/loyalty-points-redeem/add-redemption-option.gif)
-</Frame>
-</Step>
-</Steps>
-
-Learn more about setting up each type:
-
-- [Set Online Only Redemption Types](/product-documentation/rewards-campaigns/faqs/understanding-rewards-types)
-- [Set POS Redemption Types](/product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos)
-
-Once saved, your new rule will appear in the **Custom Redemption Options** grid. Click **More details** to view a full table of all configured redemption rules.
-
 ---
 
 ## Settings
 
-### Points Holding Configuration
+### Points Holding Duration
 
-Set the duration that holds the request until your customer completes the payment process on your mobile app using any other payment method, in case it will be a partial payment using points.
+Set the duration that holds the redemption request until your customer completes the payment process — for example, when using points as partial payment alongside another payment method.
 
-- Choose the **Holding Duration Value** (write a number).
-- Select the **Points Holding Time:** Minutes, Hours, or Days (choose the unit of time).
+Click **Edit** next to **Points Holding Duration (Through APIs only)** to configure:
 
-<Frame>
-  ![Points Holding Configuration](/images/product-docs/programs/loyalty-points-redeem/points-holding-config.png)
-</Frame>
+- **Holding Duration Value** — enter a number
+- **Points Holding Time** — choose the unit: Minutes, Hours, or Days
 
 ---
 
 ## Insights and Analytics
 
-Use Gameball analytics to track and improve your points redemption strategy.
-
-From the main redemption tab, you can see the following data:
-
-### Total Redemptions
-
-Monitor the total number of redemptions made across all options. This helps assess the popularity and effectiveness of each method.
-
-<Frame>
-  ![Total Redemptions](/images/product-docs/programs/loyalty-points-redeem/total-redemptions.png)
-</Frame>
-
-### Total Redeemed Points
-
-Track the cumulative number of redeemed points. This metric offers insights into customer engagement and can guide adjustments in your rewards strategy to make data-driven decisions to optimize customer retention and loyalty.
-
-<Frame>
-  ![Total Redeemed Points](/images/product-docs/programs/loyalty-points-redeem/total-redeemed-points.png)
-</Frame>
-
-### Insights Tab
-
-You can analyze the performance of each **redemption option** directly within the **Redeem Points** section using the new **Insights** tab.
-
-<Frame>
-  ![Redeem Insights Tab](/images/product-docs/programs/loyalty-points-redeem/redeem-insights-tab.png)
-</Frame>
-
-This tab displays detailed analytics for every redemption option (coupon type). Includes key metrics such as:
+Click the **Insights** tab at the top of the page to analyze the performance of each redemption option.
 
 | Metric | Description |
 |---|---|
