@@ -1007,7 +1007,8 @@
                           "api-reference/customers/progress/get-customer-activities",
                           "api-reference/customers/progress/get-customer-activities-count",
                           "api-reference/customers/progress/get-customer-automation-campaigns",
-                          "api-reference/customers/progress/get-customer-action-streak-progress"
+                          "api-reference/customers/progress/get-customer-action-streak-progress",
+                          "api-reference/customers/progress/get-customer-daily-streak-progress"
                         ]
                       },
                       {

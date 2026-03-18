@@ -4868,6 +4868,23 @@
         "responses": { "200": { "description": "Customer stamps progress found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerActionStreakProgressResponse" } } } } }
       }
     },
+    "/api/v4.0/integrations/customers/{customerId}/streaks/{campaignId}": {
+      "get": {
+        "summary": "Get Customer Daily Streak Progress",
+        "description": "Retrieve the progress of a specific customer within a particular daily streak campaign in Gameball. It returns the current and highest streak counts, ongoing reward details, badge milestones, and the next milestone to unlock.",
+        "operationId": "getCustomerDailyStreakProgress",
+        "security": [{ "apiKey": [], "secretKey": [] }],
+        "parameters": [
+          { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer." },
+          { "name": "campaignId", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Unique identifier of the daily streak campaign to retrieve progress for." }
+        ],
+        "responses": {
+          "200": { "description": "Customer daily streak progress found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerDailyStreakProgressResponse" } } } },
+          "401": { "description": "Unauthorized – apikey or secretkey is missing or invalid" },
+          "404": { "description": "Customer or campaign not found" }
+        }
+      }
+    },
     "/api/v4.0/integrations/customers/{customerId}/tags": {
       "post": {
         "summary": "Attach Customer Tags",
@@ -6155,6 +6172,40 @@
           "challengeEndDate": { "type": "string", "description": "The end date of the challenge in the client's local timezone" },
           "rewardName": { "type": "string", "description": "The name of the reward as defined in the client's configured language" },
           "couponName": { "type": "string", "description": "The name or value of the discount coupon assigned" }
+        }
+      },
+      "CustomerDailyStreakProgressResponse": {
+        "type": "object",
+        "properties": {
+          "currentStreakCount": { "type": "number", "description": "Number of consecutive periods completed in the current active streak" },
+          "highestStreakCount": { "type": "number", "description": "Highest streak count ever reached by this customer for this campaign" },
+          "totalRewardsEarned": { "type": "number", "description": "Total streak rewards earned across all time" },
+          "ongoingReward": {
+            "type": "object",
+            "description": "Details of the currently active reward tier",
+            "properties": {
+              "name": { "type": "string", "description": "Reward name as configured in the client language settings" },
+              "type": { "type": "string", "description": "Reward type: points or coupon" },
+              "value": { "type": "string", "description": "Reward value (points amount or coupon description)" }
+            }
+          },
+          "nextMilestone": { "type": "number", "nullable": true, "description": "Streak count at which the next reward unlocks, or null if at the last tier" },
+          "lastActivityDate": { "type": "string", "format": "date-time", "description": "Date/time of the last qualifying action in the client's local timezone" },
+          "campaignEndDate": { "type": "string", "format": "date-time", "nullable": true, "description": "Campaign end date in the client's local timezone, or null if open-ended" },
+          "badges": {
+            "type": "array",
+            "description": "Badge milestones ordered by milestoneDay ascending",
+            "items": {
+              "type": "object",
+              "properties": {
+                "milestoneDay": { "type": "number", "description": "Streak day at which this badge is awarded" },
+                "name": { "type": "string", "description": "Badge name" },
+                "imageUrl": { "type": "string", "description": "Badge image URL" },
+                "earned": { "type": "boolean", "description": "Whether this customer has earned this badge" },
+                "earnedDate": { "type": "string", "format": "date-time", "nullable": true, "description": "Date earned, or null if not yet earned" }
+              }
+            }
+          }
         }
       },
       "CustomerTagsUpdateRequest": {

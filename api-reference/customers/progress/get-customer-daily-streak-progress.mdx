@@ -1,0 +1,12 @@
+---
+title: "Customer Daily Streak Progress"
+description: "Retrieve the progress of a specific customer within a particular daily streak campaign in Gameball."
+openapi: 'GET /api/v4.0/integrations/customers/{customerId}/streaks/{campaignId}'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+This API retrieves the progress of a specific customer within a particular daily streak campaign in Gameball. It returns the current and highest streak counts, ongoing reward details, badge milestones, and the next milestone to unlock.
+
+<Info>
+**Security**: Requires **apikey** and **secretkey** headers.
+</Info>
