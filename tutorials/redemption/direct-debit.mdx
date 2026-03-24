@@ -98,7 +98,7 @@ When the customer lands on the checkout screen, one of the first things you shou
 </Frame>
 
 To retrieve this information, call:
-**GET /customer-points-balance**
+**GET /integrations/customers/{customerId}/balance**
 
 This API returns a full breakdown of the customer's loyalty points, including available, total, and pending balances.
 
@@ -107,12 +107,9 @@ Displaying point values transparently empowers customers to make informed redemp
 
 **Request:**
 ```bash cURL
-curl -X GET 'https://api.gameball.co/api/v1.0/Bot/GetCustomerBalance' \
-  -H 'Content-Type: application/json' \
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/cust_12345/balance' \
   -H 'APIKey: YOUR_API_KEY' \
-  -d '{
-    "playerUniqueId": "cust_12345"
-  }'
+  -H 'SecretKey: YOUR_SECRET_KEY'
 ```
 
 **Response:**
@@ -193,9 +190,10 @@ Without this step, customers could accidentally overspend points from multiple t
 
 **Request:**
 ```bash cURL
-curl -X POST 'https://api.gameball.co/api/v1.0/Bot/HoldPoints' \
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
   -H 'Content-Type: application/json' \
   -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
     "customerId": "cust_12345",
     "transactionTime": "2024-11-01T12:00:00Z",
@@ -237,9 +235,10 @@ This is the final step that marks the redemption as complete and deducts the res
 
 **Request:**
 ```bash cURL
-curl -X POST 'https://api.gameball.co/api/v1.0/Bot/Order' \
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
   -H 'Content-Type: application/json' \
   -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
   -d '{
     "customerId": "cust_12345",
     "orderId": "ORD67890",
@@ -275,12 +274,9 @@ To do this, call the Release Hold API using the original `holdReference`.
 
 **Request:**
 ```bash cURL
-curl -X POST 'https://api.gameball.co/api/v1.0/Bot/ReleasePoints' \
-  -H 'Content-Type: application/json' \
+curl -X DELETE 'https://api.gameball.co/api/v4.0/integrations/transactions/hold/abc-123' \
   -H 'APIKey: YOUR_API_KEY' \
-  -d '{
-    "holdReference": "abc-123"
-  }'
+  -H 'SecretKey: YOUR_SECRET_KEY'
 ```
 
 This instantly returns the held points to the user's balance, allowing them to reuse them immediately.
@@ -294,10 +290,10 @@ This instantly returns the held points to the user's balance, allowing them to r
 
 | Task | API | Implementation |
 |------|-----|----------------|
-| Show points balance | `GET /customer-points-balance` | Call API when customer lands on checkout<br/>Display available points and monetary equivalent<br/>Add slider/input field for point selection |
-| Apply points (Hold Points) | `POST /hold-points` | Call API when customer clicks "Apply Points"<br/>Store the returned `holdReference`<br/>Show real-time discount calculation |
-| Place order (Finalize Redemption) | `POST /order` | Call API when customer confirms order<br/>Pass the stored `holdReference` in redemption object<br/>Points are permanently deducted from customer balance |
-| Handle order cancellation (Optional) | `POST /release-points` | Call API if customer cancels before timeout<br/>Use the original `holdReference`<br/>Points are returned to customer's available balance |
+| Show points balance | `GET /api/v4.0/integrations/customers/{customerId}/balance` | Call API when customer lands on checkout<br/>Display available points and monetary equivalent<br/>Add slider/input field for point selection |
+| Apply points (Hold Points) | `POST /api/v4.0/integrations/transactions/hold` | Call API when customer clicks "Apply Points"<br/>Store the returned `holdReference`<br/>Show real-time discount calculation |
+| Place order (Finalize Redemption) | `POST /api/v4.0/integrations/orders` | Call API when customer confirms order<br/>Pass the stored `holdReference` in redemption object<br/>Points are permanently deducted from customer balance |
+| Handle order cancellation (Optional) | `DELETE /api/v4.0/integrations/transactions/hold/{holdReferenceId}` | Call API if customer cancels before timeout<br/>Use the original `holdReference`<br/>Points are returned to customer's available balance |
 
 <Warning>
 **Important Operations to Consider:**

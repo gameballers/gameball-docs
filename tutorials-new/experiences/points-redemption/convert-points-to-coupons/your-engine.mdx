@@ -75,9 +75,11 @@ You can configure this directly via API:
 
 **API:**
 
-POST /api/v1/coupons/configure
+PUT /api/v4.0/integrations/configurations/coupon
 
-Authorization: Bearer YOUR_API_TOKEN
+APIKey: YOUR_API_KEY
+
+SecretKey: YOUR_SECRET_KEY
 
 Content-Type: application/json
 
@@ -129,9 +131,11 @@ app.post('/api/coupons', (req, res) => {
 
 **API (to retrieve config):**
 
-GET /api/v1/coupons/configuration
+GET /api/v4.0/integrations/configurations/coupon
 
-Authorization: Bearer YOUR_API_TOKEN
+APIKey: YOUR_API_KEY
+
+SecretKey: YOUR_SECRET_KEY
 
 ---
 
@@ -229,7 +233,7 @@ POST /order
 
 ```json filename="request.json"
 {
-  "playerUniqueId": "cust_12345",
+  "customerId": "cust_12345",
   "ruleId": 2138,
   "transactionId": "txn_001",
   "transactionTime": "2024-11-01T12:00:00Z"
