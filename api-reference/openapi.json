@@ -801,10 +801,16 @@
                     "description": "One-time password (OTP) required if OTP is enabled for the customer. This OTP serves as an additional layer of security for verifying the redemption request. For more details on how OTP works and when it is required, refer to the Transaction Validation section.",
                     "example": "123456"
                   },
-                  "ignoreOTP": { 
+                  "ignoreOTP": {
                     "type": "boolean",
                     "description": "This attribute allows you to skip OTP verification when set to true. If not provided or set to false, OTP verification will be required for accounts configured to use OTP.",
                     "example": false
+                  },
+                  "reason": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "description": "An optional reason for the redemption. This can be used to provide context about why the customer is redeeming points (e.g., 'Discount on order', 'Loyalty reward'). The reason will be stored with the transaction and displayed in the dashboard transaction details.",
+                    "example": "Discount on order #12345"
                   }
                 }
               }
@@ -839,10 +845,15 @@
                       "description": "The amount of money redeemed in the transaction, based on the points redeemed. Example: If a customer redeems points equivalent to $10 off their purchase, the redeemAmount will be 10.0.",
                       "example": 10
                     },
-                    "redeemEquivalentPoints": { 
+                    "redeemEquivalentPoints": {
                       "type": "number",
                       "description": "The number of points used to redeem the specified monetary value in the transaction. Example: If a customer uses 100 points to redeem $10, the redeemEquivalentPoints will be 100.",
                       "example": 100
+                    },
+                    "reason": {
+                      "type": "string",
+                      "description": "The reason provided for the redemption, if one was included in the request.",
+                      "example": "Discount on order #12345"
                     }
                   }
                 }
