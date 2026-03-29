@@ -874,7 +874,8 @@
                     "pages": [
                       "tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning",
                       "tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
-                      "tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches"
+                      "tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches",
+                      "tutorials-new/experiences/order-handling/special-use-cases/order-calculation-examples"
                     ]
                   }
                 ]
