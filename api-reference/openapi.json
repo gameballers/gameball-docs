@@ -4608,7 +4608,8 @@
         "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           { "name": "customerId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer." },
-          { "name": "expand", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Comma-separated expansions: tier,referrals" }
+          { "name": "expand", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Comma-separated expansions: tier,referrals" },
+          { "name": "lang", "in": "header", "required": false, "schema": { "type": "string" }, "description": "If the lang header is provided, the response will be returned in the specified language (e.g., en for English, fr for French). If this header is not included, the system will use the default language." }
         ],
         "responses": {
           "200": {
@@ -4650,6 +4651,13 @@
             "required": true,
             "schema": { "type": "string" },
             "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer."
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "If the lang header is provided, the response will be returned in the specified language (e.g., en for English, fr for French). If this header is not included, the system will use the default language."
           }
         ],
         "responses": {
