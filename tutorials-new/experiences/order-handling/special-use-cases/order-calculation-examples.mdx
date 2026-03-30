@@ -36,6 +36,7 @@ Understanding how each field is calculated is essential for correct order tracki
 |-------|------------|---------|
 | `totalPrice` | Sum of all line items + taxes (before any discounts) | Items = 500, Taxes = 75 → `totalPrice: 575` |
 | `totalDiscount` | Sum of ALL discounts (line item + order level + points + coupon) | Line discount 50 + Points 100 → `totalDiscount: 150` |
+| `totalTax` | Sum of all taxes across line items | `totalTax: 75` |
 | `totalPaid` | What customer actually paid (totalPrice - totalDiscount) | 575 - 150 = `totalPaid: 425` |
 
 <Info>
@@ -110,6 +111,7 @@ totalPaid = totalPrice - totalDiscount
   "orderDate": "2026-03-25T14:30:00Z",
   "totalPrice": 575,
   "totalDiscount": 0,
+  "totalTax": 75,
   "totalPaid": 575,
   "channel": "pos",
   "lineItems": [
@@ -156,17 +158,17 @@ totalPaid = totalPrice - totalDiscount
   ],
   "merchant": {
     "uniqueId": "merchant-001",
-    "name": "Your Store"
-  },
-  "branch": {
-    "uniqueId": "branch-001",
-    "name": "Main Branch"
+    "name": "Your Store",
+    "branch": {
+      "uniqueId": "branch-001",
+      "name": "Main Branch"
+    }
   }
 }
 ```
 
 <Note>
-The examples below show only the fields that change from Example 1. All other fields (lineItems, merchant, branch) remain the same unless specified.
+The examples below show only the fields that change from Example 1. All other fields (lineItems, merchant) remain the same unless specified.
 </Note>
 
 ---
@@ -193,6 +195,7 @@ The examples below show only the fields that change from Example 1. All other fi
   "orderId": "INV-2026-001235",
   "totalPrice": 567.5,
   "totalDiscount": 50,
+  "totalTax": 67.5,
   "totalPaid": 517.5,
   "lineItems": [
     {
