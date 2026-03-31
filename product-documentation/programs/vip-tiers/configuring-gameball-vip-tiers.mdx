@@ -108,6 +108,10 @@ Gamify your user experience and reward your customers for their engagement on yo
   <Card title="Refunded Orders" icon="rotate-left">
     Choose whether refunded orders contribute to customers' tier advancement, ensuring your loyalty logic stays aligned with your business rules.
   </Card>
+
+  <Card title="Program Activation" icon="toggle-on">
+    Control when the tiering program goes live. Set it to **Active** or **Inactive** and configure a **Start Date** for when tier evaluation begins.
+  </Card>
   </CardGroup>
 
   ![Tiering-Up Method Selection](/images/product-docs/programs/vip-tiers/tiering-up-method.png)
@@ -132,6 +136,28 @@ Tier progress in both the **dashboard** and **widget** automatically reflects th
 <Warning>
 If a refund lowers a customer's total spending below their current tier threshold, they will be downgraded accordingly. If downgraded, any entry reward given as points will be removed, while coupon rewards will remain. Customers can reclaim entry rewards each time they requalify. The system tracks tier changes, reward adjustments, and refund impacts while maintaining logs for auditing and fraud detection.
 </Warning>
+
+---
+
+## Program Activation and Start Date
+
+The tiering program includes an **Active / Inactive** toggle in the VIP Tier settings. If you are new to Gameball, the program is set to **Inactive** by default, giving you time to fully configure your tiers, benefits, and rules before going live.
+
+When you activate the program, you are required to set a **Start Date**. Tier evaluation begins from this date — orders and events that occurred before it do not count toward customers' tier progression.
+
+| Setting | Behavior |
+|---|---|
+| **Inactive** | Tiers are hidden from customers in the widget. No tier progress is tracked. |
+| **Active** | Tiers are visible in the widget. Tier progress is tracked from the configured start date onward. |
+| **Start Date** | Only orders and events on or after this date contribute to tier advancement. Earlier activity is ignored. |
+
+<Info>
+Activation and any changes to the start date are logged in the **Audit Trail** for tracking and accountability.
+</Info>
+
+<Tip>
+Use the inactive state to configure everything in advance — tiers, milestones, and benefits — then set a start date and activate when you're ready to launch. Customers will only see tiers once the program is active.
+</Tip>
 
 ---
 
