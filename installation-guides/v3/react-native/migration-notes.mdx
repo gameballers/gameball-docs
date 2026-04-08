@@ -1,10 +1,22 @@
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.1"
+description: "Migrate from v2 to v3.1.2"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball React Native SDK v2 to v3.1.1.
+This guide helps you migrate from Gameball React Native SDK v2 to v3.1.2.
+
+## What's New in v3.1.2
+
+<Info>
+**Widget Loading Fix & Custom Modal** — v3.1.2 fixes a widget loading delay caused by `srcdoc` iframe blocking and replaces the profile widget's modal with a custom animated implementation.
+</Info>
+
+- Fixed widget loading delay caused by `about:blank` iframe origin not being whitelisted
+- Widget WebView now reloads on re-open to ensure fresh content
+- Replaced `react-native-modal` in profile widget with a custom `Animated` slide-up modal
+- Lazy WebView rendering — widget is not rendered until first open, improving initial load performance
+- Existing v3.1.1/v3.1.0/v3.0.0 code continues to work without changes
 
 ## What's New in v3.1.1
 
@@ -58,7 +70,7 @@ import {GameballSDK} from 'react-native-gameball';
 GameballSDK.init("api-key", "en", "platform", "shop");
 ```
 
-**v3.1.1:**
+**v3.1.2:**
 ```typescript
 import { GameballApp, GameballConfig } from 'react-native-gameball';
 
@@ -85,7 +97,7 @@ GameballSDK.registerPlayer({
 });
 ```
 
-**v3.1.1:**
+**v3.1.2:**
 ```typescript
 const request: InitializeCustomerRequest = {
   customerId: 'customer-123',
@@ -109,7 +121,7 @@ GameballSdk.sendEvent({"review": {}})
     .catch(error => console.log(error));
 ```
 
-**v3.1.1:**
+**v3.1.2:**
 ```typescript
 const event: Event = {
   customerId: 'customer-123',
@@ -138,7 +150,7 @@ import {GameballWidget} from 'react-native-gameball';
 />
 ```
 
-**v3.1.1:**
+**v3.1.2:**
 ```typescript
 import { GameballApp, ShowProfileRequest } from 'react-native-gameball';
 
@@ -164,6 +176,32 @@ await GameballApp.getInstance().showProfile(profileRequest, undefined, 'customer
 | `GameballSdk.sendEvent` | `GameballApp.getInstance().sendEvent` |
 
 ## Migration Steps
+
+### From v3.1.1 to v3.1.2 (No Breaking Changes)
+
+<Info>
+v3.1.2 is a patch release (widget loading fix + custom modal). Update the dependency version; no code changes required.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v3.1.2:
+
+```json
+{
+  "dependencies": {
+    "react-native-gameball": "^3.1.2"
+  }
+}
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="Test">
+Test your integration. All existing code should work unchanged. The profile widget no longer uses `react-native-modal` internally, but the dependency is still required by in-app notifications.
+</Step>
+</Steps>
 
 ### From v3.1.0 to v3.1.1 (No Breaking Changes)
 
@@ -203,12 +241,12 @@ v3.1.x is fully backward compatible. Simply update the dependency version. Sessi
 
 <Steps>
 <Step title="Update Dependency">
-Update your `package.json` to use SDK v3.1.1:
+Update your `package.json` to use SDK v3.1.2:
 
 ```json
 {
   "dependencies": {
-    "react-native-gameball": "^3.1.1"
+    "react-native-gameball": "^3.1.2"
   }
 }
 ```
@@ -235,16 +273,16 @@ Test your integration. All existing code should work unchanged.
 </Step>
 </Steps>
 
-### From v2.x to v3.1.1
+### From v2.x to v3.1.2
 
 <Steps>
 <Step title="Update Dependency">
-Update your `package.json` to use SDK v3.1.1:
+Update your `package.json` to use SDK v3.1.2:
 
 ```json
 {
   "dependencies": {
-    "react-native-gameball": "^3.1.1"
+    "react-native-gameball": "^3.1.2"
   }
 }
 ```
@@ -294,13 +332,13 @@ Test all Gameball functionality on both iOS and Android to ensure the migration 
 
 ## Additional Resources
 
-- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/CHANGELOG.md) for detailed version history
-- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/MIGRATION.md) in the repository for more migration details
-- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.1/RELEASE_NOTES.md) for v3.1.1 release details
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.2/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.2/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.2/RELEASE_NOTES.md) for v3.1.2 release details
 - Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
 
 <Warning>
-For version-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.1) on branch `release-3.1.1`.
+For version-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.2) on branch `release-3.1.2`.
 </Warning>
 
 <Tip>
