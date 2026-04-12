@@ -1281,5 +1281,2007 @@
       "facebook": "https://www.facebook.com/Gameball.co/",
       "linkedin": "https://www.linkedin.com/company/gameball"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/en/articles/3464790-introduction-to-customers-on-gameball",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10019023-display-redemption-options-at-checkout-drop-menu",
+      "destination": "/product-documentation/onsite-components/checkout-components/display-redemption-options-at-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10019437-shopify-flow-apps-reward-campaign-templates",
+      "destination": "/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10028988-klaviyo-reviews-app-integration",
+      "destination": "/product-documentation/apps-integrations/klaviyo-reviews-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10038533-display-potential-points-earned-in-the-cart",
+      "destination": "/product-documentation/onsite-components/general-components/display-potential-points-in-cart",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10038533-display-potential-points-earned-on-current-products-in-the-cart",
+      "destination": "/product-documentation/onsite-components/general-components/display-potential-points-in-cart",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10038565-display-customer-referral-link-after-checkout",
+      "destination": "/product-documentation/onsite-components/general-components/display-referral-link-after-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10062072-display-points-redemption-input-field-at-checkout",
+      "destination": "/product-documentation/onsite-components/checkout-components/display-points-redemption-at-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10062072-display-points-redemption-input-fields-at-checkout",
+      "destination": "/product-documentation/onsite-components/checkout-components/display-points-redemption-at-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10062080-display-customers-potential-points-at-checkout",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10062080-display-earned-points-at-checkout",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10063008-gameball-on-postscript",
+      "destination": "/product-documentation/apps-integrations/postscript-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10108212-automatically-add-lifetime-tier-rewards-at-checkout",
+      "destination": "/product-documentation/onsite-components/checkout-components/automatically-add-tier-rewards-at-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10128466-introduction-to-gameball-s-coupon-engine",
+      "destination": "/product-documentation/coupons/introduction-to-coupon-engine",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10128569-creating-a-coupon-manually-with-gameball",
+      "destination": "/product-documentation/coupons/creating-coupon-manually",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10161775-display-customer-s-earn-points-after-checkout",
+      "destination": "/product-documentation/onsite-components/general-components/display-earn-points-after-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10313744-collect-visitors-email-using-pop-up-campaigns",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10313744-unlock-15-off-your-first-order",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10333695-gameball-on-attentive",
+      "destination": "/product-documentation/apps-integrations/attentive-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10411332-slot-machine",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/slot-machine",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10411643-check-in-streak",
+      "destination": "/api-reference/batches/batch-management/check-status",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10466907-quiz",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/quiz",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10537986-how-to-use-dynamic-variables-in-transactional-communication-campaigns",
+      "destination": "/product-documentation/communication-campaigns/dynamic-variables-in-communication-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10538836-calendar-campaign",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/calendar-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10763164-allow-huawei-users-to-receive-push-notifications-from-your-program",
+      "destination": "/product-documentation/guides-strategies-faqs/allow-huawei-push-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10772318-scratch-win",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/scratch-and-win",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10792930-integrate-gameball-with-branch-io",
+      "destination": "/product-documentation/apps-integrations/branch-io-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10920998-integrate-gameball-with-adjust",
+      "destination": "/product-documentation/apps-integrations/adjust-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10920998-integrate-gameball-with-adjust-io",
+      "destination": "/product-documentation/apps-integrations/adjust-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/10921847-match-cards",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/match-cards",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11059920-insider-app-integration",
+      "destination": "/product-documentation/apps-integrations/insider-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11060167-create-and-configure-sms-campaigns",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-sms-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11096783-send-real-time-welcome-notifications-for-new-signups",
+      "destination": "/product-documentation/instant-notifications/real-time-notifications-per-program/welcome-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106961-buy-a-specific-product",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-a-specific-product",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106963-buy-from-a-specific-collection",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-from-a-specific-collection",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106965-exceed-your-highest-order-value",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/exceed-highest-order-value",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106974-buy-from-3-different-collections",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-from-3-different-collections",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106977-buy-3-items-from-a-specific-collection",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-3-items-from-collection",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106980-get-20-coupon-after-spending-a-total-of-1000",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/get-20-percent-coupon-after-spending-1000",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106986-buy-over-50-and-get-5-on-the-next-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-over-50-get-5-next-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11106993-free-shipping-for-orders-over-500",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/free-shipping-orders-over-500",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11107001-buy-x-get-y-on-the-next-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-x-get-y-next-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11107025-reward-campaign-general-setup-guide",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11107783-manage-your-customer-list",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/manage-your-customer-list",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11109396-create-an-account",
+      "destination": "/product-documentation/rewards-campaigns/templates/acquisition-conversion/create-an-account",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11109546-first-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/first-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11109547-second-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/second-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11109610-third-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/third-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11109629-fifth-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/fifth-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11109645-tenth-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/tenth-order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11114747-export-your-customer-list",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/export-your-customer-list",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11114750-view-order-details-from-activity-logs",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/view-order-details-from-activity-logs",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11115320-export-customer-activities-log",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/export-customer-activities-log",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11151405-reward-campaign-campaign-url",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-url",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11158022-the-catcher",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/the-catcher",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11158031-fill-a-survey-shopify-flow",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/fill-a-survey",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11158040-mission",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/mission",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11158070-subscribe-to-newsletter-shopify-flow",
+      "destination": "/product-documentation/rewards-campaigns/templates/acquisition-conversion/subscribe-to-newsletter",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11158084-write-a-review-shopify-flow",
+      "destination": "/product-documentation/rewards-campaigns/templates/social-sharing-reviews/write-a-review",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11161717-send-external-rewards-using-api-calls-through-campaigns",
+      "destination": "/product-documentation/rewards-campaigns/send-external-rewards-using-api",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11364188-export-your-points-data",
+      "destination": "/product-documentation/analytics/export-your-points-data",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11478408-action-streak",
+      "destination": "/api-reference/customers/progress/get-customer-action-streak-progress",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11581701-third-party-coupons-through-the-gameball-dashboard",
+      "destination": "/product-documentation/admin-settings/third-party-coupons",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11587565-tic-tac-toe",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/tic-tac-toe",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11587567-space-shooter",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/space-shooter",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11587573-sliding-puzzle",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/sliding-puzzle",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11587578-tap-the-target",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/tap-the-target",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11587581-driving-game",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/driving-game",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/11914124-member-analytics",
+      "destination": "/product-documentation/analytics/member-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12051018-milestone",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/milestone",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12059615-stamps-milestone-and-mission-campaigns-when-should-you-use-each",
+      "destination": "/product-documentation/rewards-campaigns/faqs/stamps-milestone-mission-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12059615-streak-milestone-and-mission-campaigns-when-should-you-use-each",
+      "destination": "/product-documentation/rewards-campaigns/faqs/stamps-milestone-mission-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12471048-events-gameball-fires-automatically-across-platforms",
+      "destination": "/api-reference/batches/batch-creation/events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12629542-upload-your-stores-products-and-collections-through-a-csv-file",
+      "destination": "/product-documentation/admin-settings/upload-products-collections-csv",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12745201-google-wallet-loyalty-card-integration",
+      "destination": "/product-documentation/apps-integrations/google-wallet-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12752264-attributes-across-automation-nodes",
+      "destination": "/product-documentation/automation-campaigns/attributes-across-automation-nodes",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/12918178-create-a-recurring-customer-date-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-recurring-customer-date-reward-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/13230308-data-warehouse-ingestion-module",
+      "destination": "/product-documentation/admin-settings/data-warehouse-ingestion",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/13235296-track-user-activity-on-your-dashboard",
+      "destination": "/product-documentation/admin-settings/track-user-activity",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/13510109-bloomreach-app-integration",
+      "destination": "/product-documentation/apps-integrations/bloomreach-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3458629-import-your-customers-data-from-other-loyalty-programs-to-gameball-using-a-csv-file",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3458629-import-your-customers-from-other-loyalty-programs-to-gameball-using-a-csv-file",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3458629-import-your-players-from-other-loyalty-programs-to-gameball-using-a-csv-file",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3458629-import-your-players-through-a-csv-file",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3463770-configuring-gameball-levels",
+      "destination": "/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3463770-leveling-up-methods",
+      "destination": "/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464193-gameball-customer-widget",
+      "destination": "/product-documentation/customer-widget/introduction-to-customer-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464193-gameball-player-widget",
+      "destination": "/product-documentation/customer-widget/introduction-to-customer-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464197-customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464197-player-profile-general-configurations",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464197-player-widget-general-configurations",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464197-tabs-visibility-and-order-through-widget-general-configurations",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464234-configure-customer-widget-language-on-your-platform",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/configure-customer-widget-language-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464234-configure-player-widget-language-on-your-platform",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/configure-customer-widget-language-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464234-configure-player-widget-language-on-your-platform?utm_source=blog&utm_medium=strategies_messages&utm_campaign=helpcenter",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/configure-customer-widget-language-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464255-customize-your-gameball-customer-widget-to-match-your-brand",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464255-customize-your-gameball-player-widget-to-match-your-brand",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464255-match-your-gameball-player-profile-with-your-brand",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464286-guest-profile-configuration-for-web",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/guest-widget-configuration-for-web",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464286-guest-widget-configuration-for-web",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/guest-widget-configuration-for-web",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464780-customer-profile-attributes",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464780-player-profile-attributes",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464790-who-are-gameball-players",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464793-understand-your-players-basic-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465198-gameball-challenges-library",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465198-gameball-challenges-types",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465198-types-and-templates-under-gameball-challenges-catalog",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465271-create-and-configure-player-challenges",
+      "destination": "/api-reference/customers/management/create-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465271-create-and-configure-player-custom-challenges",
+      "destination": "/api-reference/customers/management/create-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465335-player-transactions",
+      "destination": "/api-reference/transactions/transactions",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465378-challenge-events-creation-and-engine",
+      "destination": "/product-documentation/rewards-campaigns/faqs/using-the-event-engine",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465378-event-based-challenges",
+      "destination": "/product-documentation/rewards-campaigns/faqs/using-the-event-engine",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465378-how-does-challenge-event-s-rules-engine-work",
+      "destination": "/product-documentation/rewards-campaigns/faqs/using-the-event-engine",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3465919-player-achievements",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3466052-gain-insights-on-gameball-referral-program",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3466144-create-and-configure-your-guest-messages",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-email-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3466144-create-and-configure-your-guest-outbound",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-email-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3466222-create-and-configure-missions-for-your-players",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3466807-configure-your-player-experience-using-gameball",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3466987-launching-referral-program",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467046-configure-gameball-time-zone-settings",
+      "destination": "/product-documentation/admin-settings/configure-time-zone",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467087-manage-your-gameball-customer-attributes",
+      "destination": "/product-documentation/admin-settings/manage-customer-attributes",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467087-manage-your-gameball-player-attributes",
+      "destination": "/product-documentation/admin-settings/manage-customer-attributes",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467114-get-your-account-integration-details-api-key-and-secret-key",
+      "destination": "/installation-guides/v2/pos/api-setup",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467114-get-your-account-integration-details-api-key-and-transaction-key",
+      "destination": "/installation-guides/v2/pos/api-setup",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467114-get-your-account-integration-details-api-key-and-transaction-key)",
+      "destination": "/installation-guides/v2/pos/api-setup",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467114-how-can-you-get-your-account-integration-details-api-key-transaction-key",
+      "destination": "/installation-guides/v2/pos/api-setup",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467130-create-and-send-events-to-gameball",
+      "destination": "/product-documentation/admin-settings/create-and-send-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467130-manage-your-player-events",
+      "destination": "/product-documentation/admin-settings/create-and-send-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467130-manage-your-players-events",
+      "destination": "/product-documentation/admin-settings/create-and-send-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467853-gameball-integration-with-your-web-app",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/mobile-web-integration-faqs",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467920-explore-and-manage-a-customer-profile",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/explore-and-manage-a-customer-profile",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467920-your-customer-data",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/explore-and-manage-a-customer-profile",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3467920-your-player-data",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/explore-and-manage-a-customer-profile",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468060-enable-points-redemption-on-your-web-app",
+      "destination": "/product-documentation/onsite-components/checkout-components/display-points-redemption-at-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468213-gameball-integration-with-your-mobile-app",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/mobile-web-integration-faqs",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468213-gameball-integration-with-your-mobile-app%5C",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/mobile-web-integration-faqs",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468249-integrate-points-redemption-on-your-mobile-app",
+      "destination": "/installation-guides/v2/generic-mobile/integrate-redemption",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468339-create-and-configure-your-player-messages",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468339-create-and-configure-your-web-messages-for-players",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468399-customer-events",
+      "destination": "/api-reference/batches/batch-creation/events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468399-player-events",
+      "destination": "/api-reference/batches/batch-creation/events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3468399-understand-your-players-events",
+      "destination": "/api-reference/batches/batch-creation/events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3471402-introduction-to-gameball-s-outbound",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/track-email-consumption",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3471402-messages",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/track-email-consumption",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3474656-events-you-can-create-for-your-e-commerce-website",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/using-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3474656-six-events-you-can-create-for-your-e-commerce-website",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/using-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3474656-six-events-you-can-create-for-your-e-commerce-website?utm_source=blog&utm_medium=strategies_messages&utm_campaign=helpcenter",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/using-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3486262-configure-your-firebase-account-for-referrals-on-mobile",
+      "destination": "/product-documentation/admin-settings/configure-firebase-push-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3522353-configure-your-firebase-account-for-mobile-push-notifications",
+      "destination": "/product-documentation/admin-settings/configure-firebase-push-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3563742-enable-customer-account-creation-on-shopify",
+      "destination": "/product-documentation/getting-started/faqs/enable-customer-account-creation-on-shopify",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3592902-using-events-on-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/using-events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3593023-update-referral-tab-content-in-gameball-customer-widget",
+      "destination": "/product-documentation/customer-widget/player-profile-tabs/update-referral-tab",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3593023-update-referral-tab-content-in-gameball-player-profile",
+      "destination": "/product-documentation/customer-widget/player-profile-tabs/update-referral-tab",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3593023-update-referral-tab-content-in-gameball-player-widget",
+      "destination": "/product-documentation/customer-widget/player-profile-tabs/update-referral-tab",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3593066-enable-opening-gameball-player-profile-widget-through-an-inline-button",
+      "destination": "/product-documentation/customer-widget/introduction-to-customer-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3601841-shopify-recipes-add-game-like-flavor-to-let-customers-win-badges-based-on-product-categories",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/shopify-recipes-badges",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3672717-migrate-your-customers-to-gameball-from-other-loyalty-program-on-shopify",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3672717-migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3673363-publish-gameball-experience-and-widget-on-your-platform",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3673363-publish-gameball-experience-and-widget-on-your-shopify-store",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3673363-publish-gameball-experience-and-widget-on-your-shopify-store%5C",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/publish-gameball-experience",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3705104-mailchimp-app-integration",
+      "destination": "/product-documentation/apps-integrations/mailchimp-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3705116-intercom-app-integration",
+      "destination": "/product-documentation/apps-integrations/intercom-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3705119-klaviyo-app-integration",
+      "destination": "/product-documentation/apps-integrations/klaviyo-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3705122-hubspot-app-integration",
+      "destination": "/product-documentation/apps-integrations/hubspot-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3705126-activecampaign-app-integration",
+      "destination": "/product-documentation/apps-integrations/activecampaign-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3705129-judge-me-app-integration",
+      "destination": "/product-documentation/apps-integrations/judge-me-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3707887-points-configuration",
+      "destination": "/api-reference/transactions/cashback-and-redemptions/redeem",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3707887-setting-ways-for-players-to-redeem-points",
+      "destination": "/api-reference/transactions/cashback-and-redemptions/redeem",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3707975-challenges-and-missions-program",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3707975-challenges-program",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3712122-introduction-to-gameball-programs",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3712122-introduction-to-ways-to-earn",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3712264-choose-a-different-name-for-points-and-score-to-match-your-brand",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/rename-points-score",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3712264-rename-your-points-and-score-to-match-your-brand",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/rename-points-score",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3717746-enable-customers-to-use-points-as-discounts-on-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/use-points-as-discounts",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3717746-enable-players-to-use-points-as-discounts-on-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/use-points-as-discounts",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3718156-configure-gameball-currency-settings",
+      "destination": "/product-documentation/admin-settings/configure-currency-settings",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3725525-levels-on-gameball-widget",
+      "destination": "/installation-guides/v2/web/initialize-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3725525-tiers-on-gameball-widget",
+      "destination": "/installation-guides/v2/web/initialize-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3725549-allowing-your-players-to-level-up-based-on-payments-only",
+      "destination": "/tutorials-new/general/entities/payments",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3726569-referrals-on-gameball-widget",
+      "destination": "/product-documentation/programs/referral-program/referrals-on-gameball-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3726569-referrals-on-gameball-widget-for-customers-and-friends",
+      "destination": "/product-documentation/programs/referral-program/referrals-on-gameball-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3726569-referrals-on-gameball-widget-for-players-and-friends",
+      "destination": "/product-documentation/programs/referral-program/referrals-on-gameball-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736200-send-real-time-notifications-on-both-web-and-mobile",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736222-send-real-time-notifications-on-levels",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736222-send-real-time-notifications-on-tiers",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736239-send-real-time-notifications-for-challenge-and-mission-programs",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736239-send-real-time-notifications-for-challenge-program",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736239-send-real-time-notifications-for-completing-a-reward-campaign",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736259-send-real-time-notifications-for-referrals",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736295-send-real-time-notifications-for-cashback",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736295-send-real-time-notifications-for-cashback-program",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736295-send-real-time-notifications-for-purchase-reward-program",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736311-send-real-time-notifications-for-points-redemption",
+      "destination": "/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3736311-send-real-time-notifications-for-transactional-rewards",
+      "destination": "/product-documentation/instant-notifications/real-time-notifications-per-program/transactional-rewards-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3766081-use-shopify-pos-and-enable-your-customers-to-get-rewards",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/use-pos-get-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3766081-use-shopify-pos-and-enable-your-players-to-get-rewards",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/use-pos-get-rewards",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3766480-enable-customers-to-spend-their-gameball-points-on-shopify-pos",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3766480-enable-players-to-spend-their-gameball-points-on-shopify-pos",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/spend-points-on-pos",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3766572-differentiate-between-reward-campaigns-through-pos-and-online-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/differentiate-pos-online-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3766572-differentiate-between-rewarded-challenges-through-pos-and-online-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/differentiate-pos-online-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3782638-manually-reward-a-challenge-to-players",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3782638-manually-reward-a-player-with-a-challenge",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3830019-cashback-program-campaigns",
+      "destination": "/tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3830019-purchase-reward-program-campaigns",
+      "destination": "/tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3925221-omnisend-integration",
+      "destination": "/product-documentation/apps-integrations/omnisend-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3925230-drip-app-integration",
+      "destination": "/product-documentation/apps-integrations/drip-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3952120-segment-app-integration",
+      "destination": "/product-documentation/apps-integrations/segment-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4130897-configure-gameball-dashboard-language-settings",
+      "destination": "/product-documentation/admin-settings/configure-dashboard-language",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4322434-difference-between-points-and-score",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/points-vs-score",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4322434-difference-between-scores-and-points",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/points-vs-score",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4348786-gameball-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4349182-badge-sharing-by-customers-on-social-media",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/badge-sharing-social-media",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4349182-badge-sharing-by-players-on-social-media",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/badge-sharing-social-media",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4349182-players-sharing-badges-on-social-media",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/badge-sharing-social-media",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4357698-extra-points-redemption-settings",
+      "destination": "/api-reference/configurations/reward-configurations/redemption-settings",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4358775-creating-social-media-challenge",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/badge-sharing-social-media",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4380234-using-events-on-woocommerce-wordpress",
+      "destination": "/api-reference/batches/batch-creation/events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4408401-faqs-gameball-plans-and-subscriptions",
+      "destination": "/product-documentation/getting-started/faqs/gameball-plans-and-subscriptions",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4408401-gameball-plans-and-subscriptions",
+      "destination": "/product-documentation/getting-started/faqs/gameball-plans-and-subscriptions",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4476171-configure-community-based-leaderboards",
+      "destination": "/product-documentation/rewards-campaigns/faqs/configure-reward-campaigns-based-on-tags",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4536082-reward-your-players-for-email-subscriptions-in-mailchimp-through-zapier",
+      "destination": "/product-documentation/apps-integrations/mailchimp-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4557156-sending-customers-emails-celebrating-achievements",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4557156-sending-players-emails-celebrating-achievements",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4569752-reward-player-for-survey-submission-on-surveymonkey-through-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4570631-email-notifications-components",
+      "destination": "/api-reference/webhooks/webhook-topics/notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4570631-setting-up-email-notifications",
+      "destination": "/api-reference/webhooks/webhook-topics/notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4571034-placeholder-variables-in-email-notifications",
+      "destination": "/product-documentation/instant-notifications/email-notifications/placeholder-variables",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4602559-events-log",
+      "destination": "/product-documentation/admin-settings/events-log",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4614792-reward-your-players-on-their-birthday",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4614823-group-your-customers-by-tags",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4614823-group-your-players-by-tags",
+      "destination": "/product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617662-configure-different-challenges-for-your-players-based-on-tags",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617662-configure-different-reward-campaigns-for-your-customers-based-on-tags",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617662-configure-different-reward-campaigns-for-your-players-based-on-tags",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617662-configure-different-rewards-through-challenges-for-your-players-based-on-tags",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617704-send-different-messages-to-your-players-based-on-tags",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617704-send-different-messages-to-your-players-based-on-their-tags",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4617704-send-different-outbounds-to-your-players-based-on-segments-and-tags",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4619297-customer-tags-automatically-synced-with-gameball-players-tags-in-shopify",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4619297-gameball-s-customer-tags-automatically-synced-with-customer-tags-in-shopify",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4619297-in-shopify-customer-tags-automatically-synced-with-gameball-players-tags",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4640269-reward-players-for-payment-subscriptions-in-recharge-through-zapier",
+      "destination": "/api-reference/payment/payment",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4658915-reward-players-for-reactivating-subscriptions-in-recharge-through-zapier",
+      "destination": "/product-documentation/apps-integrations/recharge-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4736742-manually-add-player-achievement",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4740230-apply-filters-on-your-different-data-lists",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/apply-filters-data-lists",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4764764-configuring-gameball-levels",
+      "destination": "/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4807594-enable-opening-gameball-widget-through-inline-links-using-deep-links",
+      "destination": "/product-documentation/customer-widget/player-profile-tabs/widget-deep-links",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4823555-hiding-gameball-s-widget-button",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/hiding-gameballs-widget-button",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4827382-control-gameball-widget-visibility-on-your-platform",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/control-gameball-widget-visibility-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4827382-control-gameball-widget-visibility-on-your-store",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/control-gameball-widget-visibility-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4852138-edit-guest-view-cards-and-how-it-works-section-of-the-widget",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/edit-guest-view-content-and-faq-section-of-the-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4852138-edit-guest-view-cards-and-what-is-this-section-of-the-widget",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/edit-guest-view-content-and-faq-section-of-the-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4852138-edit-guest-view-content-and-faq-section-of-the-widget",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/edit-guest-view-content-and-faq-section-of-the-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4855962-control-gameball-leaderboard-on-widget",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/control-gameball-leaderboard-on-widget",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4875876-rewarding-players-based-on-their-level-with-the-cashback-program",
+      "destination": "/api-reference/transactions/cashback-and-redemptions/cashback",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4893817-manually-add-or-deduct-points-from-customers",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4893817-manually-add-or-deduct-points-from-players",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4903707-connecting-and-using-gameball-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier/connecting-gameball-to-zapier",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4955059-steps-to-connect-gameball-with-a-different-app-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier/connect-gameball-with-apps",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/4979268-mailchimp-templates-on-zapier",
+      "destination": "/product-documentation/apps-integrations/mailchimp-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5011498-launching-referral-program",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5020490-drip-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/drip-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5022568-recharge-templates-on-zapier",
+      "destination": "/product-documentation/apps-integrations/recharge-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5022604-paypal-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5022680-gotowebinar-templates-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5022782-crowdcast-templates-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5024132-facebook-shops-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5024270-stripe-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5024318-calendly-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5024414-unbounce-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5024567-google-calendar-template-on-zapier",
+      "destination": "/product-documentation/apps-integrations/zapier-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5158122-reward-your-players-with-different-cashback-based-on-the-brand",
+      "destination": "/api-reference/transactions/cashback-and-redemptions/cashback",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5187472-creating-a-new-merchant-for-every-different-brand-and-store-you-own",
+      "destination": "/product-documentation/programs/loyalty-points-earn/crossover-reward-program/creating-a-new-merchant",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5211089-how-gameball-treats-refunds",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/how-refunds-work",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5218427-gameball-merchant-a-crossover-rewards-experience",
+      "destination": "/product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5218427-gameball-merchants-a-crossover-rewards-experience",
+      "destination": "/product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5224105-reward-your-player-on-their-anniversary-with-your-platform",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5259481-control-challenges-visibility-and-order-on-player-widget",
+      "destination": "/api-reference/order/order",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5269110-contact-our-customer-support-team",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/contact-support",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5310878-introduction-to-gameball-programs",
+      "destination": "/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5339794-launch-checklist-start-using-gameball",
+      "destination": "/product-documentation/getting-started/launch-checklist",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5404152-set-your-gameball-communication-preferences",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/communication-preferences",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5449648-how-to-reset-your-data-on-gameball",
+      "destination": "/product-documentation/admin-settings/reset-your-data",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5467945-how-to-create-a-new-account-on-gameball-dashboard",
+      "destination": "/product-documentation/admin-settings/create-user-assign-roles",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5467945-how-to-create-a-new-user-on-gameball-dashboard",
+      "destination": "/product-documentation/admin-settings/create-user-assign-roles",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5467945-how-to-create-a-new-user-on-gameball-dashboard-and-assign-roles",
+      "destination": "/product-documentation/admin-settings/create-user-assign-roles",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5496705-using-the-event-engine",
+      "destination": "/product-documentation/rewards-campaigns/faqs/using-the-event-engine",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5535550-manually-updating-customers-tiers",
+      "destination": "/product-documentation/programs/vip-tiers/manually-updating-customers-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5535550-manually-updating-players-levels",
+      "destination": "/product-documentation/programs/vip-tiers/manually-updating-customers-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5624007-create-daily-activity-streak-challenge",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/streak-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5827069-customer-activity-log",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5827069-customers-activity-log",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5827069-players-activity-log",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5844965-ways-to-encourage-customers-to-enroll-in-your-loyalty-program",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5868457-introduction-to-segmentation",
+      "destination": "/product-documentation/customer-segmentation/introduction-to-segmentation",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5868458-how-to-segment-customers",
+      "destination": "/product-documentation/customer-segmentation/how-to-segment-customers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5868458-how-to-segment-players",
+      "destination": "/product-documentation/customer-segmentation/how-to-segment-customers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5892995-using-events-on-magento",
+      "destination": "/api-reference/batches/batch-creation/events",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/5922317-segmentation-use-cases",
+      "destination": "/product-documentation/customer-segmentation/segmentation-use-cases",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6031778-introduction-to-gameball-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6138561-gameball-s-general-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6222261-customize-your-loyalty-launcher-to-fit-your-platform-s-interface",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customize-your-loyalty-launcher-to-fit-your-platforms-interface",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6245111-control-gameball-program-visibility-on-your-platform",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/control-program-visibility",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6245111-control-gameball-program-visibility-on-your-store",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/control-program-visibility",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6260016-integrating-guest-customers-in-your-rewards-program",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6262013-include-or-exclude-customers-from-your-rewards-program",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/include-exclude-customers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6262013-include-or-exclude-players-from-your-rewards-program",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/include-exclude-customers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6346551-faqs-mobile-and-web-integrations",
+      "destination": "/product-documentation/guides-strategies-faqs/faqs/mobile-web-integration-faqs",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6512628-common-customer-update-migration-errors",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/customer-update-migration-errors",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6512628-common-player-update-migration-errors",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/customer-update-migration-errors",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6657551-give-different-cashback-values-for-the-different-collections-you-have-in-your-store",
+      "destination": "/api-reference/transactions/cashback-and-redemptions/cashback",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6886972-send-outbound-emails-to-your-players",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/6886974-send-outbound-mobile-push-to-your-players",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7003197-aquire-new-customers-using-the-challenge-catalog",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7003796-retain-new-customers-using-the-challenge-catalog",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7003840-engage-your-customers-using-the-challenge-catalog",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7004011-personalize-your-customer-experience-using-the-challenge-catalog",
+      "destination": "/api-reference/customers/management/get-customer",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7025589-reward-customers-on-occasions-using-the-challenge-catalog",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119705-track-your-sales-and-revenue-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119749-track-your-player-purchase-behaviour-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/track-your-purchase-behaviour",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119749-track-your-purchase-behaviour-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/track-your-purchase-behaviour",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119778-track-your-campaign-performance-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119778-track-your-player-behaviour-engagement-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119834-track-your-business-return-on-investment-roi-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7119834-track-your-referral-performance-using-gameball-analytics",
+      "destination": "/product-documentation/analytics/introduction-to-gameball-analytics",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7120754-introduction-to-gameball-s-rfm-segments",
+      "destination": "/product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7126655-using-rfm-segments-to-serve-your-goals",
+      "destination": "/product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7222599-what-is-automation",
+      "destination": "/product-documentation/automation-campaigns/automation-actions",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/7928931-request-coupon-creation-from-your-couponing-engine",
+      "destination": "/product-documentation/admin-settings/request-coupon-creation",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8177378-creating-multiple-workspaces-for-different-program-configurations",
+      "destination": "/product-documentation/admin-settings/creating-multiple-workspaces",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8179400-view-dashboard-in-demo-mode",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/view-dashboard-demo-mode",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8179400-view-dashboard-on-demo-mode",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/view-dashboard-demo-mode",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8318309-send-real-time-notifications-for-adding-deducting-points-manually",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8318309-send-real-time-notifications-for-manually-adding-deducting-points",
+      "destination": "/product-documentation/instant-notifications/send-real-time-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8362263-making-edits-on-active-automation",
+      "destination": "/product-documentation/automation-campaigns/making-edits-on-active-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8362263-making-edits-on-active-automation?utm_source=hs_email&utm_medium=email&_hsenc=p2ANqtz-_H0YgryCJnrP1zcso993ivx-Hdog0THYubgwms9zUS2XtGdHRDeDmgPW1rXdRCMd_vlcrb",
+      "destination": "/product-documentation/automation-campaigns/making-edits-on-active-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8553804-boost-business-growth-leveraging-mailchimp-integration-with-your-app",
+      "destination": "/product-documentation/apps-integrations/mailchimp-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8553822-boost-business-growth-leveraging-klaviyo-integration-with-your-app",
+      "destination": "/product-documentation/apps-integrations/klaviyo-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8553825-boost-business-growth-leveraging-omnisend-integration-with-your-app",
+      "destination": "/product-documentation/apps-integrations/omnisend-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8553831-boost-business-growth-leveraging-judge-me-integration-with-your-app",
+      "destination": "/product-documentation/apps-integrations/judge-me-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/8948313-understand-how-gameball-calculates-monthly-rewarded-customers-mrc-for-shopify",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9083638-introducing-webhooks-in-automation",
+      "destination": "/product-documentation/automation-campaigns/webhooks-in-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9127428-track-your-outbound-email-consumption-on-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/track-email-consumption",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9140100-introduction-to-gameball-automation-campaigns",
+      "destination": "/product-documentation/automation-campaigns/introduction-to-automation-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9140175-what-are-gameball-s-automation-triggers",
+      "destination": "/product-documentation/automation-campaigns/automation-triggers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9140393-what-are-gameball-s-automation-actions",
+      "destination": "/product-documentation/automation-campaigns/automation-actions",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9140557-what-are-gameball-s-automation-controls",
+      "destination": "/product-documentation/automation-campaigns/automation-controls",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9142470-how-to-create-an-automation-campaign",
+      "destination": "/product-documentation/automation-campaigns/how-to-create-an-automation-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9144878-introduction-to-automation-campaigns-templates",
+      "destination": "/product-documentation/automation-campaigns/templates/introduction-to-automation-templates",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9148541-time-limited-promotions-automation-templates",
+      "destination": "/product-documentation/automation-campaigns/templates/time-limited-promotions",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9148822-acquire-new-customers-automation-templates",
+      "destination": "/product-documentation/automation-campaigns/templates/acquire-new-customers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9150905-encourage-repurchase-automation-templates",
+      "destination": "/product-documentation/automation-campaigns/templates/encourage-repurchase",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9154252-boost-sales-and-upselling-automation-templates",
+      "destination": "/product-documentation/automation-campaigns/templates/boost-sales-and-upselling",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9154327-reviews-data-collection-automation-templates",
+      "destination": "/product-documentation/automation-campaigns/templates/reviews-and-data-collection",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9165015-introduction-to-gameball-s-communication-campaigns",
+      "destination": "/product-documentation/communication-campaigns/introduction-to-communication-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9165059-create-and-configure-email-campaigns",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-email-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9165360-create-and-configure-web-message-campaigns",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9167118-create-and-configure-mobile-push-campaigns",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9167459-email-communication-campaigns-templates",
+      "destination": "/product-documentation/communication-campaigns/templates/email-campaigns-templates",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9201048-web-messages-communication-campaigns-templates",
+      "destination": "/product-documentation/communication-campaigns/templates/web-messages-campaigns-templates",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9205495-introduction-to-rewards-campaigns",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9205495-reward-campaign-intro",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9205709-engage-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9208209-create-an-action-based-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9221891-create-a-time-based-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9222441-create-a-point-multiplier-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9222590-reward-campaigns-insights",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaigns-insights",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9222590-understanding-reward-campaigns-insights",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaigns-insights",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9225559-understanding-rewards-types-in-gameball",
+      "destination": "/product-documentation/rewards-campaigns/faqs/understanding-rewards-types",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9227969-acquire-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9227983-retain-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9228013-personalize-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9228052-grow-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9229461-occasions-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9229592-launch-and-configure-your-earn-pointing-system",
+      "destination": "/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9232461-launch-and-configure-your-redeem-pointing-system",
+      "destination": "/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9234107-launching-referral-program",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9235125-configuring-gameball-vip-tiers",
+      "destination": "/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9238152-customizing-benefits-for-different-tiers",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9240040-tiering-up-methods",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9240316-understanding-tier-expiry-in-gameball",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/understanding-tier-expiry",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9445294-push-notification-communication-campaigns-templates",
+      "destination": "/product-documentation/communication-campaigns/templates/push-notification-campaigns-templates",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9568240-gameball-on-shopify-flow",
+      "destination": "/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9572469-why-your-campaign-isn-t-effective-and-how-to-improve-it",
+      "destination": "/product-documentation/enhancing-loyalty-program/improve-campaign-effectiveness",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9608992-gameball-on-moengage",
+      "destination": "/product-documentation/apps-integrations/moengage-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9686102-gamify-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/spin-the-wheel",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9686102-let-your-customers-try-their-luck-with-spin-the-wheel",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/spin-the-wheel",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9686102-spin-the-wheel",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/spin-the-wheel",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9728526-reviews-io-app-integration-through-shopify-flow",
+      "destination": "/product-documentation/apps-integrations/shopify-flow/reviews-io-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9750869-yotpo-app-integration-through-shopify-flow",
+      "destination": "/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9837753-updating-firebase-cloud-messaging-fcm-configuration-to-http-v1-for-gameball-customers",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9840910-recharge-subscription-app-integration",
+      "destination": "/product-documentation/apps-integrations/recharge-integration",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9919998-embed-customers-points-in-their-profile",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9934334-display-potential-points-on-product-pages",
+      "destination": "/product-documentation/onsite-components/general-components/display-potential-points-on-product-pages",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9963404-understanding-loyalty-points-calculations-and-rules-in-gameball",
+      "destination": "/product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/9997772-display-available-coupons-at-checkout",
+      "destination": "/product-documentation/onsite-components/checkout-components/display-available-coupons-at-checkout",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/:slug*",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
 }
