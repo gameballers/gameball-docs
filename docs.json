@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "aspen",
-  "name": "Gameball Developer Docs",
+  "name": "Gameball Docs",
   "api": {
     "baseUrl": "https://api.gameball.co",
     "auth": {
@@ -1283,6 +1283,11 @@
     }
   },
   "redirects": [
+    {
+      "source": "/",
+      "destination": "/product-documentation/getting-started/what-is-gameball",
+      "permanent": false
+    },
     {
       "source": "/en/articles/3464790-introduction-to-customers-on-gameball",
       "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
