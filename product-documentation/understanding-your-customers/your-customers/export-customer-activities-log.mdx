@@ -77,6 +77,8 @@ Below is a list of all columns included in the exported customer activities file
 | **Product Variant Name** | Name of the variant (e.g., size or color) of the free product. | |
 | **Activity Actual Date** | The original date and time when the activity occurred, regardless of when it was sent to Gameball via Order API or batch processing. | |
 | **Points Expiry Date** | Populated for any activity that includes earned points (e.g., orders, campaigns, referrals, or missions). | |
+| **Channel Source** | The channel through which the order was placed (e.g., `pos`, `web`, `mobile`). | Salla merchants only. Empty for activities not linked to an order. |
+| **Reference ID** | Salla's external order reference ID — the same ID visible in your Salla dashboard. Useful for reconciling loyalty transactions with Salla orders. | Salla merchants only. Empty for activities not linked to an order. |
 
 ---
 

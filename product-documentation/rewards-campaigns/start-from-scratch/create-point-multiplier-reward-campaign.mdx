@@ -1,5 +1,6 @@
 ---
 title: "How Do I Create a Point Multiplier Reward Campaign?"
+sidebarTitle: "How Do I Create a Point Multiplier Reward Campaign?"
 description: "Learn how to create and configure a Point Multiplier reward campaign from scratch."
 ---
 
@@ -105,11 +106,23 @@ Let's say you have the cashback set up for your customers to gain 1 point for ev
 </Step>
 
 <Step title="Rewards & Badges">
-  Select the multiplier for the points customers will earn during the campaign. Choose to **double (2x)**, **triple (3x)**, or increase **fivefold (5x)** the points customers receive for every dollar spent on their orders.
+  Under **Reward Structure**, choose how you want to apply the multiplier:
+
+  **Default Reward** — Enter any custom multiplier value. You are not limited to preset options; you can set any number (e.g., 7x). As you type, the preview at the bottom updates in real time to show the resulting earn rate based on your base earn rule (e.g., "Customers will earn 10.5 points for every 1 USD spent").
 
   <Frame>
-    ![Points multiplier selection](/images/product-docs/rewards-campaigns/start-from-scratch/point-multiplier-selection.png)
+    ![Default Reward mode with custom multiplier and live equation preview](/images/product-docs/rewards-campaigns/start-from-scratch/point-multiplier-custom-reward.png)
   </Frame>
+
+  **Point Multiplier Levels** — Set up spend-based tiers so customers earn different multipliers depending on how much they spend in a single order. Select the spend attribute (e.g., **Total Price**), then define each tier with a **Min Spend**, **Max Spend**, and **Multiplier** value. Use **Add Tier** to add more levels. The preview at the bottom shows the resulting equation for each tier based on your base earn rule.
+
+  <Frame>
+    ![Point Multiplier Levels showing spend tiers and live equation preview](/images/product-docs/rewards-campaigns/start-from-scratch/point-multiplier-levels.png)
+  </Frame>
+
+  <Note>
+  The active tier and next-tier progress are available via the API, so you can surface the earning opportunity directly in your storefront or app.
+  </Note>
 </Step>
 </Steps>
 
