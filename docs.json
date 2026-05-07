@@ -926,7 +926,8 @@
                 "group": "Referral",
                 "pages": [
                   "tutorials-new/experiences/referral/index",
-                  "tutorials-new/experiences/referral/multi-step"
+                  "tutorials-new/experiences/referral/multi-step",
+                  "tutorials-new/experiences/referral/dynamic-link-referral-alternatives"
                 ]
               }
             ]
