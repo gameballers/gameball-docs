@@ -3281,6 +3281,206 @@
       "permanent": true
     },
     {
+      "source": "/product-documentation/understanding-your-customers/customer-profile/manage-your-gameball-customer-attributes",
+      "destination": "/product-documentation/admin-settings/manage-customer-attributes",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/understanding-your-customers/your-customers/import-customers-using-csv",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/understanding-your-customers/your-customers/common-customer-migration-errors",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/customer-update-migration-errors",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/understanding-your-customers/gameball-customers",
+      "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/loyalty-programs/launching-referral-program",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/loyalty-programs/configure-different-rewards-based-on-tags",
+      "destination": "/product-documentation/rewards-campaigns/faqs/configure-reward-campaigns-based-on-tags",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/events/create-and-send-events-to-gameball",
+      "destination": "/product-documentation/admin-settings/create-and-send-events",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/events/events-log",
+      "destination": "/product-documentation/admin-settings/events-log",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/events/using-the-event-engine",
+      "destination": "/product-documentation/rewards-campaigns/faqs/using-the-event-engine",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/integrations/shopify-customer-tags-sync",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/customer-tags-sync",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/integrations/using-events-on-shopify",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/using-events",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/referrals/launching-referral-program",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/redemption/launch-configure-redeem-pointing-system",
+      "destination": "/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/loyalty-points-redeem",
+      "destination": "/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/rewards-campaigns/introduction-to-rewards-campaigns",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/introduction-rewards-campaigns",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/acquire-reward-campaign-templates",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/acquisition-conversion",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/engagement-gamification",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives",
+      "destination": "/product-documentation/rewards-campaigns/reward-campaign-intro",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/acquisition-conversion/unlock-15-off-your-first-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/acquisition-conversion/unlock-15-percent-off-first-order",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/acquisition-conversion/subscribe-to-newsletter-shopify-flow",
+      "destination": "/product-documentation/rewards-campaigns/templates/acquisition-conversion/subscribe-to-newsletter",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/engagement-gamification/daily-streak",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/streak-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/engagement-gamification/fill-a-survey-shopify-flow",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/fill-a-survey",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/engagement-gamification/scratch-win",
+      "destination": "/product-documentation/rewards-campaigns/templates/engagement-gamification/scratch-and-win",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-3-items-from-a-specific-collection",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-3-items-from-collection",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-over-50-and-get-5-on-the-next-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-over-50-get-5-next-order",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-x-get-y-on-the-next-order",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/buy-x-get-y-next-order",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/double-points",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/exceed-your-highest-order-value",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/exceed-highest-order-value",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/free-shipping-for-orders-over-500",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/free-shipping-orders-over-500",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/get-20-coupon-after-spending-1000",
+      "destination": "/product-documentation/rewards-campaigns/templates/purchase-order-incentives/get-20-percent-coupon-after-spending-1000",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/templates/social-sharing-reviews/write-a-review-shopify-flow",
+      "destination": "/product-documentation/rewards-campaigns/templates/social-sharing-reviews/write-a-review",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/apps-integrations/integration-use-cases/request-coupon-creation",
+      "destination": "/product-documentation/admin-settings/request-coupon-creation",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/customer-widget/player-profile-tabs/enable-opening-gameball-widget-through-inline-links-using-deeplinks",
+      "destination": "/product-documentation/customer-widget/player-profile-tabs/widget-deep-links",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/customer-widget/start-configuring-profile/configure-widget-language",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/configure-customer-widget-language-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/customer-widget/start-configuring-profile/customize-tabs-visibility",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customizing-tabs-visibility-and-order-in-gameball-widget-settings",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/customer-widget/start-configuring-profile/customize-widget-branding",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/customize-your-gameball-customer-widget-to-match-your-brand",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/customer-widget/start-configuring-profile/hide-widget-button",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/hiding-gameballs-widget-button",
+      "permanent": true
+    },
+    {
       "source": "/en",
       "destination": "/",
       "permanent": true
