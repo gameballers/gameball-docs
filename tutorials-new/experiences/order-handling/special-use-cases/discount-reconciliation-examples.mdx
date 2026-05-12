@@ -10,13 +10,14 @@ This guide explains how the **Discount Reconciliation Layer** distributes order-
 **Endpoint:** `POST https://api.gameball.co/api/v4.0/integrations/orders`
 
 **Headers:**
+
 ```
 apikey: {your-api-key}
 secretkey: {your-secret-key}
 Content-Type: application/json
 ```
 
----
+***
 
 ## Why Reconciliation Is Needed
 
@@ -30,32 +31,32 @@ Gap:    Line items sum to $100, but customer paid $80 → 20 extra points awarde
 
 The reconciliation layer detects this mismatch and distributes the gap proportionally across eligible line items so that `Σ line items = totalPaid`.
 
----
+***
 
 ## Field Definitions
 
 ### Line Item Fields
 
-| Field | Definition | Example |
-|-------|------------|---------|
-| `price` | Original unit price of a single item (does NOT change with quantity) | If 1 unit = $50, then `price: 50` even if qty 2 |
-| `quantity` | Number of units | `quantity: 2` |
-| `discount` | Total discount applied to this line item (NOT per unit) | If $10 off this line, then `discount: 10` |
-| `taxes` | Total tax for this line item after discount (NOT per unit) | `taxes: 7.5` |
+| Field      | Definition                                                            | Example                                          |
+| ---------- | --------------------------------------------------------------------- | ------------------------------------------------ |
+| `price`    | Original unit price of a single item (does NOT change with quantity)  | If 1 unit = \$50, then `price: 50` even if qty 2 |
+| `quantity` | Number of units                                                       | `quantity: 2`                                    |
+| `discount` | Total discount applied to this line item (NOT per unit)               | If \$10 off this line, then `discount: 10`       |
+| `taxes`    | Total tax for this line item after discount (NOT per unit)            | `taxes: 7.5`                                     |
 
 ### Order Level Fields
 
-| Field | Definition | Example |
-|-------|------------|---------|
-| `totalPrice` | Sum of all line items + taxes (before any discounts) | Items = 100 → `totalPrice: 100` |
-| `totalDiscount` | Sum of ALL discounts (line item + order level + points + coupon) | Coupon 20 + Points 20 → `totalDiscount: 40` |
-| `totalPaid` | What the customer actually paid (`totalPrice - totalDiscount`) | 100 - 40 = `totalPaid: 60` |
+| Field           | Definition                                                            | Example                                       |
+| --------------- | --------------------------------------------------------------------- | --------------------------------------------- |
+| `totalPrice`    | Sum of all line items + taxes (before any discounts)                  | Items = 100 → `totalPrice: 100`               |
+| `totalDiscount` | Sum of ALL discounts (line item + order level + points + coupon)      | Coupon 20 + Points 20 → `totalDiscount: 40`   |
+| `totalPaid`     | What the customer actually paid (`totalPrice - totalDiscount`)        | 100 - 40 = `totalPaid: 60`                    |
 
 <Info>
-Cashback is earned per line item based on `(price × quantity) + taxes - discount`. The reconciliation layer ensures the sum of line item totals equals `totalPaid` before cashback runs.
+  Cashback is earned per line item based on `(price × quantity) + taxes - discount`. The reconciliation layer ensures the sum of line item totals equals `totalPaid` before cashback runs.
 </Info>
 
----
+***
 
 ## Reconciliation Formulas
 
@@ -77,13 +78,13 @@ mismatch = (lineItemTotal + order.totalShipping) - order.totalPaid
 ```
 
 <Info>
-`totalPaid` includes shipping but line items don't, so shipping is added on the line-item side of the equation.
+  `totalPaid` includes shipping but line items don't, so shipping is added on the line-item side of the equation.
 </Info>
 
-### Step 2 — Distribute Proportionally Across All Items
+### Step 2 — Distribute Proportionally Across ALL Items
 
 ```
-totalNet = Σ itemNet
+totalNet = Σ itemNet         // denominator uses each item's NET value (after any existing discount)
 
 FOR each item (in order):
     IF remainingAmount ≤ 0: break
@@ -98,6 +99,10 @@ FOR each item (in order):
         remainingAmount -= share
 ```
 
+<Note>
+  Items that already have a POS-applied discount aren't skipped — they're weighted by their **net** value, so a more-discounted item naturally receives a smaller share.
+</Note>
+
 ### Step 3 — Final Validation
 
 ```
@@ -108,39 +113,74 @@ IF finalMismatch > 0.01:
     log warning, proceed anyway   // never block the order
 ```
 
----
+***
 
 ## Decision Table
 
-| Mismatch | Meaning | Action |
-|----------|---------|--------|
-| `≤ 0.01` | Line items already match `totalPaid` | Skip — proceed to cashback engine |
-| `> 0.01` | Order-level discount/redemption not on line items | Distribute across eligible items |
-| `< -0.01` | Customer paid more than line items sum (fees/tips) | Log warning, no distribution |
+| Mismatch         | Meaning                                            | Action                              |
+| ---------------- | -------------------------------------------------- | ----------------------------------- |
+| `≤ 0.01`         | Line items already match `totalPaid`               | Skip — proceed to cashback engine   |
+| `> 0.01`         | Order-level discount/redemption not on line items  | Distribute across eligible items    |
+| `< -0.01`        | Customer paid more than line items sum (fees/tips) | Log warning, no distribution        |
 
----
+***
 
-## Example 1: Items Already Discounted
+## Example 1: Order-Level Coupon (Most Common)
 
-**Scenario:** Item A has a $5 line discount from the POS. There is also an order-level gap. Reconciliation distributes the remaining gap across both items weighted by net value — so the pre-discounted item automatically receives a smaller share.
+**Scenario:** Customer applied a coupon at checkout. The POS reduced `totalPaid` and set `totalDiscount` but left line items at full price.
 
-| Component | Calculation | Value |
-|-----------|-------------|-------|
-| Item A (1 × $30, disc $5) | net | $25 |
-| Item B (1 × $70) | net | $70 |
-| **Line Item Total** | | $95 |
-| `totalPaid` | | $75 |
-| **Mismatch** | 95 - 75 | **$20** |
-| Item A share | (25 / 95) × 20 | $5.26 |
-| Item B share | (70 / 95) × 20 | $14.74 |
-| Item A final discount | 5 + 5.26 | $10.26 |
-| Item B final discount | 0 + 14.74 | $14.74 |
-| Item A cashback base | 30 - 10.26 | $19.74 |
-| Item B cashback base | 70 - 14.74 | $55.26 |
+| Component                    | Calculation        | Value     |
+| ---------------------------- | ------------------ | --------- |
+| Item A (1 × \$30)            |                    | \$30      |
+| Item B (1 × \$70)            |                    | \$70      |
+| **Line Item Total**          |                    | \$100     |
+| `totalPaid`                  |                    | \$80      |
+| **Mismatch**                 | 100 - 80           | **\$20**  |
+| Item A share                 | (30 / 100) × 20    | \$6       |
+| Item B share                 | (70 / 100) × 20    | \$14      |
+| Item A cashback base         | 30 - 6             | \$24      |
+| Item B cashback base         | 70 - 14            | \$56      |
 
-```json
+```json theme={null}
 {
   "orderId": "INV-2026-002001",
+  "totalPrice": 100,
+  "totalDiscount": 20,
+  "totalPaid": 80,
+  "lineItems": [
+    { "productId": "A", "price": 30, "quantity": 1, "discount": 6 },
+    { "productId": "B", "price": 70, "quantity": 1, "discount": 14 }
+  ]
+}
+```
+
+<Note>
+  The `discount` values shown (6 and 14) are what reconciliation writes onto the line items. The integration only needs to send `discount: 0` — Gameball fills these in.
+</Note>
+
+***
+
+## Example 2: Mixed — Some Items Already Discounted
+
+**Scenario:** Item A has a $5 line discount from the POS. The mismatch is distributed across **both** items, weighted by net value, so the item with the bigger existing discount automatically gets a smaller share.
+
+| Component                       | Calculation        | Value     |
+| ------------------------------- | ------------------ | --------- |
+| Item A (1 × \$30, disc \$5)     | net                | \$25      |
+| Item B (1 × \$70)               | net                | \$70      |
+| **Line Item Total**             |                    | \$95      |
+| `totalPaid`                     |                    | \$75      |
+| **Mismatch**                    | 95 - 75            | **\$20**  |
+| Item A share                    | (25 / 95) × 20     | \$5.26    |
+| Item B share                    | (70 / 95) × 20     | \$14.74   |
+| Item A final discount           | 5 + 5.26           | \$10.26   |
+| Item B final discount           | 0 + 14.74          | \$14.74   |
+| Item A cashback base            | 30 - 10.26         | \$19.74   |
+| Item B cashback base            | 70 - 14.74         | \$55.26   |
+
+```json theme={null}
+{
+  "orderId": "INV-2026-002002",
   "totalPrice": 100,
   "totalDiscount": 25,
   "totalPaid": 75,
@@ -151,73 +191,61 @@ IF finalMismatch > 0.01:
 }
 ```
 
-<Note>
-Items that already have a POS-applied discount are not skipped — they are weighted by their net value, so a more-discounted item naturally receives a smaller share of the gap.
-</Note>
+***
 
----
+## Example 3: All Items Already Discounted
 
-## Example 2: Gift Card as Negative Line Item
+**Scenario:** Every line item already has a POS-applied discount, but their sum still doesn't match `totalPaid`. The remaining gap is distributed across all items by net value.
 
-**Scenario:** The POS represents a $50 gift card redemption as a line item with `price: -50`. Reconciliation filters negative items in Step 0, then distributes the remaining gap across real products only.
+| Component                       | Calculation        | Value     |
+| ------------------------------- | ------------------ | --------- |
+| Item A (1 × \$30, disc \$5)     | net                | \$25      |
+| Item B (1 × \$70, disc \$15)    | net                | \$55      |
+| **Line Item Total**             |                    | \$80      |
+| `totalPaid`                     |                    | \$60      |
+| **Mismatch**                    | 80 - 60            | **\$20**  |
+| Item A added share              | (25 / 80) × 20     | \$6.25    |
+| Item B added share              | (55 / 80) × 20     | \$13.75   |
+| Item A final discount           | 5 + 6.25           | \$11.25   |
+| Item B final discount           | 15 + 13.75         | \$28.75   |
+| Item A cashback base            | 30 - 11.25         | \$18.75   |
+| Item B cashback base            | 70 - 28.75         | \$41.25   |
 
-| Component | Calculation | Value |
-|-----------|-------------|-------|
-| Shirt (1 × $80) | | $80 |
-| Pants (1 × $20) | | $20 |
-| Gift card (-$50) | filtered out | — |
-| **Line Item Total (after filter)** | | $100 |
-| `totalPaid` | | $50 |
-| **Mismatch** | 100 - 50 | **$50** |
-| Shirt share | (80 / 100) × 50 | $40 |
-| Pants share | (20 / 100) × 50 | $10 |
-| Shirt cashback base | 80 - 40 | $40 |
-| Pants cashback base | 20 - 10 | $10 |
-
-```json
+```json theme={null}
 {
-  "orderId": "INV-2026-002002",
+  "orderId": "INV-2026-002003",
   "totalPrice": 100,
-  "totalDiscount": 50,
-  "totalPaid": 50,
+  "totalDiscount": 40,
+  "totalPaid": 60,
   "lineItems": [
-    { "productId": "SHIRT", "price": 80, "quantity": 1, "discount": 40 },
-    { "productId": "PANTS", "price": 20, "quantity": 1, "discount": 10 }
+    { "productId": "A", "price": 30, "quantity": 1, "discount": 11.25 },
+    { "productId": "B", "price": 70, "quantity": 1, "discount": 28.75 }
   ]
 }
 ```
 
-<Note>
-Negative-priced items (gift card, store credit) are filtered before reconciliation. The customer earns cashback only on the cash portion they actually paid.
-</Note>
+***
 
----
+## Example 4: External Loyalty Redemption as Payment Method
 
-## Example 3: External Loyalty as Payment Method
+**Scenario:** A POS like Square treats a points redemption as a payment method (not a discount). `totalPaid` is already reduced; line items remain at full price; `totalDiscount` is zero.
 
-**Scenario:** A POS (e.g. Square) treats a loyalty redemption as a payment method, not a discount. `totalPaid` is already reduced; line items remain at full price; `totalDiscount` is zero.
+| Component                      | Calculation        | Value     |
+| ------------------------------ | ------------------ | --------- |
+| Item A (1 × \$150)             |                    | \$150     |
+| Item B (1 × \$150)             |                    | \$150     |
+| **Line Item Total**            |                    | \$300     |
+| `totalPaid` (after redemption) |                    | \$200     |
+| **Mismatch**                   | 300 - 200          | **\$100** |
+| Item A share                   | (150 / 300) × 100  | \$50      |
+| Item B share                   | (150 / 300) × 100  | \$50      |
 
-| Component | Calculation | Value |
-|-----------|-------------|-------|
-| Item A (1 × $150) | | $150 |
-| Item B (1 × $150) | | $150 |
-| **Line Item Total** | | $300 |
-| `totalPaid` (after redemption) | | $200 |
-| **Mismatch** | 300 - 200 | **$100** |
-| Item A share | (150 / 300) × 100 | $50 |
-| Item B share | (150 / 300) × 100 | $50 |
-| Item A cashback base | 150 - 50 | $100 |
-| Item B cashback base | 150 - 50 | $100 |
-
-```json
+```json theme={null}
 {
-  "orderId": "INV-2026-002003",
+  "orderId": "INV-2026-002004",
   "totalPrice": 300,
   "totalDiscount": 0,
   "totalPaid": 200,
-  "redemption": {
-    "pointsHoldReference": "HOLD-ABC123"
-  },  
   "lineItems": [
     { "productId": "A", "price": 150, "quantity": 1, "discount": 50 },
     { "productId": "B", "price": 150, "quantity": 1, "discount": 50 }
@@ -226,66 +254,66 @@ Negative-priced items (gift card, store credit) are filtered before reconciliati
 ```
 
 <Info>
-The algorithm doesn't need to know why there's a mismatch. It reconciles purely on `lineItemTotal vs totalPaid` — making it universal across POS patterns.
+  The algorithm doesn't need to know **why** there's a mismatch (coupon, gift card, loyalty as discount, loyalty as payment). It reconciles purely on `lineItemTotal vs totalPaid` — making it universal across POS patterns.
 </Info>
 
----
+***
 
-## Example 4: POS Coupon + External Redemption Combined
+## Example 5: POS Coupon + External Redemption Combined
 
-**Scenario:** Customer used a $20 coupon AND redeemed $20 of external loyalty points through the POS. Neither was distributed to line items. Reconciliation handles both deductions in a single pass.
+**Scenario:** Customer used a $20 coupon AND redeemed $20 of points through the POS. Neither was distributed to line items. Reconciliation handles both in a single pass.
 
-| Component | Calculation | Value |
-|-----------|-------------|-------|
-| Item A (1 × $50) | | $50 |
-| Item B (1 × $50) | | $50 |
-| **Line Item Total** | | $100 |
-| Coupon discount | | $20 |
-| External redemption | | $20 |
-| `totalPaid` | 100 - 20 - 20 | **$60** |
-| **Mismatch** | 100 - 60 | **$40** |
-| Item A share | (50 / 100) × 40 | $20 |
-| Item B share | (50 / 100) × 40 | $20 |
-| Item A cashback base | 50 - 20 | $30 |
-| Item B cashback base | 50 - 20 | $30 |
+| Component                    | Calculation        | Value     |
+| ---------------------------- | ------------------ | --------- |
+| Item A (1 × \$50)            |                    | \$50      |
+| Item B (1 × \$50)            |                    | \$50      |
+| **Line Item Total**          |                    | \$100     |
+| Coupon discount              |                    | \$20      |
+| Points redeemed              |                    | \$20      |
+| `totalPaid`                  | 100 - 20 - 20      | **\$60**  |
+| **Mismatch**                 | 100 - 60           | **\$40**  |
+| Item A share                 | (50 / 100) × 40    | \$20      |
+| Item B share                 | (50 / 100) × 40    | \$20      |
 
-```json
+```json theme={null}
 {
-  "orderId": "INV-2026-002004",
+  "orderId": "INV-2026-002005",
   "totalPrice": 100,
   "totalDiscount": 40,
   "totalPaid": 60,
-  "redemption": {
-    "pointsHoldReference": "HOLD-ABC123"
-  },
+  "redeemedAmount": 20,
   "lineItems": [
-    { "productId": "A", "price": 50, "quantity": 1, "discount": 10 },
-    { "productId": "B", "price": 50, "quantity": 1, "discount": 10 }
+    { "productId": "A", "price": 50, "quantity": 1, "discount": 20 },
+    { "productId": "B", "price": 50, "quantity": 1, "discount": 20 }
   ]
 }
 ```
 
----
+<Note>
+  This was the previous double-distribution bug: reconciliation distributed \$40, then `DistributeRedeemedAmount` distributed another \$20 on top. The single-pass reconciliation now handles both deductions together, so cashback is correctly calculated on \$60.
+</Note>
 
-## Example 5: Cap Protection — Discount Larger Than Cheap Item
+***
 
-**Scenario:** A large redemption could mathematically push a cheap item's cashback base below zero. The cap ensures the per-item discount never exceeds the item's net value.
+## Example 6: Cap Protection — Discount Larger Than Cheap Item
 
-| Component | Calculation | Value |
-|-----------|-------------|-------|
-| Item A (1 × $5) | | $5 |
-| Item B (1 × $95) | | $95 |
-| **Line Item Total** | | $100 |
-| `totalPaid` | | $10 |
-| **Mismatch** | 100 - 10 | **$90** |
-| Item A share | (5 / 100) × 90 | $4.50 |
-| Item B share | (95 / 100) × 90 | $85.50 |
-| Item A cashback base | 5 - 4.50 | $0.50 |
-| Item B cashback base | 95 - 85.50 | $9.50 |
+**Scenario:** A large redemption could mathematically push a cheap item's cashback base below zero. The cap ensures the per-item discount never exceeds the item's value.
 
-```json
+| Component                    | Calculation             | Value     |
+| ---------------------------- | ----------------------- | --------- |
+| Item A (1 × \$5)             |                         | \$5       |
+| Item B (1 × \$95)            |                         | \$95      |
+| **Line Item Total**          |                         | \$100     |
+| `totalPaid`                  |                         | \$10      |
+| **Mismatch**                 | 100 - 10                | **\$90**  |
+| Item A share (capped at \$5) | (5 / 100) × 90 = 4.50   | \$4.50    |
+| Item B share                 | (95 / 100) × 90 = 85.50 | \$85.50   |
+| Item A cashback base         | 5 - 4.50                | \$0.50    |
+| Item B cashback base         | 95 - 85.50              | \$9.50    |
+
+```json theme={null}
 {
-  "orderId": "INV-2026-002005",
+  "orderId": "INV-2026-002006",
   "totalPrice": 100,
   "totalDiscount": 90,
   "totalPaid": 10,
@@ -296,23 +324,23 @@ The algorithm doesn't need to know why there's a mismatch. It reconciles purely 
 }
 ```
 
----
+***
 
-## Example 6: No Mismatch — Pass-Through
+## Example 7: No Mismatch (Pass-Through)
 
 **Scenario:** The POS already distributed every discount onto line items. `Σ line items` already equals `totalPaid`. Reconciliation runs but does nothing.
 
-| Component | Calculation | Value |
-|-----------|-------------|-------|
-| Item A (1 × $30, disc $6) | | $24 |
-| Item B (1 × $70, disc $14) | | $56 |
-| **Line Item Total** | | $80 |
-| `totalPaid` | | $80 |
-| **Mismatch** | 80 - 80 | **$0** |
+| Component                    | Calculation        | Value     |
+| ---------------------------- | ------------------ | --------- |
+| Item A (1 × \$30, disc \$6)  |                    | \$24      |
+| Item B (1 × \$70, disc \$14) |                    | \$56      |
+| **Line Item Total**          |                    | \$80      |
+| `totalPaid`                  |                    | \$80      |
+| **Mismatch**                 | 80 - 80            | **\$0**   |
 
-```json
+```json theme={null}
 {
-  "orderId": "INV-2026-002006",
+  "orderId": "INV-2026-002007",
   "totalPrice": 100,
   "totalDiscount": 20,
   "totalPaid": 80,
@@ -323,48 +351,48 @@ The algorithm doesn't need to know why there's a mismatch. It reconciles purely 
 }
 ```
 
----
+***
 
 ## Edge Cases Reference
 
-| Edge Case | Handling |
-|-----------|----------|
-| No mismatch | Skip — proceed directly to cashback |
-| Items with existing discount | Included in distribution, weighted by net value |
-| Single line item | Full mismatch applied to that item (capped at its net value) |
-| Share ≥ item net value | Capped at net value — cashback base goes to 0, not negative |
-| Rounding remainder | Silently absorbed (typically < $0.01) |
-| No line items | Skip — cashback uses transaction-level `totalPaid` |
-| `totalPaid` > `lineItemTotal + shipping` | Log warning, no distribution (fees/tips case) |
-| Negative-price items (gift card) | Filtered out in Step 0 |
-| Shipping | Added to line item side of the mismatch equation |
+| Edge Case                                  | Handling                                                          |
+| ------------------------------------------ | ----------------------------------------------------------------- |
+| No mismatch                                | Skip — proceed directly to cashback                               |
+| Items with existing discount               | Included in distribution, weighted by net value (smaller share)   |
+| Single line item                           | Full mismatch applied to that item (capped at its net value)      |
+| Share ≥ item net value                     | Capped at net value — item's cashback base goes to 0, not negative|
+| Rounding remainder                         | Silently absorbed (typically `< $0.01`)                           |
+| No line items                              | Skip — cashback uses transaction-level `totalPaid`                |
+| `totalPaid` > `lineItemTotal + shipping`   | Log warning, no distribution (fees / tips case)                   |
+| Negative-price items (gift card)           | Filtered out in Step 0                                            |
+| Shipping                                   | Added to line item side of the mismatch equation                  |
+| Gameball's own redemption (HoldReference)  | Same flow — `DistributeAmountAcrossLineItems` is shared           |
 
----
+***
 
 ## Summary Table
 
-| Example | Scenario | Line Item Total | totalPaid | Mismatch | Cashback Base |
-|---------|----------|-----------------|-----------|----------|---------------|
-| 1 | Items Already Discounted | $95 | $75 | $20 | $75 |
-| 2 | Gift Card as Negative Line Item | $100* | $50 | $50 | $50 |
-| 3 | External Loyalty as Payment Method | $300 | $200 | $100 | $200 |
-| 4 | POS Coupon + External Redemption | $100 | $60 | $40 | $60 |
-| 5 | Cap Protection | $100 | $10 | $90 | $10 |
-| 6 | No Mismatch (Pass-Through) | $80 | $80 | $0 | $80 |
+| Example | Scenario                              | Line Item Total | totalPaid | Mismatch | Cashback Base |
+| ------- | ------------------------------------- | --------------- | --------- | -------- | ------------- |
+| 1       | Order-level coupon                    | \$100           | \$80      | \$20     | \$80          |
+| 2       | Mixed — some items pre-discounted     | \$95            | \$75      | \$20     | \$75          |
+| 3       | All items pre-discounted (fallback)   | \$80            | \$60      | \$20     | \$60          |
+| 4       | Loyalty as payment method             | \$300           | \$200     | \$100    | \$200         |
+| 5       | POS coupon + external redemption      | \$100           | \$60      | \$40     | \$60          |
+| 6       | Cap protection — cheap item           | \$100           | \$10      | \$90     | \$10          |
+| 7       | No mismatch (pass-through)            | \$80            | \$80      | \$0      | \$80          |
 
-\* After filtering the negative gift-card line item.
-
----
+***
 
 ## Key Takeaway
 
 <Check>
-**Reconciliation guarantees `Σ line item cashback base = totalPaid`.**
+  **Reconciliation guarantees `Σ line item cashback base = totalPaid`.**
 
-Integrations don't need to figure out which deduction caused the gap (coupon, gift card, loyalty as discount, loyalty as payment). Just send:
+  Integrations don't need to figure out *which* deduction caused the gap (coupon, gift card, loyalty as discount, loyalty as payment). Just send:
 
-- Line items at their natural prices
-- `totalPaid` reflecting what the customer actually paid
+  * Line items at their natural prices
+  * `totalPaid` reflecting what the customer actually paid
 
-Gameball detects the mismatch, distributes it proportionally across eligible items, and never blocks the order if reconciliation can't fully close the gap.
+  Gameball detects the mismatch, distributes it proportionally across eligible items, and never blocks the order if reconciliation can't fully close the gap.
 </Check>
