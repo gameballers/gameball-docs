@@ -136,35 +136,35 @@ The examples below show only the fields that change from Example 1. All other fi
 
 ## Example 2: Line Item Discount
 
-**Scenario:** A specific item has a discount applied directly (e.g. item on sale). Tax is calculated on the discounted amount.
+**Scenario:** A specific item has a discount applied directly (e.g. item on sale). Tax is calculated on the **full price** and the discount is applied afterward.
 
 | Component | Calculation | Value |
 |-----------|-------------|-------|
 | Vitamin C (2 × $150) | | $300 |
 | Face Moisturizer (1 × $200) | | $200 |
 | **Subtotal** | | $500 |
-| Vitamin C Discount | | $50 |
-| Vitamin C Tax | ($300 - $50) × 15% | $37.50 |
+| Vitamin C Tax | $300 × 15% | $45 |
 | Face Moisturizer Tax | $200 × 15% | $30 |
-| **Total Tax** | | $67.50 |
-| **totalPrice** | 500 + 67.50 | **$567.50** |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C Discount | | $50 |
 | totalDiscount | | $50 |
-| **totalPaid** | 567.50 - 50 | **$517.50** |
+| **totalPaid** | 575 - 50 | **$525** |
 
 ```json
 {
   "orderId": "INV-2026-001235",
-  "totalPrice": 567.5,
+  "totalPrice": 575,
   "totalDiscount": 50,
-  "totalTax": 67.5,
-  "totalPaid": 517.5,
+  "totalTax": 75,
+  "totalPaid": 525,
   "lineItems": [
     {
       "productId": "PROD-12345",
       "quantity": 2,
       "price": 150,
       "discount": 50,
-      "taxes": 37.5
+      "taxes": 45
     },
     {
       "productId": "PROD-67890",
@@ -364,17 +364,173 @@ Do not use `redeemedAmount` or the `redemption` object for external loyalty prog
 
 ---
 
+## Example 8: Discount Types (Free, % Off, Fixed)
+
+**Scenario:** The discount is applied **after** tax is calculated, so the discount value covers both the product price **and** its tax portion. This is common when a POS reduces the line total directly (e.g. "make this item free" or "30% off the final price").
+
+The key rule: tax is calculated on the full price, and the discount value must include the tax portion that's being given away.
+
+### 8a — Free Item (Free Product)
+
+Vitamin C is given for free as part of a promo. The line value is **$300 + $45 tax = $345**, so the discount must cover all $345.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C free item discount | covers price + tax | $345 |
+| totalDiscount | | $345 |
+| **totalPaid** | 575 - 345 | **$230** |
+
+```json
+{
+  "orderId": "INV-2026-001241",
+  "totalPrice": 575,
+  "totalDiscount": 345,
+  "totalTax": 75,
+  "totalPaid": 230,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 345,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+<Info>
+The customer paid nothing for Vitamin C, so no points are earned on that line. Points are still earned on the Face Moisturizer ($230).
+</Info>
+
+### 8b — 30% Off (Percentage Discount)
+
+Same items with a **30% off** promo on Vitamin C. The discount applies to price + tax: **30% × ($300 + $45) = $103.50**.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C 30% off discount | 30% × 345 | $103.50 |
+| totalDiscount | | $103.50 |
+| **totalPaid** | 575 - 103.50 | **$471.50** |
+
+```json
+{
+  "orderId": "INV-2026-001242",
+  "totalPrice": 575,
+  "totalDiscount": 103.50,
+  "totalTax": 75,
+  "totalPaid": 471.50,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 103.50,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+<Info>
+The customer paid $471.50 in total, so points are earned on $471.50.
+</Info>
+
+### 8c — Fixed Discount ($20 Off)
+
+A flat **$20 off** discount is applied to Vitamin C (e.g. a 20-currency coupon code). The discount value is sent as-is — it already represents the amount taken off the customer's final bill, tax included.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C fixed discount | $20 off (tax-inclusive) | $20 |
+| totalDiscount | | $20 |
+| **totalPaid** | 575 - 20 | **$555** |
+
+```json
+{
+  "orderId": "INV-2026-001243",
+  "totalPrice": 575,
+  "totalDiscount": 20,
+  "totalTax": 75,
+  "totalPaid": 555,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 20,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+<Info>
+The customer paid $555, so points are earned on $555.
+</Info>
+
+<Note>
+Whether the discount is a free product, a percentage, or a flat fixed amount, the rule is the same: **the discount value already accounts for the tax portion** — send it as-is. Gameball uses `totalPaid` to calculate points correctly in all three cases.
+</Note>
+
+---
+
 ## Summary Table
 
 | Example | Scenario | totalPrice | totalDiscount | totalPaid | Points Earned On |
 |---------|----------|------------|---------------|-----------|------------------|
 | 1 | Basic Order | $575 | $0 | $575 | $575 |
-| 2 | Line Item Discount | $567.50 | $50 | $517.50 | $517.50 |
+| 2 | Line Item Discount | $575 | $50 | $525 | $525 |
 | 3 | Order-Level Discount | $575 | $75 | $500 | $500 |
 | 4 | Points Redemption | $575 | $100 | $475 | $475 |
 | 5 | Coupon | $575 | $50 | $525 | $525 |
 | 6 | Mixed (All) | $575 | $100 | $475 | $475 |
 | 7 | External Loyalty (Qitaf/Rajhi) | $575 | $100 | $475 | $475 |
+| 8a | Free Item (Free Product) | $575 | $345 | $230 | $230 |
+| 8b | 30% Off (Percentage Discount) | $575 | $103.50 | $471.50 | $471.50 |
+| 8c | Fixed Discount ($20 Off) | $575 | $20 | $555 | $555 |
 
 ---
 
