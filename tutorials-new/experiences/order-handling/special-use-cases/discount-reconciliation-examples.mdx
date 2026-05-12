@@ -50,7 +50,6 @@ The reconciliation layer detects this mismatch and distributes the gap proportio
 | `totalPrice` | Sum of all line items + taxes (before any discounts) | Items = 100 → `totalPrice: 100` |
 | `totalDiscount` | Sum of ALL discounts (line item + order level + points + coupon) | Coupon 20 + Points 20 → `totalDiscount: 40` |
 | `totalPaid` | What the customer actually paid (`totalPrice - totalDiscount`) | 100 - 40 = `totalPaid: 60` |
-| `redeemedAmount` | Currency value of points or external loyalty redeemed in this order | `redeemedAmount: 20` |
 
 <Info>
 Cashback is earned per line item based on `(price × quantity) + taxes - discount`. The reconciliation layer ensures the sum of line item totals equals `totalPaid` before cashback runs.
@@ -216,7 +215,9 @@ Negative-priced items (gift card, store credit) are filtered before reconciliati
   "totalPrice": 300,
   "totalDiscount": 0,
   "totalPaid": 200,
-  "redeemedAmount": 100,
+  "redemption": {
+    "pointsHoldReference": "HOLD-ABC123"
+  },  
   "lineItems": [
     { "productId": "A", "price": 150, "quantity": 1, "discount": 50 },
     { "productId": "B", "price": 150, "quantity": 1, "discount": 50 }
@@ -254,10 +255,12 @@ The algorithm doesn't need to know why there's a mismatch. It reconciles purely 
   "totalPrice": 100,
   "totalDiscount": 40,
   "totalPaid": 60,
-  "redeemedAmount": 20,
+  "redemption": {
+    "pointsHoldReference": "HOLD-ABC123"
+  },
   "lineItems": [
-    { "productId": "A", "price": 50, "quantity": 1, "discount": 20 },
-    { "productId": "B", "price": 50, "quantity": 1, "discount": 20 }
+    { "productId": "A", "price": 50, "quantity": 1, "discount": 10 },
+    { "productId": "B", "price": 50, "quantity": 1, "discount": 10 }
   ]
 }
 ```

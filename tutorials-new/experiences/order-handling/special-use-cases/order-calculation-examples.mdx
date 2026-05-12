@@ -37,7 +37,6 @@ Content-Type: application/json
 | `totalDiscount` | Sum of ALL discounts (line item + order level + points + coupon + external loyalty) | Line discount 50 + Points 100 → `totalDiscount: 150` |
 | `totalTax` | Sum of all taxes across line items | `totalTax: 75` |
 | `totalPaid` | What customer actually paid (`totalPrice - totalDiscount`) | 575 - 150 = `totalPaid: 425` |
-| `redeemedAmount` | Currency value of points redeemed through Gameball in this order | `redeemedAmount: 100` |
 
 ### Redemption Fields
 
@@ -68,7 +67,7 @@ lineItemTax = (lineTotal - lineItemDiscount) × taxRate
 ```
 totalPrice = Σ(quantity × price) + Σ(taxes)
 
-totalDiscount = Σ(lineItem.discount) + orderLevelDiscount + redeemedAmount + couponDiscount
+totalDiscount = Σ(lineItem.discount) + orderLevelDiscount + redemption + couponDiscount
 
 totalPaid = totalPrice - totalDiscount
 ```
@@ -254,16 +253,11 @@ Response returns `holdReference: "HOLD-ABC123"`
   "totalDiscount": 100,
   "totalTax": 75,
   "totalPaid": 475,
-  "redeemedAmount": 100,
   "redemption": {
     "pointsHoldReference": "HOLD-ABC123"
   }
 }
 ```
-
-<Info>
-`redeemedAmount` reflects the currency value of the redeemed points. Customer earns points only on `totalPaid` (475).
-</Info>
 
 ---
 
@@ -322,7 +316,6 @@ Response returns `lockReference: "LOCK-XYZ789"`
   "totalDiscount": 100,
   "totalTax": 75,
   "totalPaid": 475,
-  "redeemedAmount": 50,
   "redemption": {
     "pointsHoldReference": "HOLD-ABC123",
     "couponsLockReference": "LOCK-XYZ789",
@@ -332,7 +325,10 @@ Response returns `lockReference: "LOCK-XYZ789"`
 ```
 
 <Info>
-All discounts (commercial + points + coupon) are summed in `totalDiscount`. `redeemedAmount` reflects the Gameball points portion only.
+- All discounts (commercial + points + coupon) are summed in `totalDiscount`
+- Gameball only uses `totalPaid` for earning points
+- The `pointsHoldReference` links the points redemption
+- The `couponsLockReference` links the coupon burn
 </Info>
 
 ---
@@ -359,7 +355,7 @@ All discounts (commercial + points + coupon) are summed in `totalDiscount`. `red
 ```
 
 <Warning>
-Do not use `redeemedAmount` or the `redemption` object for external loyalty programs. Include the redeemed amount in `totalDiscount` only. Customer earns Gameball points on `totalPaid` (475).
+Do not use `redemption` or the `redemption` object for external loyalty programs. Include the redeemed amount in `totalDiscount` only. Customer earns Gameball points on `totalPaid` (475).
 </Warning>
 
 ---
@@ -543,5 +539,4 @@ Gameball doesn't need to know the breakdown of discounts. Just send:
 - `totalPrice` (items + taxes, before discounts)
 - `totalDiscount` (sum of ALL discounts including external loyalty)
 - `totalPaid` (what customer actually paid)
-- `redeemedAmount` (when Gameball points are redeemed — currency value of points used)
 </Check>
