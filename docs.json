@@ -3282,6 +3282,11 @@
       "permanent": true
     },
     {
+      "source": "/articles/13672373-use-extra-attributes-to-create-targeted-earning-rules",
+      "destination": "/product-documentation/programs/loyalty-points-earn/custom-earning-rules",
+      "permanent": true
+    },
+    {
       "source": "/product-documentation/understanding-your-customers/customer-profile/manage-your-gameball-customer-attributes",
       "destination": "/product-documentation/admin-settings/manage-customer-attributes",
       "permanent": true
