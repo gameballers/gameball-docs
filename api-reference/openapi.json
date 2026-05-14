@@ -2238,6 +2238,17 @@
                   "customerId": { "type": "string" },
                   "email": { "type": "string" },
                   "mobile": { "type": "string" },
+                  "transactionId": {
+                    "type": "string",
+                    "description": "A unique identifier for the transaction in your system (e.g., order number or invoice number). This ID can be used to reverse, cancel, or refund any coupon burn transactions in Gameball.",
+                    "example": "txn98765"
+                  },
+                  "transactionTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                    "example": "2024-10-11T10:57:43.382Z"
+                  },
                   "coupons": {
                     "type": "array",
                     "items": { "type": "string" },
