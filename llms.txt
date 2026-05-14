@@ -147,21 +147,88 @@
 - [Batch APIs](https://docs.gameball.co/tutorials-new/experiences/more/batch-apis): Submit bulk operations for customers, orders, and transactions
 - [Omni-Channel Integration](https://docs.gameball.co/tutorials-new/experiences/more/omni-channel): Unify loyalty across online and offline channels
 
-## API Reference
+## API Reference — Overview
 
 - [API Introduction](https://docs.gameball.co/api-reference/introduction): Authentication, base URL, and request format
 - [Authentication](https://docs.gameball.co/api-reference/overview/authentication): API key and secret key usage
 - [Rate Limiting](https://docs.gameball.co/api-reference/overview/rate-limiting): API rate limits and best practices
 - [Status & Error Codes](https://docs.gameball.co/api-reference/overview/status-error-codes): HTTP status codes and error response format
+
+## API Reference — Customers
+
 - [Create/Update Customer](https://docs.gameball.co/api-reference/customers/management/create-customer): Register or update a customer in Gameball
 - [Get Customer](https://docs.gameball.co/api-reference/customers/management/get-customer): Retrieve a customer's profile and loyalty data
+- [Get Customer Details](https://docs.gameball.co/api-reference/customers/management/get-customer-details): Extended customer data including tier, balance, and metadata
+- [Get Customer Hash](https://docs.gameball.co/api-reference/customers/management/get-customer-hash): Generate a secure hash for widget authentication (required for widget security)
+- [Validate Referrer Code](https://docs.gameball.co/api-reference/customers/management/validate-referrer-code): Check whether a referral code is valid before applying it
+- [Delete Customer](https://docs.gameball.co/api-reference/customers/management/delete-customer): Remove a customer record from Gameball
 - [Customer Balance](https://docs.gameball.co/api-reference/customers/progress/get-customer-balance): Get a customer's current points balance
-- [Send Events](https://docs.gameball.co/api-reference/events/send-events): Track customer actions via the Events API
-- [Order Tracking](https://docs.gameball.co/api-reference/order/order-tracking): Submit orders and calculate rewards
-- [Cashback & Redemption](https://docs.gameball.co/api-reference/transactions/cashback-and-redemptions/index): Award cashback and process point redemptions
+- [Customer Progress](https://docs.gameball.co/api-reference/customers/progress/get-customer-progress): Get a customer's tier and loyalty program progress
+- [Customer Activities](https://docs.gameball.co/api-reference/customers/progress/get-customer-activities): List a customer's loyalty activity history
+- [Campaign Progress](https://docs.gameball.co/api-reference/customers/progress/get-customer-campaigns-progress): Get a customer's progress across active campaigns
+- [Customer Referrals](https://docs.gameball.co/api-reference/customers/progress/get-customer-referrals): List referrals made by a customer
+- [Attach Customer Tags](https://docs.gameball.co/api-reference/customers/tags/attach-customer-tags): Assign tags to a customer for segmentation
+- [Remove Customer Tag](https://docs.gameball.co/api-reference/customers/tags/remove-customer-tag): Remove a tag from a customer
+
+## API Reference — Events
+
+- [Send Events](https://docs.gameball.co/api-reference/events/send-events): Track customer behavioral events via the Events API
+
+## API Reference — Orders
+
+- [Order Tracking](https://docs.gameball.co/api-reference/order/order-tracking): Submit purchase orders to trigger point rewards
+- [Calculate Order Cashback](https://docs.gameball.co/api-reference/order/calculate-order-cashback): Preview cashback/points a customer will earn before submitting an order
+
+## API Reference — Payments
+
+- [Payment Tracking](https://docs.gameball.co/api-reference/payment/payment-tracking): Submit payment records (non-order) to trigger loyalty rewards
+- [Calculate Payment Cashback](https://docs.gameball.co/api-reference/payment/calculate-payment-cashback): Preview cashback before processing a payment
+
+## API Reference — Transactions
+
+- [Redeem Points](https://docs.gameball.co/api-reference/transactions/cashback-and-redemptions/redeem): Redeem a customer's points for a discount or reward
+- [Award Cashback](https://docs.gameball.co/api-reference/transactions/cashback-and-redemptions/cashback): Manually award cashback points to a customer
+- [Refund Transaction](https://docs.gameball.co/api-reference/transactions/cashback-and-redemptions/refund): Reverse points awarded when an order is refunded
+- [Hold Points](https://docs.gameball.co/api-reference/transactions/hold-management/hold): Place a hold on a customer's points before final capture (POS / deferred redemption)
+- [Release Hold](https://docs.gameball.co/api-reference/transactions/hold-management/release): Release or capture a points hold
+- [Get Hold](https://docs.gameball.co/api-reference/transactions/hold-management/get-hold): Retrieve the status of a points hold
+- [Manual Transaction](https://docs.gameball.co/api-reference/transactions/transaction-management/manual-transaction): Create a manual points adjustment outside normal order flow
+
+## API Reference — Coupons
+
 - [Generate Coupon](https://docs.gameball.co/api-reference/coupons/generate-coupon): Issue a new coupon for a customer
-- [Validate Coupon](https://docs.gameball.co/api-reference/coupons/validate-single-coupon): Check if a coupon is valid before applying
-- [Webhooks Overview](https://docs.gameball.co/api-reference/webhooks/overview): Event-driven notifications from Gameball
+- [Validate Coupon](https://docs.gameball.co/api-reference/coupons/validate-single-coupon): Check if a coupon is valid before applying it
+- [Validate Multiple Coupons](https://docs.gameball.co/api-reference/coupons/validate-multiple-coupons): Validate a batch of coupons in a single call
+- [Burn Coupon](https://docs.gameball.co/api-reference/coupons/burn-coupon): Mark a coupon as used after successful redemption (final step in coupon lifecycle)
+- [Release Coupons](https://docs.gameball.co/api-reference/coupons/release-coupons): Release reserved/held coupons back to available
+
+## API Reference — Configurations
+
+- [Cashback Settings](https://docs.gameball.co/api-reference/configurations/reward-configurations/cashback-settings): Read the active cashback earning configuration
+- [Redemption Settings](https://docs.gameball.co/api-reference/configurations/reward-configurations/redemption-settings): Read the points redemption configuration
+- [VIP Tiers Config](https://docs.gameball.co/api-reference/configurations/program-configurations/vip-tiers): Read VIP tier definitions and thresholds
+- [Referral Settings](https://docs.gameball.co/api-reference/configurations/program-configurations/referral-settings): Read referral program configuration
+- [Widget Configuration](https://docs.gameball.co/api-reference/configurations/widget-configuration/index): Read widget display and behavior settings
+
+## API Reference — Leaderboard
+
+- [Customer Leaderboard](https://docs.gameball.co/api-reference/leaderboard/customer-leaderboard): Retrieve top customers ranked by points for leaderboard display
+
+## API Reference — Batch Operations
+
+- [Batch Overview](https://docs.gameball.co/api-reference/batches/batches): Overview of batch APIs for high-volume operations
+- [Batch Customer Data](https://docs.gameball.co/api-reference/batches/batch-creation/customer-data): Create or update customers in bulk
+- [Batch Orders](https://docs.gameball.co/api-reference/batches/batch-creation/orders): Submit multiple orders in a single batch
+- [Batch Events](https://docs.gameball.co/api-reference/batches/batch-creation/events): Send multiple behavioral events in one call
+- [Batch Adjustments](https://docs.gameball.co/api-reference/batches/batch-creation/adjustments): Apply points adjustments to many customers at once
+- [Check Batch Status](https://docs.gameball.co/api-reference/batches/batch-management/check-status): Poll the processing status of a submitted batch
+
+## API Reference — Webhooks
+
+- [Webhooks Overview](https://docs.gameball.co/api-reference/webhooks/overview): Event-driven notifications sent by Gameball to your server
+- [Subscribe to Webhooks](https://docs.gameball.co/api-reference/webhooks/subscribing): Register and manage webhook endpoint subscriptions
+- [Notification Topics](https://docs.gameball.co/api-reference/webhooks/webhook-topics/notifications): Webhook events for loyalty notifications (points earned, tier changes, etc.)
+- [Profile Update Topics](https://docs.gameball.co/api-reference/webhooks/webhook-topics/profile-updates): Webhook events triggered by customer profile changes
 
 ## Optional
 
