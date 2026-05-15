@@ -3687,6 +3687,11 @@
       "permanent": true
     },
     {
+      "source": "/product-documentation/admin-settings/configure-gameball-time-zone-settings",
+      "destination": "/product-documentation/admin-settings/configure-time-zone",
+      "permanent": true
+    },
+    {
       "source": "/articles/13672373-use-extra-attributes-to-create-targeted-earning-rules",
       "destination": "/product-documentation/programs/loyalty-points-earn/custom-earning-rules",
       "permanent": true
