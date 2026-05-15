@@ -1,0 +1,182 @@
+---
+title: "Display Promo Codes for Customers"
+description: "Fetch and display all promotions available for a specific customer using Gameball’s Promo Engine."
+---
+
+# Retrieve Promotions
+
+Retrieving a customer’s available promotions allows your platform to display active offers, personalized deals, or rewards-based discounts in real time.\
+This API lets you showcase ongoing promotions directly within your **storefront**, **mobile app**, or **POS system**, empowering customers to redeem their offers at checkout.
+
+---
+
+## Overview
+
+The [**Get Customer Coupons API**](/api-reference/customers/management/get-customer-coupons) returns all **promotions** assigned to a customer, including both active and expired ones.
+
+Each promotion includes details such as:
+
+- 🏷️ **Promotion name and type**
+- 💰 **Discount value or benefit**
+- 📅 **Expiry date and status**
+- 🎯 **Eligibility and usage limits**
+
+This API is ideal for building personalized **“My Promotions”** sections or showing available promotions at checkout.
+
+---
+
+## Important: Filtering Is Done on Your End
+
+Gameball’s Promo Engine returns **all promotions** associated with the customer — whether they’re active, expired, or already used.\
+To show only the valid ones, you’ll need to filter them on your side using the attributes provided in the API response.
+
+| Attribute               | Description                                                                  | Usage Recommendation                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **`isExpired`**         | `true` if the promotion’s expiry date has passed.                            | Exclude expired promotions from the main display or show them under an “Expired” section. |
+| **`isActive`**          | `true` if the promotion is currently active in Gameball.                     | Display only active promotions.                                                           |
+| **`usageLimit`**        | Maximum number of times this promotion can be used globally.                 | Compare with `usedCount` to check remaining availability.                                 |
+| **`limitPerCustomer`**  | Number of times each customer can redeem the promotion.                      | Compare with `customerUsedCount` to decide eligibility.                                   |
+| **`usedCount`**         | Total number of times this promotion has been redeemed globally.             | Useful for analytics or visibility into overall usage.                                    |
+| **`customerUsedCount`** | Number of times this specific customer has redeemed the promotion.           | Use to determine if the customer can use it again.                                        |
+| **`isAvailableToUse`**  | `true` if the promotion is currently valid and redeemable for this customer. | Main flag for determining usability in your UI.                                           |
+
+<Tip>
+  Use \<code\>`isAvailableToUse` as the key flag to show active, valid promotions.  
+
+  For more precision, combine it with `isExpired`,`customerUsedCount`, and `limitPerCustomer` in your display logic.
+</Tip>
+
+---
+
+## When to Use It
+
+| Channel             | Example Use                                                          |
+| ------------------- | -------------------------------------------------------------------- |
+| 🛍️ **E-commerce**  | Display ongoing promotions during checkout or in the user dashboard. |
+| 📱 **Mobile App**   | Populate a “My Promotions” tab showing active and expired deals.     |
+| 🏪 **POS (Retail)** | Let store clerks view applicable promotions for returning customers. |
+
+---
+
+## Example Scenario: Showing Promotions in Checkout
+
+When a customer signs in, your system can fetch all available promotions from Gameball and display those that are currently active and usable.
+
+<Steps>
+  <Step title="Fetch promotions">
+    Call the [Get Customer Coupons API](/api-reference/customers/management/get-customer-coupons) using the customer’s `customerId`
+  </Step>
+  <Step title="Filter the response">
+    Use the metadata flags (`isExpired,isActive, isAvailableToUse`) to filter out inactive or used promotions.
+  </Step>
+  <Step title="Display in the UI">
+    Show filtered, valid promotions so customers can easily apply them at checkout.
+  </Step>
+</Steps>
+
+---
+
+### Example Request
+
+```bash
+GET /integrations/customers/{customerId}/promotions
+```
+
+### **Example Response**
+
+```json
+{
+  "coupons": [
+    {
+      "code": "WELCOME20",
+      "name": "Welcome Offer",
+      "type": "percentage_discount",
+      "value": 20,
+      "expiryDate": "2025-07-01T23:59:59Z",
+      "isExpired": false,
+      "isActive": true,
+      "usageLimit": 500,
+      "limitPerCustomer": 1,
+      "usedCount": 120,
+      "customerUsedCount": 0,
+      "isAvailableToUse": true
+    },
+    {
+      "code": "LOYALTYBOOST",
+      "name": "Loyalty Booster",
+      "type": "fixed_discount",
+      "value": 15,
+      "expiryDate": "2025-03-01T23:59:59Z",
+      "isExpired": true,
+      "isActive": true,
+      "usageLimit": 100,
+      "limitPerCustomer": 1,
+      "usedCount": 100,
+      "customerUsedCount": 1,
+      "isAvailableToUse": false
+    }
+  ]
+}
+```
+
+---
+
+## **Filtering Logic Example**
+
+You can apply simple client-side filtering to show only the promotions available for redemption:
+
+```jsx
+const validCoupons = coupons.filter(
+  (coupon) =>
+    coupon.isActive &&
+    !coupon.isExpired &&
+    coupon.isAvailableToUse &&
+    coupon.customerUsedCount < coupon.limitPerCustomer
+);
+```
+
+This ensures customers see promotions that are:
+
+<Checklist>
+  <Check>Active</Check>
+  <Check>Not expired</Check>
+  <Check>Not used beyond their limits</Check>
+  <Check>Available for redemption</Check>
+</Checklist>
+
+<Note>
+  Optionally, group promotions by state, for example: **Active**, **Used**, and **Expired**, to create a cleaner user experience.
+</Note>
+
+---
+
+## **Key Takeaways**
+
+<Checklist>
+  <Check>The [**Get Customer Coupons API**](/api-reference/customers/management/get-customer-coupons) returns all promotions, including expired or used ones.</Check>
+  <Check>Filter responses with `isExpired`, `isActive`, and `isAvailableToUse`.</Check>
+  <Check>Combine `customerUsedCount` and `limitPerCustomer` to handle per-customer limits.</Check>
+  <Check>Ideal for **custom UIs**, **mobile apps**, and **POS systems** showing personalized offers.</Check>
+  <Check>Fits within the Promo Engine lifecycle across **Validate**, **Burn**, and **Release** flows.</Check>
+</Checklist>
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer Coupons API" icon="ticket" href="/api-reference/customers/management/get-customer-coupons">
+    Retrieve promotions linked to a customer profile
+  </Card>
+  <Card title="Automatic Promos Tutorial" icon="wand-magic-sparkles" href="/tutorials/experiences/gameball-discounts-engine/promos/apply-automatically">
+    Apply eligible promotions automatically at checkout
+  </Card>
+  <Card title="Burn Promo Tutorial" icon="fire" href="/tutorials/experiences/gameball-discounts-engine/promos/burn-submit">
+    Finalize promotions after order success
+  </Card>
+  <Card title="Coupon Entity Reference" icon="book" href="/tutorials/general/entities/coupon">
+    Review metadata shared between coupons and promos
+  </Card>
+</CardGroup>
+
+

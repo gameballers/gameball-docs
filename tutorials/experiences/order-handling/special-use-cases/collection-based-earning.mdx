@@ -1,0 +1,184 @@
+---
+title: "Collection-Based Earning Rules"
+description: "Configure rewards based on product collections"
+---
+
+# What Are Collection-Based Earning Rules?
+
+**Collection-based earning rules** define how cashback or points are calculated based on the product collections included in a customer’s order.
+
+Rather than applying a single earning rate to all products, you can configure specific reward rates per collection, for example, granting higher cashback on “T-Shirts” or “Skincare” items.
+
+### Why It Matters
+This approach makes reward calculation more flexible and accurate, ensuring that loyalty earnings reflect your product structure and business priorities.
+
+<img
+  src="/images/configureCollectionEarningRules.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+<Info>
+To configure Collection-Based earning rules on your dashboard; You can easily, from the left bar, navigate to **Programs** > **Earn Points** > **View Collections**, and then start adding for each collection it's corresponding earning rule. 
+</Info>
+
+### Examples of Collection Types
+
+- **Evergreen collections:** “T-Shirts,” “Accessories,” “Face Products”
+- **Seasonal or promotional groups:** “Holiday Bundles,” “Clearance Items”
+
+| Collection Name      | ex. Earning Rule | How It’s Used in Rewards                                           |
+|----------------------|----------------------|---------------------------------------------------------------------|
+| T-Shirts             | 10% cashback         | Boost earning on apparel basics to encourage higher basket size.    |
+| Premium Skincare     | 8% cashback          | Reward premium items with a strong yet sustainable cashback rate.   |
+| Accessories          | Default program rate | Uses the global earning rule when no collection-specific rule set.  |
+| Holiday Bundles      | 3× points            | Temporary promo collection for seasonal or limited-time campaigns.  |
+
+
+### Important to Note !
+
+<Warning>
+  When a collection is configured to have specific earning rates, Gameball must know **which collection each product belongs to**. If the collection data isn’t sent in the API payload, Gameball applies the **default earning rule** instead.
+</Warning>
+
+This means:
+
+- The product **won’t qualify** for the intended collection-specific reward.
+- Even if it technically belongs to that collection in your catalog.
+
+This can affect **customer experience**, since customers may not receive the cashback value you planned for those product groups.
+
+---
+
+## How to Implement It
+
+When sending an order using the [Track Order API](/api-reference/order/order-tracking), make sure to populate the `lineItems` array with detailed product data.\
+For each item, include its `collection` value so Gameball can correctly evaluate reward eligibility.
+
+<Tip>
+  Adding collection data ensures Gameball matches each product to its relevant **earning logic** during evaluation.
+</Tip>
+
+---
+
+### Example
+
+Here’s how your `Track Order` API payload should look:
+
+```json
+{
+  "customerId": "12345",
+  "orderId": "ORD-1001",
+  "orderDate": "2025-10-16T13:06:34.967Z",
+  "totalPaid": 1702.01,
+  "lineItems": [
+    {
+      "productId": "TSH-001",
+      "productName": "Classic T-Shirt",
+      "quantity": 2,
+      "price": 25,
+      "collection": "T-Shirts"
+    },
+    {
+      "productId": "SKN-010",
+      "productName": "Premium Face Cream",
+      "quantity": 1,
+      "price": 120,
+      "collection": "Premium Skincare"
+    },
+    {
+      "productId": "ACC-008",
+      "productName": "Basic Belt",
+      "quantity": 1,
+      "price": 20
+      // No collection provided here
+    }
+  ],
+  "channel": "web"
+}
+```
+
+<Info>
+  If a product belongs to a specific collection, include the `collection`
+
+  field. If it’s omitted (as in the third item), only the default earning rule applies.
+</Info>
+
+---
+
+## **How Gameball Evaluates Collections**
+
+<Info>
+  This section illustrates how Gameball evaluates products during a transaction when different collection earning rules are in play.
+</Info>
+
+<Accordion title="🧢 Product 1: T-Shirts (quantity 2)">
+  <div style={{ paddingLeft:"12px" }}>
+  The collection-based earning rule applies a **10% cashback rate** to all products in the **“T-Shirts”** collection.
+
+  Since each T-Shirt costs **\$25**, Gameball calculates cashback as follows:
+
+  > \$25 × 2 × 10% = **\$5 cashback**
+
+  All items in the same collection share the same earning rule, so the total cashback for this product line equals the **total spend multiplied by the collection’s cashback rate**.
+
+  </div>
+</Accordion>
+
+<Accordion title="🧴 Product 2: Premium Skincare (quantity 1)">
+  <div style={{ paddingLeft:"12px" }}>
+  The **“Premium Skincare”** collection has its own earning rule, offering **8% cashback** on all qualifying purchases.
+
+  Since this product costs **\$120**, Gameball calculates cashback as follows:
+
+  > \$120 × 8% = **\$9.60 cashback**
+
+  Each collection can have a distinct cashback rate, allowing products from different collections to be evaluated independently without any overlap or conflict in reward calculation.
+
+  </div>
+</Accordion>
+
+<Accordion title="📦 Product 3: No Collection Sent">
+  <div style={{ paddingLeft:"12px" }}>
+  When no collection information is provided, Gameball applies the **default cashback rate** to the product.
+
+  Even if the product technically belongs to a defined collection in your catalog, it will not inherit that collection’s cashback rate unless the collection value is included in the request.
+
+  This ensures that only products explicitly linked to a collection receive their corresponding cashback rules.
+
+  </div>
+</Accordion>
+
+```mermaid
+flowchart TB
+    A["🛒 Order with 3 line items"] --> P1["👕 Product 1: Classic T-Shirt (T-Shirts)"]
+    A --> P2["🧴 Product 2: Face Cream (Premium Skincare)"]
+    A --> P3["👛 Product 3: Purse (No collection)"]
+
+    P1 --> R1["🎁 Apply T-Shirts rule: 10% → $5"]
+    P2 --> R2["🎁 Apply Skincare rule: 8% → $9.60"]
+    P3 --> R3["⚠️ Apply default rule"]
+
+    R1 --> S["➕ Total cashback = sum of all lines"]
+    R2 --> S
+    R3 --> S
+```
+
+<Tip>
+  To ensure cashback is calculated accurately, always include the collection field in your order or item payloads. This allows Gameball to evaluate the correct earning rules for each product and apply the appropriate cashback rate.
+</Tip>
+
+---
+
+## Key Takeaway
+
+<Info>
+  Whenever you use **collection-based earning rules**, make sure each product’s collection value is included in the order payload.
+</Info>
+
+It’s a small but crucial detail that ensures:
+
+- **Accurate cashback calculation:** each product earns the correct cashback rate based on its collection.
+- **Reliable performance tracking:** cashback results accurately reflect customer purchases across collections.
+- **A smoother, fairer loyalty experience:** customers receive rewards that match the value of what they bought.
+
+

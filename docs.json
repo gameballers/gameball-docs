@@ -841,7 +841,7 @@
           {
             "group": "Getting Started",
             "pages": [
-              "tutorials-new/general/welcome"
+              "tutorials/general/welcome"
             ]
           },
           {
@@ -850,34 +850,34 @@
               {
                 "group": "Entities",
                 "pages": [
-                  "tutorials-new/general/entities/attributes",
-                  "tutorials-new/general/entities/events",
-                  "tutorials-new/general/entities/coupon",
-                  "tutorials-new/general/entities/promotion",
-                  "tutorials-new/general/entities/orders",
-                  "tutorials-new/general/entities/payments"
+                  "tutorials/general/entities/attributes",
+                  "tutorials/general/entities/events",
+                  "tutorials/general/entities/coupon",
+                  "tutorials/general/entities/promotion",
+                  "tutorials/general/entities/orders",
+                  "tutorials/general/entities/payments"
                 ]
               },
-              "tutorials-new/general/environments/index"
+              "tutorials/general/environments/index"
             ]
           },
           {
             "group": "Experiences",
             "pages": [
-              "tutorials-new/experiences/tracking-events",
+              "tutorials/experiences/tracking-events",
               {
                 "group": "Order Handling for Commerce",
                 "pages": [
-                  "tutorials-new/experiences/order-handling/preview-points",
-                  "tutorials-new/experiences/order-handling/submit-order",
+                  "tutorials/experiences/order-handling/preview-points",
+                  "tutorials/experiences/order-handling/submit-order",
                   {
                     "group": "Special Use Cases",
                     "pages": [
-                      "tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning",
-                      "tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
-                      "tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches",
-                      "tutorials-new/experiences/order-handling/special-use-cases/order-calculation-examples",
-                      "tutorials-new/experiences/order-handling/special-use-cases/discount-reconciliation-examples"
+                      "tutorials/experiences/order-handling/special-use-cases/collection-based-earning",
+                      "tutorials/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
+                      "tutorials/experiences/order-handling/special-use-cases/multi-merchants-branches",
+                      "tutorials/experiences/order-handling/special-use-cases/order-calculation-examples",
+                      "tutorials/experiences/order-handling/special-use-cases/discount-reconciliation-examples"
                     ]
                   }
                 ]
@@ -885,14 +885,14 @@
               {
                 "group": "Points Redemption",
                 "pages": [
-                  "tutorials-new/experiences/points-redemption/index",
-                  "tutorials-new/experiences/points-redemption/pay-with-points",
+                  "tutorials/experiences/points-redemption/index",
+                  "tutorials/experiences/points-redemption/pay-with-points",
                   {
                     "group": "Convert Points to Coupons",
                     "pages": [
-                      "tutorials-new/experiences/points-redemption/convert-points-to-coupons/index",
-                      "tutorials-new/experiences/points-redemption/convert-points-to-coupons/your-engine",
-                      "tutorials-new/experiences/points-redemption/convert-points-to-coupons/gameball-engine"
+                      "tutorials/experiences/points-redemption/convert-points-to-coupons/index",
+                      "tutorials/experiences/points-redemption/convert-points-to-coupons/your-engine",
+                      "tutorials/experiences/points-redemption/convert-points-to-coupons/gameball-engine"
                     ]
                   }
                 ]
@@ -900,35 +900,35 @@
               {
                 "group": "Gameball Discounts Engine",
                 "pages": [
-                  "tutorials-new/experiences/gameball-discounts-engine/index",
+                  "tutorials/experiences/gameball-discounts-engine/index",
                   {
                     "group": "Coupons",
                     "pages": [
-                      "tutorials-new/experiences/gameball-discounts-engine/coupons/index",
-                      "tutorials-new/experiences/gameball-discounts-engine/coupons/retrieve",
-                      "tutorials-new/experiences/gameball-discounts-engine/coupons/validate-lock",
-                      "tutorials-new/experiences/gameball-discounts-engine/coupons/burn",
-                      "tutorials-new/experiences/gameball-discounts-engine/coupons/release"
+                      "tutorials/experiences/gameball-discounts-engine/coupons/index",
+                      "tutorials/experiences/gameball-discounts-engine/coupons/retrieve",
+                      "tutorials/experiences/gameball-discounts-engine/coupons/validate-lock",
+                      "tutorials/experiences/gameball-discounts-engine/coupons/burn",
+                      "tutorials/experiences/gameball-discounts-engine/coupons/release"
                     ]
                   },
                   {
                     "group": "Promos",
                     "pages": [
-                      "tutorials-new/experiences/gameball-discounts-engine/promos/index",
-                      "tutorials-new/experiences/gameball-discounts-engine/promos/retrieve",
-                      "tutorials-new/experiences/gameball-discounts-engine/promos/apply-automatically",
-                      "tutorials-new/experiences/gameball-discounts-engine/promos/burn-submit"
+                      "tutorials/experiences/gameball-discounts-engine/promos/index",
+                      "tutorials/experiences/gameball-discounts-engine/promos/retrieve",
+                      "tutorials/experiences/gameball-discounts-engine/promos/apply-automatically",
+                      "tutorials/experiences/gameball-discounts-engine/promos/burn-submit"
                     ]
                   }
                 ]
               },
-              "tutorials-new/experiences/refund-handling/index",
+              "tutorials/experiences/refund-handling/index",
               {
                 "group": "Referral",
                 "pages": [
-                  "tutorials-new/experiences/referral/index",
-                  "tutorials-new/experiences/referral/multi-step",
-                  "tutorials-new/experiences/referral/dynamic-link-referral-alternatives"
+                  "tutorials/experiences/referral/index",
+                  "tutorials/experiences/referral/multi-step",
+                  "tutorials/experiences/referral/dynamic-link-referral-alternatives"
                 ]
               }
             ]
@@ -936,31 +936,31 @@
           {
             "group": "More",
             "pages": [
-              "tutorials-new/experiences/more/payment-handling",
-              "tutorials-new/experiences/more/push-notifications",
-              "tutorials-new/experiences/more/cashback-api",
-              "tutorials-new/experiences/more/omni-channel",
-              "tutorials-new/experiences/more/abandoned-cart",
-              "tutorials-new/experiences/more/family-wallet",
-              "tutorials-new/experiences/more/widget-deep-links",
+              "tutorials/experiences/more/payment-handling",
+              "tutorials/experiences/more/push-notifications",
+              "tutorials/experiences/more/cashback-api",
+              "tutorials/experiences/more/omni-channel",
+              "tutorials/experiences/more/abandoned-cart",
+              "tutorials/experiences/more/family-wallet",
+              "tutorials/experiences/more/widget-deep-links",
               {
                 "group": "Build Your Own UI",
                 "pages": [
-                  "tutorials-new/experiences/more/build-your-own-ui/index",
-                  "tutorials-new/experiences/more/build-your-own-ui/customer-balance",
-                  "tutorials-new/experiences/more/build-your-own-ui/vip-tiers",
-                  "tutorials-new/experiences/more/build-your-own-ui/coupons",
-                  "tutorials-new/experiences/more/build-your-own-ui/leaderboard",
-                  "tutorials-new/experiences/more/build-your-own-ui/notifications",
-                  "tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
-                  "tutorials-new/experiences/more/build-your-own-ui/widget-configurations",
-                  "tutorials-new/experiences/more/build-your-own-ui/batch-apis"
+                  "tutorials/experiences/more/build-your-own-ui/index",
+                  "tutorials/experiences/more/build-your-own-ui/customer-balance",
+                  "tutorials/experiences/more/build-your-own-ui/vip-tiers",
+                  "tutorials/experiences/more/build-your-own-ui/coupons",
+                  "tutorials/experiences/more/build-your-own-ui/leaderboard",
+                  "tutorials/experiences/more/build-your-own-ui/notifications",
+                  "tutorials/experiences/more/build-your-own-ui/reward-campaigns",
+                  "tutorials/experiences/more/build-your-own-ui/widget-configurations",
+                  "tutorials/experiences/more/build-your-own-ui/batch-apis"
                 ]
               },
-              "tutorials-new/experiences/more/build-your-own-notifications",
-              "tutorials-new/experiences/more/batch-apis",
-              "tutorials-new/experiences/more/branch-io-integration",
-              "tutorials-new/experiences/more/adjust-integration"
+              "tutorials/experiences/more/build-your-own-notifications",
+              "tutorials/experiences/more/batch-apis",
+              "tutorials/experiences/more/branch-io-integration",
+              "tutorials/experiences/more/adjust-integration"
             ]
           }
         ]
@@ -1286,6 +1286,411 @@
     }
   },
   "redirects": [
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/burn",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/burn",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/index",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/release",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/release",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/retrieve",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/retrieve",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/validate-lock",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/validate-lock",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/index",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/promos/apply-automatically",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/promos/apply-automatically",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/promos/burn-submit",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/promos/burn-submit",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/promos/index",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/promos/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/gameball-discounts-engine/promos/retrieve",
+      "destination": "/tutorials/experiences/gameball-discounts-engine/promos/retrieve",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/abandoned-cart",
+      "destination": "/tutorials/experiences/more/abandoned-cart",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/adjust-integration",
+      "destination": "/tutorials/experiences/more/adjust-integration",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/batch-apis",
+      "destination": "/tutorials/experiences/more/batch-apis",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/branch-io-integration",
+      "destination": "/tutorials/experiences/more/branch-io-integration",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-notifications",
+      "destination": "/tutorials/experiences/more/build-your-own-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/batch-apis",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/batch-apis",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/coupons",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/coupons",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/customer-balance",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/customer-balance",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/index",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/leaderboard",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/leaderboard",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/notifications",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/notifications",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/reward-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/vip-tiers",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/build-your-own-ui/widget-configurations",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/widget-configurations",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/cashback-api",
+      "destination": "/tutorials/experiences/more/cashback-api",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/family-wallet",
+      "destination": "/tutorials/experiences/more/family-wallet",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/omni-channel",
+      "destination": "/tutorials/experiences/more/omni-channel",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/payment-handling",
+      "destination": "/tutorials/experiences/more/payment-handling",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/push-notifications",
+      "destination": "/tutorials/experiences/more/push-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/more/widget-deep-links",
+      "destination": "/tutorials/experiences/more/widget-deep-links",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/preview-points",
+      "destination": "/tutorials/experiences/order-handling/preview-points",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/special-use-cases/collection-based-earning",
+      "destination": "/tutorials/experiences/order-handling/special-use-cases/collection-based-earning",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/special-use-cases/discount-reconciliation-examples",
+      "destination": "/tutorials/experiences/order-handling/special-use-cases/discount-reconciliation-examples",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/special-use-cases/multi-merchants-branches",
+      "destination": "/tutorials/experiences/order-handling/special-use-cases/multi-merchants-branches",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/special-use-cases/order-calculation-examples",
+      "destination": "/tutorials/experiences/order-handling/special-use-cases/order-calculation-examples",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
+      "destination": "/tutorials/experiences/order-handling/special-use-cases/taxes-shipping-exclusion",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/order-handling/submit-order",
+      "destination": "/tutorials/experiences/order-handling/submit-order",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/points-redemption/convert-points-to-coupons/gameball-engine",
+      "destination": "/tutorials/experiences/points-redemption/convert-points-to-coupons/gameball-engine",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/points-redemption/convert-points-to-coupons/index",
+      "destination": "/tutorials/experiences/points-redemption/convert-points-to-coupons/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/points-redemption/convert-points-to-coupons/your-engine",
+      "destination": "/tutorials/experiences/points-redemption/convert-points-to-coupons/your-engine",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/points-redemption/index",
+      "destination": "/tutorials/experiences/points-redemption/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/points-redemption/pay-with-points",
+      "destination": "/tutorials/experiences/points-redemption/pay-with-points",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/referral/dynamic-link-referral-alternatives",
+      "destination": "/tutorials/experiences/referral/dynamic-link-referral-alternatives",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/referral/index",
+      "destination": "/tutorials/experiences/referral/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/referral/multi-step",
+      "destination": "/tutorials/experiences/referral/multi-step",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/refund-handling/index",
+      "destination": "/tutorials/experiences/refund-handling/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/experiences/tracking-events",
+      "destination": "/tutorials/experiences/tracking-events",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/entities/attributes",
+      "destination": "/tutorials/general/entities/attributes",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/entities/coupon",
+      "destination": "/tutorials/general/entities/coupon",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/entities/events",
+      "destination": "/tutorials/general/entities/events",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/entities/orders",
+      "destination": "/tutorials/general/entities/orders",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/entities/payments",
+      "destination": "/tutorials/general/entities/payments",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/entities/promotion",
+      "destination": "/tutorials/general/entities/promotion",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/environments/index",
+      "destination": "/tutorials/general/environments/index",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials-new/general/welcome",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/adjust-integration",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/batch-api-requests",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/branch-io-integration",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/coupons-cx",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/customer-balance",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/customer-leaderboard",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/customer-notifications",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/reward-campaigns",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/vip-tiers",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-custom-ui-elements/widget-configurations",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/build-your-own-notification-system",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/channel-merging-guide",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/checkout-integration",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/managing-customers-coupons",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/previewing-potential-points-before-purchase",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/redemption/coupons/gameball-engine",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/redemption/coupons",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/redemption/coupons/your-engine",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/redemption/direct-debit",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/redemption",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/referral",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/refund",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/retail-pos-integration",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/track-customer-events",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/widget-deep-links",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
     {
       "source": "/en/articles/3464790-introduction-to-customers-on-gameball",
       "destination": "/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball",
@@ -2193,7 +2598,7 @@
     },
     {
       "source": "/en/articles/3725549-allowing-your-players-to-level-up-based-on-payments-only",
-      "destination": "/tutorials-new/general/entities/payments",
+      "destination": "/tutorials/general/entities/payments",
       "permanent": true
     },
     {
@@ -2313,12 +2718,12 @@
     },
     {
       "source": "/en/articles/3830019-cashback-program-campaigns",
-      "destination": "/tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/reward-campaigns",
       "permanent": true
     },
     {
       "source": "/en/articles/3830019-purchase-reward-program-campaigns",
-      "destination": "/tutorials-new/experiences/more/build-your-own-ui/reward-campaigns",
+      "destination": "/tutorials/experiences/more/build-your-own-ui/reward-campaigns",
       "permanent": true
     },
     {

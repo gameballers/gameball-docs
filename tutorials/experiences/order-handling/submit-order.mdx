@@ -1,0 +1,291 @@
+---
+title: "Submitting Orders"
+description: "Integrate Gameball loyalty into order submission: earn points, redeem rewards, and apply coupons seamlessly."
+---
+
+This guide provides a detailed walkthrough of how to integrate Gameball's loyalty and rewards features into your order submission process. The integration covers various scenarios to enhance your customers' shopping experience, including loyalty point accumulation, coupon usage, and seamless redemption.
+
+## Quick Overview
+
+| Scenario | Use Case | Key APIs |
+|----------|----------|---------|
+| **Basic Order** | Earn points on purchase | `POST /order` |
+| **With Points Redemption** | Redeem points at checkout | `POST /hold-points` + `POST /order` |
+| **With Coupon Codes** | Apply discount codes | `POST /validate-coupon` + `POST /order` |
+
+<Info>
+Each scenario outlines a practical process that focuses on customer interactions, ensuring they can easily navigate loyalty rewards, coupons, and promotions as they complete their purchases.
+</Info>
+
+***
+
+## 1️⃣ Submitting an Order
+
+Let's explore how the **[Order API](/api-reference/order/order)** works, starting with what your customers experience and how their actions on your e-commerce platform interact with Gameball to trigger rewards and campaigns.
+
+***
+
+### Customer Journey
+
+<Steps>
+<Step title="🛍️ Customer browses and adds items">
+  A customer, Sarah, visits your e-commerce website and adds items to her cart.
+</Step>
+
+<Step title="💳 Customer completes checkout">
+  At checkout, she places an order for a pair of sneakers worth $500 and pays successfully.
+</Step>
+
+<Step title="✅ Order is confirmed">
+  Sarah's order is confirmed and your system communicates with Gameball.
+<img
+  src="/images/orderConfirmed.png"
+  className="mx-auto"
+  style={{ width:"50%" }}
+/>
+</Step>
+</Steps>
+
+***
+
+### What Happens in the Background
+
+The moment Sarah's order is completed, your website communicates with Gameball through the **[Order API](/api-reference/order/order)**. This triggers a `place_order` event in the background, sending details like:
+
+<AccordionGroup>
+  <Accordion title="💰 Order Information">
+    Basic order metadata including totals and timestamps:
+    
+    ```json
+    {
+      "orderId": "ORD12345",
+      "orderDate": "2024-10-16T08:13:29.290Z",
+      "totalPaid": 500.4,
+      "totalPrice": 500.4,
+      "totalShipping": 0.4
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="🛍️ Products Purchased">
+    Detailed product information for each item in the order:
+    
+    ```json
+    {
+      "lineItems": [
+        {
+          "price": 120,
+          "quantity": 1,
+          "productId": "PROD98765",
+          "sku": "SKU98765",
+          "title": "Black Sneakers",
+          "category": ["Shoes"],
+          "collection": ["Summer2024"]
+        }
+      ]
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="👤 Customer Information">
+    Customer identifier to link the order to the right profile:
+    
+    ```json
+    {
+      "customerId": "15327289462816"
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+**Complete Order Request:**
+
+Here's what the full API payload looks like when everything is combined:
+
+```json
+{
+  "customerId": "15327289462816",
+  "orderId": "ORD12345",
+  "orderDate": "2024-10-16T08:13:29.290Z",
+  "totalPaid": 500.4,
+  "totalPrice": 500.4,
+  "totalShipping": 0.4,
+  "lineItems": [
+    {
+      "price": 500,
+      "quantity": 1,
+      "productId": "PROD98765",
+      "sku": "SKU98765",
+      "title": "Black Sneakers",
+      "category": ["Shoes"],
+      "collection": ["Summer2024"]
+    }
+  ]
+}
+```
+
+***
+
+### Gameball Processing
+
+Once the `place_order` event is triggered:
+
+<Steps>
+<Step title="Order data mapping">
+  The [Order API](/api-reference/order/order) automatically sends the order details to Gameball, mapping your order attributes to event metadata.
+<img
+  src="/images/orderMappingOnDashboard.png"
+  className="mx-auto"
+  style={{ width:"50%" }}
+/>
+<Note>
+This is how orders look like on Gameball's dashboard after being placed.
+</Note>
+</Step>
+
+<Step title="Campaign evaluation">
+  Gameball evaluates the order metadata based on your configured campaigns.
+</Step>
+
+<Step title="Rewards issued">
+  Sarah earns rewards, such as cashback or loyalty points, based on your Gameball settings.
+
+  <Check>
+  For example, if you've configured a rewards campaign for customers placing their first order, Sarah earns a $20 amount-based coupon as a reward.
+  </Check>
+  
+  <Frame>
+  <img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F12vlt8SM0Kk3LygxO24E%2Fimage.png?alt=media&token=e9e9b7f5-ad4e-432c-a4a3-80715f4b8427" alt="Reward issued after first order" />
+  </Frame>
+</Step>
+</Steps>
+
+<Accordion title="📋 Field Mapping Reference" icon="table">
+  Need to know exactly how order fields map to Gameball events? Here's the complete reference:
+
+  | Order API Attribute      | Mapped to Event Object Attribute |
+  | ------------------------ | -------------------------------- |
+  | totalPaid                | total_paid                        |
+  | totalDiscount            | total_discount                    |
+  | lineItems[i].weight      | weight                            |
+  | lineItems[i].vendor      | vendor                            |
+  | lineItems[i].sku         | sku                               |
+  | lineItems[i].title       | title                             |
+  | lineItems[i].tag         | tag                               |
+  | lineItems[i].category    | category                          |
+  | lineItems[i].collection  | collection                        |
+  | extra.key[0]:value       | key[0]:value                      |
+</Accordion>
+
+***
+
+### Seamless Automation
+
+<CardGroup cols={2}>
+  <Card title="✅ With Orders API" icon="wand-magic-sparkles" color="#16a34a">
+    **Automated & Integrated**
+    - Auto reward triggering on purchase
+    - No manual event creation needed
+    - Multi-module integration (cashback, campaigns)
+    - Real-time balance updates
+    - Instant order-campaign linking
+  </Card>
+  <Card title="❌ Without Orders API" icon="triangle-exclamation" color="#dc2626">
+    **Manual & Fragmented**
+    - Manual event creation required
+    - Complex multi-step tracking
+    - Disconnected workflows
+    - Delayed reward processing
+    - Error-prone data entry
+  </Card>
+</CardGroup>
+
+**For instance:**
+
+- If Sarah qualifies for cashback, Gameball calculates the amount and updates her balance instantly and you can display it using the Get Customer Balance API.
+
+<Tip>
+  Want to show customers potential points **before** they place an order? Check out [Previewing Potential Points](/tutorials/experiences/order-handling/preview-points) to learn how to display points on product and cart pages.
+</Tip>
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F2dP7cY7oBVCQzaOtkoMf%2Fimage.png?alt=media&token=f5ba5d00-4ee9-473a-bd62-2b75bed9a3cf" alt="Gameball widget displaying customer balance" />
+</Frame>
+
+<Info>
+This image showcases the Gameball widget displaying the customer's balance. You can also retrieve the same information programmatically using the **Get Customer Balance API** for seamless integration with your application.
+</Info>
+
+- If you're sending order-based notifications, Sarah might receive a message like: "Congratulations, Sarah! You've earned 100 points for your last order."
+
+<Frame>
+<img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2F7f6NoA4gAAkIGr9ywknb%2Fimage.png?alt=media&token=23389f3f-5fcb-485b-b03f-3339785ce71a" alt="Order-based notification example" />
+</Frame>
+
+***
+
+### Customer Experience
+
+Sarah's experience remains smooth and rewarding:
+
+1. She places an order without any extra steps
+2. She receives instant confirmation about her reward points or cashback, enhancing her satisfaction
+3. Over time, Sarah can redeem these points for discounts, keeping her engaged and loyal to your brand
+
+***
+
+### Why This Matters
+
+<Check>
+**Seamless Customer Experience**
+
+Keep customers engaged with rewards without adding friction to their purchase journey.
+</Check>
+
+<Check>
+**Streamlined Internal Processes**
+
+Save time with automatic data mapping and event creation—no manual work required.
+</Check>
+
+<Check>
+**Flexible Campaign Targeting**
+
+Tie specific orders or products to targeted campaigns, driving sales effectively.
+</Check>
+
+***
+
+## Related Order Integrations
+
+If you need to integrate points redemption or coupon codes with your order submission, refer to these detailed guides:
+
+<CardGroup cols={2}>
+  <Card title="Points Redemption" icon="coins" href="/tutorials/experiences/points-redemption">
+    Learn how to integrate points redemption during order submission, including how to hold points and link them to orders.
+  </Card>
+  <Card title="Coupon Codes" icon="ticket" href="/tutorials/experiences/gameball-discounts-engine/coupons">
+    Discover how to validate, lock, and apply coupon codes when customers place orders.
+  </Card>
+</CardGroup>
+
+***
+
+## 🚀 Advanced Order Handling Scenarios
+
+For most businesses, the basic order flows above are sufficient. However, certain business models require specialized configuration:
+
+<CardGroup cols={3}>
+  <Card title="Collection-Based Earning" icon="tags" href="/tutorials/experiences/order-handling/special-use-cases/collection-based-earning">
+    Configure rewards based on specific product collections or categories
+  </Card>
+  <Card title="Taxes & Shipping Exclusion" icon="calculator" href="/tutorials/experiences/order-handling/special-use-cases/taxes-shipping-exclusion">
+    Exclude taxes and shipping from loyalty point calculations
+  </Card>
+  <Card title="Multi-Merchants & Branches" icon="store" href="/tutorials/experiences/order-handling/special-use-cases/multi-merchants-branches">
+    Handle multiple stores, merchants, or branch locations
+  </Card>
+</CardGroup>
+
+***
+

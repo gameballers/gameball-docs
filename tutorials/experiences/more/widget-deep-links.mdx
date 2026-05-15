@@ -1,0 +1,140 @@
+---
+title: "Widget Deep Links"
+description: "Enable Opening Gameball Widget Through Inline links Using Deep-links"
+---
+
+Gameball provides the flexibility to customize how your customers access the loyalty widget. If the default widget button does not align with your platform’s theme or if space is limited, you can hide or replace the button and use **deep links** to give customers quick access to specific widget sections from anywhere on your platform.
+
+This guide explains how to use deep links effectively and integrate them into your website, emails, or campaigns.
+
+***
+
+## What Are Deep Links?
+
+Deep links are URLs or hyperlinks that navigate customers directly to a specific section of the Gameball widget. They enhance the user experience by allowing customers to access the desired content immediately, bypassing unnecessary steps.
+
+<Frame caption="Open Gameball widget using menu item"><img src="https://873157020-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FElcuAgxn15Pk6F2fINKe%2Fuploads%2FMsavKNfJBeyYItyviAzR%2Fdeep-links-into.gif?alt=media&token=1a7b0827-56c6-4b48-97ff-f15a79e2d4f0" alt="Open Gameball widget using menu item" /></Frame>
+
+***
+
+## ✅ All Available Deep Links
+
+Gameball supports the following deep links, which can be used across **both web and mobile** platforms. The section targets remain consistent; only the format changes depending on your platform.  
+Use the compatibility table below to identify which sections can be reached through browser deep links versus SDK `openDetail` parameters:
+
+- **Web Deep Link**: Navigates an already embedded widget to a specific section by using hash or query parameters.
+- **SDK `openDetail`**: Initializes or launches the widget directly into a specific view (for example, a particular campaign or game) using the SDKs.
+
+| Purpose                    | Section Key                    | Web Deep Link | SDK `openDetail` |
+| -------------------------- | ------------------------------ | ------------- | ---------------- |
+| Widget Home                | `home`                         | ✅             | ✅             |
+| Referral                   | `referral`                     | ✅             | ✅             |
+| FAQ                        | `faq`                          | ✅             | ✅             |
+| Levels / Progress          | `levels`                       | ✅             | ✅             |
+| Redemption (Main)          | `redemption` / `redeem_main`   | ✅             | ✅             |
+| Coupon Redemption          | `redeem_coupons`               | ❌             | ✅             |
+| Specific Redemption Rule   | `redeem_rule_{RULE_ID}`        | ❌             | ✅             |
+| All Reward Campaigns       | `reward_campaign`              | ❌             | ✅             |
+| Specific Reward Campaign   | `reward_campaign_{CampaignID}` | ❌             | ✅             |
+| Spin the Wheel (First)     | `wheel`                        | ✅             | ✅             |
+| Wheels List                | `wheels_list`                  | ❌             | ✅             |
+| Specific Wheel             | `wheel_{WheelID}`              | ❌             | ✅             |
+| Slot Machine (First)       | `slot`                         | ✅             | ✅             |
+| Slot Machines List         | `slot_list`                    | ❌             | ✅             |
+| Specific Slot              | `slot_{SlotID}`                | ❌             | ✅             |
+| Calendar Campaign (First)  | `calendar`                     | ✅             | ✅             |
+| Calendar List              | `calendar_list`                | ❌             | ✅             |
+| Specific Calendar Campaign | `calendar_{CalendarID}`        | ❌             | ✅             |
+| Scratch and Win (First)    | `scratch`                      | ❌             | ✅             |
+| Specific Scratch and Win   | `scratch_{ScratchId}`          | ❌             | ✅             |
+| Match Game (First)         | `match`                        | ❌             | ✅             |
+| Specific Match Game        | `match_{MatchId}`              | ❌             | ✅             |
+| Games                      | `games`                        | ✅             | ✅             |
+
+***
+## How to Use Deep Links
+
+Deep links can be added to any element that supports hyperlinks, such as:
+
+- Text
+- Images
+- Menu items
+- Buttons
+
+They can also be included in automated emails or SMS campaigns. For instance, if a customer clicks on a button labeled “View Your Points” in an email, they will be redirected to your website, and the Gameball widget will automatically display their points section.
+
+***
+
+## Web (Deep links)
+
+Deep links on the web rely on URL formats that the widget listens to. Use either of the following approaches based on how you expose the links to customers.
+
+### Web-Compatible Section Keys
+
+Use the section keys with either `#gameball-[section_key]` or `?gameball-deep=[section_key]`:
+
+
+### Hash Format
+
+Append `#gameball-[section_key]` to your URL:
+
+```plaintext
+https://your-site.com/#gameball-referral
+https://your-site.com/#gameball-wheel
+https://your-site.com/#gameball-games
+```
+
+### Query Parameter Format
+
+Append `?gameball-deep=[section_key]` to your URL:
+
+```plaintext
+https://your-site.com/?gameball-deep=referral
+https://your-site.com/?gameball-deep=wheel
+https://your-site.com/?gameball-deep=games
+```
+
+***
+
+## Our SDK
+
+When you are using Gameball SDKs, you can trigger the same sections programmatically. The section keys from the table above still apply; the invocation syntax changes per SDK.
+
+### Mobile SDKs (iOS / Android / React Native / Flutter)
+
+Pass the section key using the `openDetail` parameter and prefix it with `details_`:
+
+```kotlin
+gameballApp.showProfile(this, "customer_id", "details_referral", true)
+gameballApp.showProfile(this, "customer_id", "details_slot_123", true)
+```
+
+
+### Web SDKs
+
+Pass the section key using the `openDetail` parameter and prefix it with `details_`:
+
+```javascript
+   GbSdk.init({
+            APIKey: '{{Your_API_Key}}',
+            lang: 'en',
+            playerUniqueId: '',
+            playerAttributes:{},
+            openDetail: "details_referral"
+        });
+```
+***
+
+
+
+
+## Summary
+
+In this tutorial, we’ve covered the various ways to utilize Gameball deep links and SDK functionalities to provide a seamless and personalized experience for your customers:
+
+1. **Hash Format and Query Parameters**: Enable direct navigation to specific widget sections from your website, emails, or SMS campaigns.
+2. **SDKs Methods**: Offer advanced control for mobile apps and programmatically toggle the widget state or navigate to specific sections.
+3. **Examples and Supported Sections**: Illustrate how to guide customers to areas like referrals, rewards, or wheels.
+
+By combining these methods, you can tailor the Gameball widget’s behavior to fit your platform and create a smoother customer journey.
+

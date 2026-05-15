@@ -1,0 +1,148 @@
+---
+title: "Dynamic Link Referral Alternatives"
+description: "Learn how to handle Gameball referrals without generating a unique dynamic link per customer — using a single shared link or manual code entry instead."
+---
+
+By default, Gameball generates a **unique dynamic link for every customer** (via Adjust or Branch.io). The referral code is embedded inside that link itself, so when a friend clicks it, the code is carried over to the destination URL automatically.
+
+If generating a unique dynamic link per customer is too costly for your Adjust or Branch.io plan, there are two alternatives:
+
+| # | Alternative | How the referral code travels |
+|---|---|---|
+| 1 | Single shared dynamic link + query parameter | Appended to the link as `?GBReferral=CODE` |
+| 2 | No dynamic link — manual code entry | Customer types the referral code into a form field |
+
+---
+
+## Alternative 1: Single Shared Dynamic Link with a Query Parameter
+
+Instead of one unique link per customer, you configure **one shared dynamic link** (from Adjust or Branch.io) used for all referrers. Gameball appends each customer's referral code to that link as a query parameter at runtime.
+
+### Dashboard Setup
+
+<Steps>
+  <Step title="Navigate to the Referral Settings">
+    In your Gameball dashboard, go to **Programs** → **Referrals** → **Settings** → **Referral landing page**.
+
+    <Frame>
+    ![Referral landing page URL setting in the Gameball dashboard](/images/referral-landing-page-url-setting.png)
+    </Frame>
+  </Step>
+  <Step title="Enter your shared dynamic link URL">
+    Set the **URL** field using your base dynamic link, the parameter name you want, and the `{ReferralCode}` placeholder. For example:
+
+    ```
+    https://yourapp.app.link/refer?GBReferral={ReferralCode}
+    ```
+
+    Or with a different parameter name:
+
+    ```
+    https://yourapp.app.link/refer?ReferralCode={ReferralCode}
+    ```
+
+    | Part | What it is |
+    |---|---|
+    | `https://yourapp.app.link/refer` | Your base dynamic link (from Branch.io, Adjust, or your custom deep link domain) |
+    | `GBReferral` / `ReferralCode` | The parameter name — you choose this, Gameball doesn't enforce one |
+    | `{ReferralCode}` | Placeholder Gameball replaces with each customer's unique referral code at runtime |
+  </Step>
+</Steps>
+
+### How It Works
+
+After configuration, the link shown inside the widget for each referrer follows this pattern:
+
+```
+https://yourapp.app.link/refer?GBReferral=ABC123
+```
+
+<Warning>
+  **The referral code is dropped during redirection.** When a friend clicks the link, they are redirected to the destination — but the `GBReferral` query parameter does **not** appear in the final URL they land on. Your client-side code must capture it **before** the redirect happens.
+</Warning>
+
+### Client Responsibilities
+
+1. Read the `GBReferral` (or your chosen parameter name) value from the link **before** redirection occurs.
+2. Persist the referral code locally (e.g., in `localStorage`, a cookie, or session storage) so it survives until the friend completes registration.
+3. Pass the stored referral code as `referrerCode` in the [Create/Update Customer API](/api-reference/customers/management/create-customer) call when the friend signs up.
+
+---
+
+## Alternative 2: Manual Referral Code Entry (No Dynamic Link)
+
+This approach removes dynamic links entirely. Each customer still has their own Gameball-issued referral code — they just share it directly rather than via a link.
+
+### How It Works
+
+- The referrer shares their code through any channel (text, social media, word of mouth).
+- You add a **"Referral Code" input field** on your registration form.
+- When the new user submits the form, you pass the entered code as `referrerCode` in the [Create/Update Customer API](/api-reference/customers/management/create-customer).
+
+### Client Responsibilities
+
+1. Add an optional "Referral Code" input field to the registration form:
+
+    <Frame>
+    ![Registration form with an optional referral code field](/images/referral-manual-code-registration-form.png)
+    </Frame>
+
+2. On account creation, include the entered value as `referrerCode` in the [Create/Update Customer API](/api-reference/customers/management/create-customer) payload:
+
+   ```json
+   POST /integrations/customers
+   {
+     "customerId": "CUST_56789",
+     "referrerCode": "ABC123",
+     "customerAttributes": {
+       "displayName": "Mike",
+       "email": "mike@example.com"
+     }
+   }
+   ```
+
+---
+
+## Default Flow vs. Alternatives — Comparison
+
+> The following comparison helps clarify what changes across these approaches. The final step — **passing the referral code to the Gameball registration endpoint** — is the same in all flows. What differs is where the code comes from and when you need to capture it.
+
+| Aspect | Default (Unique Link per Customer) | Alternative 1 (Shared Link + Query Param) | Alternative 2 (Manual Entry) |
+|---|---|---|---|
+| Link per customer | Unique per customer | One shared link for all | No link |
+| Referral code visible in widget link? | No — embedded inside the link | Yes — shown as `?GBReferral=...` | N/A |
+| Code present after redirection? | Yes — read from final URL | No — must be captured before redirect | N/A |
+| When does client capture the code? | After redirection | Before redirection | At form submission |
+| Client passes `referrerCode` to registration? | Yes | Yes | Yes |
+| Dynamic link cost | One link generated per customer | One shared link for all customers | No dynamic links needed |
+
+---
+
+## Important Notes
+
+<Note>
+  Regardless of which alternative you use, `referrerCode` must be passed **during initial customer registration**. Gameball ignores it silently on subsequent updates — the customer is still created, but no referral relationship is formed.
+</Note>
+
+<Warning>
+  Referral linking must occur within **5 minutes** of registration to be counted. To modify this window, contact your Gameball technical point of contact.
+</Warning>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Integrating Gameball Referrals" icon="share-nodes" href="/tutorials/experiences/referral/index">
+    The standard referral flow across web, mobile, and POS channels.
+  </Card>
+  <Card title="Adjust Integration" icon="link" href="/tutorials/experiences/more/adjust-integration">
+    Configure Adjust as your mobile deep link provider.
+  </Card>
+  <Card title="Branch.io Integration" icon="link" href="/tutorials/experiences/more/branch-io-integration">
+    Configure Branch.io as your mobile deep link provider.
+  </Card>
+  <Card title="Create / Update Customer API" icon="user-plus" href="/api-reference/customers/management/create-customer">
+    Attach `referrerCode` when registering a referred friend.
+  </Card>
+</CardGroup>

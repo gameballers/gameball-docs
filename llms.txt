@@ -132,20 +132,20 @@
 
 ## Technical Tutorials
 
-- [Welcome & Overview](https://docs.gameball.co/tutorials-new/general/welcome): What's covered in the technical tutorials
-- [Core Entities](https://docs.gameball.co/tutorials-new/general/entities/attributes): Attributes, events, coupons, orders, and payments explained
-- [Tracking Events](https://docs.gameball.co/tutorials-new/experiences/tracking-events): How to send behavioral events via API
-- [Preview Points on Order](https://docs.gameball.co/tutorials-new/experiences/order-handling/preview-points): Calculate expected points before order submission
-- [Submit an Order](https://docs.gameball.co/tutorials-new/experiences/order-handling/submit-order): Submit purchase orders to trigger point rewards
-- [Order Calculation Examples](https://docs.gameball.co/tutorials-new/experiences/order-handling/special-use-cases/order-calculation-examples): Real examples of how order totals and points are calculated
-- [Points Redemption](https://docs.gameball.co/tutorials-new/experiences/points-redemption/index): Overview of redemption flows via API
-- [Pay with Points](https://docs.gameball.co/tutorials-new/experiences/points-redemption/pay-with-points): Let customers pay for orders using earned points
-- [Coupon Engine](https://docs.gameball.co/tutorials-new/experiences/gameball-discounts-engine/coupons/index): Retrieve, validate, and burn coupons via API
-- [Refund Handling](https://docs.gameball.co/tutorials-new/experiences/refund-handling/index): How to reverse points when an order is refunded
-- [Referral Integration](https://docs.gameball.co/tutorials-new/experiences/referral/index): Track referral conversions via API
-- [Build Your Own UI](https://docs.gameball.co/tutorials-new/experiences/more/build-your-own-ui/index): Use the API to build a fully custom loyalty UI
-- [Batch APIs](https://docs.gameball.co/tutorials-new/experiences/more/batch-apis): Submit bulk operations for customers, orders, and transactions
-- [Omni-Channel Integration](https://docs.gameball.co/tutorials-new/experiences/more/omni-channel): Unify loyalty across online and offline channels
+- [Welcome & Overview](https://docs.gameball.co/tutorials/general/welcome): What's covered in the technical tutorials
+- [Core Entities](https://docs.gameball.co/tutorials/general/entities/attributes): Attributes, events, coupons, orders, and payments explained
+- [Tracking Events](https://docs.gameball.co/tutorials/experiences/tracking-events): How to send behavioral events via API
+- [Preview Points on Order](https://docs.gameball.co/tutorials/experiences/order-handling/preview-points): Calculate expected points before order submission
+- [Submit an Order](https://docs.gameball.co/tutorials/experiences/order-handling/submit-order): Submit purchase orders to trigger point rewards
+- [Order Calculation Examples](https://docs.gameball.co/tutorials/experiences/order-handling/special-use-cases/order-calculation-examples): Real examples of how order totals and points are calculated
+- [Points Redemption](https://docs.gameball.co/tutorials/experiences/points-redemption/index): Overview of redemption flows via API
+- [Pay with Points](https://docs.gameball.co/tutorials/experiences/points-redemption/pay-with-points): Let customers pay for orders using earned points
+- [Coupon Engine](https://docs.gameball.co/tutorials/experiences/gameball-discounts-engine/coupons/index): Retrieve, validate, and burn coupons via API
+- [Refund Handling](https://docs.gameball.co/tutorials/experiences/refund-handling/index): How to reverse points when an order is refunded
+- [Referral Integration](https://docs.gameball.co/tutorials/experiences/referral/index): Track referral conversions via API
+- [Build Your Own UI](https://docs.gameball.co/tutorials/experiences/more/build-your-own-ui/index): Use the API to build a fully custom loyalty UI
+- [Batch APIs](https://docs.gameball.co/tutorials/experiences/more/batch-apis): Submit bulk operations for customers, orders, and transactions
+- [Omni-Channel Integration](https://docs.gameball.co/tutorials/experiences/more/omni-channel): Unify loyalty across online and offline channels
 
 ## API Reference — Overview
 
@@ -237,6 +237,6 @@
 - [RFM Segments — Use Cases](https://docs.gameball.co/product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals): Practical examples for using RFM data
 - [Shopify Guides](https://docs.gameball.co/product-documentation/guides-strategies-faqs/shopify-guides/use-pos-get-rewards): POS, discount, and Shopify-specific how-tos
 - [Data Warehouse Ingestion](https://docs.gameball.co/product-documentation/admin-settings/data-warehouse-ingestion): Export Gameball data to your data warehouse
-- [Family Wallet Tutorial](https://docs.gameball.co/tutorials-new/experiences/more/family-wallet): API integration for group/family point sharing
-- [Dynamic Link Referral Alternatives](https://docs.gameball.co/tutorials-new/experiences/referral/dynamic-link-referral-alternatives): Alternative referral tracking without deep link providers
+- [Family Wallet Tutorial](https://docs.gameball.co/tutorials/experiences/more/family-wallet): API integration for group/family point sharing
+- [Dynamic Link Referral Alternatives](https://docs.gameball.co/tutorials/experiences/referral/dynamic-link-referral-alternatives): Alternative referral tracking without deep link providers
 - [Changelog](https://docs.gameball.co/changelog/updates): Recent product updates and release notes

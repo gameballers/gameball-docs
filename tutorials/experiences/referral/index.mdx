@@ -1,0 +1,393 @@
+---
+title: "Integrating Gameball Referrals"
+---
+
+## **What Is a Referral Program?**
+
+Imagine this:
+
+Sarah loves your brand. She refers her friend Mike by sharing a link or code. Mike signs up and places an order. Both Sarah and Mike get rewards, and your business gains a new loyal customer.
+
+```mermaid
+flowchart TB
+    A["👤 Sarah (Referrer)"] -- "Shares link or code" --> B["🧑‍🤝‍🧑 Mike (Referred Friend)"]
+    B -- "Signs up & completes event" --> C["🎁 Mike receives welcome reward"]
+    C -- "Order completed" --> D["🎁 Sarah receives referral reward"]
+```
+
+Referral programs help you:
+
+- Reward existing customers for bringing in new ones
+- Encourage new customers with an immediate incentive
+- Generate scalable, low-cost growth through trust
+
+## **How Referral Programs Work in Gameball**
+
+| **Role**            | **Trigger Event**                | **Reward Type**      |
+| :------------------ | :------------------------------- | :------------------- |
+| Referrer (Existing) | Friend completes a defined event | Points or Coupons    |
+| Referred Friend     | Joins and completes the event    | Bonus Coupon or Gift |
+
+**The entire setup is configurable:**
+
+<Check>
+  Event Types
+</Check>
+
+<Check>
+  Reward Amounts
+</Check>
+
+<Check>
+  Referral Logic
+</Check>
+
+<Check>
+  Gameball Automates Linking
+</Check>
+
+<Check>
+  Reward Issuance
+</Check>
+
+<Check>
+  Tracking
+</Check>
+
+## **Standard Referral Flow Implementation**
+
+### **What This Is**
+
+This is the **core referral flow** that underpins all referral use cases across web, mobile apps, and offline channels. When implemented correctly, this flow ensures that referral codes are registered, tracked, and rewarded automatically based on your configuration.
+
+### **Why It Matters**
+
+It forms the baseline logic that powers all other referral implementations, including deep links, QR codes.
+
+### **Example Flow**
+
+<Steps>
+  <Step title="Customer shares his referral link" icon="share-nodes" iconType="regular" titleSize="p">
+    
+  </Step>
+  <Step title="Friend signs up using the link" icon="link" iconType="regular" titleSize="p">
+    
+  </Step>
+  <Step title="Friend recieves his reward" icon="gift" iconType="regular" titleSize="p">
+    
+  </Step>
+  <Step title="Friend places his first order" icon="cart-circle-check" iconType="regular" titleSize="p">
+    
+  </Step>
+  <Step title="Customer recieves his reward" icon="gift">
+    
+  </Step>
+</Steps>
+
+### Platform-Specific Integration
+
+| **Platform**      | **How the Referral Code is Collected** | **Where to Send It**                       | **Tools or Notes**                    |
+| :---------------- | :------------------------------------- | :----------------------------------------- | :------------------------------------ |
+| 🌐 Web (Widget)      | Auto-detected from URL                 | No action required                         | Gameball widget handles logic         |
+| 💻 Web (Custom UI)   | Extract from ?ref=CODE                 | referrerCode in API                        | Use Create/Update Customer API        |
+| 📱 Mobile App (SDK)  | Deep link parameter (Branch or Adjust) | referrerCode in registerCustomer Method    | Firebase is no longer supported       |
+| 🏬 POS / Call Center | Manual entry                           | referrerCode in create/update customer API | Supports offline, in-person referrals |
+
+### **I. Web Using Gameball Widget**
+
+- The customer’s **referral link or code** is displayed within the widget.
+
+<img
+  src="/images/referalLinkOnWidget.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+
+- The customer shares this link or code with a friend (the referee).
+- When the friend uses the shared link or code, **Gameball automatically detects and registers the referral** from the URL.
+- **No additional implementation** is required on your side.
+
+### **II. Web with Custom UI**
+
+If you’re integrating Gameball referrals using your **own web UI** instead of the widget, you can still fully enable referral functionality through the Gameball APIs.
+
+This process covers:
+
+1. Displaying each customer’s **unique referral link or code**
+2. Detecting and capturing referral links when shared by referrers
+3. Submitting the referral code during **sign-up**
+4. (Optional) Validating referral codes to prevent self-referrals
+
+#### 1. Display the Customer’s Referral Link or Code
+
+To show a customer their referral link or code in your UI, fetch it using the [**Get Customer API:**](/api-reference/customers/management/get-customer)
+
+```bash
+GET /integrations/customers/{customerId}
+```
+
+You can display either of these two attributes from the API response:
+
+- `referralCode` : The customer’s unique referral code (e.g., SARAH123)
+- `referralLink`: The complete shareable referral link (e.g., [**<u>https://yourwebsite.com?referralCode=SARAH123</u>**](https://yourwebsite.com?referralCode=SARAH123))
+
+<img
+  src="/images/referalCodeLinkUI.png"
+  className="mx-auto"
+  style={{ width:"60%" }}
+/>
+
+**Example Response:**
+
+```json
+{
+  "customerId": "mike_123",
+  "referralCode": "SARAH123",
+  "referralLink": "https://www.myAwesomeWebsite.com?referralCode=SARAH123"
+}
+```
+
+Use this data to create custom UI components, such as:
+
+- A **“Share Your Referral Code”** banner
+- A **“Copy Link”** button
+- Or a custom **referral dashboard section**
+
+#### **2. Detect Referral Visits**
+
+When a friend lands on your website using a referral link such as:
+
+```bash
+https://www.myAwesomeWebsite.com?referralCode=code123
+```
+
+<img
+  src="/images/detectReferalVisits.png"
+  className="mx-auto"
+  style={{ width:"100%" }}
+/>
+
+You can detect the referral by checking the **URL query parameters** for referralCode.
+
+Once detected, store this value temporarily until the new customer completes their sign-up.
+
+#### **3. Track Referral Sign-ups**
+
+When the referred friend signs up, include the captured referral code in the [**Create/Update Customer API**](/api-reference/customers/management/create-customer) request.
+
+This links the **referrer** and **referee** together in Gameball.
+
+```json
+POST /integrations/customers
+{
+  "customerId": "CUST_56789",
+  "referrerCode": "code123",
+  "customerAttributes": {
+    "displayName": "Arya Stark",
+    "firstName": "Arya",
+    "lastName": "Stark",
+    "email": "arya.stark@example.com"
+  }
+}
+```
+
+#### **Important Notes:**
+
+- `referrerCode` **must** be included during **initial registration.**
+
+  <Warning>
+    If the referral code is not submitted within 5 minutes of registration, the referral will not be counted. To modify this time threshold or customize the referral linking logic, please get in touch with your Gameball technical point of contact.
+  </Warning>
+- If the code is invalid, Gameball ignores it silently; the customer is still created, but no referral link is formed.
+
+#### **4. (Optional) Validate Referral Codes Before Signup**
+
+To ensure customers don’t use **their own referral code** or an invalid one, you can validate the code before creating the account.
+
+Use the [**Validate Referrer Code API:**](/api-reference/customers/management/validate-referrer-code)
+
+```bash
+GET /integrations/customers/validateReferrerCode?referrerCode=code123
+```
+
+This API checks whether the referral code:
+
+- Exists and is valid
+- Belongs to a different customer (to prevent self-referrals)
+- Is eligible for use in the current flow
+
+<Note>
+  If the code is valid, proceed with the [Create/Update Customer](/api-reference/customers/management/create-customer) request as shown in step 3. **Track Referral Sign-ups**
+</Note>
+
+### III. Mobile Apps (Branch or Adjust)
+
+Referral links in mobile apps are handled through **Gameball’s Mobile SDKs** in combination with a **deep linking provider** such as [**Branch**](/tutorials/experiences/more/branch-io-integration) or [**Adjust**](/tutorials/experiences/more/adjust-integration).
+
+<Danger>
+  **Firebase Dynamic Links** are no longer supported.
+</Danger>
+
+**Branch.io** and **Adjust** now handle both link redirection and referral code extraction.
+
+<Steps>
+  <Step title="Configure Deep Linking">
+    - Integrate [**Branch.io**](/tutorials/experiences/more/branch-io-integration) or [**Adjust**](/tutorials/experiences/more/adjust-integration) in your app and connect it from the Gameball dashboard under **Settings** → **Admin Settings** → **Integration** → **Mobile** **Configuration** → **Dynamic Link Provider**.
+    - Each provider automatically attaches the referral code to the deep link (e.g., ?referrerCode=SARAH123).
+  </Step>
+  <Step title="Extract the Referral Code">
+    After the app opens from a referral link, use your deep linking provider’s SDK to extract the code.
+
+    **Example using Branch:**
+
+    ```javascript
+    branch.subscribe(({ data }) => {
+      const referrerCode = data.referrerCode;
+      if (referrerCode) {
+        // Proceed with registration through the Gameball SDK
+      }
+    });
+    ```
+  </Step>
+  <Step title="Register the Customer (Gameball SDK)">
+    Once the code is extracted, call the **registerCustomer** (or **registerPlayer**, depending on the SDK version) method from the Gameball SDK and pass the `referrerCode` as a parameter.
+
+    **Example:**
+
+    ```json
+    Gameball.registerCustomer({
+      customerId: "mike_mobile_789",
+      referrerCode: "SARAH123",
+      customerAttributes: {
+        displayName: "Mike",
+        platform: "android",
+        email: "mike@mobile.com"
+      }
+    });
+    ```
+  </Step>
+</Steps>
+
+#### Alternative Flow (Manual Entry)
+
+If the customer was not referred via a deep link, you can still allow referrals manually by:
+
+- Adding a **"Referral Code (Optional)" field** on your registration/sign-up screen.
+
+  <img
+    src="/images/image (134).png"
+    alt="Image(134) Pn"
+    title="Image(134) Pn"
+    className="mx-auto"
+    style={{ width:"44%" }}
+  />
+- When the user submits the form, collect the entered referral code (if provided).
+- Then:
+  - If you're registering the customer **via the frontend SDK**, include `referrerCode` in the `registerCustomer` call as shown above.
+  - If you're registering the customer **via the backend API**, include `referrerCode` in the payload for the [**Create/Update Customer API**](/api-reference/customers/management/create-customer):
+
+    ```json
+    {
+      "customerId": "mike_mobile_789",
+      "referrerCode": "SARAH123",
+      "customerAttributes": {
+        "displayName": "Mike",
+        "email": "mike@mobile.com",
+        "platform": "android"
+      }
+    }
+    ```
+
+<Tip>
+  This hybrid approach ensures that referral tracking works whether the user comes via a link or enters a code manually.
+</Tip>
+
+<Note>
+  - The referral link should be passed **within the first registration call**.
+  - If the referral code is missing or invalid, the customer will still be registered, but the referral relationship will not be created.
+  - Referral linking must occur **within 5 minutes** of registration to be counted.
+  - To customize this time window or referral linking logic, please contact your **Gameball technical point of contact**.
+</Note>
+
+#### **Summary**
+
+| **Step** | **Action**                 | **Tool / Method**               |
+| :------- | :------------------------- | :------------------------------ |
+| 1        | Configure Branch or Adjust | Gameball Dashboard              |
+| 2        | Extract referrerCode       | branch.subscribe() / Adjust SDK |
+| 3        | Register customer          | Gameball.registerCustomer()     |
+| 4        | Referral linked            | Gameball backend logic          |
+
+---
+
+## Monitoring Referral Progress
+
+<img
+  src="/images/referalStatus.png"
+  className="mx-auto"
+  style={{ width:"80%" }}
+/>
+
+Allow customers to view who they referred and what the status is.
+
+**API Reference:** [**Customer Referrals**](/api-reference/customers/progress/get-customer-referrals)
+
+```json
+{
+  "referredFriends": [
+    {
+      "customerId": "cust_123",
+      "displayName": "John Doe",
+      "email": "john@example.com",
+      "mobileNumber": "+1234567890",
+      "joinDate": "2025-01-10T12:00:00Z",
+      "status": "Active"
+    }
+  ],
+  "count": 123,
+  "hasMore": true
+}
+```
+
+<AccordionGroup>
+  <Accordion title="Suggested UI Components" defaultOpen icon="sparkles">
+    - **Referral Welcome Popup**: Show new users the reward received via referral.
+    - **Referral Dashboard**: Show Existing users who they've referred (pending/active)
+  </Accordion>
+</AccordionGroup>
+
+## Developer Checklist
+
+| Step                                           | Must-Do                            |
+| :--------------------------------------------- | :--------------------------------- |
+| Extract referral code                          | From URL param, QR, SDK, or manual |
+| Pass referrerCode on registration              | Via `registerCustomer` API         |
+| Trigger referral event                         | e.g. `place_order`, `signup`       |
+| Display referral progress                      | Use Referral History API           |
+| Validate referral codes                        | (Optional) via internal service    |
+| Integrate Branch/Adjust (for mobile apps only) | Via deep linking SDKs              |
+| Don’t allow referral code editing post-signup  | Enforce immutability in UI/backend |
+
+---
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Get Customer API" icon="user" href="/api-reference/customers/management/get-customer">
+    Fetch referral codes and links for your UI
+  </Card>
+  <Card title="Create / Update Customer API" icon="user-plus" href="/api-reference/customers/management/create-customer">
+    Attach `referrerCode` during registration
+  </Card>
+  <Card title="Customer Referrals API" icon="people-group" href="/api-reference/customers/progress/get-customer-referrals">
+    Track referral history and counts programmatically
+  </Card>
+  <Card title="Branch.io Integration" icon="link" href="/tutorials/experiences/more/branch-io-integration">
+    Configure Branch deep links for referral flows
+  </Card>
+  <Card title="Adjust Integration" icon="link" href="/tutorials/experiences/more/adjust-integration">
+    Set up Adjust as your mobile referral provider
+  </Card>
+</CardGroup>
+
+

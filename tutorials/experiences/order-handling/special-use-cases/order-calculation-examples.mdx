@@ -1,0 +1,535 @@
+---
+title: "Order Calculation Examples"
+description: "Practical examples showing how to calculate and structure Order API payloads for common commerce scenarios."
+---
+
+# Order Calculation Examples
+
+This guide provides practical examples showing how to structure [Order API](/api-reference/order/order) payloads for common commerce scenarios including discounts, points redemption, coupons, and external loyalty programs.
+
+**Endpoint:** `POST https://api.gameball.co/api/v4.0/integrations/orders`
+
+**Headers:**
+```
+apikey: {your-api-key}
+secretkey: {your-secret-key}
+Content-Type: application/json
+```
+
+---
+
+## Field Definitions
+
+### Line Item Fields
+
+| Field | Definition | Example |
+|-------|------------|---------|
+| `price` | Unit price of a single item (does NOT change with quantity) | If 1 unit = $150, then `price: 150` even if qty is 5 |
+| `quantity` | Number of units | `quantity: 2` |
+| `discount` | Total discount applied to this line item (NOT per unit) | If $50 discount on 2 units, then `discount: 50` |
+| `taxes` | Total tax for this line item after discount (NOT per unit) | If line total after discount = $250 at 15% VAT, then `taxes: 37.5` |
+
+### Order Level Fields
+
+| Field | Definition | Example |
+|-------|------------|---------|
+| `totalPrice` | Sum of all line items + taxes (before any discounts) | Items = 500, Taxes = 75 → `totalPrice: 575` |
+| `totalDiscount` | Sum of ALL discounts (line item + order level + points + coupon + external loyalty) | Line discount 50 + Points 100 → `totalDiscount: 150` |
+| `totalTax` | Sum of all taxes across line items | `totalTax: 75` |
+| `totalPaid` | What customer actually paid (`totalPrice - totalDiscount`) | 575 - 150 = `totalPaid: 425` |
+
+### Redemption Fields
+
+| Field | Definition |
+|-------|------------|
+| `redemption.pointsHoldReference` | Hold reference returned from the points hold API (Gameball points only) |
+| `redemption.couponsLockReference` | Lock reference returned from the coupon lock API |
+| `redemption.couponCodes` | Array of coupon codes applied |
+
+<Info>
+Points are earned based on `totalPaid` only.
+</Info>
+
+---
+
+## Calculation Formulas
+
+### Line Item Level
+
+```
+lineTotal = quantity × price
+
+lineItemTax = (lineTotal - lineItemDiscount) × taxRate
+```
+
+### Order Level
+
+```
+totalPrice = Σ(quantity × price) + Σ(taxes)
+
+totalDiscount = Σ(lineItem.discount) + orderLevelDiscount + redemption + couponDiscount
+
+totalPaid = totalPrice - totalDiscount
+```
+
+---
+
+## Example 1: Basic Order
+
+**Scenario:** Customer purchases items at full price with no discounts or redemptions applied.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| totalDiscount | | $0 |
+| **totalPaid** | 575 - 0 | **$575** |
+
+```json
+{
+  "customerId": "+11234567890",
+  "orderId": "INV-2026-001234",
+  "orderDate": "2026-03-25T14:30:00Z",
+  "totalPrice": 575,
+  "totalDiscount": 0,
+  "totalTax": 75,
+  "totalPaid": 575,
+  "channel": "pos",
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "sku": "SKU-VIT-C-1000",
+      "title": "Vitamin C 1000mg",
+      "quantity": 2,
+      "price": 150,
+      "discount": 0,
+      "taxes": 45,
+      "category": ["Vitamins", "Supplements"],
+      "tags": ["immunity", "antioxidant"]
+    },
+    {
+      "productId": "PROD-67890",
+      "sku": "SKU-MOIST-50ML",
+      "title": "Face Moisturizer 50ml",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30,
+      "category": ["Skin Care", "Face Care"],
+      "tags": ["moisturizer", "hydration"]
+    }
+  ]
+}
+```
+
+<Note>
+The examples below show only the fields that change from Example 1. All other fields remain the same unless specified.
+</Note>
+
+---
+
+## Example 2: Line Item Discount
+
+**Scenario:** A specific item has a discount applied directly (e.g. item on sale). Tax is calculated on the **full price** and the discount is applied afterward.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C Discount | | $50 |
+| totalDiscount | | $50 |
+| **totalPaid** | 575 - 50 | **$525** |
+
+```json
+{
+  "orderId": "INV-2026-001235",
+  "totalPrice": 575,
+  "totalDiscount": 50,
+  "totalTax": 75,
+  "totalPaid": 525,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 50,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+---
+
+## Example 3: Order-Level Discount
+
+**Scenario:** A commercial discount is applied to the entire order. Line items stay at full price.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Order-Level Discount | 15% off | $75 |
+| totalDiscount | | $75 |
+| **totalPaid** | 575 - 75 | **$500** |
+
+```json
+{
+  "orderId": "INV-2026-001236",
+  "totalPrice": 575,
+  "totalDiscount": 75,
+  "totalTax": 75,
+  "totalPaid": 500,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 0,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+<Note>
+Line items have `discount: 0`. The full discount is reflected at the order level via `totalDiscount`.
+</Note>
+
+---
+
+## Example 4: Points Redemption
+
+**Scenario:** Customer redeems Gameball points to pay part of the order via the hold/complete flow.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| **totalPrice** | 500 + 75 | **$575** |
+| Points Redeemed | | $100 |
+| totalDiscount | | $100 |
+| **totalPaid** | 575 - 100 | **$475** |
+
+**Step 1: Hold Points (before order)**
+```
+POST /api/v4.0/integrations/transactions/hold
+```
+Response returns `holdReference: "HOLD-ABC123"`
+
+**Step 2: Complete Order with holdReference**
+
+```json
+{
+  "orderId": "INV-2026-001237",
+  "totalPrice": 575,
+  "totalDiscount": 100,
+  "totalTax": 75,
+  "totalPaid": 475,
+  "redemption": {
+    "pointsHoldReference": "HOLD-ABC123"
+  }
+}
+```
+
+---
+
+## Example 5: Coupon
+
+**Scenario:** Customer applies a Gameball coupon code via the lock/complete flow.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| **totalPrice** | 500 + 75 | **$575** |
+| Coupon Discount | | $50 |
+| totalDiscount | | $50 |
+| **totalPaid** | 575 - 50 | **$525** |
+
+**Step 1: Lock Coupon (before order)**
+```
+POST /api/v4.0/integrations/coupons/lock
+```
+Response returns `lockReference: "LOCK-XYZ789"`
+
+**Step 2: Complete Order with lockReference**
+
+```json
+{
+  "orderId": "INV-2026-001238",
+  "totalPrice": 575,
+  "totalDiscount": 50,
+  "totalTax": 75,
+  "totalPaid": 525,
+  "redemption": {
+    "couponsLockReference": "LOCK-XYZ789",
+    "couponCodes": ["SUMMER50"]
+  }
+}
+```
+
+---
+
+## Example 6: Mixed — Points + Commercial Discount + Coupon
+
+**Scenario:** Customer has a commercial discount, redeems Gameball points, and applies a coupon — all in one order.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| **totalPrice** | 500 + 75 | **$575** |
+| Commercial Discount | | $25 |
+| Points Redeemed | | $50 |
+| Coupon Discount | | $25 |
+| totalDiscount | 25 + 50 + 25 | **$100** |
+| **totalPaid** | 575 - 100 | **$475** |
+
+```json
+{
+  "orderId": "INV-2026-001239",
+  "totalPrice": 575,
+  "totalDiscount": 100,
+  "totalTax": 75,
+  "totalPaid": 475,
+  "redemption": {
+    "pointsHoldReference": "HOLD-ABC123",
+    "couponsLockReference": "LOCK-XYZ789",
+    "couponCodes": ["LOYALTY25"]
+  }
+}
+```
+
+<Info>
+- All discounts (commercial + points + coupon) are summed in `totalDiscount`
+- Gameball only uses `totalPaid` for earning points
+- The `pointsHoldReference` links the points redemption
+- The `couponsLockReference` links the coupon burn
+</Info>
+
+---
+
+## Example 7: External Loyalty Program (e.g. Qitaf, Rajhi Points)
+
+**Scenario:** Customer partially pays using a third-party loyalty program. This is treated as an order-level discount — no Gameball redemption is involved.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| **totalPrice** | 500 + 75 | **$575** |
+| Qitaf Points Redeemed | | $100 |
+| totalDiscount | | $100 |
+| **totalPaid** | 575 - 100 | **$475** |
+
+```json
+{
+  "orderId": "INV-2026-001240",
+  "totalPrice": 575,
+  "totalDiscount": 100,
+  "totalTax": 75,
+  "totalPaid": 475
+}
+```
+
+<Warning>
+Do not use `redemption` or the `redemption` object for external loyalty programs. Include the redeemed amount in `totalDiscount` only. Customer earns Gameball points on `totalPaid` (475).
+</Warning>
+
+---
+
+## Example 8: Discount Types (Free, % Off, Fixed)
+
+**Scenario:** The discount is applied **after** tax is calculated, so the discount value covers both the product price **and** its tax portion. This is common when a POS reduces the line total directly (e.g. "make this item free" or "30% off the final price").
+
+The key rule: tax is calculated on the full price, and the discount value must include the tax portion that's being given away.
+
+### 8a — Free Item (Free Product)
+
+Vitamin C is given for free as part of a promo. The line value is **$300 + $45 tax = $345**, so the discount must cover all $345.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C free item discount | covers price + tax | $345 |
+| totalDiscount | | $345 |
+| **totalPaid** | 575 - 345 | **$230** |
+
+```json
+{
+  "orderId": "INV-2026-001241",
+  "totalPrice": 575,
+  "totalDiscount": 345,
+  "totalTax": 75,
+  "totalPaid": 230,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 345,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+<Info>
+The customer paid nothing for Vitamin C, so no points are earned on that line. Points are still earned on the Face Moisturizer ($230).
+</Info>
+
+### 8b — 30% Off (Percentage Discount)
+
+Same items with a **30% off** promo on Vitamin C. The discount applies to price + tax: **30% × ($300 + $45) = $103.50**.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C 30% off discount | 30% × 345 | $103.50 |
+| totalDiscount | | $103.50 |
+| **totalPaid** | 575 - 103.50 | **$471.50** |
+
+```json
+{
+  "orderId": "INV-2026-001242",
+  "totalPrice": 575,
+  "totalDiscount": 103.50,
+  "totalTax": 75,
+  "totalPaid": 471.50,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 103.50,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+
+### 8c — Fixed Discount ($20 Off)
+
+A flat **$20 off** discount is applied to Vitamin C (e.g. a 20-currency coupon code). The discount value is sent as-is — it already represents the amount taken off the customer's final bill, tax included.
+
+| Component | Calculation | Value |
+|-----------|-------------|-------|
+| Vitamin C (2 × $150) | | $300 |
+| Face Moisturizer (1 × $200) | | $200 |
+| **Subtotal** | | $500 |
+| Vitamin C Tax | $300 × 15% | $45 |
+| Face Moisturizer Tax | $200 × 15% | $30 |
+| **Total Tax** | | $75 |
+| **totalPrice** | 500 + 75 | **$575** |
+| Vitamin C fixed discount | $20 off (tax-inclusive) | $20 |
+| totalDiscount | | $20 |
+| **totalPaid** | 575 - 20 | **$555** |
+
+```json
+{
+  "orderId": "INV-2026-001243",
+  "totalPrice": 575,
+  "totalDiscount": 20,
+  "totalTax": 75,
+  "totalPaid": 555,
+  "lineItems": [
+    {
+      "productId": "PROD-12345",
+      "quantity": 2,
+      "price": 150,
+      "discount": 20,
+      "taxes": 45
+    },
+    {
+      "productId": "PROD-67890",
+      "quantity": 1,
+      "price": 200,
+      "discount": 0,
+      "taxes": 30
+    }
+  ]
+}
+```
+
+<Note>
+Whether the discount is a free product, a percentage, or a flat fixed amount, the rule is the same: **the discount value already accounts for the tax portion** — send it as-is. Gameball uses `totalPaid` to calculate points correctly in all three cases.
+</Note>
+
+---
+
+## Summary Table
+
+| Example | Scenario | totalPrice | totalDiscount | totalPaid | Points Earned On |
+|---------|----------|------------|---------------|-----------|------------------|
+| 1 | Basic Order | $575 | $0 | $575 | $575 |
+| 2 | Line Item Discount | $575 | $50 | $525 | $525 |
+| 3 | Order-Level Discount | $575 | $75 | $500 | $500 |
+| 4 | Points Redemption | $575 | $100 | $475 | $475 |
+| 5 | Coupon | $575 | $50 | $525 | $525 |
+| 6 | Mixed (All) | $575 | $100 | $475 | $475 |
+| 7 | External Loyalty (Qitaf/Rajhi) | $575 | $100 | $475 | $475 |
+| 8a | Free Item (Free Product) | $575 | $345 | $230 | $230 |
+| 8b | 30% Off (Percentage Discount) | $575 | $103.50 | $471.50 | $471.50 |
+| 8c | Fixed Discount ($20 Off) | $575 | $20 | $555 | $555 |
+
+---
+
+## Key Takeaway
+
+<Check>
+**Points are calculated based on `totalPaid` only.**
+
+Gameball doesn't need to know the breakdown of discounts. Just send:
+- `totalPrice` (items + taxes, before discounts)
+- `totalDiscount` (sum of ALL discounts including external loyalty)
+- `totalPaid` (what customer actually paid)
+</Check>
