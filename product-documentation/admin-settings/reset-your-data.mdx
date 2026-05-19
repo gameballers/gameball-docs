@@ -1,59 +1,81 @@
 ---
-title: "How to Reset Your Data on Gameball?"
-description: "Learn how to reset your customer data, and general data through Gameball admin dashboard."
+title: "How to Delete Your Data on Gameball?"
+description: "Learn how to permanently delete your customer data or full program data through the Gameball admin dashboard."
 ---
 
 ## Plan Availability
 
-All Gameball customers can access the data reset feature.
+All Gameball customers can access the data deletion feature.
 
-If you want to reset some or all your data related to your loyalty program, Gameball allows you to do that through a few, easy steps.
+If you want to delete some or all data related to your loyalty program, Gameball allows you to do that through a few steps.
 
 ---
 
-## Types of Data You Can Reset
+## Types of Data You Can Delete
 
 <AccordionGroup>
-<Accordion title="All Customers Data" icon="users">
-  Resets all information related to customers only, such as customers' points, levels, scores, achievements, activities, transactions, and all corresponding information. Learn more about [customer's data](/product-documentation/understanding-your-customers/gameball-customers/introduction-to-customers-on-gameball).
+<Accordion title="Delete All Customers" icon="users">
+  Permanently deletes all customer data across both live and test environments. This includes:
 
-  **The following customer data will be deleted without retrieval:**
-
-  - All existing customers' data, on both live and test versions (achievements, transactions, score, points, activities, and all corresponding information)
-  - All program achievements
-  - All points redemptions or transactions
-  - All messages sending and clicking activities
+  - Customer profiles
+  - Points balances and redemptions
+  - Achievements
+  - Events and activities
+  - Orders and transactions
+  - Referrals
+  - Audit records
 
   <Warning>
-  Before resetting customers' data, you might want to consider backing up this data by extracting it as a CSV file. To learn more, read Step 2 of [importing customers' data](/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv).
+  This action is permanent and cannot be undone. Before proceeding, consider backing up your data by exporting it as a CSV file. To learn more, read Step 2 of [importing customers' data](/product-documentation/guides-strategies-faqs/supportive-guides/import-customers-csv).
   </Warning>
 </Accordion>
 
-<Accordion title="All Data" icon="trash">
-  Resets all previous configurations related to your Gameball account and widget, including customers' data, which will be permanently deleted.
+<Accordion title="Delete Programs Data and All Customers" icon="trash">
+  Permanently deletes all program definitions and all customer data.
 
-  Once you reset all your data, you will start with the configuration wizard from the beginning with a fresh new version of Gameball.
+  **Program data removed:**
+  - All loyalty program configurations
+  - Earning and redemption rules
+  - VIP tier definitions
+  - Campaign setups
+  - Widget configurations
+
+  **Customer data removed:**
+  - Customer profiles, points, achievements, events, orders, transactions, referrals, and audit records
+
+  Once deleted, you will start the configuration wizard from the beginning with a fresh Gameball instance.
 
   <Warning>
-  All your data and configurations will be removed without retrieval.
+  All data and configurations will be permanently removed and cannot be recovered.
   </Warning>
 </Accordion>
 </AccordionGroup>
 
 ---
 
-## How to Reset Your Data
+## How to Delete Your Data
 
 <Steps>
-<Step title="Navigate to Reset Data">
-  On **Gameball Admin Dashboard**, go to **Settings > Admin Settings > Reset Data**.
+<Step title="Navigate to Delete Data">
+  On **Gameball Admin Dashboard**, go to **Settings > Admin Settings > Delete Data**.
 
   <Frame>
-    ![Reset Data](/images/product-docs/admin-settings/reset-data.png)
+    <img src="/images/product-docs/admin-settings/Delete customers data.png" alt="Delete customer data settings page" />
   </Frame>
 </Step>
 
-<Step title="Confirm the Reset">
-  Once you click on any of the resetting buttons, you will be asked to confirm your action before Gameball proceeds with the formatting process.
+<Step title="Select What to Delete">
+  Click the relevant button — **Delete All Customers** or **Delete Programs Data and All Customers**. Both are styled in red to indicate a destructive, irreversible action.
+</Step>
+
+<Step title="Complete the Two-Step Confirmation">
+  A two-step confirmation is required before Gameball proceeds:
+
+  1. Review the summary of everything that will be permanently removed.
+  2. Type your **workspace name** to confirm.
+
+  <Note>
+  This action is restricted to super-admin and owner roles. A full audit log entry is recorded each time a deletion is triggered.
+  </Note>
 </Step>
 </Steps>
