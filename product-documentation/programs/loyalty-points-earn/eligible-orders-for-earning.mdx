@@ -17,7 +17,13 @@ Gameball lets you define exactly which orders qualify for points earning. Rather
     Click **Settings**, then find the **Earn Points Applies On** section.
   </Step>
   <Step title="Add a Rule">
-    Click **Add Rule** and choose the order attribute you want to filter by (e.g., `total_price`, `payment_method`, `product_category`).
+    Click **Add Rule** and choose the order attribute you want to filter by (e.g., `total_price`, `payment_method`, `product_category`, `sku`).
+
+    When **SKU** is selected as the condition field, an **Upload CSV** option appears alongside the text input. Upload a CSV file to populate multiple SKUs at once instead of typing them individually. SKUs are automatically added to the field after upload and remain editable. CSV uploads support up to 100 SKUs per file.
+
+    <Frame>
+      <img src="/images/product-docs/programs/loyalty-points-earn/SKU file upload.png" alt="CSV upload option for SKU conditions" />
+    </Frame>
   </Step>
   <Step title="Choose an Operator and Value">
     Select the appropriate operator and enter your target value (e.g., `total_price` **greater than** `50`).
@@ -103,6 +109,7 @@ To reward all orders except those matching specific conditions, choose the **"Al
 | Exclude a specific collection | Use exclusion mode, `collection_id` **equals** `[collection]` |
 | Reward a specific payment method | `payment_method` **equals** `paypal` |
 | Target a product category | `product_category` **equals** `electronics` |
+| Target specific products by SKU | `sku` **equals** one or more SKU values (upload via CSV for bulk) |
 
 ---
 
