@@ -83,6 +83,12 @@ Let's say you have the cashback set up for your customers to gain 1 point for ev
 
   2. **Apply the Points Multiplier to Specific Collections or Product SKU**: If you only want to apply the multiplier to a specific collection or a product (e.g., during a sale or promotion), you can add a rule that includes the collection's ID. This way, the multiplier will only be applied to orders that include items from that particular collection or the product alone.
 
+  You can enter **multiple SKUs** in the SKU field using comma separation (e.g., `SKU01, SKU02, SKU03`). Multiple values use **OR logic** — an order qualifies if it contains any one of the listed SKUs.
+
+  <Note>
+  The SKU field has a **100-character limit** (total field length, not a count of SKUs). On average, this accommodates approximately 10 SKUs.
+  </Note>
+
   <Frame>
     ![Multiplier specific collections](/images/product-docs/rewards-campaigns/start-from-scratch/point-multiplier-specific.png)
   </Frame>

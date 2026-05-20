@@ -38,6 +38,14 @@ For every chosen key in the case of using the event rule, you will find multiple
   <Frame>
     <img src="/images/product-docs/rewards-campaigns/faqs/event-engine-string-equals-example.png" alt="String equals use case example" />
   </Frame>
+
+  **Entering multiple values**
+
+  When using a string field such as SKU, you can enter multiple comma-separated values in the same field (e.g., `SKU01, SKU02, SKU03`). The rule is satisfied if the order contains **any one** of the listed values — they are evaluated with **OR logic**.
+
+  <Note>
+  The field accepts up to **100 characters** in total (not a count of values). For SKUs, this accommodates approximately 10 values on average.
+  </Note>
 </Accordion>
 
 <Accordion title="[String] Different Values" icon="shuffle">
