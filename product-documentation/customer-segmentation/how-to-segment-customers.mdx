@@ -172,6 +172,21 @@ You can create a segment using a single or multiple conditions. Begin by creatin
     </Frame>
   </Accordion>
 
+  <Accordion title="Can I filter customers by a date range, such as all customers created in 2025?">
+    Date-based attributes like **Customer Creation Date** support **After** and **Before** operators, but not a single "between" operator.
+
+    To define a date range, combine two rules using **AND** logic:
+
+    - Rule 1: `Customer Creation Date` **After** `31/12/2024`
+    - Rule 2: `Customer Creation Date` **Before** `01/01/2026`
+
+    This returns all customers whose creation date falls within the year 2025.
+
+    <Note>
+    Quick filters by year, quarter, or month are not currently available. Use the After + Before combination to achieve the same result.
+    </Note>
+  </Accordion>
+
   <Accordion title="How to filter customer segments?">
     **Advanced Filters**
 
