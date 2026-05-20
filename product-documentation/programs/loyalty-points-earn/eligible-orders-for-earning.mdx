@@ -98,6 +98,15 @@ You can combine multiple attribute rules using **AND** or **OR** logic:
 
 To reward all orders except those matching specific conditions, choose the **"All except some attributes"** option. This inverts your rule — all orders qualify unless they match the defined exclusion criteria.
 
+**Shopify merchants** can use this to exclude specific types of purchases:
+
+- **Discounted items**: If discounted products are identifiable by a product ID, SKU, or product category, use exclusion mode with the corresponding attribute to prevent points from being awarded on those purchases.
+- **Gift card purchases**: If gift cards are listed as products in your Shopify store, you can exclude them by targeting their product ID or SKU in exclusion mode.
+
+<Note>
+Gameball does not automatically detect discounts or gift cards — exclusions work by matching order attributes you define. Make sure the products you want to exclude are identifiable by a consistent attribute (e.g., a specific SKU, product ID, or category).
+</Note>
+
 ---
 
 ## Common Examples
@@ -110,6 +119,8 @@ To reward all orders except those matching specific conditions, choose the **"Al
 | Reward a specific payment method | `payment_method` **equals** `paypal` |
 | Target a product category | `product_category` **equals** `electronics` |
 | Target specific products by SKU | `sku` **equals** one or more SKU values (upload via CSV for bulk) |
+| Exclude discounted items | Use exclusion mode, `product_id`, `sku`, or `product_category` **equals** the discounted product identifier |
+| Exclude gift card purchases (Shopify) | Use exclusion mode, `product_id` or `sku` **equals** the gift card's product ID — works when gift cards are listed as products in Shopify |
 
 ---
 
