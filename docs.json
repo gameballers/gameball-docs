@@ -1220,10 +1220,22 @@
         "tab": "Updates",
         "groups": [
           {
-            "group": "Updates",
+            "group": "Overview",
             "pages": [
-              "changelog/updates",
-              "changelog/product-updates"
+              "changelog/updates"
+            ]
+          },
+          {
+            "group": "Product Updates",
+            "pages": [
+              "changelog/product-updates/2025"
+            ]
+          },
+          {
+            "group": "API Updates",
+            "pages": [
+              "changelog/api-updates/2025",
+              "changelog/api-updates/2024"
             ]
           }
         ]
