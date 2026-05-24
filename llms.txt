@@ -193,6 +193,7 @@
 - [Release Hold](https://docs.gameball.co/api-reference/transactions/hold-management/release): Release or capture a points hold
 - [Get Hold](https://docs.gameball.co/api-reference/transactions/hold-management/get-hold): Retrieve the status of a points hold
 - [Manual Transaction](https://docs.gameball.co/api-reference/transactions/transaction-management/manual-transaction): Create a manual points adjustment outside normal order flow
+- [Activate Transaction](https://docs.gameball.co/api-reference/transactions/transaction-management/activate): Immediately activate pending points, bypassing the configured return window
 
 ## API Reference — Coupons
 
