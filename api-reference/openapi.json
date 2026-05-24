@@ -4669,6 +4669,16 @@
             "required": false,
             "schema": { "type": "string" },
             "description": "If the lang header is provided, the response will be returned in the specified language (e.g., en for English, fr for French). If this header is not included, the system will use the default language."
+          },
+          {
+            "name": "campaignType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["reward", "game"]
+            },
+            "description": "Filter campaigns by type. Use `reward` to return only reward-type campaigns (points multipliers, missions, spending milestones, streaks, etc.), or `game` for game-type campaigns (Spin the Wheel, Slot Machine, Quiz, Scratch & Win, Match Cards, etc.). Omit to return all campaigns. Any other value results in a validation error."
           }
         ],
         "responses": {
