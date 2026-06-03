@@ -72,7 +72,16 @@ The **Settings** section lets you configure how points are issued and which orde
 <Accordion title="Points Expiry" icon="clock">
 Define when earned points will expire. Click **Edit** next to **Points Expiry** to set the expiry duration and unit (days, months, or years).
 
-When setting a point expiry duration of 3 days for example, the points will expire exactly 72 hours after the earning time. Gameball does not round up or down to the nearest day; instead, it calculates the exact time based on the specified duration.
+Points expiry is calculated from the exact moment points are earned. For example, with a 3-day expiry, points earned at 2:00 PM on January 1st expire at exactly 2:00 PM on January 4th (72 hours later).
+
+**How expiry is enforced:**
+
+- Customers **cannot redeem** expired points from the moment the expiry time passes — even before the system has processed the expiry.
+- Expiry status is updated by a background job that runs **multiple times per day**. The dashboard may briefly show points as still active until the next job run, but redemption is blocked from the exact expiry moment.
+
+<Note>
+Points expiry and the return window interact: if a return window is configured, the expiry countdown starts only after points become active (i.e., after the return window ends), not from when they were earned.
+</Note>
 </Accordion>
 
 <Accordion title="Earn Points Applies On" icon="layer-group">
