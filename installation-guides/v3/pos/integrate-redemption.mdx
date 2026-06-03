@@ -1,39 +1,43 @@
 ---
-title: "Integrate Redemption"
-description: "Enable customers to redeem loyalty points as a discount at checkout"
+title: "Redeem Points at Checkout"
+description: "Let customers apply their loyalty points as a discount at checkout"
 ---
 
-## Use Case: Redeeming Loyalty Points as a Discount at Checkout
+Redemption lets a customer spend their points to reduce what they pay. It builds directly on [Track Orders](/installation-guides/v3/pos/track-orders): you add a **hold** step that locks the points, then submit the **same order call** with a reference to that hold. The hold prevents double-spending and guarantees the points are reserved for this transaction only.
 
-### What This Is
+<Info>
+If you haven't implemented [Track Orders](/installation-guides/v3/pos/track-orders) yet, do that first. Redemption is the order call plus one extra step.
+</Info>
 
-This use case explains how to allow a customer to redeem their available loyalty points at checkout to reduce the amount they need to pay. This is a controlled redemption process that uses a secure holding mechanism to prevent point misuse or double spending.
+## The Redemption Flow
 
-### Why It Matters
+```mermaid
+sequenceDiagram
+    participant C as Cashier / POS
+    participant G as Gameball API
+    C->>G: GET balance
+    G-->>C: availablePointsBalance
+    C->>G: POST hold points
+    G-->>C: holdReference (locked, time-limited)
+    C->>G: POST order + holdReference
+    G-->>C: pointsRedeemed, rewardedPoints
+```
 
-- Enables customers to experience the tangible value of their rewards
-- Drives higher redemption rates and program satisfaction
-- Prevents fraud by locking points before final confirmation
-- Keeps the redemption experience smooth and clerk-friendly
-- Skipping this step or mishandling the hold process can lead to redemption failures, customer dissatisfaction, or inaccurate point deductions
+<Steps>
+  <Step title="Check the balance">
+    Retrieve the customer's [balance](/installation-guides/v3/pos/customer-balance) to confirm they have enough points to redeem.
+  </Step>
+  <Step title="Hold the points">
+    Reserve the redemption amount with the Hold Points API. This returns a `holdReference`.
+  </Step>
+  <Step title="Submit the order with the hold reference">
+    Place the order using the [Track Orders](/installation-guides/v3/pos/track-orders) call, adding a `redemption` block that references the hold.
+  </Step>
+</Steps>
 
-### How to Implement It
+## Step 1: Hold the Points
 
-The redemption process involves three API calls in sequence:
-
-1. Fetch the customer's available balance using the Get Customer Balance API
-2. Reserve the desired redemption amount using the Hold Points API
-3. Complete the order using the Track Order API with the hold reference
-
-The hold reference ensures that points are locked for that transaction and cannot be redeemed again elsewhere.
-
-### Example Scenario
-
-A customer wants to redeem 100 points against their current order. The steps are:
-
-#### Step 1: Hold Points (Temporary Redemption)
-
-This reserves points temporarily before checkout:
+This reserves the points temporarily before checkout completes:
 
 <RequestExample>
 ```bash cURL
@@ -60,11 +64,13 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
 ```
 </ResponseExample>
 
-<Info>
-**Hold Duration**: Points are held temporarily (typically 10 minutes) to prevent double-spending. If the order isn't completed within this time, the points are automatically released back to the customer.
-</Info>
+<Warning>
+Holds are **time-limited** (typically 10 minutes). If the order isn't completed in time, the points are automatically released back to the customer. Don't reuse or delay using a `holdReference`.
+</Warning>
 
-#### Step 2: Submit the Order with the Redemption Applied
+## Step 2: Submit the Order with the Redemption
+
+This is the standard [Track Orders](/installation-guides/v3/pos/track-orders) call with one addition, a `redemption` block carrying the hold reference. Note that `totalPaid` reflects the discounted amount:
 
 <RequestExample>
 ```bash cURL
@@ -76,11 +82,8 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
     "customerId": "12345",
     "orderId": "ORD000123",
     "orderDate": "2025-10-19T12:10:00Z",
-    "totalPaid": 95.00,
+    "totalPaid": 90.00,
     "totalPrice": 100.00,
-    "totalDiscount": 5.00,
-    "totalTax": 2.00,
-    "totalShipping": 0,
     "redemption": {
       "pointsHoldReference": "HOLD-abc123"
     }
@@ -94,76 +97,97 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
   "orderId": "ORD000123",
   "customerId": "12345",
   "pointsRedeemed": 100,
-  "pointsEarned": 9.5,
-  "rewardedPoints": 9.5,
+  "pointsEarned": 9,
+  "rewardedPoints": 9,
   "status": "completed"
 }
 ```
 </ResponseExample>
 
-### What Gameball Does Behind the Scenes
+<Note>
+**Behind the scenes**, Gameball verifies the hold reference, deducts the redeemed points, and rewards new points based on the amount actually paid after redemption, then updates the customer's redemption and earning history.
+</Note>
 
-- Locks the points at the time of hold
-- Verifies the hold reference during order submission
-- Deducts the redeemed points and records them
-- Rewards new points based on the paid amount after redemption
-- Updates the customer profile with redemption and earning history
+## Tips & Gotchas
 
-### Key Takeaways for Developers
+- `totalPaid` must reflect the discounted value **after** applying the held points.
+- `totalPrice` should always be the original order value **before** discounts.
+- If the customer cancels or abandons the transaction, release the hold using the Release Hold API.
 
-- The `totalPaid` field must reflect the discounted value after applying the held points
-- The `totalPrice` field should always reflect the original order value before discounts
-- Do not reuse or delay using the hold reference. It is time-sensitive
-- If the customer cancels or abandons the transaction, release the hold using the Release Hold API
+## Redemption Methods
 
-## Secure QR-Based Redemption
+<Tabs>
+  <Tab title="Standard">
+    The flow above, where the customer is identified by `customerId` (mobile number, email, or CRM ID) and you hold then redeem against their balance.
+  </Tab>
+  <Tab title="QR Code">
+    Instead of typing a phone number, the cashier scans a QR code the customer shows from their **Gameball widget/app** or their **Virtual Pass**. The QR encodes both *who* the customer is and a *one-time security token*, so the customer is identified and verified in a single scan, no separate lookup needed.
 
-### Using QR Codes for Redemption
+    #### How it works
 
-When customers present a QR code at checkout, the redemption flow includes an additional security step:
+    ```mermaid
+    flowchart TD
+        A[Customer shows QR code] --> B[POS scans and reads the value]
+        B --> C[Split the value into<br/>customerId and hash]
+        C --> D[POST hold points with the hash]
+        D --> E[POST order with the holdReference]
+    ```
 
-1. Scan and parse the QR code to extract `customerId` and `hash`
-2. Include the `hash` in the Hold Points API request
-3. Complete the order with the hold reference as usual
+    <Steps>
+      <Step title="Scan the QR code">
+        The scanned value is a single string that joins the customer ID and a rotating 6-digit hash.
+      </Step>
+      <Step title="Split the value">
+        The **last 6 digits are always the hash**. Everything before them is the `customerId`. There's no separator, so split by position.
+      </Step>
+      <Step title="Hold points with the hash">
+        Pass both the parsed `customerId` and the `hash` to the Hold Points call. The hash proves the request is genuine.
+      </Step>
+      <Step title="Submit the order">
+        Complete the order with the returned `holdReference`, exactly like the Standard flow.
+      </Step>
+    </Steps>
 
-### QR Code Format
+    #### Anatomy of the scanned value
 
-The QR code value contains:
-- `customerId`: The customer identifier
-- `hash`: A 6-digit rotating secure hash
+    Take the example value `mobile_966500001234123456`:
 
-Example QR value: `mobile_966500001234123456`
+    | Part | Value | How to extract it |
+    | --- | --- | --- |
+    | `customerId` | `mobile_966500001234` | Everything **except** the last 6 characters |
+    | `hash` | `123456` | The **last 6 characters** |
 
-Parsed as:
-- `customerId`: `mobile_966500001234`
-- `hash`: `123456`
+    #### Hold points with the hash
 
-### Hold Points with Hash
+    Add the `hash` field to the Hold Points request:
 
-<RequestExample>
-```bash cURL
-curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
-  -H 'Content-Type: application/json' \
-  -H 'APIKey: YOUR_API_KEY' \
-  -H 'SecretKey: YOUR_SECRET_KEY' \
-  -d '{
-    "customerId": "12345",
-    "transactionTime": "2025-10-19T12:00:00Z",
-    "pointsToHold": 1000,
-    "hash": "123456"
-  }'
-```
-</RequestExample>
+    <RequestExample>
+    ```bash cURL
+    curl -X POST 'https://api.gameball.co/api/v4.0/integrations/transactions/hold' \
+      -H 'Content-Type: application/json' \
+      -H 'APIKey: YOUR_API_KEY' \
+      -H 'SecretKey: YOUR_SECRET_KEY' \
+      -d '{
+        "customerId": "mobile_966500001234",
+        "transactionTime": "2025-10-19T12:00:00Z",
+        "pointsToHold": 1000,
+        "hash": "123456"
+      }'
+    ```
+    </RequestExample>
 
-<Warning>
-Use the secure hash only in redemption calls (Hold Points API). Do not reuse expired hashes; they rotate for security.
-</Warning>
+    <Warning>
+    The hash is a **rotating, single-use security token**, it changes regularly and expires. Only send it in the Hold Points call, and never store or reuse an old hash. If a scan fails validation, ask the customer to refresh their QR code and scan again.
+    </Warning>
 
-## Virtual Pass Support
+    <Tip>
+    The same hash can also be generated server-side via the [Get Customer Hash API](/api-reference/customers/management/get-customer-hash) if you need to validate a customer without a live scan.
+    </Tip>
+  </Tab>
+  <Tab title="Virtual Pass">
+    Gameball Virtual Pass lets customers use QR codes without a mobile app. The pass lives in Apple Wallet (iOS) or PassWallet (Android) and behaves exactly like an app-based QR code.
 
-Gameball Virtual Pass allows customers to use QR codes without a mobile app. The pass is stored in Apple Wallet (iOS) or PassWallet (Android) and works exactly like app-based QR codes.
-
-- No additional API integration needed
-- Same redemption flow as app-based QR codes
-- Ensure POS scanners support digital screens and long string formats
-
+    - No additional API integration needed, use the same QR flow above.
+    - Ensure your POS scanners can read digital screens and long string formats.
+  </Tab>
+</Tabs>

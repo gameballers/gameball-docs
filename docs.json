@@ -552,17 +552,15 @@
                     "pages": [
                       "installation-guides/v3/pos/index",
                       "installation-guides/v3/pos/getting-started",
-                      "installation-guides/v3/pos/api-setup",
                       "installation-guides/v3/pos/customer-management",
                       "installation-guides/v3/pos/customer-balance",
-                      "installation-guides/v3/pos/integrate-redemption",
                       "installation-guides/v3/pos/track-orders",
+                      "installation-guides/v3/pos/integrate-redemption",
                       "installation-guides/v3/pos/refund-order",
                       "installation-guides/v3/pos/fetch-order-details",
                       "installation-guides/v3/pos/track-events",
                       "installation-guides/v3/pos/track-referrals",
-                      "installation-guides/v3/pos/go-live-checklist",
-                      "installation-guides/v3/pos/migration-notes"
+                      "installation-guides/v3/pos/go-live-checklist"
                     ]
                   }
                 ]

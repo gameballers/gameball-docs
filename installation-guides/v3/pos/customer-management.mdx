@@ -1,13 +1,28 @@
 ---
-title: "Customer Management"
-description: "Register new customers or identify existing ones during checkout at your POS"
+title: "Identify the Customer"
+description: "Register new customers or recognize existing ones during checkout at your POS"
 ---
 
-## Get or Create a Customer
+The first step at checkout is identifying the customer so their purchase, points, and redemptions attach to the right profile. You look them up by their [customer ID](/installation-guides/v3/pos/getting-started#choosing-your-customer-id), and create a profile if they're new.
 
-### Lookup Customer Balance
+## The Get-or-Create Flow
 
-First, check if the customer exists by retrieving their balance:
+```mermaid
+flowchart TD
+    A[Collect identifier at POS] --> B[GET customer balance]
+    B --> C{Customer found?}
+    C -->|Yes| D[Display balance & continue checkout]
+    C -->|No| E[POST create customer]
+    E --> D
+```
+
+<Note>
+**You don't always have to create customers explicitly.** The Track Orders and Track Events APIs auto-create a profile if the `customerId` doesn't exist yet. The explicit get-or-create flow below is recommended when you want to **show a balance or trigger onboarding campaigns before** the order is placed.
+</Note>
+
+## Step 1: Look Up the Customer
+
+Check if the customer exists by retrieving their balance:
 
 <RequestExample>
 ```bash cURL
@@ -17,13 +32,9 @@ curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId
 ```
 </RequestExample>
 
-<Info>
-**Automatic Customer Creation**: If the customer doesn't exist when you call the balance endpoint, you can create them using the Create Customer endpoint below. If the customer is found, skip the creation step.
-</Info>
+If the customer is found, skip to [Show Customer Balance](/installation-guides/v3/pos/customer-balance). If not, create them below.
 
-### Create Customer
-
-If the customer isn't found, create a new customer profile:
+## Step 2: Create the Customer (if new)
 
 <RequestExample>
 ```bash cURL
@@ -54,16 +65,16 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers' \
 ```
 </ResponseExample>
 
-### What Gameball Does Behind the Scenes
+<Note>
+**Behind the scenes**, Gameball creates the loyalty profile, triggers any configured onboarding campaigns (such as a welcome bonus), and prepares the profile for earning, tiering, and redemption.
+</Note>
 
-- Creates a new customer profile in the loyalty database
-- Triggers any configured onboarding campaigns (e.g., welcome bonus)
-- Prepares the profile for earning, tiering, and redemption
+## Tips & Gotchas
 
-### Key Takeaways for Developers
+<Tip>
+This call is idempotent. If the customer already exists, the profile is updated rather than duplicated, so it's safe to call on every checkout.
+</Tip>
 
-- Use a persistent and unique `customerId` across all platforms (POS, online, app)
-- Call this API immediately before checkout or as soon as the identifier is collected
-- Ensure your POS UI clearly captures at least one contact field (mobile/email)
-- This API is idempotent—if the customer already exists, the profile will be updated instead of duplicated
-
+- Capture at least one contact field (mobile or email) in your POS UI.
+- Call this as soon as you've collected the identifier, before checkout.
+- Keep the `customerId` consistent with every other channel (see [Choosing Your Customer ID](/installation-guides/v3/pos/getting-started#choosing-your-customer-id)).

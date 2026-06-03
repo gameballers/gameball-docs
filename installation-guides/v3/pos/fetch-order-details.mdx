@@ -3,11 +3,9 @@ title: "Fetch Order Details"
 description: "Retrieve order transaction history and customer activities"
 ---
 
-## Fetch Order Details / History
+Retrieve detailed information about orders and customer activities to display purchase history, verify transactions, support customers, or feed analytics. Two endpoints cover this: one scoped to a single order, the other to a customer's full activity log.
 
-Retrieve detailed information about orders and customer activities to display purchase history, transaction details, and loyalty activity.
-
-### Order Transactions
+## Order Transactions
 
 Get all transactions associated with a specific order:
 
@@ -41,7 +39,7 @@ curl -X GET 'https://api.gameball.co/api/v4.0/integrations/orders/{orderId}/tran
 ```
 </ResponseExample>
 
-### Customer Activities
+## Customer Activities
 
 Get the complete purchase history and activities for a customer:
 
@@ -78,21 +76,20 @@ curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId
 ```
 </ResponseExample>
 
-### Use Cases
+## When to Use Each
 
-- **Display Purchase History**: Show customers their recent orders and points earned
-- **Transaction Verification**: Verify order details and point transactions
-- **Customer Support**: Help resolve disputes or questions about transactions
-- **Analytics**: Track customer behavior and loyalty program engagement
+- **Display purchase history**: show customers their recent orders and points earned (customer activities).
+- **Transaction verification**: confirm a specific order's point breakdown (order transactions).
+- **Customer support**: resolve disputes about transactions.
+- **Analytics**: track behavior and program engagement.
 
-### Key Takeaways for Developers
+## Tips & Gotchas
 
-- Use order transactions endpoint to get detailed breakdown of a specific order
-- Use customer activities endpoint to show complete purchase history
-- Both endpoints support pagination for large result sets
-- Transaction details include timestamps, point amounts, and transaction types
+- Use the **order transactions** endpoint for a detailed breakdown of one order.
+- Use the **customer activities** endpoint for a complete purchase history.
+- Both endpoints support pagination for large result sets.
 
-### Related Resources
+## Related Resources
 
 <Card title="Order Transactions API" icon="receipt" href="/api-reference/order/order-transactions">
   Complete API reference for order transactions

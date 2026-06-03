@@ -3,22 +3,13 @@ title: "Track Events"
 description: "Track customer events and actions at your POS"
 ---
 
-## Overview
+Event tracking captures customer actions beyond purchases, letting Gameball trigger campaigns, rewards, and personalized experiences based on behavior. Order tracking already captures purchase events automatically, so events are an optional layer for non-purchase activity such as store visits, category preferences, or promotion interactions.
 
-Event tracking allows you to capture customer actions and behaviors at your POS system, enabling Gameball to trigger campaigns, rewards, and personalized experiences based on customer activity.
+<Note>
+For most POS integrations, [order tracking](/installation-guides/v3/pos/track-orders) is enough. Reach for event tracking only for advanced use cases or specific campaign requirements.
+</Note>
 
-## When to Use Event Tracking
-
-While order tracking (via the Track Order API) automatically captures purchase events, you may want to track additional customer actions such as:
-
-- Customer visits to the store
-- Product category preferences
-- Special promotions or campaigns
-- Non-purchase activities
-
-## Implementation
-
-Use the Send Events API to track customer actions:
+## Send an Event
 
 <RequestExample>
 ```bash cURL
@@ -46,14 +37,9 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/events' \
 ```
 </ResponseExample>
 
-## Key Considerations
+## Tips & Gotchas
 
-- Events can trigger automated campaigns configured in your Gameball dashboard
-- Use descriptive event names that align with your business logic
-- Include relevant metadata to enable advanced targeting and segmentation
-- Events are processed asynchronously and may not reflect immediately in customer profiles
-
-<Note>
-For most POS integrations, order tracking is sufficient. Event tracking is optional and typically used for advanced use cases or specific campaign requirements.
-</Note>
-
+- Events can trigger automated campaigns configured in your Gameball dashboard.
+- Use descriptive event names that align with your business logic.
+- Include relevant metadata to enable advanced targeting and segmentation.
+- Events are processed asynchronously and may not reflect immediately in customer profiles.

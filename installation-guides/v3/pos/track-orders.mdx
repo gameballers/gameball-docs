@@ -1,43 +1,15 @@
 ---
-title: "Track Orders"
-description: "Track in-store orders to award loyalty points"
+title: "Track Orders & Earn Points"
+description: "Submit in-store orders to Gameball so customers earn loyalty points"
 ---
 
-## Use Case: Tracking In-Store Orders to Award Loyalty Points
+Tracking orders is the core of your POS integration. Each time a customer completes a purchase, you submit the order to Gameball, which awards points based on your configured earning rules and triggers any relevant campaigns or tier progression. Without this call, no points are earned.
 
-### What This Is
+This page documents the `/integrations/orders` endpoint, which every other earning and redemption flow builds on.
 
-This use case explains how to track an in-store purchase by submitting the order details to Gameball. This allows the customer to earn loyalty points based on the transaction value and configured earning rules.
+## Submit an Order
 
-### Why It Matters
-
-- Enables customers to accumulate points for in-store purchases
-- Drives program participation and repeat visits
-- Allows Gameball to evaluate campaign logic, trigger milestone rewards, and calculate tier progression
-- Without tracking the order, no points can be rewarded, and the customer receives no benefit from their purchase
-
-### How to Implement It
-
-Use the Track Order API to submit each completed order.
-
-Required fields include:
-
-- `customerId`: the unique identifier for the customer
-- `orderId`: a unique transaction ID from your POS system
-- `orderDate`: the exact time the order occurred
-- `totalPaid`: the amount paid by the customer after discounts and redemptions
-- `totalPrice`: the full value of the order before any discounts
-
-Optional: `totalTax`, `totalShipping`, `discounts`, and `lineItems`.
-
-### Validation Rules
-
-- `orderId` must be unique per store environment
-- `customerId` must refer to an existing Gameball profile
-
-### Example Scenario
-
-A customer completes a purchase. The POS submits the order to Gameball:
+After payment is confirmed, send the order to Gameball:
 
 <RequestExample>
 ```bash cURL
@@ -49,14 +21,11 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
     "customerId": "12345",
     "orderId": "ORD000123",
     "orderDate": "2025-10-19T12:10:00Z",
-    "totalPaid": 95.00,
+    "totalPaid": 100.00,
     "totalPrice": 100.00,
-    "totalDiscount": 5.00,
+    "totalDiscount": 0,
     "totalTax": 2.00,
-    "totalShipping": 0,
-    "redemption": {
-      "pointsHoldReference": "HOLD-abc123"
-    }
+    "totalShipping": 0
   }'
 ```
 </RequestExample>
@@ -66,33 +35,72 @@ curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
 {
   "orderId": "ORD000123",
   "customerId": "12345",
-  "pointsRedeemed": 100,
-  "pointsEarned": 9.5,
-  "rewardedPoints": 9.5,
+  "pointsEarned": 10,
+  "rewardedPoints": 10,
   "status": "completed"
 }
 ```
 </ResponseExample>
 
-<Info>
-**Automatic Customer Creation**: If the customer specified by `customerId` doesn't exist in Gameball, a new customer profile will be automatically created when using this API. You don't need to create the customer separately before tracking orders.
-</Info>
+<Note>
+This is the **basic earn flow** with no redemption. To let customers spend points on this order, see [Redeem Points at Checkout](/installation-guides/v3/pos/integrate-redemption), which adds a hold step before this same call.
+</Note>
+
+## Request Fields
+
+<ParamField body="customerId" type="string" required>
+  Unique identifier for the customer. See [Choosing Your Customer ID](/installation-guides/v3/pos/getting-started#choosing-your-customer-id).
+</ParamField>
+
+<ParamField body="orderId" type="string" required>
+  A unique transaction ID from your POS. Must be unique per store environment, duplicates are rejected.
+</ParamField>
+
+<ParamField body="orderDate" type="string" required>
+  The time the order occurred, in ISO 8601 format.
+</ParamField>
+
+<ParamField body="totalPaid" type="number" required>
+  Amount paid by the customer after discounts and redemptions.
+</ParamField>
+
+<ParamField body="totalPrice" type="number" required>
+  Full value of the order before any discounts.
+</ParamField>
+
+<ParamField body="totalTax" type="number">
+  Tax portion of the order. Include if it affects point calculation.
+</ParamField>
+
+<ParamField body="totalShipping" type="number">
+  Shipping portion of the order, if applicable.
+</ParamField>
+
+## Response Fields
+
+<ResponseField name="rewardedPoints" type="number">
+  Points awarded for this order. Display this to the customer to show what they earned.
+</ResponseField>
+
+<ResponseField name="pointsEarned" type="number">
+  Points earned based on the transaction value and your earning rules.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Order processing status, for example `completed`.
+</ResponseField>
+
+<Note>
+**Behind the scenes**, Gameball evaluates your earning rules against the transaction value, issues points accordingly, logs the order in the customer's purchase history, and may trigger campaign or tier logic based on cumulative spend.
+</Note>
 
 <Info>
-**Automatic Points Rewarding**: Gameball finalizes the order and automatically rewards points based on your configured earning rules. Check the `rewardedPoints` field in the response to display the points earned to the customer.
+**Automatic customer creation**: If the `customerId` doesn't exist yet, Gameball creates the profile automatically when you track the order, no separate create call required.
 </Info>
 
-### What Gameball Does Behind the Scenes
+## Tips & Gotchas
 
-- Evaluates earning rules based on the transaction value
-- Issues points according to the business logic defined in the dashboard
-- Logs the order in the customer's purchase history
-- May trigger campaign or tier logic based on cumulative spend or conditions
-
-### Key Takeaways for Developers
-
-- Always submit final prices with appropriate tax and shipping data if they affect point logic
-- Use consistent, timestamped `orderDate` values in ISO 8601 format
-- Do not reuse `orderId`. Duplicate values will be rejected
-- Submit the order after confirming payment but before closing the POS session to ensure reward accuracy
-
+- Submit final prices with tax and shipping if they affect point logic.
+- Use ISO 8601 timestamps for `orderDate`.
+- Never reuse an `orderId`, duplicates are rejected.
+- Track the order after payment is confirmed but before closing the POS session.

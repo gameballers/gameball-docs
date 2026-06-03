@@ -1,47 +1,85 @@
 ---
-title: "Getting Started"
-description: "Introduction to POS integration with Gameball and integration outcomes"
+title: "Getting Started & API Setup"
+description: "Prerequisites, API credentials, and core concepts for POS integration with Gameball"
 ---
 
-## Introduction: Seamless In-Store Loyalty, Made for Real-World Retail
+This page covers everything you need before writing your first call: what the integration delivers, how to authenticate, and how to choose a customer ID that works across every channel.
 
-Integrating Gameball's loyalty program with your point-of-sale (POS) system allows you to deliver a consistent and rewarding experience to your in-store shoppers—without requiring a mobile app or separate interface.
-
-Whether you're operating in retail chains, mall kiosks, or standalone stores, Gameball's APIs and platform logic enable you to:
-
-- Register new customers or identify existing ones during checkout
-- Reward purchases with points and campaigns in real time
-- Redeem points for discounts or gifts—seamlessly, securely, and quickly
-- Verify identity via secure QR codes or virtual passes (optional)
-
-By embedding Gameball directly into your existing POS workflow, you eliminate the need for third-party apps or additional overhead while giving customers a visible, valuable reason to come back.
-
-This tutorial will walk you through a modular, use-case-driven approach to integrating Gameball's loyalty logic into your POS operations—complete with business context, implementation flows, example payloads, and backend reactions.
-
-## Integration Outcomes
+## What You'll Build
 
 By the end of this guide, your team will be able to:
 
-- **Design and implement a frictionless loyalty experience** within your POS
-- **Reduce developer ambiguity and support dependency** during onboarding
-- **Support secure identity and redemption flows** using only API calls or Gameball's ready-made tools
-- **Offer loyalty features** that feel native to your brand and store staff
+- **Identify customers** at checkout and register new ones automatically
+- **Reward purchases** with points in real time
+- **Redeem points** for discounts securely, with or without a mobile app
+- **Refund orders** while keeping point balances accurate
 
-## What You'll Learn
+The guide is modular and use-case driven, so you can implement each step based on your business needs, platform constraints, and customer behavior.
 
-This integration guide focuses on modular, real-world use cases, allowing you to implement each step based on your business needs, platform constraints, and customer behavior.
+## Environment Setup
 
-The guide covers:
+### Base URL
 
-1. **Customer Profile Management** - Registering and identifying customers at checkout
-2. **Order Submission & Reward Issuance** - Tracking purchases and awarding points
-3. **Secure QR-Based Customer Verification** - Optional identity verification using QR codes
-4. **Point Redemption** - Enabling customers to redeem points at checkout
+All API requests use the same base URL for both Test and Live environments:
 
-Whether you're a retail chain, franchise, or single-location store, the integration adapts to your environment and allows your loyalty program to scale without introducing complexity for your staff or customers.
+```
+https://api.gameball.co/api/v4.0
+```
+
+<Info>
+Switch between Test and Live environments by using your Test or Live API Keys. The base URL stays the same for both.
+</Info>
+
+<Note>
+This is the **v3 SDK generation** of the installation guides, but the POS integration is API-only and uses Gameball's **`api/v4.0`** REST endpoints. The path version (`v3`) and the API version (`v4.0`) are independent, you're in the right place.
+</Note>
+
+### API Credentials
+
+Retrieve your API Key and Secret Key from the Gameball Dashboard:
+
+**Dashboard Path**: Settings → Account Integration → API Keys
+
+You'll need:
+- **API Key**: Your Gameball API key
+- **Secret Key**: Your Gameball API secret
+
+### Authentication
+
+Every request must include your credentials as headers:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
+
+## Choosing Your Customer ID
+
+The `customerId` is the single most important decision in your integration. It's the unique key that ties every order, redemption, and reward to the right person.
+
+<Warning>
+Use a **persistent, unique identifier that is the same across POS, web, and app**, for example a normalized mobile number (`mobile_966500001234`) or a CRM ID. If POS and online use different IDs for the same shopper, their loyalty balance will be split across two profiles.
+</Warning>
+
+- Pick an identifier you can reliably collect at the POS (mobile number or email is most common).
+- Keep the format consistent everywhere, the same customer must always resolve to the same `customerId`.
+- This single ID is referenced by every other page in this guide.
+
+## Security Best Practices
+
+<Warning>
+Always use HTTPS for all API calls. Never send API credentials over unencrypted connections.
+</Warning>
+
+- Store API credentials securely in your POS system configuration
+- Never expose API keys in client-side code or logs
+- Rotate API keys periodically for enhanced security
+- Use hash validation for QR code-based redemptions
 
 ## Next Steps
 
-1. [API Setup](/installation-guides/v3/pos/api-setup) - Configure API authentication and credentials
-2. [Customer Management](/installation-guides/v3/pos/customer-management) - Learn how to register customers at checkout
-
+1. [Identify the Customer](/installation-guides/v3/pos/customer-management) - Get or create customers at checkout
+2. [Show Customer Balance](/installation-guides/v3/pos/customer-balance) - Retrieve and display loyalty information
