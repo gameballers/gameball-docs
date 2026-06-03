@@ -9,6 +9,8 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 This API allows for the manual addition or deduction of points for a customer in Gameball. It provides flexibility in managing loyalty points, enabling adjustments based on specific needs or circumstances.
 
+This endpoint is also available on `v4.1`.
+
 <Info>
 **Channel Merging Available**
 If your system uses different customer IDs across multiple channels (e.g., online and offline), Gameball's channel merging feature helps unify customer profiles. By including the customer's mobile number or email (based on your merging configuration) with each request, Gameball will combine activities into a single profile.
@@ -17,3 +19,56 @@ If your system uses different customer IDs across multiple channels (e.g., onlin
 <Info>
 Security: Provide both `apikey` and `secretkey` headers.
 </Info>
+
+### Custom Points Expiry
+
+Use `expiryAfter` to set a custom expiry period for points added through a manual transaction. The value is the number of days after which the added points expire, counted from the time the points are credited. For example, `30` means the awarded points expire 30 days from the time of the addition.
+
+When `expiryAfter` is omitted, sent as `null`, or sent as `0`, the points follow the client's default points-expiry setting configured in the dashboard. This matches the custom expiry option available when manually adding points from the Gameball dashboard.
+
+<Warning>
+`expiryAfter` applies only to point additions. Do not send it with a deduction, such as a negative `points` or `amount` value.
+</Warning>
+
+### Validation
+
+| Condition | Result |
+|---|---|
+| `expiryAfter` is negative | `400` - `Expiry cannot be negative` |
+| `expiryAfter` is provided on a deduction, such as negative `points` or `amount` | `400` - `Deduction cannot have expiry` |
+| Both `points` and `amount` are provided | `400` - `Only one rewarding method may be specified` |
+| Neither `points` nor `amount` is provided | `400` - `A rewarding criteria is required` |
+
+### Example: Add Points With Custom Expiry
+
+```bash
+curl -X POST "https://api.gameball.co/api/v4.0/integrations/transactions/manual" \
+  -H "Content-Type: application/json" \
+  -H "APIKey: <YOUR_API_KEY>" \
+  -H "secretkey: <YOUR_SECRET_KEY>" \
+  -d '{
+    "customerId": "player-123",
+    "transactionId": "manual-0001",
+    "transactionTime": "2026-06-01T12:00:00Z",
+    "username": "ops.admin",
+    "reason": "Goodwill credit",
+    "points": 500,
+    "expiryAfter": 30
+  }'
+```
+
+In this example, the customer is credited `500` points that expire 30 days from the time of the addition.
+
+### Example: Use the Client Default Expiry
+
+```json
+{
+  "customerId": "player-123",
+  "transactionId": "manual-0002",
+  "username": "ops.admin",
+  "reason": "Goodwill credit",
+  "points": 500
+}
+```
+
+In this example, `expiryAfter` is omitted, so the credited points follow the client's default points-expiry configuration.

@@ -1556,7 +1556,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["customerId", "transactionId", "transactionTime", "username", "reason", "points"],
+                "required": ["customerId", "transactionId", "username", "reason"],
                 "properties": {
                   "customerId": { 
                     "type": "string",
@@ -1581,7 +1581,7 @@
                   "transactionTime": { 
                     "type": "string",
                     "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Defaults to the current time in UTC when omitted.",
                     "example": "2024-10-11T15:54:10.944Z"
                   },
                   "username": { 
@@ -1596,13 +1596,20 @@
                   },
                   "points": { 
                     "type": "integer",
-                    "description": "The number of points to be rewarded or deducted (should be positive for rewards and negative for deductions).",
+                    "description": "The number of points to be rewarded or deducted. Provide either points or amount. Positive values add points, and negative values deduct points.",
                     "example": 50
                   },
                   "amount": { 
                     "type": "number",
-                    "description": "The monetary value (in system currency) associated with the transaction.",
+                    "description": "The monetary value, in system currency, associated with the transaction. Provide either points or amount. Positive values add points, and negative values deduct points.",
                     "example": 0
+                  },
+                  "expiryAfter": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "nullable": true,
+                    "description": "The number of days after which the points added in this transaction will expire, counted from the time of the addition. For example, 30 means the awarded points expire 30 days from now. When omitted, null, or 0, the points follow the client's default points-expiry setting configured in the dashboard. This replicates the custom-expiry option available when manually adding points from the Gameball dashboard. expiryAfter applies only to point additions; it cannot be used when deducting points.",
+                    "example": 30
                   }
                 }
               }
@@ -1642,6 +1649,32 @@
                       "description": "The monetary value processed in the transaction.",
                       "example": 5.0
                     }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "examples": {
+                  "negativeExpiry": {
+                    "summary": "Negative expiryAfter",
+                    "value": { "error": 400, "message": "Expiry cannot be negative" }
+                  },
+                  "deductionWithExpiry": {
+                    "summary": "expiryAfter on a deduction",
+                    "value": { "error": 400, "message": "Deduction cannot have expiry" }
+                  },
+                  "multipleRewardingMethods": {
+                    "summary": "Both points and amount provided",
+                    "value": { "error": 400, "message": "Only one rewarding method may be specified" }
+                  },
+                  "missingRewardingCriteria": {
+                    "summary": "Neither points nor amount provided",
+                    "value": { "error": 400, "message": "A rewarding criteria is required" }
                   }
                 }
               }
