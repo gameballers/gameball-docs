@@ -4712,6 +4712,16 @@
               "enum": ["reward", "game"]
             },
             "description": "Filter campaigns by type. Use `reward` to return only reward-type campaigns (points multipliers, missions, spending milestones, streaks, etc.), or `game` for game-type campaigns (Spin the Wheel, Slot Machine, Quiz, Scratch & Win, Match Cards, etc.). Omit to return all campaigns. Any other value results in a validation error."
+          },
+          {
+            "name": "campaignId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Filter the response to a single campaign by its ID. When provided, the response array contains at most one item: the matching campaign's progress, or an empty array if the campaign does not exist or is not available to this customer. Must be a positive integer. Use the campaign ID returned in rewardsCampaignId or rewardCampaignConfiguration.id. Can be combined with campaignType, in which case both filters apply."
           }
         ],
         "responses": {
@@ -4720,6 +4730,29 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/CustomerCampaignsProgressResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Returned when campaignId is non-numeric, such as campaignId=abc."
+          },
+          "422": {
+            "description": "Unprocessable entity. Returned when campaignId is zero or negative.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "integer", "example": 3003 },
+                    "type": { "type": "string", "example": "PAYLOAD_ERROR" },
+                    "message": { "type": "string", "example": "invalid campaignid value. the campaign id must be a positive integer." }
+                  }
+                },
+                "example": {
+                  "code": 3003,
+                  "type": "PAYLOAD_ERROR",
+                  "message": "invalid campaignid value. the campaign id must be a positive integer."
+                }
               }
             }
           }

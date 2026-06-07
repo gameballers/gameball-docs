@@ -7,7 +7,74 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 This API retrieves a customer's progress within Gameball's reward campaigns, providing insights into their achievements and current status in each campaign. By accessing completion percentages and unlock statuses, you can track how customers are engaging with various reward opportunities.
 
+This endpoint is also available on `v4.1`.
+
 <Info>
 **Security**: Requires **apikey** and **secretkey** headers.
 </Info>
+
+### Filter by Campaign ID
+
+Use the optional `campaignId` query parameter to return progress for a single campaign instead of retrieving the full campaign list. The value must be a positive integer and should match the campaign ID returned in `rewardsCampaignId` or `rewardCampaignConfiguration.id`.
+
+When `campaignId` is provided, the response is still a JSON array. A matching campaign returns an array with one item. If the campaign does not exist, is not visible to the customer, or the customer is not eligible for it, the endpoint returns `200 OK` with an empty array (`[]`), not `404`.
+
+You can combine `campaignId` with `campaignType`. When both filters are provided, both must match. For example, `?campaignId=123&campaignType=game` returns the campaign only if campaign `123` is also a game campaign; otherwise, the response is an empty array.
+
+### Validation
+
+| Condition | Result |
+|---|---|
+| `campaignId` is omitted | Returns the full campaign progress list, matching the previous behavior |
+| `campaignId` matches a campaign available to the customer | `200 OK` with an array containing one item |
+| `campaignId` does not exist, is not visible, or fails customer eligibility | `200 OK` with an empty array (`[]`) |
+| `campaignId` is zero or negative | `422` with code `3003` and type `PAYLOAD_ERROR` |
+| `campaignId` is non-numeric, such as `campaignId=abc` | `400 Bad Request` |
+
+### Example: Single Campaign
+
+```bash
+curl "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/reward-campaigns-progress?campaignId=6151" \
+  -H "APIKey: {your_api_key}" \
+  -H "secretkey: {your_secret_key}"
+```
+
+Example response:
+
+```json
+[
+  {
+    "rewardsCampaignName": "First Order",
+    "rewardsCampaignId": 6151,
+    "isUnlocked": true,
+    "highScoreAmount": null,
+    "currentStreak": null,
+    "highestStreak": null,
+    "completionPercentage": 0.0,
+    "achievedCount": 0,
+    "canAchieve": true,
+    "rewardCampaignConfiguration": {
+      "...": "unchanged existing schema"
+    }
+  }
+]
+```
+
+### Example: Campaign ID and Type
+
+```bash
+curl "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/reward-campaigns-progress?campaignId=9732&campaignType=game" \
+  -H "APIKey: {your_api_key}" \
+  -H "secretkey: {your_secret_key}"
+```
+
+### Example: Invalid Campaign ID
+
+```json
+{
+  "code": 3003,
+  "type": "PAYLOAD_ERROR",
+  "message": "invalid campaignid value. the campaign id must be a positive integer."
+}
+```
 
