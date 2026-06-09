@@ -65,6 +65,15 @@ Gameball provides several reward types across various platforms, each designed t
     - **Prefix:** Add Coupon Prefix.
     - **Reward expires after a specific amount of time:** Set the expiry for the reward.
     - **Minimum purchase amount:** The amount required for usage. (Default: 1)
+
+    <Warning>
+      **Minimum Purchase Applies to the Product Price Only**
+
+      When you set a minimum purchase amount on a Free Product reward, Shopify and Salla validate the minimum against the price of the discounted product — not the customer's total cart value. For example, if the free product costs \$22.50 and your minimum is \$50, the coupon will be rejected even if the customer's cart totals \$100 or more.
+
+      This is a platform-level limitation on both Shopify and Salla. Set the minimum purchase amount based on the product's price, not the expected cart total.
+    </Warning>
+
     - **Reward combined with other coupons:** Compatibility with other coupons or to be won alongside other coupons.
     - **Show "How to redeem" instructions.**
 
