@@ -1297,6 +1297,11 @@
   },
   "redirects": [
     {
+      "source": "/product-documentation/programs/rewards-campaigns/create-a-point-multiplier-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign",
+      "permanent": true
+    },
+    {
       "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/burn",
       "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/burn",
       "permanent": true
