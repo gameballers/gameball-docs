@@ -20,80 +20,42 @@ By integrating Klaviyo with Gameball, you unlock the ability to target and segme
 
 ---
 
-## How to Configure Klaviyo on Gameball
+## How to Connect Klaviyo to Gameball
 
 <Steps>
-<Step title="Ensure Your Widget is Published">
-
-<Info>
-Not publishing the widget could impact the integration process, so ensure it's live before proceeding.
-</Info>
-</Step>
-
-<Step title="Access the Integrations Page">
-Navigate to **Integrations** in your **Gameball Admin Dashboard** left menu.
+<Step title="Go to App Integrations">
+In your Gameball Admin Dashboard, navigate to **App Integrations** from the left-side menu. You will see a card for each available native integration.
 
 <Frame>
-  <img src="/images/product-docs/apps-integrations/apps-integrations-65.png" />
+  <img src="/images/product-docs/apps-integrations/klaviyo-app-integrations-page.png" alt="App Integrations page showing all native integrations" />
 </Frame>
 </Step>
 
-<Step title="Connect Klaviyo">
-Click **Connect** under **Klaviyo**. If you are on Shopify, make sure Klaviyo is installed through the Shopify App Store.
-</Step>
-
-<Step title="Create an API Key in Klaviyo">
-1. In your Klaviyo account, go to **Account Settings > Settings > API Keys**.
-2. Create a new API key and ensure **full access** for each API scope.
-
-<Warning>
-Failing to grant full access may prevent the integration from functioning properly.
-</Warning>
-</Step>
-
-<Step title="Copy and Paste the API Key">
-1. Copy the generated API key from Klaviyo.
-2. Go back to your Gameball dashboard, paste the key, and click **Next**.
-</Step>
-
-<Step title="Set Up a Webhook in Klaviyo">
-Webhooks allow Gameball to send real-time data to Klaviyo.
-
-1. Log in to your **Klaviyo Dashboard**.
-2. Go to **Account Settings > Webhooks**.
-3. Click **Create Webhook**.
-   - Provide a name (e.g., "Gameball Integration").
-   - Enter the **Webhook URL** provided by Gameball in the integration section.
-4. Save the webhook.
-</Step>
-
-<Step title="Map Gameball Events to Klaviyo">
-Gameball tracks various customer events (e.g., points earned, redeemed, tiers achieved). Map these events to Klaviyo to use them in your campaigns.
-
-1. In the Gameball Dashboard, go to **Integrations**.
-2. Select **Klaviyo** from the list.
-3. Map the following events:
-   - Coupon Created
-   - Coupon Redeemed
-   - Reward Campaign Achieved
-   - Order Placed
-4. Confirm the event mappings and save.
-</Step>
-
-<Step title="Sync Customer Data">
-Syncing customer data ensures Klaviyo receives real-time updates about customer actions.
-
-1. In the Gameball Dashboard, navigate to **Integrations > Klaviyo**.
-2. Enable the **Customer Sync** toggle.
-3. Choose the customer attributes to sync (Customer ID, Date of Birth, Join Date, Tier Name, Wallet Points, Pending Points, Tier Progress, Tier ID, Completed Reward Campaigns, Referral Code, Referral Link, Tags and Segments).
-4. Save your settings.
-</Step>
-
-<Step title="Verify Synced Customers">
-In Klaviyo's profile section, you will find all automatically synced Gameball customers.
+<Step title="Click Connect on the Klaviyo Card">
+Find the **Klaviyo** card and click **Connect**. You will be redirected to a Klaviyo OAuth screen asking you to authorize the connection.
 
 <Frame>
-  <img src="/images/product-docs/apps-integrations/apps-integrations-66.png" />
+  <img src="/images/product-docs/apps-integrations/klaviyo-oauth-permissions.png" alt="Klaviyo OAuth permission screen" />
+</Frame>
+
+Gameball will request access to the following scopes in your Klaviyo account:
+
+| Scope | Permission |
+|-------|-----------|
+| **Accounts** | View account details |
+| **Events** | Create, view, edit, and delete events |
+| **List** | Create, view, edit, and delete lists and list memberships |
+| **Profiles** | Create, view, edit, and delete profiles |
+| **Webhooks** | Create, view, edit, and delete webhooks |
+</Step>
+
+<Step title="Authorize the Connection">
+Click **Allow** to grant Gameball access. You can revoke this access at any time from your Klaviyo app settings.
+
+Once authorized, the Klaviyo card will display a **Connected** badge confirming the integration is active.
+
+<Frame>
+  <img src="/images/product-docs/apps-integrations/klaviyo-connected.png" alt="Klaviyo card showing Connected status" />
 </Frame>
 </Step>
 </Steps>
