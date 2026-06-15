@@ -169,7 +169,11 @@ Choose a badge icon for your campaign in one of three ways:
 
 - **Gameball Library** — Select from a curated set of pre-made badge icons.
 - **Upload** — Upload your own custom image.
-- **AI Image Studio** — Generate a custom badge image by typing a text prompt directly in the dashboard. No design tools or external software needed.
+- **AI Image Studio** — Generate a custom badge image by typing a text prompt directly in the dashboard. No design tools or external software needed. Generated images go through automatic post-processing — background removal, light/dark theme injection based on your widget mode, and edge-filling — so assets are production-ready without any manual cleanup.
+
+  When clicking **Regenerate**, your last submitted prompt is pre-filled so you can refine it without retyping. Switching between **Generate with AI**, **From Library**, and **Upload** tabs does not clear your prompt. Style selection is locked while a generation is in progress.
+
+  Images in the library are organized by their intended slot — backgrounds appear only in background pickers, pointer images only in pointer slots — so purpose-specific assets never show up in the wrong context.
 
 <Frame>
   <img src="/images/product-docs/rewards-campaigns/AI Image Badge.png" alt="AI Image Studio badge generation in campaign creation" />

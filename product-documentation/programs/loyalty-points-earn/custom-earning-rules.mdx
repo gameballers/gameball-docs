@@ -42,6 +42,8 @@ Gameball lets you create custom point-earning rules based on any order attribute
   <Note>
   CSV uploads support up to 100 SKUs per file. Clear validation messages are shown for any file type, size, or format issues.
   </Note>
+
+  Conditions can be set at the order level or the line-item level. See the [Condition Attributes Reference](#condition-attributes-reference) section below for the full list of available attributes.
 </Step>
 
 <Step title="Choose a Point Assignment Method">
@@ -76,8 +78,46 @@ You can stack multiple conditions within a single rule. All conditions must be m
 **Examples:**
 
 - Reward 10 points for orders where `total_price` **greater than** `50`
-- Give 5 points per $1 for `product_category` **equals** `Electronics`, versus 2 points per $1 for `product_category` **equals** `Accessories`
+- Give 5 points per \$1 for `product_category` **equals** `Electronics`, versus 2 points per \$1 for `product_category` **equals** `Accessories`
 - Award bonus points for high-value purchases from the Summer Collection paid by credit card
+
+---
+
+## Condition Attributes Reference
+
+Beyond standard attributes like order total, payment method, and product category, the rule builder supports additional order-level and line-item-level attributes. These let you build more precise earning rules — including tier-specific ones. Each rule can be scoped to a specific **customer tier**, so Gold customers earn at a different rate than Silver customers for the exact same order condition. For example, a Gold tier customer who places an order with 5 or more items could earn 3× points, while a Silver tier customer earns 2× on the same order.
+
+### Order-Level Attributes
+
+These attributes apply to the order as a whole. Combine them with a customer tier and a point assignment method to reward customers differently based on both their loyalty status and how they shop.
+
+| Attribute | Description |
+|---|---|
+| **Redeemed amount in points** | The number of points the customer burned on this order |
+| **Coupon codes** | The coupon code applied to the order |
+| **Total items** | Total quantity of all line items in the order |
+| **Total unique items** | Number of distinct products in the order |
+| **has_points_redemption** | True if points were redeemed on this order |
+| **has_coupon_redemption** | True if a coupon was burned on this order |
+
+For example, you can set separate rules for each tier — giving Gold customers a 3× multiplier when their order contains 5 or more items, Silver customers a 2× multiplier for the same condition, and standard customers the default rate. You can also award a bonus earn rate to customers on any tier who purchase without applying a coupon code.
+
+<Frame>
+  ![Order-level attributes in the custom rule builder](/images/product-docs/programs/loyalty-points-earn/custom-rule-tiers.png)
+</Frame>
+
+### Line-Item-Level Attributes
+
+These attributes apply to individual products within the order. Use them when you want to adjust earning based on what happened to a specific item — for example, awarding a higher earn rate on full-price items or giving bonus points on taxed line items.
+
+| Attribute | Description |
+|---|---|
+| **Discount** | The discount amount applied to the specific line item |
+| **Tax** | The tax amount on the line item |
+
+<Frame>
+  ![Line-item attributes in the custom rule builder](/images/product-docs/programs/loyalty-points-earn/custom-rule-tiers-2.png)
+</Frame>
 
 ---
 

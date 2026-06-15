@@ -14,6 +14,31 @@ If you want to delete some or all data related to your loyalty program, Gameball
 ## Types of Data You Can Delete
 
 <AccordionGroup>
+<Accordion title="Reset Customer Progress" icon="rotate-left">
+  Clears all per-customer activity while keeping every customer profile intact. This is useful for program relaunches or handing over a test environment without losing your customer base.
+
+  **What is cleared:**
+  - Points balances and redemptions
+  - Achievements
+  - Events and activities
+  - Orders and transactions
+  - Referrals
+  - Tags
+  - Segment memberships
+
+  **What is preserved:**
+  - Customer profiles (IDs, names, emails, phones, and custom attributes)
+  - All program definitions and workspace configuration
+
+  <Frame>
+    ![Reset customer progress confirmation](/images/product-docs/admin-settings/customer-progress-reset.png)
+  </Frame>
+
+  <Warning>
+  This action is permanent and cannot be undone.
+  </Warning>
+</Accordion>
+
 <Accordion title="Delete All Customers" icon="users">
   Permanently deletes all customer data across both live and test environments. This includes:
 
@@ -64,8 +89,8 @@ If you want to delete some or all data related to your loyalty program, Gameball
   </Frame>
 </Step>
 
-<Step title="Select What to Delete">
-  Click the relevant button — **Delete All Customers** or **Delete Programs Data and All Customers**. Both are styled in red to indicate a destructive, irreversible action.
+<Step title="Select What to Reset or Delete">
+  Click the relevant button — **Reset Customer Progress**, **Delete All Customers**, or **Delete Programs Data and All Customers**. Destructive actions are styled in red to indicate they are irreversible.
 </Step>
 
 <Step title="Complete the Two-Step Confirmation">
