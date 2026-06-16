@@ -1226,6 +1226,7 @@
           {
             "group": "Product Updates",
             "pages": [
+              "changelog/product-updates/2026",
               "changelog/product-updates/2025"
             ]
           },
@@ -1296,6 +1297,11 @@
     }
   },
   "redirects": [
+    {
+      "source": "/product-documentation/analytics/referral-analytics",
+      "destination": "/product-documentation/analytics/track-your-referral-performance",
+      "permanent": true
+    },
     {
       "source": "/product-documentation/programs/rewards-campaigns/create-a-point-multiplier-reward-campaign",
       "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign",
