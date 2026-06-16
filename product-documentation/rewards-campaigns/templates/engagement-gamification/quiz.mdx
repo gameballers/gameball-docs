@@ -122,6 +122,10 @@ This template uses the standard reward campaign setup. See the [Generic Setup Gu
   </Step>
 </Steps>
 
+<Note>
+The quiz reward is all-or-nothing. Customers must answer **all** questions correctly to earn the reward — there is no partial reward for getting some questions right, and no consolation reward for incorrect answers. Conditional payouts (e.g., different rewards based on correctness) are not supported.
+</Note>
+
 ## Customization
 
 **Design & Content**
@@ -172,6 +176,10 @@ You can extract a customer list report directly from the quiz campaign page. The
 | Achieved At | The date and time the customer completed the quiz and earned the reward. |
 | Correct Answers | The number of questions the customer answered correctly. |
 | Success State | Whether the customer won or did not win the quiz. |
+
+<Tip>
+To segment customers by quiz outcome, use the [Get Customer Campaigns Progress API](https://docs.gameball.co/api-reference/customers/progress/get-customer-campaigns-progress) and check the `achievedCount` field. Customers with `achievedCount > 0` answered correctly and won. You can then tag those customers using the Gameball tagging API to create segments based on quiz performance.
+</Tip>
 
 ---
 
