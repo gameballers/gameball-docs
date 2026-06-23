@@ -161,6 +161,14 @@ With this update, you can now:
 - Define a **custom expiry period (days)** for multiplier campaign points, just like in other reward campaigns.
 - Align rewards with **finalized, eligible transactions** only.
 
+### Partial Returns and Condition Thresholds
+
+If a customer earns a multiplier by meeting a condition (e.g., ordering 2 or more items) and then returns part of the order — dropping below the qualifying threshold — **Gameball does not reverse the bonus points already earned**. Points are deducted proportionally based on the returned item's value (including the multiplier), but there is no retroactive reversal of the multiplier itself.
+
+For example: a customer orders 2 items, qualifies for a 2x multiplier, earns 200 points (100 base + 100 bonus), then returns 1 item. Gameball deducts 100 points (50 base + 50 bonus). The remaining 100 points stay with the customer even though they no longer meet the 2-item condition.
+
+To reduce exposure to this, use the **Return Window** setting to delay point activation until after your return window closes.
+
 <Note>
 There are other types of Reward Campaigns. Learn how to create and configure each of them below:
 
