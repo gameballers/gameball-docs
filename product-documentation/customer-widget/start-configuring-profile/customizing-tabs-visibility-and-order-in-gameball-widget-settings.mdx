@@ -89,6 +89,8 @@ Manage the overall visibility of the widget, including specific tabs and section
   </Frame>
 
   The Play & Win section is also automatically hidden when there are no active game campaigns configured for the customer's current platform — web or mobile app. This means customers will never see an empty Play & Win section due to campaigns being set up for a different platform.
+
+  **Hiding individual game campaigns:** You can also hide specific game campaigns from the widget without disabling them. Go to **Widget &gt; General &gt; Games** and toggle off **Show in widget** for any game you want to exclude from the default widget. Hidden games remain fully launchable via the SDK `openDetails()` method and web deep links, so you can build custom game experiences in your own UI without them appearing in the widget. The Play & Win tab auto-hides when all games are set to hidden.
 </Accordion>
 
 <Accordion title="Referrals Visibility" icon="user-plus">
@@ -163,13 +165,15 @@ Select your preferred method for ordering reward campaigns:
 
 ## Redemption Options
 
-Manage the display order of your redemption options inside the widget, highlighting key rewards and simplifying navigation for your customers.
+Manage the display of your redemption options inside the widget, highlighting key rewards and simplifying navigation for your customers.
 
 <Frame>
   <img src="/images/product-docs/customer-widget/redemption-options-ordering.png" alt="Redemption options ordering" />
 </Frame>
 
-Select your preferred method for ordering redemption options:
+**Show or hide individual options:** Each redemption option has a **Show in widget** toggle (found at **Widget &gt; General &gt; Redemption Options**), which defaults to on. Turning it off hides that option from the widget while keeping it fully accessible through the API — so you can build custom redemption flows in your own UI without cluttering the default widget.
+
+**Ordering:** Select your preferred method for ordering redemption options:
 
 - **Creation Date**: Displayed chronologically by setup date.
 - **Points Required**: Sorted from lowest to highest cost.

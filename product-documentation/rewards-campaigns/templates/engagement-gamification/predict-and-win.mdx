@@ -1,0 +1,197 @@
+---
+title: "How Do I Set Up Predict & Win?"
+description: "Run a score-prediction game around live events — customers forecast match results, earn points by accuracy, and compete on a live leaderboard."
+---
+
+| Platform | Plan |
+|----------|------|
+| Shopify | Pro & Guru |
+| Salla | Pro & Guru |
+| Non-Platform | Enterprise (add-on) |
+
+Turn a major sporting event into a month of daily engagement. Predict & Win lets customers forecast match scores before kickoff, earn points based on prediction accuracy, and climb a live leaderboard — giving you a daily reason to bring shoppers back throughout the event.
+
+---
+
+## Creating a Predict & Win Campaign
+
+<Steps>
+<Step title="Open Gameball and Create Campaign">
+  Open Gameball and click **Add Reward Campaign**.
+</Step>
+
+<Step title="Select the Template">
+  Select the **Predict & Win** template.
+</Step>
+
+<Step title="Edit Campaign Setup">
+  Edit the campaign's setup (see configuration sections below).
+</Step>
+
+<Step title="Go Live">
+  Click **Set Live** to activate the campaign.
+</Step>
+</Steps>
+
+---
+
+## Campaign Configuration
+
+<AccordionGroup>
+<Accordion title="Audience" icon="users">
+  - **All Customers:** Every registered customer in your program.
+  - **Specific Customers:** Filter by segment, tag, or customer attributes to limit who can participate.
+</Accordion>
+
+<Accordion title="Trigger" icon="bolt">
+  The trigger for this campaign is **Customer Predict match and collect score** — customers earn the reward each time they submit a prediction for an open match.
+
+  A dedicated **Predict & Win** banner appears in the loyalty widget. You can also share a deep link directly to the game for use in emails, banners, or push notifications.
+</Accordion>
+
+<Accordion title="Activation" icon="calendar">
+  - **Always Active:** The campaign runs continuously while live.
+  - **Scheduled:** Set a start and end date to align the campaign with the event window.
+</Accordion>
+
+<Accordion title="Platform Visibility" icon="desktop">
+  Choose whether the game campaign is shown on web, mobile, or both, giving you better control over engagement strategies across platforms.
+
+  <Frame>
+    ![Platform visibility settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/platform-visibility.png)
+  </Frame>
+</Accordion>
+</AccordionGroup>
+
+<Info>
+This template uses the standard reward campaign setup. See the [Generic Setup Guide](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) for details.
+</Info>
+
+---
+
+## Matches Selection
+
+Choose which matches customers can predict on.
+
+<Frame>
+  ![Predict & Win campaign setup — Matches Selection](/images/product-docs/rewards-campaigns/templates/engagement-gamification/predict-and-win-setup.png)
+</Frame>
+
+| Option | Description |
+|---|---|
+| **All** | Every match in the event is open for predictions |
+| **By Country** | Only matches involving a specific national team |
+| **By Match** | Hand-pick individual matches to open |
+
+Only matches you enable are visible to customers in the widget.
+
+---
+
+## Scoring Model
+
+Configure how many points customers earn per prediction. The model is fully customizable, with World Cup default rules pre-filled:
+
+| Prediction Type | Description |
+|---|---|
+| **Exact score** | Predicted the exact final score |
+| **Goal difference** | Correct goal margin but wrong exact score |
+| **Correct winner** | Right winning side but wrong margin |
+| **Participation** | Submitted a prediction regardless of outcome |
+
+You can also enable a **knockout timing bonus** that awards extra points for predictions submitted close to kickoff during knockout-stage matches.
+
+---
+
+## Rewards & Leaderboard
+
+Predict & Win supports two independent reward tracks:
+
+- **Per-match rewards** — awarded based on prediction accuracy after each match result is confirmed
+- **Rank-based leaderboard rewards** — awarded to the top-ranked customers at the end of the campaign (up to 10 positions)
+
+Rewards can be delivered via Gameball, an external API, or self-fulfilment.
+
+---
+
+## Advanced Options
+
+<Frame>
+  ![Predict & Win advanced options and notifications](/images/product-docs/rewards-campaigns/templates/engagement-gamification/predict-and-win-advanced.png)
+</Frame>
+
+**Show Leaderboard** — When on, players can see the live leaderboard ranking for this campaign inside the widget. Turn it off to run the game without a visible ranking.
+
+**Notifications** — Configure how customers are notified when they earn a reward:
+
+- **In-App Notifications:** Achieve Notifications and Event Notifications both follow Global Settings by default.
+- **Email Notifications:** Achieve Notifications follow Global Settings by default.
+
+[Learn more about notifications](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign)
+
+---
+
+## End User Experience
+
+<Frame caption="Widget preview — click Customize Design to personalize colors, text, and branding for each screen.">
+  <img src="/images/product-docs/rewards-campaigns/templates/engagement-gamification/predict-and-win-preview.png" alt="Predict & Win widget preview" style={{ maxWidth: '320px' }} />
+</Frame>
+
+<Steps>
+<Step title="Open the Game">
+  Customers tap the Predict & Win banner in the loyalty widget or follow a shared deep link.
+</Step>
+
+<Step title="Submit Predictions">
+  On the **Matches** tab, customers enter their predicted score for each open match before kickoff.
+</Step>
+
+<Step title="Track Results">
+  After matches are played, customers check their accuracy on the **History** tab and see their overall standing on the **Board** tab.
+</Step>
+
+<Step title="Earn Points & Rewards">
+  Points are awarded based on prediction accuracy. Top-ranked customers earn leaderboard rewards at the end of the campaign.
+</Step>
+</Steps>
+
+---
+
+## Insights & Export
+
+The Insights leaderboard lets you export participant lists filtered by result category or rank. Use the export to:
+
+- Reward top-ranked customers manually
+- Segment football-fan customers for follow-up campaigns
+- Tag participants for future targeting
+
+---
+
+## Important Notes
+
+<Note>
+**Customer Eligibility**
+
+Games in the widget update dynamically based on customer eligibility, ensuring customers only see games they can still participate in.
+
+**Games are hidden when customers become ineligible.**
+
+If a customer no longer belongs to the game's target segment, the game is automatically removed from the widget and will not reappear unless eligibility is restored.
+</Note>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+<Card title="Set Up a Reward Campaign" icon="flag" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Step-by-step guide to configuring any reward campaign.
+</Card>
+
+<Card title="Reward Types in Gameball" icon="gift" href="/product-documentation/rewards-campaigns/faqs/understanding-rewards-types">
+  Explore the different reward types you can offer customers.
+</Card>
+
+<Card title="Notification After Earning a Reward" icon="bell" href="/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign">
+  Configure how customers are notified when they earn a reward.
+</Card>
+</CardGroup>
