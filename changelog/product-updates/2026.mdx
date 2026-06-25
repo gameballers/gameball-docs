@@ -1,0 +1,182 @@
+---
+title: "Product Updates 2026"
+description: "Gameball product updates, new features, and improvements throughout 2026."
+---
+
+<Update label="June 22 2026" description="Predict & Win for the World Cup, widget visibility controls, SDK hooks & more">
+
+## New Features
+
+### Predict & Win — World Cup 2026 Prediction Game
+
+Launch a World Cup 2026 score-prediction game that gives your customers a daily reason to come back for a full month. Players forecast match scores, earn points for accuracy, climb a live leaderboard, and collect rewards — a perfect way to capture and engage a football-fan audience during a rare, sustained attention window.
+
+* Predict scores before kickoff and track results, points, and rank across Matches, History, and Board tabs
+* Choose which matches are open — pick specific matches or filter by country
+* Configurable scoring (exact / goal-difference / correct-winner / participation) with a knockout timing bonus
+* Per-match and rank-based leaderboard rewards (up to 10 positions), delivered via Gameball, external API, or self-fulfilment
+* Insights leaderboard with export to reward, segment, or run follow-up campaigns
+
+<Frame>
+  <img src="https://cdn.gameball.app/releases/R26.058.0623/hero/predict-and-win.png" alt="Predict & Win — World Cup 2026 prediction game" />
+</Frame>
+
+---
+
+### Hide Redemption Options & Game Campaigns from the Widget
+
+Take full control of what appears in your loyalty widget. Hide individual redemption options and specific game campaigns from the widget while keeping them fully accessible through the API and SDK — so you can build custom redemption flows and targeted game experiences in your own UI.
+
+* New "Show in widget" toggle on each redemption option (Widget > General > Redemption Options), defaults ON
+* New "Show in widget" toggle on each game campaign (Widget > General > Games), defaults ON
+* Hidden redemption options stay callable via GET /configurations/redemption; hidden games stay launchable via SDK openDetails() and web deep links
+* Play & Win tab auto-hides when all games are hidden
+
+---
+
+## Other Improvements
+
+### Programmatic SDK Widget Dismiss
+
+A new public method on the Native iOS and Android SDKs lets you dismiss the Gameball widget directly from your app code — same dismiss animation, safe to call when the widget isn't visible, and fully backward compatible.
+
+### Widget Game Events Sent to Mobile SDKs
+
+Widget games now emit a `gameCompleted` event to the host mobile SDK when a customer finishes playing, so your app can react in real time.
+
+### Redeemed Coupon Codes in Transaction Details
+
+Order and transaction details now surface the redeemed Gameball coupon code, tied back to its order, giving you clearer visibility into which coupon drove each transaction.
+
+### Channel Merge Pre-Enable Duplicate Check
+
+Before Channel Merge can be enabled, Gameball now runs an automatic duplicate-detection check and emails you the results. Channel Merge stays blocked while duplicates exist, and a fresh check runs each time you re-attempt after resolving them.
+
+### Referral Description in the Configuration API
+
+The Referrals Configuration API now returns the referral program's description field, in your configured languages — so you can display the exact description from your dashboard inside your own app or portal without hardcoding it.
+
+### View Program Button in the Enable Program Banner
+
+The "Enable Gameball" banner now includes a View Program button that takes you straight to the earn page, making it faster to preview and set up your loyalty program.
+
+---
+
+## Bug Fixes
+
+* **Reliable Bulk Points Add & Deduct** — Bulk points operations now complete reliably and reflect balances immediately, with accurate progress and per-row error reporting.
+* **In-Store / POS Orders Now Earn Cashback** — Fixed an issue where in-store/POS orders were not earning cashback points.
+* **Add Multiple Sub-Campaigns to a Calendar Campaign** — Resolved a bug that blocked adding more than one sub-campaign.
+* **Quiz Sub-Campaign Text Color** — Text color can now be customized for Quiz sub-campaigns across all banner options.
+* **Points Multiplier Validation** — A blank internal campaign name now shows a clear validation error instead of failing silently.
+* **Reliable Bulk Tag Upload** — Bulk tag updates via update-migrate now apply to every valid customer, with a per-row failure report.
+* **Locale Code in Update-Languages API** — The locale code is once again returned when updating a client's languages.
+* **Campaigns Catalogue Cleanup** — Removed a duplicate tic-tac-toe campaign from the Campaigns Catalogue.
+
+</Update>
+
+<Update label="June 7 2026" description="Smarter Earn Rules, Customer Progress Reset & More">
+
+## New Features
+
+### Smarter Earn Rules: New Order & Line Item Filters
+
+Build more precise earning and multiplier rules with a new set of order-level and line-item-level attributes. Configure rules based on total quantity, unique item counts, line-item discounts, redeemed points, coupon codes applied, and more — directly from the rule builder.
+
+**New order-level attributes:**
+
+- Redeemed amount in points
+- Coupon codes applied
+- Total items / Total unique items
+- `has_points_redemption` / `has_coupon_redemption` boolean flags
+
+**New line-item-level attributes:**
+
+- Discount amount on the specific line item
+- Tax amount on the line item
+
+---
+
+### Reset Customer Progress
+
+Admins can now clear all per-customer activity — points, achievements, events, orders, transactions, referrals, tags, and segment memberships — while keeping every customer profile intact. Ideal for program relaunches or test environment handovers.
+
+- Customer profiles fully preserved (IDs, names, emails, phones, custom attributes)
+- Two-step confirmation with clear summary of what is cleared vs. kept
+- Full audit log entry created
+
+---
+
+### Manual Points API — Optional Expiry Date
+
+The manual points addition API now accepts an optional `expiryDate` parameter (ISO 8601). Set per-batch expiry dates at point-addition time — no separate update call needed.
+
+---
+
+## Other Improvements
+
+### Settings: Enclosed Side Drawer
+
+Settings cards across Earn, Redeem, Referrals, and VIP Tiers now open in a side drawer without leaving the page.
+
+### Order Details: Richer Line Item & Order Data
+
+Tax column, Extras section, Channel field, and Coupon Codes field added to the Order Details panel.
+
+### Shopify: Order Reference Number Now Captured
+
+Stored as `referenceId` on every transaction; appears as a column in exported reports.
+
+### AI Image Generation: Widget-Ready Output
+
+Background removal, theme injection, and edge-filling applied automatically to generated images.
+
+### AI Image Studio: Prompt Continuity & Generation Controls
+
+Last prompt pre-filled on regenerate; tab switching no longer clears the prompt.
+
+### AI Image Library: Location-Based Filtering
+
+Images organized by intended slot; no cross-context bleed.
+
+### Daylight Saving Time Support
+
+Timezone offsets now adjust correctly for DST-observing regions.
+
+### Data Reset: Clearer Destructive Action Labels
+
+"Reset All Customers" renamed to "Delete All Customers" with accurate scope descriptions.
+
+### CSV Bulk Points: Template Now Includes Add & Deduct Examples
+
+Two pre-filled example rows in the downloaded template.
+
+### API Response When Gameball Is Disabled
+
+Clear status field returned; points fields return `null` or `0`, never silently empty.
+
+### Free Product Reward: Min Purchase Amount Clarification
+
+Persistent banner clarifies the threshold applies per product, not per cart.
+
+### Filter Campaign Progress by Campaign ID
+
+New optional `campaignId` filter on the `reward-campaigns-progress` endpoint.
+
+---
+
+## Bug Fixes
+
+### AI Image Studio: Generated Images Not Persisting
+
+Images now saved correctly when navigating away or switching tabs.
+
+### Webhook: Stale Balance in Customer Update Profile Event
+
+Race condition fixed; webhook now reflects the final post-transaction balance.
+
+### Transaction Activation API: 404 on Valid Transactions
+
+Case-sensitivity mismatch in transaction ID lookup fixed.
+
+</Update>
