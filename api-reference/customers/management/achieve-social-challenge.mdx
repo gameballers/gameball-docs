@@ -1,0 +1,91 @@
+---
+title: 'Achieve Social Challenge'
+description: 'Mark a social challenge as achieved for a customer and grant the configured reward from your backend.'
+openapi: 'POST /api/v4.0/integrations/customers/social-challenges'
+languages: ["curl", "javascript", "python", "csharp", "php", "go", "java", "ruby"]
+---
+
+This API lets your backend mark a **social challenge** as achieved for one of your customers — for example, awarding the "Follow us on Facebook" or "Share on X" reward after your system has confirmed the social action.
+
+It is the server-to-server (V4 Integrations) equivalent of the in-widget social action. Previously, a social challenge could only be completed from the Gameball widget in the browser; this endpoint lets you trigger it from your own server when you verify the social action yourself.
+
+This endpoint is available on `v4.0` and `v4.1`.
+
+<Info>
+**Security**: Requires **apikey** and **secretkey** headers. This is a sensitive, points-awarding operation.
+</Info>
+
+<Info>
+**Channel Merging Available**  
+If your system uses different customer IDs across multiple channels (e.g., online and offline), include the customer's mobile number or email (based on your merging configuration) to help Gameball identify the correct profile.
+
+For more information, see the [Omni-Channel Handling Guide](/tutorials/experiences/more/omni-channel).
+</Info>
+
+<Note>
+**Asynchronous processing**: A successful response (`202 Accepted`) means the request was accepted, not that the reward was granted. Gameball schedules the achievement and processes it within a few minutes. The configured reward is applied shortly after, and an activity is recorded on the customer's profile.
+</Note>
+
+<Warning>
+**Customer must exist first**: Create the customer via the [Create/Update Customer API](/api-reference/customers/management/create-customer) before calling this endpoint. This API does not create customers.
+</Warning>
+
+<Warning>
+Use this endpoint only for campaigns of type **Social Activities**. Other campaign types are not affected.
+</Warning>
+
+## When to Use
+
+- A customer performs a social action that **you verify on your side** (followed a page, shared a link, joined a group, etc.).
+- You want Gameball to **grant that customer the configured social-challenge reward** (points, coupon, etc.).
+
+## How It Works
+
+1. The request is **accepted immediately** (`202`) — the points or reward are **not** granted synchronously in the same call.
+2. Gameball **schedules** the achievement and processes it **within a few minutes** (a short, randomized delay).
+3. **Duplicate protection**: the same `customerId` + `challengeId` cannot be triggered again within a short window — a repeat call is rejected (see [Errors](#errors)).
+4. **Repeatability is respected**: a customer only earns the challenge as many times as the campaign configuration allows (e.g., a one-time "Facebook Friend" challenge is granted once; subsequent attempts are ignored).
+5. **Eligibility still applies**: the customer must exist and be eligible for the campaign (audience, targeting, active dates, etc.). If the campaign is not achievable for that customer, no reward is granted.
+6. **Reward depends on the campaign**: the customer receives whatever that social campaign is configured to give. If the campaign has no points configured, the achievement is recorded but no points are added.
+
+## Response
+
+On success, the endpoint returns **HTTP `202 Accepted`**.
+
+```json
+{
+  "customerId": "customer_123",
+  "challengeId": 11664
+}
+```
+
+If your Gameball program is currently disabled, the response also includes an informational `gameballStatus`, `message`, and `learnMore` block (consistent with other V4 endpoints). These fields are omitted while Gameball is enabled.
+
+## Errors
+
+| HTTP | Code | Message (example) | Meaning |
+|---|---|---|---|
+| `400` | 3000 | `customer id is missing` | `customerId` was not provided. |
+| `400` | 3000 | `rewards campaign handle is missing` | `challengeId` was not provided. |
+| `400` | 4000 | `can't send this action multiple times` | The same customer + challenge was already submitted within the dedup window. |
+| `401` | 1006 | `your request is missing the secret key.` | Missing or invalid secret key. |
+| `404` | 4004 | `customer does not exist` | No customer with that `customerId` was found. |
+| `500` | — | generic error | Unexpected server error. |
+
+Error responses follow the standard V4 shape documented in [Status and Error Codes](/api-reference/overview/status-error-codes).
+
+```json
+{
+  "code": 4004,
+  "type": "GENERAL_ERROR",
+  "message": "customer does not exist",
+  "documentationUrl": "https://docs.gameball.co/api-reference/customers/management/achieve-social-challenge",
+  "requestId": "…"
+}
+```
+
+## Limitations
+
+- **Asynchronous**: success means "accepted," not "rewarded." If a flow needs immediate confirmation of points, this endpoint is not the right fit.
+- **Idempotency window**: the short dedup window prevents accidental double submissions; it is not a permanent idempotency key.
+- **Reward visibility**: the resulting reward and activity appear on the customer's profile and activity log in the dashboard once processed.

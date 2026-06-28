@@ -134,6 +134,137 @@
         }
       }
     },
+    "/api/v4.0/integrations/customers/social-challenges": {
+      "post": {
+        "summary": "Achieve Social Challenge",
+        "description": "Mark a social challenge as achieved for a customer and grant the configured reward from your backend. This is the server-to-server equivalent of the in-widget social action for Social Activities campaigns.",
+        "operationId": "achieveSocialChallenge",
+        "security": [{ "apiKey": [], "secretKey": [] }],
+        "requestBody": {
+          "description": "Social challenge achievement payload.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "challengeId"],
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "The customer's unique ID in your system. The customer must already exist in Gameball.",
+                    "example": "customer_123"
+                  },
+                  "challengeId": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The ID of the Social Activities campaign to award.",
+                    "example": 11664
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Customer's email address. Helps identify the customer when channel merging is enabled.",
+                    "example": "john.doe@example.com"
+                  },
+                  "mobile": {
+                    "type": "string",
+                    "description": "Customer's mobile number. Helps identify the customer when channel merging is enabled.",
+                    "example": "+1234567890"
+                  }
+                }
+              },
+              "examples": {
+                "sample": {
+                  "summary": "Sample request",
+                  "value": {
+                    "customerId": "customer_123",
+                    "challengeId": 11664
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Social challenge achievement accepted for processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "customerId": {
+                      "type": "string",
+                      "description": "The customer ID from the request.",
+                      "example": "customer_123"
+                    },
+                    "challengeId": {
+                      "type": "integer",
+                      "description": "The social challenge campaign ID from the request.",
+                      "example": 11664
+                    },
+                    "gameballStatus": {
+                      "type": "string",
+                      "description": "Present when the Gameball program is disabled. Omitted while Gameball is enabled."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Informational message when the Gameball program is disabled."
+                    },
+                    "learnMore": {
+                      "type": "string",
+                      "description": "Link to learn more when the Gameball program is disabled."
+                    }
+                  }
+                },
+                "examples": {
+                  "accepted": {
+                    "value": {
+                      "customerId": "customer_123",
+                      "challengeId": 11664
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing fields, duplicate submission, etc.)"
+          },
+          "401": {
+            "description": "Missing or invalid secret key"
+          },
+          "404": {
+            "description": "Customer does not exist"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl -X POST 'https://api.gameball.co/api/v4.0/integrations/customers/social-challenges' \\\n  -H 'Content-Type: application/json' \\\n  -H 'apikey: YOUR_API_KEY' \\\n  -H 'secretkey: YOUR_SECRET_KEY' \\\n  -d '{\"customerId\":\"customer_123\",\"challengeId\":11664}'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript",
+            "source": "await fetch('https://api.gameball.co/api/v4.0/integrations/customers/social-challenges', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    apikey: 'YOUR_API_KEY',\n    secretkey: 'YOUR_SECRET_KEY'\n  },\n  body: JSON.stringify({ customerId: 'customer_123', challengeId: 11664 })\n});"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nrequests.post(\n  'https://api.gameball.co/api/v4.0/integrations/customers/social-challenges',\n  json={'customerId': 'customer_123', 'challengeId': 11664},\n  headers={'apikey': 'YOUR_API_KEY', 'secretkey': 'YOUR_SECRET_KEY', 'Content-Type': 'application/json'}\n)"
+          },
+          {
+            "lang": "csharp",
+            "label": "C#",
+            "source": "using System.Net.Http;\nusing System.Text;\n\nvar client = new HttpClient();\nclient.DefaultRequestHeaders.Add(\"apikey\", \"YOUR_API_KEY\");\nclient.DefaultRequestHeaders.Add(\"secretkey\", \"YOUR_SECRET_KEY\");\nvar content = new StringContent(\"{\\\"customerId\\\":\\\"customer_123\\\",\\\"challengeId\\\":11664}\", Encoding.UTF8, \"application/json\");\nvar response = await client.PostAsync(\"https://api.gameball.co/api/v4.0/integrations/customers/social-challenges\", content);\nresponse.EnsureSuccessStatusCode();"
+          }
+        ]
+      }
+    },
     "/api/v4.0/integrations/customers/{customerId}/hash": {
       "get": {
         "summary": "Get Customer Hash",

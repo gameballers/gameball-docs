@@ -996,7 +996,8 @@
                           "api-reference/customers/management/get-customer-coupons",
                           "api-reference/customers/management/delete-customer",
                           "api-reference/customers/management/get-customer-hash",
-                          "api-reference/customers/management/validate-referrer-code"
+                          "api-reference/customers/management/validate-referrer-code",
+                          "api-reference/customers/management/achieve-social-challenge"
                         ]
                       },
                       {
