@@ -90,7 +90,11 @@ Manage the overall visibility of the widget, including specific tabs and section
 
   The Play & Win section is also automatically hidden when there are no active game campaigns configured for the customer's current platform — web or mobile app. This means customers will never see an empty Play & Win section due to campaigns being set up for a different platform.
 
-  **Hiding individual game campaigns:** You can also hide specific game campaigns from the widget without disabling them. Go to **Widget &gt; General &gt; Games** and toggle off **Show in widget** for any game you want to exclude from the default widget. Hidden games remain fully launchable via the SDK `openDetails()` method and web deep links, so you can build custom game experiences in your own UI without them appearing in the widget. The Play & Win tab auto-hides when all games are set to hidden.
+  **Hiding individual game campaigns:** Go to **Widget &gt; General &gt; Games** to see all your active game campaigns, each with a **Show in widget** toggle. Turn the toggle off for any game you want to hide from the default widget — it stays fully active and launchable via the SDK or a deep link, so you can surface it in your own UI without it appearing in the widget. The Play & Win tab auto-hides when all games are turned off.
+
+  <Frame>
+    <img src="/images/product-docs/customer-widget/widget-games-toggle.png" alt="Show in widget toggle for individual game campaigns" />
+  </Frame>
 </Accordion>
 
 <Accordion title="Referrals Visibility" icon="user-plus">
@@ -165,19 +169,19 @@ Select your preferred method for ordering reward campaigns:
 
 ## Redemption Options
 
-Manage the display of your redemption options inside the widget, highlighting key rewards and simplifying navigation for your customers.
+Go to **Widget &gt; General &gt; Redemption Options** to control which redemption options appear in the widget and in what order.
+
+Each option has a **Show in widget** toggle. It's on by default — turn it off to hide that option from the widget without disabling it. Hidden options remain fully callable via the API, so you can build a custom redemption flow in your own UI while keeping the default widget clean.
 
 <Frame>
-  <img src="/images/product-docs/customer-widget/redemption-options-ordering.png" alt="Redemption options ordering" />
+  <img src="/images/product-docs/customer-widget/widget-redemption-options-toggle.png" alt="Show in widget toggle for individual redemption options" />
 </Frame>
 
-**Show or hide individual options:** Each redemption option has a **Show in widget** toggle (found at **Widget &gt; General &gt; Redemption Options**), which defaults to on. Turning it off hides that option from the widget while keeping it fully accessible through the API — so you can build custom redemption flows in your own UI without cluttering the default widget.
-
-**Ordering:** Select your preferred method for ordering redemption options:
+**Ordering:** Choose how redemption options are sorted in the widget:
 
 - **Creation Date**: Displayed chronologically by setup date.
-- **Points Required**: Sorted from lowest to highest cost.
-- **Manual**: Drag and drop redemption items to reorder them exactly how you like.
+- **Points Amount**: Sorted from lowest to highest cost.
+- **Manual**: Drag and drop to arrange them exactly as you like.
 
 ---
 
