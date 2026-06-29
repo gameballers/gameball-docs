@@ -136,8 +136,8 @@
     },
     "/api/v4.0/integrations/customers/social-challenges": {
       "post": {
-        "summary": "Achieve Social Challenge",
-        "description": "Mark a social challenge as achieved for a customer and grant the configured reward from your backend. This is the server-to-server equivalent of the in-widget social action for Social Activities campaigns.",
+        "summary": "Achieve Social Campaign",
+        "description": "Mark a social campaign as achieved for a customer and grant the configured reward from your backend. This is the server-to-server equivalent of the in-widget social action for Social Activities campaigns.",
         "operationId": "achieveSocialChallenge",
         "security": [{ "apiKey": [], "secretKey": [] }],
         "requestBody": {
@@ -200,7 +200,7 @@
                     },
                     "challengeId": {
                       "type": "integer",
-                      "description": "The social challenge campaign ID from the request.",
+                      "description": "The social campaign ID from the request.",
                       "example": 11664
                     },
                     "gameballStatus": {
