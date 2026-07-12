@@ -1,15 +1,40 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.1"
+description: "Migrate from v2 to v3.2.2"
 ---
 
-This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.1.1**.
+This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.2.2**.
 
-## What's New in v3.1.1
+## What's New in v3.2.2
 
 <Info>
-  **Guest Mode & Easier Widget Init** — v3.1.1 makes `ShowProfileRequest` non-throwing, allows `customerId` to be optional (guest mode), and keeps all v3+ code compatible.
+  **Widget Events, Dismissal & External Links** — v3.2.x keeps all v3.x code compatible. Every new capability is opt-in, so an existing integration keeps working after a version bump.
 </Info>
+
+### Highlights in v3.2.2
+
+- **RTL Layout No Longer Leaks**: the widget's right-to-left layout direction is scoped to the widget's own view. Opening the widget in Arabic no longer flips your app's layout.
+
+### Highlights in v3.2.1
+
+- **Vector Close Button**: the close "X" is drawn as a vector tinted by `closeButtonColor` (default `#CECECE`), so it stays crisp at any screen scale.
+- **Smaller SDK Footprint**: 70 unused bundled images were removed. No public API or behavior change.
+
+### Highlights in v3.2.0
+
+- **Widget Event Channel**: `widgetEventCallback` on `ShowProfileRequest` receives events posted from the widget, such as `gameCompleted`.
+- **Host-Initiated Dismiss**: `GameballApp.getInstance().hideProfile()` dismisses the widget programmatically.
+- **Web-Initiated Close**: the widget can dismiss itself via `window.GameballWidget.closeWidget()`.
+- **External-Link Handling**: links tagged `gbExternalBrowser=true` open in the system browser, or in your own handler via `externalLinkCallback`.
+- **Channel Merging**: `ShowProfileRequest` accepts optional `mobile` and `email`.
+- **Diagnostic Logging**: the SDK records internal diagnostic logs to aid troubleshooting. No integration changes required.
+
+### Migrate v3.1.x → v3.2.2 (Non-Breaking)
+
+- Update the SPM dependency to `from: "3.2.2"`.
+- No code changes are required. Adopt the new widget capabilities only if you need them — see [Show Profile Widget](/installation-guides/v3/ios/show-profile).
+
+---
 
 ### Highlights in v3.1.1
 
@@ -61,15 +86,16 @@ This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.1.1*
 **v2:**
 
 ```swift
-Gameball.configure(
+// v2 constructed a Gameball instance directly
+let gameball = Gameball(
     apiKey: "api-key",
     lang: "en",
-    platform: "ios",
-    shop: "shop-id"
+    shop: "shop-id",
+    platform: "ios"
 )
 ```
 
-**v3.1.x:**
+**v3.2.2:**
 
 ```swift
 let config = GameballConfig(
@@ -94,17 +120,16 @@ GameballApp.getInstance().`init`(config: config) { error in
 **v2:**
 
 ```swift
-Gameball.registerPlayer(
-    customerId: "customer-123",
-    attributes: attributes,
-    referralCode: "REF123",
-    isGuest: false
-) { success in
+gameball.registerPlayer(
+    playerUniqueId: "customer-123",
+    referrerCode: "REF123",
+    playerAttributes: attributes
+) { gameballId, error in
     // Handle response
 }
 ```
 
-**v3.1.x:**
+**v3.2.2:**
 
 ```swift
 do {
@@ -140,17 +165,18 @@ do {
 **v2:**
 
 ```swift
-let event = GameballEvent()
-event.customerId = "customer-123"
-event.eventName = "purchase"
-event.metadata = ["amount": 99.99]
+// v2 sent an array of events, and params were [String: String]
+let event = Event(eventName: "purchase", params: ["amount": "99.99"])
 
-Gameball.sendEvent(event) { success in
+gameball.sendEvents(
+    playerUniqueId: "customer-123",
+    events: [event]
+) { success, errorDescription in
     // Handle response
 }
 ```
 
-**v3.1.x:**
+**v3.2.2:**
 
 ```swift
 do {
@@ -185,13 +211,17 @@ do {
 
 ### 4. Method Name Changes
 
-| **v2**                      | **v3.1.x**                                  |
-| :-------------------------- | :------------------------------------------ |
-| `Gameball.configure()`      | `GameballApp.getInstance().init(config:)`                 |
-| `Gameball.registerPlayer()` | `GameballApp.getInstance().initializeCustomer(_:completion:)` |
-| `Gameball.sendEvent()`      | `GameballApp.getInstance().sendEvent(_:completion:)`     |
-| `PlayerAttributes`          | `CustomerAttributes`                                     |
-| `PlayerRegisterResponse`    | `InitializeCustomerResponse`                             |
+| **v2**                          | **v3.2.2**                                  |
+| :------------------------------ | :------------------------------------------ |
+| `Gameball(apiKey:…)` initializer | `GameballApp.getInstance().init(config:)`   |
+| `registerPlayer(playerUniqueId:…)` | `GameballApp.getInstance().initializeCustomer(_:completion:)` |
+| `sendEvents(playerUniqueId:events:)` | `GameballApp.getInstance().sendEvent(_:completion:)` |
+| `showProfile(playerUniqueId:…)` | `GameballApp.getInstance().showProfile(_:presentationStyle:)` |
+| `Event(eventName:params:)`      | `Event(events:customerId:)`                 |
+| `playerUniqueId`                | `customerId`                                |
+| `playerAttributes`              | `customerAttributes`                        |
+| `referrerCode`                  | `referralCode`                              |
+| `showCloseBtn`                  | `showCloseButton`                           |
 
 ---
 
@@ -200,15 +230,20 @@ do {
 **v2:**
 
 ```swift
-Gameball.showProfile(
-    customerId: "customer-123",
-    from: self
-)
+gameball.showProfile(
+    playerUniqueId: "customer-123",
+    showCloseBtn: true
+) { viewController, errorMessage in
+    // v2 handed you the view controller to present yourself
+    if let vc = viewController {
+        self.present(vc, animated: true)
+    }
+}
 ```
 
-**v3.1.x:**
+**v3.2.2:**
 
-```bash
+```swift
 let profileRequest = ShowProfileRequest(
     customerId: "customer-123",
     showCloseButton: true,
@@ -235,16 +270,16 @@ GameballApp.getInstance().showProfile(
 **v2:**
 
 ```swift
-Gameball.sendEvent(event) { success in
-    if success {
+gameball.sendEvents(playerUniqueId: "customer-123", events: [event]) { success, errorDescription in
+    if success != nil {
         // Success
     } else {
-        // Error (no details)
+        // Error — v2 surfaced it as an untyped `Any?`
     }
 }
 ```
 
-**v3.1.x:**
+**v3.2.2:**
 
 ```swift
 GameballApp.getInstance().sendEvent(event) { success, errorMessage in
@@ -316,15 +351,15 @@ Task {
 
 ## Migration Steps
 
-### From v3.0.0 to v3.1.x (No Breaking Changes)
+### From v3.x to v3.2.2 (No Breaking Changes)
 
 <Info>
-  v3.1.x is fully backward compatible. Simply update the dependency version. Session Token support is optional.
+  v3.2.x is fully backward compatible with earlier v3 releases. Simply update the dependency version. Session Token support and the new widget capabilities are optional.
 </Info>
 
 <Steps>
   <Step title="Update Dependency">
-    Update your Swift Package Manager dependency to **3.1.1**.
+    Update your Swift Package Manager dependency to **3.2.2**.
   </Step>
   <Step title="(Optional) Add Session Token">
     If you need enhanced security, add a session token to your configuration:
@@ -344,14 +379,14 @@ Task {
 
 ---
 
-### From v2.x to v3.1.x
+### From v2.x to v3.2.2
 
 <Steps>
   <Step title="Update Dependency">
-    Update your Swift Package Manager dependency to **3.1.1**.
+    Update your Swift Package Manager dependency to **3.2.2**.
   </Step>
   <Step title="Update Initialization">
-    Replace `Gameball.configure()` with `GameballConfig` + `GameballApp.getInstance().init(config:)`.
+    Replace the `Gameball(apiKey:…)` initializer with `GameballConfig` + `GameballApp.getInstance().init(config:)`.
   </Step>
   <Step title="Update Customer Registration">
     Replace `registerPlayer()` with `initializeCustomer()` using the new request type `InitializeCustomerRequest`.

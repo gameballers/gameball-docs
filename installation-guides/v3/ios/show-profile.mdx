@@ -87,11 +87,28 @@ Task {
 </ParamField>
 
 <ParamField body="closeButtonColor" type="String">
-  Hex value (e.g., `"#FF5733"`) for close button color. Only used when `showCloseButton = true`.
+  Hex value (e.g., `"#FF5733"`) for close button color. Only used when `showCloseButton = true`. Defaults to `#CECECE`.\
+  From v3.2.1 the close button is drawn as a vector and tinted with this color, so it stays crisp at any screen scale.
 </ParamField>
 
 <ParamField body="sessionToken" type="String">
   Optional per-request session token. Overrides the global SDK token. Required in upcoming SDK v4.
+</ParamField>
+
+<ParamField body="mobile" type="String">
+  Customer mobile number, used for channel merging. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="email" type="String">
+  Customer email address, used for channel merging. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="externalLinkCallback" type="((String) -> Void)">
+  Handler for links the widget tags with `gbExternalBrowser=true`. When provided, the link is delegated to your app; otherwise the SDK opens it in the system browser. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="widgetEventCallback" type="(([String: Any]?) -> Void)">
+  Receives events the widget posts, such as game completion. Available from v3.2.0.
 </ParamField>
 
 ---
@@ -160,6 +177,98 @@ let request = ShowProfileRequest(
 
 GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
 ```
+
+---
+
+### Handle External Links (v3.2.0+)
+
+Links the widget tags with `gbExternalBrowser=true` open in the system browser by default. Provide an `externalLinkCallback` to handle them yourself instead (for example, to open an in-app browser or route to a custom screen):
+
+```swift
+let request = ShowProfileRequest(
+    customerId: "customer-123",
+    externalLinkCallback: { url in
+        // Open the link your own way, e.g. an in-app browser or a custom screen
+        print("External link: \(url)")
+    }
+)
+
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
+```
+
+<Note>
+  When `externalLinkCallback` is set, the SDK delegates the link to your app and does not open the system browser.
+</Note>
+
+---
+
+### Channel Merging (v3.2.0+)
+
+Pass the customer's `mobile` and `email` so Gameball can merge the customer's channels:
+
+```swift
+let request = ShowProfileRequest(
+    customerId: "customer-123",
+    mobile: "+201234567890",
+    email: "customer@example.com"
+)
+
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
+```
+
+---
+
+## Widget Events (v3.2.0+)
+
+Pass a `widgetEventCallback` to react to events the widget posts, such as a customer finishing a game. Each event arrives as a `[String: Any]` dictionary with a top-level `type` and a nested `metadata` dictionary:
+
+```swift
+let request = ShowProfileRequest(
+    customerId: "customer-123",
+    widgetEventCallback: { event in
+        guard let event = event else { return }   // nil means a malformed payload
+        let type = event["type"] as? String       // e.g. "gameCompleted"
+        let metadata = event["metadata"] as? [String: Any] ?? [:]
+
+        if type == "gameCompleted" {
+            let hasWon = metadata["hasWon"] as? Bool ?? false
+            let rewardName = metadata["rewardName"] as? String
+            if hasWon {
+                // Refresh the customer's balance, show a win animation, etc.
+            }
+        }
+    }
+)
+
+GameballApp.getInstance().showProfile(request, presentationStyle: .fullScreen) { _, _ in }
+```
+
+### `gameCompleted` Metadata
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `hasWon` | `Bool` | Whether the customer won a reward this round |
+| `rewardType` | `String?` | Reward category: `Default`, `Friend`, `Bonus`, `CustomText`, `Streak`, `NoReward` |
+| `discountType` | `String?` | Coupon kind when the win is a coupon: `Fixed`, `Percentage`, `FreeShipping`, `FreeProduct`, `Custom`, `RechargeFixed`, `RechargePercentage`, `ExternalReward`. `nil` for non-coupon wins |
+| `rewardName` | `String?` | Localized, human-readable reward name |
+| `campaignId` | `String` | Challenge or campaign identifier |
+| `campaignType` | `String?` | Game type: `spinTheWheel`, `slotMachine`, `quiz`, `scratchCard`, `matchCards`, `catcher`, `ticTacToe`, `shooter`, `puzzle`, `tapTarget`, `highwayDrive` |
+
+<Note>
+  All `gameCompleted` values arrive as `String` or `Bool`. There are no numeric fields.
+</Note>
+
+---
+
+## Dismiss the Widget (v3.2.0+)
+
+Dismiss the widget programmatically from your app. The call is a no-op when no widget is showing:
+
+```swift
+GameballApp.getInstance().hideProfile()
+```
+
+The widget can also dismiss itself from the web side by calling `window.GameballWidget.closeWidget()`.
 
 ---
 
