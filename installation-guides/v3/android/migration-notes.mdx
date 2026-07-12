@@ -1,18 +1,45 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.1"
+description: "Migrate from v2 to v3.2.1"
 ---
 
-This guide helps you migrate from Gameball Android SDK v2 to v3.1.1.
+This guide helps you migrate from Gameball Android SDK v2 to v3.2.1.
 
-## What's New in v3.1.1
+## What's New in v3.2.1
 
 <Info>
-  **Guest Mode & Easier Widget Init** — v3.1.1 keeps v3.x code compatible and fixes the profile widget to support guest mode (customerId optional).
+  **Widget Events, Dismissal & External Links** — v3.2.x keeps all v3.x code compatible. Every new capability is opt-in, so an existing integration keeps working after a version bump.
 </Info>
 
-### New Features in v3.1.1
+### New in v3.2.1
 
+- **Widget Header No Longer Under the Status Bar**: widget content is padded by the status-bar and display-cutout height, so the header and close buttons stay tappable (previously seen on Pixel and Android 15)
+- **Status-Bar Icon Contrast**: the widget uses a dedicated theme with dark status-bar icons, keeping them visible over the widget's white top band
+
+### New in v3.2.0
+
+- **Widget Event Channel**: `widgetEventCallback` on `ShowProfileRequest` receives events posted from the widget, such as `gameCompleted`
+- **Host-Initiated Dismiss**: `GameballApp.hideProfile()` dismisses the widget programmatically
+- **Web-Initiated Close**: the widget can dismiss itself via `window.GameballWidget.closeWidget()`
+- **External-Link Handling**: links tagged `gbExternalBrowser=true` open in the system browser, or in your own handler via `externalLinkCallback`
+- **Channel Merging**: `ShowProfileRequest.builder()` accepts optional `mobile` and `email`
+- **Diagnostic Logging**: the SDK records internal diagnostic logs to aid troubleshooting. No integration changes required
+
+<Warning>
+  **Breaking change in v3.2.0:** `ShowProfileRequest.capturedLinkCallback` was renamed to `externalLinkCallback`, and it now fires only for links the widget tags with `gbExternalBrowser=true`. If you used `capturedLinkCallback`, rename it:
+
+  ```kotlin
+  // Before (v3.1.x)
+  .capturedLinkCallback(object : Callback<String> { /* … */ })
+
+  // After (v3.2.0+)
+  .externalLinkCallback(object : Callback<String> { /* … */ })
+  ```
+</Warning>
+
+### New in v3.1.x
+
+- **Widget URL Fix (3.1.2)**: eliminated a null `customerId` value from the widget URL
 - **Guest Mode Support**: Show profile widget without customer authentication
 - **Non-Throwing ShowProfileRequest**: Customer ID optional for guest mode
 - **Session Token Support**: Optional token-based authentication (from 3.1.0)
@@ -52,7 +79,7 @@ GameballApp.getInstance(context).init(
 )
 ```
 
-**v3.1.1:**
+**v3.2.1:**
 ```kotlin
 val config = GameballConfig.builder()
     .apiKey("api-key")
@@ -78,7 +105,7 @@ gameballApp.registerCustomer(
 )
 ```
 
-**v3.1.1:**
+**v3.2.1:**
 ```kotlin
 val customerRequest = InitializeCustomerRequest.builder()
     .customerId(customerId)
@@ -104,12 +131,13 @@ GameballApp.getInstance(context).initializeCustomer(
 **v2:**
 ```kotlin
 val event = Event.Builder()
-    .AddUniquePlayerId("customer-123")
-    .AddEventName("purchase")
+    .withCustomerId("customer-123")
+    .withEventName("purchase")
+    .withEventMetaData("total", 120)
     .build()
 ```
 
-**v3.1.1:**
+**v3.2.1:**
 ```kotlin
 val event = Event.builder()
     .customerId("customer-123")
@@ -128,14 +156,21 @@ GameballApp.getInstance(context).sendEvent(
 
 ### 4. Method Name Changes
 
-| v2 | v3.1.1 |
+| v2 | v3.2.1 |
 |--------|--------|
 | `registerCustomer()` | `initializeCustomer()` |
-| `AddUniquePlayerId()` | `customerId()` |
-| `AddEventName()` | `eventName()` |
-| `AddEventMetaData()` | `eventMetaData()` |
-| `PlayerAttributes` | `CustomerAttributes` |
-| `PlayerRegisterResponse` | `InitializeCustomerResponse` |
+| `Event.Builder()` | `Event.builder()` |
+| `withCustomerId()` | `customerId()` |
+| `withEventName()` | `eventName()` |
+| `withEventMetaData()` | `eventMetaData()` |
+| `CustomerRegisterResponse` | `InitializeCustomerResponse` |
+| `capturedLinkCallback` | `externalLinkCallback` |
+
+<Note>
+  `CustomerAttributes` is unchanged from v2 — no rename needed.
+
+  `capturedLinkCallback` survived v2 and v3.0–v3.1 unchanged and was renamed only in v3.2.0. If you are coming from v3.1.x rather than v2, this is the single rename you need — see the warning at the top of this page.
+</Note>
 
 ### 5. Push Notifications
 
@@ -144,7 +179,7 @@ GameballApp.getInstance(context).sendEvent(
 gameballApp.initializeFirebase()
 ```
 
-**v3.1.1:**
+**v3.2.1:**
 ```kotlin
 // Token is provided during customer initialization
 val customerRequest = InitializeCustomerRequest.builder()
@@ -156,21 +191,43 @@ val customerRequest = InitializeCustomerRequest.builder()
 
 ## Migration Steps
 
-### From v3.0.0 to v3.1.1 (No Breaking Changes)
+### From v3.1.x to v3.2.1
 
 <Info>
-v3.1.1 is fully backward compatible. Simply update the dependency version. Session Token is optional.
+v3.2.x is backward compatible with v3.1.x, with one exception: if you used `capturedLinkCallback`, rename it to `externalLinkCallback` (see the warning above). Every other v3.2.x capability is opt-in, so an existing integration keeps working after a version bump.
 </Info>
 
 <Steps>
 <Step title="Update Dependency">
-Update your `build.gradle` to use SDK v3.1.1:
+Update your `build.gradle` to use SDK v3.2.1:
 
 ```groovy
 dependencies {
-    implementation 'com.gameball:gameball-sdk:3.1.1'
+    implementation 'com.github.gameballers:gb-mobile-android:3.2.1'
 }
 ```
+</Step>
+
+<Step title="Rename capturedLinkCallback">
+If you passed `capturedLinkCallback` to `ShowProfileRequest`, rename it to `externalLinkCallback`. This is the only required code change.
+</Step>
+
+<Step title="(Optional) Adopt the New Widget Capabilities">
+Handle widget events, dismiss the widget from your app, or intercept external links:
+
+```kotlin
+val request = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .widgetEventCallback(widgetEventCallback)   // React to gameCompleted, etc.
+    .externalLinkCallback(externalLinkCallback) // Handle gbExternalBrowser links yourself
+    .mobile("+201234567890")                    // Channel merging
+    .email("customer@example.com")
+    .build()
+
+GameballApp.getInstance(this).hideProfile()     // Dismiss the widget programmatically
+```
+
+See [Show Profile Widget](/installation-guides/v3/android/show-profile) for the full reference.
 </Step>
 
 <Step title="(Optional) Add Session Token">
@@ -186,19 +243,19 @@ val config = GameballConfig.builder()
 </Step>
 
 <Step title="Test">
-Test your integration. All existing code should work unchanged.
+Test your integration. Aside from the `capturedLinkCallback` rename, existing code works unchanged.
 </Step>
 </Steps>
 
-### From v2.x to v3.1.1
+### From v2.x to v3.2.1
 
 <Steps>
 <Step title="Update Dependency">
-Update your `build.gradle` to use SDK v3.1.1:
+Update your `build.gradle` to use SDK v3.2.1:
 
 ```groovy
 dependencies {
-    implementation 'com.gameball:gameball-sdk:3.1.1'
+    implementation 'com.github.gameballers:gb-mobile-android:3.2.1'
 }
 ```
 </Step>
@@ -212,7 +269,7 @@ Replace `registerCustomer()` with `initializeCustomer()` using the new request b
 </Step>
 
 <Step title="Update Event Tracking">
-Update event creation to use lowercase builder methods (e.g., `.customerId()` instead of `.AddUniquePlayerId()`).
+Update event creation to drop the `with` prefix on builder methods (e.g., `.customerId()` instead of `.withCustomerId()`).
 </Step>
 
 <Step title="Update Push Notifications">

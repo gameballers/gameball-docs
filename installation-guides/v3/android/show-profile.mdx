@@ -87,6 +87,22 @@ GameballApp.getInstance(this).showProfile(
   Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
 </ParamField>
 
+<ParamField body="mobile" type="string">
+  Customer mobile number, used for channel merging. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="email" type="string">
+  Customer email address, used for channel merging. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="externalLinkCallback" type="Callback<String>">
+  Handler for links the widget tags with `gbExternalBrowser=true`. When provided, the link is delegated to your app; otherwise the SDK opens it in the system browser. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="widgetEventCallback" type="Callback<Map<String, Object>>">
+  Receives events the widget posts, such as game completion. Available from v3.2.0.
+</ParamField>
+
 ### Validation Rules
 
 No required fields (guest mode supported). Provide `customerId` for authenticated profiles.
@@ -148,18 +164,17 @@ val profileRequest = ShowProfileRequest.builder()
     .build()
 ```
 
-### Capture Widget Links
+### Handle External Links (v3.2.0+)
 
-Handle links clicked from within the widget (for example, to open custom screens or deep links):
+Links the widget tags with `gbExternalBrowser=true` open in the system browser by default. Provide an `externalLinkCallback` to handle them yourself instead (for example, to open an in-app browser or route to a custom screen):
 
 ```kotlin
 val profileRequest = ShowProfileRequest.builder()
     .customerId("customer-123")
-    .capturedLinkCallback(object : Callback<String> {
+    .externalLinkCallback(object : Callback<String> {
         override fun onSuccess(url: String) {
-            // Handle captured URL
-            Log.d("GameballWidget", "Link clicked: $url")
-            // Navigate to a custom screen or handle deep link
+            // Open the link your own way, e.g. an in-app browser or a custom screen
+            Log.d("GameballWidget", "External link: $url")
         }
 
         override fun onError(error: Throwable) {
@@ -168,6 +183,83 @@ val profileRequest = ShowProfileRequest.builder()
     })
     .build()
 ```
+
+<Note>
+  When `externalLinkCallback` is set, the SDK delegates the link to your app and does not open the system browser.
+</Note>
+
+### Channel Merging (v3.2.0+)
+
+Pass the customer's `mobile` and `email` so Gameball can merge the customer's channels:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .mobile("+201234567890")
+    .email("customer@example.com")
+    .build()
+
+GameballApp.getInstance(this).showProfile(this, profileRequest)
+```
+
+---
+
+## Widget Events (v3.2.0+)
+
+Pass a `widgetEventCallback` to react to events the widget posts, such as a customer finishing a game. Each event arrives as a `Map<String, Object>` with a top-level `type` and a nested `metadata` map:
+
+```kotlin
+val profileRequest = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .widgetEventCallback(object : Callback<Map<String, Any?>> {
+        override fun onSuccess(event: Map<String, Any?>) {
+            val type = event["type"] as? String                        // e.g. "gameCompleted"
+            val metadata = event["metadata"] as? Map<*, *>
+
+            if (type == "gameCompleted") {
+                val hasWon = metadata?.get("hasWon") as? Boolean ?: false
+                val rewardName = metadata?.get("rewardName") as? String
+                if (hasWon) {
+                    // Refresh the customer's balance, show a win animation, etc.
+                }
+            }
+        }
+
+        override fun onError(error: Throwable) {
+            // Handle malformed event payloads
+        }
+    })
+    .build()
+
+GameballApp.getInstance(this).showProfile(this, profileRequest)
+```
+
+### `gameCompleted` Metadata
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `hasWon` | `Boolean` | Whether the customer won a reward this round |
+| `rewardType` | `String?` | Reward category: `Default`, `Friend`, `Bonus`, `CustomText`, `Streak`, `NoReward` |
+| `discountType` | `String?` | Coupon kind when the win is a coupon: `Fixed`, `Percentage`, `FreeShipping`, `FreeProduct`, `Custom`, `RechargeFixed`, `RechargePercentage`, `ExternalReward`. `null` for non-coupon wins |
+| `rewardName` | `String?` | Localized, human-readable reward name |
+| `campaignId` | `String` | Challenge or campaign identifier |
+| `campaignType` | `String?` | Game type: `spinTheWheel`, `slotMachine`, `quiz`, `scratchCard`, `matchCards`, `catcher`, `ticTacToe`, `shooter`, `puzzle`, `tapTarget`, `highwayDrive` |
+
+<Note>
+  All `gameCompleted` values arrive as `String` or `Boolean`. There are no numeric fields.
+</Note>
+
+---
+
+## Dismiss the Widget (v3.2.0+)
+
+Dismiss the widget programmatically from your app. The call is a no-op when no widget is showing:
+
+```kotlin
+GameballApp.getInstance(this).hideProfile()
+```
+
+The widget can also dismiss itself from the web side by calling `window.GameballWidget.closeWidget()`.
 
 ---
 
