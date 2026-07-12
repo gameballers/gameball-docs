@@ -1,17 +1,41 @@
 ---
 title: "Migration Notes"
-description: "Migrate from v2 to v3.1.1"
+description: "Migrate from v2 to v3.2.0"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball Flutter SDK v2 to v3.1.1.
+This guide helps you migrate from Gameball Flutter SDK v2 to v3.2.0.
 
-## What's New in v3.1.1
+## What's New in v3.2.0
 
 <Info>
-  **Guest Mode & Easier Widget Init** — v3.1.1 keeps v3.x code compatible and adds guest-mode support for the profile widget (customerId optional). Session tokens from 3.1.0 remain supported.
+  **Widget Events, Dismissal & External Links** — v3.2.0 keeps all v3.x code compatible. Every new capability is opt-in, so an existing integration keeps working after a version bump.
 </Info>
+
+### New Features in v3.2.0
+
+- **Widget Event Channel**: `ShowProfileRequestBuilder().widgetEventCallback(...)` receives events posted from the widget, such as `gameCompleted`
+- **Host-Initiated Dismiss**: `GameballApp.getInstance().hideProfile()` dismisses the widget programmatically
+- **Web-Initiated Close**: the widget can dismiss itself via `window.GameballWidget.closeWidget()`
+- **External-Link Handling**: links tagged `gbExternalBrowser=true` open in the system browser, or in your own handler via `externalLinkCallback`
+- **Channel Merging**: `ShowProfileRequestBuilder` accepts optional `mobile` and `email`
+- **Diagnostic Logging**: the SDK records internal diagnostic logs to aid troubleshooting. No integration changes required
+
+### Dependency Constraints in v3.2.0
+
+`share_plus`, `device_info_plus`, and `package_info_plus` constraints were widened. The lower bounds are unchanged, so existing apps resolve the same versions and nothing breaks on upgrade.
+
+<Note>
+  Apps that opt into `share_plus` 13.x require Flutter 3.38.1+ and Dart 3.10+. Staying on your current `share_plus` version needs no action.
+</Note>
+
+### Migrate v3.1.x → v3.2.0 (Non-Breaking)
+
+- Update `pubspec.yaml` to `gameball_sdk: ^3.2.0`, then run `flutter pub get`.
+- No code changes are required. Adopt the new widget capabilities only if you need them — see [Show Profile Widget](/installation-guides/v3/flutter/show-profile).
+
+---
 
 ### New Features in v3.1.1
 
@@ -47,15 +71,10 @@ Better Dart null safety support and compile-time checks
 
 **v2:**
 ```dart
-Gameball.init(
-  "api-key",
-  "en",
-  "flutter",
-  "shop-id"
-);
+gameballApp.init("api-key", "en", "flutter", "shop-id");
 ```
 
-**v3.1.1:**
+**v3.2.0:**
 ```dart
 final config = GameballConfigBuilder()
     .apiKey("api-key")
@@ -71,17 +90,27 @@ gameballApp.init(config);
 
 ### 2. Customer Registration
 
-**v2 (legacy):**
+**v2:**
 ```dart
-Gameball.registerPlayer(
-  playerId,
-  email,
-  mobile,
-  attributes,
+CustomerAttributes customerAttributes = CustomerAttributes(
+  displayName: "John Doe",
+  mobileNumber: "0123456789",   // Note: was mobileNumber
+  customAttributes: {"city": "New York"},
+);
+
+gameballApp.registerCustomer(
+  "customerId",
+  "customer@example.com",
+  "1234567890",
+  "abc123",   // referralCode
+  false,      // isGuest
+  (response, error) {
+    // Handle response
+  },
 );
 ```
 
-**v3.1.1:**
+**v3.2.0:**
 ```dart
 final attributes = CustomerAttributesBuilder()
     .displayName("John Doe")
@@ -112,14 +141,19 @@ GameballApp.getInstance().initializeCustomer(
 
 **v2:**
 ```dart
-Gameball.sendEvent({
-  "playerId": "player-123",
-  "event": "purchase",
-  "metadata": {...}
+Event eventBody = Event(
+  customerId: "customerId",
+  events: {
+    "purchase": {"amount": "100.00"},
+  },
+);
+
+gameballApp.sendEvent(eventBody, (success, error) {
+  // Handle response
 });
 ```
 
-**v3.1.1:**
+**v3.2.0:**
 ```dart
 final event = EventBuilder()
     .customerId("customer-123")
@@ -137,10 +171,16 @@ GameballApp.getInstance().sendEvent(event, (success, error) {
 
 **v2:**
 ```dart
-Gameball.showProfile(context, "player-123");
+gameballApp.showProfile(
+  context,
+  "customerId",
+  "openDetail",
+  hideNavigation,
+  showCloseButton,
+);
 ```
 
-**v3.1.1:**
+**v3.2.0:**
 ```dart
 final profileRequest = ShowProfileRequestBuilder()
     .customerId("customer-123")
@@ -154,11 +194,11 @@ GameballApp.getInstance().showProfile(context, profileRequest);
 
 <Steps>
 <Step title="Update Dependency">
-Update your `pubspec.yaml` to use SDK v3.1.1:
+Update your `pubspec.yaml` to use SDK v3.2.0:
 
 ```yaml
 dependencies:
-  gameball_sdk: ^3.1.1
+  gameball_sdk: ^3.2.0
 ```
 
 Run `flutter pub get` and `cd ios && pod install`.
@@ -225,7 +265,7 @@ Test all Gameball functionality on both iOS and Android to ensure the migration 
 
 - Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-flutter/blob/main/CHANGELOG.md) for detailed version history
 - Review [MIGRATION.md](https://github.com/gameballers/gameball-flutter/blob/main/MIGRATION.md) in the repository for more migration details
-- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-flutter/blob/main/RELEASE_NOTES.md) for v3.1.1 release details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-flutter/blob/main/RELEASE_NOTES.md) for v3.2.0 release details
 - Visit [Gameball Developer Docs](https://developer.gameball.co) for the latest documentation
 
 <Tip>

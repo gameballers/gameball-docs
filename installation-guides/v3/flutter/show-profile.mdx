@@ -61,6 +61,22 @@ Close button color in hex format (e.g., "#FF6B6B"). Only applies if `showCloseBu
   Optional session token to override the global token for this specific request. Required in upcoming SDK v4.
 </ParamField>
 
+<ParamField body="mobile" type="string">
+  Customer mobile number, used for channel merging. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="email" type="string">
+  Customer email address, used for channel merging. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="externalLinkCallback" type="void Function(String)">
+  Handler for links the widget tags with `gbExternalBrowser=true`. When provided, the link is delegated to your app; otherwise the SDK opens it in the system browser. Available from v3.2.0.
+</ParamField>
+
+<ParamField body="widgetEventCallback" type="void Function(Map<String, dynamic>?, Exception?)">
+  Receives events the widget posts, such as game completion. Called with `(null, exception)` on a parse failure. Available from v3.2.0.
+</ParamField>
+
 <Info>
 In Flutter SDK, passing a sessionToken parameter updates the global token. Pass `null` to clear, or omit to use the current global token.
 </Info>
@@ -121,6 +137,90 @@ final profileRequest = ShowProfileRequestBuilder()
 
 gameballApp.showProfile(context, profileRequest);
 ```
+
+### Handle External Links (v3.2.0+)
+
+Links the widget tags with `gbExternalBrowser=true` open in the system browser by default. Provide an `externalLinkCallback` to handle them yourself instead (for example, to open an in-app browser or route to a custom screen):
+
+```dart
+final profileRequest = ShowProfileRequestBuilder()
+    .customerId("customer-123")
+    .externalLinkCallback((url) {
+      // Open the link your own way, e.g. an in-app browser or your router
+    })
+    .build();
+
+gameballApp.showProfile(context, profileRequest);
+```
+
+<Note>
+  When `externalLinkCallback` is set, the SDK delegates the link to your app and does not open the system browser.
+</Note>
+
+### Channel Merging (v3.2.0+)
+
+Pass the customer's `mobile` and `email` so Gameball can merge the customer's channels:
+
+```dart
+final profileRequest = ShowProfileRequestBuilder()
+    .customerId("customer-123")
+    .mobile("+201234567890")
+    .email("customer@example.com")
+    .build();
+
+gameballApp.showProfile(context, profileRequest);
+```
+
+## Widget Events (v3.2.0+)
+
+Pass a `widgetEventCallback` to react to events the widget posts, such as a customer finishing a game. Each event arrives as a `Map<String, dynamic>` with a top-level `type` and a nested `metadata` map. On a parse failure the callback is invoked with `(null, exception)`:
+
+```dart
+final profileRequest = ShowProfileRequestBuilder()
+    .customerId("customer-123")
+    .widgetEventCallback((event, error) {
+      if (error != null) return;                     // Parse failure
+
+      final type = event?['type'] as String?;        // e.g. "gameCompleted"
+      final metadata = event?['metadata'] as Map<String, dynamic>?;
+
+      if (type == 'gameCompleted') {
+        final hasWon = metadata?['hasWon'] as bool? ?? false;
+        final rewardName = metadata?['rewardName'] as String?;
+        if (hasWon) {
+          // Refresh the customer's balance, show a win animation, etc.
+        }
+      }
+    })
+    .build();
+
+gameballApp.showProfile(context, profileRequest);
+```
+
+### `gameCompleted` Metadata
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `hasWon` | `bool` | Whether the customer won a reward this round |
+| `rewardType` | `String?` | Reward category: `Default`, `Friend`, `Bonus`, `CustomText`, `Streak`, `NoReward` |
+| `discountType` | `String?` | Coupon kind when the win is a coupon: `Fixed`, `Percentage`, `FreeShipping`, `FreeProduct`, `Custom`, `RechargeFixed`, `RechargePercentage`, `ExternalReward`. `null` for non-coupon wins |
+| `rewardName` | `String?` | Localized, human-readable reward name |
+| `campaignId` | `String` | Challenge or campaign identifier |
+| `campaignType` | `String?` | Game type: `spinTheWheel`, `slotMachine`, `quiz`, `scratchCard`, `matchCards`, `catcher`, `ticTacToe`, `shooter`, `puzzle`, `tapTarget`, `highwayDrive` |
+
+<Note>
+  All `gameCompleted` values arrive as `String` or `bool`. There are no numeric fields.
+</Note>
+
+## Dismiss the Widget (v3.2.0+)
+
+Dismiss the widget programmatically from your app. The call is a no-op when no widget is showing:
+
+```dart
+GameballApp.getInstance().hideProfile();
+```
+
+The widget can also dismiss itself from the web side by calling `window.GameballWidget.closeWidget()`.
 
 ## Implementation Examples
 
