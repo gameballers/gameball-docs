@@ -3920,6 +3920,166 @@
       "permanent": true
     },
     {
+      "source": "/api-reference/authentication",
+      "destination": "/api-reference/overview/authentication",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/status-error-codes",
+      "destination": "/api-reference/overview/status-error-codes",
+      "permanent": true
+    },
+    {
+      "source": "/webhooks/overview",
+      "destination": "/api-reference/webhooks/overview",
+      "permanent": true
+    },
+    {
+      "source": "/order/order-tracking",
+      "destination": "/api-reference/order/order-tracking",
+      "permanent": true
+    },
+    {
+      "source": "/order/order-rewards-and-history",
+      "destination": "/api-reference/order/order-transactions",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/program-configurations/referrals-configurations",
+      "destination": "/api-reference/configurations/program-configurations/referral-settings",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/program-configurations/campaigns-configurations",
+      "destination": "/api-reference/configurations/program-configurations/campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/program-configurations/tiers-configurations",
+      "destination": "/api-reference/configurations/program-configurations/vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/reward-configurations/cashback-configurations",
+      "destination": "/api-reference/configurations/reward-configurations/cashback-settings",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/reward-configurations/coupon-configurations",
+      "destination": "/api-reference/configurations/reward-configurations/coupon-settings",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/reward-configurations/redemption-configurations",
+      "destination": "/api-reference/configurations/reward-configurations/redemption-settings",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/configurations/reward-configurations/update-coupon-configurations",
+      "destination": "/api-reference/configurations/reward-configurations/update-coupon-settings",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/tiers",
+      "destination": "/product-documentation/programs/vip-tiers/configuring-gameball-vip-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/referrals",
+      "destination": "/product-documentation/programs/referral-program/launching-referral-program",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/programs/tiers/leveling-up-methods",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/loyalty-programs/tiering-up-methods",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/loyalty-programs/launch-and-configure-your-earn-pointing-system",
+      "destination": "/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/loyalty-programs/customizing-benefits-for-different-tiers",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/customizing-benefits-for-different-tiers",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/loyalty-programs/gameball-family-wallet",
+      "destination": "/product-documentation/admin-settings/gameball-family-wallet",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/merchants/gameball-merchants-crossover-rewards",
+      "destination": "/product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/segmentation/how-to-segment-customers",
+      "destination": "/product-documentation/customer-segmentation/how-to-segment-customers",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/segmentation/introduction-to-gameball-rfm-segments",
+      "destination": "/product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/integrations/integrating-guest-customers",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/integrate-guest-customers",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/communication-campaigns/create-configure-guest-messages",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-email-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/communication-campaigns/create-configure-email-campaigns",
+      "destination": "/product-documentation/communication-campaigns/create-and-configure-email-campaigns",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/communication-campaigns/track-outbound-email-consumption",
+      "destination": "/product-documentation/guides-strategies-faqs/shopify-guides/track-email-consumption",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/rewards-campaigns/create-action-based-reward-campaign",
+      "destination": "/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/events/suggested-events-for-ecommerce",
+      "destination": "/product-documentation/guides-strategies-faqs/supportive-guides/ecommerce-events",
+      "permanent": true
+    },
+    {
+      "source": "/product-documentation/admin-settings/tiering-up-methods",
+      "destination": "/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3464234",
+      "destination": "/product-documentation/customer-widget/start-configuring-profile/configure-customer-widget-language-on-your-platform",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3522353-configure-your-firebase-account-on-gameball-for-mobile-push-notifications",
+      "destination": "/product-documentation/admin-settings/configure-firebase-push-notifications",
+      "permanent": true
+    },
+    {
+      "source": "/en/articles/3486262-configure-your-firebase-account-on-gameball-for-mobile-friends-referral-links",
+      "destination": "/product-documentation/admin-settings/configure-firebase-push-notifications",
+      "permanent": true
+    },
+    {
       "source": "/en",
       "destination": "/",
       "permanent": true

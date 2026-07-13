@@ -1,5 +1,6 @@
 ---
-title: "Track Referrals"
+title: "How Do I Track Referrals in a Generic Mobile App (v2, Legacy)?"
+sidebarTitle: "Track Referrals"
 description: "Reward your customers for referring new users and help grow your business organically"
 ---
 
@@ -9,7 +10,7 @@ description: "Reward your customers for referring new users and help grow your b
 Gameball uses Firebase to generate dynamic links to support referrals. Hence Firebase dependency must be used in your mobile app
 </Warning>
 
-Before you start, you must configure your Firebase on your Gameball account. Follow the steps in [Configure your Firebase account on Gameball for mobile friends referral links](https://help.gameball.co/en/articles/3486262-configure-your-firebase-account-on-gameball-for-mobile-friends-referral-links) article in our Help Center to configure your Firebase account on Gameball.
+Before you start, you must configure your Firebase on your Gameball account. Follow the steps in [Configure your Firebase account on Gameball for mobile friends referral links](/product-documentation/admin-settings/configure-firebase-push-notifications) article in our Help Center to configure your Firebase account on Gameball.
 
 <Info>
 Dynamic Links are smart URLs that allow you to send existing and potential users to any location within your app. They survive the app install process, so even new users see the content they're looking for when they open the app for the first time.
@@ -19,7 +20,7 @@ Once you've configured Firebase within your Gameball dashboard, Gameball will au
 
 ![Referral Link Example](https://content.gitbook.com/content/ElcuAgxn15Pk6F2fINKe/blobs/UNBGOX7MWYuYMqPgQP6i/62fc5889d52bd92a55188efd_Mj6pMaOcnhU6bPS6Om1qbcQ4fJKNSBiPv1aA9lF-Xdv59l-1iITLb79diFTzQpHY0bs8CHNnC1quJb2xjQ5cvBNDZOWQLxcfvJNPASGpAC-xeGUqmoLezKzK1u5OdB9ejAyKmwMhs8gP_2vremJ4aJE.jpg)
 
-This referral link is generated dynamically and can be accessed via Gameball profile widget. It can also be accessed programmatically using the Gameball [Get Customer API](https://developer.gameball.co/rest-api/customers/customer-management#get-customer) within its response as below snippet.
+This referral link is generated dynamically and can be accessed via Gameball profile widget. It can also be accessed programmatically using the Gameball [Get Customer API](/api-reference/customers/management/get-customer) within its response as below snippet.
 
 ```javascript
 {
@@ -59,9 +60,9 @@ Firebase.dynamicLinks().getDynamicLink { (dynamicLink, error) in
 }
 ```
 
-Once you have located the **GBReferral** parameter within a dynamic link. You will need to send its value and send along with the [Create Customer API](https://developer.gameball.co/rest-api/customers/customer-management#post-create-customer) that is being executed for the newly created referred customer.
+Once you have located the **GBReferral** parameter within a dynamic link. You will need to send its value and send along with the [Create Customer API](/api-reference/customers/management/create-customer) that is being executed for the newly created referred customer.
 
-The below sample body for the [Create Customer API](https://developer.gameball.co/rest-api/customers/customer-management#post-create-customer) creates a new customer with playerUniqueId {referred_player_id} that has been referred by the customer who owns the code of 001122 captured form the dynamic link.
+The below sample body for the [Create Customer API](/api-reference/customers/management/create-customer) creates a new customer with playerUniqueId {referred_player_id} that has been referred by the customer who owns the code of 001122 captured form the dynamic link.
 
 ```json
 {
