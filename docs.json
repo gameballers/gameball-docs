@@ -1310,6 +1310,11 @@
       "permanent": true
     },
     {
+      "source": "/tutorials-new",
+      "destination": "/tutorials/general/welcome",
+      "permanent": true
+    },
+    {
       "source": "/tutorials-new/experiences/gameball-discounts-engine/coupons/burn",
       "destination": "/tutorials/experiences/gameball-discounts-engine/coupons/burn",
       "permanent": true
