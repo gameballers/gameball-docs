@@ -181,6 +181,30 @@ For example:
 
 ---
 
+## Customers with High Return Rates
+
+In industries like fashion, high return rates eat into margins and signal potential program abuse. You can segment customers by how many returns they've made using the `order_refunded` event.
+
+### Create a New Segment
+
+<Steps>
+  <Step title="Select the order_refunded Event">
+    Choose **Event** as the segmentation type. Select **order_refunded**.
+  </Step>
+  <Step title="Set the Event Count Condition">
+    Set the operator to **Count greater than** and enter your threshold (e.g., **3**) to target customers with 3 or more refunds.
+  </Step>
+</Steps>
+
+<Tip>
+  **Use Other Gameball Features**
+
+  - Exclude high-return customers from bonus point campaigns to reduce liability.
+  - Create a dedicated segment for low-return, high-spend customers and reward them for their behavior.
+</Tip>
+
+---
+
 <Warning>
   - All segments in Gameball are dynamic. The system continuously updates customer groupings based on real-time behavior and data.
   - Avoid static segmentation to ensure the ongoing relevance and effectiveness of your campaigns.

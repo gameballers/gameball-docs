@@ -7,7 +7,14 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 This API validates a single coupon identified by `{code}` and checks its eligibility for use by a customer. It also supports a locking feature, where setting the `lock` flag to `True` reserves the coupon by creating a lock reference. This ensures the coupon cannot be used by others during the lock session, preventing conflicts or double usage. By default, the `lock` flag is `False`, allowing only validation without reserving the coupon.
 
-Alternatively, you can use the **coupon code directly** when placing an order instead of the **hold reference**. For more details, refer to the **Order API**.
+There are two ways to burn a coupon when placing an order:
+
+- **Option 1 — Use the coupon code directly in the Order API**: Pass the coupon code in the Order API without needing the lock reference. The coupon burns automatically.
+- **Option 2 — Use the lock reference in the Order API**: Pass the `lockReference` from this API into `redemption.couponsLockReference` in the Order API. The coupon burns automatically — no separate Burn Coupon API call is needed.
+
+<Warning>
+If you validate a coupon with `lock: true` and then call the **Release Coupons API** before placing the order, the lock is released. If you then try to use the coupon code directly in the Order API, the request will fail. Only release the lock if you are canceling the transaction entirely.
+</Warning>
 
 <Info>
 **Channel Merging Available**  
