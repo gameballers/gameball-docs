@@ -25,16 +25,42 @@ The integration between Gameball and Insider ensures that your customer data is 
 
 Gameball's customer attributes will be imported and updated in Insider automatically. The following data is synced:
 
-| Category | Attributes |
-|---|---|
-| **Profile** | ID, Email, Join Date, Mobile Number, Birthday, Gender |
-| **Points** | Points Balance, Pending Points, Earned Points, Redeemed Points, Expired Points |
-| **Tiers** | Current Level Name, Current Level Order, Next Level, Next Level Threshold, Level Progress, Progress to Achieve Next Level |
-| **Orders** | Last Order Awarded Points, Average Basket, Number of Transactions, Transactions Amount (Last Rolling Year), Total Net Amount, Unit per Transaction, Date of First/Last Transaction |
-| **Referrals** | Referral Code, Referral Link |
-| **Coupons** | Latest Created Coupon, Latest Used Coupon |
-| **Segments** | Tags, Segments, RFM Segments |
-| **Other** | Count of Rewarded Campaigns, Starting Store, Connecting Store, Store of First Transaction |
+| # | Gameball Attribute | Insider Attribute |
+|---|---|---|
+| 1 | Account State | gb_state |
+| 2 | Join Date | gb_join_date |
+| 3 | Birthday | birthday |
+| 4 | Country | gb_country |
+| 5 | City | gb_city |
+| 6 | Tier Name | gb_level_name |
+| 7 | Wallet Points | gb_wallet_points |
+| 8 | Pending Points | gb_pending_points |
+| 9 | Active Points | gb_active_points |
+| 10 | Tier Progress | gb_level_progress |
+| 11 | Tier ID | gb_level_id |
+| 12 | Completed Reward Campaigns | gb_completed_challenges |
+| 13 | Referral Code | gb_referral_code |
+| 14 | Referral Link | gb_referral_link |
+| 15 | Tags and Segments | gb_tags_and_segments |
+| 16 | Latest Created Coupon | gb_latest_created_coupon |
+| 17 | Latest Used Coupon | gb_latest_used_coupon |
+| 18 | Total Net Amount of Transactions | gb_total_net_amount |
+| 19 | Earned Points | gb_total_earned_points |
+| 20 | Expired Points | gb_total_expiry_points |
+| 21 | Redeemed Points | gb_total_redeemed_points |
+| 22 | Next Expiring Points Amount | gb_next_expiring_points_amount |
+| 23 | Next Expiring Points Value | gb_next_expiring_points_value |
+| 24 | Next Expiring Points Date | gb_next_expiring_points_date |
+| 25 | Starting Store | gb_starting_store |
+| 26 | Average Basket Size | gb_average_basket_size |
+| 27 | First Captured Order Date | gb_first_order_date |
+| 28 | Connecting Store | gb_connecting_store |
+| 29 | Store of First Transaction | gb_first_trasnction_store |
+| 30 | Transactions Amount in the Last Rolling Year | gb_transactions_amount_in_the_last_rolling_year |
+| 31 | Unit per Transaction | gb_unit_per_transaction |
+| 32 | Last Order Awarded Points | gb_last_order_awarded_points |
+| 33 | Currency | gb_currency |
+| 34 | Source | source |
 </Accordion>
 
 <Accordion title="Order Placed Event" icon="cart-shopping">
