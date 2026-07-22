@@ -876,10 +876,10 @@
                   "transactionTime": { 
                     "type": "string",
                     "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Must be in UTC (ISO 8601 format).",
                     "example": "2024-10-11T10:57:43.382Z"
                   },
-                  "amount": { 
+                  "amount": {
                     "type": "number",
                     "description": "The actual monetary value the customer wants to redeem. This will be deducted from their points balance based on the redemption factor. For instance, if the customer wants to redeem $10 and the redemption factor is 0.1, then 100 points will be deducted from their balance to cover this amount. Note: Only one of amount, points, or holdReference must be provided for the redemption.",
                     "example": 10
@@ -1029,7 +1029,7 @@
                   "transactionTime": { 
                     "type": "string",
                     "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Must be in UTC (ISO 8601 format).",
                     "example": "2024-10-11T10:48:56.719Z"
                   },
                   "amount": { 
@@ -1157,7 +1157,7 @@
                   "transactionTime": { 
                     "type": "string",
                     "format": "date-time",
-                    "description": "The timestamp of the original transaction in your system (e.g., order datetime, invoice datetime).",
+                    "description": "The timestamp of the original transaction in your system (e.g., order datetime, invoice datetime). Must be in UTC (ISO 8601 format).",
                     "example": "2024-10-13T17:11:00.249Z"
                   },
                   "refundAmount": { 
@@ -1329,7 +1329,7 @@
                   "transactionTime": { 
                     "type": "string",
                     "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Must be in UTC (ISO 8601 format).",
                     "example": "2024-10-11T16:15:15.071Z"
                   },
                   "otp": { 
@@ -1582,7 +1582,7 @@
                           "transactionTime": { 
                             "type": "string",
                             "format": "date-time",
-                            "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                            "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime), in UTC.",
                             "example": "2024-10-13T17:11:00.249"
                           },
                           "status": { 
@@ -1712,7 +1712,7 @@
                   "transactionTime": { 
                     "type": "string",
                     "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Defaults to the current time in UTC when omitted.",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Must be in UTC (ISO 8601 format). Defaults to the current time in UTC when omitted.",
                     "example": "2024-10-11T15:54:10.944Z"
                   },
                   "username": { 
@@ -1916,7 +1916,7 @@
                           "transactionTime": { 
                             "type": "string",
                             "format": "date-time",
-                            "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                            "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime), in UTC.",
                             "example": "2024-10-13T17:11:00.249"
                           },
                           "status": { 
@@ -2410,7 +2410,7 @@
                   "transactionTime": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime).",
+                    "description": "The time of the transaction in your system (e.g., order datetime, invoice datetime). Must be in UTC (ISO 8601 format).",
                     "example": "2024-10-11T10:57:43.382Z"
                   },
                   "coupons": {
@@ -3740,7 +3740,7 @@
                       "properties": {
                         "customerId": { "type": "string", "description": "Unique identifier for the customer." },
                         "orderId": { "type": "string", "description": "Unique identifier for the order." },
-                        "orderDate": { "type": "string", "format": "date-time", "description": "Date and time of the order." },
+                        "orderDate": { "type": "string", "format": "date-time", "description": "Date and time of the order. Must be in UTC (ISO 8601 format), e.g. `2024-10-16T08:13:29.290Z`." },
                         "totalPaid": { "type": "number", "description": "Total amount paid for the order." }
                       }
                     }
@@ -3876,7 +3876,7 @@
                         "email": { "type": "string", "description": "Customer's email address. Required if your account uses email-based channel merging." },
                         "mobile": { "type": "string", "description": "Customer's mobile number. Required if your account uses mobile-based channel merging." },
                         "transactionId": { "type": "string", "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number)." },
-                        "transactionTime": { "type": "string", "format": "date-time", "description": "The time of the transaction in your system." },
+                        "transactionTime": { "type": "string", "format": "date-time", "description": "The time of the transaction in your system. Must be in UTC (ISO 8601 format)." },
                         "amount": { "type": "number", "description": "Monetary value of the transaction for which the customer will be rewarded." }
                       }
                     }
@@ -3924,7 +3924,7 @@
                         "email": { "type": "string", "description": "Customer's email address. Required if your account uses email-based channel merging." },
                         "mobile": { "type": "string", "description": "Customer's mobile number. Required if your account uses mobile-based channel merging." },
                         "transactionId": { "type": "string", "description": "A unique identifier for a transaction in your system (e.g., order number or invoice number)." },
-                        "transactionTime": { "type": "string", "format": "date-time", "description": "The time of the transaction in your system." },
+                        "transactionTime": { "type": "string", "format": "date-time", "description": "The time of the transaction in your system. Must be in UTC (ISO 8601 format)." },
                         "amount": { "type": "number", "description": "The actual monetary value the customer wants to redeem." },
                         "points": { "type": "integer", "description": "The number of points the customer wants to redeem from their balance." },
                         "holdReference": { "type": "string", "description": "A unique reference obtained from the Hold Points API." }
@@ -4111,7 +4111,7 @@
                   "orderDate": { 
                     "type": "string", 
                     "format": "date-time",
-                    "description": "Timestamp of when the order was placed.",
+                    "description": "Timestamp of when the order was placed. Must be in UTC (ISO 8601 format), e.g. `2024-10-16T08:13:29.290Z`.",
                     "example": "2024-10-16T08:13:29.290Z"
                   },
                   "totalPaid": { 
