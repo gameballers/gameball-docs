@@ -15,19 +15,19 @@ Before you start the integration, you need to have your **API Key** and **Transa
 
     <Tabs>
       <Tab title="iOS">
-        Follow the [iOS integration guide](https://docs.gameball.co/installing-gameball/gameball-for-ios) covering:
+        Follow the [iOS integration guide](/installation-guides/v3/ios/getting-started) covering:
         1. Installation
         2. Initialization
         3. Show Gameball Customer Profile
       </Tab>
       <Tab title="Android">
-        Follow the [Android integration guide](https://docs.gameball.co/installing-gameball/gameball-for-android) covering:
+        Follow the [Android integration guide](/installation-guides/v3/android/getting-started) covering:
         1. Installation
         2. Initialization
         3. Show Gameball Customer Profile
       </Tab>
       <Tab title="React Native">
-        Follow the [React Native integration guide](https://docs.gameball.co/installing-gameball/gameball-for-react) covering:
+        Follow the [React Native integration guide](/installation-guides/v3/react-native/getting-started) covering:
         1. Installation
         2. Initialization
         3. Show Gameball Customer Profile
@@ -61,7 +61,7 @@ Before you start the integration, you need to have your **API Key** and **Transa
   </Step>
 
   <Step title="Send Customer Events to Gameball">
-    You can track actions your customers take as Customer Events, while logged into your platform only. Sending events will be through the [Send actions (events) API](https://developer.gameball.co/rest-api/events#post-send-events).
+    You can track actions your customers take as Customer Events, while logged into your platform only. Sending events will be through the [Send actions (events) API](/api-reference/events/send-events).
 
     You can use these customer events for the following:
 
@@ -89,13 +89,13 @@ Before you start the integration, you need to have your **API Key** and **Transa
 
     <Tabs>
       <Tab title="iOS">
-        Follow the [iOS referrals module guide](https://docs.gameball.co/installing-gameball/gameball-for-ios/referrals-module-on-ios).
+        Follow the [iOS referrals module guide](/installation-guides/v3/ios/track-referrals).
       </Tab>
       <Tab title="Android">
-        Follow the [Android referrals module guide](https://developer.gameball.co/installing-gameball/android/referrals-module).
+        Follow the [Android referrals module guide](/installation-guides/v3/android/track-referrals).
       </Tab>
       <Tab title="React Native">
-        Follow the [React Native referrals module guide](https://docs.gameball.co/installing-gameball/gameball-for-react/referrals-module-on-react-native).
+        Follow the [React Native referrals module guide](/installation-guides/v3/react-native/track-referrals).
       </Tab>
     </Tabs>
   </Step>
@@ -109,7 +109,7 @@ Before you start the integration, you need to have your **API Key** and **Transa
     The program must be **Active**.
     </Note>
 
-    2. On every successful paid placed order on your mobile app, use the [Cashback API](https://developer.gameball.co/rest-api/transactions/cashback-and-redemptions#post-reward-cashback) to update Gameball.
+    2. On every successful paid placed order on your mobile app, use the [Cashback API](/api-reference/transactions/cashback-and-redemptions/cashback) to update Gameball.
 
     <Warning>
     It is recommended to send the Cashback API call when the order status is completely paid. In case the payment method, for example, is COD (Cash on delivery), you should send the API call when the customer actually pays the order amount.

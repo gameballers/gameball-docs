@@ -19,11 +19,11 @@ Through Gameball, you can allow your customers to transform and use their collec
 
     Follow the steps below to complete the points transaction:
 
-    1. Get the current customer balance to check if there is sufficient balance, or to display it on your mobile app, through the [Customer Points Balance API](https://developer.gameball.co/rest-api/customers/customer-progress#get-customer-balance).
-    2. Start a points hold request through the [Hold Points API](https://developer.gameball.co/rest-api/transactions/hold-management#post-hold-points).
+    1. Get the current customer balance to check if there is sufficient balance, or to display it on your mobile app, through the [Customer Points Balance API](/api-reference/customers/progress/get-customer-balance).
+    2. Start a points hold request through the [Hold Points API](/api-reference/transactions/hold-management/hold).
        This API will hold the requested amount for 10 minutes until your customer completes the payment process on your mobile app using any other payment method, in case it is a partial payment using points.
     3. The order is placed and paid successfully on your mobile app.
-    4. Totally redeem the held points from the customer balance through the [Redeem Points API](https://developer.gameball.co/rest-api/transactions/cashback-and-redemptions#post-redeem).
+    4. Totally redeem the held points from the customer balance through the [Redeem Points API](/api-reference/transactions/cashback-and-redemptions/redeem).
   </Step>
 
   <Step title="Handle Other Important Operations">
@@ -32,13 +32,13 @@ Through Gameball, you can allow your customers to transform and use their collec
         Sometimes, you will need to cancel a cashback transaction or refund a redeemed points transaction. Follow the steps below:
 
         1. While you are creating a payment reward or points redemption transaction, you will store the original transaction ID of your platform on Gameball.
-        2. You can reverse the reward/redemption transactions through the [Reverse Points Transactions API](https://developer.gameball.co/rest-api/transactions/hold-management#delete-release-hold).
+        2. You can reverse the reward/redemption transactions through the [Refund Points Transactions API](/api-reference/transactions/cashback-and-redemptions/refund).
       </Accordion>
       <Accordion title="Reverse Hold Transaction" icon="hand">
         You might need to reverse the held points during the 10-minute hold time. Follow the steps below:
 
         1. While holding points, a hold reference ID will be created for this hold transaction.
-        2. You can reverse the held points through the [Reverse Hold Transaction API](https://developer.gameball.co/rest-api/transactions/hold-management#delete-release-hold).
+        2. You can reverse the held points through the [Release Hold API](/api-reference/transactions/hold-management/release).
       </Accordion>
     </AccordionGroup>
   </Step>
