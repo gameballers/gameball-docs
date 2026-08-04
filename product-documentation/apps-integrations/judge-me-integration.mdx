@@ -54,7 +54,9 @@ Click **Add** to automatically add the review event in the customers' events sec
 Go to **Rewards > Reward Campaigns** and create the "review/judge me" campaign.
 
 <Info>
-This event will have the following metadata: Product ID, Product Title, and Rating.
+The `review_judgeme` event includes the following metadata: **Product ID**, **Product Title**, **Rating**, **has_pictures** (true/false), and **has_videos** (true/false).
+
+To reward customers specifically for **photo reviews**, configure your campaign to filter on the `has_pictures` metadata property set to `true`. This lets you offer a higher reward for reviews that include a photo versus a text-only review.
 </Info>
 
 <Frame>
