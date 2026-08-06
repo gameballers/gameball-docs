@@ -1,22 +1,22 @@
 ---
 title: "Flutter SDK Integration (v3)"
 sidebarTitle: "Overview"
-description: "Complete guide to integrate Gameball with your Flutter application using SDK v3.2.0"
+description: "Complete guide to integrate Gameball with your Flutter application using SDK v3.2.1"
 ---
 
-# Gameball Flutter SDK — v3.2.0
+# Gameball Flutter SDK — v3.2.1
 
-This documentation is tailored to **Gameball Flutter SDK v3.2.0**. Use these pages as a versioned SDK reference for teams embedding Gameball into their Flutter applications.
+This documentation is tailored to **Gameball Flutter SDK v3.2.1**. Use these pages as a versioned SDK reference for teams embedding Gameball into their Flutter applications.
 
 <Info>
-  SDK v3.2.0 keeps v3.x code compatible and adds a widget event channel, programmatic widget dismissal, external-link handling, and channel-merging parameters.
+  SDK v3.2.1 keeps v3.x code compatible. It patches v3.2.0 — which added a widget event channel, programmatic widget dismissal, external-link handling, and channel-merging parameters — with a fix for the widget `shop` URL parameter that broke widget coupon redemption when both `platform` and `shop` were set.
 </Info>
 
 ## Integration Guide
 
 <CardGroup cols={2}>
   <Card title="Getting Started" icon="rocket" href="/installation-guides/v3/flutter/getting-started">
-    Install the Gameball Flutter SDK v3.2.0 and set up your project
+    Install the Gameball Flutter SDK v3.2.1 and set up your project
   </Card>
 
   <Card title="Initialize SDK" icon="play" href="/installation-guides/v3/flutter/initialize-sdk">
@@ -40,7 +40,7 @@ This documentation is tailored to **Gameball Flutter SDK v3.2.0**. Use these pag
   </Card>
 
   <Card title="Migration Notes" icon="arrow-right" href="/installation-guides/v3/flutter/migration-notes">
-    Migrate from v2 to v3.2.0
+    Migrate from v2 to v3.2.1
   </Card>
 </CardGroup>
 
@@ -52,6 +52,6 @@ This documentation is tailored to **Gameball Flutter SDK v3.2.0**. Use these pag
 - **iOS**: iOS 12.0+
 
 <Note>
-  These floors are unchanged in v3.2.0. If your app opts into `share_plus` 13.x, that package requires Flutter 3.38.1+ and Dart 3.10+.
+  These floors are unchanged in v3.2.1. If your app opts into `share_plus` 13.x, that package requires Flutter 3.38.1+ and Dart 3.10+.
 </Note>
 
