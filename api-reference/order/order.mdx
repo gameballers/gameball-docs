@@ -24,8 +24,12 @@ This makes integration easier and ensures a smooth customer experience.
   </Card>
 
   <Card title="Calculate Order Cashback" icon="coins">
-    Preview how many **points or cashback** a customer will earn before checkout.  
+    Preview how many **cashback points** a customer will earn before checkout.  
     Useful for showing customers "Earn X points with this order".
+  </Card>
+
+  <Card title="Preview Order Rewards" icon="gift">
+    Quote **cashback plus place_order campaign rewards** (points and coupons) before checkout — without awarding anything.
   </Card>
 
   <Card title="Order Transactions" icon="history">
@@ -45,11 +49,11 @@ This makes integration easier and ensures a smooth customer experience.
   <Step title="Create an Order">
     Use the **Order Tracking API** to log the purchase and let Gameball handle rewards and rules automatically.
   </Step>
-  <Step title="Preview Cashback">
-    Optionally, call **Calculate Order Cashback** to show customers their potential rewards.
+  <Step title="Preview Rewards">
+    Optionally, call **Calculate Order Cashback** for cashback only, or **Preview Order Rewards** for cashback plus `place_order` campaign rewards.
   </Step>
   <Step title="Track Transactions">
-    Retrieve a detailed breakdown of all activities tied to the order with **Order Transactions**.
+    Retrieve a detailed breakdown of all activities tied to the order with **Order Transactions**. For many orders at once, use the **Order Transactions Batch Job**.
   </Step>
 </Steps>
 
@@ -62,7 +66,11 @@ This makes integration easier and ensures a smooth customer experience.
     [Order Tracking →](/api-reference/order/order-tracking)
   </Tab>
   <Tab title="Order Rewards & History">
-    [Order Rewards & History →](/api-reference/order/order-transactions)
+    [Calculate Order Cashback →](/api-reference/order/calculate-order-cashback)
+
+    [Preview Order Rewards →](/api-reference/order/preview-order-rewards)
+
+    [Order Transactions →](/api-reference/order/order-transactions)
   </Tab>
 </Tabs>
 

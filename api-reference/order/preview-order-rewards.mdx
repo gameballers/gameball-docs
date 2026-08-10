@@ -1,0 +1,44 @@
+---
+title: "Preview Order Rewards"
+description: "Quote cashback points and place_order campaign rewards for a cart or checkout before anything is awarded."
+openapi: 'POST /api/v4.0/integrations/orders/reward-preview'
+languages: ["curl", "javascript", "python", "csharp", "php", "go", "java", "ruby"]
+---
+
+Combined order preview: the **order cashback quote** (identical calculation to [Calculate Order Cashback](/api-reference/order/calculate-order-cashback)) **plus** a preview of the **event-based campaigns** the order would trigger (the order is evaluated as the same `place_order` event a real order submission fires). Use this on cart and checkout pages to show everything the order will earn in one call.
+
+This endpoint is a **read-only quote**:
+
+- No points are awarded and no coupons are generated.
+- Nothing appears in the customer's activity or history.
+- Campaign budgets and frequency limits are **not** consumed.
+- Calling a preview any number of times has no side effects.
+
+<Info>
+**Security:** Provide `apikey` header. `secretkey` is required on v4.1; on v4.0 required when High Security Mode is enabled.
+</Info>
+
+### Customer handling
+
+The cashback quote works without an existing customer (useful for guest checkout). Campaign eligibility requires an existing customer:
+
+- When the customer is found: `customerFound` is `true` and `eventRewards` includes the `place_order` campaign breakdown.
+- When the customer is missing or inactive: `customerFound` is `false`, the cashback quote is still returned, and `eventRewards` is `null`.
+
+### Localization
+
+Send the optional `lang` header to localize `eventRewards.campaigns[].campaignName`. Cashback `campaignName` values use the campaign's **internal** name (matching Calculate Order Cashback) and are not affected by `lang`.
+
+For event campaign `reason` values and other machine-readable fields, see [Preview Event Rewards](/api-reference/events/preview-event-rewards).
+
+### Notes and limitations
+
+- Previews are point-in-time quotes. A concurrent real order for the same customer can change eligibility between the preview and the actual submission.
+- Campaign budgets are not checked. A campaign whose budget is exhausted may preview rewards that a real submission would reject.
+- Coupons are described, never created. Actual coupon codes are generated only by real orders.
+- The order preview evaluates the order-level `place_order` event only. Campaigns built on the internal per-item purchase event are not included.
+- The order preview has no `orderId` (same as Calculate Order Cashback), so campaign conditions that reference the `order_id` metadata key will not match in a preview.
+- Unknown metadata keys are ignored by previews.
+- Streak badges and mission step rewards are not included in preview results.
+
+For custom (non-order) events, use [Preview Event Rewards](/api-reference/events/preview-event-rewards).

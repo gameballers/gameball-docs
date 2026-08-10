@@ -1,0 +1,62 @@
+---
+title: "Preview Event Rewards"
+description: "Quote points and coupon rewards a customer would earn from custom events before anything is awarded."
+openapi: 'POST /api/v4.0/integrations/events/reward-preview'
+languages: ["curl", "javascript", "python", "csharp", "php", "go", "java", "ruby"]
+---
+
+Returns the points and coupon rewards a customer would earn if the given event(s) fired now. Use this for custom events (the same events you send to [Send Events](/api-reference/events/send-events)). For orders, use [Preview Order Rewards](/api-reference/order/preview-order-rewards) instead.
+
+This endpoint is a **read-only quote**:
+
+- No points are awarded and no coupons are generated.
+- Nothing appears in the customer's activity or history.
+- Campaign budgets and frequency limits are **not** consumed.
+- Calling a preview any number of times has no side effects.
+
+The calculation applies the same logic as a live event: active reward campaigns, metadata conditions, dynamic reward multipliers, and per-customer frequency limits — so the previewed value matches what a real submission would award at that moment.
+
+<Info>
+**Security:** Provide `apikey` header. `secretkey` is required on v4.1; on v4.0 required when High Security Mode is enabled.
+</Info>
+
+<Warning>
+Unlike [Send Events](/api-reference/events/send-events), the preview never creates the customer. Unknown or inactive customers return an error.
+</Warning>
+
+### Localization
+
+Send the optional `lang` header (for example `ar`, `en`, `fr`) to localize `campaigns[].campaignName`. If you omit the header, or send a code that is not configured in your account, the response falls back to your account's default language. No error is returned.
+
+These fields are stable machine-readable values — map them to your own translated copy instead of displaying them directly:
+
+| Field | Notes |
+| --- | --- |
+| `reason` | Fixed enum: `Rewarded`, `ProgressOnly`, `NoMatchingConditions`, `NonPointsReward` |
+| `rewardType`, `completionRewardType` | `Points` / `Coupon` |
+| `couponType` | Coupon-kind identifier (e.g. `Percentage`, `FreeShipping`) |
+| `invalidReason` | Diagnostic code (`EventNotFound`, `InvalidMetadata: ...`, `PreviewFailed`) |
+| `eventName` | Echoed back exactly as you sent it |
+
+### `reason` values
+
+| Reason | Meaning | `points` |
+| --- | --- | --- |
+| `Rewarded` | The event would achieve the campaign now; points returned | > 0 |
+| `NonPointsReward` | The event would achieve the campaign now, but the reward is a coupon — see `couponType` / `couponValue` | 0 |
+| `ProgressOnly` | The event advances the campaign without completing it — see `progress` | 0 |
+| `NoMatchingConditions` | The campaign listens to this event, but the metadata you sent did not satisfy its conditions | 0 |
+
+<Note>
+Campaigns the customer can no longer win are omitted. If the customer already used up a campaign's per-customer limit, or is outside the campaign's audience or activation criteria, that campaign does not appear in `campaigns` — matching exactly what the live engine would (not) award. Inactive or expired campaigns are also never returned.
+</Note>
+
+### Notes and limitations
+
+- Previews are point-in-time quotes. A concurrent real event for the same customer can change eligibility between the preview and the actual submission.
+- Campaign budgets are not checked. A campaign whose budget is exhausted may preview rewards that a real submission would reject.
+- Coupons are described, never created. `couponType` / `couponValue` tell you what the customer would get; actual coupon codes are generated only by real events.
+- Unknown metadata keys are ignored by previews (they are not registered as new keys, unlike live events).
+- Streak badges and mission step rewards are not included in preview results.
+
+Also see [Preview Order Rewards](/api-reference/order/preview-order-rewards) for cart and checkout messaging.

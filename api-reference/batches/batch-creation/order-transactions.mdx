@@ -1,0 +1,34 @@
+---
+title: "Order Transactions Batch Job"
+description: "Retrieve payment, reward, and refund history for up to 1,000 orders in a single asynchronous batch call."
+openapi: 'POST /api/v4.0/integrations/batch/orders/transactions'
+languages: ["curl", "javascript", "python", "csharp"]
+---
+
+## Order Transactions Batch Job
+
+Retrieve the full transaction history (payments, rewards, refunds) for up to **1,000 orders** in a single call. The job runs asynchronously — this endpoint returns a `jobId` immediately. Poll [Check Batch Status](/api-reference/batches/batch-management/check-status) to get the results.
+
+For a single order, use [Order Transactions](/api-reference/order/order-transactions) instead.
+
+<Info>
+**Security:** Requires **apiKey** and **secretKey** headers. The secret key is required on v4.1; on v4.0 it is required when High Security Mode is enabled.
+</Info>
+
+### Poll result shape
+
+When the job completes, the batch status `response` includes `successful` and `failed` arrays. Every submitted order ID appears in one of them — no ID is silently dropped.
+
+| Field | Description |
+| --- | --- |
+| `successful[].orderId` | Order ID that was found |
+| `successful[].transactions` | Payment, refund, and reward entries for that order |
+| `successful[].count` | Number of transactions returned |
+| `failed[].customerId` | Order ID that failed (field name mirrors other batch failure payloads) |
+| `failed[].message` | Failure reason (e.g. `Order Not Found`) |
+
+`transactionType` values in this batch response include `Payment`, `Refund`, and `PartialRefund`.
+
+<Note>
+If a `PaymentReward` record does not exist for an order, a synthetic `Payment` entry is returned so the order always has at least one transaction. Refunds appear as separate `Refund` or `PartialRefund` entries alongside the original `Payment` entry.
+</Note>

@@ -994,6 +994,7 @@
                           "api-reference/customers/management/get-customer",
                           "api-reference/customers/management/get-customer-details",
                           "api-reference/customers/management/get-customer-coupons",
+                          "api-reference/customers/management/update-customer-activation",
                           "api-reference/customers/management/delete-customer",
                           "api-reference/customers/management/get-customer-hash",
                           "api-reference/customers/management/validate-referrer-code",
@@ -1035,7 +1036,8 @@
                   {
                     "group": "Events",
                     "pages": [
-                      "api-reference/events/send-events"
+                      "api-reference/events/send-events",
+                      "api-reference/events/preview-event-rewards"
                     ]
                   },
                   {
@@ -1047,6 +1049,7 @@
                         "group": "Order Rewards & History",
                         "pages": [
                           "api-reference/order/calculate-order-cashback",
+                          "api-reference/order/preview-order-rewards",
                           "api-reference/order/order-transactions"
                         ]
                       }
@@ -1161,6 +1164,7 @@
                           "api-reference/batches/batch-creation/index",
                           "api-reference/batches/batch-creation/customer-data",
                           "api-reference/batches/batch-creation/orders",
+                          "api-reference/batches/batch-creation/order-transactions",
                           "api-reference/batches/batch-creation/balance-inquiries",
                           "api-reference/batches/batch-creation/adjustments",
                           "api-reference/batches/batch-creation/cashback-rewards",

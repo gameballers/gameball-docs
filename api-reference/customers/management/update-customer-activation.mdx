@@ -1,0 +1,52 @@
+---
+title: "Update Customer Activation"
+description: "Opt a customer in or out of the loyalty program, mirroring the dashboard include/exclude toggle."
+openapi: 'PUT /api/v4.0/integrations/customers/{customerId}/activate'
+languages: ["curl", "javascript", "python", "csharp", "php", "go", "java", "ruby"]
+---
+
+Set a customer's loyalty program participation state (active/inactive). This mirrors the include/exclude toggle in the Gameball dashboard — use it on your storefront so customers can control participation, or manage participation from your backend.
+
+The endpoint is **idempotent**:
+
+- Opting out an already opted-out customer produces no side effects.
+- Opting in an already opted-in customer produces no side effects.
+- A state set via API is immediately reflected in the dashboard toggle, and vice versa.
+- Gameball is the source of truth for participation status.
+
+When a customer is opted out (`isActive: false`):
+
+- No points are earned from events or purchases.
+- No rewards or coupons are generated.
+- No earnings, redemptions, or reward activity occurs.
+- The customer is excluded from all campaign eligibility.
+
+Prior activity (points, redemptions, achievements) is not undone — only future eligibility changes.
+
+<Warning>
+**Requires an existing customer.** Unknown customers return `404 Not Found`. This endpoint never creates a customer.
+</Warning>
+
+<Info>
+**Security:** Provide `apikey` header. `secretkey` is required on v4.1; on v4.0 required when High Security Mode is enabled.
+</Info>
+
+### Idempotency
+
+Calling the endpoint twice with the same customer and state always succeeds. On the first call that changes state, `stateChanged` is `true`. On a repeat call with the same state, `stateChanged` is `false` — no database writes, no side effects, no notifications.
+
+### Errors
+
+| Status | When |
+| --- | --- |
+| `200` with `stateChanged: false` | Idempotent success — customer already in the target state |
+| `400 Bad Request` | Missing or invalid payload (e.g. missing `isActive`), or a concurrent request for this customer is in progress |
+| `401 Unauthorized` | Missing/invalid API key or secret key |
+| `404 Not Found` | Customer does not exist, or customer ID is malformed |
+
+### Notes and limitations
+
+- There is no batch endpoint — manage multiple customers with sequential or parallel individual requests (respect [rate limits](/api-reference/overview/rate-limiting)).
+- Changes take effect immediately for future earnings; assume a small propagation delay in edge cases.
+- State changes are logged in your Gameball audit trail.
+- This endpoint only sets participation. To modify other customer attributes, use [Create Customer](/api-reference/customers/management/create-customer) or the other customer management endpoints.

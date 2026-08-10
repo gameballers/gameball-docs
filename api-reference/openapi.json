@@ -107,6 +107,109 @@
         }
       }
     },
+    "/api/v4.0/integrations/customers/{customerId}/activate": {
+      "put": {
+        "summary": "Update Customer Activation",
+        "description": "Set a customer's loyalty program participation state (active/inactive). This mirrors the include/exclude toggle in the Gameball dashboard.\n\nThe endpoint is idempotent: opting out an already opted-out customer (or opting in an already opted-in customer) produces no side effects. `stateChanged` indicates whether the state actually changed.\n\nWhen a customer is opted out (`isActive: false`): no points are earned from events or purchases, no rewards or coupons are generated, and the customer is excluded from all campaign eligibility. Prior activity is not undone.\n\n**Security:** Requires `apiKey` header. `secretKey` is required on v4.1; on v4.0 required when High Security Mode is enabled.\n\n**Requires an existing customer.** Unknown customers return `404 Not Found`.",
+        "operationId": "updateCustomerActivation",
+        "tags": ["Customers"],
+        "security": [{ "apiKey": [], "secretKey": [] }],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "maxLength": 100 },
+            "description": "The customer's unique external identifier in your system.",
+            "example": "cust-12345"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["isActive"],
+                "properties": {
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Set to `true` to opt the customer in (Include); set to `false` to opt the customer out (Exclude).",
+                    "example": false
+                  }
+                }
+              },
+              "examples": {
+                "optOut": {
+                  "summary": "Opt customer out",
+                  "value": { "isActive": false }
+                },
+                "optIn": {
+                  "summary": "Opt customer in",
+                  "value": { "isActive": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Customer activation state updated (or already in the requested state)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "customerId": {
+                      "type": "string",
+                      "description": "Echo of the customer ID from the request.",
+                      "example": "cust-12345"
+                    },
+                    "isActive": {
+                      "type": "boolean",
+                      "description": "The customer's activation state after this request.",
+                      "example": false
+                    },
+                    "stateChanged": {
+                      "type": "boolean",
+                      "description": "`true` if the state was different before this request and changed as a result; `false` if the customer was already in the target state (idempotent no-op).",
+                      "example": true
+                    }
+                  }
+                },
+                "examples": {
+                  "changed": {
+                    "summary": "State changed",
+                    "value": {
+                      "customerId": "cust-12345",
+                      "isActive": false,
+                      "stateChanged": true
+                    }
+                  },
+                  "idempotent": {
+                    "summary": "Already in target state",
+                    "value": {
+                      "customerId": "cust-12345",
+                      "isActive": false,
+                      "stateChanged": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid request payload (e.g. missing `isActive`), or a concurrent request for this customer is in progress."
+          },
+          "401": {
+            "description": "Missing, invalid, or expired API key; or invalid secret key (when required)."
+          },
+          "404": {
+            "description": "Customer does not exist in your Gameball account, or customer ID is malformed."
+          }
+        }
+      }
+    },
     "/api/v4.0/integrations/customers/{customerId}/coupons": {
       "get": {
         "summary": "Get Customer Coupons",
@@ -3767,6 +3870,59 @@
         }
       }
     },
+    "/api/v4.0/integrations/batch/orders/transactions": {
+      "post": {
+        "summary": "Order Transactions Batch Job",
+        "description": "Retrieve the full transaction history (payments, rewards, refunds) for up to 1,000 orders in a single call. The job runs asynchronously — the endpoint returns a `jobId` immediately. Poll the batch status endpoint to retrieve results.\n\n**Security:** Requires `apiKey` and `secretKey` headers (secret key required on v4.1; on v4.0 required when High Security Mode is enabled).",
+        "operationId": "batchOrderTransactions",
+        "tags": ["Batches"],
+        "security": [ { "apiKey": [], "secretKey": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["body"],
+                "properties": {
+                  "body": {
+                    "type": "array",
+                    "description": "Order IDs to retrieve. Min 1, max 1,000 items.",
+                    "minItems": 1,
+                    "maxItems": 1000,
+                    "items": { "type": "string" },
+                    "example": ["ORDER-001", "ORDER-002", "ORDER-003"]
+                  }
+                }
+              },
+              "examples": {
+                "sample": {
+                  "summary": "Sample request",
+                  "value": {
+                    "body": ["ORDER-001", "ORDER-002", "ORDER-003"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch order transactions job initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": { "type": "number", "description": "The assigned job ID, which is later used for status verification and response retrieval.", "example": 1748392 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v4.0/integrations/batch/balance-inquiry": {
       "post": {
         "description": "Retrieve customer loyalty balances for multiple customers in a single API call for efficient balance management.",
@@ -4628,6 +4784,230 @@
         }
       }
     },
+    "/api/v4.0/integrations/orders/reward-preview": {
+      "post": {
+        "summary": "Preview Order Rewards",
+        "description": "Preview everything an order would earn before checkout: the order cashback quote (identical calculation to Calculate Order Cashback) plus a preview of the event-based campaigns the order would trigger (evaluated as the same `place_order` event a real order submission fires).\n\nThis is a read-only quote — no points are awarded, no coupons are generated, nothing appears in the customer activity history, and campaign budgets or frequency limits are not consumed.\n\n**Security:** Requires `apiKey` header. `secretKey` is required on v4.1; on v4.0 required when High Security Mode is enabled.\n\n**Localization:** Send the optional `lang` header to localize `eventRewards.campaigns[].campaignName`. Cashback `campaignName` values use the campaign's internal name and are not affected by `lang`.",
+        "operationId": "previewOrderRewards",
+        "tags": ["Orders"],
+        "security": [ { "apiKey": [] } ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "description": "Language code for localized campaign names in `eventRewards.campaigns[]` (e.g., `en`, `ar`, `fr`). If omitted or not configured in your account, the response falls back to your account's default language.",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["totalPaid"],
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "The customer's unique ID. The cashback part works without it (quote for a new customer); the campaigns part requires an existing customer — see `customerFound`.",
+                    "example": "1214"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Used only to help locate the customer (channel merge)."
+                  },
+                  "mobile": {
+                    "type": "string",
+                    "description": "Used only to help locate the customer (channel merge)."
+                  },
+                  "totalPaid": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Amount actually paid.",
+                    "example": 90
+                  },
+                  "totalPrice": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Order total before discounts.",
+                    "example": 100
+                  },
+                  "totalDiscount": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Total discount applied.",
+                    "example": 10
+                  },
+                  "totalShipping": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Shipping total."
+                  },
+                  "totalTax": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Tax total."
+                  },
+                  "lineItems": {
+                    "type": "array",
+                    "description": "Order line items.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": { "type": "string", "description": "Product identifier.", "example": "P-100" },
+                        "sku": { "type": "string", "description": "Product SKU.", "example": "SKU-100" },
+                        "title": { "type": "string", "description": "Product title.", "example": "Running Shoes" },
+                        "quantity": { "type": "number", "minimum": 0, "description": "Quantity purchased.", "example": 1 },
+                        "price": { "type": "number", "minimum": 0, "description": "Unit price.", "example": 100 },
+                        "discount": { "type": "number", "minimum": 0, "description": "Line discount total (must not exceed the gross line total).", "example": 10 },
+                        "taxes": { "type": "number", "minimum": 0, "description": "Line taxes." },
+                        "weight": { "type": "number", "minimum": 0, "description": "Item weight." },
+                        "vendor": { "type": "string", "description": "Vendor/supplier name." },
+                        "tags": { "type": "array", "items": { "type": "string" }, "description": "Product tags — usable in campaign conditions." },
+                        "category": { "type": "array", "items": { "type": "string" }, "description": "Product categories — usable in campaign conditions.", "example": ["shoes"] },
+                        "collection": { "type": "array", "items": { "type": "string" }, "description": "Product collections — usable in campaign conditions." },
+                        "extra": { "type": "object", "additionalProperties": true, "description": "Custom line-item attributes." }
+                      }
+                    }
+                  },
+                  "merchant": {
+                    "type": "object",
+                    "description": "Merchant/branch info for multi-merchant setups.",
+                    "properties": {
+                      "uniqueId": { "type": "string" },
+                      "name": { "type": "string" },
+                      "branch": {
+                        "type": "object",
+                        "properties": {
+                          "uniqueId": { "type": "string" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "channel": {
+                    "type": "string",
+                    "description": "Order channel (e.g. `web`, `pos`, `mobile`).",
+                    "example": "web"
+                  },
+                  "extra": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "Custom key/value attributes — usable in campaign conditions."
+                  }
+                }
+              },
+              "examples": {
+                "sample": {
+                  "summary": "Sample request",
+                  "value": {
+                    "customerId": "1214",
+                    "totalPaid": 90,
+                    "totalPrice": 100,
+                    "totalDiscount": 10,
+                    "channel": "web",
+                    "lineItems": [
+                      {
+                        "productId": "P-100",
+                        "sku": "SKU-100",
+                        "title": "Running Shoes",
+                        "quantity": 1,
+                        "price": 100,
+                        "discount": 10,
+                        "category": ["shoes"]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order reward preview calculated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OrderRewardPreviewResponse" },
+                "examples": {
+                  "sample": {
+                    "value": {
+                      "customerId": "1214",
+                      "customerFound": true,
+                      "totalPoints": 270,
+                      "totalCoupons": 1,
+                      "cashback": {
+                        "totalPoints": 120,
+                        "totalScore": 120,
+                        "lineItems": [
+                          {
+                            "productId": "P-100",
+                            "quantity": 1,
+                            "totalPoints": 120,
+                            "totalScore": 120,
+                            "totalDecimalPoints": 120.0,
+                            "rewardWalletFactor": 1.2,
+                            "campaignId": 3101,
+                            "campaignName": "Double Points Week",
+                            "campaignEndDate": "2026-08-15T23:59:59Z",
+                            "campaignImpactPoints": 60.0,
+                            "campaignImpactWalletFactor": 0.6
+                          }
+                        ]
+                      },
+                      "eventRewards": {
+                        "eventName": "place_order",
+                        "valid": true,
+                        "invalidReason": null,
+                        "totalPoints": 150,
+                        "campaigns": [
+                          {
+                            "campaignId": 2655,
+                            "campaignName": "First Order Bonus",
+                            "campaignEndDate": null,
+                            "eligible": true,
+                            "reason": "Rewarded",
+                            "rewardType": "Points",
+                            "rewardPoints": 150,
+                            "couponType": null,
+                            "couponValue": null,
+                            "points": 150,
+                            "timesAchieved": 1,
+                            "progress": null
+                          },
+                          {
+                            "campaignId": 2656,
+                            "campaignName": "Order Coupon Gift",
+                            "campaignEndDate": null,
+                            "eligible": true,
+                            "reason": "NonPointsReward",
+                            "rewardType": "Coupon",
+                            "rewardPoints": null,
+                            "couponType": "Percentage",
+                            "couponValue": 10,
+                            "points": 0,
+                            "timesAchieved": 1,
+                            "progress": null
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid payload (e.g. negative amounts, discount exceeding a line's total)."
+          },
+          "401": {
+            "description": "Missing or invalid API key or secret key."
+          }
+        }
+      }
+    },
     "/api/v4.0/integrations/orders/{orderId}/transactions": {
       "get": {
         "summary": "Order Transactions",
@@ -5302,6 +5682,138 @@
         }
       }
     },
+    "/api/v4.0/integrations/events/reward-preview": {
+      "post": {
+        "summary": "Preview Event Rewards",
+        "description": "Returns the points and coupon rewards a customer would earn if the given event(s) fired now. Intended for custom events (the same events you send to Send Events). For orders, use Preview Order Rewards instead.\n\nThis is a read-only quote — no points are awarded, no coupons are generated, nothing appears in the customer activity history, and campaign budgets or frequency limits are not consumed.\n\nUnlike the live events endpoint, the preview never creates the customer — unknown or inactive customers return an error.\n\n**Security:** Requires `apiKey` header. `secretKey` is required on v4.1; on v4.0 required when High Security Mode is enabled.\n\n**Localization:** Send the optional `lang` header to localize `campaigns[].campaignName`.",
+        "operationId": "previewEventRewards",
+        "tags": ["Events"],
+        "security": [ { "apiKey": [] } ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "description": "Language code for localized campaign names in `campaigns[]` (e.g., `en`, `ar`, `fr`). If omitted or not configured in your account, the response falls back to your account's default language.",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customerId", "events"],
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "The customer's unique ID in your system. Must be an existing, active customer.",
+                    "example": "1214"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Used only to help locate the customer (channel merge)."
+                  },
+                  "mobile": {
+                    "type": "string",
+                    "description": "Used only to help locate the customer (channel merge)."
+                  },
+                  "events": {
+                    "type": "object",
+                    "description": "One entry per event to preview: the key is the event name, the value is that event's metadata object (or `{}` / `null` if none).",
+                    "additionalProperties": {
+                      "type": ["object", "null"],
+                      "additionalProperties": true
+                    },
+                    "example": {
+                      "add_review": { "rating": 5 }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "sample": {
+                  "summary": "Sample request",
+                  "value": {
+                    "customerId": "1214",
+                    "events": {
+                      "add_review": { "rating": 5 }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Event reward preview calculated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/EventRewardPreviewResponse" },
+                "examples": {
+                  "sample": {
+                    "value": {
+                      "customerId": "1214",
+                      "totalPoints": 150,
+                      "events": [
+                        {
+                          "eventName": "add_review",
+                          "valid": true,
+                          "invalidReason": null,
+                          "totalPoints": 150,
+                          "campaigns": [
+                            {
+                              "campaignId": 2655,
+                              "campaignName": "Review & Earn",
+                              "campaignEndDate": "2026-08-31T23:59:59Z",
+                              "eligible": true,
+                              "reason": "Rewarded",
+                              "rewardType": "Points",
+                              "rewardPoints": 150,
+                              "couponType": null,
+                              "couponValue": null,
+                              "points": 150,
+                              "timesAchieved": 1,
+                              "progress": null
+                            },
+                            {
+                              "campaignId": 2656,
+                              "campaignName": "Review Coupon",
+                              "campaignEndDate": null,
+                              "eligible": true,
+                              "reason": "NonPointsReward",
+                              "rewardType": "Coupon",
+                              "rewardPoints": null,
+                              "couponType": "Percentage",
+                              "couponValue": 10,
+                              "points": 0,
+                              "timesAchieved": 1,
+                              "progress": null
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid payload, missing `customerId` or `events`, or a key/value exceeding the maximum string length."
+          },
+          "401": {
+            "description": "Missing or invalid API key or secret key."
+          },
+          "404": {
+            "description": "The customer does not exist. Inactive or excluded customers also fail."
+          }
+        }
+      }
+    },
     "/plants": {
       "get": {
         "description": "Returns all plants from the system that the user has access to",
@@ -5743,6 +6255,102 @@
               "type": "object",
               "additionalProperties": true
             }
+          }
+        }
+      },
+      "RewardPreviewProgress": {
+        "type": "object",
+        "description": "Present only for `ProgressOnly` — accumulative / multi-step campaigns the event advances without completing.",
+        "properties": {
+          "currentPercentage": { "type": "number", "description": "Completion % (0–100) before this event." },
+          "wouldBePercentage": { "type": "number", "description": "Completion % (0–100, capped) after this event fires." },
+          "completionRewardPoints": { "type": ["integer", "null"], "description": "Points granted when the campaign eventually completes; `null` when the completion reward is a coupon." },
+          "completionRewardType": { "type": "string", "description": "`Points` or `Coupon`." }
+        }
+      },
+      "RewardPreviewCampaign": {
+        "type": "object",
+        "properties": {
+          "campaignId": { "type": "integer", "description": "Campaign identifier." },
+          "campaignName": { "type": "string", "description": "Campaign display name, translated for the `lang` header (falls back to your account's default language, then to the campaign's internal name)." },
+          "campaignEndDate": { "type": ["string", "null"], "format": "date-time", "description": "Campaign end date — use it for urgency messaging. `null` for open-ended campaigns." },
+          "eligible": { "type": "boolean", "description": "`true` when the event would progress or achieve this campaign now; `false` only when the campaign is linked to the event but the sent metadata satisfied none of its conditions." },
+          "reason": { "type": "string", "enum": ["Rewarded", "ProgressOnly", "NoMatchingConditions", "NonPointsReward"], "description": "Outcome of evaluating this campaign for the previewed event." },
+          "rewardType": { "type": "string", "enum": ["Points", "Coupon"], "description": "What this campaign's reward is." },
+          "rewardPoints": { "type": ["integer", "null"], "description": "The campaign's configured points reward (its offer), shown regardless of outcome. `null` when the reward is a coupon." },
+          "couponType": { "type": ["string", "null"], "description": "Coupon kind when the reward is a coupon (e.g. `Fixed`, `Percentage`, `FreeShipping`). Machine-readable — no real code is generated by a preview." },
+          "couponValue": { "type": ["number", "null"], "description": "The coupon's configured value (amount or percentage, per `couponType`)." },
+          "points": { "type": "integer", "description": "Points the customer would actually earn now from this campaign (already multiplied by `timesAchieved`). `0` for progress-only and coupon outcomes." },
+          "timesAchieved": { "type": "integer", "description": "How many times this single event would achieve the campaign (can exceed 1 for accumulative campaigns; `0` when it only advances progress)." },
+          "progress": { "oneOf": [ { "$ref": "#/components/schemas/RewardPreviewProgress" }, { "type": "null" } ] }
+        }
+      },
+      "RewardPreviewEventResult": {
+        "type": "object",
+        "properties": {
+          "eventName": { "type": "string", "description": "The event name as sent." },
+          "valid": { "type": "boolean", "description": "`false` when the event itself could not be evaluated (see `invalidReason`). Other events in the same request still return results." },
+          "invalidReason": { "type": ["string", "null"], "description": "Set when `valid` is `false`: `EventNotFound`, `InvalidMetadata: ...`, or `PreviewFailed`." },
+          "totalPoints": { "type": "integer", "description": "Points this event would earn now, across all its campaigns." },
+          "campaigns": {
+            "type": "array",
+            "description": "Per-campaign breakdown. Empty when the event matches no campaign — that is still a success with 0 points. Campaigns the customer can no longer win are omitted.",
+            "items": { "$ref": "#/components/schemas/RewardPreviewCampaign" }
+          }
+        }
+      },
+      "EventRewardPreviewResponse": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "string", "description": "Echo of the request." },
+          "totalPoints": { "type": "integer", "description": "Sum of points across all previewed events." },
+          "events": {
+            "type": "array",
+            "description": "One independent result per event sent, in request order.",
+            "items": { "$ref": "#/components/schemas/RewardPreviewEventResult" }
+          }
+        }
+      },
+      "OrderRewardPreviewResponse": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "string", "description": "Echo of the request." },
+          "customerFound": { "type": "boolean", "description": "`false` when the customer does not exist or is inactive. The cashback quote is still returned; `eventRewards` is `null` (campaign eligibility can't be evaluated without an existing customer)." },
+          "totalPoints": { "type": "integer", "description": "Grand total: cashback points + points from event campaigns the order would achieve now." },
+          "totalCoupons": { "type": "integer", "description": "Number of coupons the order's event campaigns would grant (one per achievement of a coupon-reward campaign)." },
+          "cashback": {
+            "type": "object",
+            "description": "The cashback quote — same shape as the Calculate Order Cashback response. Note: `campaignName` here is the campaign's internal name and is not affected by the `lang` header.",
+            "properties": {
+              "totalPoints": { "type": "number", "description": "Total cashback points expected from the order." },
+              "totalScore": { "type": "number", "description": "Total score expected from the order." },
+              "lineItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "productId": { "type": "string" },
+                    "quantity": { "type": "number" },
+                    "totalPoints": { "type": "number" },
+                    "totalScore": { "type": "number" },
+                    "totalDecimalPoints": { "type": "number" },
+                    "rewardWalletFactor": { "type": "number" },
+                    "campaignId": { "type": ["integer", "null"] },
+                    "campaignName": { "type": ["string", "null"], "description": "Internal campaign name (not localized by `lang`)." },
+                    "campaignEndDate": { "type": ["string", "null"], "format": "date-time" },
+                    "campaignImpactPoints": { "type": "number" },
+                    "campaignImpactWalletFactor": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "eventRewards": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/RewardPreviewEventResult" },
+              { "type": "null" }
+            ],
+            "description": "The `place_order` event preview — exactly one entry with the same shape as an `events[]` entry of Preview Event Rewards."
           }
         }
       },
