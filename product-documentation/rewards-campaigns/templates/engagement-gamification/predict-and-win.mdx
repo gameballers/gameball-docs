@@ -100,6 +100,15 @@ Configure how many points customers earn per prediction. The model is fully cust
 
 You can also enable a **knockout timing bonus** that awards extra points for predictions submitted close to kickoff during knockout-stage matches.
 
+### Knockout Stage Predictions
+
+Predict & Win runs through the final. Knockout matches can't end in a draw, so the match card adapts to what the customer predicts:
+
+- **Level score predicted:** The customer is asked who wins the penalty shootout.
+- **Decisive score predicted:** The customer gets a 90 minutes / extra time toggle.
+
+A **Correct Decider** bonus (default +2 points, fully configurable) rewards customers who correctly call both the advancing side and the manner of victory. Base scoring tiers are unchanged, and no new setup is required to use knockout matches.
+
 ---
 
 ## Rewards & Leaderboard
@@ -157,6 +166,8 @@ Rewards can be delivered via Gameball, an external API, or self-fulfilment.
 ---
 
 ## Insights & Export
+
+The Predict & Win insights panel labels its participation metric **Total Predictions** — the count of both scored and unscored predictions submitted. The distinct customer count matches the number of players shown on the widget, counting anyone who made a prediction, scored or not.
 
 The Insights leaderboard lets you export participant lists filtered by result category or rank. Use the export to:
 

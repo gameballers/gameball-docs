@@ -80,6 +80,21 @@ Gameball will refund the whole cashback reward and not the extra value.
 
 ---
 
+## Salla: Automatic Partial Refund Detection
+
+Salla has no native partial-refund action — merchants perform one by editing the order. Gameball now detects this automatically: on every order edit, it compares the original order against the edited version, works out whether the change is genuinely a refund, and reverses the right amount of points — no manual intervention needed.
+
+| Change Detected | Treated as a Refund? |
+|---|---|
+| Removed line items | Yes |
+| Reduced quantities | Yes |
+| Lowered order total | Yes |
+| Added items or address changes only | No |
+
+Points are reversed against the actual decrease (original minus edited), not the full order value, and reversed refunds follow the same behavior described above for every other platform.
+
+---
+
 ## How Will Customer Tiers Be Affected by the Refund?
 
 Gameball gives you more control over how refunds affect tier progress. You can choose whether refunded orders contribute to customers' tier advancement, ensuring your loyalty logic stays aligned with your business rules.

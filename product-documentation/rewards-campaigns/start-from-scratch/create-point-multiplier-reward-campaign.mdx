@@ -72,6 +72,15 @@ Let's say you have the cashback set up for your customers to gain 1 point for ev
   </Frame>
   </Accordion>
 
+  <Accordion title="Repeatability" icon="repeat">
+  Set directly in the Rules section — no separate popup needed. Choose how many times a customer can earn this campaign:
+
+  - **Unlimited**
+  - **A total limit** (overall)
+  - **A per-period limit**
+  - **A combination of both**
+  </Accordion>
+
   <Accordion title="Trigger" icon="bolt">
   For Points Multiplier rewards, the trigger is automatically set to the event "Place Order." You now have two options to configure this campaign:
 
@@ -135,6 +144,25 @@ Let's say you have the cashback set up for your customers to gain 1 point for ev
 <Tip>
 Now that you have created and configured your campaign, remember to press **Save**, **Preview**, and then **Activate** your campaign.
 </Tip>
+
+---
+
+## Transaction-Level Visibility
+
+Open a Points Multiplier campaign and go to its **Campaign Activity** tab (next to **Overview** and **Insights**) to see exactly which orders it touched:
+
+| Column | Description |
+|---|---|
+| **Customer ID** | The customer who triggered the transaction. |
+| **Email** | The customer's registered email address. |
+| **Reward** | The reward type applied (e.g., points). |
+| **Order Details** | The order the multiplier was applied to. |
+| **Points Value** | The points awarded for this transaction. |
+| **Achieved At** | Timestamp of the transaction. |
+
+Multiple transactions from the same customer appear as separate rows — no aggregation hides detail. Use the filter and sort icons above the table to narrow results, and **Export** to download the list.
+
+**Activity Log** entries also show an indicator when a multiplier was applied, linking straight back to the campaign. Activity log exports gain **Applied Multiplier Campaign ID** and **Name** columns.
 
 ---
 
