@@ -3,6 +3,180 @@ title: "Product Updates 2026"
 description: "Gameball product updates, new features, and improvements throughout 2026."
 ---
 
+<Update label="August 9 2026" description="Surveys, Salla Partial Refunds & Points Liability">
+
+## New Features
+
+### Survey Campaigns
+
+Surveys are now a native campaign type in Gameball. Build a questionnaire, reward customers for completing it, and reach them wherever they already are — no third-party form tool required. Every response is stored against the customer, so what people tell you becomes something you can act on.
+
+* Six question types: Single Choice, Multiple Choice, Short Text, Long Text, Rating Scale (1–5 or 1–10), and NPS (0–10)
+* Mark questions required or optional, and reorder them freely
+* Reward completion with points or a coupon from your existing redemption rules — or run the survey with no reward
+* Set start and end dates, a total participation limit, and whether customers can respond once or repeatedly
+* Distribute inside the Gameball widget, as a storefront popup with a configurable trigger, or via an auto-generated shareable link
+* Store any answer as a customer attribute, making responses available for segmentation and campaign targeting
+* Export all responses as CSV
+
+---
+
+### Survey & Quiz Response Analytics
+
+Read your Survey and Quiz results directly on the Insights page instead of exporting a file. Every published question is rendered with an aggregated view, and individual submissions are available from the Customers List.
+
+* Single Choice and Multiple Choice show a distribution bar per option with count and percentage
+* Rating Scale shows the average as a headline figure plus a distribution across each scale point
+* NPS shows a −100 to +100 score with Promoter, Passive, and Detractor breakdowns
+* Short and Long Text answers render as a scrollable list with customer name and submission date
+* A survey-level header shows completion rate, distinct respondents, average time to complete, and rewards issued
+* Open any customer's full question-by-question submission from the Customers List
+* Historical aggregates stay accurate even after options are renamed or removed
+
+---
+
+### Automatic Partial Refund Detection for Salla
+
+Salla has no native partial-refund action — merchants perform one by editing the order. Gameball now detects these edits, determines whether they represent a genuine refund, and reverses the correct number of points automatically.
+
+* Every order edit triggers a comparison against the original order
+* Detects removed line items, reduced quantities, and lowered order totals
+* Non-refund edits such as address changes or added items never trigger a reversal
+* Points are reversed against the actual decrease, not the full order value
+* Handles sequential edits and mixed add/remove edits using the net effect
+
+---
+
+### Points Multiplier — Transaction-Level Visibility
+
+See exactly which orders your Points Multiplier campaigns applied to, and reconcile campaign performance against real transactions.
+
+* Campaign view lists each transaction with Order ID, Order Value, Points Awarded, Customer ID, and timestamp
+* Sortable by date and filterable by customer, with each transaction shown as its own row
+* Activity log entries flag orders where a multiplier was applied, linking to the campaign
+* Activity log exports include Applied Multiplier Campaign ID and Name columns
+
+---
+
+### Point-in-Time Points Liability
+
+Reconstruct your points liability as of any historical moment, rather than only seeing today's balance.
+
+* Choose an as-of cutoff date and time in UTC
+* View total outstanding, active/available, and pending points as of that moment
+* Each figure is shown as both a point count and a monetary value
+* All figures respect your store timezone
+
+---
+
+### Customer Opt-Out / Opt-In API
+
+Remove a customer from the loyalty program — and bring them back — programmatically, matching the include/exclude toggle on the customer profile.
+
+* Opt a customer out to stop earning, redeeming, and rewards
+* Opt a customer back in through the same API
+* State stays in sync in both directions with the dashboard toggle
+* Both operations are idempotent, so repeat calls are safe
+
+---
+
+### Preview Reward Points for an Event
+
+Show customers what an action is worth before they take it. This endpoint returns the points a customer would earn for an event without firing it or awarding anything.
+
+* Applies the same logic as a live event: active campaigns, metadata conditions, tier multipliers, and frequency caps
+* Separates base points from campaign bonus points and returns matched campaign details including end date
+* Multiple events can be previewed in a single request
+* Reflects per-customer limits, returning a reason when a customer is not eligible
+* Available on request — contact your account team to have it enabled
+
+---
+
+### Bulk Order Retrieval API
+
+Fetch many orders in a single request instead of calling the single-order endpoint repeatedly.
+
+* Accepts an array of order IDs
+* Returns full order detail objects using the same schema as the single-order endpoint
+* Unknown IDs are returned in a not-found array rather than failing the entire request
+
+---
+
+## Other Improvements
+
+### Predict & Win — Knockout Stage
+
+Predict & Win now runs through the knockout rounds. On a level score the match card asks who wins the penalty shootout; on a decisive score it offers a 90 minutes or extra time choice. A new "Correct decider" bonus rewards players who call both the advancing side and how the match was settled. Base scoring is unchanged and no new setup is required.
+
+### Per-Line-Item Discount & Refund Breakdown API
+
+A new endpoint returns how an order's discount — both cash and points value — was allocated across each line item, along with the exact cash to refund for a partial return and the points to deduct for that portion.
+
+### Game Completion Callback in the Mobile SDKs
+
+Register a callback that fires when a customer finishes a game inside the Gameball widget, so your app can respond in real time. The payload includes win status, reward type and value, campaign ID, and campaign type. Available on Android, iOS, Flutter, and React Native.
+
+### Refunded Points Keep Their Original Expiry
+
+Refunding a points redemption now returns the points with their original expiry dates rather than issuing new long-life points. Already-expired points are not revived, and partial or repeat refunds return only their proportional share. This is rolling out progressively — merchants not yet enabled continue with current behavior.
+
+### Points Multiplier — Inline Repeatability
+
+Repeatability settings now appear directly inside the Rules section of a Points Multiplier campaign instead of behind a pop-up. Choose Unlimited, a total limit, a per-period limit, or a combination — all without leaving the configuration flow.
+
+### Multi-Step Referral Progress in the Customer Referrals API
+
+The Customer Referrals API now exposes each referred friend's progress through a Multi-Step Referral program — which steps are complete, which are pending, when each was completed, and the reward tied to each stage.
+
+### Social Action Text & Link in the Campaign Progress API
+
+Social media reward campaigns now return the configured social action (Share, Like, Follow) and the campaign's social link, so you can render the correct call-to-action and destination in your own interface.
+
+### Burn Coupon API — Transaction Linking
+
+The Burn Coupon API now persists the optional `transactionId` and `transactionTime` fields and returns them in the response. A coupon burn sharing a transaction ID with an order, payment, or cashback call is linked rather than rejected as a duplicate.
+
+### Repeatability Enforced on Anonymous Game Campaigns
+
+Guest players can no longer bypass a recurring game campaign's repeatability limit by entering a different email each time. Enforcement now uses device and network signals, and blocked guests see a clear message telling them when they can play again.
+
+### VIP Tiers — Tiering Method Banner
+
+The VIP Tiers page now shows a banner stating how customers currently tier up, with an Edit action that opens the tiering configuration directly. The Score method description has been rewritten to clarify that it is a non-redeemable progression metric, separate from the RFM segmentation score.
+
+### Standardized Export Confirmation
+
+Every export across the dashboard now shows a shared confirmation modal that echoes your active filters back before extraction starts, or clearly states that no filters are applied and all records will be included.
+
+### Secure Report Extraction
+
+Reports extracted from the data warehouse — covering Activity Logs, Outbound, and Automation — now require dashboard authentication to download and can no longer be retrieved by anyone holding the link.
+
+### Predict & Win — Clearer Insights Metrics
+
+The Predict & Win insights panel now names its metrics accurately. "Total customer count" is now "Total Predictions" and includes both scored and unscored predictions, and the distinct customer count matches the number of players shown on the widget.
+
+### Item Hunt Campaign Template
+
+A new action-based campaign template rewards customers for placing a minimum-value order, ready to launch from the campaigns catalogue without building the rules yourself.
+
+### Family Wallet — Configuration Context
+
+The Family Wallet toggle in Admin Settings now includes an informational alert explaining what the feature does before you enable it.
+
+---
+
+## Bug Fixes
+
+* **Widget blank screens replaced with clear error states** — Opening the widget with a wrong or non-existent campaign ID now shows a "campaign not found" screen, and unknown widget routes show a "page not found" screen.
+* **Campaigns list export row count** — The Rewards list export returned more campaigns than the page displayed, including sub-campaigns outside the selected category. The export now matches the dashboard with and without filters.
+* **Automation block-status export** — The export returned more rows than the dashboard displayed and was missing the Name and Email columns.
+* **Automation goal summary counts** — Goal Statistics cards undercounted against the goal list and export, and their status buckets did not sum to the displayed total.
+* **"Levels" renamed to "Tiers"** — The Customer Attribute dropdown under Audience → Specific Customers used the retired "Levels" label.
+* **Banner customization for calendar sub-campaigns** — The Banner customization section appeared when editing a sub-campaign inside a Calendar Campaign despite having no effect on how it displayed.
+
+</Update>
+
 <Update label="June 22 2026" description="Predict & Win for the World Cup, widget visibility controls, SDK hooks & more">
 
 ## New Features
