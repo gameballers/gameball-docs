@@ -45,11 +45,36 @@ Use the compatibility table below to identify which sections can be reached thro
 | Calendar Campaign (First)  | `calendar`                     | ✅             | ✅             |
 | Calendar List              | `calendar_list`                | ❌             | ✅             |
 | Specific Calendar Campaign | `calendar_{CalendarID}`        | ❌             | ✅             |
-| Scratch and Win (First)    | `scratch`                      | ❌             | ✅             |
+| Scratch and Win (First)    | `scratch`                      | ✅             | ✅             |
 | Specific Scratch and Win   | `scratch_{ScratchId}`          | ❌             | ✅             |
-| Match Game (First)         | `match`                        | ❌             | ✅             |
+| Match Game (First)         | `match`                        | ✅             | ✅             |
 | Specific Match Game        | `match_{MatchId}`              | ❌             | ✅             |
+| The Catcher (First)        | `catcher`                      | ✅             | ✅             |
+| Specific Catcher           | `catcher_{CampaignID}`         | ❌             | ✅             |
+| Quiz (First)               | `quiz`                         | ✅             | ✅             |
+| Specific Quiz              | `quiz_{CampaignID}`            | ❌             | ✅             |
+| Space Shooter (First)      | `shooter`                      | ✅             | ✅             |
+| Specific Space Shooter     | `shooter_{CampaignID}`         | ❌             | ✅             |
+| Tap the Target (First)     | `tap_target`                   | ✅             | ✅             |
+| Specific Tap the Target    | `tap_target_{CampaignID}`      | ❌             | ✅             |
+| Driving Game (First)       | `highway_drive`                | ✅             | ✅             |
+| Specific Driving Game      | `highway_drive_{CampaignID}`   | ❌             | ✅             |
+| Sliding Puzzle (First)     | `puzzle`                       | ✅             | ✅             |
+| Specific Sliding Puzzle    | `puzzle_{CampaignID}`          | ❌             | ✅             |
+| Tic Tac Toe (First)        | `tictactoe`                    | ✅             | ✅             |
+| Specific Tic Tac Toe       | `tictactoe_{CampaignID}`       | ❌             | ✅             |
+| Survey (First)             | `survey`                       | ✅             | ✅             |
+| Surveys List               | `survey_list`                  | ❌             | ✅             |
+| Specific Survey            | `survey_{CampaignID}`          | ❌             | ✅             |
+| Mission (First)            | `mission`                      | ✅             | ✅             |
+| Specific Mission           | `mission_{CampaignID}`         | ❌             | ✅             |
+| Streak (First)             | `streak`                       | ✅             | ✅             |
+| Specific Streak            | `streak_{CampaignID}`          | ❌             | ✅             |
 | Games                      | `games`                        | ✅             | ✅             |
+
+<Note>
+When you pass a section key through an SDK, prefix it with `details_`. For example, `catcher` becomes `details_catcher`, and a specific campaign becomes `details_catcher_123`.
+</Note>
 
 ***
 ## How to Use Deep Links
@@ -81,6 +106,8 @@ Append `#gameball-[section_key]` to your URL:
 ```plaintext
 https://your-site.com/#gameball-referral
 https://your-site.com/#gameball-wheel
+https://your-site.com/#gameball-quiz
+https://your-site.com/#gameball-catcher
 https://your-site.com/#gameball-games
 ```
 
@@ -91,6 +118,8 @@ Append `?gameball-deep=[section_key]` to your URL:
 ```plaintext
 https://your-site.com/?gameball-deep=referral
 https://your-site.com/?gameball-deep=wheel
+https://your-site.com/?gameball-deep=quiz
+https://your-site.com/?gameball-deep=catcher
 https://your-site.com/?gameball-deep=games
 ```
 
@@ -107,6 +136,8 @@ Pass the section key using the `openDetail` parameter and prefix it with `detail
 ```kotlin
 gameballApp.showProfile(this, "customer_id", "details_referral", true)
 gameballApp.showProfile(this, "customer_id", "details_slot_123", true)
+gameballApp.showProfile(this, "customer_id", "details_quiz", true)
+gameballApp.showProfile(this, "customer_id", "details_catcher_123", true)
 ```
 
 
@@ -120,7 +151,7 @@ Pass the section key using the `openDetail` parameter and prefix it with `detail
             lang: 'en',
             playerUniqueId: '',
             playerAttributes:{},
-            openDetail: "details_referral"
+            openDetail: "details_quiz"
         });
 ```
 ***

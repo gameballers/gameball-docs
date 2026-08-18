@@ -59,17 +59,77 @@ You can use deep links with any element that can hold a hyperlink, such as text,
 </Accordion>
 
 <Accordion title="#gameball-wheel" icon="circle-dot">
-  Opens the "Spin the Wheel" page for customers.
+  Opens the "Spin the Wheel" page for customers. SDK value: `details_wheel`.
+</Accordion>
+
+<Accordion title="#gameball-scratch" icon="gift">
+  Opens the Scratch and Win page for customers. SDK value: `details_scratch`.
+</Accordion>
+
+<Accordion title="#gameball-match" icon="clone">
+  Opens the Match Cards page for customers. SDK value: `details_match`.
+</Accordion>
+
+<Accordion title="#gameball-catcher" icon="hand">
+  Opens The Catcher page for customers. SDK value: `details_catcher`.
+</Accordion>
+
+<Accordion title="#gameball-calendar" icon="calendar">
+  Opens the Calendar Campaign page for customers. SDK value: `details_calendar`.
 </Accordion>
 
 <Accordion title="#gameball-slot" icon="slot-machine">
-  Opens the "Slot Machine" page for customers.
+  Opens the "Slot Machine" page for customers. SDK value: `details_slot`.
+</Accordion>
+
+<Accordion title="#gameball-quiz" icon="clipboard-question">
+  Opens the Quiz page for customers. SDK value: `details_quiz`.
+</Accordion>
+
+<Accordion title="#gameball-shooter" icon="rocket">
+  Opens the Space Shooter page for customers. SDK value: `details_shooter`.
+</Accordion>
+
+<Accordion title="#gameball-tap_target" icon="bullseye">
+  Opens the Tap the Target page for customers. SDK value: `details_tap_target`.
+</Accordion>
+
+<Accordion title="#gameball-highway_drive" icon="car">
+  Opens the Driving Game page for customers. SDK value: `details_highway_drive`.
+</Accordion>
+
+<Accordion title="#gameball-puzzle" icon="puzzle-piece">
+  Opens the Sliding Puzzle page for customers. SDK value: `details_puzzle`.
+</Accordion>
+
+<Accordion title="#gameball-tictactoe" icon="table-cells">
+  Opens the Tic Tac Toe page for customers. SDK value: `details_tictactoe`.
+</Accordion>
+
+<Accordion title="#gameball-survey" icon="clipboard-list">
+  Opens the Survey page for customers. SDK value: `details_survey`.
+</Accordion>
+
+<Accordion title="#gameball-survey_list" icon="list">
+  Opens the list of Survey campaigns. SDK value: `details_survey_list`.
+</Accordion>
+
+<Accordion title="#gameball-mission" icon="flag">
+  Opens the Mission page for customers. SDK value: `details_mission`.
+</Accordion>
+
+<Accordion title="#gameball-streak" icon="fire">
+  Opens the Streak campaign page for customers. SDK value: `details_streak`.
 </Accordion>
 
 <Accordion title="#gameball-history" icon="clock-rotate-left">
   Opens the widget directly in the Customer History section.
 </Accordion>
 </AccordionGroup>
+
+<Note>
+To open a **specific** campaign from an SDK, append the campaign ID to the value — for example, `details_catcher_123` or `details_quiz_456`. See the full web vs SDK compatibility table in [Widget Deep Links](/tutorials/experiences/more/widget-deep-links).
+</Note>
 
 <Warning>
 When embedding any widget page to a button on the menu bar, use the deep link in this format: `#gameball-home`. Do not use the full URL format like `https://(home page)/#gameball-home`.
@@ -119,5 +179,9 @@ This function can be attached to a button's `onclick` event, like in the example
 
 <Card title="Customize the Widget Launcher" icon="rocket" href="/product-documentation/customer-widget/start-configuring-profile/customize-your-loyalty-launcher-to-fit-your-platforms-interface">
   Control the shape, position, icon, and visibility of your loyalty launcher button.
+</Card>
+
+<Card title="Widget Deep Links (Web & SDK)" icon="code" href="/tutorials/experiences/more/widget-deep-links">
+  See every section key, including SDK `openDetail` values such as `details_quiz` and `details_catcher_123`.
 </Card>
 </CardGroup>
