@@ -28,7 +28,9 @@ The following events are triggered automatically by Gameball:
 | `abandoned_cart` | Salla | `line_Items`, `source`, `total_discount`, `total_items`, `total_price`, `total_unique_items` |
 | `points_redeemed` | All Platforms | `player_id`, `timestamp`, `redeemed_points`, `redeemed_points_value`, `reference_transaction_id` (if available) |
 
-<Note>Please note that the above are the only events automatically triggered by Gameball.</Note>
+<Note>
+Please note that the above are the only events automatically triggered by Gameball. The `account_created` event is **not** automatically fired for Shopify stores. If you need to track account creation, you must send this event manually using the [Track Event API](/tutorials/experiences/tracking-events).
+</Note>
 
 ---
 
