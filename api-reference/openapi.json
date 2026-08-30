@@ -6776,8 +6776,8 @@
             "rewardsCampaignId": { "type": "number", "description": "The unique ID of the rewards campaign." },
             "isUnlocked": { "type": "boolean", "description": "Indicates if the customer has unlocked the campaign." },
             "highScoreAmount": { "type": ["number", "null"], "description": "The highest score achieved by the customer. This value is applicable only in the context of a high score rewards campaign." },
-            "currentStreak": { "type": ["number", "null"], "description": "The current number of consecutive days the customer has visited the website. This value is applicable only in the context of a streak (daily visit) rewards campaign." },
-            "highestStreak": { "type": ["number", "null"], "description": "The maximum number of consecutive days the customer has visited the website. This value is also applicable only in the context of a streak (daily visit) rewards campaign." },
+            "currentStreak": { "type": ["number", "null"], "description": "The customer's current consecutive streak count. Returned only for streak campaigns. The unit matches streakIntervalUnit on the campaign configuration (Day, Week, or Month)." },
+            "highestStreak": { "type": ["number", "null"], "description": "The highest consecutive streak count this customer has reached for this campaign. Returned only for streak campaigns. The unit matches streakIntervalUnit on the campaign configuration (Day, Week, or Month)." },
             "completionPercentage": { "type": "number", "description": "The percentage of the campaign the customer has completed. For example, in a second-order campaign where the customer must make 2 orders, if they have only placed 1 order, the completion percentage will be 50%." },
             "achievedCount": { "type": "number", "description": "The number of times the customer has achieved the campaign." },
             "canAchieve": { "type": "boolean", "description": "A flag that determines whether the customer is currently eligible to participate in and achieve this reward campaign. It provides a quick indication of the customer's ability to meet the campaign's conditions based on their current status." },
@@ -6790,12 +6790,13 @@
                 "description": { "type": ["string", "null"], "description": "A brief description of the reward campaign." },
                 "isRepeatable": { "type": "boolean", "description": "Indicates whether the campaign can be earned multiple times. Example: If set to true, a customer can earn the campaign reward each time they meet the criteria, and if set to false, the campaign can only be earned once per customer." },
                 "maxAchievement": { "type": "number", "description": "Specifies the maximum number of times the campaign can be earned if the value of isRepeatable is true. If the value is -1, it means the campaign can be earned indefinitely. Example: A value of 3 means the customer can earn the campaign reward up to three times before it is no longer available." },
-                "type": { "type": "string", "description": "The type of the campaign. Possible values: SignUp (Reward is given when a user signs up), SocialMedia (Reward is linked to social media activity), ScheduledChallenge (A time-based challenge that gives rewards), Spin The Wheel (Rewards are given based on a spin-the-wheel game), EventBased (Reward is given based on specific customer events), HighScore (Reward is given based on achieving high scores in a campaign), Birthday (Reward is given for birthday-related activity)." },
+                "type": { "type": "string", "description": "The type of the campaign. Possible values: SignUp (Reward is given when a user signs up), SocialMedia (Reward is linked to social media activity), ScheduledChallenge (A time-based challenge that gives rewards), Spin The Wheel (Rewards are given based on a spin-the-wheel game), EventBased (Reward is given based on specific customer events), HighScore (Reward is given based on achieving high scores in a campaign), Birthday (Reward is given for birthday-related activity), Streak (Reward is given for consecutive actions over a Day, Week, or Month interval)." },
                 "visibility": { "type": "string", "description": "The visibility status of the campaign. Possible values: AlwaysVisible (The campaign is always visible on the widget), NotVisible (The campaign is not visible to the customer on the widget), VisibleIfEarned (The campaign becomes visible once the customer earns it on the widget)." },
                 "icon": { "type": ["string", "null"], "description": "The URL of the campaign's icon image. This icon visually represents the campaign and can be used in marketing materials or on the platform." },
                 "redirectionButtonText": { "type": ["string", "null"], "description": "The text displayed on the redirection button within the reward campaign page on the widget. Example: \"Claim Your Reward\" would prompt customers to take action." },
                 "redirectionButtonLink": { "type": ["string", "null"], "description": "The URL that the redirection button points to. When customers click the button, they will be redirected to this link. It should lead to a relevant page that provides more information or facilitates the reward redemption process. Example: \"https://yourwebsite.com/rewards\" directs customers to a page where they can view their rewards." },
                 "widgetDetailsParameter": { "type": ["string", "null"], "description": "This value is used with the openDetails parameter to open the widget for a specific campaign. The value is generated based on the campaign type and campaign ID. You could always use this parameter to trigger the widget on a specific page that you want. This parameter is only required if you are drawing your own UI but still want to display the UI of specific campaigns through the widget. In mobile apps, you can programmatically control the Gameball widget using our SDKs by passing the openDetails parameter with the appropriate value to navigate to different sections. Examples: details_reward_campaign_{reward_campaign_id} (Opens a standard reward campaign), details_wheel_{reward_campaign_id} (Opens a specific wheel campaign), details_scratch_{reward_campaign_id} (Opens a scratch card campaign), details_match_{reward_campaign_id} (Opens a match game campaign)." },
+                "streakIntervalUnit": { "type": ["string", "null"], "enum": ["Day", "Week", "Month"], "description": "The unit used to count streak steps. Returned only for streak campaigns. Each step in startStep and endStep is measured in this unit: Day (consecutive days), Week (consecutive weeks), or Month (consecutive months)." },
                 "activation": {
                   "type": ["object", "null"],
                   "properties": {
@@ -6811,6 +6812,9 @@
                       "rankReward": { "type": "number", "description": "The score rewarded for achieving this reward campaign." },
                       "walletReward": { "type": "number", "description": "The number of points the customer will earn upon achieving this reward campaign. Example: If you have set up a \"First Order\" campaign where a customer earns 200 points as a reward for placing their first order, the walletReward value would be 200." },
                       "walletRewardFactor": { "type": ["number", "null"], "description": "The multiplier applied to the points a customer earns based on the amount they spend during this campaign. This factor is used in transactional campaigns, such as points multipliers. Example: In a \"Double Points\" campaign, the walletRewardFactor would be set to 2, meaning the customer will earn twice the normal amount of points for their purchases during the campaign." },
+                      "order": { "type": "number", "description": "The display order of this reward tier, starting at 1. Returned for streak campaigns where a campaign has multiple sequential reward ranges." },
+                      "startStep": { "type": "number", "description": "The first streak step at which this reward applies. The step unit matches streakIntervalUnit (Day, Week, or Month). Example: startStep 7 with streakIntervalUnit Day means this reward starts on day 7 of the streak." },
+                      "endStep": { "type": ["number", "null"], "description": "The last streak step at which this reward applies. Omitted or null on the final open-ended tier, which applies from startStep onward. Example: startStep 1 and endStep 6 covers days 1 through 6 of a daily streak." },
                       "couponReward": {
                         "type": ["object", "null"],
                         "properties": {
@@ -6868,6 +6872,20 @@
                       }
                     }
                   }
+                }
+              }
+            },
+            "currentTierStep": { "type": ["number", "null"], "description": "The startStep of the reward tier the customer is currently in. Returned only for streak campaigns. Example: if the customer is on day 1 of a daily streak whose first reward covers steps 1–6, currentTierStep is 1." },
+            "nextMilestoneStep": { "type": ["number", "null"], "description": "The startStep of the next unreached reward tier. Returned only for streak campaigns. Null if the customer has already reached the last tier." },
+            "stepsToNextMilestone": { "type": ["number", "null"], "description": "The number of remaining streak steps until nextMilestoneStep. Returned only for streak campaigns. Example: with currentStreak 1 and nextMilestoneStep 7, stepsToNextMilestone is 6." },
+            "tierProgress": {
+              "type": ["array", "null"],
+              "description": "Per-tier progress for a streak campaign. One entry per reward, using that reward's startStep. Returned only for streak campaigns.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "startStep": { "type": "number", "description": "The startStep of this reward tier. Matches startStep on the corresponding item in rewards." },
+                  "isReached": { "type": "boolean", "description": "Whether the customer has reached this reward tier. true when currentStreak is greater than or equal to this startStep." }
                 }
               }
             }
@@ -7077,8 +7095,9 @@
           "description": { "type": ["string", "null"], "description": "A brief description of the reward campaign." },
           "isRepeatable": { "type": "boolean", "description": "Indicates whether the campaign can be earned multiple times. Example: If set to true, a customer can earn the campaign reward each time they meet the criteria, and if set to false, the campaign can only be earned once per customer." },
           "maxAchievement": { "type": "number", "description": "Specifies the maximum number of times the campaign can be earned if the value of isRepeatable is true. If the value is -1, it means the campaign can be earned indefinitely. Example: A value of 3 means the customer can earn the campaign reward up to three times before it is no longer available." },
-          "type": { "type": "string", "description": "The type of the campaign. Possible values: SignUp (Reward is given when a user signs up), SocialMedia (Reward is linked to social media activity), ScheduledChallenge (A time-based challenge that gives rewards), Spin The Wheel (Rewards are given based on a spin-the-wheel game), EventBased (Reward is given based on specific customer events), HighScore (Reward is given based on achieving high scores in a campaign), Birthday (Reward is given for birthday-related activity)." },
+          "type": { "type": "string", "description": "The type of the campaign. Possible values: SignUp (Reward is given when a user signs up), SocialMedia (Reward is linked to social media activity), ScheduledChallenge (A time-based challenge that gives rewards), Spin The Wheel (Rewards are given based on a spin-the-wheel game), EventBased (Reward is given based on specific customer events), HighScore (Reward is given based on achieving high scores in a campaign), Birthday (Reward is given for birthday-related activity), Streak (Reward is given for consecutive actions over a Day, Week, or Month interval)." },
           "visibility": { "type": "string", "description": "The visibility status of the campaign. Possible values: AlwaysVisible (The campaign is always visible on the widget), NotVisible (The campaign is not visible to the customer on the widget), VisibleIfEarned (The campaign becomes visible once the customer earns it on the widget)." },
+          "streakIntervalUnit": { "type": ["string", "null"], "enum": ["Day", "Week", "Month"], "description": "The unit used to count streak steps. Returned only for streak campaigns. Each step in startStep and endStep is measured in this unit: Day (consecutive days), Week (consecutive weeks), or Month (consecutive months)." },
           "icon": { "type": ["string", "null"], "description": "The URL of the campaign's icon image. This icon visually represents the campaign and can be used in marketing materials or on the platform." },
           "availability": {
             "type": "object",
@@ -7107,6 +7126,9 @@
                 "rankReward": { "type": "number", "description": "The score rewarded for achieving this reward campaign." },
                 "walletReward": { "type": "number", "description": "The number of points the customer will earn upon achieving this reward campaign. Example: If you have set up a \"First Order\" campaign where a customer earns 200 points as a reward for placing their first order, the walletReward value would be 200." },
                 "walletRewardFactor": { "type": ["number", "null"], "description": "The multiplier applied to the points a customer earns based on the amount they spend during this campaign. This factor is used in transactional campaigns, such as points multipliers. Example: In a \"Double Points\" campaign, the walletRewardFactor would be set to 2, meaning the customer will earn twice the normal amount of points for their purchases during the campaign." },
+                "order": { "type": "number", "description": "The display order of this reward tier, starting at 1. Returned for streak campaigns where a campaign has multiple sequential reward ranges." },
+                "startStep": { "type": "number", "description": "The first streak step at which this reward applies. The step unit matches streakIntervalUnit (Day, Week, or Month). Example: startStep 7 with streakIntervalUnit Day means this reward starts on day 7 of the streak." },
+                "endStep": { "type": ["number", "null"], "description": "The last streak step at which this reward applies. Omitted or null on the final open-ended tier, which applies from startStep onward. Example: startStep 1 and endStep 6 covers days 1 through 6 of a daily streak." },
                 "couponReward": {
                   "type": ["object", "null"],
                   "description": "A coupon object that is awarded to the customer for this reward campaign.",

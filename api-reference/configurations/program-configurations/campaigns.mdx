@@ -4,3 +4,128 @@ description: "Retrieve active campaigns configuration for the loyalty program."
 openapi: 'GET /api/v4.0/integrations/configurations/reward-campaigns'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
+
+### Streak campaign rewards
+
+For campaigns with `type` set to `Streak`, the response includes the interval used to count the streak and the step range for every reward.
+
+`streakIntervalUnit` is `Day`, `Week`, or `Month`. Each reward's `startStep` and `endStep` are measured in that unit: day 7 of a daily streak, week 7 of a weekly streak, or month 7 of a monthly streak.
+
+| Field | Description |
+|---|---|
+| `streakIntervalUnit` | The unit used to count streak steps. `Day`, `Week`, or `Month`. Returned only for streak campaigns. |
+| `rewards[].order` | The display order of this reward tier, starting at 1. |
+| `rewards[].startStep` | The first step (in `streakIntervalUnit`) at which this reward applies. |
+| `rewards[].endStep` | The last step at which this reward applies. Omitted on the final open-ended tier, which applies from `startStep` onward. |
+
+Tiers with `walletReward` of `0` are progress ranges with no points. Use them to render the full streak timeline, then highlight the tiers that grant points or a coupon.
+
+### Example: Daily streak campaign
+
+```json
+[
+  {
+    "id": 2783,
+    "name": "Daily Visit ",
+    "internalName": "YAWMI",
+    "isActive": true,
+    "description": "Visit our website daily and earn some fun progressive rewards the more you do!",
+    "rewards": [
+      {
+        "rankReward": 0,
+        "walletReward": 0,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 1,
+        "startStep": 1,
+        "endStep": 6
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 10,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 2,
+        "startStep": 7,
+        "endStep": 7
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 0,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 3,
+        "startStep": 8,
+        "endStep": 13
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 20,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 4,
+        "startStep": 14,
+        "endStep": 14
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 0,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 5,
+        "startStep": 15,
+        "endStep": 20
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 30,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 6,
+        "startStep": 21,
+        "endStep": 21
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 0,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 7,
+        "startStep": 22,
+        "endStep": 29
+      },
+      {
+        "rankReward": 0,
+        "walletReward": 100,
+        "walletRewardFactor": null,
+        "couponReward": null,
+        "order": 8,
+        "startStep": 30
+      }
+    ],
+    "isRepeatable": true,
+    "maxAchievement": -1,
+    "type": "Streak",
+    "visibility": "Always Visible",
+    "showInWidget": true,
+    "streakIntervalUnit": "Day"
+  }
+]
+```
+
+In this daily streak (`streakIntervalUnit: "Day"`):
+
+| Steps | Reward |
+|---|---|
+| Days 1–6 | No points |
+| Day 7 | 10 points |
+| Days 8–13 | No points |
+| Day 14 | 20 points |
+| Days 15–20 | No points |
+| Day 21 | 30 points |
+| Days 22–29 | No points |
+| Day 30 onward | 100 points |
+
+The last reward has `startStep` 30 and no `endStep`, so it applies from day 30 onward.
+
+To read a customer's position against these steps, call [Customer Campaigns Progress](/api-reference/customers/progress/get-customer-campaigns-progress) with `campaignId`.

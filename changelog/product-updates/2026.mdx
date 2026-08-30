@@ -3,6 +3,20 @@ title: "Product Updates 2026"
 description: "Gameball product updates, new features, and improvements throughout 2026."
 ---
 
+<Update label="August 30 2026" description="Streak API step progress">
+
+## New Features
+
+### Streak Campaign Steps on the API
+
+Streak campaign configuration and customer progress now expose each reward's step range and the interval those steps are measured in (`Day`, `Week`, or `Month`).
+
+* [Campaigns Configurations](/api-reference/configurations/program-configurations/campaigns) returns `streakIntervalUnit` plus `order`, `startStep`, and `endStep` on every reward
+* [Customer Campaigns Progress](/api-reference/customers/progress/get-customer-campaigns-progress) returns `currentTierStep`, `nextMilestoneStep`, `stepsToNextMilestone`, and `tierProgress`
+* The last reward omits `endStep` when it applies from that step onward
+
+</Update>
+
 <Update label="August 9 2026" description="Surveys, Salla Partial Refunds & Points Liability">
 
 ## New Features

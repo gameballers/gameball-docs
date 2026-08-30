@@ -78,3 +78,78 @@ curl "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/rewar
 }
 ```
 
+### Streak campaign progress
+
+For streak campaigns, the response includes the customer's current streak plus step-level progress against each reward. The step unit matches `streakIntervalUnit` on `rewardCampaignConfiguration` (`Day`, `Week`, or `Month`).
+
+| Field | Description |
+|---|---|
+| `currentStreak` | The customer's current consecutive streak count, in `streakIntervalUnit`. |
+| `highestStreak` | The highest streak this customer has reached for this campaign. |
+| `currentTierStep` | The `startStep` of the reward tier the customer is currently in. |
+| `nextMilestoneStep` | The `startStep` of the next unreached reward tier. `null` if the customer has reached the last tier. |
+| `stepsToNextMilestone` | Remaining steps until `nextMilestoneStep`. |
+| `tierProgress` | One entry per reward, with that reward's `startStep` and whether the customer has reached it. |
+| `rewardCampaignConfiguration.rewards` | The same `order`, `startStep`, and `endStep` ranges returned by [Campaigns Configurations](/api-reference/configurations/program-configurations/campaigns). |
+
+### Example: Daily streak progress
+
+```bash
+curl "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/reward-campaigns-progress?campaignId=2783" \
+  -H "APIKey: {your_api_key}" \
+  -H "secretkey: {your_secret_key}"
+```
+
+```json
+[
+  {
+    "rewardsCampaignName": "Daily Visit ",
+    "rewardsCampaignId": 2783,
+    "isUnlocked": true,
+    "highScoreAmount": null,
+    "currentStreak": 1,
+    "highestStreak": 1,
+    "completionPercentage": 0.0,
+    "achievedCount": 1,
+    "canAchieve": false,
+    "rewardCampaignConfiguration": {
+      "id": 2783,
+      "name": "Daily Visit ",
+      "type": "Streak",
+      "streakIntervalUnit": "Day",
+      "rewards": [
+        { "order": 1, "walletReward": 0, "startStep": 1, "endStep": 6 },
+        { "order": 2, "walletReward": 10, "startStep": 7, "endStep": 7 },
+        { "order": 3, "walletReward": 0, "startStep": 8, "endStep": 13 },
+        { "order": 4, "walletReward": 20, "startStep": 14, "endStep": 14 },
+        { "order": 5, "walletReward": 0, "startStep": 15, "endStep": 20 },
+        { "order": 6, "walletReward": 30, "startStep": 21, "endStep": 21 },
+        { "order": 7, "walletReward": 0, "startStep": 22, "endStep": 29 },
+        { "order": 8, "walletReward": 100, "startStep": 30 }
+      ]
+    },
+    "currentTierStep": 1,
+    "nextMilestoneStep": 7,
+    "stepsToNextMilestone": 6,
+    "tierProgress": [
+      { "startStep": 1, "isReached": true },
+      { "startStep": 7, "isReached": false },
+      { "startStep": 8, "isReached": false },
+      { "startStep": 14, "isReached": false },
+      { "startStep": 15, "isReached": false },
+      { "startStep": 21, "isReached": false },
+      { "startStep": 22, "isReached": false },
+      { "startStep": 30, "isReached": false }
+    ]
+  }
+]
+```
+
+In this example the customer is on day 1 of a daily streak:
+
+- `currentStreak` is `1` and `currentTierStep` is `1` (the days 1–6 range)
+- `nextMilestoneStep` is `7` (the 10-point reward)
+- `stepsToNextMilestone` is `6`
+- Only the first `tierProgress` entry has `isReached: true`
+
+
