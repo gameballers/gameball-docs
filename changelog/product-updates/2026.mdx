@@ -3,6 +3,137 @@ title: "Product Updates 2026"
 description: "Gameball product updates, new features, and improvements throughout 2026."
 ---
 
+<Update label="August 31 2026" description="A New Home Page, Weekly & Monthly Streaks, Live Job Status & More">
+
+## New Features
+
+### A New Home Page
+
+The Home page now opens on how your loyalty program is actually performing. Points earned, points redeemed and your redemption rate each come with a trend line, and a points liability section shows what your outstanding points are worth in your own currency. A live activity rail shows customers earning and redeeming as it happens.
+
+* Program health for the period you choose, with trends on every metric
+* Points liability — outstanding points, their value, pending points and points expiring soon
+* Revenue attribution across repeated orders, referral, coupons and email, plus average order value for redeemers against non-redeemers
+* A live "Happening now" rail that refreshes on its own and pauses when you switch tabs
+* A date filter defaulting to the last 30 days, which never affects the liability figures
+
+<Frame>
+  <img src="https://cdn.gameball.app/releases/R26.060.0901/screenshots/home-page-program-performance.png" alt="Gameball Home page showing program health, points liability and live customer activity" />
+</Frame>
+
+---
+
+### Weekly and Monthly Check-in Streaks
+
+Check-in Streak campaigns are no longer daily-only. Set the streak interval to weekly or monthly so customers on a natural weekly or monthly buying cycle — groceries, subscriptions, delivery — can build and keep a streak instead of breaking it by design. Every existing streak campaign stays daily with no action needed.
+
+* Choose Daily, Weekly or Monthly as the streak frequency, with Daily as the default
+* Weekly streaks let you set which day the week starts on, and boundaries resolve in your account timezone
+* Titles, descriptions, reward rows and badge thresholds all relabel to match the frequency you pick
+* Monthly milestones count streak steps rather than calendar months, so a customer who joins mid-year progresses exactly like one who joined in January
+* Frequency and week start day lock once the campaign goes live
+
+<Frame>
+  <img src="https://cdn.gameball.app/releases/R26.060.0901/screenshots/streak-weekly-monthly-intervals.png" alt="Weekly and monthly check-in streak cards" />
+</Frame>
+
+---
+
+### Background Jobs Banner
+
+Exports, bulk player migrations and CSV reward or tag uploads no longer run out of sight. An always-on banner shows what's running, what's queued and how long it has left, updating live without a refresh.
+
+* Every job shows as Queued, Running, Completed or Failed
+* A progress bar with a live ETA based on how long that job type usually takes
+* A visible queue showing what's running now and what's waiting, in order
+* Finished jobs show a plain-language result and keep their download link, then clear after an hour
+* Failed jobs show an actionable error and let you start again; re-triggering a running job is blocked
+
+---
+
+### Incident Status on the Dashboard
+
+When an incident affects your account, a banner now appears in your dashboard the moment it's declared — no ticket needed. It moves through Investigating, Monitoring and Resolved, then clears itself once everything is back to normal.
+
+* The banner is served independently of core services, so it still shows when those services are degraded
+* Incidents can target all clients or specific accounts; account-scoped incidents are never made public
+* When all clients are affected, the public status page stays in sync with the same wording
+
+---
+
+### Widget State Screens
+
+When the widget can't load, your customers used to see a blank screen, an endless spinner or a raw browser error. Every failure now lands on a named screen with a clear message, and a Retry button wherever retrying can help.
+
+* Account states — an excluded or deactivated customer, a disabled loyalty program, or a missing account each get their own plain-language message
+* Session and setup — an expired token silently attempts re-login first, then explains; a store configuration problem tells the customer to contact the store
+* Errors and connectivity — server errors, service downtime, timeouts, rate limiting and lost connections all show a clear, retryable message
+
+---
+
+### Retrieve a Mission or Stamps Campaign via the Merchant API
+
+You can now fetch a single Mission or Stamps campaign by ID through the Merchant API and render it in your own storefront or app.
+
+* Returns the full campaign configuration: rules, rewards, targets, dates, lifecycle status and campaign type
+* Pass a customer identifier to enrich the response with that customer's progress — mission step completion, or stamps collected against the required total
+* Works for campaigns in any lifecycle state: scheduled, active, paused or ended
+* Server-to-server, authenticated with your merchant secret key
+
+---
+
+## Other Improvements
+
+### Custom JSON Body for the Send Webhook Action
+
+The Send Webhook action in Automations now takes a single custom JSON body instead of flat key/value rows, so you can send nested objects and arrays at any depth and match your external API's exact structure without middleware in between.
+
+* Nesting at any depth in one JSON field
+* The variable picker inserts at the cursor, auto-wrapped in quotes so the payload stays valid
+* Save is blocked on invalid JSON with an inline error; Beautify re-indents and never clears your work
+* Existing webhook actions load their current body straight into the new field — nothing to migrate
+
+---
+
+### Reward Name on the Reward Coupon Node
+
+The Reward Coupon node in Automations now has a Reward Name field, matching how coupons are configured everywhere else in Gameball.
+
+---
+
+### Milestone Details in Streak Campaign API Responses
+
+Streak campaign API responses now carry each tier's milestone threshold alongside its reward, so you can build a custom streak UI without hardcoding thresholds already configured in the dashboard.
+
+* Each reward tier returns the threshold that opens it, plus the interval unit so the number is never ambiguous
+* Tier end and an explicit tier position are included, so clients no longer depend on array order
+* The tier's configured milestone icon is returned with it
+* Customer progress responses now return current streak and highest streak on active campaigns
+* Streak is documented in the campaign type enum
+
+---
+
+### Consistent Timezones Across the Dashboard
+
+Every date in the dashboard now flows through a single daylight-saving-aware layer — displayed in your account's timezone, and saved exactly as you picked it. And because a correct time still reads as wrong when you can't tell which zone it's in, the interface now tells you.
+
+* Timestamps render in your account timezone everywhere, never raw UTC and never your browser's zone
+* Scheduled times save at the hour you chose, with no daylight-saving drift
+* Date-only fields like birthdays and anniversaries never shift
+* Timezone hints appear on table headers, on hover for single values, always-on for scheduling fields, and as a page-level line on views like analytics
+* Rolled out across campaigns, coupons, messages, automation, billing, players and logs, analytics, segments and settings
+
+---
+
+## Bug Fixes
+
+* **Partial returns now refund redeemed points proportionally** — returning some units of a line item refunds that share of the points spent on it, instead of returning nothing until the whole line came back. The refund preview now matches the live refund exactly.
+* **Refunds no longer double-deduct expired points** — a refund claws back only the earned points that are still live. Anything already expired stays gone rather than being taken a second time, and a refund can no longer push a balance negative.
+* **Widget deep links open straight to the target screen** — opening the widget via a deep link no longer flashes the home page first.
+* **Failed exports now report as Failed** — an export that errors mid-run is recorded as Failed with an actionable message and a retry, instead of showing as Completed with no file.
+
+</Update>
+
 <Update label="August 30 2026" description="Streak API step progress">
 
 ## New Features
