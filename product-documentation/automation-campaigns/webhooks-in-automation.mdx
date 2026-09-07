@@ -62,7 +62,7 @@ You can use webhooks as an action within your automation to send customer inform
     Set up the webhook configuration:
     - Paste your external app's webhook URL in the **Webhook URL** field.
     - Choose your **HTTP method** (POST, GET, or PUT).
-    - Add the player information you want to send in the **Webhook body**. You can use JSON format, the visual builder, or select from customer variables.
+    - In the **Webhook body** field, enter a custom JSON body. Use the variable picker to insert customer attributes — they are auto-wrapped in quotes to keep the payload valid. Use **Beautify** to re-indent at any time. The editor blocks saving on invalid JSON and shows an inline error.
 
     <Frame>
       <img src="/images/product-docs/automation-campaigns/webhook-action-body.png" alt="Webhook action body configuration" />
@@ -86,14 +86,7 @@ You can use webhooks as an action within your automation to send customer inform
 </Frame>
 
 <Note>
-  **Payload Configuration:**
-
-  - If the action is to send an email within Gameball, add a configuration field to specify the payload part for the customer's email (`{payload.data.email}`).
-  - If the action is external, add all required details for the webhook link and payload in JSON format.
-
-  ```json
-  {"email": "email"}
-  ```
+  The webhook body supports nested objects and arrays at any depth. Use the variable picker to insert customer attributes — for example, `{{customer.email}}` — and they will be auto-quoted so your JSON stays valid.
 </Note>
 
 ---

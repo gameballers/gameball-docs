@@ -21,7 +21,7 @@ The Home page now opens on how your loyalty program is actually performing. Poin
   <img src="https://cdn.gameball.app/releases/R26.060.0901/screenshots/home-page-program-performance.png" alt="Gameball Home page showing program health, points liability and live customer activity" />
 </Frame>
 
----
+***
 
 ### Weekly and Monthly Check-in Streaks
 
@@ -37,7 +37,7 @@ Check-in Streak campaigns are no longer daily-only. Set the streak interval to w
   <img src="https://cdn.gameball.app/releases/R26.060.0901/screenshots/streak-weekly-monthly-intervals.png" alt="Weekly and monthly check-in streak cards" />
 </Frame>
 
----
+***
 
 ### Background Jobs Banner
 
@@ -49,7 +49,7 @@ Exports, bulk player migrations and CSV reward or tag uploads no longer run out 
 * Finished jobs show a plain-language result and keep their download link, then clear after an hour
 * Failed jobs show an actionable error and let you start again; re-triggering a running job is blocked
 
----
+***
 
 ### Incident Status on the Dashboard
 
@@ -59,7 +59,7 @@ When an incident affects your account, a banner now appears in your dashboard th
 * Incidents can target all clients or specific accounts; account-scoped incidents are never made public
 * When all clients are affected, the public status page stays in sync with the same wording
 
----
+***
 
 ### Widget State Screens
 
@@ -69,7 +69,7 @@ When the widget can't load, your customers used to see a blank screen, an endles
 * Session and setup — an expired token silently attempts re-login first, then explains; a store configuration problem tells the customer to contact the store
 * Errors and connectivity — server errors, service downtime, timeouts, rate limiting and lost connections all show a clear, retryable message
 
----
+***
 
 ### Retrieve a Mission or Stamps Campaign via the Merchant API
 
@@ -80,7 +80,7 @@ You can now fetch a single Mission or Stamps campaign by ID through the Merchant
 * Works for campaigns in any lifecycle state: scheduled, active, paused or ended
 * Server-to-server, authenticated with your merchant secret key
 
----
+***
 
 ## Other Improvements
 
@@ -93,13 +93,13 @@ The Send Webhook action in Automations now takes a single custom JSON body inste
 * Save is blocked on invalid JSON with an inline error; Beautify re-indents and never clears your work
 * Existing webhook actions load their current body straight into the new field — nothing to migrate
 
----
+***
 
 ### Reward Name on the Reward Coupon Node
 
 The Reward Coupon node in Automations now has a Reward Name field, matching how coupons are configured everywhere else in Gameball.
 
----
+***
 
 ### Milestone Details in Streak Campaign API Responses
 
@@ -111,7 +111,7 @@ Streak campaign API responses now carry each tier's milestone threshold alongsid
 * Customer progress responses now return current streak and highest streak on active campaigns
 * Streak is documented in the campaign type enum
 
----
+***
 
 ### Consistent Timezones Across the Dashboard
 
@@ -123,7 +123,7 @@ Every date in the dashboard now flows through a single daylight-saving-aware lay
 * Timezone hints appear on table headers, on hover for single values, always-on for scheduling fields, and as a page-level line on views like analytics
 * Rolled out across campaigns, coupons, messages, automation, billing, players and logs, analytics, segments and settings
 
----
+***
 
 ## Bug Fixes
 
