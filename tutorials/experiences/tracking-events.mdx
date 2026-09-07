@@ -188,6 +188,24 @@ Once you're tracking events, you'll want to configure how Gameball responds to t
 
 ---
 
+## Frequently Asked Questions
+
+<AccordionGroup>
+<Accordion title="Can I retrieve event metadata after sending it?" icon="database">
+  No — Gameball does not provide an API to fetch custom event metadata after it has been submitted. The [Customer Activities API](/api-reference/customers/customer-activities) returns a log of activity types (e.g., `CampaignRewarded`, `TierUpgraded`) but does not expose the original event properties or metadata that were sent with the event.
+
+  If you need to audit or retrieve event-level data, store that information in your own system at the time of sending.
+</Accordion>
+
+<Accordion title="How do I prevent duplicate events from awarding points twice?" icon="copy">
+  The Track Event API does not have built-in deduplication. If your system may send the same event more than once (e.g., due to retries), use the **Order API** or **Payment API** instead of the Events API for transaction-based triggers — these APIs natively discard duplicate calls based on the transaction identifier.
+
+  If you must use the Events API and need idempotency, implement deduplication logic on your side before sending the event to Gameball.
+</Accordion>
+</AccordionGroup>
+
+---
+
 ## Additional Resources
 
 <CardGroup cols={2}>

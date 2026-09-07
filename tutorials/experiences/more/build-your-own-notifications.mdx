@@ -14,6 +14,16 @@ But what if you have your own notification system, like SMS messaging, a WhatsAp
 
 Gameball makes this easy by using **webhooks** to notify your system whenever a notification needs to be sent.
 
+<Note>
+**Gameball-managed WhatsApp vs. your own WhatsApp provider**
+
+Gameball offers a built-in WhatsApp notification channel through its exclusive provider (Tanla). If your account is configured to use Tanla, WhatsApp notifications are sent automatically with no extra setup.
+
+If you want to use your **own** WhatsApp provider (e.g., Unifonic, Twilio, or any other Business API), use the webhook approach described in this article — Gameball sends a notification event to your endpoint, and your system routes it to WhatsApp through your provider. Gameball does not send messages through third-party WhatsApp providers directly.
+
+**SMS** works with any provider — there is no restriction on which SMS gateway you use.
+</Note>
+
 ### How It Works
 
 - **Your Webhook Endpoint**: A piece of code on your server (written in any language like Ruby, PHP, or Node.js) that processes incoming requests.
