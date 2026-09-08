@@ -1,0 +1,77 @@
+---
+title: "Order Points Breakdown"
+description: "Explain how a customer earned their points on a specific order, item by item."
+openapi: 'GET /api/v4.0/integrations/orders/{orderId}/points-breakdown'
+languages: ["curl", "javascript", "python", "csharp", "php", "go", "java", "ruby"]
+---
+
+Retrieve a line-by-line explanation of how a customer earned points on a specific order: which items were eligible, the earning rate applied to each one, any campaign multiplier that boosted it, and how the per-item points add up to the total recorded on the order.
+
+Use it to power a "why did I get these points?" receipt in your order-details screen, and to reconcile a customer's balance against a specific purchase.
+
+This endpoint is available on `v4.0` and `v4.1`.
+
+<Info>
+**Security:** Requires **apikey** and **secretkey** headers. The secret key is required on both `v4.0` and `v4.1`, whether or not High Security Mode is enabled on your account.
+</Info>
+
+### Headers
+
+| Header | Required | Value |
+|---|---|---|
+| `apikey` | **Yes** | Your Gameball API key. |
+| `secretkey` | **Yes** | Your Gameball secret key. Always required on this endpoint, on both `v4.0` and `v4.1`. |
+| `lang` | No | Language code for localized names in the response (e.g. `en`, `ar`, `fr`). Defaults to your account's default language — see [Localization](#localization). |
+
+### What the breakdown is built from
+
+The breakdown explains the order's **earning** transaction — the `PaymentReward` transaction recorded when the order was processed. It is a read-only explanation of points that were already awarded, not a quote:
+
+- To quote points **before** checkout, use [Calculate Order Cashback](/api-reference/order/calculate-order-cashback) or [Preview Order Rewards](/api-reference/order/preview-order-rewards).
+- To list **every** transaction tied to an order (rewards, refunds, redemptions), use [Order Transactions](/api-reference/order/order-transactions).
+
+An order that never earned points returns `404`. That happens when the order was never tracked, was dropped, had every line excluded from earning, or has not finished processing yet.
+
+<Note>
+Orders are processed asynchronously. Immediately after [Order Tracking](/api-reference/order/order-tracking) returns `202`, the earning transaction may not exist yet and this endpoint returns `404`. Retry, or call it from a screen the customer opens after the order is complete.
+</Note>
+
+### Reading the item math
+
+Each entry in `items` carries the full trace for one product line:
+
+<Steps>
+  <Step title="Eligibility">
+    `eligible` says whether the line earned anything, and `eligibilityMode` says which rule decided it (`General`, `Include`, `Exclude`, `Merchant`, or `Custom`). When a line earned nothing, `ineligibleReason` explains why in plain language.
+  </Step>
+  <Step title="Money base">
+    `eligibleAmount` is the amount points were calculated on, after `discount` and any tax or non-product exclusions. `lineSubtotal` is the pre-discount total, and `pricePerUnit` is that divided by `quantity`.
+  </Step>
+  <Step title="Rate">
+    `baseRate` comes from the rule named by `sourceKind` and `sourceLabel` (the account's base rate, the customer's tier rate, or a custom rule). It is the dashboard rule expressed per unit of currency: a rule reading "earn **5** points for every **10** spent" arrives as `rewardFactor: 5`, `amountThreshold: 10`, and `baseRate: 0.5`. When a campaign applies, `campaignMultiplier` boosts it into `effectiveRate`.
+  </Step>
+  <Step title="Points">
+    `basePoints` is what the line would have earned with no campaign; `itemPoints` is what it actually contributed.
+  </Step>
+</Steps>
+
+### Rounding and reconciliation
+
+`earnedPoints` is authoritative — it is the value recorded on the transaction and reflected in the customer's balance. `itemsExactTotal` is the exact, unrounded sum of the eligible lines, so the two can differ by a fraction of a point:
+
+- **Campaign lines** are floored to whole points per line. `roundedPerLine` marks a line that lost a fraction this way.
+- **Non-campaign lines** stay fractional and are floored once at the order total. `roundedDownAtOrderLevel` and `roundedDownAmount` report that drop.
+
+`reconciles` is `true` when the item breakdown explains the recorded total. A `false` value means the stored line items do not fully account for `earnedPoints`, so present the order-level figures rather than the per-item math.
+
+### Orders without line items
+
+Orders recorded without line items return `hasItemBreakdown: false` and an empty `items` array. The order-level fields (`earnedPoints`, `orderAmount`, `tierName`, `redeemedPoints`, and the rest) are still populated.
+
+### Redemptions
+
+Points the customer redeemed on the order are reported at order level through `redeemedPoints`, `redeemedAmount`, and `hasRedemption`. Redemption value is already folded into the line discounts, so it is never attributed to a single item.
+
+### Localization
+
+Send the optional `lang` header to localize `tierName` and `items[].campaignName`. If the language is omitted or not configured in your account, the response falls back to your account's default language.

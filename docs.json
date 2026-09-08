@@ -1052,6 +1052,7 @@
                         "pages": [
                           "api-reference/order/calculate-order-cashback",
                           "api-reference/order/preview-order-rewards",
+                          "api-reference/order/order-points-breakdown",
                           "api-reference/order/order-transactions"
                         ]
                       }

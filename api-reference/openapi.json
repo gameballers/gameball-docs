@@ -5008,6 +5008,160 @@
         }
       }
     },
+    "/api/v4.0/integrations/orders/{orderId}/points-breakdown": {
+      "get": {
+        "summary": "Order Points Breakdown",
+        "description": "Returns a line-by-line explanation of how a customer earned their points on a specific order: which items were eligible, the earning rate applied to each one, any campaign multiplier that boosted it, and how the per-item points add up to the total recorded on the order's earning transaction.\n\nUse it to answer \"why did I get these points?\" in a receipt or order-details screen, and to reconcile a customer's balance against a specific purchase.\n\nThe breakdown is built from the order's **earning** transaction (`PaymentReward`). An order that never earned points — dropped, fully excluded, or not yet processed — returns `404`.\n\nThis endpoint is available on `v4.0` and `v4.1`.\n\n**Security:** Requires both `apikey` and `secretkey` headers. The secret key is required on both versions, whether or not High Security Mode is enabled on the account.\n\n**Localization:** Send the optional `lang` header to localize `tierName` and `items[].campaignName`.",
+        "operationId": "getOrderPointsBreakdown",
+        "tags": [
+          "Orders"
+        ],
+        "security": [
+          {
+            "apiKey": [],
+            "secretKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The order identifier in your system, the same value sent as `orderId` when the order was tracked. Case-sensitive.",
+            "example": "ORD12345"
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Language code used to localize `tierName` and `items[].campaignName` (e.g., `en`, `ar`, `fr`). If omitted or not configured in your account, the response falls back to your account's default language."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Points breakdown retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderPointsBreakdownResponse"
+                },
+                "examples": {
+                  "sample": {
+                    "value": {
+                      "transactionId": 11034754,
+                      "transactionType": "Payment Reward",
+                      "isReversed": false,
+                      "earnedPoints": 192,
+                      "pointsValue": 19.2,
+                      "orderAmount": 230.0,
+                      "currency": "SAR",
+                      "customerId": "1214",
+                      "tierName": "Gold",
+                      "transactionTime": "2026-09-01T08:13:29.29",
+                      "expiryDate": "2027-09-01T00:00:00",
+                      "pointsBalanceBefore": 1340,
+                      "excludeTaxes": true,
+                      "excludeNonProductCosts": true,
+                      "usedCouponCodes": [
+                        "WELCOME10"
+                      ],
+                      "redeemedPoints": 200,
+                      "redeemedAmount": 20.0,
+                      "hasRedemption": true,
+                      "items": [
+                        {
+                          "title": "Running Shoes",
+                          "productId": "P-100",
+                          "sku": "SHOE-42-BLK",
+                          "quantity": 1,
+                          "eligible": true,
+                          "eligibilityMode": "General",
+                          "ineligibleReason": null,
+                          "pricePerUnit": 180.0,
+                          "lineSubtotal": 180.0,
+                          "discount": 20.0,
+                          "taxInDiscount": 0.0,
+                          "totalDiscount": 20.0,
+                          "eligibleAmount": 160.0,
+                          "sourceKind": "level",
+                          "sourceLabel": "Gold earning rate",
+                          "ruleCondition": null,
+                          "rewardFactor": 1.0,
+                          "amountThreshold": 1.0,
+                          "baseRate": 1.0,
+                          "basePoints": 160.0,
+                          "hasCampaign": true,
+                          "campaignName": "Double Points Week",
+                          "campaignTierBand": "100–500 SAR",
+                          "campaignCondition": "order total price at least 100",
+                          "campaignMultiplier": 1.2,
+                          "effectiveRate": 1.2,
+                          "itemPoints": 192.0,
+                          "roundedPerLine": false
+                        },
+                        {
+                          "title": "Gift Card 50",
+                          "productId": "P-900",
+                          "sku": "GC-50",
+                          "quantity": 1,
+                          "eligible": false,
+                          "eligibilityMode": "Exclude",
+                          "ineligibleReason": "Excluded by the store's rule: item product id is P-900",
+                          "pricePerUnit": 50.0,
+                          "lineSubtotal": 50.0,
+                          "discount": 0.0,
+                          "taxInDiscount": 0.0,
+                          "totalDiscount": 0.0,
+                          "eligibleAmount": 50.0,
+                          "sourceKind": "base",
+                          "sourceLabel": "Base rate",
+                          "ruleCondition": null,
+                          "rewardFactor": 1.0,
+                          "amountThreshold": 1.0,
+                          "baseRate": 1.0,
+                          "basePoints": 50.0,
+                          "hasCampaign": false,
+                          "campaignName": null,
+                          "campaignTierBand": null,
+                          "campaignCondition": null,
+                          "campaignMultiplier": null,
+                          "effectiveRate": 1.0,
+                          "itemPoints": 0.0,
+                          "roundedPerLine": false
+                        }
+                      ],
+                      "itemsExactTotal": 192.0,
+                      "roundedDownAtOrderLevel": false,
+                      "roundedDownAmount": 0.0,
+                      "reconciles": true,
+                      "hasItemBreakdown": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The `orderId` path parameter is missing or empty."
+          },
+          "401": {
+            "description": "Missing or invalid API key or secret key."
+          },
+          "404": {
+            "description": "No points-earning transaction exists for this order id. The order was never tracked, was dropped, earned nothing, or has not finished processing yet."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
     "/api/v4.0/integrations/orders/{orderId}/transactions": {
       "get": {
         "summary": "Order Transactions",
@@ -6351,6 +6505,333 @@
               { "type": "null" }
             ],
             "description": "The `place_order` event preview — exactly one entry with the same shape as an `events[]` entry of Preview Event Rewards."
+          }
+        }
+      },
+      "OrderPointsBreakdownResponse": {
+        "type": "object",
+        "description": "Item-by-item explanation of the points earned on one order.",
+        "properties": {
+          "transactionId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Gameball's internal identifier for the earning transaction this breakdown explains.",
+            "example": 11034754
+          },
+          "transactionType": {
+            "type": "string",
+            "description": "Display name of the transaction type the breakdown was built from.",
+            "example": "Payment Reward"
+          },
+          "isReversed": {
+            "type": "boolean",
+            "description": "`true` when the transaction type is a deduction (a reversal) rather than an earning.",
+            "example": false
+          },
+          "earnedPoints": {
+            "type": "integer",
+            "description": "The points actually recorded on the transaction. This is the authoritative total; `itemsExactTotal` explains it.",
+            "example": 192
+          },
+          "pointsValue": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Monetary value of the earned points, when the transaction recorded one.",
+            "example": 19.2
+          },
+          "orderAmount": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "The order amount the reward was calculated on.",
+            "example": 230.0
+          },
+          "currency": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Currency of `orderAmount` and `pointsValue`.",
+            "example": "SAR"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "The customer's unique identifier in your system.",
+            "example": "1214"
+          },
+          "tierName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The tier the customer was in when the order was rewarded, localized by the `lang` header when available.",
+            "example": "Gold"
+          },
+          "transactionTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the earning transaction was recorded.",
+            "example": "2026-09-01T08:13:29.29"
+          },
+          "expiryDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When these earned points expire, when points expiry is enabled.",
+            "example": "2027-09-01T00:00:00"
+          },
+          "pointsBalanceBefore": {
+            "type": "integer",
+            "description": "The customer's points balance immediately before this transaction.",
+            "example": 1340
+          },
+          "excludeTaxes": {
+            "type": "boolean",
+            "description": "Whether taxes were excluded from the earning base for this order.",
+            "example": true
+          },
+          "excludeNonProductCosts": {
+            "type": "boolean",
+            "description": "Whether shipping and other non-product costs were excluded from the earning base.",
+            "example": true
+          },
+          "usedCouponCodes": {
+            "type": "array",
+            "description": "Coupon codes applied to the order.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "WELCOME10"
+            ]
+          },
+          "redeemedPoints": {
+            "type": "integer",
+            "description": "Points the customer redeemed on this order. Redemption value is already folded into the line discounts, so it is reported at order level rather than attributed to any single line.",
+            "example": 200
+          },
+          "redeemedAmount": {
+            "type": "number",
+            "description": "Monetary value of the redeemed points.",
+            "example": 20.0
+          },
+          "hasRedemption": {
+            "type": "boolean",
+            "description": "`true` when the order included a redemption.",
+            "example": true
+          },
+          "items": {
+            "type": "array",
+            "description": "Per-line breakdown. Empty when the order was recorded without line items.",
+            "items": {
+              "type": "object",
+              "description": "One product line on the order and the full trace of how it contributed points.",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Product title as sent on the order line item.",
+                  "example": "Running Shoes"
+                },
+                "productId": {
+                  "type": "string",
+                  "description": "Product identifier in your system, as sent on the order.",
+                  "example": "P-100"
+                },
+                "sku": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "SKU taken from the stored order line item. `null` when the order did not carry a SKU for this product.",
+                  "example": "SHOE-42-BLK"
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "Quantity purchased on this line. Defaults to `1` when the order did not specify one.",
+                  "example": 1
+                },
+                "eligible": {
+                  "type": "boolean",
+                  "description": "Whether this line earned points. A line can be ineligible because it matched an exclusion rule or failed an inclusion rule.",
+                  "example": true
+                },
+                "eligibilityMode": {
+                  "type": "string",
+                  "description": "Which earning-eligibility rule was evaluated for this line. **General** - no include/exclude list applies. **Include** - only listed products earn. **Exclude** - listed products are skipped. **Merchant** - merchant-scoped rule. **Custom** - a custom cashback rule.",
+                  "enum": [
+                    "General",
+                    "Include",
+                    "Exclude",
+                    "Merchant",
+                    "Custom"
+                  ],
+                  "example": "General"
+                },
+                "ineligibleReason": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Human-readable reason the line earned nothing, built from the stored rule conditions. `null` when `eligible` is `true`.",
+                  "example": "Excluded by the store's rule: item product id is P-900"
+                },
+                "pricePerUnit": {
+                  "type": "number",
+                  "description": "Unit price before the line discount (`lineSubtotal` divided by `quantity`).",
+                  "example": 180.0
+                },
+                "lineSubtotal": {
+                  "type": "number",
+                  "description": "Line total before the discount was applied (`eligibleAmount` + `discount`).",
+                  "example": 180.0
+                },
+                "discount": {
+                  "type": "number",
+                  "description": "Product discount applied to this line, which reduced the amount points were earned on.",
+                  "example": 20.0
+                },
+                "taxInDiscount": {
+                  "type": "number",
+                  "description": "Portion of the discount attributable to tax.",
+                  "example": 0.0
+                },
+                "totalDiscount": {
+                  "type": "number",
+                  "description": "`discount` + `taxInDiscount`.",
+                  "example": 20.0
+                },
+                "eligibleAmount": {
+                  "type": "number",
+                  "description": "The money base points were actually calculated on for this line, after discounts and any tax or non-product exclusions.",
+                  "example": 160.0
+                },
+                "sourceKind": {
+                  "type": "string",
+                  "description": "Which earning rule supplied the base rate. **base** - the account's default earning rate. **level** - the customer's tier earning rate. **custom** - a custom cashback rule.",
+                  "enum": [
+                    "base",
+                    "level",
+                    "custom"
+                  ],
+                  "example": "level"
+                },
+                "sourceLabel": {
+                  "type": "string",
+                  "description": "Display label for `sourceKind`, e.g. `Base rate`, `Gold earning rate`, `Custom rule`.",
+                  "example": "Gold earning rate"
+                },
+                "ruleCondition": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "For a line that earned through a conditional custom rule, the condition it satisfied. `null` for plain base or tier rules, which apply to everything.",
+                  "example": null
+                },
+                "rewardFactor": {
+                  "type": "number",
+                  "description": "The points figure configured on the dashboard rule. In a rule reading \"earn 5 points for every 10 spent\", this is the 5.",
+                  "example": 1.0
+                },
+                "amountThreshold": {
+                  "type": "number",
+                  "description": "The spend interval configured on the dashboard rule. In a rule reading \"earn 5 points for every 10 spent\", this is the 10. `baseRate` = `rewardFactor` / `amountThreshold`.",
+                  "example": 1.0
+                },
+                "baseRate": {
+                  "type": "number",
+                  "description": "Points earned per single unit of currency spent, before any campaign multiplier. For \"5 points per 10 spent\" this is `0.5`.",
+                  "example": 1.0
+                },
+                "basePoints": {
+                  "type": "number",
+                  "description": "`eligibleAmount` x `baseRate` - what the line would have earned with no campaign.",
+                  "example": 160.0
+                },
+                "hasCampaign": {
+                  "type": "boolean",
+                  "description": "Whether a points-multiplier campaign boosted this line.",
+                  "example": true
+                },
+                "campaignName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Name of the campaign that boosted the line, localized by the `lang` header when available. `null` when `hasCampaign` is `false`.",
+                  "example": "Double Points Week"
+                },
+                "campaignTierBand": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The campaign tier the order fell into, rendered as a readable band (e.g. `100-500 SAR`, `201+ SAR`). `null` when the campaign has no tiers.",
+                  "example": "100-500 SAR"
+                },
+                "campaignCondition": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The campaign condition the order matched, so the multiplier is not unexplained. `null` when the campaign had no conditions.",
+                  "example": "order total price at least 100"
+                },
+                "campaignMultiplier": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "The multiplier the campaign applied on top of `baseRate`. `null` when `hasCampaign` is `false`.",
+                  "example": 1.2
+                },
+                "effectiveRate": {
+                  "type": "number",
+                  "description": "`baseRate` x `campaignMultiplier` - the rate actually used for this line.",
+                  "example": 1.2
+                },
+                "itemPoints": {
+                  "type": "number",
+                  "description": "Points this line contributed. `0` for ineligible lines. Campaign lines are floored to whole points per line; non-campaign lines stay fractional and are floored once at the order level.",
+                  "example": 192.0
+                },
+                "roundedPerLine": {
+                  "type": "boolean",
+                  "description": "`true` when this campaign line lost a fraction of a point to per-line flooring.",
+                  "example": false
+                }
+              }
+            }
+          },
+          "itemsExactTotal": {
+            "type": "number",
+            "description": "Exact, unrounded sum of `items[].itemPoints` for eligible lines. Compare against `earnedPoints` to see rounding.",
+            "example": 192.0
+          },
+          "roundedDownAtOrderLevel": {
+            "type": "boolean",
+            "description": "`true` when a non-campaign order lost a sub-point fraction to flooring at the order total.",
+            "example": false
+          },
+          "roundedDownAmount": {
+            "type": "number",
+            "description": "The fraction of a point dropped by order-level flooring. `0` when nothing was dropped.",
+            "example": 0.0
+          },
+          "reconciles": {
+            "type": "boolean",
+            "description": "`true` when `itemsExactTotal` explains `earnedPoints` (within one point). `false` means the stored line items do not fully account for the recorded total.",
+            "example": true
+          },
+          "hasItemBreakdown": {
+            "type": "boolean",
+            "description": "`false` when the order was recorded without line items, in which case `items` is empty and only the order-level figures are meaningful.",
+            "example": true
           }
         }
       },

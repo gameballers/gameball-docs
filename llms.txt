@@ -182,6 +182,7 @@
 - [Order Tracking](https://docs.gameball.co/api-reference/order/order-tracking): Submit purchase orders to trigger point rewards
 - [Calculate Order Cashback](https://docs.gameball.co/api-reference/order/calculate-order-cashback): Preview cashback/points a customer will earn before submitting an order
 - [Preview Order Rewards](https://docs.gameball.co/api-reference/order/preview-order-rewards): Quote cashback plus place_order campaign rewards before checkout
+- [Order Points Breakdown](https://docs.gameball.co/api-reference/order/order-points-breakdown): Explain item by item how points were earned on a placed order
 - [Order Transactions](https://docs.gameball.co/api-reference/order/order-transactions): Retrieve payment, reward, and refund history for a single order
 
 ## API Reference — Payments
