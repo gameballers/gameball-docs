@@ -1,11 +1,19 @@
 ---
 title: "Validate Multiple Coupons"
-description: "Validate multiple coupons at once and optionally lock them for exclusive use."
+description: "Check whether several coupons can be used together by a customer, optionally against the cart they are about to pay for, and reserve them while the order is completed."
 openapi: 'POST /api/v4.0/integrations/coupons/validate'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-This API validates a list of coupons and checks their eligibility for use by a customer. It also supports a locking feature, where setting the `lock` flag to `True` reserves eligible coupons by creating hold references. This ensures that locked coupons cannot be used by others during the lock session, preventing conflicts or double usage. By default, the `lock` flag is `False`, allowing only validation without reserving the coupons.
+This API validates several coupon codes for one customer in a single call. You can also describe the cart, so every coupon is checked against what the customer is actually buying, and set `lock` to `true` to reserve them all under one lock session.
+
+**All coupons must pass.** The first failure ends the call, and no lock is created — this endpoint never returns a partial result.
+
+Available on **v4.0** and **v4.1**. Requires the **Gameball Coupon Engine** feature on your plan — accounts without it are rejected before any validation runs.
+
+<Info>
+To validate a single coupon code, use [Validate Single Coupon](/api-reference/coupons/validate-single-coupon).
+</Info>
 
 <Info>
 **Channel Merging Available**  
@@ -17,3 +25,355 @@ For more information, head to the [Omni-Channel Handling Guide](/tutorials/exper
 <Info>
 **Security**: Requires **apikey** and **secretkey** headers.
 </Info>
+
+## Describing the cart
+
+The same cart is applied to **every** code in `coupons`, and the codes are additionally checked against one another — see [Combining coupons](#combining-coupons). Duplicate codes are rejected outright, so send each code once.
+
+A coupon's restrictions are only enforced when the request describes a cart. The fields that describe one fall into two groups, and the group decides how the restriction behaves.
+
+| Group | Fields | Behaviour |
+| :--- | :--- | :--- |
+| **Cart-level** | `merchantId`, `branchId`, `totalPurchaseAmount` | An order is placed with one merchant at one branch, so these gate the whole basket. They have no per-item form. |
+| **Item-level — flat** | `collectionId`, `collectionsIds`, `categories`, `productsIds` | What the basket contains, without saying which item contains what. |
+| **Item-level — lines** | `lineItems[]` | The same cart described item by item. |
+
+<Warning>
+Send `lineItems` **or** the flat lists, not both. When `lineItems` is present, the top-level `collectionId`, `collectionsIds`, `categories` and `productsIds` are ignored for matching — put every category, collection and product on the lines instead. The cart-level fields are always read from the top of the body.
+</Warning>
+
+<Note>
+`variantId` on a line item is stored and echoed back on the coupon, but is **never evaluated** — there is no variant restriction.
+</Note>
+
+### Size limits
+
+`lineItems` accepts at most **500** entries, and any single ID list at most **200** values. A request over either limit is rejected with `400`.
+
+## Example request
+
+```bash cURL
+curl --request POST \
+  --url 'https://api.gameball.co/api/v4.0/integrations/coupons/validate' \
+  --header 'APIKey: <your-api-key>' \
+  --header 'secretkey: <your-secret-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "customerId": "sara-1180",
+    "coupons": ["WINTER25", "FREESHIP"],
+    "lock": false,
+    "merchantId": "cairo-downtown",
+    "branchId": "branch-14",
+    "totalPurchaseAmount": 640.0,
+    "lineItems": [
+      {
+        "productId": "p-parka-navy",
+        "variantId": "v-m",
+        "categories": ["Outerwear"],
+        "collectionsIds": ["winter-24"]
+      }
+    ]
+  }'
+```
+
+## Example response
+
+```json
+{
+  "valid": true,
+  "coupons": [
+    {
+      "code": "winter25",
+      "type": "percentage",
+      "value": 25.0,
+      "usageLimit": -1,
+      "limitPerCustomer": 1,
+      "startDate": null,
+      "expiryDate": "2026-12-31T23:59:59Z",
+      "capping": null,
+      "minReward": null,
+      "minOrderValue": null,
+      "entitledProductIds": null,
+      "entitledVariantIds": null,
+      "entitledCollectionIds": ["winter-24"],
+      "entitledMerchantIds": null,
+      "entitledBranchIds": null,
+      "entitledCategoryIds": ["Outerwear"],
+      "couponRulesLogicalOperator": null,
+      "combinesWith": {
+        "orderDiscounts": true,
+        "productDiscounts": true,
+        "shippingDiscounts": true
+      }
+    },
+    {
+      "code": "freeship",
+      "type": "shipping",
+      "value": 50.0,
+      "usageLimit": 1,
+      "limitPerCustomer": 1,
+      "startDate": null,
+      "expiryDate": null,
+      "capping": null,
+      "minReward": null,
+      "minOrderValue": 500.0,
+      "entitledProductIds": null,
+      "entitledVariantIds": null,
+      "entitledCollectionIds": null,
+      "entitledMerchantIds": null,
+      "entitledBranchIds": null,
+      "entitledCategoryIds": null,
+      "couponRulesLogicalOperator": null,
+      "combinesWith": {
+        "orderDiscounts": false,
+        "productDiscounts": false,
+        "shippingDiscounts": true
+      }
+    }
+  ],
+  "lockReference": null,
+  "dateToExpire": null
+}
+```
+
+## How validation works
+
+A validate call answers three questions in order. The first failure ends the call — you get one error, never a list, and it does not say which code in `coupons` caused it beyond what the `message` names.
+
+<Steps>
+  <Step title="Is the customer real and active in your Gameball program?">
+    Resolved from `customerId`, `email` or `mobile`.
+  </Step>
+  <Step title="If you referenced an existing lock, is it still usable by this customer?">
+    Resolved from `lockReference`.
+  </Step>
+  <Step title="For each coupon: does it exist, does it apply to this cart, and may this customer use it?">
+    Runs the ordered checks below.
+  </Step>
+</Steps>
+
+The third question runs these checks in this exact order. The order matters: a coupon that is both expired *and* wrong for the cart reports the cart problem, because restrictions are checked first.
+
+| Order | Check | Error |
+| :--- | :--- | :--- |
+| 1 | The coupon code exists for your account | `404`, code `4004` |
+| 2 | The coupon's restrictions match the cart | See [Restriction errors](#restriction-errors) |
+| 3 | `totalPurchaseAmount` is at or above the coupon's `minOrderValue` | `9017` |
+| 4 | The coupon is active | `9014` |
+| 5 | The coupon's start date has passed | `9011` |
+| 6 | The coupon has not expired | `9013` |
+| 7 | The customer is in the coupon's audience, and the coupon is not assigned to a different customer | `9011` |
+| 8 | The customer has not hit the coupon's per-customer limit | `9012` |
+| 9 | The coupon has not hit its total usage limit | `9012` |
+| 10 | The coupon may be combined with the other coupons in the same call | `9011` |
+
+## Combining coupons
+
+Each coupon carries a `combinesWith` object saying which other discount types it accepts alongside it: `orderDiscounts`, `productDiscounts` and `shippingDiscounts`. When you send several codes in one call, they are checked against one another, and a pair that may not be combined is rejected with `9011`.
+
+Duplicate codes within `coupons` are rejected outright — send each code once.
+
+## How restrictions are matched
+
+A coupon can carry up to four restrictions, each limiting where it may be used. The group a restriction belongs to decides how it behaves. Every coupon in the list is matched against the same cart, each using its own restrictions and its own operator.
+
+| Group | Restrictions | Behaviour |
+| :--- | :--- | :--- |
+| **Cart-level** | merchant, branch | An order is placed with one merchant at one branch, so these gate the whole basket. They must **always** match. |
+| **Item-level** | collection, category, product | These vary from one product to the next, so they are the ones `couponRulesLogicalOperator` arbitrates over. |
+
+`couponRulesLogicalOperator` is returned on each coupon object and tells you how that coupon's **item-level** restrictions combine:
+
+| Value | Mode | Meaning |
+| :--- | :--- | :--- |
+| `null` | Flat | Every item-level restriction must be satisfied by something in the cart — not necessarily the same item. If the cart carries no data at all for one of them, the call is rejected. |
+| `1` | AND | One **single item** must satisfy every item-level restriction. Use this for coupons like "25% off Sony audio", which must not be satisfied by a Sony television plus another brand's headphones. |
+| `2` | OR | One satisfied restriction is enough. A restriction the cart carries no data for is skipped, never rejected. |
+
+<Note>
+Merchant and branch are checked in **every** mode, including OR. An OR coupon restricted to one merchant still rejects a different merchant, no matter what else in the cart matches.
+</Note>
+
+### When lineItems is required
+
+If a coupon has **two or more** item-level restrictions and `couponRulesLogicalOperator` is `1` (AND), the flat lists cannot answer the question — they show that the basket holds a Sony item *and* an audio item, without showing whether one item is both. The call is rejected with code `9032`, and you resend the same cart as `lineItems`.
+
+Because one cart serves the whole list, a single AND coupon among the codes is enough to require `lineItems` for the call.
+
+### Matching rules
+
+- Coupon codes and restriction values are compared **case-insensitively**, and surrounding whitespace is trimmed.
+- Values within a single restriction are alternatives — matching any one of them is enough.
+- `collectionId` and `collectionsIds` are evaluated **together** as one list.
+- `categories` are free-text names, not IDs — whatever was typed when the coupon was configured, compared as plain strings.
+- `variantId` on a line item is stored and echoed back but **never evaluated**.
+
+## Eligibility checks
+
+A request that sends **no cart fields at all** is treated as an eligibility question — *"does this customer hold these coupons, and are they live?"* — rather than a cart question. Restrictions are reported back on each coupon instead of being enforced, so you can discover what to send next. Every other check (active, dates, audience, limits, combinability) still runs.
+
+The cart fields are `merchantId`, `branchId`, `collectionId`, `collectionsIds`, `categories`, `productsIds`, `lineItems` and `totalPurchaseAmount`.
+
+<Note>
+`valid: true` on a cart-less call means *"this customer may use these coupons"*, **not** *"these coupons apply to this order"*. Before you complete the order, validate again with the cart described — that is the call that enforces `entitledMerchantIds`, `entitledBranchIds`, `entitledCollectionIds`, `entitledCategoryIds` and `entitledProductIds`, and it can reject a coupon that just came back valid.
+</Note>
+
+<Warning>
+`totalPurchaseAmount` counts as describing a cart. A body carrying only `totalPurchaseAmount` switches on full restriction enforcement, and a restricted coupon will then be rejected for a dimension you never intended to describe.
+</Warning>
+
+## Locking coupons
+
+Set `lock` to `true` to reserve the coupons when they all validate. The response carries one `lockReference` covering the whole list, plus a `dateToExpire`, and those coupons cannot be validated-and-locked by another order until the lock expires or is consumed.
+
+| Setting | Effect |
+| :--- | :--- |
+| `lock: false` (default) | Validation only. `lockReference` and `dateToExpire` come back `null`. |
+| `lock: true`, no `lockReference` | A new lock is created for the whole list and its reference is returned. |
+| `lock: true` with an existing `lockReference` | The existing lock is reused and these coupons are added to it. A coupon already in that lock is overwritten rather than rejected. |
+| `lockDuration` | Overrides your account's default lock duration, in minutes. Must be greater than `0` and less than `21600` (15 days). |
+
+When you pass an existing `lockReference` it is checked before anything else, and must be unused, unexpired and belong to the same customer — otherwise the call fails with `9009` or `9010`.
+
+A lock is only ever created **after** every coupon has passed validation, so a returned `lockReference` always means all of them were usable by that customer at that moment. If any one coupon fails, nothing is locked.
+
+### Locking without a cart
+
+You can lock on an eligibility check. Send `customerId` and `coupons` with `lock: true` and no cart fields: coupons that carry restrictions still validate — their restrictions are reported back rather than enforced — and they are still locked against that customer. The lock is built from the coupon codes and the customer alone; the cart plays no part in it.
+
+```json
+{
+  "customerId": "sara-1180",
+  "coupons": ["WINTER25", "FREESHIP"],
+  "lock": true,
+  "lockDuration": 30
+}
+```
+
+This is the intended way to reserve coupons before the basket is known. Read `entitledCollectionIds`, `entitledCategoryIds`, `entitledBranchIds`, `entitledMerchantIds`, `entitledProductIds` and `couponRulesLogicalOperator` off each coupon to see what the cart will have to satisfy.
+
+<Warning>
+A cart-less lock does **not** prove the coupons fit the eventual cart. Restrictions were never evaluated, and nothing re-evaluates them later — not when the lock is reused, and not when the order is placed. Validate again with the full cart, reusing the same `lockReference`, before you complete the order: that re-runs the restriction checks against the real basket and keeps the same lock.
+</Warning>
+
+## Errors
+
+Errors use the standard Gameball [error envelope](/api-reference/overview/status-error-codes). The `message` names the specific values that failed, so it is the most useful field for diagnosing a rejection. It is returned in lower case.
+
+```json
+{
+  "code": 9026,
+  "type": "TRANSACTION_ERROR",
+  "message": "this coupon requires a valid category to be applied. no category was provided.",
+  "documentationUrl": "https://docs.gameball.co/api-reference/coupons/validate-multiple-coupons",
+  "requestId": "3f9c21b8a4d7"
+}
+```
+
+### By status
+
+| Status | When |
+| :--- | :--- |
+| `400 Bad Request` | Invalid request payload, a missing required field, duplicate codes in `coupons`, or a cart over the size limits — more than 500 `lineItems`, or more than 200 values in any single ID list. |
+| `401 Unauthorized` | Missing or invalid API key or secret key. |
+| `404 Not Found` | The customer does not exist, a coupon code does not exist, or the `lockReference` does not exist. |
+| `422 Unprocessable Entity` | A coupon exists but cannot be applied. |
+| `429 Too Many Requests` | Rate limit exceeded. |
+| `500 Internal Server Error` | An unexpected error occurred while validating. |
+
+### Customer and request errors
+
+| Code | Status | Meaning |
+| :--- | :--- | :--- |
+| `7000` | 404 | The customer was not found for the provided ID, email or mobile. |
+| `3009` | 422 | The customer exists but is not active in your Gameball program. |
+| `3000` | 400 | A required field is missing, `coupons` is empty, or the cart exceeded the size limits. |
+| `4004` | 404 | A coupon code or the `lockReference` does not exist. |
+| `4000` | 400 | `coupons` contains the same code more than once. |
+
+<Note>
+Duplicate codes are currently reported as the generic `4000` rather than a dedicated code. Read the `message` for the specific reason.
+</Note>
+
+### Coupon eligibility errors
+
+All `422`.
+
+| Code | Meaning |
+| :--- | :--- |
+| `9011` | A coupon is not applicable — the customer is outside its audience, it is assigned to a different customer, it has not started yet, or it cannot be combined with the other coupons in the call. |
+| `9012` | A usage limit was reached — either a coupon's total limit or this customer's per-customer limit. |
+| `9013` | A coupon has expired. |
+| `9014` | A coupon is inactive. |
+| `9017` | `totalPurchaseAmount` is below a coupon's `minOrderValue`. |
+
+### Restriction errors
+
+All `422`. A *required* code means the coupon restricts that dimension and your request described nothing for it. A *not eligible* code means you described it and the value was not on the coupon's list.
+
+| Code | Restriction | Raised in |
+| :--- | :--- | :--- |
+| `9018` | Merchant — none provided | Every mode |
+| `9019` | Merchant — not eligible | Every mode |
+| `9024` | Branch — none provided | Every mode |
+| `9025` | Branch — not eligible | Every mode |
+| `9020` | Collection — none provided | Flat and AND |
+| `9021` | Collection — not eligible | Flat, AND, and single-restriction OR |
+| `9026` | Category — none provided | Flat and AND |
+| `9027` | Category — not eligible | Flat, AND, and single-restriction OR |
+| `9030` | Product — none provided | Flat and AND |
+| `9031` | Product — not eligible | Flat, AND, and single-restriction OR |
+| `9022` | Several restrictions were checked and none was satisfied | Multi-restriction OR only |
+| `9032` | The coupon must be evaluated against individual cart items — resend with `lineItems` | AND only |
+| `9033` | `lineItems` was sent, every restriction is met somewhere, but no single item meets them all | AND only |
+
+An OR coupon never returns a *required* code for a collection, category or product — a restriction with no cart data is skipped. It can still return `9018` or `9024`, because merchant and branch are checked in every mode.
+
+<Note>
+Codes `9028` (brand — none provided) and `9029` (brand — not eligible) also exist, but this endpoint has no request field that describes a brand. If you receive one, the coupon carries a brand restriction that cannot be satisfied here — reconfigure the coupon, or contact support.
+</Note>
+
+### Lock errors
+
+| Code | Status | Meaning |
+| :--- | :--- | :--- |
+| `9009` | 422 | The `lockReference` is invalid, has expired, or belongs to a different customer. |
+| `9010` | 422 | The `lockReference` has already been used. |
+| `9015` | 422 | `lockDuration` is negative. |
+| `4000` | 400 | `lockDuration` is outside the permitted range — it must be greater than 0 and less than 21,600 minutes. |
+
+<Note>
+A `lockDuration` outside the permitted range is currently reported as the generic `4000` rather than the dedicated `9016`. Read the `message` for the specific reason.
+</Note>
+
+## What changed
+
+This endpoint previously matched a coupon against two things only: the **merchant** and the **collection**. It now matches against four, and the request can describe the cart line by line.
+
+| Area | Change |
+| :--- | :--- |
+| Request | New `branchId`, `categories`, `productsIds` and `lineItems[]` |
+| Response | New `entitledBranchIds`, `entitledCategoryIds` and `couponRulesLogicalOperator` on each coupon |
+| Response | `entitledProductIds` is no longer limited to a single value |
+| Errors | New `422` codes: `9024`–`9027` and `9030`–`9033` |
+
+<AccordionGroup>
+  <Accordion title="Behaviour changes on existing requests">
+    These affect calls you are already making, with no change on your side.
+
+    | What | Before | Now |
+    | :--- | :--- | :--- |
+    | A coupon restricted by branch, category or product | The restriction was stored but not enforced | Enforced |
+    | A coupon with two or more restrictions, where your cart described only one of them | Accepted | Rejected with the matching *required* code |
+    | A coupon restricted by merchant, with `couponRulesLogicalOperator` = `2` (OR) | The wrong merchant could still pass if another restriction matched | The merchant must always match |
+    | Sending `collectionId` **and** `collectionsIds` together | Only `collectionsIds` was evaluated | Both are evaluated as one list |
+    | A validate call sending **no** cart fields at all | Rejected with `9018` | Returns `200` with each coupon's restrictions attached |
+  </Accordion>
+
+  <Accordion title="Migration notes">
+    - **Add `branchId` if your coupons are branch-restricted.** There is no other way to satisfy a branch restriction.
+    - **Choose between `lineItems` and the flat lists.** Sending both is not an error, but the flat lists are silently ignored. If you are unsure, send `lineItems` — it answers every case the flat lists do, plus the AND case they cannot.
+    - **Handle `9032` by retrying with `lineItems`.** It is not a permanent failure; it is a request for more detail about the same cart. One AND coupon in the list is enough to trigger it.
+    - **API v3 cannot satisfy the new restrictions.** `POST /api/v3.0/integrations/coupons/validate` accepts only `merchantId` and `collectionId`, so a coupon restricted by branch, category or product is rejected with no field available to fix it. Move to v4 before configuring those restrictions.
+  </Accordion>
+</AccordionGroup>

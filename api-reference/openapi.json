@@ -2296,7 +2296,7 @@
     },
     "/api/v4.0/integrations/coupons/{code}/validate": {
       "post": {
-        "description": "This API validates a single coupon identified by {code} and checks its eligibility for use by a customer. It also supports a locking feature, where setting the lock flag to True reserves the coupon by creating a lock reference. This ensures the coupon cannot be used by others during the lock session, preventing conflicts or double usage. By default, the lock flag is False, allowing only validation without reserving the coupon.",
+        "description": "Validates a single coupon identified by {code} and checks its eligibility for use by a customer. Describe the cart as well, and the coupon is additionally matched against its merchant, branch, collection, category and product restrictions. Set the lock flag to True to reserve the coupon by creating a lock reference, so it cannot be used by others while the order is being completed. By default the lock flag is False, allowing only validation without reserving the coupon.",
         "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
@@ -2304,7 +2304,7 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string" },
-            "description": "The coupon code you want to validate."
+            "description": "The coupon code you want to validate. Compared case-insensitively."
           }
         ],
         "requestBody": {
@@ -2339,22 +2339,74 @@
                     "type": "integer",
                     "description": "Represents the number of minutes for which a coupon will be locked if the lock flag is set to True."
                   },
-                  "merchantId": { 
+                  "merchantId": {
                     "type": "string",
-                    "description": "This parameter is required only if the coupon is designed to apply to specific merchants."
+                    "description": "Cart-level. The merchant the order is placed with. Required if the coupon is restricted to specific merchants.",
+                    "example": "cairo-downtown"
                   },
-                  "collectionId": { 
+                  "branchId": {
                     "type": "string",
-                    "description": "This parameter is required only if the coupon is configured to apply to specific collections."
+                    "description": "Cart-level. The branch or outlet the order is placed at. Required if the coupon is restricted to specific branches. There is no plural or per-item form.",
+                    "example": "branch-14"
                   },
-                  "collectionsIds": { 
+                  "collectionId": {
+                    "type": "string",
+                    "description": "Item-level. A collection the basket touches. Evaluated together with collectionsIds as a single list. Ignored when lineItems is present."
+                  },
+                  "collectionsIds": {
                     "type": "array",
                     "items": { "type": "string" },
-                    "description": "This parameter is required only when the coupon is configured to apply to specific collections."
+                    "maxItems": 200,
+                    "description": "Item-level. Every collection the basket touches. Maximum 200 values. Ignored when lineItems is present."
                   },
-                  "totalPurchaseAmount": { 
+                  "categories": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "maxItems": 200,
+                    "description": "Item-level. Every category the basket touches. These are free-text category names, not IDs. Maximum 200 values. Ignored when lineItems is present.",
+                    "example": ["Audio", "TV"]
+                  },
+                  "productsIds": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "maxItems": 200,
+                    "description": "Item-level. Every product ID in the basket. Maximum 200 values. Ignored when lineItems is present."
+                  },
+                  "lineItems": {
+                    "type": "array",
+                    "maxItems": 500,
+                    "description": "The cart described item by item. Maximum 500 entries. Required for a coupon that must satisfy two or more item-level restrictions on the same item. When lineItems is present, the flat collectionId, collectionsIds, categories and productsIds fields are ignored for matching.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "maxLength": 100,
+                          "description": "This line's product ID."
+                        },
+                        "variantId": {
+                          "type": "string",
+                          "maxLength": 100,
+                          "description": "This line's variant ID. Stored and echoed back, but never evaluated - there is no variant restriction."
+                        },
+                        "categories": {
+                          "type": "array",
+                          "items": { "type": "string" },
+                          "maxItems": 200,
+                          "description": "The categories this product belongs to."
+                        },
+                        "collectionsIds": {
+                          "type": "array",
+                          "items": { "type": "string" },
+                          "maxItems": 200,
+                          "description": "The collections this product belongs to."
+                        }
+                      }
+                    }
+                  },
+                  "totalPurchaseAmount": {
                     "type": "number",
-                    "description": "This parameter represents the total value of the purchase where the coupon will be applied."
+                    "description": "Cart-level. The total value of the purchase the coupon will be applied to. Checked against the coupon's minOrderValue. Sending this field counts as describing a cart, which switches on full restriction enforcement."
                   }
                 }
               }
@@ -2373,7 +2425,7 @@
                       "type": "boolean",
                       "description": "Indicates whether the coupon is valid to be used by the customer or not."
                     },
-                    "coupon": { "$ref": "#/components/schemas/Coupon" },
+                    "coupon": { "$ref": "#/components/schemas/ValidatedCoupon" },
                     "lockReference": { 
                       "type": "string",
                       "description": "The unique reference code associated with the coupon lock session."
@@ -2393,7 +2445,7 @@
     },
     "/api/v4.0/integrations/coupons/validate": {
       "post": {
-        "description": "This API validates a list of coupons and checks their eligibility for use by a customer. It also supports a locking feature, where setting the lock flag to True reserves eligible coupons by creating hold references. This ensures that locked coupons cannot be used by others during the lock session, preventing conflicts or double usage. By default, the lock flag is False, allowing only validation without reserving the coupons.",
+        "description": "Validates a list of coupons and checks their eligibility for use by a customer. Every coupon must pass - the first failure ends the call and nothing is locked. Describe the cart as well, and each coupon is additionally matched against its merchant, branch, collection, category and product restrictions. Set the lock flag to True to reserve the coupons under one lock session. By default the lock flag is False, allowing only validation without reserving the coupons.",
         "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -2434,22 +2486,74 @@
                     "type": "integer",
                     "description": "Represents the number of minutes for which a coupon will be locked if the lock flag is set to True."
                   },
-                  "merchantId": { 
+                  "merchantId": {
                     "type": "string",
-                    "description": "This parameter is required only if the coupon is designed to apply to specific merchants."
+                    "description": "Cart-level. The merchant the order is placed with. Required if the coupon is restricted to specific merchants.",
+                    "example": "cairo-downtown"
                   },
-                  "collectionId": { 
+                  "branchId": {
                     "type": "string",
-                    "description": "This parameter is required only if the coupon is configured to apply to specific collections."
+                    "description": "Cart-level. The branch or outlet the order is placed at. Required if the coupon is restricted to specific branches. There is no plural or per-item form.",
+                    "example": "branch-14"
                   },
-                  "collectionsIds": { 
+                  "collectionId": {
+                    "type": "string",
+                    "description": "Item-level. A collection the basket touches. Evaluated together with collectionsIds as a single list. Ignored when lineItems is present."
+                  },
+                  "collectionsIds": {
                     "type": "array",
                     "items": { "type": "string" },
-                    "description": "This parameter is required only when the coupon is configured to apply to specific collections."
+                    "maxItems": 200,
+                    "description": "Item-level. Every collection the basket touches. Maximum 200 values. Ignored when lineItems is present."
                   },
-                  "totalPurchaseAmount": { 
+                  "categories": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "maxItems": 200,
+                    "description": "Item-level. Every category the basket touches. These are free-text category names, not IDs. Maximum 200 values. Ignored when lineItems is present.",
+                    "example": ["Audio", "TV"]
+                  },
+                  "productsIds": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "maxItems": 200,
+                    "description": "Item-level. Every product ID in the basket. Maximum 200 values. Ignored when lineItems is present."
+                  },
+                  "lineItems": {
+                    "type": "array",
+                    "maxItems": 500,
+                    "description": "The cart described item by item. Maximum 500 entries. Required for a coupon that must satisfy two or more item-level restrictions on the same item. When lineItems is present, the flat collectionId, collectionsIds, categories and productsIds fields are ignored for matching.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "maxLength": 100,
+                          "description": "This line's product ID."
+                        },
+                        "variantId": {
+                          "type": "string",
+                          "maxLength": 100,
+                          "description": "This line's variant ID. Stored and echoed back, but never evaluated - there is no variant restriction."
+                        },
+                        "categories": {
+                          "type": "array",
+                          "items": { "type": "string" },
+                          "maxItems": 200,
+                          "description": "The categories this product belongs to."
+                        },
+                        "collectionsIds": {
+                          "type": "array",
+                          "items": { "type": "string" },
+                          "maxItems": 200,
+                          "description": "The collections this product belongs to."
+                        }
+                      }
+                    }
+                  },
+                  "totalPurchaseAmount": {
                     "type": "number",
-                    "description": "This parameter represents the total value of the purchase where the coupon will be applied."
+                    "description": "Cart-level. The total value of the purchase the coupon will be applied to. Checked against the coupon's minOrderValue. Sending this field counts as describing a cart, which switches on full restriction enforcement."
                   }
                 }
               }
@@ -2470,7 +2574,7 @@
                     },
                     "coupons": {
                       "type": "array",
-                      "items": { "$ref": "#/components/schemas/Coupon" },
+                      "items": { "$ref": "#/components/schemas/ValidatedCoupon" },
                       "description": "An array containing the details of the coupons that need to be locked or validated in the request."
                     },
                     "lockReference": { 
@@ -6294,6 +6398,108 @@
                 "description": "Indicates if the coupon can be combined with product-specific discounts."
               },
               "shippingDiscounts": { 
+                "type": "boolean",
+                "description": "Indicates if the coupon can be combined with shipping discounts."
+              }
+            }
+          }
+        }
+      },
+      "ValidatedCoupon": {
+        "type": "object",
+        "description": "A coupon as returned by the validate endpoints, including the restrictions it carries and how they combine.",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The coupon code the customer uses. Returned in lower case."
+          },
+          "type": {
+            "type": "string",
+            "enum": ["shipping", "fixed", "percentage", "product", "percentage-fees", "fixed-cashback", "percentage-cashback"],
+            "description": "Type of the coupon, such as fixed amount, percentage discount, free shipping, cashback or product-specific coupon."
+          },
+          "value": {
+            "type": "number",
+            "description": "The coupon's amount - a percentage for percentage types, a currency amount for fixed types."
+          },
+          "usageLimit": {
+            "type": "number",
+            "description": "The total number of times the coupon can be used across all customers. -1 means unlimited."
+          },
+          "limitPerCustomer": {
+            "type": "number",
+            "description": "The number of times a single customer can use the coupon. -1 means unlimited."
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the coupon becomes usable. null means immediately."
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the coupon stops being usable. null means never."
+          },
+          "capping": {
+            "type": "number",
+            "description": "The maximum discount the coupon can produce, applied on top of percentage calculations."
+          },
+          "minReward": {
+            "type": "number",
+            "description": "The minimum discount a customer is guaranteed to receive on a percentage-based coupon."
+          },
+          "minOrderValue": {
+            "type": "number",
+            "description": "The minimum order value the coupon requires, evaluated against totalPurchaseAmount."
+          },
+          "entitledProductIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Products the coupon applies to. null means unrestricted."
+          },
+          "entitledVariantIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Variants named on the coupon. Informational - variants are not matched against the cart."
+          },
+          "entitledCollectionIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Collections the coupon applies to. null means unrestricted."
+          },
+          "entitledMerchantIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Merchant external IDs the coupon may be used with. null means unrestricted."
+          },
+          "entitledBranchIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Branches the coupon may be used at. null means unrestricted."
+          },
+          "entitledCategoryIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Categories the coupon applies to. These are free-text names, despite the field name. null means unrestricted."
+          },
+          "couponRulesLogicalOperator": {
+            "type": "integer",
+            "enum": [1, 2],
+            "description": "How the coupon's item-level restrictions combine: 1 = AND (one single item must satisfy them all), 2 = OR (one satisfied restriction is enough), null = flat (each must be satisfied by something in the cart, not necessarily the same item)."
+          },
+          "combinesWith": {
+            "type": "object",
+            "description": "Which other discount types this coupon may be combined with.",
+            "properties": {
+              "orderDiscounts": {
+                "type": "boolean",
+                "description": "Indicates if the coupon can be combined with order-level discounts."
+              },
+              "productDiscounts": {
+                "type": "boolean",
+                "description": "Indicates if the coupon can be combined with product-specific discounts."
+              },
+              "shippingDiscounts": {
                 "type": "boolean",
                 "description": "Indicates if the coupon can be combined with shipping discounts."
               }
