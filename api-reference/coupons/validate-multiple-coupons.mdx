@@ -30,7 +30,7 @@ For more information, head to the [Omni-Channel Handling Guide](/tutorials/exper
 
 The same cart is applied to **every** code in `coupons`, and the codes are additionally checked against one another — see [Combining coupons](#combining-coupons). Duplicate codes are rejected outright, so send each code once.
 
-A coupon's restrictions are only enforced when the request describes a cart. The fields that describe one fall into two groups, and the group decides how the restriction behaves.
+A coupon's restrictions are only enforced when the request describes a cart, and whether it does is decided separately for each coupon from **its own restrictions** — see [Eligibility checks](#eligibility-checks). The fields that describe a cart fall into two groups, and the group decides how the restriction behaves.
 
 | Group | Fields | Behaviour |
 | :--- | :--- | :--- |
@@ -158,7 +158,7 @@ The third question runs these checks in this exact order. The order matters: a c
 | :--- | :--- | :--- |
 | 1 | The coupon code exists for your account | `404`, code `4004` |
 | 2 | The coupon's restrictions match the cart | See [Restriction errors](#restriction-errors) |
-| 3 | `totalPurchaseAmount` is at or above the coupon's `minOrderValue` | `9017` |
+| 3 | `totalPurchaseAmount` is present and at or above the coupon's `minOrderValue` | `9017` |
 | 4 | The coupon is active | `9014` |
 | 5 | The coupon's start date has passed | `9011` |
 | 6 | The coupon has not expired | `9013` |
@@ -175,12 +175,13 @@ Duplicate codes within `coupons` are rejected outright — send each code once.
 
 ## How restrictions are matched
 
-A coupon can carry up to four restrictions, each limiting where it may be used. The group a restriction belongs to decides how it behaves. Every coupon in the list is matched against the same cart, each using its own restrictions and its own operator.
+A coupon can carry restrictions in five dimensions, plus a minimum order value. The group a restriction belongs to decides how it behaves. Every coupon in the list is matched against the same cart, each using its own restrictions and its own operator.
 
 | Group | Restrictions | Behaviour |
 | :--- | :--- | :--- |
 | **Cart-level** | merchant, branch | An order is placed with one merchant at one branch, so these gate the whole basket. They must **always** match. |
 | **Item-level** | collection, category, product | These vary from one product to the next, so they are the ones `couponRulesLogicalOperator` arbitrates over. |
+| **Amount** | `minOrderValue` | Gates the whole basket like a cart-level restriction, but is set on the coupon's configuration rather than as a rule, so `couponRulesLogicalOperator` never applies to it. |
 
 `couponRulesLogicalOperator` is returned on each coupon object and tells you how that coupon's **item-level** restrictions combine:
 
@@ -210,16 +211,64 @@ Because one cart serves the whole list, a single AND coupon among the codes is e
 
 ## Eligibility checks
 
-A request that sends **no cart fields at all** is treated as an eligibility question — *"does this customer hold these coupons, and are they live?"* — rather than a cart question. Restrictions are reported back on each coupon instead of being enforced, so you can discover what to send next. Every other check (active, dates, audience, limits, combinability) still runs.
+Whether a call is a cart question or an eligibility question is decided **from each coupon's own restrictions**, not from which fields you happened to send — and it is decided **per coupon**, so one body can be a cart question for one code in the list and an eligibility question for another.
 
-The cart fields are `merchantId`, `branchId`, `collectionId`, `collectionsIds`, `categories`, `productsIds`, `lineItems` and `totalPurchaseAmount`.
+The request describes a cart for a given coupon when it carries data for a dimension **that coupon restricts on**. When it does, every restriction that coupon holds is enforced — including ones the request said nothing about. When it does not, that coupon is answered as an eligibility question — *"does this customer hold it, and is it live?"* — and its restrictions are reported back instead, so you can discover what to send next. Every other check (active, dates, audience, limits, combinability) runs either way.
+
+A field a coupon does not restrict on is ignored as though it were never sent. Sending `collectionsIds` alongside a coupon with no collection restriction neither satisfies anything nor triggers anything for that coupon.
+
+| Coupon restricts on | Request carries | Outcome for that coupon |
+| :--- | :--- | :--- |
+| Collection | `customerId` only | Eligibility — valid |
+| Collection, no `minOrderValue` | `customerId`, `totalPurchaseAmount` | Eligibility — the amount matches no restriction, so it is ignored |
+| Collection | `collectionsIds` | Cart — the collection restriction is enforced |
+| Branch | `collectionsIds` | Eligibility — a collection matches no restriction on this coupon |
+| Merchant, collection, product | `merchantId`, `collectionsIds` | Cart — all three are enforced, so the absent product is rejected with `9030` |
+| Collection, plus `minOrderValue` | `totalPurchaseAmount` | Cart — the amount speaks to the minimum, so the collection restriction is enforced too |
 
 <Note>
-`valid: true` on a cart-less call means *"this customer may use these coupons"*, **not** *"these coupons apply to this order"*. Before you complete the order, validate again with the cart described — that is the call that enforces `entitledMerchantIds`, `entitledBranchIds`, `entitledCollectionIds`, `entitledCategoryIds` and `entitledProductIds`, and it can reject a coupon that just came back valid.
+The call still fails as a whole on the first coupon that fails. A coupon answered as an eligibility question does not shield the others in the list from having their own restrictions enforced.
+</Note>
+
+<Note>
+**A restriction you send that a coupon does not carry is ignored for that coupon.**
+
+Request data is matched to restrictions **by type**. `collectionsIds` is only ever checked against a collection restriction, `merchantId` against a merchant restriction, `totalPurchaseAmount` against `minOrderValue`, and so on. When a coupon holds no restriction of that type, the field is dropped before matching for that coupon — it cannot satisfy a different restriction, and it cannot cause a rejection.
+
+Because the list is judged coupon by coupon, the same field can be enforced for one code and discarded for another. Below, `WINTER25` restricts on collection and `FREESHIP` carries no restrictions at all:
+
+```json Request
+{
+  "customerId": "sara-1180",
+  "coupons": ["WINTER25", "FREESHIP"],
+  "merchantId": "cairo-downtown",
+  "branchId": "branch-14",
+  "categories": ["Outerwear"],
+  "totalPurchaseAmount": 1450.0
+}
+```
+
+Neither coupon restricts on merchant, branch or category, and neither carries a `minOrderValue`, so every cart field in that body is discarded. Both coupons are answered as eligibility questions and the call returns `valid: true`. Add `collectionsIds` and it becomes a cart question for `WINTER25` only — `FREESHIP` still has nothing to check.
 </Note>
 
 <Warning>
-`totalPurchaseAmount` counts as describing a cart. A body carrying only `totalPurchaseAmount` switches on full restriction enforcement, and a restricted coupon will then be rejected for a dimension you never intended to describe.
+`valid: true` on an eligibility call means *"this customer may use these coupons"*, **not** *"these coupons apply to this order"*. Read `entitledCollectionIds`, `entitledCategoryIds`, `entitledBranchIds`, `entitledMerchantIds`, `entitledProductIds`, `minOrderValue` and `couponRulesLogicalOperator` off each coupon to see what the cart will have to satisfy, then validate again with those fields populated before you complete the order. That second call can reject a coupon that just came back valid.
+</Warning>
+
+### The minimum order value
+
+`minOrderValue` behaves like any other restriction. `totalPurchaseAmount` is matched against it and nothing else, so for a coupon with no `minOrderValue` the amount is ignored outright — it cannot make the call a cart question for that coupon. For one that has a minimum, the amount is enough to describe a cart on its own, and the minimum is then enforced whether or not you sent a value.
+
+| Coupon | Request describes a cart | `totalPurchaseAmount` | Result |
+| :--- | :--- | :--- | :--- |
+| `minOrderValue: 80` | Yes | `100` | Passes |
+| `minOrderValue: 80` | Yes | `50` | `9017` |
+| `minOrderValue: 80` | Yes | not sent | `9017` |
+| `minOrderValue: 80` | No | not sent | Eligibility — not checked |
+| `minOrderValue: null` | Either | anything | Not checked — there is no minimum to meet |
+
+<Warning>
+A cart that omits `totalPurchaseAmount` no longer slips past a coupon that has a `minOrderValue`. Both "you sent too little" and "you sent nothing" return `9017`; read the `message` to tell them apart.
 </Warning>
 
 ## Locking coupons
@@ -305,7 +354,7 @@ All `422`.
 | `9012` | A usage limit was reached — either a coupon's total limit or this customer's per-customer limit. |
 | `9013` | A coupon has expired. |
 | `9014` | A coupon is inactive. |
-| `9017` | `totalPurchaseAmount` is below a coupon's `minOrderValue`. |
+| `9017` | `totalPurchaseAmount` is below a coupon's `minOrderValue`, or the request described a cart for that coupon and omitted it while the coupon has one. |
 
 ### Restriction errors
 
@@ -328,10 +377,6 @@ All `422`. A *required* code means the coupon restricts that dimension and your 
 | `9033` | `lineItems` was sent, every restriction is met somewhere, but no single item meets them all | AND only |
 
 An OR coupon never returns a *required* code for a collection, category or product — a restriction with no cart data is skipped. It can still return `9018` or `9024`, because merchant and branch are checked in every mode.
-
-<Note>
-Codes `9028` (brand — none provided) and `9029` (brand — not eligible) also exist, but this endpoint has no request field that describes a brand. If you receive one, the coupon carries a brand restriction that cannot be satisfied here — reconfigure the coupon, or contact support.
-</Note>
 
 ### Lock errors
 
@@ -368,6 +413,23 @@ This endpoint previously matched a coupon against two things only: the **merchan
     | A coupon restricted by merchant, with `couponRulesLogicalOperator` = `2` (OR) | The wrong merchant could still pass if another restriction matched | The merchant must always match |
     | Sending `collectionId` **and** `collectionsIds` together | Only `collectionsIds` was evaluated | Both are evaluated as one list |
     | A validate call sending **no** cart fields at all | Rejected with `9018` | Returns `200` with each coupon's restrictions attached |
+  </Accordion>
+
+  <Accordion title="Restriction matching is now decided per coupon">
+    Previously any cart field switched on enforcement of **every** restriction held by **every** coupon in the list. A body carrying nothing but `customerId` and `totalPurchaseAmount` was enough to have a collection-restricted coupon rejected with `9020`, for a dimension the caller never meant to describe.
+
+    Enforcement is now decided from each coupon's own restrictions, coupon by coupon. These affect calls you are already making, with no change on your side.
+
+    | What | Before | Now |
+    | :--- | :--- | :--- |
+    | A cart field a coupon does not restrict on | Switched on enforcement of that coupon's other restrictions | Ignored as though it were never sent |
+    | `totalPurchaseAmount` alone, coupon has no `minOrderValue` | Enforced every restriction; a restricted coupon was rejected | Eligibility check — valid, with restrictions attached |
+    | `totalPurchaseAmount` alone, coupon **has** a `minOrderValue` | Enforced every restriction | Unchanged — the amount speaks to the minimum, so it describes a cart |
+    | A cart describing some of a coupon's restrictions | Enforced all of them | Unchanged — the missing ones still return their *required* code |
+    | A cart omitting `totalPurchaseAmount`, coupon has a `minOrderValue` | Accepted — the minimum was skipped | Rejected with `9017` |
+    | A list mixing restricted and unrestricted coupons | All were judged by the same cart-or-not decision | Each coupon is judged on its own restrictions |
+
+    Error precedence, the `couponRulesLogicalOperator` modes and every error code are unchanged.
   </Accordion>
 
   <Accordion title="Migration notes">

@@ -2406,7 +2406,7 @@
                   },
                   "totalPurchaseAmount": {
                     "type": "number",
-                    "description": "Cart-level. The total value of the purchase the coupon will be applied to. Checked against the coupon's minOrderValue. Sending this field counts as describing a cart, which switches on full restriction enforcement."
+                    "description": "Cart-level. The total value of the purchase the coupon will be applied to. Checked against the coupon's minOrderValue. Sending this field describes a cart only when the coupon carries a minOrderValue; for those coupons it switches on full restriction enforcement, and omitting it is rejected the same way a value below the minimum is."
                   }
                 }
               }
@@ -2553,7 +2553,7 @@
                   },
                   "totalPurchaseAmount": {
                     "type": "number",
-                    "description": "Cart-level. The total value of the purchase the coupon will be applied to. Checked against the coupon's minOrderValue. Sending this field counts as describing a cart, which switches on full restriction enforcement."
+                    "description": "Cart-level. The total value of the purchase the coupon will be applied to. Checked against the coupon's minOrderValue. Sending this field describes a cart only when the coupon carries a minOrderValue; for those coupons it switches on full restriction enforcement, and omitting it is rejected the same way a value below the minimum is."
                   }
                 }
               }
