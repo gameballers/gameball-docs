@@ -45,11 +45,12 @@
 
 ## Communication Campaigns
 
-- [Introduction](https://docs.gameball.co/product-documentation/communication-campaigns/introduction-to-communication-campaigns): Overview of email, SMS, push, and web message channels
+- [Introduction](https://docs.gameball.co/product-documentation/communication-campaigns/introduction-to-communication-campaigns): Overview of email, SMS, push, in-app, and web message channels
 - [Email Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-email-campaigns): Create and configure email campaigns
 - [Push Notification Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns): Create and configure mobile push campaigns
 - [SMS Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-sms-campaigns): Create and configure SMS campaigns
 - [Web Message Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns): In-browser notification campaigns
+- [In-App Messaging Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns): Create and configure in-app message campaigns (private beta)
 - [Dynamic Variables](https://docs.gameball.co/product-documentation/communication-campaigns/dynamic-variables-in-communication-campaigns): Personalize messages with customer data variables
 
 ## Automation Campaigns
@@ -124,11 +125,16 @@
 - [Web SDK — Track Events](https://docs.gameball.co/installation-guides/v3/web/track-events): Send custom events from your website
 - [Web SDK — Track Orders](https://docs.gameball.co/installation-guides/v3/web/track-orders): Submit purchase orders for points calculation
 - [Web SDK — Redemption](https://docs.gameball.co/installation-guides/v3/web/integrate-redemption): Integrate the redemption flow on web
+- [Web SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/web/in-app-messaging): Display in-app campaigns on web, React, Angular, and Ionic (private beta)
 - [POS Integration](https://docs.gameball.co/installation-guides/v3/pos/index): Overview of POS loyalty integration
 - [iOS SDK](https://docs.gameball.co/installation-guides/v3/ios/index): Install and configure the Gameball iOS SDK
+- [iOS SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/ios/in-app-messaging): Display in-app campaigns in an iOS app (private beta)
 - [Android SDK](https://docs.gameball.co/installation-guides/v3/android/index): Install and configure the Gameball Android SDK
+- [Android SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/android/in-app-messaging): Display in-app campaigns in an Android app (private beta)
 - [Flutter SDK](https://docs.gameball.co/installation-guides/v3/flutter/index): Install and configure the Gameball Flutter SDK
+- [Flutter SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/flutter/in-app-messaging): Display in-app campaigns in a Flutter app (private beta)
 - [React Native SDK](https://docs.gameball.co/installation-guides/v3/react-native/index): Install and configure the Gameball React Native SDK
+- [React Native SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/react-native/in-app-messaging): Display in-app campaigns in a React Native app (private beta)
 
 ## Technical Tutorials
 

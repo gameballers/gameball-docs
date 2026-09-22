@@ -1,0 +1,328 @@
+---
+title: "How Do I Set Up In-App Messaging in the Android SDK (v3)?"
+sidebarTitle: "In-App Messaging"
+description: "Display Gameball in-app campaigns in your Android app and control when and how they appear"
+---
+
+import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
+import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
+
+<InAppMessagingBeta />
+
+# Display In-App Messages
+
+One call after you identify the customer, and the Gameball SDK draws your dashboard campaigns over the current Activity: slide-ups, modals, and full screens, triggered by session start or by the events you already send. Messaging is entirely opt-in, so until you call it the module makes no requests, registers no callbacks, and draws nothing.
+
+For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
+
+---
+
+## Requirements
+
+| **Item** | Requirement |
+|---|---|
+| SDK | `com.github.gameballers:gb-mobile-android`, private beta build |
+| Android | minSdk 21, compileSdk 34, Kotlin 2.0+, AndroidX, Java/Kotlin target 17 |
+| Permissions | `INTERNET`, declared by the SDK. Declare `android.permission.POST_NOTIFICATIONS` in your own manifest if any campaign uses the **request push permission** action on API 33+ |
+| Dependencies pulled in | Picasso for artwork, Kotlin coroutines, AppCompat, Material, and `androidx.browser` for the in-app browser tab |
+| Activity | Messages are drawn into the resumed Activity's content view. No Activity or Application parameter is needed |
+| Navigation | An `onNavigate` hook if your campaigns use `navigate` actions |
+
+---
+
+## Install
+
+<InAppMessagingBetaInstall />
+
+```kotlin build.gradle
+repositories {
+    mavenCentral()
+    maven { url = URI("https://jitpack.io") }
+}
+
+dependencies {
+    implementation 'com.github.gameballers:gb-mobile-android:GAMEBALL_BETA_VERSION'
+}
+```
+
+Initialize the SDK in your `Application` and identify the customer as you do today. Both must happen before messaging starts.
+
+```kotlin
+val config = GameballConfig.builder()
+    .apiKey("your-api-key")
+    .lang("en")
+    .platform("android")
+    .build()
+GameballApp.getInstance(this).init(config)
+
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .build()
+GameballApp.getInstance(this).initializeCustomer(customerRequest, callback)
+```
+
+---
+
+## Start Messaging
+
+Call it once you know who the customer is, typically right after `initializeCustomer`. Messages then appear on session start and when you send matching events.
+
+<CodeGroup>
+
+```kotlin Kotlin
+val gameball = GameballApp.getInstance(context)
+gameball.startInAppMessaging("customer-123")
+```
+
+```java Java
+GameballApp gameball = GameballApp.getInstance(context);
+gameball.startInAppMessaging("customer-123");
+```
+
+</CodeGroup>
+
+| **Parameter** | Type | Default | Meaning |
+|---|---|---|---|
+| `customerId` | `String` | Required | Whose campaigns to sync and to whom analytics are attributed. Starting again with a different ID refetches, resets frequency history, and discards the previous customer's data. A blank ID is ignored with a log line. |
+| `options` | `InAppMessagingOptions?` | `null` | Hooks and settings, built with `InAppMessagingOptions.builder()`. |
+
+`stopInAppMessaging()` dismisses anything on screen, clears cached campaigns, frequency history, and stored personalization values, flushes pending analytics, and unregisters the lifecycle callbacks. Call it on logout. It is safe when messaging was never started, and `isInAppMessagingStarted()` reports the state.
+
+<Info>
+Identifying a different customer through `initializeCustomer` while messaging runs switches the module to that customer automatically.
+</Info>
+
+---
+
+## Control Display and Actions
+
+Every hook is optional and individually guarded. If yours throws, you lose the override for that call, never the message.
+
+<CodeGroup>
+
+```kotlin Kotlin
+val options = InAppMessagingOptions.builder()
+    // Hold a message back, or drop it for this trigger.
+    .beforeDisplay { message ->
+        if (checkoutInProgress) DisplayDecision.LATER else DisplayDecision.SHOW
+    }
+    // Handle a tap yourself. Return true and the SDK does nothing further;
+    // the click is reported to Gameball either way.
+    .onAction { message, button, action ->
+        when (action) {
+            is GameballMessageAction.OpenUrl -> myRouter.open(action.url)
+            else -> false
+        }
+    }
+    // Route a campaign's navigate action into your own navigation.
+    .onNavigate { route, arguments -> navController.navigate(route) }
+    // See every message the SDK selects, whatever happens to it next.
+    .observer { message -> analytics.log("gb_message_selected", message.campaignId) }
+    .sessionTimeoutSeconds(30)
+    .build()
+
+gameball.startInAppMessaging("customer-123", options)
+```
+
+```java Java
+InAppMessagingOptions options = InAppMessagingOptions.builder()
+    .onNavigate((route, arguments) -> navController.navigate(route))
+    .build();
+gameball.startInAppMessaging("customer-123", options);
+```
+
+</CodeGroup>
+
+| **Builder method** | Signature | Meaning |
+|---|---|---|
+| `beforeDisplay` | `(InAppMessage) -> DisplayDecision` | `SHOW` displays now. `LATER` parks the message in the pending slot and retries at the next opportunity. `DISCARD` drops it for this occurrence. |
+| `onAction` | `(InAppMessage, InAppMessageButton?, GameballMessageAction) -> Boolean` | Return `true` when you handled the tap, `false` for built-in handling. The click is reported regardless, and the message is dismissed before the action runs. |
+| `onNavigate` | `(String, Map?) -> Unit` | Receives `navigate` actions. Without it, a navigate action logs a warning and does nothing. |
+| `observer` | `(InAppMessage) -> Unit` | Called for every selected message before `beforeDisplay`, so it also sees messages you then defer or discard. |
+| `sessionTimeoutSeconds` | `Int`, default 30 | Background time after which a resume counts as a new session. |
+| `appVersion` | `String?` | Reported on the sync. Defaults to your app's version name. |
+
+`InAppMessage` exposes `campaignId`, `variationId`, `name`, `messageType`, `header`, `body`, `buttons`, and `isTest`. Styling is applied by the SDK and is not exposed to the host.
+
+---
+
+## Actions
+
+`GameballMessageAction` is a sealed class, so an exhaustive `when` is safe.
+
+| **Type** | Fields | Built-in behavior |
+|---|---|---|
+| `Dismiss` | None | Closes the message. |
+| `OpenUrl` | `url`, `external` | `external = false` opens a Chrome Custom Tab inside your app. `true` fires `ACTION_VIEW` to the system browser. |
+| `Navigate` | `route`, `arguments` | Handed to your `onNavigate` hook. |
+| `RequestPushPermission` | None | Requests `POST_NOTIFICATIONS` on API 33+, then closes. Below API 33 there is nothing to ask and the message simply closes. |
+
+Before an `OpenUrl` or `Navigate` action runs, pending analytics are flushed with an 800ms budget so the click is not lost if the browser or a new Activity takes over.
+
+---
+
+## Events and Purchases
+
+Events you already send through `sendEvent` reach the trigger engine automatically, metadata included, so campaign filters work on them. Send numbers as numbers where a campaign compares them.
+
+```kotlin
+gameball.sendEvent(
+    Event.builder()
+        .customerId("customer-123")
+        .eventName("place_order")
+        .eventMetaData("total", 250)
+        .build(),
+    callback
+)
+```
+
+Purchases have a dedicated entry point and reach campaigns as the reserved event `purchase`, with `productId`, `price`, `currency`, and `quantity` as metadata:
+
+```kotlin
+gameball.logPurchase(
+    productId = "sku-42",
+    price = 250.0,
+    currency = "USD",
+    quantity = 1
+)
+```
+
+---
+
+## Language
+
+There is no separate language setting for messages. Each sync asks for the customer's preferred language when your app set one, otherwise the `lang` given at `init`, otherwise the device locale. Arabic strings ship with the SDK, and the layout mirrors when the resolved direction is right-to-left.
+
+<Warning>
+An SDK cannot force `android:supportsRtl`. Declare it in your own manifest if you serve right-to-left languages, or the layout will not mirror.
+</Warning>
+
+---
+
+## Push Permission
+
+The **request push permission** button action requests `android.permission.POST_NOTIFICATIONS` through the current Activity on API 33 and above and logs the result. On older versions it logs that nothing needs asking. Your manifest must declare the permission for the dialog to appear.
+
+<Tip>
+To run your own permission flow, handle `GameballMessageAction.RequestPushPermission` in `onAction` and return `true`.
+</Tip>
+
+---
+
+## Behavior Reference
+
+These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in an Android app.
+
+| **Topic** | In this SDK |
+|---|---|
+| Sessions | Foreground and background are derived from the count of started Activities, so navigation and rotation never look like a session break. A resume after more than the session timeout starts a new session and re-syncs. |
+| Sync and cache | Campaigns and account settings are fetched at session start and cached. The cache is read only when the sync fails. Storage is customer-scoped. |
+| Where it draws | Into the resumed Activity's `android.R.id.content`, resolved fresh at each presentation. No overlay permission is used. A full screen inherits your Activity's insets, so an edge-to-edge host gets a full-bleed poster and any other host keeps its status bar above it. |
+| Back button | Modal and full screen consume the system Back button and are predictive-back aware on a `ComponentActivity`. A slide-up never does, and Back never pops your Activity. |
+| Theme | Messages inflate under the SDK's own Material theme wrapper, so a non-Material host theme cannot crash them. Colors a campaign leaves unset follow your theme. |
+| One at a time | A single pending slot. A message that cannot show now waits and is retried on dismissal, widget close, rotation, or return to the foreground. A newer deferral replaces an older one. |
+| Runner-up | The second-best campaign for the same trigger is kept behind the winner and shows after dismissal once the cooldown lapses. |
+| Cooldown and quiet hours | Both come from the account settings. Quiet hours are judged on the device's local clock. |
+| Orientation | A full screen authored for portrait or landscape logs *deferred until rotation* and displays when the device turns. |
+| Artwork | Prefetched at sync with a 5-second budget, and failed URLs are retried every 30 seconds. `http://` URLs are refused before any request. |
+| Impressions | Recorded on the first pre-draw pass, which is also when auto-dismiss starts. A re-present after rotation does not count twice. |
+| Analytics | Impression, click with button ID, and dismiss with stable event IDs. Flushed every 30 seconds or at 10 events, 50 per request, and persisted after every change, so a force-quit loses nothing. |
+| Accessibility | All text is in sp, slide-up copy is clamped to three lines, long modal copy scrolls inside the card with the buttons reachable, and animator scale 0 disables entry animations. |
+| GIF artwork | Shows its first frame only in this version. |
+
+---
+
+## Logging and Troubleshooting
+
+Every decision is logged with a reason and the campaign ID under the tag `GameballIAM`, on by default. Nothing from this log leaves the device.
+
+```bash
+adb logcat -s GameballIAM
+```
+
+| **Log line** | Meaning |
+|---|---|
+| `synced N campaign(s), cooldown Ns` | The session sync succeeded. |
+| `sync could not reach the backend: …` | Offline start. The last cached campaign set is in use. |
+| `campaign N skipped: artwork not ready` | The image has not loaded, or is `http://`. The next eligible campaign takes the slot. |
+| `campaign N wants PORTRAIT; deferred until rotation` | A full screen is waiting for a matching orientation. |
+| `campaign B deferred: campaign A took this trigger first` | Runner-up kept for after A is dismissed. |
+| `pending campaign N is inside the display floor; held` | The cooldown is being honored, and a retry is booked. |
+| `… inside the quiet-hours window; suppressed` | The account's quiet hours cover the device's current local time. |
+| `navigate action received but no onNavigate hook is set` | Add `onNavigate` to your options. |
+| `artwork … is served over http and is refused` | The campaign's image is not HTTPS. Fix it in the dashboard. |
+
+<Note>
+**Nothing shows at all?** Check in order: `init` ran with the API key and the customer is initialized, `startInAppMessaging` was called with a non-blank ID, the campaign is live and targets Android and the customer is in its audience, the sync log lists it, the account cooldown or quiet hours are not suppressing it, and the campaign has not already been shown to this customer. A fresh customer ID resets frequency history while testing.
+</Note>
+
+---
+
+## ProGuard and R8
+
+If you minify, keep the SDK and Gson as the SDK's README already recommends:
+
+```proguard proguard-rules.pro
+-keep class com.gameball.gameball.** { *; }
+-keep class com.gameball.gameball.model.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+```
+
+---
+
+## API Reference
+
+| **Member** | Signature |
+|---|---|
+| Start | `fun startInAppMessaging(customerId: String, options: InAppMessagingOptions? = null)` |
+| Stop | `fun stopInAppMessaging()` |
+| State | `fun isInAppMessagingStarted(): Boolean` |
+| Options | `InAppMessagingOptions.builder()` with `sessionTimeoutSeconds`, `beforeDisplay`, `onAction`, `onNavigate`, `observer`, `appVersion` |
+| Decision | `enum class DisplayDecision { SHOW, LATER, DISCARD }` |
+| Actions | `sealed class GameballMessageAction`: `Dismiss`, `OpenUrl`, `Navigate`, `RequestPushPermission` |
+| Message model | `data class InAppMessage` with `campaignId`, `variationId`, `name`, `messageType`, `header`, `body`, `buttons`, `isTest` |
+| Button model | `data class InAppMessageButton(id, text)` |
+| Purchase | `fun logPurchase(productId: String, price: Double, currency: String, quantity: Int = 1, properties: Map? = null)` |
+
+---
+
+## Launch Checklist
+
+<Steps>
+  <Step title="Initialize and identify">
+    `init` with the production API key in `Application.onCreate`, then `initializeCustomer`.
+  </Step>
+  <Step title="Start and stop messaging">
+    `startInAppMessaging(customerId, options)` right after the customer is known, and `stopInAppMessaging()` on logout.
+  </Step>
+  <Step title="Wire navigation and permissions">
+    `onNavigate` wired if any campaign uses `navigate`, and `POST_NOTIFICATIONS` declared if any campaign asks for push permission.
+  </Step>
+  <Step title="Declare RTL support">
+    `android:supportsRtl="true"` if you serve right-to-left languages.
+  </Step>
+  <Step title="Add keep rules and test">
+    ProGuard keep rules in place for release builds, then run one campaign end to end on a fresh customer ID with `adb logcat -s GameballIAM` open.
+  </Step>
+</Steps>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
+    Campaign options, triggers, delivery rules, and analytics definitions.
+  </Card>
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/android/track-events">
+    Send the events your campaigns are triggered by.
+  </Card>
+  <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/android/push-notifications">
+    Reach customers when the app is closed.
+  </Card>
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/android/go-live-checklist">
+    Verify the full Android integration before release.
+  </Card>
+</CardGroup>

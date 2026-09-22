@@ -262,6 +262,7 @@
                   "product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns",
                   "product-documentation/communication-campaigns/create-and-configure-sms-campaigns",
                   "product-documentation/communication-campaigns/create-and-configure-web-message-campaigns",
+                  "product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns",
                   "product-documentation/communication-campaigns/dynamic-variables-in-communication-campaigns",
                   {
                     "group": "Templates",
@@ -547,6 +548,7 @@
                       "installation-guides/v3/web/track-orders",
                       "installation-guides/v3/web/integrate-redemption",
                       "installation-guides/v3/web/track-referrals",
+                      "installation-guides/v3/web/in-app-messaging",
                       "installation-guides/v3/web/go-live-checklist"
                     ]
                   },
@@ -594,7 +596,8 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/ios/push-notifications",
-                          "installation-guides/v3/ios/track-referrals"
+                          "installation-guides/v3/ios/track-referrals",
+                          "installation-guides/v3/ios/in-app-messaging"
                         ]
                       },
                       {
@@ -629,7 +632,8 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/android/push-notifications",
-                          "installation-guides/v3/android/track-referrals"
+                          "installation-guides/v3/android/track-referrals",
+                          "installation-guides/v3/android/in-app-messaging"
                         ]
                       },
                       {
@@ -664,7 +668,8 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/flutter/track-referrals",
-                          "installation-guides/v3/flutter/push-notifications"
+                          "installation-guides/v3/flutter/push-notifications",
+                          "installation-guides/v3/flutter/in-app-messaging"
                         ]
                       },
                       {
@@ -699,7 +704,8 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/react-native/track-referrals",
-                          "installation-guides/v3/react-native/push-notifications"
+                          "installation-guides/v3/react-native/push-notifications",
+                          "installation-guides/v3/react-native/in-app-messaging"
                         ]
                       },
                       {

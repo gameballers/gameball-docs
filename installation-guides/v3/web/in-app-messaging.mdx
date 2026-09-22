@@ -1,0 +1,641 @@
+---
+title: "How Do I Set Up In-App Messaging in the Web SDK (v3)?"
+sidebarTitle: "In-App Messaging"
+description: "Display Gameball in-app campaigns on your website or in a React, Angular, or Ionic app"
+---
+
+import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
+import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
+
+<InAppMessagingBeta />
+
+# Display In-App Messages
+
+One package for websites, React, Angular, and Ionic apps. Identify the customer, start messaging, and your dashboard campaigns appear: slide-ups, modals, and full screens, triggered by session start or by the events you already send.
+
+For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
+
+<Warning>
+**Campaign targeting is not yet available for browsers.** Campaigns target iOS and Android, and the campaign composer cannot target a browser yet, so a website integration syncs successfully but receives no campaigns. Contact [support@gameball.co](mailto:support@gameball.co) before you start, so the team can tell you where browser targeting stands for your account.
+
+This does not apply to **Ionic + Capacitor**, which runs as a native app and reports the real `ios` or `android` platform. Those builds are targetable today.
+</Warning>
+
+---
+
+## Requirements
+
+<Tabs>
+  <Tab title="Script tag">
+    | **Item** | Requirement |
+    |---|---|
+    | Build | The script build, around 21 KB gzipped. No bundler, no build step |
+    | Import | The script defines the global `window.Gameball` |
+    | Verified against | Any page that can load a script tag |
+    | Browsers | Anything with Shadow DOM and `Promise`: Chrome, Edge, Firefox, Safari 14+. The build targets ES2019 |
+    | Dependencies | None |
+    | Storage | `localStorage` when available. Private mode or blocked storage falls back to memory, so frequency then lasts a page load rather than a device |
+    | Content Security Policy | `connect-src` for your Gameball API host and `img-src` for the artwork CDN. The SDK injects no third-party script and sets no cookie |
+  </Tab>
+  <Tab title="React">
+    | **Item** | Requirement |
+    |---|---|
+    | Package | `@gameball/web-sdk`, private beta build |
+    | Import | `import { Gameball } from '@gameball/web-sdk';` — one shared singleton, so every file that imports it gets the same instance |
+    | Verified against | React 18 and 19, with Vite. The API is imperative, so it works the same under Next.js, Remix, or CRA |
+    | Browsers | Chrome, Edge, Firefox, Safari 14+. The build targets ES2019 |
+    | Dependencies | None |
+    | Storage | `localStorage` when available, falling back to memory |
+    | Content Security Policy | `connect-src` for your Gameball API host and `img-src` for the artwork CDN |
+  </Tab>
+  <Tab title="Angular">
+    | **Item** | Requirement |
+    |---|---|
+    | Package | `@gameball/web-sdk`, private beta build |
+    | Import | `import { Gameball } from '@gameball/web-sdk';` — one shared singleton |
+    | Verified against | Angular 18 and 22, standalone bootstrap. Works with NgModule bootstrapping too; only the file the `init` call sits in changes |
+    | Browsers | Chrome, Edge, Firefox, Safari 14+. The build targets ES2019 |
+    | Dependencies | None |
+    | Storage | `localStorage` when available, falling back to memory |
+    | Content Security Policy | `connect-src` for your Gameball API host and `img-src` for the artwork CDN |
+  </Tab>
+  <Tab title="Ionic + Capacitor">
+    | **Item** | Requirement |
+    |---|---|
+    | Package | `@gameball/web-sdk`, private beta build |
+    | Import | Two entry points: `@gameball/web-sdk` for the SDK and `@gameball/web-sdk/capacitor` for the native adapter |
+    | Verified against | Ionic 9 (Angular and React) on Capacitor 8, iOS and Android |
+    | Dependencies | None of its own. The adapter uses three optional Capacitor plugins |
+    | Storage | `localStorage` when available, falling back to memory |
+    | Content Security Policy | `connect-src` for your Gameball API host and `img-src` for the artwork CDN |
+  </Tab>
+</Tabs>
+
+---
+
+## Install
+
+<InAppMessagingBetaInstall />
+
+<Tabs>
+  <Tab title="Script tag">
+    Load the script build before your own scripts. It defines `window.Gameball` and needs nothing else.
+
+    ```html index.html
+    <script src="GAMEBALL_WEB_SDK_URL"></script>
+    ```
+
+    <Note>
+    The script URL is provided when your workspace is enabled for the private beta.
+    </Note>
+  </Tab>
+  <Tab title="React">
+    ```bash
+    npm install @gameball/web-sdk@GAMEBALL_BETA_VERSION
+    ```
+
+    The package ships ESM, CommonJS, and TypeScript declarations, and is marked `sideEffects: false`, so a bundler tree-shakes what you do not use.
+  </Tab>
+  <Tab title="Angular">
+    ```bash
+    npm install @gameball/web-sdk@GAMEBALL_BETA_VERSION
+    ```
+
+    The package ships ESM, CommonJS, and TypeScript declarations, and is marked `sideEffects: false`.
+  </Tab>
+  <Tab title="Ionic + Capacitor">
+    Install the SDK, then the three Capacitor plugins the adapter uses. Each one is optional, and a plugin you skip falls back to the web behavior with a log line.
+
+    ```bash
+    npm install @gameball/web-sdk@GAMEBALL_BETA_VERSION
+    npm install @capacitor/app @capacitor/browser @capacitor/push-notifications
+    npx cap sync
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## Quick Start
+
+Four calls carry the integration: `init` once at startup, `identify` when you know who the visitor is, `startInAppMessaging` to begin evaluating campaigns, and `stopInAppMessaging` on logout.
+
+<Tabs>
+  <Tab title="Script tag">
+    **1. Configure at page load.** `init` configures the API client and nothing else. No network request is made until you identify a customer.
+
+    ```html index.html
+    <script src="GAMEBALL_WEB_SDK_URL"></script>
+    <script>
+      Gameball.init({
+        apiKey: 'YOUR_API_KEY',
+        lang: 'en',
+      });
+    </script>
+    ```
+
+    **2. Identify, then start.** Run this wherever your page learns who the visitor is.
+
+    ```js gameball-setup.js
+    async function gameballSignedIn(customerId) {
+      await Gameball.identify(customerId, { preferredLanguage: 'en' });
+
+      Gameball.startInAppMessaging({
+        // A campaign's `navigate` action hands you a route. On a classic site, follow it.
+        onNavigate: (route) => { window.location.href = route; },
+      });
+    }
+
+    function gameballSignedOut() {
+      Gameball.stopInAppMessaging();
+    }
+    ```
+
+    <Note>
+    **Multi-page sites re-run all of it.** Every navigation is a fresh page load, so `init`, `identify`, and `startInAppMessaging` all run again. That is expected and cheap: the SDK reads its cached sync, and the display history in `localStorage` means a once-per-customer message still shows only once.
+    </Note>
+
+    **3. Send the events your campaigns trigger on.**
+
+    ```js
+    document.querySelector('#add-to-cart').addEventListener('click', function () {
+      Gameball.sendEvent('add_to_cart', { price: 1200, category: 'shoes' });
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    **1. Configure before React renders.** `init` belongs at module load in your entry file, above `createRoot`, not in a component. Any component that calls the SDK is then guaranteed to find it configured.
+
+    ```tsx src/main.tsx
+    import { createRoot } from 'react-dom/client';
+    import { Gameball } from '@gameball/web-sdk';
+    import { App } from './App';
+
+    // Runs once, at module load, before anything can render.
+    Gameball.init({
+      apiKey: import.meta.env.VITE_GAMEBALL_API_KEY,
+      lang: 'en',
+      debug: import.meta.env.DEV,
+    });
+
+    createRoot(document.getElementById('root')!).render(<App />);
+    ```
+
+    **2. Own the lifecycle in one provider.** Identifying and starting are tied to "a customer is signed in", which is a lifecycle, so put them in one component and let the rest of your app stay unaware.
+
+    ```tsx src/gameball.tsx
+    import { createContext, useContext, useEffect, useRef, type ReactNode } from 'react';
+    import { Gameball } from '@gameball/web-sdk';
+    import { useNavigate } from 'react-router-dom';
+
+    const GameballContext = createContext(Gameball);
+    export const useGameball = () => useContext(GameballContext);
+
+    export function GameballProvider({ customerId, children }: { customerId: string | null; children: ReactNode }) {
+      // Held in a ref so a new navigate function never restarts messaging.
+      const navigate = useNavigate();
+      const navigateRef = useRef(navigate);
+      navigateRef.current = navigate;
+
+      useEffect(() => {
+        if (!customerId) return;
+        let cancelled = false;
+
+        void (async () => {
+          await Gameball.identify(customerId, { preferredLanguage: 'en' });
+          if (cancelled) return;  // Signed out while the request was in flight
+          Gameball.startInAppMessaging({
+            onNavigate: (route, args) => navigateRef.current(route, { state: args }),
+          });
+        })();
+
+        return () => { cancelled = true; Gameball.stopInAppMessaging(); };
+      }, [customerId]);
+
+      return <GameballContext.Provider value={Gameball}>{children}</GameballContext.Provider>;
+    }
+    ```
+
+    <Warning>
+    **That cleanup is not optional in development.** React StrictMode mounts every effect twice. Without `stopInAppMessaging()` in the cleanup, the second `startInAppMessaging` finds messaging already running and logs `hooks ignored — messaging is already running`, silently discarding your `onNavigate` and `beforeDisplay`. Stopping and restarting is cheap and keeps the display history.
+    </Warning>
+
+    **3. Mount it around your app.** Pass the customer ID from wherever your auth lives. `null` while signed out is what drives the stop.
+
+    ```tsx src/App.tsx
+    import { GameballProvider } from './gameball';
+    import { useAuth } from './auth';
+
+    export function App() {
+      const { user } = useAuth();
+      return (
+        <GameballProvider customerId={user?.id ?? null}>
+          <Routes>{/* your app */}</Routes>
+        </GameballProvider>
+      );
+    }
+    ```
+
+    **4. Send the events your campaigns trigger on.**
+
+    ```tsx src/ProductPage.tsx
+    import { useGameball } from './gameball';
+
+    export function ProductPage() {
+      const gameball = useGameball();
+      return (
+        <button onClick={() => void gameball.sendEvent('add_to_cart', { price: 1200, category: 'shoes' })}>
+          Add to cart
+        </button>
+      );
+    }
+    ```
+  </Tab>
+
+  <Tab title="Angular">
+    **1. Configure before Angular bootstraps.** `init` belongs in `main.ts`, above `bootstrapApplication`, so no component or service can reach the SDK unconfigured.
+
+    ```ts src/main.ts
+    import { bootstrapApplication } from '@angular/platform-browser';
+    import { Gameball } from '@gameball/web-sdk';
+    import { AppComponent } from './app/app.component';
+    import { appConfig } from './app/app.config';
+    import { environment } from './environments/environment';
+
+    // Runs once, before bootstrap.
+    Gameball.init({
+      apiKey: environment.gameballApiKey,
+      lang: 'en',
+      debug: !environment.production,
+    });
+
+    bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
+    ```
+
+    On an NgModule app, put the same call above `platformBrowserDynamic().bootstrapModule(AppModule)`. Nothing else differs.
+
+    **2. Wrap the SDK in one root-provided service.** A single injectable keeps the SDK out of your components and gives the zone problem exactly one place to be solved.
+
+    ```ts src/app/gameball.service.ts
+    import { Injectable, NgZone, inject } from '@angular/core';
+    import { Router } from '@angular/router';
+    import { Gameball } from '@gameball/web-sdk';
+
+    @Injectable({ providedIn: 'root' })
+    export class GameballService {
+      private readonly zone = inject(NgZone);
+      private readonly router = inject(Router);
+
+      async signedIn(customerId: string, lang = 'en'): Promise<void> {
+        await Gameball.identify(customerId, { preferredLanguage: lang });
+
+        Gameball.startInAppMessaging({
+          // Messages are drawn into a Shadow DOM overlay attached to document.body,
+          // outside Angular's component tree, so every hook fires OUTSIDE the zone.
+          onNavigate: (route, args) => this.zone.run(() => {
+            void this.router.navigate([route], { queryParams: args });
+          }),
+        });
+      }
+
+      signedOut(): void {
+        Gameball.stopInAppMessaging();
+      }
+
+      sendEvent(name: string, properties: Record<string, unknown> = {}): void {
+        void Gameball.sendEvent(name, properties);
+      }
+    }
+    ```
+
+    <Warning>
+    **Every SDK callback lands outside the Angular zone.** That applies to `onNavigate`, `onAction`, `beforeDisplay`, and `onInAppMessage`. Anything in them that should update the UI needs `NgZone.run()`. Miss it and the symptom is confusing: the log shows the action fired, but the screen does not move.
+    </Warning>
+
+    **3. Call it from your auth flow.**
+
+    ```ts src/app/auth.component.ts
+    import { Component, inject } from '@angular/core';
+    import { GameballService } from './gameball.service';
+
+    @Component({ selector: 'app-auth', standalone: true, template: '' })
+    export class AuthComponent {
+      private readonly gameball = inject(GameballService);
+
+      async onLoginSuccess(customerId: string): Promise<void> {
+        await this.gameball.signedIn(customerId);
+      }
+
+      onLogout(): void {
+        this.gameball.signedOut();
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Ionic + Capacitor">
+    An Ionic app is a native app, and your campaigns target it as one. The difference from a website is a single `adapter` argument to `init`: it reports `ios` or `android` instead of a browser, follows the native app lifecycle, opens links in the in-app browser sheet, and raises the native push prompt.
+
+    <Warning>
+    **Do not pass `platform` here.** The adapter reports the real `ios` or `android` at runtime, and an explicit `platform` only overrides the truth. Because one JavaScript bundle ships to both operating systems, any hard-coded value is wrong on one of them: those devices would get the other platform's campaigns, be registered under the wrong `osType`, and have every impression and click attributed to the wrong platform in your reporting. The messages still appear, so nothing looks broken while the numbers quietly go wrong.
+    </Warning>
+
+    **1. Configure with the adapter, before the app boots.**
+
+    <CodeGroup>
+
+    ```ts Angular (src/main.ts)
+    import { bootstrapApplication } from '@angular/platform-browser';
+    import { RouteReuseStrategy, provideRouter } from '@angular/router';
+    import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
+    import { Gameball } from '@gameball/web-sdk';
+    import { capacitorAdapter } from '@gameball/web-sdk/capacitor';
+    import { App } from '@capacitor/app';
+    import { Browser } from '@capacitor/browser';
+    import { PushNotifications } from '@capacitor/push-notifications';
+    import { routes } from './app/app.routes';
+    import { AppComponent } from './app/app.component';
+    import { environment } from './environments/environment';
+
+    Gameball.init({
+      apiKey: environment.gameballApiKey,
+      lang: 'en',
+      debug: !environment.production,
+      adapter: capacitorAdapter({ plugins: { App, Browser, PushNotifications } }),
+    });
+
+    bootstrapApplication(AppComponent, {
+      providers: [
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        provideIonicAngular(),
+        provideRouter(routes),
+      ],
+    });
+    ```
+
+    ```tsx React (src/main.tsx)
+    import { createRoot } from 'react-dom/client';
+    import { Gameball } from '@gameball/web-sdk';
+    import { capacitorAdapter } from '@gameball/web-sdk/capacitor';
+    // Capacitor's plugin is also called App — alias it, or it collides with your root component.
+    import { App as CapacitorApp } from '@capacitor/app';
+    import { Browser } from '@capacitor/browser';
+    import { PushNotifications } from '@capacitor/push-notifications';
+    import App from './App';
+
+    Gameball.init({
+      apiKey: import.meta.env.VITE_GAMEBALL_API_KEY,
+      lang: 'en',
+      debug: import.meta.env.DEV,
+      adapter: capacitorAdapter({ plugins: { App: CapacitorApp, Browser, PushNotifications } }),
+    });
+
+    createRoot(document.getElementById('root')!).render(<App />);
+    ```
+
+    </CodeGroup>
+
+    <Note>
+    **Under `ionic serve` you will see no messages, and that is correct.** A browser is not Capacitor, so the adapter logs `capacitor: running in a browser; web defaults apply` and reports a browser platform, which campaigns cannot target. Test on a simulator or device with `npx cap run ios` or `npx cap run android`.
+    </Note>
+
+    **2. Own the lifecycle.** From here the wiring is your framework's, not Capacitor's — identical to the React and Angular tabs above. Wrap the provider around your `IonApp`, or inject the service from your auth flow, exactly as you would any other app-wide concern.
+  </Tab>
+</Tabs>
+
+---
+
+## Start and Stop
+
+`startInAppMessaging` syncs your campaigns, evaluates the session-start ones, and begins listening for your events. It needs an identified customer, so call it after `identify`, or pass `customerId` directly.
+
+`stopInAppMessaging()` belongs on logout. It dismisses anything on screen, clears the in-memory session, and flushes analytics. It deliberately keeps the stored display history and the unsent outbox, because dropping them would lose impressions the backend has already counted and would let a once-ever message show again. Identifying a *different* customer is what discards them.
+
+<Note>
+**Single-page apps need no route hooks.** Messages are drawn into a Shadow DOM overlay attached to `document.body`, outside your framework's tree, so a re-render or a route change never removes one. You do not restart messaging per route.
+</Note>
+
+<Warning>
+**Hooks are read once, when messaging starts.** Calling `startInAppMessaging` again while it is running logs `hooks ignored — messaging is already running` and changes nothing. To swap hooks, call `stopInAppMessaging()` first.
+</Warning>
+
+---
+
+## Control Display and Actions
+
+All hooks are optional and all are passed to `startInAppMessaging`. `beforeDisplay` decides whether a message may appear right now, and `onAction` lets you handle a button yourself.
+
+```js
+Gameball.startInAppMessaging({
+  // Decide per message: show it now, hold it, or drop it.
+  beforeDisplay: (message) => (checkoutIsOpen ? 'later' : 'show'),
+
+  // Handle an action yourself. Return true and the SDK does nothing further;
+  // the click is still reported and the message still closes.
+  onAction: (message, button, action) => {
+    if (action.type === 'navigate') { myRouter.go(action.route); return true; }
+    return false;
+  },
+
+  onNavigate: (route) => { myRouter.go(route); },
+});
+```
+
+<Tip>
+In React, read live state through a ref. `beforeDisplay` is captured once, but a ref's current value is always the latest render's, so messaging never restarts. In Angular, wrap anything that touches the UI in `NgZone.run()`.
+</Tip>
+
+### Holding Messages Behind Your Own Overlays
+
+While your own modal, drawer, or checkout step is open, tell the SDK so a message does not land on top of it. The held message displays as soon as you clear the flag.
+
+```js
+Gameball.setOverlayOpen(true);
+// … show your own modal, then when it closes:
+Gameball.setOverlayOpen(false);  // A held message appears now
+```
+
+<Tip>
+In React, put this in one effect per overlay and clear the flag in the cleanup, so it is cleared even if the component unmounts without an explicit close. In Angular, use `ngOnInit` and `ngOnDestroy`.
+</Tip>
+
+---
+
+## Actions
+
+A message's surface and each of its buttons carry one action. `action.type` is a string, so a `switch` covers them.
+
+| **Type** | Fields | Built-in behavior |
+|---|---|---|
+| `dismiss` | None | Closes the message. |
+| `open_url` | `url`, `external` | A new tab when `external` is true, the same tab otherwise. In an Ionic app, the in-app browser sheet through `@capacitor/browser`, or the system browser if that plugin is missing. Only `http`, `https`, `mailto`, and `tel` are opened; anything else is refused and logged. |
+| `navigate` | `route`, `args` | Your `onNavigate`. Without one the SDK logs that the route was ignored, because it cannot know your router. |
+| `request_push_permission` | None | Asks for notification permission, then closes. |
+
+---
+
+## Observe Messages
+
+Every selected message is published to any listener you register, whatever the SDK then does with it. `onInAppMessage` returns an unsubscribe function — call it, or you leak the listener.
+
+```js
+const off = Gameball.onInAppMessage((message) => {
+  myAnalytics.track('gameball_message_shown', {
+    type: message.type,
+    campaignId: message.campaignId,
+    isTest: message.isTest,
+  });
+});
+
+// off() when you no longer want them.
+```
+
+---
+
+## Events and Purchases
+
+Send the events your campaigns are triggered by. Properties feed the campaign filters, and they are evaluated locally before the request goes out, so a matching message can display immediately. `logPurchase` is the reserved `purchase` event, so both any-purchase and price-filtered campaigns match it.
+
+```js
+await Gameball.sendEvent('add_to_cart', { price: 1200, category: 'shoes' });
+
+await Gameball.logPurchase({ productId: 'sku-1', price: 120, currency: 'EGP' });
+```
+
+<Note>
+**Both calls need an identified customer.** Before `identify`, `sendEvent` logs `sendEvent ignored: identify a customer first` and does nothing.
+</Note>
+
+---
+
+## Language
+
+The message locale comes from the customer's `preferredLanguage` when they have one, otherwise from `init({ lang })`, otherwise English. Changing it takes effect at the *next* session, because the locale is chosen by the sync.
+
+Arabic messages render right-to-left. The overlay reads the resolved locale first and the document's `dir` second, so a page that is already RTL needs no extra configuration.
+
+```js
+await Gameball.identify('customer_123', { preferredLanguage: 'ar' });
+document.documentElement.lang = 'ar';
+document.documentElement.dir = 'rtl';
+```
+
+---
+
+## Push Permission
+
+A campaign button can ask for notification permission. On the web the SDK calls `Notification.requestPermission()`. Inside Capacitor it raises the native prompt through `@capacitor/push-notifications`, falling back to `Notification.requestPermission()` when that plugin is not installed.
+
+Supply your own requester if you use a push provider with its own flow. Return `true` only when permission was actually granted.
+
+```js
+Gameball.startInAppMessaging({
+  requestPushPermission: async () => (await myPushProvider.ask()) === 'granted',
+});
+```
+
+<Warning>
+**The prompt needs a user gesture, and the button press is one.** A browser that has already blocked notifications for your origin resolves immediately as denied, and the message still closes.
+</Warning>
+
+---
+
+## The Capacitor Adapter
+
+The adapter is what turns the same package into a native integration. Every plugin is detected at runtime: one you have not installed falls back to the web default with a log line, and the `plugins` argument is optional when Capacitor's own registry already holds them. The adapter has no build-time dependency on Capacitor, so a website's bundle is unaffected.
+
+| **Plugin** | Present | Absent |
+|---|---|---|
+| `@capacitor/app` | The native app lifecycle drives sessions. | Browser visibility events are used instead. |
+| `@capacitor/browser` | `open_url` opens the in-app browser sheet. | The system browser opens instead. |
+| `@capacitor/push-notifications` | `request_push_permission` raises the native prompt. | Falls back to `Notification.requestPermission()`. |
+
+---
+
+## Behavior Reference
+
+These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean on the web.
+
+| **Topic** | In this SDK |
+|---|---|
+| Sessions | A session starts when messaging starts, and again when the page returns to visibility after more than 30 seconds hidden. Each session re-syncs. |
+| Sync and cache | Campaigns and account settings are fetched at session start and cached. The cache is read only when the sync fails. |
+| Where it draws | A Shadow DOM overlay attached to `document.body`, so your own CSS cannot leak into a message and a message cannot leak into your page. |
+| One at a time | A message that cannot show now waits in a pending slot and is retried at the next opportunity. |
+| Cooldown and quiet hours | Both come from the account settings. Quiet hours are judged on the visitor's local clock. |
+| Artwork | Prefetched at sync. `http://` URLs are refused before any request. A campaign whose artwork is not ready is passed over. |
+| Impressions | Recorded when the message has actually painted, which is also when auto-dismiss starts. |
+| Analytics | Impression, click with button ID, and dismiss, batched and persisted in `localStorage`. |
+| Storage | `localStorage` when available. Private mode falls back to memory, so frequency lasts a page load rather than a device. |
+
+---
+
+## Logging and Troubleshooting
+
+Pass `debug: true` to `init` for a running commentary prefixed `[GameballIAM]`.
+
+| **You see** | It means |
+|---|---|
+| `synced 0 campaign(s)` | No campaign matched this customer and platform. For a browser integration, this is expected until campaign targeting supports browsers. |
+| `hooks ignored — messaging is already running` | `startInAppMessaging` was called twice. Call `stopInAppMessaging()` first to swap hooks. |
+| `sendEvent ignored: identify a customer first` | `identify` has not resolved yet. |
+| `campaign N skipped: artwork not ready` | The image has not loaded, or is `http://`. The next eligible campaign takes the slot. |
+| `capacitor: running in a browser; web defaults apply` | An Ionic build running under `ionic serve`. Test on a device or simulator. |
+
+---
+
+## API Reference
+
+| **Member** | Signature |
+|---|---|
+| Configure | `Gameball.init({ apiKey, lang?, debug?, adapter? })` |
+| Identify | `Gameball.identify(customerId, attributes?)` |
+| Start | `Gameball.startInAppMessaging(hooks?)` |
+| Stop | `Gameball.stopInAppMessaging()` |
+| Overlay flag | `Gameball.setOverlayOpen(open: boolean)` |
+| Observe | `Gameball.onInAppMessage(listener)` returning an unsubscribe function |
+| Events | `Gameball.sendEvent(name, properties?)` |
+| Purchase | `Gameball.logPurchase({ productId, price, currency, quantity?, properties? })` |
+| Capacitor adapter | `capacitorAdapter({ plugins })` from `@gameball/web-sdk/capacitor` |
+
+---
+
+## Launch Checklist
+
+<Steps>
+  <Step title="Configure once, before anything renders">
+    `init` runs once at module load or in a script tag above anything that could call the SDK, never inside a component.
+  </Step>
+  <Step title="Identify and start">
+    `identify` runs on login and on every page load for a signed-in visitor, and `stopInAppMessaging` runs on logout.
+  </Step>
+  <Step title="Handle your framework's lifecycle">
+    In React, the effect that starts messaging returns `stopInAppMessaging()` from its cleanup. In Angular, every hook that touches the UI is wrapped in `NgZone.run()`. In Ionic, Capacitor's `App` plugin is aliased if your root component is also called `App`, and no `platform` is passed to `init`.
+  </Step>
+  <Step title="Wire hooks and overlays">
+    `onNavigate` is wired to your router, or your campaigns use no `navigate` actions, and `setOverlayOpen` brackets your own modals, drawers, and checkout steps.
+  </Step>
+  <Step title="Check CSP and release settings">
+    Your Content Security Policy allows the API host and the artwork CDN, campaign artwork is served over `https`, and `debug` is `false` before release. Test an Ionic build in the native shell rather than `ionic serve`.
+  </Step>
+</Steps>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
+    Campaign options, triggers, delivery rules, and analytics definitions.
+  </Card>
+  <Card title="Initialize Widget" icon="puzzle-piece" href="/installation-guides/v3/web/initialize-widget">
+    Set up the Gameball widget on your website.
+  </Card>
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/web/track-events">
+    Send the events your campaigns are triggered by.
+  </Card>
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/web/go-live-checklist">
+    Verify the full web integration before release.
+  </Card>
+</CardGroup>

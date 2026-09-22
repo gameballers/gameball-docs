@@ -1,0 +1,309 @@
+---
+title: "How Do I Set Up In-App Messaging in the React Native SDK (v3)?"
+sidebarTitle: "In-App Messaging"
+description: "Display Gameball in-app campaigns in your React Native app and control when and how they appear"
+---
+
+import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
+import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
+
+<InAppMessagingBeta />
+
+# Display In-App Messages
+
+Your dashboard campaigns, drawn natively in your React Native app: slide-ups, modals, and full screens, triggered by session start or by the events you already send.
+
+For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
+
+---
+
+## Requirements
+
+| **Item** | Requirement |
+|---|---|
+| Package | `react-native-gameball`, private beta build. In-app messaging is part of the SDK, so there is nothing extra to install |
+| React Native | 0.72 or newer, React 18 or 19 |
+| Platforms | iOS and Android |
+| Required peers | `react`, `react-native`, and `react-native-webview` for the profile widget |
+| Optional | `@react-native-async-storage/async-storage` and `react-native-safe-area-context`, both detected at runtime |
+| New runtime dependencies | None |
+
+---
+
+## Install
+
+<InAppMessagingBetaInstall />
+
+```bash
+npm install react-native-gameball@GAMEBALL_BETA_VERSION
+cd ios && pod install
+```
+
+If you already use the SDK for the profile widget or event tracking, you have it. In-app messaging adds five methods and one component.
+
+---
+
+## Mount the Surface
+
+React Native has no window of its own to draw into, so the SDK needs a place in your tree. Mount `<GameballInAppMessages />` once, near the root of your app and above your navigator.
+
+```tsx App.tsx
+import GameballApp, { GameballInAppMessages } from 'react-native-gameball';
+
+export default function App() {
+  return (
+    <>
+      <NavigationContainer>{/* your app */}</NavigationContainer>
+      <GameballInAppMessages />
+    </>
+  );
+}
+```
+
+<Warning>
+**Until it is mounted, nothing draws.** The SDK will not count an impression nobody could see, so it holds the message and displays it once a surface exists. If messages never appear, this is the first thing to check. The log says `no in-app messaging host mounted yet; deferring`.
+</Warning>
+
+Slide-ups render in place, so the app underneath stays usable. Modals and full screens render inside a React Native `Modal`, which puts them above everything your app draws, including a navigator's own screens, and gives Android's Back button somewhere to land.
+
+---
+
+## Start Messaging
+
+Three calls, in order.
+
+```tsx
+const app = GameballApp.getInstance();
+
+await app.init({ apiKey: 'YOUR_API_KEY' });
+await app.initializeCustomer({ customerId: 'customer-123' });
+await app.startInAppMessaging();
+```
+
+<Warning>
+**Await `startInAppMessaging`.** Storage is asynchronous on this platform, and the frequency history has to be in memory before the first campaign is judged against it, or a once-ever message could show twice.
+</Warning>
+
+<Note>
+**Call `init` at module load, not from a component effect.** It is asynchronous, because it fetches your account's settings, and every network-facing method refuses to run until it resolves. A child component's effect runs before its parent's, so an effect-based init leaves a window in which your app is mounted and interactive while the SDK is not ready.
+</Note>
+
+`startInAppMessaging` takes an explicit `customerId` if you would rather not rely on the last identified customer. Call `stopInAppMessaging()` on logout: it dismisses what is showing, flushes analytics, and lets go of the customer, so the next start cannot quietly resume the person who just signed out. Stored state is kept, so the same customer signing back in is not shown a once-ever message twice.
+
+---
+
+## Control Display and Actions
+
+Every hook is optional, and every one of them takes effect on the *most recent* `startInAppMessaging` call.
+
+```tsx
+await app.startInAppMessaging({
+  // Deep links from a campaign's button or surface.
+  onNavigate: (route, args) => navigation.navigate(route, args),
+
+  // 'show' displays it, 'later' holds it, 'discard' drops it.
+  beforeDisplay: (message) => (checkoutInProgress ? 'later' : 'show'),
+
+  // Return true to say you handled the action yourself.
+  // The click is still recorded either way.
+  onAction: (message, button, action) => false,
+
+  // Every message the SDK selects, whatever you then decide.
+  onMessage: (message) => analytics.track('gameball_message', { id: message.id }),
+
+  // How long a background counts as the same session. Default 30 s.
+  sessionTimeoutSeconds: 30,
+});
+```
+
+While your own modal, drawer, or checkout step is up, tell the SDK and it holds messages until you say the screen is yours again:
+
+```tsx
+app.setOverlayOpen(true);
+// … later
+app.setOverlayOpen(false);   // A held message displays now
+```
+
+---
+
+## Actions
+
+A campaign's surface or button can dismiss, open a URL, navigate to a route, or ask for push permission. `onAction` sees all of them first.
+
+<Warning>
+**React Native ships no in-app browser.** Both link kinds, `external: true` and `external: false`, leave for the system browser through `Linking.openURL`, so the customer leaves your app and comes back to it suspended, not restarted.
+</Warning>
+
+If you bundle a browser, pass `openUrl` and decide for yourself:
+
+```tsx
+openUrl: async (url, external) => {
+  if (external) return false;            // Let the SDK send it to the system browser
+  await InAppBrowser.open(url);
+  return true;                           // Handled
+}
+```
+
+Whatever you do, the SDK only ever opens `http`, `https`, `mailto`, and `tel`. A campaign carrying `javascript:`, `file:`, or your own deep-link scheme is refused and logged, so a campaign cannot launch arbitrary schemes in your app.
+
+---
+
+## Observe Messages
+
+```tsx
+const off = app.onInAppMessage((message) => {
+  // Every message the SDK selects. Pause a video, mute audio, whatever the screen needs.
+});
+// later
+off();
+```
+
+This is a listener, not a veto. Use `beforeDisplay` to hold or drop a message. It fires for every listener you register, and a listener that throws is logged rather than allowed to break the display.
+
+---
+
+## Events and Purchases
+
+Nothing extra to wire. Every event you already send is also a trigger, evaluated before the request goes out, so a campaign that fires on `add_to_cart` needs no new code:
+
+```tsx
+await app.sendEvent({
+  customerId: 'customer-123',
+  events: { add_to_cart: { price: 1200, category: 'shoes' } },
+});
+```
+
+The properties you attach are what the campaign's filters are matched against. String comparisons are case-insensitive, and a property the event does not carry never matches.
+
+---
+
+## Language and Right-to-Left
+
+A campaign is fetched in one language. The customer's own `preferredLanguage` wins; without one, the SDK uses whatever `init` was given. `changeLanguage` replaces that default for every request from then on, and campaigns already synced keep the copy they were fetched with until the next sync.
+
+```tsx
+await app.initializeCustomer({
+  customerId: 'customer-123',
+  customerAttributes: { preferredLanguage: 'ar' },
+});
+```
+
+<Note>
+**Mirroring is your app's business, not the SDK's.** Messages are drawn into whatever layout direction your app lays out in, so an app running under `I18nManager.isRTL` gets right-aligned copy, mirrored buttons, and the close glyph in the top-left corner. An app that stays left-to-right does not. The SDK never forces a direction on you.
+</Note>
+
+---
+
+## Push Permission
+
+React Native has no notification-permission API of its own, so a campaign that asks for one asks *you*. Without a requester the SDK logs and closes the message rather than pretending.
+
+```tsx
+requestPushPermission: async () => {
+  const { granted } = await requestNotifications(['alert', 'sound']);
+  return granted;
+}
+```
+
+---
+
+## Storage
+
+Two optional packages, both resolved at runtime. Neither is required, and the SDK takes no new runtime dependency of its own.
+
+| **Package** | Present | Absent |
+|---|---|---|
+| `@react-native-async-storage/async-storage` | Frequency history, the analytics outbox, and the campaign cache survive a restart. | Everything works and nothing persists. A once-ever message can show again after the app is killed, and unsent analytics are lost on a force-quit. |
+| `react-native-safe-area-context` | Messages clear the notch and the home indicator automatically. | The SDK falls back to the status-bar height on Android and to zero elsewhere. |
+
+<Tip>
+If your app's own insets are the authority, pass them and they win: `<GameballInAppMessages insets={useSafeAreaInsets()} />`.
+</Tip>
+
+---
+
+## Behavior Reference
+
+These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in a React Native app.
+
+| **Topic** | In this SDK |
+|---|---|
+| Slide-up auto-dismiss | A campaign that names no duration gets 8 seconds, so a banner cannot sit over your app bar indefinitely. The clock starts when it paints, not when the trigger fires. |
+| Swipe to dismiss | A slide-up is dragged toward its own edge, up for a top banner and down for a bottom one. A drag the OS cancels springs back. |
+| Android Back | Closes a modal or a full screen, never a slide-up. |
+| Orientation | A full screen authored portrait-only or landscape-only is held until the device is in that orientation, then displays on its own. A message never rotates your app. |
+| Artwork | HTTPS only. Cleartext artwork is refused before any request goes out. A campaign whose image cannot be loaded is passed over and the next eligible campaign shows, rather than a broken card. |
+| One at a time | A second matching campaign is parked behind the one on screen and displays when it closes, without the trigger firing again. |
+| Sessions | A background longer than the session timeout starts a new session on resume: a fresh sync and a session-start evaluation. Shorter, and the session continues. |
+| Analytics | Impressions, clicks, and dismissals are batched and sent every 30 seconds, and flushed when the app goes to the background. A dismissal is only counted when the customer did not engage. |
+
+---
+
+## Logging and Troubleshooting
+
+Pass `debug: true` to `init` for a running commentary prefixed `[GameballIAM]`, showing which campaign was chosen, which was passed over, and why. It is on by default in development builds.
+
+| **You see** | It means |
+|---|---|
+| `no in-app messaging host mounted yet; deferring` | `<GameballInAppMessages />` is not in the tree. Nothing will draw until it is. |
+| `startInAppMessaging ignored: no customerId` | Identify a customer first, or pass one. After `stopInAppMessaging()` the SDK deliberately holds no customer. |
+| `campaign "N" passed over: artwork not ready` | The image did not load in time. The SDK retries in the background and the campaign becomes eligible again. |
+| `… cooldown has not elapsed since the last message; suppressed` | Your account's floor between two displays, set in the dashboard. |
+| `message "N" needs landscape orientation; deferring` | Working as intended. It will display when the device turns. |
+| Nothing at all after `start` | Check that `init` resolved before you called it. |
+
+---
+
+## API Reference
+
+| **Member** | Signature | Notes |
+|---|---|---|
+| `startInAppMessaging` | `(options?) => Promise<void>` | Await it. Options: `customerId`, `sessionTimeoutSeconds`, `beforeDisplay`, `onAction`, `onNavigate`, `onMessage`, `openUrl`, `requestPushPermission`. |
+| `stopInAppMessaging` | `() => void` | Logout boundary. Dismisses, flushes, forgets the customer, keeps stored state. |
+| `setOverlayOpen` | `(open: boolean) => void` | Holds messages while your own overlay is up. Closing it retries a held message. |
+| `onInAppMessage` | `(listener) => () => void` | Returns its own unsubscribe. |
+| `isInAppMessagingStarted` | `boolean` | Read-only. |
+| `<GameballInAppMessages />` | `{ insets?: { top?, bottom? } }` | Mount once, near the root, above your navigator. |
+
+Types `InAppMessage`, `MessageButton`, `ClickAction`, `MessageType`, `MessageLayout`, `MessageOrientation`, `SlidePosition`, `MessageStyle`, `ButtonStyle`, `TextAlign`, `BeforeDisplay`, `DisplayDecision`, `OnAction`, and `StartInAppMessagingOptions` are exported from the package root.
+
+---
+
+## Launch Checklist
+
+<Steps>
+  <Step title="Initialize at module load">
+    `init` runs at module load and is awaited before anything else.
+  </Step>
+  <Step title="Mount the surface">
+    `<GameballInAppMessages />` is mounted once, above the navigator.
+  </Step>
+  <Step title="Start and stop messaging">
+    `startInAppMessaging` is awaited after a customer is identified, and `stopInAppMessaging()` is called on logout.
+  </Step>
+  <Step title="Wire the hooks">
+    `onNavigate` if any campaign uses a route action, `requestPushPermission` if any campaign asks for notifications, and `setOverlayOpen` bracketing your own modals and checkout steps.
+  </Step>
+  <Step title="Check storage and insets">
+    AsyncStorage is installed unless you accept that frequency caps reset on restart, safe-area insets come from somewhere, and `debug` is off in release builds.
+  </Step>
+</Steps>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
+    Campaign options, triggers, delivery rules, and analytics definitions.
+  </Card>
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/react-native/track-events">
+    Send the events your campaigns are triggered by.
+  </Card>
+  <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/react-native/push-notifications">
+    Reach customers when the app is closed.
+  </Card>
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/react-native/go-live-checklist">
+    Verify the full React Native integration before release.
+  </Card>
+</CardGroup>
