@@ -93,8 +93,11 @@ sequenceDiagram
     User A / Session A->>Gameball: Validate + Lock SAVE10
     Gameball-->>User A / Session A: Locked
 
-    User B / Session B->>Gameball: Validate SAVE10
-    Gameball-->>User B / Session B: Rejected (locked)
+    User B / Session B->>Gameball: Validate SAVE10 (no lock)
+    Gameball-->>User B / Session B: valid: true
+
+    User B / Session B->>Gameball: Validate + Lock SAVE10
+    Gameball-->>User B / Session B: Rejected (already locked)
 ```
 ---
 
@@ -212,9 +215,11 @@ If any coupon is:
 - Expired
 - Not applicable to this customer
 - Outside the campaign window
-- Already locked by another session
+- Already locked by another session, and this request also sends a lock (`lock`, `lockReference`, or `lockDuration`)
 
 Then the valid field will return false, and the failed coupon will be listed with error metadata.
+
+A coupon that is already locked still returns `valid: true` when the request omits `lock`, `lockReference`, and `lockDuration`. Check `isLocked` on [Get Customer Coupons](/api-reference/customers/management/get-customer-coupons) to see that lock state before you try to lock it again.
 
 Example:
 

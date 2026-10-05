@@ -62,6 +62,7 @@ To determine which coupons to display to customers, use the attributes returned 
 | **`usedCount`**         | How many times has this coupon been used globally.                                 | Compare with `usageLimit` to see if it’s still available.                 |
 | **`customerUsedCount`** | How many times has this specific customer used this coupon.                        | Compare with `limitPerCustomer` to check individual eligibility.          |
 | **`isAvailableToUse`**  | `true` if the coupon is both active and available for this customer to use.        | Ideal flag to directly determine if the coupon should appear as “Usable.” |
+| **`isLocked`**          | `true` if the coupon is currently locked.                                          | Show a reserved state. A locked coupon still returns `valid: true` from Validate Single Coupon and Validate Multiple Coupons when the request omits `lock`, `lockReference`, and `lockDuration`. |
 
 <Tip>
   You can use You can use `isAvailableToUse` as the primary flag to display only coupons that are both active and usable. However, for more control, combine it with`isExpired`,`limitPerCustomer`, and`customerUsedCount` for custom logic.

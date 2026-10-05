@@ -7418,6 +7418,10 @@
                   "type": "boolean",
                   "description": "Flag determining whether coupon can be used by customer at given time"
                 },
+                "isLocked": {
+                  "type": "boolean",
+                  "description": "Whether the coupon is currently locked. true when a lock is active on the coupon, false when it is not. A locked coupon still returns valid: true from Validate Single Coupon and Validate Multiple Coupons when the request omits lock, lockReference, and lockDuration."
+                },
                 "iconPath": {
                   "type": "string",
                   "description": "Path or URL to the icon image for the coupon"

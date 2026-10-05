@@ -268,6 +268,10 @@ A cart that omits `totalPurchaseAmount` no longer slips past a coupon that has a
 
 Set `lock` to `true` to reserve the coupon when it validates. The response carries a `lockReference` and a `dateToExpire`, and the coupon cannot be validated-and-locked by another order until the lock expires or is consumed.
 
+<Note>
+A coupon that is already locked still returns `valid: true` when this request does not lock it. Omit `lock`, `lockReference`, and `lockDuration` — for example, do not send `"lock": true`, `"lockReference": "123"`, and `"lockDuration": 1440`. Read `isLocked` on [Get Customer Coupons](/api-reference/customers/management/get-customer-coupons) to see the current lock state.
+</Note>
+
 | Setting | Effect |
 | :--- | :--- |
 | `lock: false` (default) | Validation only. `lockReference` and `dateToExpire` come back `null`. |

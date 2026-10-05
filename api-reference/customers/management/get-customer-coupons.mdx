@@ -10,3 +10,11 @@ This API retrieves a customer's available coupons in Gameball, offering detailed
 <Warning>
 **Security**: Requires **apikey** and **secretkey** headers.
 </Warning>
+
+## Coupon lock state
+
+Each coupon includes `isLocked`, a boolean that reflects the coupon's current lock state. It is `true` while a lock is active and `false` when the coupon is not locked.
+
+<Note>
+A locked coupon still returns `valid: true` from [Validate Single Coupon](/api-reference/coupons/validate-single-coupon) and [Validate Multiple Coupons](/api-reference/coupons/validate-multiple-coupons) when that request does not lock the coupon. Omit `lock`, `lockReference`, and `lockDuration` — for example, do not send `"lock": true`, `"lockReference": "123"`, and `"lockDuration": 1440`.
+</Note>
