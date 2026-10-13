@@ -39,7 +39,10 @@ You can access the profile of any customer by navigating to **Customers**, then 
   <Accordion title="Details Panel" icon="chart-bar">
     - **Total Amount Spent**: Overall spending captured through your platform.
     - **Current Tier**: Customer's current VIP tier.
-    - **Points Balance**: Total earned points, broken down into active and pending.
+    - **Points Balance**: Total earned points, broken down into active, pending, and on hold.
+      - **Active**: Points the customer can spend right now.
+      - **Pending**: Points earned but not yet activated (e.g. still within a return window).
+      - **On Hold**: Points temporarily frozen — for example, when a refund is being processed — and released or revoked once the outcome is confirmed.
   </Accordion>
   <Accordion title="Segments & Tags" icon="tags">
     You can view the tags and segments the customer belongs to:
@@ -78,6 +81,20 @@ You can access the profile of any customer by navigating to **Customers**, then 
     Clicking a campaign name will redirect you to its configuration page.
   </Accordion>
 </AccordionGroup>
+
+---
+
+## Customer Log & Order Points Receipt
+
+The **Customer Log** tab shows a timeline of every transaction, campaign completion, and activity for the customer.
+
+Clicking on an **order number** in the log opens the **Order Details** panel, which includes a full **Points Receipt** — a line-by-line breakdown of exactly how points were calculated for that order:
+
+- **Order summary**: order date, when Gameball received it, and the products included.
+- **Why these points**: for each product, Gameball shows the eligible amount, the rate applied (e.g. "base rate 3 pts"), any campaign multiplier, and the resulting item points. Items that earned 0 points show the reason (e.g. ineligible amount).
+- **Order subtotals**: shipping, discounts, and any coupon applied.
+
+This lets your team answer "why did this order earn X points?" on the spot — no need to open a support ticket.
 
 ---
 

@@ -1,76 +1,122 @@
 ---
-title: "How Do I Export My Points Data?"
-description: "Learn how to export your points data from the Gameball dashboard and what fields are included."
+title: "How Do I Track Points & Rewards Analytics?"
+description: "Understand the Points & Rewards analytics page — what every metric means and how to export your raw data."
 ---
 
-Gameball allows you to export your points data directly from the analytics page.
-
-<Frame>
-  ![Export points data](/images/product-docs/analytics/export-points-data.png)
-</Frame>
-
-You can apply filters to narrow down the customer inclusions based on tags before exporting or export a broader dataset as needed.
+The **Points & Rewards** analytics page gives you a full picture of how points flow through your loyalty program: what's being earned, where it's coming from, how it's being spent, and how much is sitting unused. Use it to spot redemption gaps, track liability, and reconcile your finance reports.
 
 ---
 
-## Step-by-Step Instructions
+## How to Get There
+
+From the left-side menu, click **Analytics** → **Points & Rewards**.
+
+---
+
+## Filters
+
+| Control | What it does |
+|---|---|
+| **Date range** (top left) | Scopes all time-series charts and totals to that period. |
+| **Choose Tag** (top right) | Filters all data to customers who have a specific tag. |
+| **Export** | Downloads all data on this page as a CSV file. |
+
+---
+
+## Liability
+
+<Note>
+Liability metrics show the **current totals** across your entire customer base and are not affected by the selected date range.
+</Note>
+
+| Metric | Definition |
+|---|---|
+| **Total available points** | The combined sum of active and pending points across all customers — the full theoretical liability. |
+| **Total pending points** | Points earned but not yet active, either waiting in a return window or pending redemption confirmation. |
+| **Total active points** | Points customers can spend right now. |
+
+---
+
+## Accumulated Points
+
+Points that were added to customer balances within the selected date range.
+
+| Metric | Definition |
+|---|---|
+| **Total accumulated points** | All points credited to customers in the period, regardless of source. |
+| **Points source** | A chart breaking down accumulated points by where they came from (e.g. Cashback, Achievements, Referrals, Manual, Campaigns). The chart can be viewed weekly or at other intervals. |
+
+---
+
+## Deducted Points
+
+Points that left customer balances within the selected date range.
+
+| Metric | Definition |
+|---|---|
+| **Total deducted points** | All points removed from balances in the period — includes redemptions, expirations, cancellations, and manual deductions. |
+| **Deduction types** | Chart showing how points were removed, broken down by type (redeemed, expired, cancelled, manually deducted, etc.). |
+| **Redemption by reward type** | What customers redeemed their points for — coupon, cashback, free product, etc. |
+| **Expired Points by Source** | Expired points split by the source that originally issued them (e.g. Cashback, Campaigns). Helps you spot which earning sources produce the most waste. |
+| **Redeemed Points by Source** | Redeemed points split by the source that originally issued them. Helps you understand which earning sources drive the most actual spending. |
+| **Redemption rate** | The ratio of redeemed points to accumulated points, shown as a percentage. The higher this is, the more your rewards are driving real customer action. |
+
+---
+
+## Exporting Your Points Data
 
 <Steps>
   <Step title="Navigate to Points & Rewards">
-    Go to the **Points & Rewards** page from the Gameball dashboard under the _Analytics_ section in the left-side menu bar.
+    Go to **Analytics** → **Points & Rewards**.
   </Step>
   <Step title="Apply filters (optional)">
-    Apply filters if you'd like to export a specific tag's points.
+    Filter by date range or tag to narrow down the export.
   </Step>
   <Step title="Click Export">
-    Click **Export**.
+    Click **Export** at the top right of the page.
   </Step>
-  <Step title="Download the file">
-    Your data will be exported as a CSV file.
+  <Step title="Download the CSV">
+    Your data downloads as a CSV file with one row per day.
   </Step>
 </Steps>
 
----
+### Exported Fields
 
-## Exported Fields and Their Descriptions
-
-Here's a description of all the columns included in your exported file:
-
-| Column Header | Description |
-| --- | --- |
+| Column | Description |
+|---|---|
 | `date` | The date for which the points data is reported |
 | `earned_points` | Total points earned by customers on that date |
-| `redeemed_points` | Points that were used/redeemed for rewards |
-| `burned_points` | Points that were lost due to expiry, cancellation, partial refund or manual deduction |
-| `cashback_reward_points` | Points earned specifically from purchase rewards |
-| `refunded_points` | Points returned to customers after a refund process |
-| `redeemed_fixed_points` | Points used in an order directly without coupon creation |
+| `redeemed_points` | Points used/redeemed for rewards |
+| `burned_points` | Points lost due to expiry, cancellation, partial refund, or manual deduction |
+| `cashback_reward_points` | Points earned specifically from purchase/cashback rewards |
+| `refunded_points` | Points returned to customers after a refund |
+| `redeemed_fixed_points` | Points used directly on an order without coupon creation |
 | `expired_points` | Points that expired before being redeemed |
 | `cancelled_points` | Points cancelled due to order cancellation or reversal |
 | `migrated_points` | Points transferred from a previous system or imported manually |
 | `manual_added_points` | Points manually granted by admins |
 | `manual_negative_points` | Points manually deducted by admins |
 | `partially_refunded_points` | Points adjusted due to partial refunds |
-| `campaign_points` | Points earned from campaigns (e.g., challenges, engagement triggers) |
+| `campaign_points` | Points earned from campaigns (challenges, engagement triggers, etc.) |
 | `referral_points` | Points earned through referral activities |
 | `level_points` | Points awarded through tier progress |
-| `redemption_rate` | The ratio of redeemed points to earned points, shown as a percentage |
+| `redemption_rate` | Ratio of redeemed to earned points, shown as a percentage |
 
 ---
 
 ## Related Articles
 
 <CardGroup cols={2}>
+  <Card title="Member Analytics" icon="users" href="/product-documentation/analytics/member-analytics">
+    Track enrolled member growth, engagement, and retention.
+  </Card>
+  <Card title="Track Your Campaign Performance" icon="chart-line" href="/product-documentation/analytics/track-your-campaign-performance">
+    Measure campaign reach, completion rates, and rewards distribution.
+  </Card>
   <Card title="Customer Profile Attributes" icon="user-gear" href="/product-documentation/understanding-your-customers/customer-profile/customer-profile-attributes">
     Learn about all customer attributes and how they are populated.
   </Card>
-  <Card title="Manage Your Customer List" icon="users" href="/product-documentation/understanding-your-customers/your-customers/manage-your-customer-list">
-    View and manage your full customer list.
-  </Card>
-  <Card title="Update or Migrate Customers via CSV" icon="file-csv" href="/product-documentation/understanding-your-customers/your-customers/migrate-your-customers-to-gameball-from-other-loyalty-programs-on-shopify">
-    Migrate customers from other loyalty programs.
-  </Card>
-  <Card title="Group Customers Using Tags" icon="tags" href="/product-documentation/understanding-your-customers/customer-profile/group-your-customers-by-tags">
-    Use tags to manually group and target customers.
+  <Card title="Export Customer Activity Log" icon="file-csv" href="/product-documentation/understanding-your-customers/your-customers/export-customer-activities-log">
+    Export individual customer activity data as CSV.
   </Card>
 </CardGroup>

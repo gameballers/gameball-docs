@@ -70,18 +70,28 @@ With Gameball's couponing engine, you can manually create unique coupons to rewa
 
     6. **Coupon Value:** Enter the value based on the type chosen.
     7. **Minimum Purchase Amount:** Define the minimum amount required for the coupon to apply.
-    8. **Apply the Coupon:** Decide whether it applies to **All Orders** or **Specific Collections**.
+    8. **Applies To:** Choose which orders or items the coupon applies to.
+
+    | Option | Description |
+    |---|---|
+    | **Entire order** | The coupon applies to the whole order with no item-level restrictions. |
+    | **Specific Rule** | Restrict the coupon to a subset of the order using cart-level and item-level filters. |
+
+    When **Specific Rule** is selected, configure one or more of the following:
+
+    **Cart level** (applies to the whole cart):
+    - **Merchants** — limit to specific merchants
+    - **Branch** — limit to a specific branch
+
+    **Item level** (applies per line item):
+    - **Collection** — limit to items in a specific collection
+    - **Category** — limit to items in a specific category
+    - **Products** — limit to specific products
+
+    You can combine cart-level and item-level restrictions. A "Sony audio" coupon, for example, would use Brand + Category at item level so it only applies when a Sony audio product is in the cart.
 
     <Frame>
       <img src="/images/product-docs/coupons/apply-coupon-settings.png" alt="Apply coupon settings" />
-    </Frame>
-
-    <Note>
-      Clients can specify whether the coupon should apply to **both merchants and collections (AND)** or **either merchants or collections (OR)**.
-    </Note>
-
-    <Frame>
-      <img src="/images/product-docs/coupons/coupon-application-logic.png" alt="Coupon application logic" />
     </Frame>
 
     <Info>
@@ -143,6 +153,7 @@ With Gameball's couponing engine, you can manually create unique coupons to rewa
     | **Coupon Usage Per Customer Limit** | Set how many times an individual customer can use the coupon. |
     | **Coupon Usage Limit** | Establish a total usage cap for the coupon. |
     | **Reward Combined with Other Coupons** | Specify whether the coupon can be used alongside other offers. |
+    | **Return coupon on full refund** | Automatically re-issue the coupon to the customer when their order is fully refunded, so they can use it again. |
 
     <Frame>
       <img src="/images/product-docs/coupons/advanced-options.png" alt="Advanced options" />

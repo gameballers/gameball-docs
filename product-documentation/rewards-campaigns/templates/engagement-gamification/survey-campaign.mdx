@@ -93,6 +93,10 @@ Build your survey from seven supported question types:
 
 Add, reorder, and delete questions freely, and mark any question **Required** or **Optional**.
 
+<Note>
+Customers can skip optional questions using the **Skip** button that appears on each optional question. Required questions must be answered before the survey can be submitted.
+</Note>
+
 <Frame>
   ![Survey completion reward, no reward option, dates and limits](/images/product-docs/rewards-campaigns/templates/engagement-gamification/survey-campaign-questions-overview.png)
 </Frame>
@@ -108,8 +112,27 @@ Reward the survey with points or a coupon from your existing redemption rules �
 Reach customers through three channels, configurable independently:
 
 - **Gameball Widget:** The survey appears inside the loyalty widget.
-- **Storefront Popup:** Enable popup mode with a configurable trigger — page load, time delay, or exit intent.
+- **Storefront Popup:** Enable popup mode and choose when it appears, on which pages, and how often it can return.
 - **Shareable Link:** Copy an auto-generated link that renders the survey on a Gameball-hosted page, no widget required. Useful for emails, SMS, or social posts.
+
+### Popup Display Triggers & Page Targeting
+
+When Popup mode is enabled, configure when and where the popup appears:
+
+| Setting | Options |
+|---|---|
+| **Display trigger** | Page load, time delay (seconds), or exit intent |
+| **Page targeting** | Target specific URLs — match exactly, by "URL contains", or "URL starts with". Leave empty to show on all pages. |
+| **Reappearance** | Set how often the popup may return for visitors who close it without completing the survey |
+
+<Note>
+Customers who have already completed the survey never see the popup again, regardless of reappearance settings.
+</Note>
+
+**Example use cases:**
+- Post-purchase feedback: trigger on page load for URLs containing `/thank-you`
+- Cart abandonment survey: exit intent on `/cart` or `/checkout`
+- Homepage survey after a 5-second delay, shown once every 7 days
 
 ---
 

@@ -125,6 +125,26 @@ You can create a segment using a single or multiple conditions. Begin by creatin
 
 ---
 
+## How Segments Refresh
+
+Segments update in one of two ways — instantly or on a schedule — determined automatically by the rules you configure. Every segment shows its refresh type in the segment creation screen, the segments listing, and the segment details page.
+
+| Rule type | Refresh | Example |
+|---|---|---|
+| A value stored on the customer | **Real-time** (~10 seconds) | "Tier is Gold" — moves the moment their tier changes |
+| A running total Gameball keeps | **Real-time** (~10 seconds) | "Points balance over 1,000" — in when they earn, out when they redeem |
+| A stored date, measured in days ago | **Both** | "Hasn't ordered in 30 days" — leaves instantly when they order, joins on the daily run |
+| Order or event history in a recent window | **Daily** | "Ordered twice in the last 30 days" |
+| Products, brands, events, or a finished period | **Daily** | "Bought from brand X", "ordered during Black Friday week" |
+
+<Note>
+Adding any one history-based rule makes the entire segment scheduled — even if all other rules are real-time, and regardless of whether rules are joined with AND or OR.
+
+Editing a segment's rules triggers a full re-run over every customer. Membership settles once that run completes.
+</Note>
+
+---
+
 ## Common Questions
 
 <AccordionGroup>
