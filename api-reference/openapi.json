@@ -3835,6 +3835,11 @@
                               "type": "string",
                               "description": "Customer's mobile number."
                             },
+                            "mobileCountryCode": {
+                              "type": "string",
+                              "maxLength": 10,
+                              "description": "International dialing code of the customer's mobile, for example `966` or `+966`. Optional. Send it when `mobile` is in local format (for example `0548548545`) so Gameball can tell the number's country. Gameball stores it only if `mobile` is a valid full-length number for that code. If you don't send it, or it doesn't match, Gameball reads the code from `mobile` when it's written in international format (`+966...`, `00966...` or `966...`)."
+                            },
                             "dateOfBirth": { 
                               "type": "string",
                               "description": "Customer's date of birth."
@@ -6225,6 +6230,11 @@
                 "type": "string",
                 "description": "Customer's mobile number."
               },
+              "mobileCountryCode": {
+                "type": "string",
+                "maxLength": 10,
+                "description": "International dialing code of the customer's mobile, for example `966` or `+966`. Optional. Send it when `mobile` is in local format (for example `0548548545`) so Gameball can tell the number's country. Gameball stores it only if `mobile` is a valid full-length number for that code. If you don't send it, or it doesn't match, Gameball reads the code from `mobile` when it's written in international format (`+966...`, `00966...` or `966...`)."
+              },
               "dateOfBirth": { 
                 "type": "string",
                 "description": "Customer's date of birth."
@@ -7240,6 +7250,10 @@
               "mobile": {
                 "type": "string",
                 "description": "Customer's mobile number."
+              },
+              "mobileCountryCode": {
+                "type": "string",
+                "description": "International dialing code of the customer's mobile, digits only (for example `966`). `null` when the mobile's country can't be determined, such as a local-format mobile sent without `mobileCountryCode`."
               },
               "dateOfBirth": {
                 "type": "string",
