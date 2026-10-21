@@ -3,58 +3,62 @@ title: "How Do I Create and Configure In-App Messaging Campaigns?"
 description: "A step-by-step guide to create and configure an In-App Messaging campaign with Gameball."
 ---
 
-import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
-
 | Platform | Plan |
 |---|---|
-| Shopify | Private Beta (Contact [Support](mailto:support@gameball.co)) |
-| Salla | Private Beta (Contact [Support](mailto:support@gameball.co)) |
-| Non-platform Clients | Private Beta (Contact [Support](mailto:support@gameball.co)) |
-
-<InAppMessagingBeta />
-
-In-app messages reach customers at the moment they are already using your app, which makes them the most immediate channel you have. With **Gameball's In-App Messaging**, you can show a banner, a card, or a full-screen message the moment a customer does something worth responding to, and change what it says from the dashboard without shipping an app update.
+| Shopify | Contact your account manager |
+| Salla | Contact your account manager |
+| Non-platform Clients | Contact your account manager |
 
 <Note>
-**Prerequisites:** The Gameball SDK must be integrated in your app, and in-app messaging must be enabled by your development team. See the [iOS](/installation-guides/v3/ios/in-app-messaging), [Android](/installation-guides/v3/android/in-app-messaging), [Flutter](/installation-guides/v3/flutter/in-app-messaging), [React Native](/installation-guides/v3/react-native/in-app-messaging), or [Web](/installation-guides/v3/web/in-app-messaging) setup guide.
+**Prerequisites:** Your mobile app must have the Gameball SDK installed, with in-app messaging turned on by your development team. See the [iOS](/installation-guides/v3/ios/in-app-messaging), [Android](/installation-guides/v3/android/in-app-messaging), [Flutter](/installation-guides/v3/flutter/in-app-messaging), or [React Native](/installation-guides/v3/react-native/in-app-messaging) setup guide.
 </Note>
+
+Your customers open your app every day. With **Gameball's In-App Messages**, you can talk to them right there. Show a slide-up, a modal, or a full-screen message inside your iOS and Android apps, at the moment that matters. You build and change every message from the Gameball dashboard, so there is no app update to ship.
 
 ---
 
 ## Understanding In-App Messages
 
-Unlike push notifications, which reach customers outside your app, in-app messages appear while the customer is already engaged. That makes them well suited to guiding someone through a moment rather than pulling them back in.
+In-app messages appear while the customer is already using your app. Push notifications try to bring customers back. In-app messages guide them while they are already there.
 
-Here are some **ideas** for campaigns that you can send out:
-
-<CardGroup cols={2}>
-  <Card title="Promote a Points Offer" icon="coins">
-    Show a limited-time bonus points offer the moment a customer opens the app.
-  </Card>
-  <Card title="Rescue an Abandoned Cart" icon="cart-shopping">
-    Respond to an add-to-cart event with a reminder or an incentive to complete the purchase.
-  </Card>
-  <Card title="Celebrate a Tier Upgrade" icon="star">
-    Congratulate customers who reach a new VIP tier and show them what they unlocked.
-  </Card>
-  <Card title="Ask for Notification Permission" icon="bell">
-    Explain the value first, then prompt customers to turn on push notifications.
-  </Card>
-</CardGroup>
+Only customers who open your app can see an in-app message. Nothing is sent by push, email, or SMS.
 
 ### Message Types
 
+Message types are ordered from least to most interruptive.
+
 <CardGroup cols={3}>
-  <Card title="Slide-up" icon="window-minimize">
-    A compact banner at the top or bottom of the screen. The app stays usable underneath, so it is the least disruptive option. Best for nudges and reminders.
+  <Card title="Slide-up" icon="bars-progress">
+    A small banner that slides in. The app stays usable underneath, so it is the least disruptive type. Best for nudges and reminders.
   </Card>
-  <Card title="Modal" icon="window-restore">
-    A card centered over a dimmed background, with a header, body, and optional image. Takes up to two buttons. Best for offers that need a decision.
+  <Card title="Modal" icon="window-maximize">
+    A centered card over dimmed content. Best for offers and moments that need a decision.
   </Card>
   <Card title="Full Screen" icon="mobile-screen">
-    An edge-to-edge message with artwork and buttons. The most attention-grabbing option. Best for announcements and welcome moments.
+    Takes the whole screen. Best for big announcements and welcome moments.
   </Card>
 </CardGroup>
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-06-message-type.png" alt="The three in-app message types: slide-up, modal, and full screen" />
+</Frame>
+
+### Ideas to Get Started
+
+Here are some campaigns loyalty teams run with in-app messages:
+
+| Idea | Audience | Trigger | Message type | Goal |
+|---|---|---|---|---|
+| **Checkout upsell.** "Add a dessert and earn 50 bonus points." | All customers | Action based: your app's cart viewed event | Slide-up | None |
+| **Points about to expire.** Show what the points are worth, with a button to redeem them. | Segment: points expiring soon | Session start | Modal | Points redeemed |
+| **Profile completion.** Offer 200 points to finish the profile. | New members | Session start, once per customer | Full screen | Profile completed |
+| **Win back quiet customers.** An offer they can use right away, such as 10% off or free delivery. | Segment: no order in 60 days | Session start | Full screen | Order placed within 7 days |
+| **Stamp campaigns.** Show their stamps, the voucher they will unlock, and the time left. | Segment: one order from the reward | Session start | Modal | Order placed |
+| **Turn on notifications.** Explain the value first, then ask for push permission. | Registered customers | Session start, once per customer | Modal with a **Request push permission** button | None |
+
+<Tip>
+Start with one campaign and add a control group. The results show you what works.
+</Tip>
 
 ---
 
@@ -62,231 +66,256 @@ Here are some **ideas** for campaigns that you can send out:
 
 To set up an In-App Messaging campaign from scratch in Gameball, follow these steps:
 
-<Steps>
-  <Step title="Navigate to Dashboard">
-    Navigate to the **Gameball Dashboard**.
-  </Step>
-  <Step title="Open Campaigns">
-    Click on **Campaigns**.
-  </Step>
-  <Step title="Create Communication Campaign">
-    Choose **Communication Campaigns**, then click on the **Create Campaign** button.
-  </Step>
-  <Step title="Select In-App Message">
-    From the **Start from Scratch** section, choose **In-App Message**.
-  </Step>
-</Steps>
+1. **Navigate to Dashboard**: Navigate to the **Gameball Dashboard**.
+2. **Open Campaigns**: Click on **Campaigns**, then **Communication**.
+3. **Create a Campaign**: Click **Create Communication Campaign**.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-01-communication-campaigns.png" alt="Communication Campaigns page with the Communication menu and the Create Communication Campaign button highlighted" />
+</Frame>
+
+4. **Select In-App**: At the top of the **Communication** window, choose **In-App**.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-02-create-in-app.png" alt="The Communication window with the In-App option highlighted" />
+</Frame>
+
+You build the campaign in four steps: **Rules**, **Message**, **Delivery**, and **Review**. Click **Save and close** at any step to finish later.
 
 ---
 
 ### Step 1: Rules
 
-<Steps>
-  <Step title="Set Your Audience">
-    In the **Audience** section, choose who is eligible for this message:
+1. **Name Your Campaign**: Enter a **Campaign name**. Only your team sees it. It never appears to customers.
 
-    - **All Customers** (Registered & Guest)
-    - **Guest Customers** (customers Gameball has not been able to identify)
-    - **Registered Customers**
-    - **Specific Customers** based on:
-      - Segments
-      - Tags
-      - VIP Tiers
-      - Customer Attributes
-      - A combination of the above
+2. **Set Your Audience**: In the **Audience** section, choose who is eligible for this message:
+   - **All Customers**
+   - **Guest Customers**
+   - **Registered Customers**
+   - **Specific Customers**
 
-    {/* SCREENSHOT NEEDED: In-app message audience selection panel */}
-  </Step>
-  <Step title="Choose the Platforms">
-    Select the platforms this campaign should reach. A campaign targeted at one platform will not appear on the other.
-  </Step>
-  <Step title="Define the Trigger">
-    Choose what causes the message to appear:
+   Gameball shows how many customers are in your audience right now.
 
-    - **Session Start:** The message is considered every time the customer opens the app or returns to it after being away.
-    - **Custom Event:** The message is considered when your app reports a specific action, such as `add_to_cart`. Only your own events are available as triggers.
-    - **Purchase:** The message is considered when a customer completes a purchase.
-  </Step>
-  <Step title="Add Event Filters (Optional)">
-    Narrow an event or purchase trigger by the details the event carries, for example "purchase where price is greater than 100". All filters you add must match.
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-03-rules-name-audience.png" alt="Campaign name and Audience section in the Rules step" />
+</Frame>
 
-    | Value type | Available conditions |
-    |---|---|
-    | Number | Is, Greater than, Less than, Between |
-    | Text | Equals, Contains |
+3. **Pick a Trigger**: In the **Triggers** section, choose when the message shows:
+   - **Session start**: Shows the message when the customer opens the app.
+   - **Action based**: Shows the message when the customer does something in your app. Choose the event, such as `place_order`. To narrow it down, click **Add Filter** and set a condition on the event's details, for example **total_price** **Greater than** **100**.
 
-    <Note>
-    If the event does not include the property you filtered on, the customer is not eligible for that occurrence. A filter is a requirement, not a preference.
-    </Note>
-  </Step>
-  <Step title="Save and Continue">
-    Click **Save and Continue**.
-  </Step>
-</Steps>
+   Filters support **Is**, **Is not**, **Greater than**, **Greater than or equal**, **Less than**, **Less than or equal**, and **Between**.
 
----
+<Note>
+An action-based trigger only works with events your app sends through the Gameball SDK.
+</Note>
 
-### Step 2: Delivery
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-04-rules-trigger-action-based.png" alt="Action based trigger with the place_order event and a total_price filter" />
+</Frame>
 
-<Steps>
-  <Step title="Set the Priority">
-    Choose **High**, **Normal**, or **Low**. When more than one campaign matches the same moment, the highest priority wins. Campaigns of equal priority are ranked by the order you set in **Settings > In-app**.
-  </Step>
-  <Step title="Configure Frequency">
-    Decide how often a customer can see this message:
+4. **Choose the Platforms**: Under **Platforms**, select **iOS**, **Android**, or both.
 
-    - **Once per customer:** One time, ever. This is the default.
-    - **Repeat:** Show again after a minimum gap, set in minutes, hours, or days.
-    - **Cap:** At most a set number of times per day or per week.
-    - **Total impressions:** Stop the campaign for everyone after it has been shown a set number of times.
-  </Step>
-  <Step title="Set the Schedule">
-    Start the campaign immediately or on a chosen date and time, with an optional end date. Times follow your account timezone.
-  </Step>
-  <Step title="Save and Continue">
-    Click **Save and Continue**.
-  </Step>
-</Steps>
+5. **Set When It Runs**:
+   - **Starts**: Choose **As soon as it is live**, or **On a specific date**.
+   - **Ends**: The campaign has no end date by default. Turn on the toggle to set one.
+
+<Note>
+Start and end times are evaluated on the device, in each customer's own time zone.
+</Note>
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-05-rules-platforms-schedule.png" alt="Platforms and When it runs sections" />
+</Frame>
+
+6. **Save and Continue**: Click **Save and continue**.
+
+The **Who sees it, and when** panel on the right summarizes your choices as you go.
 
 ---
 
-### Step 3: Compose
+### Step 2: Message
 
-<Steps>
-  <Step title="Choose the Message Type">
-    Pick **Slide-up**, **Modal**, or **Full Screen**. A modal or full screen can also be built as artwork only, where the image is the whole message and the buttons sit over it.
-  </Step>
-  <Step title="Write the Content">
-    Write the header and body for each language you support. The customer sees the language set on their profile, falling back to your campaign's default language.
+1. **Choose a Message Type**: Pick **Slide-up**, **Modal**, or **Full screen**. You can change it later.
 
-    <Warning>
-    A language with incomplete content is not sent. Fill in every field for each language you enable.
-    </Warning>
-  </Step>
-  <Step title="Personalize the Message">
-    Insert a customer's own details into the copy using these variables:
+2. **Write the Content**: Write on the left and check the live preview on the right. Switch the preview between **iOS** and **Android**.
+   - **Languages**: Use the language tabs, such as **EN** and **AR**, to write the message in each language you support. A tab with a **!** still needs content.
+   - **Layout**: Choose **Text and image**, or **Image only** when your image is the whole message.
+   - **Header**: Keep it short and specific.
+   - **Message**: Up to 120 characters.
 
-    `{player_name}` `{first_name}` `{player_last_name}` `{player_display_name}` `{player_unique_id}` `{player_email}` `{points_balance}` `{available_points}` `{pending_points}`
+3. **Personalize the Message**: Insert the customer's own details with these variables: `{player_name}`, `{first_name}`, `{player_last_name}`, `{player_display_name}`, `{player_unique_id}`, `{player_email}`, `{points_balance}`, `{available_points}`, `{pending_points}`.
 
-    A variable that cannot be filled in for a customer is left blank rather than shown as raw text.
-  </Step>
-  <Step title="Add Artwork">
-    Upload a PNG, JPEG, WebP, or GIF through the composer. Images must be served securely, and a campaign whose image fails to load is skipped so another campaign can show instead.
+4. **Add an Image**: Upload a PNG, JPEG, JPG, or GIF, up to 5 MB. In a slide-up or modal, the image shows at the top of the message.
 
-    {/* SCREENSHOT NEEDED: In-app message composer with artwork upload and live preview */}
-  </Step>
-  <Step title="Style the Message">
-    Set background, header, body, and close-button colors, the shading behind a modal, text alignment, where a slide-up appears, and how long it stays on screen. Anything you leave unset follows your app's own theme.
-  </Step>
-  <Step title="Add Buttons and Actions">
-    A modal or full screen takes up to two buttons. The message itself can also be tappable. Each button or message can:
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-07-message-editor.png" alt="The message editor with content on the left and the live preview on the right" />
+</Frame>
 
-    | Action | What happens |
-    |---|---|
-    | **Dismiss** | Closes the message. |
-    | **Open a link** | Opens a web page, either inside your app or in the customer's browser. |
-    | **Go to a screen** | Opens a specific screen in your app. Your development team maps the destination during setup. |
-    | **Ask for notifications** | Prompts the customer to allow push notifications, then closes. |
-  </Step>
-  <Step title="Save and Continue">
-    Click **Save and Continue**.
-  </Step>
-</Steps>
+5. **Add Buttons**: Click **Add button** to add up to two buttons. Labels are set per language. What a button does is shared across all languages. Each button also has its own background, text, and border colors.
+
+   | On click | What happens |
+   |---|---|
+   | **No action** | Nothing happens. This is the default. |
+   | **Close message** | Closes the message. |
+   | **Open a web URL** | Opens a web page. |
+   | **Deep link into the app** | Opens a screen in your app, such as `/rewards`. You can add arguments, one per line, as `key: value`. |
+   | **Request push permission** | Asks the customer to allow push notifications. |
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-08-message-button-actions.png" alt="Button settings with the On click options open" />
+</Frame>
+
+6. **Set the Colors and Tap Behavior**:
+   - Under **Message colors**, set the **Background**, **Header**, **Text**, **Close button**, and **Overlay** colors.
+   - Under **Behaviour**, use **When tapped** to choose what happens when the customer taps the message itself, outside the buttons.
+
+   The preview is approximate. The real message follows the device theme.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-09-message-colors-behaviour.png" alt="Message colors and Behaviour sections" />
+</Frame>
+
+7. **Click Done**: Click **Done** to save the variant. To test the variant on your own phone first, click **Send to device**.
+
+#### Full Screen Messages
+
+A full screen message has a few extra settings:
+
+- **Media**: The image fills the screen behind your text. An animated GIF plays as uploaded.
+- **Show safe zone**: Turn it on under the preview to see the guides. Keep key content inside them so notches and home bars do not cover it.
+- **Orientation**: Under **Display**, choose the orientation the message is shown in. If the device is held the other way, the message waits for the next opportunity instead of being skipped.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-10-message-full-screen.png" alt="A full screen variant with Show safe zone turned on in the preview" />
+</Frame>
+
+#### Variants and Control Group
+
+Test more than one version to see which performs better.
+
+- **Add variant**: Click **Add variant** and build another version, for example a full screen to compare with your modal.
+- **Split the audience**: Set each variant's **Audience share**. The shares must add up to 100%. Click **Distribute evenly** to split them equally.
+- **Add control group**: Click **Add control group**. These customers are eligible but see nothing. Comparing against them shows whether the campaign made the difference, and not something else, like a seasonal spike.
+
+You can rename a variant, change its share, or change its message type from the **Variant settings** tab. Changing the type keeps your text but clears fields the new type does not use.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-11-message-variants-control-group.png" alt="Message variants with two variants at 45% each and a 10% control group" />
+</Frame>
+
+Click **Save and continue**.
 
 ---
 
-### Step 4: Variants and Goal
+### Step 3: Delivery
 
-<Steps>
-  <Step title="Add Variants (Optional)">
-    Test up to five versions of the message against each other. Each variant has its own content, style, and share of the audience, and the shares add up to 100%. One variant can be a **control group** that receives nothing, so you can measure how much the campaign actually added.
+1. **Set How Often It Shows**: Choose **Once, ever**, or **Again after a set gap** and set the days between showings. You can also turn on:
+   - **Also cap how often this campaign can show**: For example, no more than once per day. This cap applies to this campaign only.
+   - **Stop after a total number of views**
 
-    Customers are assigned to a variant the first time they become eligible and stay in it for the life of the campaign.
-  </Step>
-  <Step title="Define the Campaign Goal">
-    Choose the action that counts as success, such as completing a purchase, and the number of days to keep attributing it after a customer sees the message. Seven days is the default.
+   With both turned off, the message keeps showing until the end date, or until you stop it.
 
-    Optionally turn on **suppress after conversion** to stop showing the message to customers who have already converted.
-  </Step>
-  <Step title="Save and Continue">
-    Click **Save and Continue**.
-  </Step>
-</Steps>
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-12-delivery-frequency.png" alt="How often it shows, with a 7-day gap and a daily cap" />
+</Frame>
+
+2. **Measure a Conversion Goal**: Turn on **Measure a conversion goal**.
+   - Choose the **Event that counts as a conversion**, such as `place_order`.
+   - Set **Count conversions within**, such as 7 days. A conversion only counts if it happens inside this window after the message is shown.
+   - Each conversion is credited to the campaign and to the variant the customer saw.
+   - To stop showing the campaign to customers who convert, turn on **Stop showing after conversion**. This applies for good, whatever the repeat settings above.
+
+   Without a goal, the campaign's conversion numbers stay at zero.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-13-delivery-conversion-goal.png" alt="Conversion goal with place_order counted within 7 days" />
+</Frame>
+
+3. **Set the Priority**: Under **If more than one message is eligible at once**, choose **High**, **Normal**, or **Low**. Only the highest-priority eligible message is shown.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-14-delivery-priority.png" alt="Priority setting and the What limits delivery panel" />
+</Frame>
+
+4. **Save and Continue**: Click **Save and continue**.
+
+The **What limits delivery** panel on the right lists everything that can hold this message back.
 
 ---
 
-### Step 5: Preview
+### Step 4: Review
 
-<Steps>
-  <Step title="Review Configurations">
-    Review and edit the configured settings to ensure alignment with campaign objectives.
-  </Step>
-  <Step title="Send a Test Message">
-    Use **Send to device** to preview one variant on a single device before launching. Test messages do not affect your campaign statistics.
-  </Step>
-  <Step title="Set Live">
-    Lastly, click **Set live**.
-  </Step>
-</Steps>
+1. **Check Before You Launch**: The **Before you launch** list shows anything that needs attention. For example, if a variant is missing a language, that share of your audience sees the default language instead. Click **Add it** to fix it.
+2. **Review What They Will See**: Check the preview of every variant and the control group, then check the **Summary**.
+3. **Send a Test Message**: Click **Send test message** and check it on your phone. The test happens on the device, so the dashboard cannot confirm it from here.
+4. **Set Live**: Click **Set live**. To finish later, click **Save as draft**.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-15-review.png" alt="Review step with Before you launch and What they will see" />
+</Frame>
 
 ---
 
 ## Account-Level In-App Settings
 
-**Settings > In-app** holds three controls that apply to every in-app campaign in your account.
+These rules apply to every in-app campaign on your account.
+
+1. On the **Communication Campaigns** page, click **Settings**.
+2. Next to **In-app messages**, click **Edit**.
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-16-settings-menu.png" alt="The Settings menu with In-app messages highlighted" />
+</Frame>
 
 | Setting | What it controls |
 |---|---|
-| **Cooldown** | The minimum time between any two in-app messages, so customers are not shown several in a row. Defaults to 30 seconds. |
-| **Quiet hours** | A daily window during which no in-app message appears, based on the customer's own local time. |
-| **Which campaign wins** | The order that decides which campaign shows when several of equal priority match the same moment. |
+| **Quiet hours** | Turn on **Pause in-app messages during quiet hours** and set **From** and **Until**, for example 22:00 to 08:00. No in-app message shows inside this window. Times use the customer's own device clock, not your account timezone. |
+| **Time between messages** | The shortest gap allowed between any two in-app messages shown to the same customer. The default is 30 seconds. |
+
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-17-settings-in-app.png" alt="In-app messages settings with Quiet hours and Time between messages" />
+</Frame>
+
+Click **Save**.
 
 ---
 
 ## Tracking Performance
 
-Select a campaign from the **Communication Campaigns** list to see how it performed.
-
-| Metric | What it means |
-|---|---|
-| **Impressions** | How many times the message was actually shown on a screen. |
-| **Clicks** and click rate | Taps on a button or on the message itself. The Buttons table breaks this down per button. |
-| **Dismissals** and dismissal rate | How often customers closed the message without tapping anything. |
-| **Conversions** and conversion rate | How often customers completed your goal action after seeing the message. |
-| **Variants** | Results per variant, measured per assigned customer, which is the fair way to compare a variant against the control group. |
-
-{/* SCREENSHOT NEEDED: Campaign details page showing performance tiles and variants table */}
+The **Communication Campaigns** list shows each campaign's **Trigger**, **Channel**, **Audience**, **State**, **Sent**, **Clicked**, and **Goal**. In-app campaigns show **In-App** in the **Channel** column.
 
 <Note>
-Statistics appear 10 to 30 minutes after customers interact with a message, and conversions are attributed within about 5 minutes.
+Statistics appear 10 to 30 minutes after customers interact with a message.
 </Note>
 
 ---
 
 ## Managing Campaigns
 
-- Access the **Communication Campaigns** section in the Gameball Dashboard to view all configured campaigns, including in-app messages.
-- A campaign is a **Draft** until you set it live, **Live** while it is running, **Paused** when you stop it, and **Ended** once its end date passes.
-- Duplicating a campaign creates a draft copy you can edit and launch separately.
-- Select a campaign to **deactivate/activate** or **delete** it from the options menu.
+- Find your campaigns under the **Live** and **Draft** tabs on the **Communication Campaigns** page.
+- Click the options menu next to a campaign to **Edit**, **Duplicate**, or **Delete** it.
+- Edits to a live campaign reach customers the next time they open your app.
 
-Edits to a live campaign reach customers the next time they open your app.
+<Frame>
+  <img src="/images/product-docs/communication-campaigns/in-app-19-campaign-options-menu.png" alt="A draft in-app campaign in the list with its options menu open" />
+</Frame>
 
 ---
 
 ## Important Notes
 
-<Warning>
-**Caps may be exceeded slightly.** Daily caps, weekly caps, and total impression limits are applied from reported statistics, which lag by 10 to 30 minutes. A very active customer may see a capped message once more than expected inside that window. Once-per-customer and repeat gaps are exact.
-</Warning>
-
-<Warning>
-**Variants lock after launch.** Once the first customer has been assigned to a variant, you cannot add or remove variants, change the split, or change the message type. Plan your test before setting the campaign live.
-</Warning>
-
 <Note>
-**One message at a time.** Only one in-app message is shown at a time. If two campaigns match the same moment, the higher-priority one shows and the other waits its turn.
+**One message at a time.** Only one in-app message shows at a time. If two campaigns match the same moment, the higher-priority one shows.
 </Note>
+
+<Warning>
+**Variants lock after launch.** Once a customer is assigned to a variant, the variant set and the audience split are frozen. Dates and caps can be changed but not removed. Everything else stays editable. Plan your test before you set the campaign live.
+</Warning>
+
+<Warning>
+**Caps may be exceeded slightly.** Caps and total view limits are applied from reported statistics, which can lag by 10 to 30 minutes. A very active customer may see a capped message once more than expected inside that window.
+</Warning>
 
 ---
 
@@ -294,19 +323,19 @@ Edits to a live campaign reach customers the next time they open your app.
 
 <AccordionGroup>
   <Accordion title="Why is my campaign not showing in the app?">
-    Check that the campaign is live, that it targets the customer's platform, and that the customer is in the audience. Then check whether the customer has already seen it, since once per customer is the default frequency, and whether your account's cooldown or quiet hours are suppressing it. If nothing else explains it, your development team can confirm that in-app messaging is started in the app.
+    Check that the campaign is live, that it targets the customer's platform, and that the customer is in the audience. Then check whether they already saw it, whether quiet hours or the time between messages is holding it back, and whether a higher-priority message showed instead. If nothing explains it, ask your development team to confirm that in-app messaging is turned on in the app.
+  </Accordion>
+  <Accordion title="Do customers who don't open the app get the message?">
+    No. In-app messages only show inside your app. To reach customers outside the app, use a push notification campaign.
   </Accordion>
   <Accordion title="Can two in-app messages show at the same time?">
-    No. One message is shown at a time. A second matching campaign waits and appears after the first is closed.
+    No. One message shows at a time, and priority decides which one.
   </Accordion>
-  <Accordion title="Can I edit a campaign that is already running?">
-    Yes. The name, content, translations, audience, trigger, delivery rules, and styling all stay editable, and the changes reach customers the next time they open your app. Only the variant setup locks once customers have been assigned.
-  </Accordion>
-  <Accordion title="Why does a customer see the message in the wrong language?">
-    The language is chosen when the customer opens the app. A customer's preferred language wins, and your campaign's default is used when they have none. A language change therefore takes effect the next time they open the app rather than immediately.
+  <Accordion title="Which language does a customer see?">
+    The customer's preferred language. If a variant is missing that language, they see your default language.
   </Accordion>
   <Accordion title="Do test messages affect my statistics?">
-    No. Messages sent with **Send to device** display normally but are not counted in impressions, clicks, or conversions.
+    No. Test messages show normally on the device but are not counted in your campaign results.
   </Accordion>
 </AccordionGroup>
 
@@ -316,7 +345,7 @@ Edits to a live campaign reach customers the next time they open your app.
   <Card title="Create and Configure Mobile Push Campaigns" icon="mobile" href="/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns">
     Reach customers with notifications when they are outside your app.
   </Card>
-  <Card title="Create and Configure Web Message Campaigns" icon="browser" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
+  <Card title="Create and Configure Web Message Campaigns" icon="message" href="/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns">
     Engage customers during their journey on your website.
   </Card>
   <Card title="Dynamic Variables in Communication Campaigns" icon="code" href="/product-documentation/communication-campaigns/dynamic-variables-in-communication-campaigns">
