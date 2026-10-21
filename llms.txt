@@ -50,7 +50,7 @@
 - [Push Notification Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns): Create and configure mobile push campaigns
 - [SMS Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-sms-campaigns): Create and configure SMS campaigns
 - [Web Message Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-web-message-campaigns): In-browser notification campaigns
-- [In-App Messaging Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns): Create and configure in-app message campaigns (private beta)
+- [In-App Messaging Campaigns](https://docs.gameball.co/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns): Create and configure in-app message campaigns
 - [Dynamic Variables](https://docs.gameball.co/product-documentation/communication-campaigns/dynamic-variables-in-communication-campaigns): Personalize messages with customer data variables
 
 ## Automation Campaigns
