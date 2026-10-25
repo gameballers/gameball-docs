@@ -1,22 +1,22 @@
 ---
 title: "Flutter SDK Integration (v3)"
 sidebarTitle: "Overview"
-description: "Complete guide to integrate Gameball with your Flutter application using SDK v3.2.1"
+description: "Complete guide to integrate Gameball with your Flutter application using SDK v4.0.0"
 ---
 
-# Gameball Flutter SDK — v3.2.1
+# Gameball Flutter SDK — v4.0.0
 
-This documentation is tailored to **Gameball Flutter SDK v3.2.1**. Use these pages as a versioned SDK reference for teams embedding Gameball into their Flutter applications.
+This documentation is tailored to **Gameball Flutter SDK v4.0.0**. Use these pages as a versioned SDK reference for teams embedding Gameball into their Flutter applications.
 
 <Info>
-  SDK v3.2.1 keeps v3.x code compatible. It patches v3.2.0 — which added a widget event channel, programmatic widget dismissal, external-link handling, and channel-merging parameters — with a fix for the widget `shop` URL parameter that broke widget coupon redemption when both `platform` and `shop` were set.
+  SDK v4.0.0 adds in-app messaging and purchase logging, and raises the minimum versions to iOS 15.0 and Android API 24. Every v3.x call keeps its signature and behavior.
 </Info>
 
 ## Integration Guide
 
 <CardGroup cols={2}>
   <Card title="Getting Started" icon="rocket" href="/installation-guides/v3/flutter/getting-started">
-    Install the Gameball Flutter SDK v3.2.1 and set up your project
+    Install the Gameball Flutter SDK v4.0.0 and set up your project
   </Card>
 
   <Card title="Initialize SDK" icon="play" href="/installation-guides/v3/flutter/initialize-sdk">
@@ -35,12 +35,16 @@ This documentation is tailored to **Gameball Flutter SDK v3.2.1**. Use these pag
     Display the customer profile widget with rewards and leaderboard
   </Card>
 
+  <Card title="In-App Messaging" icon="comment-dots" href="/installation-guides/v3/flutter/in-app-messaging">
+    Display dashboard in-app campaigns in your app
+  </Card>
+
   <Card title="Go-Live Checklist" icon="check" href="/installation-guides/v3/flutter/go-live-checklist">
     Verify your integration before going live
   </Card>
 
   <Card title="Migration Notes" icon="arrow-right" href="/installation-guides/v3/flutter/migration-notes">
-    Migrate from v2 to v3.2.1
+    Upgrade from v3 to v4.0.0, or migrate from v2
   </Card>
 </CardGroup>
 
@@ -48,10 +52,10 @@ This documentation is tailored to **Gameball Flutter SDK v3.2.1**. Use these pag
 
 - **Minimum Flutter Version**: 1.17.0
 - **Dart**: 3.4.4+
-- **Android**: API level 21+
-- **iOS**: iOS 12.0+
+- **Android**: API level 24+ (Android 7.0)
+- **iOS**: iOS 15.0+
 
 <Note>
-  These floors are unchanged in v3.2.1. If your app opts into `share_plus` 13.x, that package requires Flutter 3.38.1+ and Dart 3.10+.
+  v4.0.0 raised the Android and iOS minimums. See [Migration Notes](/installation-guides/v3/flutter/migration-notes) to upgrade from v3.
 </Note>
 

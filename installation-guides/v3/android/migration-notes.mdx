@@ -1,10 +1,36 @@
 ---
-title: "How Do I Migrate to the Android SDK v3?"
+title: "How Do I Migrate to the Android SDK v4?"
 sidebarTitle: "Migration Notes"
-description: "Migrate from v2 to v3.2.1"
+description: "Upgrade from v3 to v4.0.0, or migrate from v2 to v3"
 ---
 
-This guide helps you migrate from Gameball Android SDK v2 to v3.2.1.
+This guide helps you upgrade from Gameball Android SDK v3 to v4.0.0, and migrate from v2 to v3.
+
+## What's New in v4.0.0
+
+<Warning>
+  **Breaking change: API 24 minimum.** v4.0.0 raises the minimum supported Android version to API 24 (Android 7.0). Every v3.x call keeps its signature and behavior, so no code changes are required beyond the minimum SDK.
+</Warning>
+
+### New in v4.0.0
+
+- **In-App Messaging**: `startInAppMessaging(customerId, options)` displays the slide-up, modal, and full-screen campaigns you create in the Gameball dashboard, and `stopInAppMessaging()` stops it on logout. Nothing runs until you call `startInAppMessaging`, so upgrading without it changes nothing. See [In-App Messaging](/installation-guides/v3/android/in-app-messaging)
+- **In-App Messaging Hooks**: `InAppMessagingOptions` takes `beforeDisplay`, `onAction`, `onNavigate`, and `observer` to postpone a message, handle a tap yourself, route `navigate` actions, and observe each selected message
+- **Purchase Logging**: `logPurchase(customerId, productId, price, currency, quantity, properties, callback, sessionToken)` sends a `purchase` event to Gameball that campaigns can target and filter on
+- **Diagnostic Logging Switch**: `GameballApp.inAppMessagingLogging` controls in-app messaging logcat output under the `GameballIAM` tag. It is on in debuggable builds and off in release builds
+
+### Migrate v3.x → v4.0.0 (Breaking)
+
+- Set `minSdk` to 24 in your app module's `build.gradle`.
+- Update the dependency to `com.github.gameballers:gb-mobile-android:4.0.0`.
+- (Optional) Adopt in-app messaging. See [In-App Messaging](/installation-guides/v3/android/in-app-messaging).
+- (Optional) If you build `purchase` events yourself, replace them with `logPurchase` rather than sending both.
+
+<Info>
+  **Coming from v3.2.x or earlier?** v4.0.0 also includes the v3.3.x releases: per-call and global widget language (`ShowProfileRequest` `lang` and `setLanguage(lang)`), push notification click tracking (`handlePushClick`), and `initializeCustomer` always registering customers, with `isGuest` ignored. See the [release history](https://github.com/gameballers/gb-mobile-android/releases).
+</Info>
+
+---
 
 ## What's New in v3.2.1
 
@@ -192,6 +218,40 @@ val customerRequest = InitializeCustomerRequest.builder()
 
 ## Migration Steps
 
+### From v3.x to v4.0.0
+
+<Steps>
+<Step title="Raise Your Minimum SDK">
+Set `minSdk` to 24 in your app module's `build.gradle`:
+
+```groovy
+android {
+    defaultConfig {
+        minSdk 24
+    }
+}
+```
+</Step>
+
+<Step title="Update Dependency">
+Update your `build.gradle` to use SDK v4.0.0:
+
+```groovy
+dependencies {
+    implementation 'com.github.gameballers:gb-mobile-android:4.0.0'
+}
+```
+</Step>
+
+<Step title="(Optional) Adopt In-App Messaging">
+Call `startInAppMessaging(customerId)` once the customer is known, and `stopInAppMessaging()` on logout. See [In-App Messaging](/installation-guides/v3/android/in-app-messaging).
+</Step>
+
+<Step title="Test">
+Verify that `initializeCustomer`, `sendEvent`, and `showProfile` behave as before. A build error such as `Manifest merger failed : uses-sdk:minSdkVersion 21 cannot be smaller than version 24` means `minSdk` is still below 24.
+</Step>
+</Steps>
+
 ### From v3.1.x to v3.2.1
 
 <Info>
@@ -284,7 +344,7 @@ Test all Gameball functionality to ensure the migration is successful.
 
 ## Compatibility
 
-- **Minimum SDK**: Android API 21 (Android 5.0)
+- **Minimum SDK**: Android API 24 (Android 7.0) as of v4.0.0
 - **Target SDK**: Android API 34
 - **Kotlin**: 2.0.0+
 - **AndroidX**: Required

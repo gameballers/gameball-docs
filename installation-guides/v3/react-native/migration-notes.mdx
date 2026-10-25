@@ -1,12 +1,40 @@
 ---
-title: "How Do I Migrate to the React Native SDK v3?"
+title: "How Do I Migrate to the React Native SDK v4?"
 sidebarTitle: "Migration Notes"
-description: "Migrate from v2 to v3.1.2"
+description: "Upgrade from v3 to v4.0.0, or migrate from v2 to v3"
 ---
 
 # Migration Notes & Changelog
 
-This guide helps you migrate from Gameball React Native SDK v2 to v3.1.2.
+This guide helps you upgrade from Gameball React Native SDK v3 to v4.0.0, and migrate from v2 to v3.
+
+## What's New in v4.0.0
+
+<Warning>
+**Breaking change: iOS 15.0 and Android API 24 minimums.** v4.0.0 raises the minimum supported platform versions to iOS 15.0 and Android API 24 (Android 7.0). Every v3.x call keeps its signature and behavior, so no TypeScript code changes are required.
+</Warning>
+
+### New Features in v4.0.0
+
+- **In-App Messaging**: mount `<GameballInAppMessages />` once, then `startInAppMessaging()` displays the slide-up, modal, and full-screen campaigns you create in the Gameball dashboard, and `stopInAppMessaging()` stops it on logout. Nothing runs until you call `startInAppMessaging`, so upgrading without it changes nothing. See [In-App Messaging](/installation-guides/v3/react-native/in-app-messaging)
+- **In-App Messaging Hooks**: `beforeDisplay`, `onAction`, `onNavigate`, `openUrl`, and `requestPushPermission`, plus `onInAppMessage(listener)` and `setOverlayOpen(open)`
+- **Purchase Logging**: `logPurchase()` sends a `purchase` event to Gameball that campaigns can target and filter on
+- **Optional Peer Dependency**: when your app has `react-native-safe-area-context`, in-app messages sit exactly clear of the notch and the home indicator
+
+### Migrate v3.x → v4.0.0 (Breaking)
+
+- Set `minSdkVersion` to 24 in `android/build.gradle`.
+- Set the iOS deployment target to 15.0 in `ios/Podfile` (`platform :ios, '15.0'`) and in Xcode, then run `pod install`.
+- Update to `react-native-gameball@^4.0.0`.
+- Coming from v3.1.x or earlier, install the peer dependencies the SDK has required since v3.3.1. The **Install Peer Dependencies** step below lists them.
+- (Optional) Adopt in-app messaging. See [In-App Messaging](/installation-guides/v3/react-native/in-app-messaging).
+- (Optional) If you build `purchase` events yourself, replace them with `logPurchase` rather than sending both.
+
+<Info>
+**Coming from v3.1.x?** v4.0.0 also includes v3.3.1, which brought the React Native SDK level with the other SDKs' 3.3.x releases: widget events and dismissal (`widgetEventCallback` and `hideProfile()`), external link handling (`externalLinkCallback`), per-call and global widget language (`lang` and `setLanguage`), and push notification click tracking (`handlePushClick`). `initializeCustomer` now always registers customers, with `isGuest` ignored, and `changeLanguage` is deprecated in favor of `setLanguage`. See the [release history](https://github.com/gameballers/gameball-react-native/releases).
+</Info>
+
+---
 
 ## What's New in v3.1.2
 
@@ -179,6 +207,51 @@ await GameballApp.getInstance().showProfile(profileRequest, undefined, 'customer
 
 ## Migration Steps
 
+### From v3.x to v4.0.0
+
+<Steps>
+<Step title="Raise Platform Minimums">
+Set `minSdkVersion` to 24 in `android/build.gradle`, and the iOS deployment target to 15.0:
+
+```ruby
+# ios/Podfile
+platform :ios, '15.0'
+```
+
+Also set `IPHONEOS_DEPLOYMENT_TARGET` to 15.0 for your app target in Xcode.
+</Step>
+
+<Step title="Update Dependency">
+Update your `package.json` to use SDK v4.0.0:
+
+```json
+{
+  "dependencies": {
+    "react-native-gameball": "^4.0.0"
+  }
+}
+```
+</Step>
+
+<Step title="Install Peer Dependencies">
+Coming from v3.1.x or earlier, install the peer dependencies the SDK requires:
+
+```bash
+npm install @react-native-async-storage/async-storage react-native-device-info react-native-modal react-native-push-notification-popup react-native-webview
+```
+
+Run `npm install` or `yarn install`, then `cd ios && pod install`.
+</Step>
+
+<Step title="(Optional) Adopt In-App Messaging">
+Mount `<GameballInAppMessages />` once near the root of your app, call `startInAppMessaging()` once the customer is known, and call `stopInAppMessaging()` on logout. See [In-App Messaging](/installation-guides/v3/react-native/in-app-messaging).
+</Step>
+
+<Step title="Test">
+Verify that `initializeCustomer`, `sendEvent`, and `showProfile` behave as before on both iOS and Android. `Unable to resolve module react-native-webview` or a similar error means a peer dependency is missing.
+</Step>
+</Steps>
+
 ### From v3.1.1 to v3.1.2 (No Breaking Changes)
 
 <Info>
@@ -329,18 +402,18 @@ Test all Gameball functionality on both iOS and Android to ensure the migration 
 - **React Native**: 0.70+
 - **Node.js**: 18+
 - **TypeScript**: 4.0+ (optional)
-- **iOS**: iOS 12.0+
-- **Android**: API level 21+
+- **iOS**: iOS 15.0+ as of v4.0.0
+- **Android**: API level 24+ (Android 7.0) as of v4.0.0
 
 ## Additional Resources
 
-- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.2/CHANGELOG.md) for detailed version history
-- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.2/MIGRATION.md) in the repository for more migration details
-- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-3.1.2/RELEASE_NOTES.md) for v3.1.2 release details
+- Check the [SDK repository's CHANGELOG.md](https://github.com/gameballers/gameball-react-native/blob/release-4.0.0/CHANGELOG.md) for detailed version history
+- Review [MIGRATION.md](https://github.com/gameballers/gameball-react-native/blob/release-4.0.0/MIGRATION.md) in the repository for more migration details
+- View [RELEASE_NOTES.md](https://github.com/gameballers/gameball-react-native/blob/release-4.0.0/RELEASE_NOTES.md) for v4.0.0 release details
 - Visit [Gameball Docs](/) for the latest documentation
 
 <Warning>
-For version-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-3.1.2) on branch `release-3.1.2`.
+For version-specific details, refer to the [gameball-react-native repository](https://github.com/gameballers/gameball-react-native/tree/release-4.0.0) on branch `release-4.0.0`.
 </Warning>
 
 <Tip>

@@ -1,15 +1,15 @@
 ---
 title: "iOS SDK Integration (v3)"
 sidebarTitle: "Overview"
-description: "Complete guide to integrate Gameball with your iOS application using SDK v3.2.2"
+description: "Complete guide to integrate Gameball with your iOS application using SDK v4.0.0"
 ---
 
-# Gameball iOS SDK - v3.2.2
+# Gameball iOS SDK - v4.0.0
 
-This documentation is tailored to **Gameball iOS SDK v3.2.2**. Use these pages as a versioned SDK reference for teams embedding Gameball into their iOS applications.
+This documentation is tailored to **Gameball iOS SDK v4.0.0**. Use these pages as a versioned SDK reference for teams embedding Gameball into their iOS applications.
 
 <Info>
-  SDK v3.2.x adds a widget event channel, programmatic widget dismissal, external-link handling, and channel-merging parameters. All v3.x functionality remains fully compatible.
+  SDK v4.0.0 adds in-app messaging and purchase logging, and raises the minimum iOS version to 15.0. Every v3.x call keeps its signature and behavior.
 </Info>
 
 ---
@@ -21,6 +21,7 @@ The Gameball iOS SDK enables you to:
 - Connect your mobile app to the Gameball loyalty and rewards platform.
 - Track customer actions to trigger rewards and campaigns.
 - Display in-app widgets showing points, badges, and leaderboards.
+- Show in-app messages from campaigns you author in the Gameball dashboard.
 - Enable referrals and push notifications natively.
 - Integrate Gameball programs without heavy backend development.
 
@@ -31,7 +32,7 @@ The Gameball iOS SDK enables you to:
 Before you begin, make sure you have:
 
 - A **Gameball Project Key** from your Gameball Dashboard → Settings → API Keys.
-- An app running **iOS 12+** with **Swift 5.0+**.
+- An app running **iOS 15+** with **Swift 5.7+**.
 - Swift Package Manager configured.
 - Chosen between **sandbox** or **production** mode for testing.
 - A **unique Player ID** ready to identify your app users.
@@ -42,7 +43,7 @@ Before you begin, make sure you have:
 
 <CardGroup cols={2}>
   <Card title="Getting Started" icon="rocket" href="/installation-guides/v3/ios/getting-started">
-    Install the Gameball iOS SDK v3.2.2 and set up your project
+    Install the Gameball iOS SDK v4.0.0 and set up your project
   </Card>
   <Card title="Initialize SDK" icon="play" href="/installation-guides/v3/ios/initialize-sdk">
     Initialize the SDK with your API key and configuration
@@ -59,11 +60,14 @@ Before you begin, make sure you have:
   <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/ios/push-notifications">
     Register Firebase or Huawei push tokens for Gameball notifications
   </Card>
+  <Card title="In-App Messaging" icon="comment-dots" href="/installation-guides/v3/ios/in-app-messaging">
+    Display dashboard in-app campaigns in your app
+  </Card>
   <Card title="Go-Live Checklist" icon="check" href="/installation-guides/v3/ios/go-live-checklist">
     Verify your integration before going live
   </Card>
   <Card title="Migration Notes" icon="arrow-right" href="/installation-guides/v3/ios/migration-notes">
-    Migrate from v2 to v3.2.2
+    Upgrade from v3 to v4.0.0, or migrate from v2
   </Card>
 </CardGroup>
 

@@ -5,13 +5,12 @@ description: "Display Gameball in-app campaigns in your Android app and control 
 ---
 
 import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
-import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
 
 <InAppMessagingBeta />
 
 # Display In-App Messages
 
-One call after you identify the customer, and the Gameball SDK draws your dashboard campaigns over the current Activity: slide-ups, modals, and full screens, triggered by session start or by the events you already send. Messaging is entirely opt-in, so until you call it the module makes no requests, registers no callbacks, and draws nothing.
+One call after you identify the customer, and the Gameball SDK draws your dashboard campaigns over the current Activity: slide-ups, modals, and full screens, triggered by session start or by the events you already send. In-app messaging needs **Gameball Android SDK 4.0.0** or later. It is entirely opt-in: until you call it, the module makes no requests, registers no callbacks, stores nothing, and draws nothing.
 
 For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
 
@@ -21,10 +20,10 @@ For campaign options, triggers, filters, priority, cooldown, quiet hours, and ho
 
 | **Item** | Requirement |
 |---|---|
-| SDK | `com.github.gameballers:gb-mobile-android`, private beta build |
-| Android | minSdk 21, compileSdk 34, Kotlin 2.0+, AndroidX, Java/Kotlin target 17 |
-| Permissions | `INTERNET`, declared by the SDK. Declare `android.permission.POST_NOTIFICATIONS` in your own manifest if any campaign uses the **request push permission** action on API 33+ |
-| Dependencies pulled in | Picasso for artwork, Kotlin coroutines, AppCompat, Material, and `androidx.browser` for the in-app browser tab |
+| SDK | `com.github.gameballers:gb-mobile-android` 4.0.0 or later |
+| Android | minSdk 24 (Android 7.0), compileSdk 34, Kotlin 2.0+, AndroidX, Java/Kotlin target 17 |
+| Permissions | `INTERNET` only, declared by the SDK. In-app messaging adds no manifest entries or permissions |
+| Dependencies | None beyond the SDK's existing ones. Artwork loads through Picasso, and the module uses Kotlin coroutines, AppCompat, and Material |
 | Activity | Messages are drawn into the resumed Activity's content view. No Activity or Application parameter is needed |
 | Navigation | An `onNavigate` hook if your campaigns use `navigate` actions |
 
@@ -32,18 +31,30 @@ For campaign options, triggers, filters, priority, cooldown, quiet hours, and ho
 
 ## Install
 
-<InAppMessagingBetaInstall />
+Add the repositories to your project-level `settings.gradle`, and the dependency to your app-level `build.gradle`:
 
-```kotlin build.gradle
-repositories {
+```groovy settings.gradle
+dependencyResolutionManagement {
+  repositories {
+    google()
     mavenCentral()
-    maven { url = URI("https://jitpack.io") }
-}
-
-dependencies {
-    implementation 'com.github.gameballers:gb-mobile-android:GAMEBALL_BETA_VERSION'
+    maven { url "https://jitpack.io" }
+    maven { url 'https://developer.huawei.com/repo/' }
+  }
 }
 ```
+
+```groovy build.gradle
+dependencies {
+  implementation 'com.github.gameballers:gb-mobile-android:4.0.0'
+}
+```
+
+For older Gradle setups, see [Getting Started](/installation-guides/v3/android/getting-started).
+
+<Warning>
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimum SDK version to 24 (Android 7.0), so set `minSdk` to 24 or higher in your app module. Every 3.x call keeps its signature and behavior. See [Migration Notes](/installation-guides/v3/android/migration-notes).
+</Warning>
 
 Initialize the SDK in your `Application` and identify the customer as you do today. Both must happen before messaging starts.
 
@@ -83,20 +94,24 @@ gameball.startInAppMessaging("customer-123");
 
 | **Parameter** | Type | Default | Meaning |
 |---|---|---|---|
-| `customerId` | `String` | Required | Whose campaigns to sync and to whom analytics are attributed. Starting again with a different ID refetches, resets frequency history, and discards the previous customer's data. A blank ID is ignored with a log line. |
-| `options` | `InAppMessagingOptions?` | `null` | Hooks and settings, built with `InAppMessagingOptions.builder()`. |
+| `customerId` | `String` | Required | Whose campaigns to sync and to whom analytics are attributed. Starting again with a different ID refetches campaigns and resets frequency history for the new customer. Starting again with the same ID keeps the running session and replaces your hooks. A blank ID is ignored with a log line. |
+| `options` | `InAppMessagingOptions?` | `null` | Hooks and settings, built with `InAppMessagingOptions.builder()`. `sessionTimeoutSeconds` and `appVersion` keep their values from the first start until you call `stopInAppMessaging()`. |
 
-`stopInAppMessaging()` dismisses anything on screen, clears cached campaigns, frequency history, and stored personalization values, flushes pending analytics, and unregisters the lifecycle callbacks. Call it on logout. It is safe when messaging was never started, and `isInAppMessagingStarted()` reports the state.
+<Note>
+**Start early.** The SDK learns which Activity to draw into from lifecycle callbacks it registers when you start messaging. If you start after the current Activity has resumed, for example from a login callback, the first message waits until an Activity next resumes, and the log shows `no Activity available; campaign N deferred`. When the customer is already known at launch, start messaging in `Application.onCreate`.
+</Note>
+
+`stopInAppMessaging()` dismisses anything on screen, clears stored personalization values, sends pending analytics (waiting at most 800 ms), and unregisters the lifecycle callbacks. Call it on logout. Cached campaigns and frequency history stay on the device for that customer: the same customer picks them up after signing back in, and the next customer to start discards them. Analytics not sent in time go out after messaging starts again. Calling it when messaging was never started is safe, and `isInAppMessagingStarted()` reports the state.
 
 <Info>
-Identifying a different customer through `initializeCustomer` while messaging runs switches the module to that customer automatically.
+Identifying a different customer through `initializeCustomer` while messaging runs switches the module to that customer automatically, and keeps your options.
 </Info>
 
 ---
 
 ## Control Display and Actions
 
-Every hook is optional and individually guarded. If yours throws, you lose the override for that call, never the message.
+Every hook is optional and individually guarded. If yours throws, you lose the override for that call, never the message. Hooks run on the main thread, and `beforeDisplay` is synchronous, so keep them fast.
 
 <CodeGroup>
 
@@ -104,9 +119,9 @@ Every hook is optional and individually guarded. If yours throws, you lose the o
 val options = InAppMessagingOptions.builder()
     // Hold a message back, or drop it for this trigger.
     .beforeDisplay { message ->
-        if (checkoutInProgress) DisplayDecision.LATER else DisplayDecision.SHOW
+        if (checkoutInProgress) DisplayDecision.DISCARD else DisplayDecision.SHOW
     }
-    // Handle a tap yourself. Return true and the SDK does nothing further;
+    // Handle a tap yourself. Return true and the SDK only closes the message;
     // the click is reported to Gameball either way.
     .onAction { message, button, action ->
         when (action) {
@@ -119,6 +134,7 @@ val options = InAppMessagingOptions.builder()
     // See every message the SDK selects, whatever happens to it next.
     .observer { message -> analytics.log("gb_message_selected", message.campaignId) }
     .sessionTimeoutSeconds(30)
+    .appVersion(BuildConfig.VERSION_NAME)
     .build()
 
 gameball.startInAppMessaging("customer-123", options)
@@ -135,35 +151,49 @@ gameball.startInAppMessaging("customer-123", options);
 
 | **Builder method** | Signature | Meaning |
 |---|---|---|
-| `beforeDisplay` | `(InAppMessage) -> DisplayDecision` | `SHOW` displays now. `LATER` parks the message in the pending slot and retries at the next opportunity. `DISCARD` drops it for this occurrence. |
-| `onAction` | `(InAppMessage, InAppMessageButton?, GameballMessageAction) -> Boolean` | Return `true` when you handled the tap, `false` for built-in handling. The click is reported regardless, and the message is dismissed before the action runs. |
-| `onNavigate` | `(String, Map?) -> Unit` | Receives `navigate` actions. Without it, a navigate action logs a warning and does nothing. |
+| `beforeDisplay` | `(InAppMessage) -> DisplayDecision` | `SHOW` displays now. `LATER` parks the message in the pending slot, and the SDK shows it at the next retry without calling `beforeDisplay` again. `DISCARD` drops it for this occurrence. |
+| `onAction` | `(InAppMessage, InAppMessageButton?, GameballMessageAction) -> Boolean` | Return `true` when you handled the tap, `false` for built-in handling. The SDK reports the click whatever you return and closes the message once your hook returns. `button` is `null` when the message itself was tapped. Closing a message with the close button, a swipe, Back, or auto-dismiss does not call it. |
+| `onNavigate` | `(String, Map<String, Any?>?) -> Unit` | Receives `navigate` actions after the message closes. The route is a bare name with no leading slash. Without it, the SDK logs a warning and does nothing. |
 | `observer` | `(InAppMessage) -> Unit` | Called for every selected message before `beforeDisplay`, so it also sees messages you then defer or discard. |
-| `sessionTimeoutSeconds` | `Int`, default 30 | Background time after which a resume counts as a new session. |
-| `appVersion` | `String?` | Reported on the sync. Defaults to your app's version name. |
+| `sessionTimeoutSeconds` | `Int`, default 30 | Background time after which a resume counts as a new session. Keep it at or above your account cooldown, or the cooldown can suppress a session-start message. |
+| `appVersion` | `String?`, default `null` | Reported on each sync so campaigns can target app versions. The SDK does not fill it in; pass `BuildConfig.VERSION_NAME` to report it. |
 
-`InAppMessage` exposes `campaignId`, `variationId`, `name`, `messageType`, `header`, `body`, `buttons`, and `isTest`. Styling is applied by the SDK and is not exposed to the host.
+<Tip>
+To keep messages off screen for a whole flow such as checkout, return `DISCARD`. A message you defer with `LATER` shows at the next retry, for example when an Activity resumes, even if the flow is still in progress.
+</Tip>
+
+`InAppMessage` exposes:
+
+- `campaignId` (`Int`) and `variationId` (`Int?`)
+- `name` (`String?`): the dashboard name, for logs only
+- `messageType` (`Int`): `1` slide-up, `2` modal, `3` full screen
+- `header` and `body` (`String?`)
+- `buttons` (`List<InAppMessageButton>`): always empty for a slide-up
+- `isTest` (`Boolean`): `true` for a dashboard test send, which displays normally and reports no analytics but still counts toward this device's frequency history
+
+`header`, `body`, and button text are the campaign's copy before personalization, so they can contain `{token}` placeholders. Styling is applied by the SDK and is not exposed to the host.
 
 ---
 
 ## Actions
 
-`GameballMessageAction` is a sealed class, so an exhaustive `when` is safe.
+`GameballMessageAction` is a sealed class, so an exhaustive `when` is safe. A tap on the message itself does nothing unless the campaign sets a click action, and a button with no action closes the message.
 
 | **Type** | Fields | Built-in behavior |
 |---|---|---|
 | `Dismiss` | None | Closes the message. |
-| `OpenUrl` | `url`, `external` | `external = false` opens a Chrome Custom Tab inside your app. `true` fires `ACTION_VIEW` to the system browser. |
-| `Navigate` | `route`, `arguments` | Handed to your `onNavigate` hook. |
-| `RequestPushPermission` | None | Requests `POST_NOTIFICATIONS` on API 33+, then closes. Below API 33 there is nothing to ask and the message simply closes. |
+| `OpenUrl` | `url`, `external` | Fires `ACTION_VIEW` for the URL, so it opens in the browser or in an app that handles the link, including yours. Built-in handling ignores `external`; read it in `onAction` if you route links yourself. |
+| `Navigate` | `route`, `arguments` | Handed to your `onNavigate` hook after the message closes. |
 
-Before an `OpenUrl` or `Navigate` action runs, pending analytics are flushed with an 800ms budget so the click is not lost if the browser or a new Activity takes over.
+A campaign action this version does not support, such as **request push permission**, reaches your hook as `Dismiss` and closes the message.
+
+When the SDK runs a `Navigate` action itself, it first sends pending analytics, waiting at most 800 ms, and then calls `onNavigate`. A built-in `OpenUrl` opens immediately, and the same flush runs alongside it. Analytics are stored on the device either way, so a click that is not sent in time goes out with a later batch.
 
 ---
 
 ## Events and Purchases
 
-Events you already send through `sendEvent` reach the trigger engine automatically, metadata included, so campaign filters work on them. Send numbers as numbers where a campaign compares them.
+Events you already send through `sendEvent` reach the trigger engine automatically, metadata included, so campaign filters work on them. The event name must match the campaign's event name exactly, including letter case. A filter on a property the event does not carry fails, and number comparisons accept numbers or numeric strings, so send numbers as numbers where a campaign compares them.
 
 ```kotlin
 gameball.sendEvent(
@@ -176,10 +206,13 @@ gameball.sendEvent(
 )
 ```
 
-Purchases have a dedicated entry point and reach campaigns as the reserved event `purchase`, with `productId`, `price`, `currency`, and `quantity` as metadata:
+`logPurchase` sends Gameball an event named `purchase`, with `productId`, `price`, `currency`, and `quantity` as metadata, whether or not messaging is running. Purchase-triggered campaigns can filter on those fields and on anything you pass in `properties`. If you already send a `purchase` event through `sendEvent`, replace it with `logPurchase` rather than sending both.
 
-```kotlin
+<CodeGroup>
+
+```kotlin Kotlin
 gameball.logPurchase(
+    customerId = "customer-123",
     productId = "sku-42",
     price = 250.0,
     currency = "USD",
@@ -187,11 +220,21 @@ gameball.logPurchase(
 )
 ```
 
+```java Java
+gameball.logPurchase("customer-123", "sku-42", 250.0, "USD");
+```
+
+</CodeGroup>
+
+A blank `customerId` is reported to `callback` as an error, and nothing is sent. `callback` and `sessionToken` behave as they do on `sendEvent`.
+
 ---
 
 ## Language
 
-There is no separate language setting for messages. Each sync asks for the customer's preferred language when your app set one, otherwise the `lang` given at `init`, otherwise the device locale. Arabic strings ship with the SDK, and the layout mirrors when the resolved direction is right-to-left.
+There is no separate language setting for messages. Each sync requests the customer's preferred language when your app set one, otherwise the `lang` you passed to `init`, and an unsupported code falls back to `en`. If you change the language with `setLanguage`, messages follow it from the next sync. Message copy comes from the campaign; the SDK's only built-in text, the close button's accessibility label, ships in English and Arabic.
+
+Layouts use start and end alignment, so they mirror when your Activity's layout direction is right-to-left. The SDK does not change direction based on the message language.
 
 <Warning>
 An SDK cannot force `android:supportsRtl`. Declare it in your own manifest if you serve right-to-left languages, or the layout will not mirror.
@@ -199,34 +242,44 @@ An SDK cannot force `android:supportsRtl`. Declare it in your own manifest if yo
 
 ---
 
+## Personalization
+
+Campaign text can contain placeholders such as `{player_name}` and `{points_balance}` in the header, body, and button labels. See [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns) for the list. Just before a message with a placeholder shows, the SDK fetches the customer's current values, waiting at most 2 seconds, and reuses them for up to 60 seconds. Every event or purchase you send clears that cache, so a points balance reflects the action that triggered the message. The SDK removes any placeholder it cannot fill, and the message still shows.
+
+Your hooks receive the text before substitution.
+
+---
+
 ## Push Permission
 
-The **request push permission** button action requests `android.permission.POST_NOTIFICATIONS` through the current Activity on API 33 and above and logs the result. On older versions it logs that nothing needs asking. Your manifest must declare the permission for the dialog to appear.
+In-app messages cannot request notification permission in this version. A campaign button set to **request push permission** closes the message, and the SDK logs `action type 'request_push_permission' is not implemented`.
 
 <Tip>
-To run your own permission flow, handle `GameballMessageAction.RequestPushPermission` in `onAction` and return `true`.
+To ask for notification permission from a message, give the button a `navigate` action and request `POST_NOTIFICATIONS` in your `onNavigate` handler.
 </Tip>
 
 ---
 
 ## Behavior Reference
 
-These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in an Android app.
+The campaign rules themselves are described in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in an Android app.
 
 | **Topic** | In this SDK |
 |---|---|
 | Sessions | Foreground and background are derived from the count of started Activities, so navigation and rotation never look like a session break. A resume after more than the session timeout starts a new session and re-syncs. |
 | Sync and cache | Campaigns and account settings are fetched at session start and cached. The cache is read only when the sync fails. Storage is customer-scoped. |
-| Where it draws | Into the resumed Activity's `android.R.id.content`, resolved fresh at each presentation. No overlay permission is used. A full screen inherits your Activity's insets, so an edge-to-edge host gets a full-bleed poster and any other host keeps its status bar above it. |
-| Back button | Modal and full screen consume the system Back button and are predictive-back aware on a `ComponentActivity`. A slide-up never does, and Back never pops your Activity. |
+| Message types | A slide-up sits at the top or bottom edge, leaves your app usable, and carries no buttons. Swiping it toward its own edge closes it, and it closes itself after 8 seconds unless the campaign sets another time. A modal is a card over a dimmed background with up to two buttons. A full screen is opaque, with stacked full-width buttons. Campaign types this version cannot draw are skipped, so a lower-priority campaign can show instead. |
+| Where it draws | Into the resumed Activity's `android.R.id.content`, resolved fresh at each presentation. No overlay permission is used. A full screen is opaque and fills that view. On an edge-to-edge host, its background and image-only artwork run behind the system bars while text, buttons, and the close button stay clear of them. On any other host, it sits below the status bar. |
+| Back button | Modal and full screen consume the system Back button: Back closes the message and does not reach your Activity. On a `ComponentActivity` this goes through `OnBackPressedDispatcher` and works with predictive back. On any other Activity the SDK falls back to a key listener, which stops working once you opt in to predictive back. A slide-up does not intercept Back. |
 | Theme | Messages inflate under the SDK's own Material theme wrapper, so a non-Material host theme cannot crash them. Colors a campaign leaves unset follow your theme. |
-| One at a time | A single pending slot. A message that cannot show now waits and is retried on dismissal, widget close, rotation, or return to the foreground. A newer deferral replaces an older one. |
-| Runner-up | The second-best campaign for the same trigger is kept behind the winner and shows after dismissal once the cooldown lapses. |
-| Cooldown and quiet hours | Both come from the account settings. Quiet hours are judged on the device's local clock. |
-| Orientation | A full screen authored for portrait or landscape logs *deferred until rotation* and displays when the device turns. |
-| Artwork | Prefetched at sync with a 5-second budget, and failed URLs are retried every 30 seconds. `http://` URLs are refused before any request. |
-| Impressions | Recorded on the first pre-draw pass, which is also when auto-dismiss starts. A re-present after rotation does not count twice. |
-| Analytics | Impression, click with button ID, and dismiss with stable event IDs. Flushed every 30 seconds or at 10 events, 50 per request, and persisted after every change, so a force-quit loses nothing. |
+| One at a time | One message on screen and a single pending slot, held in memory. A message that cannot show yet, because you returned `LATER`, the profile widget is open, no Activity is resumed, or a full screen is waiting for its orientation, is retried when an Activity resumes (including after rotation or a return to the foreground) and when the widget closes. The retry rechecks expiry, frequency, artwork, quiet hours, and cooldown, and drops the message if it no longer qualifies. A newer deferral replaces an older one. |
+| Profile widget | Nothing draws over the Gameball profile widget. A message selected while it is open waits and is retried when it closes. |
+| Priority | Each trigger shows at most one campaign: the highest priority wins, and ties go to the order set in the dashboard. Other eligible campaigns for that trigger are not kept. |
+| Cooldown and quiet hours | Both come from the account settings. The cooldown is the minimum time between any two messages, measured from the last impression, and defaults to 30 seconds. Quiet hours are compared against UTC, not the device's local time. A trigger that falls inside quiet hours or the cooldown is dropped, not deferred. |
+| Orientation | A full screen authored for portrait or landscape logs *deferred until rotation* and displays when an Activity next resumes in a matching orientation. If your Activity handles orientation changes itself with `android:configChanges`, it is not recreated on rotation, so the message waits until an Activity next resumes. |
+| Artwork | Prefetched at sync with a 5-second budget. A campaign whose image or icon has not loaded is skipped, and a lower-priority campaign can take the slot. Failed URLs are retried at most every 30 seconds, when a trigger fires. `http://` artwork gets a warning in the log and fails wherever cleartext traffic is blocked, so serve artwork over HTTPS. |
+| Impressions | Recorded on the first pre-draw pass, which is also when auto-dismiss starts. A message closed before it draws is not counted. |
+| Analytics | Impression, click (with the button ID, and the URL for `OpenUrl`), and dismiss, each with a stable event ID. A dismissal that follows a tap is not counted. Sent every 30 seconds, at 10 queued events, and when the app goes to the background, 50 events per request. The queue is stored on the device after every change and keeps at most 500 events. Test sends report nothing. |
 | Accessibility | All text is in sp, slide-up copy is clamped to three lines, long modal copy scrolls inside the card with the buttons reachable, and animator scale 0 disables entry animations. |
 | GIF artwork | Shows its first frame only in this version. |
 
@@ -234,26 +287,57 @@ These rules are shared with every Gameball SDK and are described in full in [In-
 
 ## Logging and Troubleshooting
 
-Every decision is logged with a reason and the campaign ID under the tag `GameballIAM`, on by default. Nothing from this log leaves the device.
+The SDK logs its decisions under the tag `GameballIAM`. Logging is on in debuggable builds and off in release builds, and nothing from this log leaves the device. To turn it on in a release build while you reproduce a problem, set it before or after you start messaging. The setting lasts until the app process ends.
+
+<CodeGroup>
+
+```kotlin Kotlin
+GameballApp.inAppMessagingLogging = true
+```
+
+```java Java
+GameballApp.setInAppMessagingLogging(true);
+```
+
+</CodeGroup>
 
 ```bash
 adb logcat -s GameballIAM
 ```
 
+Errors thrown while starting or stopping messaging are logged under the `GameballApp` tag instead.
+
 | **Log line** | Meaning |
 |---|---|
-| `synced N campaign(s), cooldown Ns` | The session sync succeeded. |
-| `sync could not reach the backend: …` | Offline start. The last cached campaign set is in use. |
-| `campaign N skipped: artwork not ready` | The image has not loaded, or is `http://`. The next eligible campaign takes the slot. |
-| `campaign N wants PORTRAIT; deferred until rotation` | A full screen is waiting for a matching orientation. |
-| `campaign B deferred: campaign A took this trigger first` | Runner-up kept for after A is dismissed. |
-| `pending campaign N is inside the display floor; held` | The cooldown is being honored, and a retry is booked. |
-| `… inside the quiet-hours window; suppressed` | The account's quiet hours cover the device's current local time. |
-| `navigate action received but no onNavigate hook is set` | Add `onNavigate` to your options. |
-| `artwork … is served over http and is refused` | The campaign's image is not HTTPS. Fix it in the dashboard. |
+| `parsed X/Y campaigns, cooldown Ns` | The session sync succeeded. X of the Y campaigns returned can be shown on this device. |
+| `sync failed (<reason>); falling back to the cache` | The sync failed, so the last cached campaigns for this customer are in use. When the device is offline, `sync could not reach the backend: …` comes first. |
+| `sync failed (401 - the API key was rejected); …` | Check the API key you pass to `init`. |
+| `sync failed (404 - the backend does not know this customer yet); …` | The customer does not exist in Gameball yet. Start messaging after `initializeCustomer` succeeds. |
+| `sync failed (422 - the customer is deactivated); …` | The customer is deactivated. |
+| `no Activity available; campaign N deferred` | No resumed Activity was known when the message was ready. It shows when an Activity next resumes. |
+| `campaign N deferred: <reason>` | The message waits in the pending slot. The reason is `the host asked to defer it`, `the host's widget is open`, `another message is already showing`, or `no surface was available`. |
+| `campaign N wants PORTRAIT; deferred until rotation` | A full screen is waiting for a matching orientation (`PORTRAIT` or `LANDSCAPE`). |
+| `pending campaign N is no longer eligible; dropped` | At retry, the waiting message failed a rule such as the cooldown or quiet hours. |
+| `inside the Ns display floor; nothing selected` | The account cooldown has not passed since the last message. |
+| `inside quiet hours; suppressing N eligible campaign(s)` | The account's quiet hours, compared in UTC, cover the current time. |
+| `artwork failed to load: <url> (<error>)` | The image did not load, so the campaign is skipped until a retry succeeds. |
+| `artwork is served over cleartext http and will fail on API 28+: <url> - the campaign using it will never display` | The campaign's image is not HTTPS. Fix it in the dashboard. |
+| `campaign wants route '<route>' but no navigator is set` | Add `onNavigate` to your options. |
+| `action type '<type>' is not implemented` | The campaign uses an action this SDK version does not support, such as `request_push_permission`. |
 
 <Note>
-**Nothing shows at all?** Check in order: `init` ran with the API key and the customer is initialized, `startInAppMessaging` was called with a non-blank ID, the campaign is live and targets Android and the customer is in its audience, the sync log lists it, the account cooldown or quiet hours are not suppressing it, and the campaign has not already been shown to this customer. A fresh customer ID resets frequency history while testing.
+**Nothing shows at all?** Check in order:
+
+- Logging is on. It is off in release builds unless you set `GameballApp.inAppMessagingLogging = true`.
+- `init` ran with the API key, and the customer is initialized.
+- `startInAppMessaging` was called with a non-blank ID.
+- `parsed X/Y campaigns` shows a usable campaign, and no `sync failed` line appears.
+- The campaign is live, targets Android, and the customer is in its audience.
+- Its artwork loads over HTTPS.
+- The account cooldown or quiet hours are not suppressing it.
+- The customer has not already seen it.
+
+A fresh customer ID resets frequency history while you test.
 </Note>
 
 ---
@@ -280,31 +364,36 @@ If you minify, keep the SDK and Gson as the SDK's README already recommends:
 | Stop | `fun stopInAppMessaging()` |
 | State | `fun isInAppMessagingStarted(): Boolean` |
 | Options | `InAppMessagingOptions.builder()` with `sessionTimeoutSeconds`, `beforeDisplay`, `onAction`, `onNavigate`, `observer`, `appVersion` |
+| Hooks | `fun interface BeforeDisplayHook`, `MessageActionHook`, `MessageNavigationHook`, `MessageObserver` |
 | Decision | `enum class DisplayDecision { SHOW, LATER, DISCARD }` |
-| Actions | `sealed class GameballMessageAction`: `Dismiss`, `OpenUrl`, `Navigate`, `RequestPushPermission` |
-| Message model | `data class InAppMessage` with `campaignId`, `variationId`, `name`, `messageType`, `header`, `body`, `buttons`, `isTest` |
-| Button model | `data class InAppMessageButton(id, text)` |
-| Purchase | `fun logPurchase(productId: String, price: Double, currency: String, quantity: Int = 1, properties: Map? = null)` |
+| Actions | `sealed class GameballMessageAction`: `Dismiss`, `OpenUrl(url, external)`, `Navigate(route, arguments)` |
+| Message model | `data class InAppMessage(campaignId: Int, variationId: Int?, name: String?, messageType: Int, header: String?, body: String?, buttons: List<InAppMessageButton>, isTest: Boolean)` |
+| Button model | `data class InAppMessageButton(id: String, text: String)` |
+| Purchase | `fun logPurchase(customerId: String, productId: String, price: Double, currency: String, quantity: Int = 1, properties: Map<String, Any>? = null, callback: Callback<Boolean>? = null, sessionToken: String? = null)`, with `@JvmOverloads` |
+| Logging | `GameballApp.inAppMessagingLogging: Boolean` (static; Java `GameballApp.setInAppMessagingLogging(boolean)` and `getInAppMessagingLogging()`) |
 
 ---
 
 ## Launch Checklist
 
 <Steps>
+  <Step title="Upgrade the SDK">
+    `com.github.gameballers:gb-mobile-android:4.0.0` and `minSdk` 24 or higher.
+  </Step>
   <Step title="Initialize and identify">
     `init` with the production API key in `Application.onCreate`, then `initializeCustomer`.
   </Step>
   <Step title="Start and stop messaging">
-    `startInAppMessaging(customerId, options)` right after the customer is known, and `stopInAppMessaging()` on logout.
+    `startInAppMessaging(customerId, options)` as early as the customer is known, and `stopInAppMessaging()` on logout.
   </Step>
-  <Step title="Wire navigation and permissions">
-    `onNavigate` wired if any campaign uses `navigate`, and `POST_NOTIFICATIONS` declared if any campaign asks for push permission.
+  <Step title="Wire navigation">
+    `onNavigate` wired if any campaign uses `navigate`.
   </Step>
   <Step title="Declare RTL support">
     `android:supportsRtl="true"` if you serve right-to-left languages.
   </Step>
   <Step title="Add keep rules and test">
-    ProGuard keep rules in place for release builds, then run one campaign end to end on a fresh customer ID with `adb logcat -s GameballIAM` open.
+    ProGuard keep rules in place for release builds, then run one campaign end to end on a fresh customer ID with `adb logcat -s GameballIAM` open, in a debuggable build or with `GameballApp.inAppMessagingLogging = true`.
   </Step>
 </Steps>
 

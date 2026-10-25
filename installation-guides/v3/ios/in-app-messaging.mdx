@@ -5,13 +5,12 @@ description: "Display Gameball in-app campaigns in your iOS app and control when
 ---
 
 import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
-import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
 
 <InAppMessagingBeta />
 
 # Display In-App Messages
 
-One call after you identify the customer, and the Gameball SDK draws your dashboard campaigns above your app in its own window: slide-ups, modals, and full screens, triggered by session start or by the events you already send. The module is dormant until you start it, so upgrading a widget-only integration changes nothing.
+One call after you identify the customer, and the Gameball SDK draws your dashboard campaigns above your app in its own window: slide-ups, modals, and full screens, triggered by session start or by the events you already send. In-app messaging needs **Gameball iOS SDK 4.0.0** or later. The module is dormant until you start it: it makes no requests, schedules no timers, stores nothing, and draws nothing.
 
 For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
 
@@ -21,8 +20,8 @@ For campaign options, triggers, filters, priority, cooldown, quiet hours, and ho
 
 | **Item** | Requirement |
 |---|---|
-| SDK | Gameball iOS SDK private beta build, via Swift Package Manager or CocoaPods |
-| iOS | Deployment target iOS 11.0. Scene-based features use runtime availability checks and work on iOS 13 and later. Xcode 12+ |
+| SDK | Gameball iOS SDK 4.0.0 or later, installed with Swift Package Manager |
+| iOS | Deployment target iOS 15.0 or later, built with Xcode 14 or later (Swift 5.7) |
 | Window | Messages are drawn in their own `UIWindow` at `.normal` level, attached to your active scene. The SDK finds the foreground scene itself and never takes key-window status, so your keyboard and first responder are untouched |
 | Navigation | Implement `gameballShouldNavigate` on the delegate if your campaigns use `navigate` actions |
 | Push permission | No capability is required to ask. Delivering pushes afterward is your app's existing setup |
@@ -31,21 +30,17 @@ For campaign options, triggers, filters, priority, cooldown, quiet hours, and ho
 
 ## Install
 
-<InAppMessagingBetaInstall />
-
-<CodeGroup>
-
-```swift Swift Package Manager
+```swift Package.swift
 dependencies: [
-    .package(url: "https://github.com/gameballers/gameball-ios.git", from: "GAMEBALL_BETA_VERSION")
+    .package(url: "https://github.com/gameballers/gameball-ios.git", from: "4.0.0")
 ]
 ```
 
-```ruby CocoaPods
-pod 'Gameball', 'GAMEBALL_BETA_VERSION'
-```
+In Xcode, choose **File > Add Packages**, enter `https://github.com/gameballers/gameball-ios.git`, and select version 4.0.0 or later.
 
-</CodeGroup>
+<Warning>
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimum deployment target to iOS 15.0. Set your app target's **Minimum Deployments** to 15.0, and `platform :ios, '15.0'` in your Podfile if you use CocoaPods for other dependencies. Every 3.x call keeps its signature and behavior. See [Migration Notes](/installation-guides/v3/ios/migration-notes).
+</Warning>
 
 Initialize the SDK and identify the customer as you do today:
 
@@ -72,10 +67,14 @@ gameball.startInAppMessaging()                           // Customer already ide
 gameball.startInAppMessaging(customerId: "customer_123") // Or explicit
 
 gameball.isInAppMessagingStarted   // Bool
-gameball.stopInAppMessaging()      // Dismiss, flush telemetry, clear per-customer state
+gameball.stopInAppMessaging()      // Dismiss, send pending analytics, end messaging for this customer
 ```
 
-Starting is idempotent for the same customer. Starting for a different customer refetches campaigns and resets frequency history, so you never need to stop first. Call `stopInAppMessaging()` on logout; it is safe when messaging was never started. App lifecycle is observed automatically.
+Starting is idempotent for the same customer. Starting for a different customer refetches campaigns and resets frequency history, so you never need to stop first. While messaging runs, identifying a different customer with `initializeCustomer` switches messaging to that customer. App lifecycle is observed automatically.
+
+`startInAppMessaging()` without an ID uses the customer identified in the current app session, which the SDK keeps in memory only, so call `initializeCustomer` on every launch or pass the ID. `isInAppMessagingStarted` stays `false` until a customer is identified.
+
+Call `stopInAppMessaging()` on logout; it is safe when messaging was never started. Messaging stays off until you call `startInAppMessaging()` again, so call it at the next login. The customer's display history stays on the device until a different customer starts, so a campaign already shown to this customer does not return when they log back in.
 
 ---
 
@@ -96,7 +95,7 @@ final class MessagingCoordinator: GameballInAppMessagingDelegate {
         isCheckingOut ? .later : .show
     }
 
-    // Return true when you handled the tap yourself; the SDK then does nothing further.
+    // Return true when you handled the tap yourself; the SDK then skips its own handling.
     // `button` is nil for a tap on the message surface.
     func gameballDidHandleAction(_ message: GameballInAppMessage,
                                 button: GameballMessageButton?,
@@ -108,7 +107,7 @@ final class MessagingCoordinator: GameballInAppMessagingDelegate {
         return false
     }
 
-    // Called for every message selected, whatever happens to it next.
+    // Called once for each message a trigger selects, whatever happens to it next.
     func gameballDidSelectMessage(_ message: GameballInAppMessage) {
         analytics.log("gameball_message_selected", ["id": message.id])
     }
@@ -122,32 +121,34 @@ final class MessagingCoordinator: GameballInAppMessagingDelegate {
 
 | **Method** | Default | Meaning |
 |---|---|---|
-| `gameballShouldDisplay(_:)` | `.show` | `.show` displays now. `.later` holds the message in the deferred stack and retries at the next opportunity. `.discard` spends the occurrence, and nothing is retried. |
-| `gameballDidHandleAction(_:button:action:)` | `false` | `true` suppresses the SDK's own handling. The impression, click, and dismissal are reported whatever you return, and the message is dismissed before the action runs. |
-| `gameballDidSelectMessage(_:)` | No-op | Observation only. Fires before `gameballShouldDisplay`, so it also sees messages you defer or discard. |
-| `gameballShouldNavigate(route:arguments:)` | No-op | `route` is a bare name without a leading slash, as authored in the dashboard. Without an implementation, a navigate action logs and does nothing. |
+| `gameballShouldDisplay(_:)` | `.show` | `.show` displays now. `.later` holds the message in the deferred stack and retries at the next opportunity. `.discard` drops it for this occurrence. A discarded campaign is not recorded as shown, so it can display at its next trigger. |
+| `gameballDidHandleAction(_:button:action:)` | `false` | `true` skips the SDK's own handling of the action. The click is reported whatever you return, and a `dismiss` action closes the message whatever you return. |
+| `gameballDidSelectMessage(_:)` | No-op | Observation only. Fires once for the campaign a trigger selects, before `gameballShouldDisplay`, so it also sees messages you defer or discard. It does not fire again when a deferred message is retried, or for a runner-up. |
+| `gameballShouldNavigate(route:arguments:)` | No-op | `route` is a bare name; the SDK strips any leading slash. Without an implementation, a `navigate` action does nothing beyond reporting the click. |
 
-Each hook is called on the main thread and individually guarded. A throwing or odd return loses that override, never the message.
+Each hook is called on the main thread. When no delegate is set, or it has been deallocated, the SDK uses the defaults above.
 
 ---
 
 ## Actions
 
-`GameballClickAction` is an enum, so an exhaustive `switch` is safe.
+`GameballClickAction` is an enum, so an exhaustive `switch` is safe. The SDK closes the message for `dismiss` and `requestPushPermission`. After `openURL` and `navigate`, the message stays on screen until the customer closes it, and there is no API to close it from your code.
 
 | **Case** | Associated values | Built-in behavior |
 |---|---|---|
 | `.dismiss` | None | Closes the message. |
-| `.openURL` | `url: URL`, `external: Bool` | `external == false` presents an `SFSafariViewController` from the front-most view controller. `true`, or any non-web URL, hands off to `UIApplication.open`. |
-| `.navigate` | `route: String`, `arguments: [String: Any]?` | Forwarded to `gameballShouldNavigate`. The SDK dismisses before calling you, so your transition is not covered by the overlay. |
+| `.openURL` | `url: URL`, `external: Bool` | `external == false` presents an `SFSafariViewController` from the front-most view controller. `true`, a non-web URL, or no view controller to present from hands off to `UIApplication.open`. The message stays open. |
+| `.navigate` | `route: String`, `arguments: [String: Any]?` | Forwarded to `gameballShouldNavigate`. The message stays open above your new screen until the customer closes it. |
 | `.requestPushPermission` | None | Requests alert, badge, and sound authorization, then closes. |
-| `.unsupported` | `type: String` | An action type this SDK version does not know. Logged and ignored; a button with it behaves as dismiss. |
+| `.unsupported` | `type: String` | An action type this SDK version does not know. The tap is reported as a click and logged, and the message stays open. |
+
+A button whose action is missing or unusable, such as `openURL` without a URL, falls back to `.dismiss`.
 
 ---
 
 ## Events and Purchases
 
-Events you already send drive the triggers, and there is nothing extra to call. The event's properties are what campaign filters read, so send numbers as numbers where a filter compares them.
+Events you already send drive the triggers, and there is nothing extra to call. Triggers are evaluated on the device as soon as you call `sendEvent`, without waiting for the network. Event names match triggers case-insensitively. Every filter on a campaign must pass, and a filter on a property your event does not carry fails, so send numbers as numbers where a filter compares them.
 
 ```swift
 let event = try Event(events: ["place_order": ["price": 150, "currency": "USD"]],
@@ -155,23 +156,34 @@ let event = try Event(events: ["place_order": ["price": 150, "currency": "USD"]]
 gameball.sendEvent(event) { success, error in }
 ```
 
-Purchases have a dedicated entry point and reach campaigns as the reserved event `purchase`, with `productId`, `price`, `currency`, and `quantity` folded into its properties:
+Log purchases with `logPurchase`. It sends an event named `purchase` to Gameball through `sendEvent`, with `productId`, `price`, `currency`, and `quantity` in its metadata, so the purchase is recorded whether or not in-app messaging has started. While messaging runs, the same event reaches campaigns, which can filter on those fields. Use it instead of a hand-built purchase event, not alongside one.
 
 ```swift
-gameball.logPurchase(productId: "sku-1",
-                     price: 150,
-                     currency: "USD",
-                     quantity: 2,
-                     properties: ["source": "app"])
+try gameball.logPurchase(customerId: "customer_123",
+                         productId: "sku-1",
+                         price: 150,
+                         currency: "USD",
+                         quantity: 2,
+                         properties: ["source": "app"]) { success, error in }
 ```
+
+`logPurchase` throws `GameballError.emptyCustomerId` when `customerId` is empty, and sends nothing. A key in `properties` named `productId`, `price`, `currency`, or `quantity` replaces that field. `sessionToken` works as it does in `sendEvent`.
 
 ---
 
 ## Language
 
-There is no separate language setting for messages. Each sync asks for the customer's preferred language when your app set one, otherwise the `lang` given at `init`, otherwise the device language. The value is resolved on every sync, so a language change picked up by `initializeCustomer` applies at the next session.
+There is no separate language setting for messages. Each sync asks for campaigns in the customer's preferred language, set through `initializeCustomer` or `setLanguage(_:)`, and otherwise the `lang` given at `init`. A code outside the SDK's supported languages resolves to `en`. The language is resolved at every sync, so a change applies from the next session.
 
-Right-to-left languages mirror the layout through directional constraints. The SDK never touches `UIView.appearance()`.
+Messages mirror for right-to-left languages through directional constraints, following your app's layout direction. The SDK never touches `UIView.appearance()`.
+
+---
+
+## Personalization
+
+Campaign text can contain placeholders such as `{player_name}` in the header, body, and button labels. See [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns) for the list. Right before a message displays, the SDK fetches the customer's current values, waiting at most 2 seconds. If the request fails or times out, it uses the last values it holds for the customer, then removes any placeholder still without a value, so the customer never sees raw braces. The message still shows.
+
+The message passed to `gameballDidSelectMessage` and `gameballShouldDisplay` still contains the raw placeholders. `gameballDidHandleAction` receives the personalized text.
 
 ---
 
@@ -180,7 +192,7 @@ Right-to-left languages mirror the layout through directional constraints. The S
 The **request push permission** button action calls `UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])`, logs the outcome, and closes the message. The click is reported the same way whether the customer allows or declines.
 
 <Tip>
-To run your own pre-prompt or permission flow, handle `.requestPushPermission` in `gameballDidHandleAction` and return `true`.
+To run your own pre-prompt or permission flow, handle `.requestPushPermission` in `gameballDidHandleAction` and return `true`. The SDK then neither asks for permission nor closes the message, so it stays on screen until the customer closes it.
 </Tip>
 
 ---
@@ -193,43 +205,63 @@ The module needs no view hierarchy from you. It attaches its window to the foreg
 
 ## Behavior Reference
 
-These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in an iOS app.
+The campaign rules themselves are described in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in an iOS app.
 
 | **Topic** | In this SDK |
 |---|---|
-| Sessions | A session starts on `startInAppMessaging` and on becoming active after more than 30 seconds in the background. Each session re-syncs and evaluates session-start campaigns. Backgrounding flushes analytics. |
-| Sync and cache | Campaigns and account settings are fetched at session start and cached in the SDK's own `UserDefaults` suite. The cache is read only when the sync fails. |
+| Sessions | A session starts on `startInAppMessaging` and on becoming active after more than 30 seconds in the background. Each session re-syncs and evaluates session-start campaigns. Backgrounding sends pending analytics. |
+| Sync and cache | Campaigns and account settings are fetched at session start and cached in the SDK's own `UserDefaults` suite, `co.gameball.inappmessaging`, not your app's preferences. The cache is read only when the sync fails. When a sync fails and nothing is cached, the SDK retries after 1 and then 3 seconds. |
 | Where it draws | Its own `UIWindow` at `.normal` level, never key. Touches outside a slide-up pass through to your app. A modal's overlay and a full screen cover the app. |
-| One at a time | A message that cannot show now waits in a deferred stack, newest on top, and is retried on dismissal, widget close, rotation, or return to the foreground. |
+| One at a time | A message that cannot show now waits in a deferred stack, newest on top. The SDK retries it when a message is dismissed, when the device rotates, when the app returns to the foreground within 30 seconds, and when the cooldown lapses. On retry it is dropped if its repeat rule no longer allows it or quiet hours have started. |
 | Runner-up | The second-best campaign for the same trigger is kept behind the winner and shows after dismissal once the cooldown lapses. |
-| Cooldown and quiet hours | Both come from the account settings. Quiet hours are judged on the device's local clock, and a deferred message is dropped if the window opened while it waited. |
-| Orientation | A full screen authored for portrait or landscape waits for a matching interface orientation and displays on rotation. It is never forced. |
-| Artwork | Prefetched at sync with a 5-second budget and retried later. `http://` URLs are refused before any request, independent of your ATS settings. |
-| Impressions | Recorded when the message has actually painted, which is also when auto-dismiss starts. |
-| Analytics | Impression, click with button ID, and dismiss, batched and persisted so a force-quit loses nothing. Flushed before `openURL` and `navigate` run. Test sends display but report nothing. |
-| Accessibility | Dynamic Type throughout, a 44pt close target, VoiceOver focus moved to a modal or full screen but not to a slide-up, and entrance animations skipped under Reduce Motion. |
-| Dismissal | Close glyph, buttons, overlay tap, or swipe, per the campaign's close behavior. Dismissing never pops your navigation stack. |
+| Cooldown and quiet hours | Both come from the account settings; the cooldown defaults to 30 seconds. Quiet hours are judged on the device's local clock. A message triggered inside quiet hours is dropped, not delayed, and so is a deferred message whose turn comes inside them. |
+| Orientation | A message authored for portrait or landscape waits for a matching interface orientation and displays on rotation. It is never forced, so if your app does not support that orientation, the message does not display. |
+| Artwork | Prefetched at every sync, with a 5-second timeout per image, before session-start campaigns are evaluated. A campaign whose artwork has not loaded is skipped, and its artwork is fetched again at the next sync. `http://` URLs are refused before any request, independent of your ATS settings. |
+| Auto-dismiss | A slide-up closes itself after 8 seconds unless the campaign sets another duration or turns the timer off. A modal or full screen stays until the customer closes it, unless the campaign sets a duration. The timer counts visible time only. |
+| Impressions | Recorded once the message has finished appearing on screen, which is also when auto-dismiss starts. |
+| Analytics | Impression, click (with the button ID, and the URL for `openURL`), and dismissal. A dismissal is reported only when the message closes without a tap. Events are batched and stored on the device until sent: every 30 seconds, once 10 are waiting, when the app goes to the background, and on `stopInAppMessaging()`. Failed sends are retried. Test sends display and report nothing, but still count toward the cooldown and repeat rules on that device. |
+| Accessibility | Dynamic Type throughout, a 48pt close target, campaign buttons at least 44pt tall, and entrance animations skipped under Reduce Motion. VoiceOver focus moves to every message when it appears. Modals and full screens are marked modal for VoiceOver; slide-ups are not, so the app behind them stays reachable. |
+| Dismissal | A slide-up closes when swiped toward its edge or when its timer runs out. A modal or full screen closes with its close glyph when the campaign shows one, and a modal also closes on a tap outside the card when the campaign allows it. A button closes the message only when its action is `dismiss` or `requestPushPermission`. Dismissing never pops your navigation stack. |
 
 ---
 
 ## Logging and Troubleshooting
 
-Every decision is printed to the console with a `[GameballIAM]` prefix and the campaign ID. It is always on and is never posted to the backend. Filter Xcode's console on the prefix.
+The module explains its decisions in the console with a `[GameballIAM]` prefix and never posts these lines to the backend. Logging is on in Debug builds and off in Release builds. To turn it on in a Release build while you reproduce a problem, set:
+
+```swift
+GameballInAppMessagingLogging = true
+```
+
+Filter Xcode's console on the prefix.
 
 | **Log line** | Meaning |
 |---|---|
-| `synced N campaign(s), cooldown Ns` | The session sync succeeded. |
-| `sync failed (…); falling back to the cache` | Offline start. The last cached campaign set is in use. |
+| `sync failed (…); falling back to the cache` | The session sync failed. The last successful sync for this customer is used, if one is stored. |
+| `sync failed and nothing is cached; retrying in 1.0s (attempt 2)` | Nothing is cached, so the SDK retries after 1 and then 3 seconds. |
 | `campaign N skipped: artwork not ready` | The image has not loaded, or is `http://`. The next eligible campaign takes the slot. |
-| `cannot present: campaign wants portrait and the device is landscape` | A full screen is waiting for a matching orientation. |
+| `cannot present: campaign wants portrait and the device is landscape; waiting for a rotation` | The message is waiting for a matching orientation. |
 | `deferring campaign B: campaign A took this trigger first` | Runner-up kept for after A is dismissed. |
 | `holding deferred campaign N: inside the display floor` | The cooldown is being honored, and a retry is booked. |
-| `suppressed: inside quiet hours …` | The account's quiet hours cover the device's current local time. |
-| `cannot present: the host has no window to attach to yet` | Messaging started before the first scene was active. The message is deferred and retried. |
+| `suppressed: inside quiet hours …` | The account's quiet hours cover the device's local time. The message is dropped, not delayed. |
+| `cannot present: the host has no window to attach to yet` | No window scene is connected yet. The message is deferred and retried. |
 
 <Note>
-**Nothing shows at all?** Check in order: `init` ran with the API key and a customer is identified, `startInAppMessaging` was called, the campaign is live and targets iOS and the customer is in its audience, the sync log lists it, the account cooldown or quiet hours are not suppressing it, and the campaign has not already been shown to this customer. Once per customer is the default. A fresh customer ID resets frequency history while testing.
+**Nothing shows at all?** Check in order: `init` ran with the API key and a customer is identified, `startInAppMessaging` was called, the campaign is live and targets iOS and the customer is in its audience, no `skipped` or `suppressed` line names it, and the campaign has not already been shown to this customer. Once per customer is the default. A fresh customer ID resets frequency history while testing. In a Release build, set `GameballInAppMessagingLogging = true` first.
 </Note>
+
+---
+
+## UI Testing
+
+Messages carry stable accessibility identifiers, so your XCUITests do not depend on campaign copy, which can change from the dashboard at any time. VoiceOver still reads the campaign's own text.
+
+| **Identifier** | Element |
+|---|---|
+| `GameballAccessibility.surface(for:)` | The message surface: `gameball.message.slideup`, `gameball.message.modal`, or `gameball.message.fullscreen` |
+| `GameballAccessibility.card` | `gameball.message.card`, the card inside a modal |
+| `GameballAccessibility.closeButton` | `gameball.message.close` |
+| `GameballAccessibility.button(_:)` | `gameball.message.button.<id>` for a campaign button ID |
 
 ---
 
@@ -243,18 +275,24 @@ Every decision is printed to the console with a `[GameballIAM]` prefix and the c
 | Delegate | `weak var inAppMessagingDelegate: GameballInAppMessagingDelegate?` |
 | Decision | `enum GameballDisplayDecision { case show, later, discard }` |
 | Actions | `enum GameballClickAction`: `dismiss`, `openURL(url:external:)`, `navigate(route:arguments:)`, `requestPushPermission`, `unsupported(type:)` |
-| Message model | `GameballInAppMessage`: `id`, `type`, `header`, `body`, `imageURL`, `iconURL`, `clickAction`, `buttons`, `showCloseButton`, `dismissOnScrimTap`, `autoDismissAfter`, `layout`, `orientation`, `slidePosition`, `extras`, `style` |
+| Message model | `GameballInAppMessage`: `id`, `type`, `header`, `body`, `imageURL`, `iconURL`, `clickAction`, `buttons`, `showCloseButton`, `dismissOnScrimTap`, `autoDismissAfter`, `layout`, `orientation`, `slidePosition`, `extras`, `style`. `id` is the campaign ID, or `campaignId/variationId` for an A/B variant, and stays stable for the life of the campaign |
 | Button model | `GameballMessageButton`: `id`, `text`, `action`, `style` |
-| Enums | `GameballMessageType`, `GameballMessageLayout`, `GameballMessageOrientation`, `GameballSlidePosition` |
-| Purchase | `func logPurchase(productId: String, price: Double, currency: String, quantity: Int = 1, properties: [String: Any]? = nil)` |
+| Styles | `GameballMessageStyle`: `backgroundColor`, `textColor`, `headerColor`, `closeButtonColor`, `borderColor`, `frameColor`, `headerAlignment`, `bodyAlignment`. `GameballButtonStyle`: `backgroundColor`, `textColor`, `borderColor` |
+| Enums | `GameballMessageType` (`slideup`, `modal`, `fullscreen`, `unsupported`), `GameballMessageLayout` (`textWithImage`, `imageOnly`), `GameballMessageOrientation` (`portrait`, `landscape`, `any`), `GameballSlidePosition` (`top`, `bottom`), `GameballTextAlignment` (`leading`, `center`, `trailing`) |
+| Purchase | `func logPurchase(customerId: String, productId: String, price: Double, currency: String, quantity: Int = 1, properties: [String: Any]? = nil, completion: ((Bool, String?) -> Void)? = nil, sessionToken: String? = nil) throws` |
+| Logging | `var GameballInAppMessagingLogging: Bool`, a global. Defaults to `true` in Debug builds and `false` in Release builds |
+| UI testing | `enum GameballAccessibility`: `surface(for:)`, `card`, `closeButton`, `button(_:)` |
 
 ---
 
 ## Launch Checklist
 
 <Steps>
+  <Step title="Update the SDK and deployment target">
+    The `gameball-ios` package at 4.0.0 or later, and your app target's minimum deployment at iOS 15.0.
+  </Step>
   <Step title="Initialize and identify">
-    `init` with the production API key, then `initializeCustomer` with a `preferredLanguage`.
+    `init` with the production API key, then `initializeCustomer` with a `preferredLanguage` on every launch.
   </Step>
   <Step title="Start and stop messaging">
     `startInAppMessaging()` once the customer is known, and `stopInAppMessaging()` on logout.
@@ -262,11 +300,11 @@ Every decision is printed to the console with a `[GameballIAM]` prefix and the c
   <Step title="Keep a delegate alive">
     A delegate object retained by your app, with `gameballShouldNavigate` wired if any campaign uses `navigate`.
   </Step>
-  <Step title="Check event property types">
-    Events carry numeric properties as numbers where campaigns filter on them.
+  <Step title="Check events and purchases">
+    Events carry numeric properties as numbers where campaigns filter on them, and purchases go through `logPurchase` instead of a hand-built event.
   </Step>
   <Step title="Test end to end">
-    Run one campaign on a fresh customer ID with the Xcode console filtered on `[GameballIAM]`.
+    Run one campaign on a fresh customer ID in a Debug build, or with `GameballInAppMessagingLogging = true`, with the Xcode console filtered on `[GameballIAM]`.
   </Step>
 </Steps>
 

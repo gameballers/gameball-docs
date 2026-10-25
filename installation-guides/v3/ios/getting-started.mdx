@@ -1,10 +1,10 @@
 ﻿---
 title: "How Do I Get Started with the iOS SDK (v3)?"
 sidebarTitle: "Getting Started"
-description: "Install and set up Gameball iOS SDK v3.2.2"
+description: "Install and set up Gameball iOS SDK v4.0.0"
 ---
 
-This guide helps you install the **Gameball iOS SDK v3.2.2** and prepare your project for integration.\
+This guide helps you install the **Gameball iOS SDK v4.0.0** and prepare your project for integration.\
 Once installed, you will be ready to initialize the SDK and register customers.
 
 ---
@@ -13,10 +13,14 @@ Once installed, you will be ready to initialize the SDK and register customers.
 
 Your project must meet the following minimum requirements:
 
-- **iOS Version:** 12.0+
-- **Xcode:** 12.0+
-- **Swift:** 5.0+
+- **iOS Version:** 15.0+
+- **Xcode:** 14.0+
+- **Swift:** 5.7+
 - **Package Manager:** Swift Package Manager (SPM)
+
+<Note>
+**Upgrading from v3?** Version 4.0.0 raises the minimum iOS version to 15.0. Every v3 call works unchanged. See [Migration Notes](/installation-guides/v3/ios/migration-notes).
+</Note>
 
 ---
 
@@ -45,7 +49,7 @@ In Xcode:
 https://github.com/gameballers/gameball-ios.git
 ```
 
-3. Select **Version 3.2.2** (or **Up to Next Major**)
+3. Select **Version 4.0.0** (or **Up to Next Major**)
 4. Click **Add Package**
 
 ---
@@ -117,9 +121,9 @@ Below are common installation issues and fixes.
 
 **Fixes:**
 
-- Ensure iOS 12.0+ minimum deployment target
+- Ensure iOS 15.0+ minimum deployment target
 - Update Info.plist if needed
-- Ensure Xcode 12+ and Swift 5.0+
+- Ensure Xcode 14+ and Swift 5.7+
 
 ---
 
@@ -141,7 +145,7 @@ rm -rf ~/Library/Developer/Xcode/DerivedData
 
 **Fixes:**
 
-- Confirm you selected **3.2.2** (or newer) in the package dialog
+- Confirm you selected **4.0.0** (or newer) in the package dialog
 - Remove and re-add the package in Xcode
 - Verify network connectivity to GitHub
 
@@ -165,4 +169,6 @@ Common categories include:
 - Profile
 
 Use this during development to quickly diagnose issues.
+
+In-app messaging logs separately, prefixed `[GameballIAM]`. See [In-App Messaging](/installation-guides/v3/ios/in-app-messaging#logging-and-troubleshooting).
 

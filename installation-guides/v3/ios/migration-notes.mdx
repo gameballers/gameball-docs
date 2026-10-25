@@ -1,10 +1,36 @@
 ---
-title: "How Do I Migrate to the iOS SDK v3?"
+title: "How Do I Migrate to the iOS SDK v4?"
 sidebarTitle: "Migration Notes"
-description: "Migrate from v2 to v3.2.2"
+description: "Upgrade from v3 to v4.0.0, or migrate from v2 to v3"
 ---
 
-This guide walks you through migrating from **Gameball iOS SDK v2** to **v3.2.2**.
+This guide walks you through upgrading from **Gameball iOS SDK v3** to **v4.0.0**, and migrating from **v2** to **v3**.
+
+## What's New in v4.0.0
+
+<Warning>
+  **Breaking change: iOS 15.0 minimum.** v4.0.0 raises the minimum supported iOS version to 15.0. Every v3.x call keeps its signature and behavior, so no Swift code changes are required.
+</Warning>
+
+### Highlights in v4.0.0
+
+- **In-App Messaging**: `startInAppMessaging()` displays the slide-up, modal, and full-screen campaigns you create in the Gameball dashboard, and `stopInAppMessaging()` stops it on logout. Nothing runs until you call `startInAppMessaging`, so upgrading without it changes nothing. See [In-App Messaging](/installation-guides/v3/ios/in-app-messaging).
+- **In-App Messaging Delegate**: `inAppMessagingDelegate` lets you postpone a message, handle a tap yourself, observe each selected message, and route `navigate` actions through your own router.
+- **Purchase Logging**: `logPurchase(customerId:productId:price:currency:quantity:properties:completion:sessionToken:)` sends a `purchase` event to Gameball that campaigns can target and filter on.
+- **Diagnostic Logging Switch**: `GameballInAppMessagingLogging` controls in-app messaging console logs. They are on in `DEBUG` builds and off in release builds.
+
+### Migrate v3.x → v4.0.0 (Breaking)
+
+- Raise your app target's minimum deployment to iOS 15.0. If you also use CocoaPods for other dependencies, set `platform :ios, '15.0'` in your Podfile and run `pod install`.
+- Update the SPM dependency to `from: "4.0.0"`.
+- (Optional) Adopt in-app messaging. See [In-App Messaging](/installation-guides/v3/ios/in-app-messaging).
+- (Optional) If you build `purchase` events yourself, replace them with `logPurchase` rather than sending both.
+
+<Info>
+  **Coming from v3.2.x or earlier?** v4.0.0 also includes the v3.3.x releases: per-call and global widget language (`ShowProfileRequest` `lang` and `setLanguage(_:)`), push notification click tracking (`handlePushClick`), and `initializeCustomer` always registering customers, with `isGuest` ignored. See the [release history](https://github.com/gameballers/gameball-ios/releases).
+</Info>
+
+---
 
 ## What's New in v3.2.2
 
@@ -352,6 +378,29 @@ Task {
 
 ## Migration Steps
 
+### From v3.x to v4.0.0
+
+<Steps>
+  <Step title="Raise Your Deployment Target">
+    In Xcode, select your app target, open **General**, and set **Minimum Deployments** to iOS 15.0. If you also use CocoaPods for other dependencies, set `platform :ios, '15.0'` in your Podfile and run `pod install`.
+  </Step>
+  <Step title="Update Dependency">
+    Update your Swift Package Manager dependency to **4.0.0**:
+
+    ```swift
+    .package(url: "https://github.com/gameballers/gameball-ios.git", from: "4.0.0")
+    ```
+  </Step>
+  <Step title="(Optional) Adopt In-App Messaging">
+    Call `startInAppMessaging()` once a customer is identified, and `stopInAppMessaging()` on logout. See [In-App Messaging](/installation-guides/v3/ios/in-app-messaging).
+  </Step>
+  <Step title="Test">
+    Verify that `initializeCustomer`, `sendEvent`, and `showProfile` behave as before. A build error such as `Compiling for iOS 12.0, but module 'Gameball' has a minimum deployment target of iOS 15.0` means your deployment target is still below 15.0.
+  </Step>
+</Steps>
+
+---
+
 ### From v3.x to v3.2.2 (No Breaking Changes)
 
 <Info>
@@ -410,9 +459,11 @@ Task {
 
 ## Compatibility
 
-- **Minimum iOS**: iOS 12.0+
-- **Xcode**: 12.0+
-- **Swift**: 5.0+
+v4.0.0 requires:
+
+- **Minimum iOS**: iOS 15.0+
+- **Xcode**: 14.0+
+- **Swift**: 5.7+
 
 ---
 

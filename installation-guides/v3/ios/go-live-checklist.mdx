@@ -4,7 +4,7 @@ sidebarTitle: "Go-Live Checklist"
 description: "Verify your Gameball iOS SDK integration before releasing to production"
 ---
 
-Use this checklist to ensure your **Gameball iOS SDK v3.2.2** integration is functionally correct, secure, and ready for production launch.
+Use this checklist to ensure your **Gameball iOS SDK v4.0.0** integration is functionally correct, secure, and ready for production launch.
 
 <Info>
   Use your **Test API Key** during development. Only switch to your **Live API Key** after completing all checklist items and validating the integration.
@@ -14,12 +14,12 @@ Use this checklist to ensure your **Gameball iOS SDK v3.2.2** integration is fun
 
 # 1. SDK Installation & Environment Setup
 
-- Gameball iOS SDK **v3.2.2** installed via Swift Package Manager
+- Gameball iOS SDK **v4.0.0** installed via Swift Package Manager
 - Project builds cleanly with **no warnings or dependency conflicts**
 - `import Gameball` works across the project
 - `GameballApp.getInstance().init(config:)` is called at startup (AppDelegate or App struct)
-- Minimum iOS version set to **12.0+**
-- Swift version is **5.0+**
+- Minimum iOS version set to **15.0+**
+- Swift version is **5.7+**
 - Test and Production keys stored securely (not committed to VCS)
 
 <Tip>

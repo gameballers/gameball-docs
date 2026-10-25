@@ -3,14 +3,12 @@ title: "How Do I Create and Configure In-App Messaging Campaigns?"
 description: "A step-by-step guide to create and configure an In-App Messaging campaign with Gameball."
 ---
 
-| Platform | Plan |
-|---|---|
-| Shopify | Contact your account manager |
-| Salla | Contact your account manager |
-| Non-platform Clients | Contact your account manager |
+import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
+
+<InAppMessagingBeta />
 
 <Note>
-**Prerequisites:** Your mobile app must have the Gameball SDK installed, with in-app messaging turned on by your development team. See the [iOS](/installation-guides/v3/ios/in-app-messaging), [Android](/installation-guides/v3/android/in-app-messaging), [Flutter](/installation-guides/v3/flutter/in-app-messaging), or [React Native](/installation-guides/v3/react-native/in-app-messaging) setup guide.
+**Prerequisites:** Your mobile app must have Gameball SDK 4.0.0 or later installed, with in-app messaging turned on by your development team. See the [iOS](/installation-guides/v3/ios/in-app-messaging), [Android](/installation-guides/v3/android/in-app-messaging), [Flutter](/installation-guides/v3/flutter/in-app-messaging), or [React Native](/installation-guides/v3/react-native/in-app-messaging) setup guide.
 </Note>
 
 Your customers open your app every day. With **Gameball's In-App Messages**, you can talk to them right there. Show a slide-up, a modal, or a full-screen message inside your iOS and Android apps, at the moment that matters. You build and change every message from the Gameball dashboard, so there is no app update to ship.
@@ -107,7 +105,7 @@ You build the campaign in four steps: **Rules**, **Message**, **Delivery**, and 
    Filters support **Is**, **Is not**, **Greater than**, **Greater than or equal**, **Less than**, **Less than or equal**, and **Between**.
 
 <Note>
-An action-based trigger only works with events your app sends through the Gameball SDK.
+An action-based trigger only works with events your app sends through the Gameball SDK. The event name must match what your app sends exactly, including letter case.
 </Note>
 
 <Frame>
@@ -160,7 +158,7 @@ The **Who sees it, and when** panel on the right summarizes your choices as you 
    | **Close message** | Closes the message. |
    | **Open a web URL** | Opens a web page. |
    | **Deep link into the app** | Opens a screen in your app, such as `/rewards`. You can add arguments, one per line, as `key: value`. |
-   | **Request push permission** | Asks the customer to allow push notifications. |
+   | **Request push permission** | Asks the customer to allow push notifications. Apps built with the native Android SDK do not support this action yet; there, the button only closes the message. |
 
 <Frame>
   <img src="/images/product-docs/communication-campaigns/in-app-08-message-button-actions.png" alt="Button settings with the On click options open" />
@@ -323,7 +321,7 @@ Statistics appear 10 to 30 minutes after customers interact with a message.
 
 <AccordionGroup>
   <Accordion title="Why is my campaign not showing in the app?">
-    Check that the campaign is live, that it targets the customer's platform, and that the customer is in the audience. Then check whether they already saw it, whether quiet hours or the time between messages is holding it back, and whether a higher-priority message showed instead. If nothing explains it, ask your development team to confirm that in-app messaging is turned on in the app.
+    Check that the campaign is live, that it targets the customer's platform, and that the customer is in the audience. Then check whether they already saw it, whether quiet hours or the time between messages is holding it back, and whether a higher-priority message showed instead. If nothing explains it, ask your development team to confirm that the app runs Gameball SDK 4.0.0 or later and that in-app messaging is turned on in it.
   </Accordion>
   <Accordion title="Do customers who don't open the app get the message?">
     No. In-app messages only show inside your app. To reach customers outside the app, use a push notification campaign.

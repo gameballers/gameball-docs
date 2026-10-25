@@ -1,7 +1,7 @@
 ---
 title: "How Do I Get Started with the React Native SDK (v3)?"
 sidebarTitle: "Getting Started"
-description: "Install Gameball React Native SDK v3.1.2"
+description: "Install Gameball React Native SDK v4.0.0"
 ---
 
 # Getting Started
@@ -11,8 +11,12 @@ description: "Install Gameball React Native SDK v3.1.2"
 - **React Native**: 0.70+
 - **Node.js**: 18+
 - **TypeScript**: 4.0+ (optional but recommended)
-- **iOS**: iOS 12.0+
-- **Android**: API level 21+
+- **iOS**: iOS 15.0+
+- **Android**: API level 24+ (Android 7.0)
+
+<Note>
+**Upgrading from v3?** Version 4.0.0 raises the minimum versions to iOS 15.0 and Android API 24. Every v3 call works unchanged. See [Migration Notes](/installation-guides/v3/react-native/migration-notes).
+</Note>
 
 ## Install the SDK
 
@@ -20,29 +24,29 @@ Install the package using npm or yarn:
 
 <CodeGroup>
 ```bash npm
-npm install react-native-gameball@^3.1.2
+npm install react-native-gameball@^4.0.0
 ```
 
 ```bash yarn
-yarn add react-native-gameball@^3.1.2
+yarn add react-native-gameball@^4.0.0
 ```
 </CodeGroup>
 
-## Install Dependencies
+## Install Peer Dependencies
 
-The SDK depends on `react-native-webview` for the profile widget. Install it (and optionally AsyncStorage for enhanced functionality):
+The SDK requires five peer dependencies. Install them alongside it:
 
 <CodeGroup>
 ```bash npm
-npm install react-native-webview
-npm install @react-native-async-storage/async-storage
+npm install @react-native-async-storage/async-storage react-native-device-info react-native-modal react-native-push-notification-popup react-native-webview
 ```
 
 ```bash yarn
-yarn add react-native-webview
-yarn add @react-native-async-storage/async-storage
+yarn add @react-native-async-storage/async-storage react-native-device-info react-native-modal react-native-push-notification-popup react-native-webview
 ```
 </CodeGroup>
+
+`react-native-safe-area-context` is optional. When your app has it, in-app messages sit exactly clear of the notch and the home indicator.
 
 ## iOS Setup
 
@@ -52,11 +56,13 @@ Navigate to the iOS folder and install pods:
 cd ios && pod install && cd ..
 ```
 
-Make sure your iOS deployment target is at least 12.0 in `ios/Podfile`:
+Make sure your iOS deployment target is at least 15.0 in `ios/Podfile`:
 
 ```ruby
-platform :ios, '12.0'
+platform :ios, '15.0'
 ```
+
+Set `IPHONEOS_DEPLOYMENT_TARGET` to 15.0 for your app target in Xcode as well.
 
 ## Android Setup
 
@@ -66,12 +72,12 @@ Ensure `INTERNET` permission is declared in `android/app/src/main/AndroidManifes
 <uses-permission android:name="android.permission.INTERNET" />
 ```
 
-Your `android/app/build.gradle` should have minimum SDK version 21:
+Your `android/app/build.gradle` should have minimum SDK version 24:
 
 ```gradle
 android {
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 34
     }
 }
@@ -134,7 +140,7 @@ If there are no import errors, you're ready to initialize the SDK!
 **Solutions:**
 - Clean build folder: `cd ios && xcodebuild clean`
 - Reinstall pods: `cd ios && pod install --repo-update`
-- Ensure iOS deployment target is at least 12.0
+- Ensure iOS deployment target is at least 15.0
 - Try `pod deintegrate && pod install`
 </Accordion>
 
@@ -143,7 +149,7 @@ If there are no import errors, you're ready to initialize the SDK!
 
 **Solutions:**
 - Clean gradle cache: `cd android && ./gradlew clean`
-- Verify minimum SDK version is 21
+- Verify minimum SDK version is 24
 - Check React Native version compatibility
 - Ensure all dependencies are properly installed
 </Accordion>
@@ -183,6 +189,8 @@ npx react-native run-android --verbose
 <Tip>
 Use the `--verbose` flag when running your app to see detailed SDK logs and network operations during development.
 </Tip>
+
+In-app messaging logs separately, prefixed `[GameballIAM]`. See [In-App Messaging](/installation-guides/v3/react-native/in-app-messaging#logging-and-troubleshooting).
 
 ## Next Steps
 

@@ -1,22 +1,22 @@
 ---
 title: "React Native SDK Integration (v3)"
 sidebarTitle: "Overview"
-description: "Complete guide to integrate Gameball with your React Native application using SDK v3.1.2"
+description: "Complete guide to integrate Gameball with your React Native application using SDK v4.0.0"
 ---
 
-# Gameball React Native SDK — v3.1.2
+# Gameball React Native SDK — v4.0.0
 
-This documentation is tailored to **Gameball React Native SDK v3.1.2**. Use these pages as a versioned SDK reference for teams embedding Gameball into their React Native applications.
+This documentation is tailored to **Gameball React Native SDK v4.0.0**. Use these pages as a versioned SDK reference for teams embedding Gameball into their React Native applications.
 
 <Info>
-SDK v3.1.x introduces modern TypeScript support, session tokens, guest-mode profile widgets, async/await compatibility, and improved error handling for React Native applications.
+SDK v4.0.0 adds in-app messaging and purchase logging, and raises the minimum versions to iOS 15.0 and Android API 24. Every v3.x call keeps its signature and behavior.
 </Info>
 
 ## Integration Guide
 
 <CardGroup cols={2}>
   <Card title="Getting Started" icon="rocket" href="/installation-guides/v3/react-native/getting-started">
-    Install the Gameball React Native SDK v3.1.2 and set up your project
+    Install the Gameball React Native SDK v4.0.0 and set up your project
   </Card>
 
   <Card title="Initialize SDK" icon="play" href="/installation-guides/v3/react-native/initialize-sdk">
@@ -35,12 +35,16 @@ SDK v3.1.x introduces modern TypeScript support, session tokens, guest-mode prof
     Display the customer profile widget with rewards and leaderboard
   </Card>
 
+  <Card title="In-App Messaging" icon="comment-dots" href="/installation-guides/v3/react-native/in-app-messaging">
+    Display dashboard in-app campaigns in your app
+  </Card>
+
   <Card title="Go-Live Checklist" icon="check" href="/installation-guides/v3/react-native/go-live-checklist">
     Verify your integration before going live
   </Card>
 
   <Card title="Migration Notes" icon="arrow-right" href="/installation-guides/v3/react-native/migration-notes">
-    Migrate from v2 to v3.1.2
+    Upgrade from v3 to v4.0.0, or migrate from v2
   </Card>
 </CardGroup>
 
@@ -49,6 +53,6 @@ SDK v3.1.x introduces modern TypeScript support, session tokens, guest-mode prof
 - **React Native**: 0.70+
 - **Node.js**: 18+
 - **TypeScript**: 4.0+ (optional but recommended)
-- **iOS**: iOS 12.0+
-- **Android**: API level 21+
+- **iOS**: iOS 15.0+
+- **Android**: API level 24+ (Android 7.0)
 

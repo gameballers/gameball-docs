@@ -5,13 +5,12 @@ description: "Display Gameball in-app campaigns in your Flutter app and control 
 ---
 
 import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
-import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
 
 <InAppMessagingBeta />
 
 # Display In-App Messages
 
-Add one call after you identify the customer and the Gameball SDK shows your dashboard campaigns inside the app: slide-ups, modals, and full screens, triggered by session start or by the events you already send.
+Add one call after you identify the customer and the Gameball SDK shows your dashboard campaigns inside the app: slide-ups, modals, and full screens, triggered by session start or by the events you already send. In-app messaging needs **Gameball Flutter SDK 4.0.0** or later. It is opt-in: until you call `startInAppMessaging`, the module makes no requests and draws nothing.
 
 For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
 
@@ -21,10 +20,10 @@ For campaign options, triggers, filters, priority, cooldown, quiet hours, and ho
 
 | **Item** | Requirement |
 |---|---|
-| Package | `gameball_sdk`, private beta build |
-| Flutter / Dart | Dart 3.4+ per the package constraint |
-| Platforms | Android API 24+ and iOS 13.0+ |
-| Navigator | A `GlobalKey<NavigatorState>` on your `MaterialApp`. The SDK draws messages into the app's overlay through it, and without it nothing can display |
+| Package | `gameball_sdk` 4.0.0 or later |
+| Flutter / Dart | Dart 3.4.4+ per the package constraint |
+| Platforms | Android API 24+ (Android 7.0) and iOS 15.0+. These minimums apply to the whole SDK from 4.0.0. Messages display on iOS and Android only; other platforms receive no campaigns |
+| Navigator | A `GlobalKey<NavigatorState>` on your `MaterialApp`. The SDK draws messages into that navigator's overlay, so without it nothing can display. With go_router, give the key to `GoRouter(navigatorKey: ...)` instead |
 | Routing | Named routes for `navigate` actions, or an `onNavigate` callback if you use go_router or another Navigator 2.0 router |
 | Firebase | Only if a campaign uses the **request push permission** action. The default requester is Firebase Messaging, so `Firebase.initializeApp()` must have run |
 
@@ -34,16 +33,23 @@ No extra dependencies are added for in-app messaging. The SDK already ships `fir
 
 ## Install
 
-<InAppMessagingBetaInstall />
-
 ```yaml pubspec.yaml
 dependencies:
-  gameball_sdk: GAMEBALL_BETA_VERSION
+  gameball_sdk: ^4.0.0
 ```
 
-Initialize the SDK as you do today, then identify the customer. Both must happen before messaging starts, because the sync needs the API key and the customer ID.
+<Warning>
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimum platforms for the whole SDK to iOS 15.0 and Android API 24. Set `minSdk = 24` in `android/app/build.gradle`, set `platform :ios, '15.0'` in `ios/Podfile` and `IPHONEOS_DEPLOYMENT_TARGET = 15.0` for the Runner target, then run `pod install`. No Dart changes are needed: every 3.x call keeps its signature. See [Migration Notes](/installation-guides/v3/flutter/migration-notes).
+</Warning>
+
+Call `init` first: until the API key is set, `startInAppMessaging` is ignored. Then identify the customer with `initializeCustomer`. For a new customer, start messaging from its callback, so the customer exists in Gameball before the first sync.
 
 ```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+import 'package:gameball_sdk/models/requests/gameball_config.dart';
+import 'package:gameball_sdk/models/requests/initialize_customer_request.dart';
+import 'package:gameball_sdk/models/requests/customer_attributes.dart';
+
 final gameball = GameballApp.getInstance();
 
 gameball.init(GameballConfigBuilder()
@@ -53,11 +59,15 @@ gameball.init(GameballConfigBuilder()
 
 // preferredLanguage decides which locale the messages use.
 gameball.initializeCustomer(
-  InitializeCustomerRequest(
-    customerId: 'customer_123',
-    customerAttributes: CustomerAttributes(preferredLanguage: 'en'),
-  ),
-  (response, error) {},
+  InitializeCustomerRequestBuilder()
+      .customerId('customer_123')
+      .customerAttributes(
+        CustomerAttributesBuilder().preferredLanguage('en').build(),
+      )
+      .build(),
+  (response, error) {
+    // For a new customer, start messaging here (see Start Messaging).
+  },
 );
 ```
 
@@ -65,7 +75,7 @@ gameball.initializeCustomer(
 
 ## Start Messaging
 
-Give your `MaterialApp` a navigator key and pass the same key to `startInAppMessaging`. Call it as soon as the customer is known; it is safe to call before the first frame.
+Give your `MaterialApp` a navigator key and pass the same key to `startInAppMessaging`. Call it as soon as the customer is known. It is safe to call before the first frame, once `runApp` or `WidgetsFlutterBinding.ensureInitialized()` has run.
 
 ```dart
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -88,12 +98,16 @@ GameballApp.getInstance().startInAppMessaging(
 |---|---|---|---|
 | `customerId` | `String` | Required | Whose campaigns to sync and to whom analytics are attributed. Calling again with a different ID switches customer. Calling with the same ID is a no-op. |
 | `navigatorKey` | `GlobalKey<NavigatorState>` | Required | The key on your `MaterialApp`. Passing a new key rebuilds the presenter, which is what keeps hot restart working. |
-| `beforeDisplay` | `GameballBeforeDisplay?` | Show everything | Consulted before each display. |
+| `beforeDisplay` | `GameballBeforeDisplay?` | Show everything | Consulted once for each campaign that wins a trigger, before it displays. Not consulted again when a held message is retried, or for a runner-up. |
 | `onAction` | `GameballOnAction?` | Built-in handling | Consulted on every tap before the SDK acts. |
 | `onNavigate` | `GameballOnNavigate?` | Named routes | Receives `navigate` actions instead of `Navigator.pushNamed`. |
-| `sessionTimeout` | `Duration` | 30 seconds | Background time after which a resume counts as a new session. Read on the first start only. |
+| `sessionTimeout` | `Duration` | 30 seconds | Background time after which a resume counts as a new session. Keep it at or above the account cooldown (30 seconds unless your account sets another value), or the cooldown can suppress session-start campaigns. |
 
-To stop, call `stopInAppMessaging()`. It dismisses anything on screen, flushes pending analytics, and clears the module's state. Check `isInAppMessagingStarted` if you need to know whether it is running. App lifecycle is observed automatically.
+`onNavigate` and `sessionTimeout` are read the first time messaging starts in the app process. Later calls, including after `stopInAppMessaging()`, keep the original values unless you pass a different `navigatorKey`.
+
+Call `stopInAppMessaging()` when the customer logs out. It dismisses anything on screen, flushes pending analytics, clears the module's state, and deletes stored personalization values from the device. Check `isInAppMessagingStarted` if you need to know whether it is running. App lifecycle is observed automatically.
+
+If messaging is running and you call `initializeCustomer` with a different customer ID, messaging switches to that customer: it dismisses anything on screen, syncs that customer's campaigns, and attributes analytics to them.
 
 ---
 
@@ -104,9 +118,9 @@ GameballApp.getInstance().startInAppMessaging(
   customerId: 'customer_123',
   navigatorKey: navigatorKey,
 
-  // Show it now, hold it for the next opportunity, or drop it for this trigger.
+  // Show it now, hold it for later, or drop it for this trigger.
   beforeDisplay: (message) => isCheckingOut
-      ? GameballDisplayDecision.later
+      ? GameballDisplayDecision.discard
       : GameballDisplayDecision.show,
 
   // Return true when you handled the tap yourself; false lets the SDK act.
@@ -129,18 +143,22 @@ GameballApp.getInstance().startInAppMessaging(
 | **Decision** | Behavior |
 |---|---|
 | `show` | Display now. |
-| `later` | Hold the message in the pending slot and retry at the next opportunity. Use it during checkout or onboarding. |
+| `later` | Park the message in the pending slot. The SDK retries it after the next message is dismissed or the Gameball widget closes, without calling `beforeDisplay` again. A newer held message replaces it. |
 | `discard` | Drop it for this occurrence. Nothing is retried, and the campaign stays eligible for its next trigger. |
+
+To keep messages off screen for a whole flow such as checkout, return `discard`: a message held with `later` can appear as soon as another message is dismissed.
 
 The hook is synchronous. If it throws, the SDK logs and shows the message.
 
 ### onAction
 
-Called for every tap with the message, the button (or `null` for the surface), and the parsed action. Return `true` to take over, or `false` for built-in handling. In both cases the click is reported and the message is dismissed *before* the action runs, so a navigation transition is never covered by the overlay.
+Called for every tap with the message, the button (or `null` for the surface), and the parsed action. Return `true` to take over, or `false` for built-in handling. In both cases the click is reported and the message is dismissed *before* the action runs, so a navigation transition is never covered by the overlay. If `onAction` throws, the SDK logs it and runs its built-in action.
+
+Before a built-in open-URL or navigate action, the SDK spends up to 800 ms sending queued analytics.
 
 ### onNavigate
 
-When supplied, every `navigate` action is handed to you with its route name and optional arguments map. When absent, the SDK calls `Navigator.pushNamed` on your navigator. A route that is not registered is logged, never thrown.
+When supplied, every `navigate` action is handed to you with its route name and optional arguments map. When absent, the SDK calls `Navigator.pushNamed` on your navigator. A route that is not registered is logged, never thrown, and so is an exception thrown by `onNavigate`.
 
 ---
 
@@ -153,13 +171,13 @@ When supplied, every `navigate` action is handed to you with its route name and 
 | `GameballDismissAction` | None | Closes the message. |
 | `GameballOpenUrlAction` | `url`, `external` | `url_launcher` with `LaunchMode.externalApplication` when `external` is true, otherwise the platform default. |
 | `GameballNavigateAction` | `route`, `arguments` | Named route push, or your `onNavigate`. |
-| `GameballRequestPushPermissionAction` | None | Asks the OS for notification permission through Firebase Messaging, then closes. |
+| `GameballRequestPushPermissionAction` | None | Closes the message, then asks the OS for notification permission through Firebase Messaging. |
 
 ---
 
 ## Observe Messages
 
-`onInAppMessage` is a broadcast stream of every message the SDK *selects*, emitted before `beforeDisplay` is consulted. It is observation only, and subscribing does not affect analytics. Subscribe any time, including before `startInAppMessaging`.
+`onInAppMessage` is a broadcast stream of every campaign that wins a trigger, emitted before `beforeDisplay` is consulted, whatever happens to it next. A runner-up waiting behind another message is not emitted. It is observation only, and subscribing does not affect analytics. Subscribe any time, including before `startInAppMessaging`.
 
 ```dart
 GameballApp.getInstance().onInAppMessage.listen((message) {
@@ -167,15 +185,19 @@ GameballApp.getInstance().onInAppMessage.listen((message) {
 });
 ```
 
-`GameballInAppMessage` exposes `id`, `type`, `header`, `body`, `imageUrl`, `iconUrl`, `buttons`, `clickAction`, `extras`, `style`, `layout`, `orientation`, `slidePosition`, `showCloseButton`, `dismissOnScrimTap`, and `autoDismissAfter`.
+`GameballInAppMessage` exposes `id`, `type`, `header`, `body`, `imageUrl`, `iconUrl`, `buttons`, `clickAction`, `extras`, `style`, `layout`, `orientation`, `slidePosition`, `showCloseButton`, `dismissOnScrimTap`, and `autoDismissAfter`. `id` is a diagnostic string: the campaign ID, or `campaignId/variationId`. `extras` holds the campaign's custom key-value pairs as strings. An exhaustive `switch` on `type` must handle `unsupported`, although the SDK never selects such messages.
+
+The message on the stream, and the one passed to `beforeDisplay` and `onAction`, carries the campaign text before personalization, so it can contain `{token}` placeholders.
 
 ---
 
 ## Events and Purchases
 
-Campaigns trigger on the events you already send with `sendEvent`. The event name is matched case-insensitively, and the event's properties are what the campaign's filters read, so send numbers as numbers where a filter compares them.
+Campaigns trigger on the events you already send with `sendEvent`. Triggers are evaluated on the device as soon as you call `sendEvent` or `logPurchase`, whether or not the request to Gameball succeeds. The event name must match the campaign's event name exactly, including letter case.
 
-`logPurchase` reaches campaigns as the reserved event `purchase`, with `productId`, `price`, `currency`, and `quantity` as properties:
+The event's properties are what the campaign's filters read, and every filter must pass. Equals compares numbers numerically and other values as exact text; contains ignores letter case. Numeric comparisons accept numbers or numeric strings such as `"100.5"`, and a property the event does not carry never matches.
+
+`logPurchase` sends a regular `purchase` event to Gameball through `sendEvent`, with `productId`, `price`, `currency`, and `quantity` as properties, so it is recorded even when messaging is not running:
 
 ```dart
 GameballApp.getInstance().logPurchase(
@@ -187,19 +209,29 @@ GameballApp.getInstance().logPurchase(
 );
 ```
 
+Entries in `properties` are added to the event and replace `productId`, `price`, `currency`, or `quantity` when they use the same key. `callback` and `sessionToken` behave as they do for `sendEvent`. If you already send `purchase` events yourself, switch to `logPurchase` rather than sending both.
+
 ---
 
 ## Language
 
-There is no separate language setting for messages. Each sync asks for the customer's `preferredLanguage` when your app set one, and otherwise the `lang` given at `init`. The value is read at sync time, so a language change takes effect at the next session.
+There is no separate language setting for messages. Each sync requests the language you set most recently with `setLanguage` or as `preferredLanguage` in `initializeCustomer`, and otherwise the `lang` given to `init`. Any code outside the supported list (`en`, `ar`, `fr`, `es`, `de`, `pt`, `pl`, `it`, `hu`, `zh-tw`, `nl`, `sv`, `no`, `dk`, `ja`) falls back to `en`, including regional variants such as `ar-EG`. The value is read at sync time, so a change takes effect at the next session.
 
-Right-to-left languages mirror the layout automatically from the app's `Directionality`.
+Layout direction follows your app's `Directionality`, not the message language: when your app runs right to left, messages mirror automatically.
+
+---
+
+## Personalization
+
+Campaign text can include placeholders such as `{player_name}` in the header, body, and button labels. See [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns) for the list. Just before a message with placeholders displays, the SDK fetches the customer's current values and fills them in. It waits at most 2 seconds, reuses the values for up to 1 minute, and fetches again after every event you send, so a message triggered by that event quotes current values.
+
+If the request fails, the SDK uses the last values it stored for the customer. Any placeholder still without a value, including every placeholder when the request times out, is removed, and the message still shows. Messages without placeholders skip the fetch.
 
 ---
 
 ## Push Permission
 
-The **request push permission** button action calls `FirebaseMessaging.instance.requestPermission()` and treats *authorized* and *provisional* as granted. It needs Firebase initialized in your app; if it is not, the SDK logs `could not request push permission` and the message still closes.
+The **request push permission** button action closes the message, then calls `FirebaseMessaging.instance.requestPermission()` and treats *authorized* and *provisional* as granted. It needs Firebase initialized in your app; if it is not, the SDK logs `could not request push permission (…)`.
 
 <Tip>
 To use your own permission flow, handle the action in `onAction` and return `true`.
@@ -209,41 +241,56 @@ To use your own permission flow, handle the action in `onAction` and return `tru
 
 ## Behavior Reference
 
-These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in a Flutter app.
+The campaign rules themselves are described in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in a Flutter app.
 
 | **Topic** | In this SDK |
 |---|---|
-| Sessions | Start on `startInAppMessaging` and on resume after more than `sessionTimeout` in the background. Each session re-syncs and evaluates session-start campaigns. Pause flushes analytics. |
+| Sessions | Start on `startInAppMessaging` and on resume after at least `sessionTimeout` away. `inactive`, `hidden`, `paused`, and `detached` all count as away. Each session re-syncs and evaluates session-start campaigns. Pause flushes analytics. |
 | Sync and cache | Campaigns and account settings are fetched at session start and cached in `SharedPreferences`. The cache is used only when the sync fails. |
-| One at a time | A single pending slot. Deferral reasons you will see in the log: another message showing, the Gameball widget open, wrong orientation, no overlay yet, the host asked for `later`, or personalization still resolving. |
+| Message types | Modal and full screen show up to two buttons. A slide-up sits at the top or bottom edge, has no buttons (the whole banner is the tap target), closes when swiped toward its edge, and closes after 8 seconds if the campaign sets no auto-dismiss time. Supported triggers are session start and custom events, with filters combined by AND. |
+| One at a time | A single pending slot. Deferral reasons you will see in the log: another message showing, the Gameball widget open, no presentation surface (no overlay yet, or wrong orientation), the host asked for `later`, or personalization still resolving. A newer held message replaces the waiting one. The slot lives in memory, so `stopInAppMessaging`, a customer change, or closing the app empties it. Before a held message displays, the SDK re-checks its repeat rules, waits out the cooldown, and drops it if quiet hours have started. |
 | Runner-up | The second-best campaign for the same trigger waits behind the winner and shows after dismissal once the cooldown has lapsed. |
+| Repeat rules | A display is recorded at impression and saved on the device. A campaign that is not repeatable shows once per customer; a repeatable one waits its minimum interval. The history is kept for one customer at a time, so switching customer clears the previous customer's history. |
 | Cooldown and quiet hours | Both come from the account settings at sync. Quiet hours are judged on the device's local clock. |
 | Orientation | Full screens authored for portrait or landscape wait for a matching orientation and display on rotation. |
-| Artwork | Prefetched at sync with a 5-second budget and retried every 30 seconds. `http://` URLs are refused before any request. |
+| Artwork | Images and slide-up icons are loaded at sync, each within 5 seconds, before the first message of the session displays. A campaign whose artwork failed is passed over; the SDK retries that artwork at most once every 30 seconds, when a later trigger fires. `http://` URLs are refused before any request. |
 | Impressions | Recorded after the first painted frame, which is also when auto-dismiss starts. |
-| Analytics | Impression, click with button ID, and dismiss, batched every 30 seconds or 10 events, at most 50 per request, and persisted so a force-quit loses nothing. |
-| Back button | Intercepted for modal and full screen when a `Router` is present, never for a slide-up. |
-| Accessibility | Copy scales with the OS text size and scrolls inside the card, reduce-motion skips entry animations, and RTL mirrors the layout. |
+| Analytics | Impressions, clicks (with the button ID, and the URL for open-URL actions), and dismissals; a dismissal is reported only for a message that was shown and not tapped. Events are sent 30 seconds after the first unsent one, or as soon as 10 are queued, at most 50 per request, and also when the app leaves the foreground, on `stopInAppMessaging`, and before an open-URL or navigate action. The queue is saved on the device after every event, so events logged just before a force-quit are sent after `startInAppMessaging` runs on the next launch. Dashboard test sends display normally and report nothing. |
+| Back button | Intercepted for modal and full screen when a `Router` is present, never for a slide-up. With a plain `MaterialApp`, which has no `Router`, Back is not intercepted. |
+| Accessibility | Copy scales with the OS text size. Modal and full-screen copy scrolls inside the message; slide-up copy stops at three lines with an ellipsis. Reduce motion skips the modal and full-screen entrance animations. Layout mirrors in right-to-left apps. |
 
 ---
 
 ## Logging and Troubleshooting
 
-Every decision is logged with a reason and the campaign ID, prefixed `[GameballIAM]`, through `debugPrint`. Filter your `flutter run` or `flutter logs` output on that prefix. There is no switch; the log is always on.
+The SDK logs each decision with its reason and the campaign ID, prefixed `[GameballIAM]`, through `debugPrint`. Filter your `flutter run` or `flutter logs` output on that prefix. Logging is on in debug builds and off in profile and release builds. To turn it on in a release build while you reproduce an issue, set it before `startInAppMessaging`, and remove it before you ship:
+
+```dart
+gameballInAppMessagingLogging = true;
+```
 
 | **Log line** | Meaning |
 |---|---|
+| `startInAppMessaging ignored: API key is not initialized. Call init() first` | Call `init`, then call `startInAppMessaging` again. |
 | `no overlay available yet — is navigatorKey wired to MaterialApp?` | The key passed to `startInAppMessaging` is not the one on your `MaterialApp`, or the first frame has not rendered yet. The message is parked and retried. |
-| `synced N campaign(s), cooldown Ns` | The session sync succeeded. |
+| `sync: HTTP 404 — the backend does not know customer "…"` | The customer does not exist in Gameball yet. Call `initializeCustomer` first. |
+| `sync: platform is 0, which the backend does not target (1 = iOS, 2 = Android). Expect an empty campaign list` | You are running on web, macOS, or another non-mobile target. |
+| `falling back to N cached campaign(s)` | The sync failed, and the last successful sync for this customer is in use. |
+| `trigger ignored: no campaigns loaded` | The sync returned no campaigns for this customer. |
 | `campaign "X" passed over: artwork not ready` | The image has not loaded, or is `http://`. The next eligible campaign takes the slot. |
+| `artwork "…" is served over http and is refused — in-app artwork must be https` | The campaign's image is not HTTPS. Fix it in the dashboard. |
 | `campaign "B" deferred: campaign "A" took this trigger first` | Runner-up kept for after A is dismissed. |
-| `… inside the quiet-hours window; suppressed` | The account's quiet hours cover the device's current local time. |
-| `cannot navigate to "/x": the host has not registered that route` | Add the route to `MaterialApp.routes` or supply `onNavigate`. |
+| `campaign "X" discarded by beforeDisplay` | Your `beforeDisplay` returned `discard`. |
+| `N campaign(s) matched but the Ns cooldown has not elapsed since the last message; suppressed` | Another message displayed within the account cooldown. |
+| `N campaign(s) matched but it is inside the quiet-hours window (device local time); suppressed` | The account's quiet hours cover the device's current local time. |
+| `message "X" needs portrait orientation; deferring` | A full screen is waiting for the device to rotate. |
+| `cannot navigate to "/x": the host has not registered that route (…)` | Add the route to `MaterialApp.routes` or supply `onNavigate`. |
 | `could not request push permission (…)` | Firebase is not initialized in the app. |
 | `start ignored: already running for customer "…"` | `startInAppMessaging` was called again with the same ID. Harmless. |
+| `impression: campaign=N`, `click: campaign=N button=ID`, `dismiss: campaign=N` | The analytics event was recorded. |
 
 <Note>
-**Nothing shows at all?** Check in order: the API key is set and the customer is initialized, the navigator key is the one on `MaterialApp`, the campaign is live and the customer is in its audience and platform, the sync log lists it, the account cooldown or quiet hours are not suppressing it, and the campaign has not already been shown to this customer. A fresh customer ID is the quickest way to reset frequency history while testing.
+**Nothing shows at all?** Check in order: logging is on (a debug build, or `gameballInAppMessagingLogging = true`), `init` ran before `startInAppMessaging`, the customer is initialized, you are running on iOS or Android, the navigator key is the one on `MaterialApp`, the campaign is live and the customer is in its audience and platform, its artwork uses `https://`, the account cooldown or quiet hours are not suppressing it, and the campaign has not already been shown to this customer. A fresh customer ID is the quickest way to reset frequency history while testing.
 </Note>
 
 ---
@@ -252,36 +299,46 @@ Every decision is logged with a reason and the campaign ID, prefixed `[GameballI
 
 | **Member** | Signature |
 |---|---|
-| Start | `void startInAppMessaging({required String customerId, required GlobalKey<NavigatorState> navigatorKey, GameballBeforeDisplay? beforeDisplay, GameballOnAction? onAction, GameballOnNavigate? onNavigate, Duration sessionTimeout})` |
+| Start | `void startInAppMessaging({required String customerId, required GlobalKey<NavigatorState> navigatorKey, GameballBeforeDisplay? beforeDisplay, GameballOnAction? onAction, GameballOnNavigate? onNavigate, Duration sessionTimeout = const Duration(seconds: 30)})` |
 | Stop | `void stopInAppMessaging()` |
 | State | `bool get isInAppMessagingStarted` |
 | Stream | `Stream<GameballInAppMessage> get onInAppMessage` |
-| Decision hook | `typedef GameballBeforeDisplay` returning `enum GameballDisplayDecision { show, later, discard }` |
-| Action hook | `typedef GameballOnAction` returning `bool` |
-| Navigation hook | `typedef GameballOnNavigate` |
-| Actions | `GameballDismissAction`, `GameballOpenUrlAction`, `GameballNavigateAction`, `GameballRequestPushPermissionAction` |
-| Enums | `GameballMessageType`, `GameballMessageLayout`, `GameballMessageOrientation`, `GameballSlidePosition` |
-| Purchase | `void logPurchase({required String customerId, required String productId, required double price, required String currency, int quantity = 1, ...})` |
+| Decision hook | `typedef GameballBeforeDisplay = GameballDisplayDecision Function(GameballInAppMessage message)`, with `enum GameballDisplayDecision { show, later, discard }` |
+| Action hook | `typedef GameballOnAction = bool Function(GameballInAppMessage message, GameballMessageButton? button, GameballClickAction action)` |
+| Navigation hook | `typedef GameballOnNavigate = void Function(String route, Map<String, Object>? arguments)` |
+| Actions | `GameballDismissAction()`, `GameballOpenUrlAction(String url, {bool external = false})`, `GameballNavigateAction(String route, {Map<String, Object>? arguments})`, `GameballRequestPushPermissionAction()` |
+| Button model | `GameballMessageButton` with `String id`, `String text`, `GameballClickAction action`, `GameballButtonStyle style` |
+| Styles | `GameballButtonStyle` (`Color? backgroundColor`, `textColor`, `borderColor`) and `GameballMessageStyle` (`Color? backgroundColor`, `headerColor`, `bodyColor`, `scrimColor`, `closeButtonColor`; `TextAlign? headerAlign`, `bodyAlign`). A null value means your app's theme is used |
+| Enums | `GameballMessageType { modal, slideup, fullscreen, unsupported }`, `GameballMessageLayout { textWithImage, imageOnly }`, `GameballMessageOrientation { portrait, landscape, any }`, `GameballSlidePosition { top, bottom }` |
+| Purchase | `void logPurchase({required String customerId, required String productId, required double price, required String currency, int quantity = 1, Map<String, Object>? properties, SendEventCallback? callback, String? sessionToken})` |
+| Logging | `bool gameballInAppMessagingLogging`, top-level. Defaults to `kDebugMode` |
+| Constants | `maxModalButtons` (2) and `gameballPurchaseEventName` (`'purchase'`) |
 
 ---
 
 ## Launch Checklist
 
 <Steps>
+  <Step title="Raise platform minimums">
+    iOS deployment target 15.0 and Android `minSdk` 24, with `gameball_sdk` at 4.0.0 or later.
+  </Step>
   <Step title="Initialize and identify">
     `init` with the production API key, then `initializeCustomer` with a `preferredLanguage`.
   </Step>
   <Step title="Wire the navigator key">
-    The `navigatorKey` passed to `startInAppMessaging` is the one on `MaterialApp`.
+    The `navigatorKey` passed to `startInAppMessaging` is the one on `MaterialApp`, or on `GoRouter` if you use go_router.
   </Step>
   <Step title="Register your routes">
     Every route name your campaigns use is registered, or `onNavigate` routes it.
+  </Step>
+  <Step title="Stop on logout">
+    Call `stopInAppMessaging()` when the customer logs out.
   </Step>
   <Step title="Initialize Firebase if needed">
     Firebase is initialized if any campaign asks for push permission.
   </Step>
   <Step title="Test end to end">
-    Events carry numeric properties as numbers where campaigns filter on them. Run one campaign on a fresh customer ID and watch the `[GameballIAM]` log.
+    Events use the exact event names your campaigns expect and carry numeric properties as numbers where campaigns filter on them. Run one campaign on a fresh customer ID in a debug build and watch the `[GameballIAM]` log. Do not ship with `gameballInAppMessagingLogging = true`.
   </Step>
 </Steps>
 

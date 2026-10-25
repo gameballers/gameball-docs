@@ -5,13 +5,12 @@ description: "Display Gameball in-app campaigns in your React Native app and con
 ---
 
 import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
-import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
 
 <InAppMessagingBeta />
 
 # Display In-App Messages
 
-Your dashboard campaigns, drawn natively in your React Native app: slide-ups, modals, and full screens, triggered by session start or by the events you already send.
+Your dashboard campaigns, drawn natively in your React Native app: slide-ups, modals, and full screens, triggered by session start or by the events you already send. In-app messaging needs **Gameball React Native SDK 4.0.0** or later.
 
 For campaign options, triggers, filters, priority, cooldown, quiet hours, and how the analytics are defined, see [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
 
@@ -21,25 +20,27 @@ For campaign options, triggers, filters, priority, cooldown, quiet hours, and ho
 
 | **Item** | Requirement |
 |---|---|
-| Package | `react-native-gameball`, private beta build. In-app messaging is part of the SDK, so there is nothing extra to install |
-| React Native | 0.72 or newer, React 18 or 19 |
-| Platforms | iOS and Android |
-| Required peers | `react`, `react-native`, and `react-native-webview` for the profile widget |
-| Optional | `@react-native-async-storage/async-storage` and `react-native-safe-area-context`, both detected at runtime |
-| New runtime dependencies | None |
+| Package | `react-native-gameball` 4.0.0 or later. In-app messaging is part of the SDK, so there is no separate package to install |
+| React Native | 0.70 or newer. Use 0.71 or newer for correct button spacing in messages, which use the `gap` style |
+| Platforms | iOS 15.0 or newer, Android 7.0 (API 24) or newer |
+| Required peers | `@react-native-async-storage/async-storage`, `react-native-device-info`, `react-native-modal`, `react-native-push-notification-popup`, and `react-native-webview`, the same peers 3.3.1 requires |
+| Optional | `react-native-safe-area-context`, detected at runtime |
+| New runtime dependencies | None. The only new peer is the optional `react-native-safe-area-context` |
 
 ---
 
 ## Install
 
-<InAppMessagingBetaInstall />
-
 ```bash
-npm install react-native-gameball@GAMEBALL_BETA_VERSION
+npm install react-native-gameball@^4.0.0 @react-native-async-storage/async-storage react-native-device-info react-native-modal react-native-push-notification-popup react-native-webview
 cd ios && pod install
 ```
 
-If you already use the SDK for the profile widget or event tracking, you have it. In-app messaging adds five methods and one component.
+<Warning>
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimums to iOS 15.0 and Android API 24. Every 3.x call keeps its signature and behavior. Coming from 3.1.x or earlier, also install the required peers listed above. See [Migration Notes](/installation-guides/v3/react-native/migration-notes).
+</Warning>
+
+Version 4.0.0 adds five methods (`startInAppMessaging`, `stopInAppMessaging`, `setOverlayOpen`, `onInAppMessage`, and `logPurchase`), one read-only property (`isInAppMessagingStarted`), one component (`<GameballInAppMessages />`), and a `debug` option on `init`.
 
 ---
 
@@ -75,26 +76,28 @@ Three calls, in order.
 ```tsx
 const app = GameballApp.getInstance();
 
-await app.init({ apiKey: 'YOUR_API_KEY' });
+await app.init({ apiKey: 'YOUR_API_KEY', lang: 'en' });
 await app.initializeCustomer({ customerId: 'customer-123' });
 await app.startInAppMessaging();
 ```
-
-<Warning>
-**Await `startInAppMessaging`.** Storage is asynchronous on this platform, and the frequency history has to be in memory before the first campaign is judged against it, or a once-ever message could show twice.
-</Warning>
 
 <Note>
 **Call `init` at module load, not from a component effect.** It is asynchronous, because it fetches your account's settings, and every network-facing method refuses to run until it resolves. A child component's effect runs before its parent's, so an effect-based init leaves a window in which your app is mounted and interactive while the SDK is not ready.
 </Note>
 
-`startInAppMessaging` takes an explicit `customerId` if you would rather not rely on the last identified customer. Call `stopInAppMessaging()` on logout: it dismisses what is showing, flushes analytics, and lets go of the customer, so the next start cannot quietly resume the person who just signed out. Stored state is kept, so the same customer signing back in is not shown a once-ever message twice.
+<Note>
+**Awaiting `startInAppMessaging` is optional.** The SDK loads the customer's message history before it judges any campaign, whether or not you await. The promise resolves once campaigns have synced and the session-start campaign has been evaluated. Events you send before then are not matched against campaigns, so await it before sending an event that should trigger one.
+</Note>
+
+`startInAppMessaging` takes an explicit `customerId` if you would rather not rely on the last customer passed to a successful `initializeCustomer`. You don't need to stop to switch customers: a new `initializeCustomer`, or a start with a different `customerId`, fetches that customer's campaigns.
+
+Call `stopInAppMessaging()` on logout: it dismisses what is showing, sends pending analytics, and lets go of the customer, so the next start needs a customer again. The device keeps the customer's message history, so the same customer signing back in is not shown a once-ever message twice. It keeps one customer's history at a time: when a different customer starts messaging on the device, the previous history is discarded.
 
 ---
 
 ## Control Display and Actions
 
-Every hook is optional, and every one of them takes effect on the *most recent* `startInAppMessaging` call.
+Every option is optional. The hooks follow your most recent `startInAppMessaging` call. `sessionTimeoutSeconds` is read only when messaging starts for the first time, or for the first time after `stopInAppMessaging()`.
 
 ```tsx
 await app.startInAppMessaging({
@@ -109,20 +112,24 @@ await app.startInAppMessaging({
   onAction: (message, button, action) => false,
 
   // Every message the SDK selects, whatever you then decide.
-  onMessage: (message) => analytics.track('gameball_message', { id: message.id }),
+  onMessage: (message) => analytics.track('gameball_message', { campaignId: message.campaignId }),
 
-  // How long a background counts as the same session. Default 30 s.
+  // How long the app can be away and still count as the same session. Default 30 s, read on the first start.
   sessionTimeoutSeconds: 30,
 });
 ```
+
+A message you hold with `'later'` waits until the screen frees up: `setOverlayOpen(false)`, the profile widget or another message closing, or the device rotating. It is not passed to `beforeDisplay` again, so for a screen such as checkout, `setOverlayOpen` is the more reliable hold. `beforeDisplay` and `onAction` must return a value, not a promise. A message closes after any tap action, whatever `onAction` returns.
 
 While your own modal, drawer, or checkout step is up, tell the SDK and it holds messages until you say the screen is yours again:
 
 ```tsx
 app.setOverlayOpen(true);
 // … later
-app.setOverlayOpen(false);   // A held message displays now
+app.setOverlayOpen(false);   // A held message displays now, or once your account's minimum interval allows
 ```
+
+You don't need to do this for the Gameball profile widget: messages already wait while it is open and are offered again when it closes.
 
 ---
 
@@ -131,18 +138,23 @@ app.setOverlayOpen(false);   // A held message displays now
 A campaign's surface or button can dismiss, open a URL, navigate to a route, or ask for push permission. `onAction` sees all of them first.
 
 <Warning>
-**React Native ships no in-app browser.** Both link kinds, `external: true` and `external: false`, leave for the system browser through `Linking.openURL`, so the customer leaves your app and comes back to it suspended, not restarted.
+**React Native ships no in-app browser.** Without `openUrl`, both link kinds, `external: true` and `external: false`, leave for the system browser through `Linking.openURL`, so the customer leaves your app and comes back to it suspended, not restarted.
 </Warning>
 
 If you bundle a browser, pass `openUrl` and decide for yourself:
 
 ```tsx
 openUrl: async (url, external) => {
-  if (external) return false;            // Let the SDK send it to the system browser
-  await InAppBrowser.open(url);
-  return true;                           // Handled
+  if (external) {
+    await Linking.openURL(url);     // The system browser
+  } else {
+    await InAppBrowser.open(url);   // Your in-app browser
+  }
+  return true;                      // Opened
 }
 ```
+
+Once you pass `openUrl`, it opens every campaign link, both kinds. Return `true` when the link opened. Returning `false` does not hand the link back to the SDK: nothing opens, and the log says `could not open "<url>"`.
 
 Whatever you do, the SDK only ever opens `http`, `https`, `mailto`, and `tel`. A campaign carrying `javascript:`, `file:`, or your own deep-link scheme is refused and logged, so a campaign cannot launch arbitrary schemes in your app.
 
@@ -152,13 +164,13 @@ Whatever you do, the SDK only ever opens `http`, `https`, `mailto`, and `tel`. A
 
 ```tsx
 const off = app.onInAppMessage((message) => {
-  // Every message the SDK selects. Pause a video, mute audio, whatever the screen needs.
+  // Every message the SDK selects, before beforeDisplay decides, including ones that are held or dropped.
 });
 // later
 off();
 ```
 
-This is a listener, not a veto. Use `beforeDisplay` to hold or drop a message. It fires for every listener you register, and a listener that throws is logged rather than allowed to break the display.
+This is a listener, not a veto. Use `beforeDisplay` to hold or drop a message. It fires for every listener you register, and a listener that throws is logged rather than allowed to break the display. It fires once, at selection. A held message does not fire again when it finally displays.
 
 ---
 
@@ -173,13 +185,26 @@ await app.sendEvent({
 });
 ```
 
-The properties you attach are what the campaign's filters are matched against. String comparisons are case-insensitive, and a property the event does not carry never matches.
+The properties you attach are what the campaign's filters are matched against. Equality checks are exact and case-sensitive, and a number matches its numeric string, so `1200` equals `"1200"`. `contains` ignores case. Event names must match exactly, including case. A property the event does not carry never matches, even for a "does not equal" filter.
+
+Purchases have their own method. `logPurchase` sends an event named `purchase` through `sendEvent`, so a campaign triggered by `purchase` can filter on `productId`, `price`, `currency`, `quantity`, and anything in `properties`. It works whether or not messaging has started, and takes the same optional `callback` and `sessionToken` arguments as `sendEvent`. If you already send `purchase` events yourself, switch to `logPurchase` rather than sending both.
+
+```tsx
+await app.logPurchase({
+  customerId: 'customer-123',
+  productId: 'sku-001',
+  price: 49.99,
+  currency: 'USD',
+  quantity: 2,                        // Optional, defaults to 1
+  properties: { category: 'shoes' },  // Optional, also matched by filters
+});
+```
 
 ---
 
 ## Language and Right-to-Left
 
-A campaign is fetched in one language. The customer's own `preferredLanguage` wins; without one, the SDK uses whatever `init` was given. `changeLanguage` replaces that default for every request from then on, and campaigns already synced keep the copy they were fetched with until the next sync.
+A campaign is fetched in one language. The customer's own `preferredLanguage`, a two-letter code, wins; without one, the SDK uses the language `init` was given, then English. `setLanguage` changes that language for every request from then on, and also saves it as the last initialized customer's `preferredLanguage`. A code the SDK does not support falls back to `en`. Campaigns already synced keep the copy they were fetched with until the next sync. `changeLanguage` still works but is deprecated in favor of `setLanguage`.
 
 ```tsx
 await app.initializeCustomer({
@@ -194,27 +219,32 @@ await app.initializeCustomer({
 
 ---
 
+## Personalization
+
+Campaign text can carry placeholders such as `{player_name}`. See [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns) for the list. Just before a message with placeholders displays, the SDK fetches the customer's current values and fills them in. It waits at most 2 seconds and reuses the values for up to a minute, and every event you send clears them so the next message quotes fresh numbers.
+
+If the request fails, the SDK uses the last values it stored for the customer. Any placeholder still without a value, including every placeholder when the request times out, is removed rather than shown as raw braces, and the message still displays. Messages with no placeholders skip the fetch. Your hooks receive the message as authored, with its placeholders.
+
+---
+
 ## Push Permission
 
-React Native has no notification-permission API of its own, so a campaign that asks for one asks *you*. Without a requester the SDK logs and closes the message rather than pretending.
+React Native has no notification-permission API of its own, so a campaign that asks for one asks *you*. Without a requester the SDK logs and closes the message rather than pretending. For example, with `react-native-permissions`:
 
 ```tsx
 requestPushPermission: async () => {
-  const { granted } = await requestNotifications(['alert', 'sound']);
-  return granted;
+  const { status } = await requestNotifications(['alert', 'sound']);
+  return status === 'granted';
 }
 ```
 
 ---
 
-## Storage
+## Storage and Insets
 
-Two optional packages, both resolved at runtime. Neither is required, and the SDK takes no new runtime dependency of its own.
+The SDK keeps in-app messaging state in AsyncStorage, a required peer. The customer's message history, the campaign cache, unsent analytics, and personalization values survive a restart. If storage cannot be read, messaging still runs, starts empty, and logs why.
 
-| **Package** | Present | Absent |
-|---|---|---|
-| `@react-native-async-storage/async-storage` | Frequency history, the analytics outbox, and the campaign cache survive a restart. | Everything works and nothing persists. A once-ever message can show again after the app is killed, and unsent analytics are lost on a force-quit. |
-| `react-native-safe-area-context` | Messages clear the notch and the home indicator automatically. | The SDK falls back to the status-bar height on Android and to zero elsewhere. |
+`react-native-safe-area-context` is optional and resolved at runtime. When it is installed, messages clear the notch and the home indicator, using the insets the device reports at startup. Without it, the SDK falls back to the status-bar height on Android and to zero elsewhere.
 
 <Tip>
 If your app's own insets are the authority, pass them and they win: `<GameballInAppMessages insets={useSafeAreaInsets()} />`.
@@ -222,35 +252,53 @@ If your app's own insets are the authority, pass them and they win: `<GameballIn
 
 ---
 
+## Session Tokens
+
+In-app messaging requests carry the SDK's current session token as `X-GB-TOKEN` when it has one, and each sync reports your app's version. The current token is whatever your last `initializeCustomer`, `sendEvent`, `logPurchase`, or `showProfile` call passed, so pass it on every call if you use session tokens.
+
+---
+
 ## Behavior Reference
 
-These rules are shared with every Gameball SDK and are described in full in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in a React Native app.
+The campaign rules themselves are described in [In-App Messaging Campaigns](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns). This is what they mean in a React Native app.
 
 | **Topic** | In this SDK |
 |---|---|
-| Slide-up auto-dismiss | A campaign that names no duration gets 8 seconds, so a banner cannot sit over your app bar indefinitely. The clock starts when it paints, not when the trigger fires. |
+| Message types | Slide-up, modal, and full-screen campaigns with images. A modal or full screen shows at most two buttons, and a slide-up has none: the whole banner is the tap target. Other message types and video are skipped, and so is a campaign whose event filters are combined with OR, since the SDK matches filters with AND. |
+| Slide-up auto-dismiss | A campaign that names no duration gets 8 seconds, so a banner cannot sit over your app bar indefinitely. A duration of 0 keeps it until dismissed. The clock starts when it paints, not when the trigger fires. |
 | Swipe to dismiss | A slide-up is dragged toward its own edge, up for a top banner and down for a bottom one. A drag the OS cancels springs back. |
 | Android Back | Closes a modal or a full screen, never a slide-up. |
 | Orientation | A full screen authored portrait-only or landscape-only is held until the device is in that orientation, then displays on its own. A message never rotates your app. |
-| Artwork | HTTPS only. Cleartext artwork is refused before any request goes out. A campaign whose image cannot be loaded is passed over and the next eligible campaign shows, rather than a broken card. |
-| One at a time | A second matching campaign is parked behind the one on screen and displays when it closes, without the trigger firing again. |
-| Sessions | A background longer than the session timeout starts a new session on resume: a fresh sync and a session-start evaluation. Shorter, and the session continues. |
-| Analytics | Impressions, clicks, and dismissals are batched and sent every 30 seconds, and flushed when the app goes to the background. A dismissal is only counted when the customer did not engage. |
+| Artwork | HTTPS only. Cleartext artwork is refused before any request goes out. Images download into memory when campaigns sync, and a message never draws before its image. A campaign whose image cannot be loaded is passed over and the next eligible campaign shows, rather than a broken card. If the image does not paint within 2 seconds, the message is taken away unshown, no impression is counted, and the campaign can show on its next trigger. |
+| One at a time | A second campaign matching the same trigger waits behind the one on screen. It displays after that message closes and your account's minimum interval between messages has passed, without the trigger firing again. Only one message waits at a time, and a newer one replaces it. A trigger that fires inside the minimum interval is skipped, not held. |
+| Sessions | A background longer than the session timeout starts a new session on resume: a fresh sync and a session-start evaluation. Shorter, and the session continues. On iOS, the app switcher, an incoming call, or a system prompt counts as leaving. |
+| Sync and cache | If a sync fails, the SDK uses the campaigns it last cached for that customer. |
+| Quiet hours | Judged on the device's local time. |
+| Analytics | Impressions, clicks, and dismissals are batched and sent within 30 seconds, sooner once 10 are waiting or just before a link or route action runs, and flushed when the app leaves the foreground. A dismissal is only counted when the customer did not engage. Dashboard test sends display normally and are never reported. |
 
 ---
 
 ## Logging and Troubleshooting
 
-Pass `debug: true` to `init` for a running commentary prefixed `[GameballIAM]`, showing which campaign was chosen, which was passed over, and why. It is on by default in development builds.
+Pass `debug: true` to `init` for a running commentary prefixed `[GameballIAM]`, showing which campaign was chosen, which was passed over, and why. It defaults to `__DEV__`, so it is on in development builds and off in release builds.
 
 | **You see** | It means |
 |---|---|
 | `no in-app messaging host mounted yet; deferring` | `<GameballInAppMessages />` is not in the tree. Nothing will draw until it is. |
-| `startInAppMessaging ignored: no customerId` | Identify a customer first, or pass one. After `stopInAppMessaging()` the SDK deliberately holds no customer. |
-| `campaign "N" passed over: artwork not ready` | The image did not load in time. The SDK retries in the background and the campaign becomes eligible again. |
+| `a second in-app messaging host mounted; the first one keeps the screen` | Mount `<GameballInAppMessages />` only once. |
+| `startInAppMessaging ignored: call init({ apiKey }) first` | `startInAppMessaging` ran before `init`. Await `init` first. |
+| `startInAppMessaging ignored: no customerId — pass one or identify a customer first` | Identify a customer first, or pass one. After `stopInAppMessaging()` the SDK deliberately holds no customer. |
+| `start ignored: already running for customer "…"` | `startInAppMessaging` was called again with the same customer. Harmless. |
+| `session start evaluated` | Start finished. The lines before it say what matched or was held. |
+| `trigger ignored: no campaigns loaded` | The event came before the sync finished, or the sync returned no campaigns. |
+| `campaign "N" deferred: <reason>` | The message is waiting. Reasons include `the host overlay is open`, `another message is showing`, and `no presentation surface available`. |
+| `campaign "N" passed over: artwork not ready` | Its image did not download within 5 seconds, or it is served over `http`. The SDK tries again on a later trigger, at most every 30 seconds, and the campaign is eligible once the image arrives. |
+| `artwork "<url>" is served over http and is refused — in-app artwork must be https` | The campaign's image is not HTTPS. Fix it in the dashboard. |
 | `… cooldown has not elapsed since the last message; suppressed` | Your account's floor between two displays, set in the dashboard. |
+| `<n> campaign(s) matched but it is inside the quiet-hours window (device local time); suppressed` | The account's quiet hours cover the device's local time. |
 | `message "N" needs landscape orientation; deferring` | Working as intended. It will display when the device turns. |
-| Nothing at all after `start` | Check that `init` resolved before you called it. |
+| `navigate to "<route>" ignored: pass onNavigate to startInAppMessaging()` | Pass `onNavigate` to route campaign links. |
+| Nothing at all | Logging is off. Release builds log only with `debug: true`. |
 
 ---
 
@@ -258,14 +306,17 @@ Pass `debug: true` to `init` for a running commentary prefixed `[GameballIAM]`, 
 
 | **Member** | Signature | Notes |
 |---|---|---|
-| `startInAppMessaging` | `(options?) => Promise<void>` | Await it. Options: `customerId`, `sessionTimeoutSeconds`, `beforeDisplay`, `onAction`, `onNavigate`, `onMessage`, `openUrl`, `requestPushPermission`. |
+| `startInAppMessaging` | `(options?) => Promise<void>` | Awaiting is optional. Options: `customerId`, `sessionTimeoutSeconds`, `beforeDisplay`, `onAction`, `onNavigate`, `onMessage`, `openUrl`, `requestPushPermission`. |
 | `stopInAppMessaging` | `() => void` | Logout boundary. Dismisses, flushes, forgets the customer, keeps stored state. |
 | `setOverlayOpen` | `(open: boolean) => void` | Holds messages while your own overlay is up. Closing it retries a held message. |
 | `onInAppMessage` | `(listener) => () => void` | Returns its own unsubscribe. |
-| `isInAppMessagingStarted` | `boolean` | Read-only. |
+| `isInAppMessagingStarted` | `boolean` | Read-only property. |
+| `logPurchase` | `(purchase: Purchase, callback?, sessionToken?) => Promise<boolean>` | Sends a `purchase` event through `sendEvent`. Works whether or not messaging has started. |
 | `<GameballInAppMessages />` | `{ insets?: { top?, bottom? } }` | Mount once, near the root, above your navigator. |
 
-Types `InAppMessage`, `MessageButton`, `ClickAction`, `MessageType`, `MessageLayout`, `MessageOrientation`, `SlidePosition`, `MessageStyle`, `ButtonStyle`, `TextAlign`, `BeforeDisplay`, `DisplayDecision`, `OnAction`, and `StartInAppMessagingOptions` are exported from the package root.
+`init` also takes `debug?: boolean`, which defaults to `__DEV__`.
+
+Types `InAppMessage`, `MessageButton`, `ClickAction`, `MessageType`, `MessageLayout`, `MessageOrientation`, `SlidePosition`, `MessageStyle`, `ButtonStyle`, `TextAlign`, `BeforeDisplay`, `DisplayDecision`, `OnAction`, `StartInAppMessagingOptions`, `GameballInAppMessagesProps`, `PresentedMessage`, `PresentCallbacks`, and `Purchase` are exported from the package root.
 
 ---
 
@@ -279,13 +330,13 @@ Types `InAppMessage`, `MessageButton`, `ClickAction`, `MessageType`, `MessageLay
     `<GameballInAppMessages />` is mounted once, above the navigator.
   </Step>
   <Step title="Start and stop messaging">
-    `startInAppMessaging` is awaited after a customer is identified, and `stopInAppMessaging()` is called on logout.
+    `startInAppMessaging` is called after a customer is identified, and `stopInAppMessaging()` is called on logout.
   </Step>
   <Step title="Wire the hooks">
     `onNavigate` if any campaign uses a route action, `requestPushPermission` if any campaign asks for notifications, and `setOverlayOpen` bracketing your own modals and checkout steps.
   </Step>
   <Step title="Check storage and insets">
-    AsyncStorage is installed unless you accept that frequency caps reset on restart, safe-area insets come from somewhere, and `debug` is off in release builds.
+    AsyncStorage is installed, safe-area insets come from somewhere, and `debug` is off in release builds.
   </Step>
 </Steps>
 

@@ -4,10 +4,9 @@ sidebarTitle: "In-App Messaging"
 description: "Display Gameball in-app campaigns on your website or in a React, Angular, or Ionic app"
 ---
 
-import InAppMessagingBeta from '/snippets/in-app-messaging-beta.mdx';
-import InAppMessagingBetaInstall from '/snippets/in-app-messaging-beta-install.mdx';
-
-<InAppMessagingBeta />
+<Note>
+**Not yet released.** The Web SDK is not published yet, so the package version and script URL on this page are placeholders. In-app messaging is available now in the [iOS](/installation-guides/v3/ios/in-app-messaging), [Android](/installation-guides/v3/android/in-app-messaging), [Flutter](/installation-guides/v3/flutter/in-app-messaging), and [React Native](/installation-guides/v3/react-native/in-app-messaging) SDKs, version 4.0.0 and later.
+</Note>
 
 # Display In-App Messages
 
@@ -40,7 +39,7 @@ This does not apply to **Ionic + Capacitor**, which runs as a native app and rep
   <Tab title="React">
     | **Item** | Requirement |
     |---|---|
-    | Package | `@gameball/web-sdk`, private beta build |
+    | Package | `@gameball/web-sdk`, not yet published |
     | Import | `import { Gameball } from '@gameball/web-sdk';` — one shared singleton, so every file that imports it gets the same instance |
     | Verified against | React 18 and 19, with Vite. The API is imperative, so it works the same under Next.js, Remix, or CRA |
     | Browsers | Chrome, Edge, Firefox, Safari 14+. The build targets ES2019 |
@@ -51,7 +50,7 @@ This does not apply to **Ionic + Capacitor**, which runs as a native app and rep
   <Tab title="Angular">
     | **Item** | Requirement |
     |---|---|
-    | Package | `@gameball/web-sdk`, private beta build |
+    | Package | `@gameball/web-sdk`, not yet published |
     | Import | `import { Gameball } from '@gameball/web-sdk';` — one shared singleton |
     | Verified against | Angular 18 and 22, standalone bootstrap. Works with NgModule bootstrapping too; only the file the `init` call sits in changes |
     | Browsers | Chrome, Edge, Firefox, Safari 14+. The build targets ES2019 |
@@ -62,7 +61,7 @@ This does not apply to **Ionic + Capacitor**, which runs as a native app and rep
   <Tab title="Ionic + Capacitor">
     | **Item** | Requirement |
     |---|---|
-    | Package | `@gameball/web-sdk`, private beta build |
+    | Package | `@gameball/web-sdk`, not yet published |
     | Import | Two entry points: `@gameball/web-sdk` for the SDK and `@gameball/web-sdk/capacitor` for the native adapter |
     | Verified against | Ionic 9 (Angular and React) on Capacitor 8, iOS and Android |
     | Dependencies | None of its own. The adapter uses three optional Capacitor plugins |
@@ -75,7 +74,9 @@ This does not apply to **Ionic + Capacitor**, which runs as a native app and rep
 
 ## Install
 
-<InAppMessagingBetaInstall />
+<Note>
+**Placeholders until release.** `GAMEBALL_WEB_SDK_VERSION` and `GAMEBALL_WEB_SDK_URL` stand in for the version and script URL the Web SDK will be published under.
+</Note>
 
 <Tabs>
   <Tab title="Script tag">
@@ -84,21 +85,17 @@ This does not apply to **Ionic + Capacitor**, which runs as a native app and rep
     ```html index.html
     <script src="GAMEBALL_WEB_SDK_URL"></script>
     ```
-
-    <Note>
-    The script URL is provided when your workspace is enabled for the private beta.
-    </Note>
   </Tab>
   <Tab title="React">
     ```bash
-    npm install @gameball/web-sdk@GAMEBALL_BETA_VERSION
+    npm install @gameball/web-sdk@GAMEBALL_WEB_SDK_VERSION
     ```
 
     The package ships ESM, CommonJS, and TypeScript declarations, and is marked `sideEffects: false`, so a bundler tree-shakes what you do not use.
   </Tab>
   <Tab title="Angular">
     ```bash
-    npm install @gameball/web-sdk@GAMEBALL_BETA_VERSION
+    npm install @gameball/web-sdk@GAMEBALL_WEB_SDK_VERSION
     ```
 
     The package ships ESM, CommonJS, and TypeScript declarations, and is marked `sideEffects: false`.
@@ -107,7 +104,7 @@ This does not apply to **Ionic + Capacitor**, which runs as a native app and rep
     Install the SDK, then the three Capacitor plugins the adapter uses. Each one is optional, and a plugin you skip falls back to the web behavior with a log line.
 
     ```bash
-    npm install @gameball/web-sdk@GAMEBALL_BETA_VERSION
+    npm install @gameball/web-sdk@GAMEBALL_WEB_SDK_VERSION
     npm install @capacitor/app @capacitor/browser @capacitor/push-notifications
     npx cap sync
     ```
