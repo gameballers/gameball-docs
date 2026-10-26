@@ -5,7 +5,7 @@ openapi: 'GET /api/v4.0/integrations/customers/{customerId}/reward-campaigns-pro
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-This API retrieves a customer's progress within Gameball's reward campaigns, providing insights into their achievements and current status in each campaign. By accessing completion percentages and unlock statuses, you can track how customers are engaging with various reward opportunities.
+This API retrieves a customer's progress within Gameball's reward campaigns, providing insights into their achievements and current status in each campaign. By accessing completion percentages and unlock statuses, you can track how customers are engaging with various reward opportunities. For a mission, the response also lists each task in dashboard order, with its name, rules, reward, and the customer's progress on that task.
 
 This endpoint is also available on `v4.1`.
 
@@ -151,5 +151,171 @@ In this example the customer is on day 1 of a daily streak:
 - `nextMilestoneStep` is `7` (the 10-point reward)
 - `stepsToNextMilestone` is `6`
 - Only the first `tierProgress` entry has `isReached: true`
+
+### Mission task progress
+
+For mission campaigns, the response includes each task so a custom loyalty page can show a checklist, such as finished tasks ticked and "1 of 3 tasks done" at the top. Tasks are returned in dashboard order. `stepNumber` starts at `1`.
+
+`rewardsCampaignName`, `rewardsCampaignId`, `isUnlocked`, `completionPercentage`, `achievedCount`, and `canAchieve` are unchanged. `completionPercentage` is still the mission's overall progress. `completedStepsCount` and `totalStepsCount` are the task counts behind that percentage.
+
+| Field | Description |
+|---|---|
+| `completedStepsCount` | Tasks the customer has finished. |
+| `totalStepsCount` | Tasks in the mission. |
+| `steps` | One object per task, in dashboard order. |
+| `steps[].stepNumber` | Task position. Starts at `1`. |
+| `steps[].isCompleted` | `true` once the customer finishes the task. |
+| `steps[].name` | Task name. Returned in the language from the `lang` header when that header is sent. |
+| `steps[].description` | Task description. Returned in the language from the `lang` header when that header is sent. |
+| `steps[].completionPercentage` | `0` until the task is completed, then `100`. A partial value, such as `30`, is returned only for an `AccumulativeTotal` task. |
+| `steps[].currentValue` | `0` until the task is completed, then equal to `targetValue`. A partial value, such as `300`, is returned only for an `AccumulativeTotal` task. |
+| `steps[].targetValue` | `1` for a standard task. For an `AccumulativeTotal` task, the total configured on the rule, such as `1000`. |
+| `steps[].trigger.eventName` | Event that completes the task, such as `place_order`. |
+| `steps[].trigger.conditions` | Rules on that event. Omitted when the task has no rules. |
+| `steps[].trigger.conditions[].name` | Event property, such as `total_price`. |
+| `steps[].trigger.conditions[].operator` | Rule operator. See the operator table below. |
+| `steps[].trigger.conditions[].value` | Rule value. Always a string. `Between` uses `"min,max"`. |
+| `steps[].reward` | Reward for finishing the task. Omitted when the task has no reward. |
+| `steps[].reward.walletReward` | Points awarded for finishing the task. |
+| `steps[].reward.rankReward` | Rank points awarded for finishing the task. |
+| `steps[].reward.walletRewardFactor` | Points multiplier. `null` when the reward is not a multiplier. |
+| `steps[].reward.couponReward` | Coupon awarded for finishing the task. `null` when the reward is not a coupon. Uses the same coupon fields as `rewardCampaignConfiguration.rewards[].couponReward`. |
+
+<Note>
+**Partial progress**: `AccumulativeTotal` is the only operator that reports progress before the task is finished. After orders totaling 300 toward a target of 1,000, `currentValue` is `300` and `completionPercentage` is `30`. Every other task stays at `0` until the customer finishes it. Then `currentValue` equals `targetValue` and `completionPercentage` is `100`.
+</Note>
+
+<Note>
+**What Accumulative total counts**: It adds up a numeric event property across events, such as order value. It does not count how many times an event occurred. A task such as "place 3 orders" is not supported.
+</Note>
+
+<Note>
+**Completion window**: When a mission's [completion window](/product-documentation/rewards-campaigns/templates/engagement-gamification/mission#completion-window) ends and progress resets, task progress resets too. `completedStepsCount` returns to `0`, and each task returns `isCompleted: false`, `currentValue: 0`, and `completionPercentage: 0`.
+</Note>
+
+### Rule operators
+
+`steps[].trigger.conditions[].operator` is one of the following. `value` is always a string. `Between` takes `"min,max"`. `IsEmpty` and `IsNotEmpty` do not take a value.
+
+| Operator | Label | Field type | Value |
+|---|---|---|---|
+| `Equals` | Equals | Number, text | A number or text |
+| `NotEquals` | Is not | Number, text | A number or text |
+| `EqualsOrGreater` | Equals Or Greater | Number | A number |
+| `GreaterThan` | Greater than | Number | A number |
+| `LessThan` | Less than | Number | A number |
+| `LessThanOrEqual` | Less than or equal | Number | A number |
+| `Between` | Between | Number | `"min,max"` |
+| `DifferentValues` | Different Values | Number | A number |
+| `AccumulativeTotal` | Accumulative total | Number | The total to reach |
+| `Contains` | Contains | Text | Text |
+| `NotContains` | Does not contain | Text | Text |
+| `StartsWith` | Starts with | Text | Text |
+| `EndsWith` | Ends with | Text | Text |
+| `IsEmpty` | Is empty | Text | None |
+| `IsNotEmpty` | Is not empty | Text | None |
+
+### Example: Mission with three tasks
+
+The response is still a JSON array. With `campaignId` set, the array contains one mission. `highScoreAmount`, streak fields, and `rewardCampaignConfiguration` are unchanged and left out of this example.
+
+```bash
+curl "https://api.gameball.co/api/v4.0/integrations/customers/{customerId}/reward-campaigns-progress?campaignId=12640" \
+  -H "APIKey: {your_api_key}" \
+  -H "secretkey: {your_secret_key}" \
+  -H "lang: en"
+```
+
+```json
+[
+  {
+    "rewardsCampaignName": "WI25272 Mission A",
+    "rewardsCampaignId": 12640,
+    "isUnlocked": true,
+    "completionPercentage": 33.333,
+    "achievedCount": 0,
+    "canAchieve": true,
+    "completedStepsCount": 1,
+    "totalStepsCount": 3,
+    "steps": [
+      {
+        "stepNumber": 1,
+        "isCompleted": true,
+        "name": "Order above 100",
+        "description": "Place one order of 100 or more",
+        "completionPercentage": 100.0,
+        "currentValue": 1,
+        "targetValue": 1,
+        "trigger": {
+          "eventName": "place_order",
+          "conditions": [
+            { "name": "total_price", "operator": "EqualsOrGreater", "value": "100" }
+          ]
+        },
+        "reward": {
+          "rankReward": 0,
+          "walletReward": 10,
+          "walletRewardFactor": null,
+          "couponReward": null
+        }
+      },
+      {
+        "stepNumber": 2,
+        "isCompleted": false,
+        "name": "Big order",
+        "description": "One order of 500 or more with at least 3 items",
+        "completionPercentage": 0.0,
+        "currentValue": 0,
+        "targetValue": 1,
+        "trigger": {
+          "eventName": "place_order",
+          "conditions": [
+            { "name": "total_price", "operator": "EqualsOrGreater", "value": "500" },
+            { "name": "total_items", "operator": "EqualsOrGreater", "value": "3" }
+          ]
+        },
+        "reward": {
+          "rankReward": 0,
+          "walletReward": 20,
+          "walletRewardFactor": null,
+          "couponReward": null
+        }
+      },
+      {
+        "stepNumber": 3,
+        "isCompleted": false,
+        "name": "View a product",
+        "description": "Open any product page",
+        "completionPercentage": 0.0,
+        "currentValue": 0,
+        "targetValue": 1,
+        "trigger": {
+          "eventName": "view_product_page"
+        }
+      }
+    ]
+  }
+]
+```
+
+In this example the customer has finished 1 of 3 tasks, so `completionPercentage` is `33.333`. Task 3 has no rules and no reward, so `conditions` and `reward` are omitted.
+
+An `AccumulativeTotal` task that has accumulated 300 of a 1,000 target looks like this:
+
+```json
+{
+  "stepNumber": 1,
+  "isCompleted": false,
+  "completionPercentage": 30.0,
+  "currentValue": 300,
+  "targetValue": 1000,
+  "trigger": {
+    "eventName": "place_order",
+    "conditions": [
+      { "name": "total_price", "operator": "AccumulativeTotal", "value": "1000" }
+    ]
+  }
+}
+```
 
 

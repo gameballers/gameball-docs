@@ -5459,7 +5459,7 @@
     "/api/v4.0/integrations/customers/{customerId}/reward-campaigns-progress": {
       "get": {
         "summary": "Get Customer Campaigns Progress",
-        "description": "This API retrieves a customer's progress within Gameball's reward campaigns, providing insights into their achievements and current status in each campaign. By accessing completion percentages and unlock statuses, you can track how customers are engaging with various reward opportunities.",
+        "description": "This API retrieves a customer's progress within Gameball's reward campaigns, providing insights into their achievements and current status in each campaign. By accessing completion percentages and unlock statuses, you can track how customers are engaging with various reward opportunities. For mission campaigns, the response includes each task in dashboard order, with its event, rules, reward, and the customer's progress on that task. AccumulativeTotal is the only rule operator that returns partial task progress.",
         "operationId": "getCustomerCampaignsProgress",
         "security": [{ "apiKey": [], "secretKey": [] }],
         "parameters": [
@@ -7591,6 +7591,57 @@
                 "properties": {
                   "startStep": { "type": "number", "description": "The startStep of this reward tier. Matches startStep on the corresponding item in rewards." },
                   "isReached": { "type": "boolean", "description": "Whether the customer has reached this reward tier. true when currentStreak is greater than or equal to this startStep." }
+                }
+              }
+            },
+            "completedStepsCount": { "type": ["integer", "null"], "description": "The number of mission tasks the customer has finished. Returned for mission campaigns. Use with totalStepsCount to show progress such as 1 of 3 tasks done." },
+            "totalStepsCount": { "type": ["integer", "null"], "description": "The number of tasks in the mission. Returned for mission campaigns." },
+            "steps": {
+              "type": ["array", "null"],
+              "description": "Mission tasks in dashboard order, starting at stepNumber 1. Returned for mission campaigns. One entry per task. When a mission completion window ends and progress resets, every task in this array resets as well.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "stepNumber": { "type": "integer", "description": "Position of this task in the dashboard. Starts at 1." },
+                  "isCompleted": { "type": "boolean", "description": "True once the customer finishes this task." },
+                  "name": { "type": "string", "description": "Task name. Returned in the language from the lang header when that header is sent." },
+                  "description": { "type": "string", "description": "Task description. Returned in the language from the lang header when that header is sent." },
+                  "completionPercentage": { "type": "number", "description": "Task progress from 0 to 100. 0 until the task is completed, then 100. A partial value, such as 30, is returned only when a rule uses the AccumulativeTotal operator." },
+                  "currentValue": { "type": "number", "description": "Progress toward targetValue. 0 until the task is completed, then equal to targetValue. A partial value, such as 300 toward a target of 1000, is returned only when a rule uses the AccumulativeTotal operator." },
+                  "targetValue": { "type": "number", "description": "Value required to finish the task. 1 for every task except one that uses AccumulativeTotal, where it is the total configured on that rule, such as 1000." },
+                  "trigger": {
+                    "type": "object",
+                    "description": "The event that completes this task, and the rules applied to that event.",
+                    "properties": {
+                      "eventName": { "type": "string", "description": "Event that completes the task, such as place_order or view_product_page." },
+                      "conditions": {
+                        "type": "array",
+                        "description": "Rules the event must satisfy. Omitted when the task has no rules.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": { "type": "string", "description": "Event property the rule checks, such as total_price or total_items." },
+                            "operator": {
+                              "type": "string",
+                              "enum": ["Equals", "NotEquals", "EqualsOrGreater", "GreaterThan", "LessThan", "LessThanOrEqual", "Between", "DifferentValues", "AccumulativeTotal", "Contains", "NotContains", "StartsWith", "EndsWith", "IsEmpty", "IsNotEmpty"],
+                              "description": "How the event property is compared. Equals (Equals; number or text), NotEquals (Is not; number or text), EqualsOrGreater (Equals Or Greater; number), GreaterThan (Greater than; number), LessThan (Less than; number), LessThanOrEqual (Less than or equal; number), Between (Between; number, value is \"min,max\"), DifferentValues (Different Values; number), AccumulativeTotal (Accumulative total; number, the total to reach; the only operator that returns partial currentValue and completionPercentage; does not count event occurrences such as place 3 orders), Contains (Contains; text), NotContains (Does not contain; text), StartsWith (Starts with; text), EndsWith (Ends with; text), IsEmpty (Is empty; text; no value), IsNotEmpty (Is not empty; text; no value)."
+                            },
+                            "value": { "type": "string", "description": "Rule value, always a string. Between uses \"min,max\", for example \"100,500\". AccumulativeTotal uses the total to reach, for example \"1000\". IsEmpty and IsNotEmpty do not take a value." }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "reward": {
+                    "type": "object",
+                    "description": "Reward granted when the customer finishes this task. Omitted when the task has no reward.",
+                    "properties": {
+                      "rankReward": { "type": "number", "description": "Rank points (score) awarded for finishing this task." },
+                      "walletReward": { "type": "number", "description": "Points awarded for finishing this task." },
+                      "walletRewardFactor": { "type": ["number", "null"], "description": "Points multiplier for this task reward. Null when the reward is not a multiplier." },
+                      "couponReward": { "type": ["object", "null"], "description": "Coupon awarded for finishing this task. Null when the reward is not a coupon. Uses the same coupon fields as rewardCampaignConfiguration.rewards[].couponReward." }
+                    }
+                  }
                 }
               }
             }
