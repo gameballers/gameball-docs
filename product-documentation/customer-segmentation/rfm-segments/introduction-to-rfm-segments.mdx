@@ -51,18 +51,20 @@ The following segments are created automatically by Gameball based on RFM data:
 
 | Segment | Description |
 |---------|-------------|
-| **Best Buyers** | Customers with the highest purchase frequency, most recent activity, and highest spend. |
-| **Loyal** | Customers with high recency and monetary value who purchase frequently. |
-| **New Customers** | Customers who have just joined your store. |
-| **Promising** | Customers who are moderately active, make occasional purchases, and respond to promotions. |
-| **Can't Lose** | Customers who previously made large purchases but have not returned in a long time. |
-| **About to Lose** | Inactive customers with low frequency and low spend. |
-| **Lost** | Customers with the lowest scores in recency, frequency, and monetary value. |
+| **Best Buyers** | Customers who buy on their normal schedule and are in your top 25% for both number of orders and total spend. |
+| **Loyal** | Customers who buy on their normal schedule with solid, but not top, order count and spend. |
+| **New Customers** | Customers who bought recently with few orders and low spend (usually one small first order), or who signed up recently and haven't bought yet. |
+| **Promising** | Customers who missed one normal visit, regardless of how much they order or spend. |
+| **Can't Lose** | Customers who have gone two to four buying cycles without a purchase, regardless of how much they order or spend. |
+| **About to Lose** | Customers who have gone quiet but used to order and spend well. These are the most valuable customers to win back. |
+| **Lost** | Customers who have gone quiet with low order count and spend, or who signed up more than one buying cycle ago and never bought. |
 
 <Warning>
-  - Gameball does not remove outliers; however, RFM works on percentiles, not absolute numbers.
-  - RFM is refreshed once a day.
+  - Gameball does not remove outliers. Frequency and monetary scores are based on each customer's position compared with your other buyers, not on absolute amounts, so a few very large accounts can't distort everyone else's scores.
+  - RFM is refreshed once a day, so customers can move between segments as time passes, even without new purchases.
 </Warning>
+
+To see exactly how each customer is scored and assigned to a segment, read [How Does Gameball Calculate RFM Segments?](/product-documentation/customer-segmentation/rfm-segments/how-rfm-segments-are-calculated)
 
 Use these segments to craft personalized campaigns that suit each customer group's behavior and needs. RFM segmentation is a powerful tool to guide your customer acquisition and retention strategies. [Learn more](/product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals).
 
@@ -105,6 +107,9 @@ To view a customer's RFM breakdown, navigate to **Customers > RFM Segments**, se
 ## Related Articles
 
 <CardGroup cols={2}>
+  <Card title="How RFM Segments Are Calculated" icon="calculator" href="/product-documentation/customer-segmentation/rfm-segments/how-rfm-segments-are-calculated">
+    Learn how each customer is scored and placed into an RFM segment.
+  </Card>
   <Card title="Using RFM Segments to Serve Your Goals" icon="bullseye" href="/product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals">
     Learn how to use RFM segments to retain, engage, and grow customer loyalty.
   </Card>

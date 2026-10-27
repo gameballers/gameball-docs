@@ -1,0 +1,354 @@
+---
+title: "How Does Gameball Calculate RFM Segments?"
+description: "Understand how Gameball scores each customer on recency, frequency, and monetary value and places them into one of seven RFM segments."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | Start, Pro, & Guru |
+| Salla | Pro, & Guru |
+| Non-Platform | Growth & Enterprise |
+
+---
+
+Every night, **Gameball's RFM Segments** place each of your customers into one of seven groups, such as **Best Buyers** or **About to Lose**. This article explains how each customer's scores are worked out and how those scores decide their segment, with examples you can follow step by step.
+
+---
+
+## How RFM Scoring Works
+
+Each customer's segment answers three questions. Each question gets a score from **1** (weakest) to **4** (strongest), and the three scores together decide the segment.
+
+<CardGroup cols={3}>
+  <Card title="Recency" icon="clock">
+    **When did they last buy?**
+
+    Based on their latest completed order.
+  </Card>
+  <Card title="Frequency" icon="repeat">
+    **How often do they buy?**
+
+    Based on their number of completed orders.
+  </Card>
+  <Card title="Monetary" icon="coins">
+    **How much do they spend?**
+
+    Based on their total completed spend.
+  </Card>
+</CardGroup>
+
+Gameball calculates the scores in four steps:
+
+<CardGroup cols={2}>
+  <Card title="1. Measure the Buying Cycle" icon="calendar-days" href="#step-1-measure-the-buying-cycle">
+    Learn how often your returning customers usually come back.
+  </Card>
+  <Card title="2. Score Recency" icon="clock" href="#step-2-score-recency">
+    Count how many buying cycles have passed since the last purchase.
+  </Card>
+  <Card title="3. Score Orders and Spend" icon="ranking-star" href="#step-3-score-orders-and-spend">
+    Compare each buyer's orders and spend with your other buyers.
+  </Card>
+  <Card title="4. Assign the Segment" icon="layer-group" href="#step-4-assign-the-segment">
+    Combine the scores to place the customer in one of seven segments.
+  </Card>
+</CardGroup>
+
+---
+
+## Step 1: Measure the Buying Cycle
+
+"Recent" means different things in different businesses. A grocery customer who hasn't ordered in a month is drifting away, while a furniture customer who hasn't ordered in a month is perfectly normal. Before scoring anyone, Gameball measures how often your returning customers usually come back. This is your store's **buying cycle**.
+
+<Steps>
+  <Step title="Find your returning customers">
+    Gameball looks at every customer who bought on two or more different days in the last two years.
+  </Step>
+  <Step title="Work out each customer's average gap">
+    For each returning customer, Gameball calculates the average number of days between their purchases.
+  </Step>
+  <Step title="Take the middle value">
+    The gaps are sorted from shortest to longest, and the middle value becomes your store's buying cycle.
+  </Step>
+</Steps>
+
+<Accordion title="See an example: five returning customers" icon="calculator">
+  | Customer | First Purchase | Last Purchase | Buying Days | Average Gap |
+  |---|---|---|---|---|
+  | **Ali** | 1 Jun | 21 Jun | 3 | 10 days |
+  | **Omar** | 1 Mar | 1 Apr | 2 | 31 days |
+  | **Sara** | 1 Jan | 1 Jul | 4 | 60 days |
+  | **Mona** | 1 Feb | 1 May | 2 | 89 days |
+  | **Lina** | 1 Jan | 1 Dec | 3 | 167 days |
+
+  Sorted, the gaps are 10, 31, **60**, 89, and 167. The middle value is 60, so this store's buying cycle is **60 days**: a typical returning customer buys about every two months.
+</Accordion>
+
+<Info>
+  **Same-day orders count once**: Two orders on the same day count as one buying day. A customer who splits a basket into two orders hasn't really "come back", so counting days keeps your buying cycle accurate.
+</Info>
+
+### Buying Cycle Limits
+
+<CardGroup cols={3}>
+  <Card title="7 days minimum" icon="arrow-down">
+    A week is about the fastest a marketing team can act. Shorter windows would move large numbers of customers between segments every night.
+  </Card>
+  <Card title="180 days maximum" icon="arrow-up">
+    Beyond six months, "recent" stops meaning recent.
+  </Card>
+  <Card title="41 days for new stores" icon="seedling">
+    Used until your store has at least 100 returning customers and enough history to see the pattern repeat four times.
+  </Card>
+</CardGroup>
+
+<Note>
+  41 days is the typical buying cycle across all Gameball stores. Your buying cycle is re-measured every night, so it adjusts as your customers' habits change.
+</Note>
+
+### Typical Buying Cycles by Industry
+
+| Type of Store | Buying Cycle |
+|---|---|
+| **Payments app** | 7 days |
+| **Weekly grocery** | 7 days |
+| **Grocery delivery** | 24 days |
+| **Fashion and lifestyle** | 54–70 days |
+| **Pharmacy** | 72 days |
+| **Specialty retail** | 92–119 days |
+
+---
+
+## Step 2: Score Recency
+
+Recency is counted in buying cycles. Using the 60-day example store:
+
+| Score | Last Purchase | With a 60-Day Cycle | In Plain Words |
+|---|---|---|---|
+| **4** | Within 1 cycle | 0–60 days ago | Buying on their normal schedule |
+| **3** | Within 2 cycles | 61–120 days ago | Missed one visit |
+| **2** | Within 4 cycles | 121–240 days ago | Clearly slipping |
+| **1** | Longer | 241+ days ago | Gone quiet |
+
+<Note>
+  **Customers who haven't bought yet** are timed from the day they signed up. Within one buying cycle of signing up, they score **4** because they haven't had time to buy yet. After one cycle with no purchase, they score **1**.
+
+  The signup date is the one your store shares with Gameball. If your store doesn't share one, Gameball uses the day the customer was added to Gameball.
+</Note>
+
+---
+
+## Step 3: Score Orders and Spend
+
+For orders and spend, there is no "normal schedule" to compare against, so each buyer is compared with your store's other buyers. Imagine every buyer standing in a line from lowest to highest, then cutting the line into four equal parts. Orders and spend are each scored this way.
+
+<Accordion title="See an example: eight buyers lined up by total spend" icon="calculator">
+  | Score | Buyers (SAR spent) |
+  |---|---|
+  | **1** (bottom 25%) | Reem (40), Sami (55) |
+  | **2** | Omar (90), Huda (120) |
+  | **3** | Khaled (300), Ali (410) |
+  | **4** (top 25%) | Nadia (900), Layla (2,400) |
+
+  If a business account that spent 968,654 SAR is added, it joins Nadia and Layla in the top quarter. Reem and Sami still score 1, and nobody's score changes because of it.
+</Accordion>
+
+<Info>
+  **Ties share a score**: In most stores, many buyers have exactly one order, and they all get the same order score. This means the four order groups are rarely equal in size, and in some stores one score has nobody in it.
+</Info>
+
+### How Unusual Customers Are Handled
+
+<AccordionGroup>
+  <Accordion title="Very large accounts" icon="building">
+    Scores are based on position in the line, not the amount. A business account with thousands of orders simply lands at the top and scores 4, like the rest of the top quarter. It can't push anyone else's score down.
+  </Accordion>
+  <Accordion title="Negative totals" icon="minus">
+    Refunds for orders Gameball never received can leave a negative total. These are counted as 0, so a refund never ranks someone below a customer who hasn't bought.
+  </Accordion>
+  <Accordion title="Only cancelled or refunded orders" icon="ban">
+    Customers with no completed order are treated as never having bought: they score 1 for orders and spend, and their recency is timed from their signup date.
+  </Accordion>
+  <Accordion title="Impossible purchase dates" icon="calendar-xmark">
+    Dates such as 1 Jan 1900 are ignored. Any date before the year 2000 counts as no purchase date, so it can't make a customer look decades overdue.
+  </Accordion>
+</AccordionGroup>
+
+### Combining Orders and Spend Into a Value Level
+
+The order score and spend score are averaged (rounded down) into one **value level**:
+
+| Value Level | Who | Example Order + Spend Scores |
+|---|---|---|
+| **Top** | Top 25% for both orders and spend | 4 + 4 |
+| **Upper middle** | Strong on both, or top on one | 3 + 3, 4 + 2 |
+| **Lower middle** | Average, or strong on one and weak on the other | 2 + 2, 1 + 4 |
+| **Low** | Few orders and little spend | 1 + 1, 1 + 2 |
+
+---
+
+## Step 4: Assign the Segment
+
+Recency decides the row. For customers who are on schedule or have gone quiet, the value level decides the segment as well.
+
+| Recency | Low | Lower Middle | Upper Middle | Top |
+|---|---|---|---|---|
+| **4 – On schedule** | New Customers | Loyal | Loyal | Best Buyers |
+| **3 – Missed one visit** | Promising | Promising | Promising | Promising |
+| **2 – Slipping** | Can't Lose | Can't Lose | Can't Lose | Can't Lose |
+| **1 – Gone quiet** | Lost | Lost | About to Lose | About to Lose |
+
+<Tip>
+  A customer who has gone quiet but used to buy and spend well is worth winning back, so they go to **About to Lose** instead of **Lost**.
+</Tip>
+
+### What Each Segment Means
+
+<CardGroup cols={2}>
+  <Card title="Best Buyers" icon="trophy">
+    On schedule, and in the top quarter for both orders and spend.
+
+    **Suggested action:** Reward and recognize them with early access and VIP perks.
+  </Card>
+  <Card title="Loyal" icon="heart">
+    On schedule, with solid but not top value.
+
+    **Suggested action:** Nudge them up with bundles, tier goals, and referral offers.
+  </Card>
+  <Card title="New Customers" icon="seedling">
+    Bought within the last cycle with few orders and low spend, or signed up within the last cycle and haven't bought yet.
+
+    **Suggested action:** Send a welcome offer for the first purchase, then make the second one easy.
+  </Card>
+  <Card title="Promising" icon="lightbulb">
+    Missed one normal visit, at any value level.
+
+    **Suggested action:** Send a timely reminder before the habit breaks.
+  </Card>
+  <Card title="Can't Lose" icon="hourglass-half">
+    Two to four cycles without buying, at any value level.
+
+    **Suggested action:** Run a re-engagement campaign with a reason to return.
+  </Card>
+  <Card title="About to Lose" icon="triangle-exclamation">
+    Gone quiet, but used to order and spend well.
+
+    **Suggested action:** Make a strong win-back offer. These are the most valuable customers to recover.
+  </Card>
+  <Card title="Lost" icon="user-slash">
+    Gone quiet with low value, or signed up more than one cycle ago and never bought.
+
+    **Suggested action:** Use low-cost reactivation, or a first-purchase offer for those who never bought.
+  </Card>
+</CardGroup>
+
+---
+
+## Worked Example: Eight Customers in One Store
+
+This store has a **60-day buying cycle**. Expand each customer to see why they land in their segment today.
+
+<AccordionGroup>
+  <Accordion title="Layla → Best Buyers" icon="trophy">
+    **Bought 10 days ago · 14 orders · 2,400 SAR**
+
+    On schedule (10 ≤ 60 days), and in the top quarter for both orders and spend.
+  </Accordion>
+  <Accordion title="Ali → Loyal" icon="heart">
+    **Bought 25 days ago · 3 orders · 410 SAR**
+
+    On schedule, with upper-middle value.
+  </Accordion>
+  <Accordion title="Omar → New Customers" icon="seedling">
+    **Bought 5 days ago · 1 order · 90 SAR**
+
+    On schedule, but one small order so far gives him a low value level.
+  </Accordion>
+  <Accordion title="Yara → New Customers" icon="seedling">
+    **Signed up 12 days ago · no order yet**
+
+    She has had less than one cycle (12 ≤ 60 days) to make a first purchase, so she counts as new, not lost.
+  </Accordion>
+  <Accordion title="Huda → Promising" icon="lightbulb">
+    **Bought 95 days ago · 2 orders · 120 SAR**
+
+    95 days is past one cycle but within two, so she missed one normal visit.
+  </Accordion>
+  <Accordion title="Khaled → Can't Lose" icon="hourglass-half">
+    **Bought 200 days ago · 6 orders · 300 SAR**
+
+    Between two and four cycles without buying. His value level doesn't change this segment.
+  </Accordion>
+  <Accordion title="Nadia → About to Lose" icon="triangle-exclamation">
+    **Bought 400 days ago · 9 orders · 900 SAR**
+
+    Gone quiet (past 240 days), but she used to buy often and spend well.
+  </Accordion>
+  <Accordion title="Sami → Lost" icon="user-slash">
+    **Bought 400 days ago · 1 order · 55 SAR**
+
+    Gone quiet, with low value.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+  **Segments change as time passes**: If Huda buys again tomorrow, she moves back to an on-schedule segment the next night. If Layla stops buying, she moves to **Promising** after 60 days, even though she hasn't done anything. If Yara still hasn't bought after 60 days, she moves to **Lost**.
+</Info>
+
+---
+
+## Reading the Segment Summary on Your Dashboard
+
+Each segment on the **RFM Segments** page shows a summary like this example from a store with a 72-day buying cycle:
+
+<Card title="Best Buyers" icon="trophy">
+  Bought recently and are in your top 25% for both number of orders and total spend. Last purchased 0 to 72 days ago, with an average of 7.4 orders and 1,758 SAR spent.
+</Card>
+
+- **Days**: The most and least recent purchase in the segment. For on-schedule segments, this is at most one buying cycle.
+- **Orders and spend**: The segment's average. An average describes the typical member, while a lowest-to-highest range would mostly reflect one or two unusual accounts.
+
+<Note>
+  The summary numbers only count customers who have bought. **New Customers** and **Lost** also include customers who haven't bought yet, but they are left out of these numbers so they don't pull the averages down.
+</Note>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Why did a customer move segments when they didn't do anything?">
+    Because time passed. Recency is counted from today, so a customer who stops buying moves from on schedule to **Promising**, then **Can't Lose**, then **About to Lose** or **Lost**. Segments update every night.
+  </Accordion>
+  <Accordion title="Can a customer with lots of orders be in Promising or Can't Lose?">
+    Yes. These two segments depend only on how long it has been since the last purchase. A big spender who hasn't bought in two cycles is in **Can't Lose**, which is exactly the type of customer you want to win back.
+  </Accordion>
+  <Accordion title="Where do customers who never bought go?">
+    For one buying cycle after signing up, they are in **New Customers** because they haven't had time to buy yet. If they still haven't bought after one cycle, they move to **Lost**.
+  </Accordion>
+  <Accordion title="Do cancelled or refunded orders count?">
+    No. Only completed orders count toward orders and spend. A customer whose only order was cancelled counts as never having bought.
+  </Accordion>
+  <Accordion title="Why are Lost and About to Lose bigger than I expected?">
+    Most stores have many customers who bought once a long time ago, plus sign-ups who never bought. Measuring against your store's real buying rhythm shows how many customers have actually gone quiet. **About to Lose** is usually your best win-back opportunity.
+  </Accordion>
+  <Accordion title="Are test accounts included?">
+    No. Only active customers on your live account are scored. Test, deactivated, and deleted customers have no RFM segment.
+  </Accordion>
+  <Accordion title="How fast does a new purchase show up?">
+    Segments are recalculated every night, so a new purchase moves the customer at the next nightly update.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Introduction to RFM Segments" icon="chart-pie" href="/product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments">
+    Understand the concept of RFM analysis and where to find your segments.
+  </Card>
+  <Card title="Using RFM Segments to Serve Your Goals" icon="bullseye" href="/product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals">
+    Learn how to act on each segment with campaigns and retention strategies.
+  </Card>
+</CardGroup>

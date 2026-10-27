@@ -153,6 +153,7 @@
                     "group": "RFM Segments",
                     "pages": [
                       "product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments",
+                      "product-documentation/customer-segmentation/rfm-segments/how-rfm-segments-are-calculated",
                       "product-documentation/customer-segmentation/rfm-segments/using-rfm-segments-to-serve-your-goals"
                     ]
                   }
