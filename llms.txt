@@ -66,6 +66,7 @@
 - [Introduction to Segmentation](https://docs.gameball.co/product-documentation/customer-segmentation/introduction-to-segmentation): What customer segments are and how to use them
 - [How to Segment Customers](https://docs.gameball.co/product-documentation/customer-segmentation/how-to-segment-customers): Building segment conditions in the dashboard
 - [RFM Segments](https://docs.gameball.co/product-documentation/customer-segmentation/rfm-segments/introduction-to-rfm-segments): Recency, Frequency, Monetary segmentation explained
+- [How RFM Segments Are Calculated](https://docs.gameball.co/product-documentation/customer-segmentation/rfm-segments/how-rfm-segments-are-calculated): Buying cycle, recency/frequency/monetary scoring, and how customers are assigned to each RFM segment
 
 ## Analytics
 
