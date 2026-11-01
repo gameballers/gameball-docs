@@ -5,7 +5,7 @@ openapi: 'POST /api/v4.0/integrations/coupons/{code}/validate'
 languages: ["curl", "javascript", "python", "csharp"]
 ---
 
-This API validates a single coupon identified by `{code}` and checks its eligibility for use by a customer. You can also describe the cart, so the coupon is checked against what the customer is actually buying, and set `lock` to `true` to reserve the coupon so it cannot be spent elsewhere while the order is being completed.
+This API validates a single coupon identified by `{code}` and checks its eligibility for use by a customer. You can also describe the cart, so the coupon's rules are checked against what the customer is actually buying, and set `lock` to `true` to reserve the coupon so it cannot be spent elsewhere while the order is being completed.
 
 Available on **v4.0** and **v4.1**. Requires the **Gameball Coupon Engine** feature on your plan — accounts without it are rejected before any validation runs.
 
@@ -35,25 +35,61 @@ For more information, head to the [Omni-Channel Handling Guide](/tutorials/exper
 
 ## Describing the cart
 
-A coupon's restrictions are only enforced when the request describes a cart, and whether it does is decided from **that coupon's own restrictions** — see [Eligibility checks](#eligibility-checks). The fields that describe a cart fall into two groups, and the group decides how the restriction behaves.
+A coupon's rules are only enforced when the request describes a cart, and whether it does is decided from **that coupon's own rules** — see [Eligibility checks](#eligibility-checks). The fields that describe a cart fall into two groups, and the group decides how a rule on that field behaves.
 
 | Group | Fields | Behaviour |
 | :--- | :--- | :--- |
-| **Cart-level** | `merchantId`, `branchId`, `totalPurchaseAmount` | An order is placed with one merchant at one branch, so these gate the whole basket. They have no per-item form. |
-| **Item-level — flat** | `collectionId`, `collectionsIds`, `categories`, `productsIds` | What the basket contains, without saying which item contains what. |
-| **Item-level — lines** | `lineItems[]` | The same cart described item by item. |
+| **Cart-level** | `merchantId`, `branchId`, `channel`, `extra`, `totalPurchaseAmount` | Describe the order as a whole — one merchant, one branch, one sales channel. They have no per-item form. |
+| **Item-level — flat** | `collectionId`, `collectionsIds` | The collections the basket touches, without saying which item is in which. |
+| **Item-level — lines** | `lineItems[]` | The cart described item by item, including the item fields that have no flat form, such as `categories`, `productId`, `price`, `quantity` and `tags`. |
 
 <Warning>
-Send `lineItems` **or** the flat lists, not both. When `lineItems` is present, the top-level `collectionId`, `collectionsIds`, `categories` and `productsIds` are ignored for matching — put every category, collection and product on the lines instead. The cart-level fields are always read from the top of the body.
+Send `lineItems` **or** the flat collection fields, not both. When `lineItems` is present, the top-level `collectionId` and `collectionsIds` are ignored for matching — put every collection on the lines instead. Categories and products are only ever sent on the lines. The cart-level fields are always read from the top of the body.
 </Warning>
 
-<Note>
-`variantId` on a line item is stored and echoed back on the coupon, but is **never evaluated** — there is no variant restriction.
-</Note>
+### Line item fields
+
+| Field | Type | Read by the rule |
+| :--- | :--- | :--- |
+| `productId` | string | `ProductId`, and the cart-level `TotalUniqueItems` |
+| `variantId` | string | None — stored and echoed back, but **never evaluated** |
+| `categories` | string[] | `Category` |
+| `collectionsIds` | string[] | `Collection` |
+| `title` | string | `Title` |
+| `price` | number | `Price` |
+| `quantity` | number | `Quantity`, and the cart-level `TotalItems` |
+| `discount` | number | `Discount` |
+| `vendor` | string | `Vendor` |
+| `sku` | string | `Sku` |
+| `tags` | string[] | `Tags` |
+| `weight` | number | `Weight` |
+| `extra` | object | `ItemExtra.<key>` |
+
+Only `collectionsIds` has a flat form. A rule on any other item field — including `Category` and `ProductId` — can only be satisfied through `lineItems`.
+
+### Extra data
+
+`extra` at the top of the body and `extra` on each line carry free-form data for rules on fields Gameball has no named field for — a payment method, a delivery city, a gift-wrap flag. The rule names the key to read after its prefix:
+
+| Rule | Reads |
+| :--- | :--- |
+| `Extra.paymentMethod` | `extra.paymentMethod` |
+| `Extra.shipping.city` | `extra.shipping.city` — nested keys are separated by dots |
+| `ItemExtra.giftWrap` | `lineItems[].extra.giftWrap` |
+
+Send each key exactly as it is spelled in the rule. A key that is missing, `null`, a blank string or an empty list counts as not sent.
 
 ### Size limits
 
-`lineItems` accepts at most **500** entries, and any single ID list at most **200** values. A request over either limit is rejected with `400`.
+| Field | Limit |
+| :--- | :--- |
+| `lineItems` | 500 entries |
+| `collectionsIds`, and `categories`, `collectionsIds` and `tags` on each line | 200 values per list |
+| `channel` | 100 characters |
+| `lineItems[].productId`, `lineItems[].variantId` | 100 characters |
+| `lineItems[].vendor`, `lineItems[].sku` | 255 characters |
+
+A request over any limit is rejected with `400`.
 
 ## Example request
 
@@ -69,19 +105,35 @@ curl --request POST \
     "lockDuration": 30,
     "merchantId": "cairo-downtown",
     "branchId": "branch-14",
+    "channel": "online",
     "totalPurchaseAmount": 1450.0,
+    "extra": {
+      "paymentMethod": "card"
+    },
     "lineItems": [
       {
         "productId": "p-sony-bravia",
         "variantId": "v-55in",
+        "title": "Sony Bravia 55-inch TV",
+        "price": 1200.0,
+        "quantity": 1,
+        "vendor": "Sony",
+        "sku": "KD-55X80L",
         "categories": ["TV"],
-        "collectionsIds": ["electronics"]
+        "collectionsIds": ["electronics"],
+        "tags": ["4k"]
       },
       {
         "productId": "p-sony-wh1000",
         "variantId": "v-black",
+        "title": "Sony WH-1000XM5 Headphones",
+        "price": 250.0,
+        "quantity": 1,
+        "vendor": "Sony",
+        "sku": "WH1000XM5-B",
         "categories": ["Audio"],
-        "collectionsIds": ["electronics", "headphones"]
+        "collectionsIds": ["electronics", "headphones"],
+        "tags": ["wireless", "noise-cancelling"]
       }
     ]
   }'
@@ -103,13 +155,21 @@ curl --request POST \
     "capping": 500.0,
     "minReward": null,
     "minOrderValue": 200.0,
-    "entitledProductIds": ["p-sony-wh1000", "p-sony-wf1000"],
+    "entitledProductIds": null,
     "entitledVariantIds": null,
     "entitledCollectionIds": null,
     "entitledMerchantIds": ["cairo-downtown"],
     "entitledBranchIds": null,
     "entitledCategoryIds": ["Audio"],
-    "couponRulesLogicalOperator": 1,
+    "couponRulesLogicalOperator": "AND",
+    "rules": [
+      { "name": "Merchant", "operator": "Equals", "matchValue": "cairo-downtown" },
+      { "name": "Channel", "operator": "Equals", "matchValue": "online,app" },
+      { "name": "Extra.paymentMethod", "operator": "NotEquals", "matchValue": "cash" },
+      { "name": "Category", "operator": "Equals", "matchValue": "Audio" },
+      { "name": "Vendor", "operator": "Equals", "matchValue": "Sony" },
+      { "name": "Price", "operator": "GreaterThanOrEqual", "matchValue": "100" }
+    ],
     "combinesWith": {
       "orderDiscounts": false,
       "productDiscounts": true,
@@ -120,6 +180,8 @@ curl --request POST \
   "dateToExpire": "2026-09-16T14:15:00Z"
 }
 ```
+
+The coupon's operator is `AND`, so the order must be with `cairo-downtown`, on the `online` or `app` channel, and not paid in cash — and one single line must be an Audio item from Sony priced at 100 or more. The headphones line satisfies all three item rules; the television does not need to.
 
 ## How validation works
 
@@ -137,12 +199,12 @@ A validate call answers three questions in order. The first failure ends the cal
   </Step>
 </Steps>
 
-The third question runs these checks in this exact order. The order matters: a coupon that is both expired *and* wrong for the cart reports the cart problem, because restrictions are checked first.
+The third question runs these checks in this exact order. The order matters: a coupon that is both expired *and* wrong for the cart reports the cart problem, because rules are checked first.
 
 | Order | Check | Error |
 | :--- | :--- | :--- |
 | 1 | The coupon code exists for your account | `404`, code `4004` |
-| 2 | The coupon's restrictions match the cart | See [Restriction errors](#restriction-errors) |
+| 2 | The coupon's rules match the cart | See [Rule errors](#rule-errors) |
 | 3 | `totalPurchaseAmount` is present and at or above the coupon's `minOrderValue` | `9017` |
 | 4 | The coupon is active | `9014` |
 | 5 | The coupon's start date has passed | `9011` |
@@ -151,73 +213,140 @@ The third question runs these checks in this exact order. The order matters: a c
 | 8 | The customer has not hit the coupon's per-customer limit | `9012` |
 | 9 | The coupon has not hit its total usage limit | `9012` |
 
-## How restrictions are matched
+## Coupon rules
 
-A coupon can carry restrictions in five dimensions, plus a minimum order value. The group a restriction belongs to decides how it behaves.
+Every restriction a coupon carries is a **rule**: the field it reads, an operator, and the values to compare with. Rules are configured on the coupon in the Gameball dashboard, and the validate response returns them on `rules`.
 
-| Group | Restrictions | Behaviour |
+| Property | Meaning |
+| :--- | :--- |
+| `name` | The field the rule reads — see [Rule fields](#rule-fields). |
+| `operator` | How the cart's value is compared — see [Operators](#operators). |
+| `matchValue` | The values to compare with, comma-separated. Empty for the operators that only check whether a value is there. |
+
+`rules` is `null` on a coupon configured without rules. Such a coupon is matched against its `entitled*` lists exactly as before, each list acting as an `Equals` rule.
+
+<Note>
+On a coupon configured with rules, the `entitled*` lists hold only the values of its **`Equals`** rules on merchant, branch, collection, category and product. A rule with any other operator, and every rule on the other fields, appears in `rules` only. Read `rules` for the full picture.
+</Note>
+
+### Rule fields
+
+| `name` | Level | Read from |
 | :--- | :--- | :--- |
-| **Cart-level** | merchant, branch | An order is placed with one merchant at one branch, so these gate the whole basket. They must **always** match. |
-| **Item-level** | collection, category, product | These vary from one product to the next, so they are the ones `couponRulesLogicalOperator` arbitrates over. |
-| **Amount** | `minOrderValue` | Gates the whole basket like a cart-level restriction, but is set on the coupon's configuration rather than as a rule, so `couponRulesLogicalOperator` never applies to it. |
+| `Merchant` | Cart | `merchantId` |
+| `Branch` | Cart | `branchId` |
+| `Channel` | Cart | `channel` |
+| `TotalItems` | Cart | The sum of `lineItems[].quantity` — a line without a quantity counts as 1 |
+| `TotalUniqueItems` | Cart | The number of distinct `lineItems[].productId` values |
+| `Extra.<key>` | Cart | `extra.<key>` |
+| `Collection` | Item | `lineItems[].collectionsIds`, or `collectionId` and `collectionsIds` |
+| `Category` | Item | `lineItems[].categories` |
+| `ProductId` | Item | `lineItems[].productId` |
+| `Title` | Item | `lineItems[].title` |
+| `Price` | Item | `lineItems[].price` |
+| `Quantity` | Item | `lineItems[].quantity` |
+| `Discount` | Item | `lineItems[].discount` |
+| `Vendor` | Item | `lineItems[].vendor` |
+| `Sku` | Item | `lineItems[].sku` |
+| `Tags` | Item | `lineItems[].tags` |
+| `Weight` | Item | `lineItems[].weight` |
+| `ItemExtra.<key>` | Item | `lineItems[].extra.<key>` |
 
-`couponRulesLogicalOperator` is returned on the coupon object and tells you how its **item-level** restrictions combine:
+A cart-level rule is checked once, against the order. An item-level rule is checked against each line. `TotalItems` and `TotalUniqueItems` are worked out from `lineItems`, so a coupon with either rule needs the cart sent line by line.
+
+### Operators
+
+| `operator` | Satisfied when the cart's value | `matchValue` |
+| :--- | :--- | :--- |
+| `Equals` | equals any of the values | One or more values |
+| `NotEquals` | equals none of the values | One or more values |
+| `Contains` | contains any of the values as text | One or more values |
+| `NotContains` | contains none of the values as text | One or more values |
+| `StartsWith` | starts with any of the values | One or more values |
+| `EndsWith` | ends with any of the values | One or more values |
+| `GreaterThan` | is greater than the number | Exactly one number |
+| `GreaterThanOrEqual` | is greater than or equal to the number | Exactly one number |
+| `LessThan` | is less than the number | Exactly one number |
+| `LessThanOrEqual` | is less than or equal to the number | Exactly one number |
+| `Between` | is between the two numbers, both included | Two numbers, `min,max` |
+| `Exists` | was sent | Empty |
+| `NotExists` | was not sent | Empty |
+| `IsEmpty` | was not sent, or is blank or an empty list | Empty |
+| `NotEmpty` | was sent and is not blank or an empty list | Empty |
+
+- Text is compared **case-insensitively**, and surrounding whitespace is trimmed. Coupon codes are compared the same way.
+- On a field that holds a list — `categories`, `collectionsIds`, `tags` — `Equals` is satisfied when any entry matches any value, and `NotEquals` when no entry matches any of them.
+- `Equals` with a single number compares numerically, so `100` matches `100.0`.
+- The numeric operators need a number on both sides. A value that is not a number never satisfies them.
+- A value the request did not send satisfies only `NotExists` and `IsEmpty`.
+- `collectionId` and `collectionsIds` are evaluated **together** as one list.
+- `lineItems[].categories` are free-text names, not IDs — whatever was typed when the coupon was configured, compared as plain strings.
+
+### How rules combine
+
+`couponRulesLogicalOperator` is returned on the coupon object and tells you how **all** of its rules combine, cart-level and item-level alike.
 
 | Value | Mode | Meaning |
 | :--- | :--- | :--- |
-| `null` | Flat | Every item-level restriction must be satisfied by something in the cart — not necessarily the same item. If the cart carries no data at all for one of them, the call is rejected. |
-| `1` | AND | One **single item** must satisfy every item-level restriction. Use this for coupons like "25% off Sony audio", which must not be satisfied by a Sony television plus another brand's headphones. |
-| `2` | OR | One satisfied restriction is enough. A restriction the cart carries no data for is skipped, never rejected. |
+| `"AND"` | AND | Every rule must be satisfied. Cart-level rules gate the order, and one **single line** must satisfy every item-level rule. Use this for coupons like "25% off Sony audio", which must not be satisfied by a Sony television plus another brand's headphones. |
+| `"OR"` | OR | One satisfied rule is enough — cart-level or item-level. A rule the cart carries no data for is simply not satisfied; it is never rejected as missing. |
+| `null` | Flat | Every rule must be satisfied, but not necessarily by the same line. Cart-level rules gate the order, and each item-level rule must be satisfied by some line. If the cart carries no data at all for a rule, the call is rejected. |
+
+<Warning>
+Under `OR`, merchant and branch are rules like any other, so they no longer gate the order on their own. An `OR` coupon with the rules *Merchant equals `cairo-downtown`* and *Category equals `Audio`* accepts an Audio item bought from any merchant. Use `AND` when the merchant must always match.
+</Warning>
 
 <Note>
-Merchant and branch are checked in **every** mode, including OR. An OR coupon restricted to one merchant still rejects a different merchant, no matter what else in the cart matches.
+`minOrderValue` is not a rule. It is set on the coupon's configuration and is enforced in every mode, including `OR` — see [The minimum order value](#the-minimum-order-value).
 </Note>
+
+### Item-level rules are satisfied line by line
+
+An item-level rule is satisfied when **at least one line** satisfies it. For a negative operator, that means *at least one item lacks the value*, not *no item has it*: a rule *Category NotEquals `Sale`* is satisfied by a cart holding one sale item and one full-price item.
+
+The flat collection fields describe the whole basket as one line. Sent as `"collectionsIds": ["sale", "shoes"]`, a cart fails a rule *Collection NotEquals `sale`* with `9021`, because the one line it describes holds `sale`.
 
 ### When lineItems is required
 
-If a coupon has **two or more** item-level restrictions and `couponRulesLogicalOperator` is `1` (AND), the flat lists cannot answer the question — they show that the basket holds a Sony item *and* an audio item, without showing whether one item is both. The call is rejected with code `9032`, and you resend the same cart as `lineItems`.
+Send the cart as `lineItems` when either of these is true:
 
-In every other case `lineItems` is optional.
+- **The coupon has a `Category` or `ProductId` rule.** Categories and products have no top-level field. Without `lineItems` the rule has no value to read, so it is reported as missing with `9026` or `9030` — or, under `OR`, simply not satisfied.
+- **The coupon is `AND` and has two or more item-level rules.** One single line must satisfy all of them, which the flat collection fields cannot show. The call is rejected with `9032`; resend the same cart as `lineItems`.
+- **The coupon has a rule on a field with no flat form** — `Title`, `Price`, `Quantity`, `Discount`, `Vendor`, `Sku`, `Tags`, `Weight`, `ItemExtra.<key>`, `TotalItems` or `TotalUniqueItems`. Without `lineItems` the rule has no value to read, so it is reported as missing with `9034` — or, under `OR`, simply not satisfied.
 
-### Matching rules
-
-- Coupon codes and restriction values are compared **case-insensitively**, and surrounding whitespace is trimmed.
-- Values within a single restriction are alternatives — matching any one of them is enough.
-- `collectionId` and `collectionsIds` are evaluated **together** as one list.
-- `categories` are free-text names, not IDs — whatever was typed when the coupon was configured, compared as plain strings.
-- `variantId` on a line item is stored and echoed back but **never evaluated**.
+If you are unsure, send `lineItems` — it answers every case the flat lists do.
 
 ## Eligibility checks
 
-Whether a call is a cart question or an eligibility question is decided **from the coupon's own restrictions**, not from which fields you happened to send.
+Whether a call is a cart question or an eligibility question is decided **from the coupon's own rules**, not from which fields you happened to send.
 
-The request describes a cart when it carries data for a dimension **this coupon restricts on**. When it does, every restriction the coupon holds is enforced — including ones the request said nothing about. When it does not, the call is an eligibility question — *"does this customer hold this coupon, and is it live?"* — and the restrictions are reported back on the coupon instead, so you can discover what to send next. Every other check (active, dates, audience, limits) runs either way.
+The request describes a cart when it carries data for a field **one of this coupon's rules reads**. When it does, every rule the coupon holds is enforced — including ones the request said nothing about. When it does not, the call is an eligibility question — *"does this customer hold this coupon, and is it live?"* — and the rules are reported back on the coupon instead, so you can discover what to send next. Every other check (active, dates, audience, limits) runs either way.
 
-A field the coupon does not restrict on is ignored as though it were never sent. Sending `collectionsIds` to a coupon with no collection restriction neither satisfies anything nor triggers anything.
+A field no rule reads is ignored as though it were never sent. Sending `collectionsIds` to a coupon with no collection rule neither satisfies anything nor triggers anything.
 
-| Coupon restricts on | Request carries | Outcome |
+| Coupon has rules on | Request carries | Outcome |
 | :--- | :--- | :--- |
 | Collection | `customerId` only | Eligibility — `valid: true` |
-| Collection, no `minOrderValue` | `customerId`, `totalPurchaseAmount` | Eligibility — the amount matches no restriction, so it is ignored |
-| Collection | `collectionsIds` | Cart — the collection restriction is enforced |
-| Branch | `collectionsIds` | Eligibility — a collection matches no restriction on this coupon |
-| Merchant, collection, product | `merchantId`, `collectionsIds` | Cart — all three are enforced, so the absent product is rejected with `9030` |
-| Collection, plus `minOrderValue` | `totalPurchaseAmount` | Cart — the amount speaks to the minimum, so the collection restriction is enforced too |
+| Collection, no `minOrderValue` | `customerId`, `totalPurchaseAmount` | Eligibility — the amount matches no rule, so it is ignored |
+| Collection | `collectionsIds` | Cart — the collection rule is enforced |
+| Branch | `collectionsIds` | Eligibility — no rule on this coupon reads a collection |
+| Channel, price (`AND` or flat) | `channel` | Cart — both are enforced, so the missing `price` is rejected with `9034` |
+| Merchant, collection, product (`AND` or flat) | `merchantId`, `collectionsIds` | Cart — all three are enforced, so the absent product is rejected with `9030` |
+| Collection, plus `minOrderValue` | `totalPurchaseAmount` | Cart — the amount speaks to the minimum, so the collection rule is enforced too |
 
 <Note>
-**A restriction you send that the coupon does not carry is ignored.**
+**A field you send that no rule reads is ignored.**
 
-Request data is matched to restrictions **by type**. `collectionsIds` is only ever checked against a collection restriction, `merchantId` against a merchant restriction, `totalPurchaseAmount` against `minOrderValue`, and so on. When the coupon holds no restriction of that type, the field is dropped before matching — it cannot satisfy a different restriction, and it cannot cause a rejection.
+Request data is matched to rules **by field**. `collectionsIds` is only ever checked against a `Collection` rule, `merchantId` against a `Merchant` rule, `channel` against a `Channel` rule, `totalPurchaseAmount` against `minOrderValue`, and so on. When the coupon holds no rule on that field, the field is dropped before matching — it cannot satisfy a different rule, and it cannot cause a rejection.
 
-The coupon below restricts on collection only. Every other field in the request corresponds to nothing on it, so all of them are discarded, the call stays an eligibility check, and it returns `valid: true`.
+The coupon below has a single rule, on collection. Every other field in the request corresponds to nothing on it, so all of them are discarded, the call stays an eligibility check, and it returns `valid: true`.
 
 ```json Request
 {
   "customerId": "sara-1180",
   "merchantId": "cairo-downtown",
   "branchId": "branch-14",
-  "categories": ["Outerwear"],
-  "productsIds": ["p-parka-navy"],
+  "channel": "online",
   "totalPurchaseAmount": 1450.0
 }
 ```
@@ -233,7 +362,10 @@ The coupon below restricts on collection only. Every other field in the request 
     "entitledCategoryIds": null,
     "entitledProductIds": null,
     "minOrderValue": null,
-    "couponRulesLogicalOperator": null,
+    "couponRulesLogicalOperator": "AND",
+    "rules": [
+      { "name": "Collection", "operator": "Equals", "matchValue": "winter-24" }
+    ],
     "...": "..."
   },
   "lockReference": null,
@@ -241,11 +373,11 @@ The coupon below restricts on collection only. Every other field in the request 
 }
 ```
 
-No collection was sent, and nothing else in the body speaks to a restriction this coupon carries — so there is nothing to enforce, and nothing to reject. Send `collectionsIds` and the same call becomes a cart question.
+No collection was sent, and nothing else in the body speaks to a rule this coupon carries — so there is nothing to enforce, and nothing to reject. Send `collectionsIds` and the same call becomes a cart question.
 </Note>
 
 <Warning>
-`valid: true` on an eligibility call means *"this customer may use this coupon"*, **not** *"this coupon applies to this order"*. Read `entitledCollectionIds`, `entitledCategoryIds`, `entitledBranchIds`, `entitledMerchantIds`, `entitledProductIds`, `minOrderValue` and `couponRulesLogicalOperator` off the response to see what the cart will have to satisfy, then validate again with those fields populated before you complete the order. That second call can reject a coupon that just came back valid.
+`valid: true` on an eligibility call means *"this customer may use this coupon"*, **not** *"this coupon applies to this order"*. Read `rules`, `couponRulesLogicalOperator` and `minOrderValue` off the response to see what the cart will have to satisfy — or, on a coupon without rules, `entitledCollectionIds`, `entitledCategoryIds`, `entitledBranchIds`, `entitledMerchantIds` and `entitledProductIds`. Then validate again with those fields populated before you complete the order. That second call can reject a coupon that just came back valid.
 </Warning>
 
 ### The minimum order value
@@ -285,7 +417,7 @@ A lock is only ever created **after** the coupon has passed validation, so a ret
 
 ### Locking without a cart
 
-You can lock on an eligibility check. Send only `customerId` with `lock: true` and no cart fields: a coupon that carries restrictions still validates — its restrictions are reported back rather than enforced — and it is still locked against that customer. The lock is built from the coupon code and the customer alone; the cart plays no part in it.
+You can lock on an eligibility check. Send only `customerId` with `lock: true` and no cart fields: a coupon that carries rules still validates — its rules are reported back rather than enforced — and it is still locked against that customer. The lock is built from the coupon code and the customer alone; the cart plays no part in it.
 
 ```json
 {
@@ -295,10 +427,10 @@ You can lock on an eligibility check. Send only `customerId` with `lock: true` a
 }
 ```
 
-This is the intended way to reserve a coupon before the basket is known. Read `entitledCollectionIds`, `entitledCategoryIds`, `entitledBranchIds`, `entitledMerchantIds`, `entitledProductIds` and `couponRulesLogicalOperator` off the response to see what the cart will have to satisfy.
+This is the intended way to reserve a coupon before the basket is known. Read `rules` and `couponRulesLogicalOperator` off the response to see what the cart will have to satisfy.
 
 <Warning>
-A cart-less lock does **not** prove the coupon fits the eventual cart. Restrictions were never evaluated, and nothing re-evaluates them later — not when the lock is reused, and not when the order is placed. Validate again with the full cart, reusing the same `lockReference`, before you complete the order: that re-runs the restriction checks against the real basket and keeps the same lock.
+A cart-less lock does **not** prove the coupon fits the eventual cart. Rules were never evaluated, and nothing re-evaluates them later — not when the lock is reused, and not when the order is placed. Validate again with the full cart, reusing the same `lockReference`, before you complete the order: that re-runs the rule checks against the real basket and keeps the same lock.
 </Warning>
 
 ## Errors
@@ -319,7 +451,7 @@ Errors use the standard Gameball [error envelope](/api-reference/overview/status
 
 | Status | When |
 | :--- | :--- |
-| `400 Bad Request` | Invalid request payload, a missing required field, or a cart over the size limits — more than 500 `lineItems`, or more than 200 values in any single ID list. |
+| `400 Bad Request` | Invalid request payload, a missing required field, or a cart over the [size limits](#size-limits). |
 | `401 Unauthorized` | Missing or invalid API key or secret key. |
 | `404 Not Found` | The customer does not exist, the coupon code does not exist, or the `lockReference` does not exist. |
 | `422 Unprocessable Entity` | The coupon exists but cannot be applied. |
@@ -347,27 +479,38 @@ All `422`.
 | `9014` | The coupon is inactive. |
 | `9017` | `totalPurchaseAmount` is below the coupon's `minOrderValue`, or the request described a cart and omitted it while the coupon has one. |
 
-### Restriction errors
+### Rule errors
 
-All `422`. A *required* code means the coupon restricts that dimension and your request described nothing for it. A *not eligible* code means you described it and the value was not on the coupon's list.
+All `422`. A *required* code means the coupon has a rule on that field and your request sent nothing for it. A *not eligible* code means you sent it and the value did not satisfy the rule.
 
-| Code | Restriction | Raised in |
+| Code | Rule | Raised in |
 | :--- | :--- | :--- |
-| `9018` | Merchant — none provided | Every mode |
-| `9019` | Merchant — not eligible | Every mode |
-| `9024` | Branch — none provided | Every mode |
-| `9025` | Branch — not eligible | Every mode |
+| `9018` | Merchant — none provided | Flat and AND |
+| `9019` | Merchant — not eligible | Flat, AND, and single-rule OR |
+| `9024` | Branch — none provided | Flat and AND |
+| `9025` | Branch — not eligible | Flat, AND, and single-rule OR |
 | `9020` | Collection — none provided | Flat and AND |
-| `9021` | Collection — not eligible | Flat, AND, and single-restriction OR |
+| `9021` | Collection — not eligible | Flat, AND, and single-rule OR |
 | `9026` | Category — none provided | Flat and AND |
-| `9027` | Category — not eligible | Flat, AND, and single-restriction OR |
+| `9027` | Category — not eligible | Flat, AND, and single-rule OR |
 | `9030` | Product — none provided | Flat and AND |
-| `9031` | Product — not eligible | Flat, AND, and single-restriction OR |
-| `9022` | Several restrictions were checked and none was satisfied | Multi-restriction OR only |
+| `9031` | Product — not eligible | Flat, AND, and single-rule OR |
+| `9034` | Any other field — none provided | Flat and AND |
+| `9035` | Any other field — not eligible | Flat, AND, and single-rule OR |
+| `9022` | Several rules were checked and none was satisfied | Multi-rule OR only |
 | `9032` | The coupon must be evaluated against individual cart items — resend with `lineItems` | AND only |
-| `9033` | `lineItems` was sent, every restriction is met somewhere, but no single item meets them all | AND only |
+| `9033` | `lineItems` was sent, every rule is met somewhere, but no single item meets them all | AND only |
 
-An OR coupon never returns a *required* code for a collection, category or product — a restriction with no cart data is skipped. It can still return `9018` or `9024`, because merchant and branch are checked in every mode.
+An `OR` coupon never returns a *required* code — not even `9018` or `9024`. A rule the cart carries no data for is simply not satisfied. The presence operators (`Exists`, `NotExists`, `IsEmpty`, `NotEmpty`) never return one either, since a missing value is exactly what they test.
+
+`9034` and `9035` cover every field without a code of its own, and the `message` names the field as you send it:
+
+| Code | Example `message` |
+| :--- | :--- |
+| `9034` | `this coupon requires channel to be applied. it was not provided.` |
+| `9035` | `this coupon is not eligible for the provided price (49.99, 1200).` |
+
+The field reads `channel`, `extra.<key>`, `title`, `price`, `quantity`, `discount`, `vendor`, `sku`, `tags` or `weight`; `itemExtra.<key>` for a line's `extra`; and `lineItems` for the `TotalItems` and `TotalUniqueItems` rules. Because the message is lower-cased, a key such as `extra.paymentMethod` reads `extra.paymentmethod`.
 
 ### Lock errors
 
@@ -384,11 +527,50 @@ A `lockDuration` outside the permitted range is currently reported as the generi
 
 ## What changed
 
-This endpoint previously matched a coupon against two things only: the **merchant** and the **collection**. It now matches against four, and the request can describe the cart line by line.
+### Rules with per-rule operators
+
+Coupons now carry **rules**: each restriction reads one field, with its own operator. Rules can read new cart and line-item fields, and the coupon's operator now combines all of its rules — merchant and branch included.
 
 | Area | Change |
 | :--- | :--- |
-| Request | New `branchId`, `categories`, `productsIds` and `lineItems[]` |
+| Request | New cart-level `channel` and `extra` |
+| Request | New on each `lineItems[]` entry: `title`, `price`, `quantity`, `discount`, `vendor`, `sku`, `tags`, `weight` and `extra` |
+| Response | New `rules` on the coupon |
+| Response | `couponRulesLogicalOperator` is now a string — `"AND"` or `"OR"` — instead of `1` or `2` |
+| Errors | New `422` codes: `9034` and `9035` |
+
+<Warning>
+**`couponRulesLogicalOperator` changed type.** It is now returned as `"AND"` or `"OR"`, where it used to be `1` or `2`. Code that reads it as a number must be updated. `null` is unchanged.
+</Warning>
+
+<AccordionGroup>
+  <Accordion title="Behaviour changes on existing requests">
+    These apply to every coupon, including ones configured before rules existed, with no change on your side.
+
+    | What | Before | Now |
+    | :--- | :--- | :--- |
+    | An `OR` coupon restricted by merchant or branch | The merchant and branch always had to match | Merchant and branch are rules like any other — one satisfied rule is enough |
+    | An `OR` coupon restricted by merchant or branch, where the cart omits that field | Rejected with `9018` or `9024` | Not rejected for the missing field; that rule is simply not satisfied |
+    | An `OR` coupon with several rules, where the merchant or branch is wrong and nothing else matches | Rejected with `9019` or `9025` | Rejected with `9022` |
+  </Accordion>
+
+  <Accordion title="Migration notes">
+    - **Read `couponRulesLogicalOperator` as a string.** Expect `"AND"`, `"OR"` or `null`.
+    - **Read `rules` to see what the cart must satisfy.** On a coupon with rules, the `entitled*` lists show only its `Equals` rules on merchant, branch, collection, category and product.
+    - **Send `lineItems` with the line fields your coupons' rules read** — `price`, `quantity`, `tags`, `sku` and so on. They have no flat form.
+    - **Send `channel` and `extra` if your coupons' rules read them**, spelling each `extra` key exactly as the rule does.
+    - **Handle `9034` and `9035`.** Read the `message` for the field that is missing or did not match.
+    - **Review `OR` coupons that rely on a merchant or branch restriction.** Under `OR` it no longer gates the order on its own; switch those coupons to `AND`.
+  </Accordion>
+</AccordionGroup>
+
+### Cart matching
+
+Before coupon rules, this endpoint was extended from matching a coupon against two things only — the **merchant** and the **collection** — to four, and the request gained a line-by-line form of the cart.
+
+| Area | Change |
+| :--- | :--- |
+| Request | New `branchId` and `lineItems[]` — categories and products are sent per line, as `lineItems[].categories` and `lineItems[].productId` |
 | Response | New `entitledBranchIds`, `entitledCategoryIds` and `couponRulesLogicalOperator` |
 | Response | `entitledProductIds` is no longer limited to a single value |
 | Errors | New `422` codes: `9024`–`9027` and `9030`–`9033` |
@@ -401,7 +583,7 @@ This endpoint previously matched a coupon against two things only: the **merchan
     | :--- | :--- | :--- |
     | A coupon restricted by branch, category or product | The restriction was stored but not enforced | Enforced |
     | A coupon with two or more restrictions, where your cart described only one of them | Accepted | Rejected with the matching *required* code |
-    | A coupon restricted by merchant, with `couponRulesLogicalOperator` = `2` (OR) | The wrong merchant could still pass if another restriction matched | The merchant must always match |
+    | A coupon restricted by merchant, with `couponRulesLogicalOperator` set to OR | The wrong merchant could still pass if another restriction matched | The merchant had to match. Coupon rules changed this again — see [Rules with per-rule operators](#rules-with-per-rule-operators) |
     | Sending `collectionId` **and** `collectionsIds` together | Only `collectionsIds` was evaluated | Both are evaluated as one list |
     | A validate call sending **no** cart fields at all | Rejected with `9018` | Returns `200` with the coupon's restrictions attached |
   </Accordion>
@@ -418,14 +600,12 @@ This endpoint previously matched a coupon against two things only: the **merchan
     | `totalPurchaseAmount` alone, coupon **has** a `minOrderValue` | Enforced every restriction | Unchanged — the amount speaks to the minimum, so it describes a cart |
     | A cart describing some of a coupon's restrictions | Enforced all of them | Unchanged — the missing ones still return their *required* code |
     | A cart omitting `totalPurchaseAmount`, coupon has a `minOrderValue` | Accepted — the minimum was skipped | Rejected with `9017` |
-
-    Error precedence, the `couponRulesLogicalOperator` modes and every error code are unchanged.
   </Accordion>
 
   <Accordion title="Migration notes">
     - **Add `branchId` if your coupons are branch-restricted.** There is no other way to satisfy a branch restriction.
-    - **Choose between `lineItems` and the flat lists.** Sending both is not an error, but the flat lists are silently ignored. If you are unsure, send `lineItems` — it answers every case the flat lists do, plus the AND case they cannot.
+    - **Send categories and products on `lineItems`.** There is no top-level field for either. When you send `lineItems`, put collections on the lines too — the top-level `collectionId` and `collectionsIds` are silently ignored when `lineItems` is present.
     - **Handle `9032` by retrying with `lineItems`.** It is not a permanent failure; it is a request for more detail about the same cart.
-    - **API v3 cannot satisfy the new restrictions.** `POST /api/v3.0/integrations/coupons/{code}/validate` accepts only `merchantId` and `collectionId`, so a coupon restricted by branch, category or product is rejected with no field available to fix it. Move to v4 before configuring those restrictions.
+    - **API v3 cannot satisfy the new restrictions.** `POST /api/v3.0/integrations/coupons/{code}/validate` accepts only `merchantId` and `collectionId`, so a coupon restricted by branch, category, product or any of the newer rule fields is rejected with no field available to fix it. Move to v4 before configuring those restrictions.
   </Accordion>
 </AccordionGroup>

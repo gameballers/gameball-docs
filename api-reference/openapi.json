@@ -2296,7 +2296,7 @@
     },
     "/api/v4.0/integrations/coupons/{code}/validate": {
       "post": {
-        "description": "Validates a single coupon identified by {code} and checks its eligibility for use by a customer. Describe the cart as well, and the coupon is additionally matched against its merchant, branch, collection, category and product restrictions. Set the lock flag to True to reserve the coupon by creating a lock reference, so it cannot be used by others while the order is being completed. By default the lock flag is False, allowing only validation without reserving the coupon.",
+        "description": "Validates a single coupon identified by {code} and checks its eligibility for use by a customer. Describe the cart as well, and the coupon is additionally matched against its rules - on merchant, branch, channel, collection, category, product, the line-item fields and extra data. Set the lock flag to True to reserve the coupon by creating a lock reference, so it cannot be used by others while the order is being completed. By default the lock flag is False, allowing only validation without reserving the coupon.",
         "security": [ { "apiKey": [], "secretKey": [] } ],
         "parameters": [
           {
@@ -2349,6 +2349,18 @@
                     "description": "Cart-level. The branch or outlet the order is placed at. Required if the coupon is restricted to specific branches. There is no plural or per-item form.",
                     "example": "branch-14"
                   },
+                  "channel": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "Cart-level. The sales channel the order is placed through. Read by a coupon's Channel rule.",
+                    "example": "online"
+                  },
+                  "extra": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "Cart-level. Free-form order data, read by a coupon's Extra.<key> rules. The rule names the key path to read: Extra.paymentMethod reads extra.paymentMethod, and Extra.shipping.city reads the nested extra.shipping.city. Send each key exactly as it is spelled in the rule.",
+                    "example": { "paymentMethod": "card" }
+                  },
                   "collectionId": {
                     "type": "string",
                     "description": "Item-level. A collection the basket touches. Evaluated together with collectionsIds as a single list. Ignored when lineItems is present."
@@ -2359,23 +2371,10 @@
                     "maxItems": 200,
                     "description": "Item-level. Every collection the basket touches. Maximum 200 values. Ignored when lineItems is present."
                   },
-                  "categories": {
-                    "type": "array",
-                    "items": { "type": "string" },
-                    "maxItems": 200,
-                    "description": "Item-level. Every category the basket touches. These are free-text category names, not IDs. Maximum 200 values. Ignored when lineItems is present.",
-                    "example": ["Audio", "TV"]
-                  },
-                  "productsIds": {
-                    "type": "array",
-                    "items": { "type": "string" },
-                    "maxItems": 200,
-                    "description": "Item-level. Every product ID in the basket. Maximum 200 values. Ignored when lineItems is present."
-                  },
                   "lineItems": {
                     "type": "array",
                     "maxItems": 500,
-                    "description": "The cart described item by item. Maximum 500 entries. Required for a coupon that must satisfy two or more item-level restrictions on the same item. When lineItems is present, the flat collectionId, collectionsIds, categories and productsIds fields are ignored for matching.",
+                    "description": "The cart described item by item. Maximum 500 entries. The only way to send categories and products. Required for any rule on a field with no flat form (category, product, title, price, quantity, discount, vendor, sku, tags, weight, extra, and the TotalItems and TotalUniqueItems totals), and for an AND coupon with two or more item-level rules. When lineItems is present, the flat collectionId and collectionsIds fields are ignored for matching.",
                     "items": {
                       "type": "object",
                       "properties": {
@@ -2400,6 +2399,47 @@
                           "items": { "type": "string" },
                           "maxItems": 200,
                           "description": "The collections this product belongs to."
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "This line's product title. Read by a coupon's Title rule."
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "This line's unit price. Read by a coupon's Price rule."
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "description": "How many units this line holds. Read by a coupon's Quantity rule, and summed for its TotalItems rule - a line without a quantity counts as 1."
+                        },
+                        "discount": {
+                          "type": "number",
+                          "description": "The discount amount on this line. Read by a coupon's Discount rule."
+                        },
+                        "vendor": {
+                          "type": "string",
+                          "maxLength": 255,
+                          "description": "This line's vendor or brand. Read by a coupon's Vendor rule."
+                        },
+                        "sku": {
+                          "type": "string",
+                          "maxLength": 255,
+                          "description": "This line's SKU. Read by a coupon's Sku rule."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": { "type": "string" },
+                          "maxItems": 200,
+                          "description": "This line's product tags. Read by a coupon's Tags rule."
+                        },
+                        "weight": {
+                          "type": "number",
+                          "description": "This line's weight. Read by a coupon's Weight rule."
+                        },
+                        "extra": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Free-form data for this line, read by a coupon's ItemExtra.<key> rules - ItemExtra.giftWrap reads lineItems[].extra.giftWrap."
                         }
                       }
                     }
@@ -2445,7 +2485,7 @@
     },
     "/api/v4.0/integrations/coupons/validate": {
       "post": {
-        "description": "Validates a list of coupons and checks their eligibility for use by a customer. Every coupon must pass - the first failure ends the call and nothing is locked. Describe the cart as well, and each coupon is additionally matched against its merchant, branch, collection, category and product restrictions. Set the lock flag to True to reserve the coupons under one lock session. By default the lock flag is False, allowing only validation without reserving the coupons.",
+        "description": "Validates a list of coupons and checks their eligibility for use by a customer. Every coupon must pass - the first failure ends the call and nothing is locked. Describe the cart as well, and each coupon is additionally matched against its rules - on merchant, branch, channel, collection, category, product, the line-item fields and extra data. Set the lock flag to True to reserve the coupons under one lock session. By default the lock flag is False, allowing only validation without reserving the coupons.",
         "security": [ { "apiKey": [], "secretKey": [] } ],
         "requestBody": {
           "required": true,
@@ -2496,6 +2536,18 @@
                     "description": "Cart-level. The branch or outlet the order is placed at. Required if the coupon is restricted to specific branches. There is no plural or per-item form.",
                     "example": "branch-14"
                   },
+                  "channel": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "description": "Cart-level. The sales channel the order is placed through. Read by a coupon's Channel rule.",
+                    "example": "online"
+                  },
+                  "extra": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "Cart-level. Free-form order data, read by a coupon's Extra.<key> rules. The rule names the key path to read: Extra.paymentMethod reads extra.paymentMethod, and Extra.shipping.city reads the nested extra.shipping.city. Send each key exactly as it is spelled in the rule.",
+                    "example": { "paymentMethod": "card" }
+                  },
                   "collectionId": {
                     "type": "string",
                     "description": "Item-level. A collection the basket touches. Evaluated together with collectionsIds as a single list. Ignored when lineItems is present."
@@ -2506,23 +2558,10 @@
                     "maxItems": 200,
                     "description": "Item-level. Every collection the basket touches. Maximum 200 values. Ignored when lineItems is present."
                   },
-                  "categories": {
-                    "type": "array",
-                    "items": { "type": "string" },
-                    "maxItems": 200,
-                    "description": "Item-level. Every category the basket touches. These are free-text category names, not IDs. Maximum 200 values. Ignored when lineItems is present.",
-                    "example": ["Audio", "TV"]
-                  },
-                  "productsIds": {
-                    "type": "array",
-                    "items": { "type": "string" },
-                    "maxItems": 200,
-                    "description": "Item-level. Every product ID in the basket. Maximum 200 values. Ignored when lineItems is present."
-                  },
                   "lineItems": {
                     "type": "array",
                     "maxItems": 500,
-                    "description": "The cart described item by item. Maximum 500 entries. Required for a coupon that must satisfy two or more item-level restrictions on the same item. When lineItems is present, the flat collectionId, collectionsIds, categories and productsIds fields are ignored for matching.",
+                    "description": "The cart described item by item. Maximum 500 entries. The only way to send categories and products. Required for any rule on a field with no flat form (category, product, title, price, quantity, discount, vendor, sku, tags, weight, extra, and the TotalItems and TotalUniqueItems totals), and for an AND coupon with two or more item-level rules. When lineItems is present, the flat collectionId and collectionsIds fields are ignored for matching.",
                     "items": {
                       "type": "object",
                       "properties": {
@@ -2547,6 +2586,47 @@
                           "items": { "type": "string" },
                           "maxItems": 200,
                           "description": "The collections this product belongs to."
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "This line's product title. Read by a coupon's Title rule."
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "This line's unit price. Read by a coupon's Price rule."
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "description": "How many units this line holds. Read by a coupon's Quantity rule, and summed for its TotalItems rule - a line without a quantity counts as 1."
+                        },
+                        "discount": {
+                          "type": "number",
+                          "description": "The discount amount on this line. Read by a coupon's Discount rule."
+                        },
+                        "vendor": {
+                          "type": "string",
+                          "maxLength": 255,
+                          "description": "This line's vendor or brand. Read by a coupon's Vendor rule."
+                        },
+                        "sku": {
+                          "type": "string",
+                          "maxLength": 255,
+                          "description": "This line's SKU. Read by a coupon's Sku rule."
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": { "type": "string" },
+                          "maxItems": 200,
+                          "description": "This line's product tags. Read by a coupon's Tags rule."
+                        },
+                        "weight": {
+                          "type": "number",
+                          "description": "This line's weight. Read by a coupon's Weight rule."
+                        },
+                        "extra": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Free-form data for this line, read by a coupon's ItemExtra.<key> rules - ItemExtra.giftWrap reads lineItems[].extra.giftWrap."
                         }
                       }
                     }
@@ -6442,7 +6522,7 @@
       },
       "ValidatedCoupon": {
         "type": "object",
-        "description": "A coupon as returned by the validate endpoints, including the restrictions it carries and how they combine.",
+        "description": "A coupon as returned by the validate endpoints, including the rules it carries and how they combine. On a coupon configured with rules, the entitled* lists hold only the values of its Equals rules on merchant, branch, collection, category and product; read rules for the full picture.",
         "properties": {
           "code": {
             "type": "string",
@@ -6518,9 +6598,34 @@
             "description": "Categories the coupon applies to. These are free-text names, despite the field name. null means unrestricted."
           },
           "couponRulesLogicalOperator": {
-            "type": "integer",
-            "enum": [1, 2],
-            "description": "How the coupon's item-level restrictions combine: 1 = AND (one single item must satisfy them all), 2 = OR (one satisfied restriction is enough), null = flat (each must be satisfied by something in the cart, not necessarily the same item)."
+            "type": ["string", "null"],
+            "enum": ["AND", "OR", null],
+            "description": "How all of the coupon's rules combine, cart-level and item-level alike: AND = every rule must be satisfied, the item-level ones by one single line; OR = one satisfied rule is enough, merchant and branch included; null = flat (every rule must be satisfied, each item-level one by some line, not necessarily the same). minOrderValue is not a rule and is enforced in every mode. Returned as a string; it used to be returned as 1 (AND) or 2 (OR)."
+          },
+          "rules": {
+            "type": ["array", "null"],
+            "description": "Every rule the coupon carries, each with its own operator. null on a coupon configured without rules, which is matched against its entitled* lists instead.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The field the rule reads. Cart-level: Merchant, Branch, Channel, TotalItems, TotalUniqueItems, Extra.<key>. Item-level: Collection, Category, ProductId, Title, Price, Quantity, Discount, Vendor, Sku, Tags, Weight, ItemExtra.<key>.",
+                  "example": "Price"
+                },
+                "operator": {
+                  "type": "string",
+                  "enum": ["Equals", "NotEquals", "GreaterThan", "GreaterThanOrEqual", "LessThan", "LessThanOrEqual", "Contains", "NotContains", "Exists", "NotExists", "Between", "StartsWith", "EndsWith", "IsEmpty", "NotEmpty"],
+                  "description": "How the cart's value is compared with matchValue.",
+                  "example": "GreaterThanOrEqual"
+                },
+                "matchValue": {
+                  "type": "string",
+                  "description": "The values to compare with, comma-separated: any of them for the positive operators, none of them for NotEquals and NotContains, one number for the comparison operators, min,max for Between. Empty for Exists, NotExists, IsEmpty and NotEmpty.",
+                  "example": "100"
+                }
+              }
+            }
           },
           "combinesWith": {
             "type": "object",
