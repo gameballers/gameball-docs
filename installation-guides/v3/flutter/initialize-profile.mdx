@@ -61,11 +61,11 @@ Customer attributes built using `CustomerAttributesBuilder`.
 </ParamField>
 
 <ParamField body="deviceToken" type="string">
-Device token for push notifications (FCM or HMS).
+Device token for push notifications (FCM or HMS). Required if `pushProvider` is set.
 </ParamField>
 
 <ParamField body="pushProvider" type="PushProvider">
-Push notification provider: `PushProvider.Firebase` or `PushProvider.Huawei`.
+Push notification provider: `PushProvider.firebase` or `PushProvider.huawei`. Required if `deviceToken` is set. The SDK sends it to the Gameball API as `pushServiceProvider`.
 </ParamField>
 
 <ParamField body="sessionToken" type="string">

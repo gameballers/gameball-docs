@@ -17,3 +17,40 @@ If your system uses different customer IDs across multiple channels (e.g., onlin
 
 For more information, head to the [Omni-Channel Handling Guide](/tutorials/experiences/more/omni-channel).
 </Info>
+
+## Registering a Push Token
+
+To send mobile push notifications to a customer, register their device token with this API, either from your server or through the Gameball mobile SDKs. Send `deviceToken` together with `pushServiceProvider`:
+
+```jsonc
+{
+  "customerId": "cust_123",
+  "deviceToken": "<FCM or HMS token>",
+  "pushServiceProvider": "Firebase", // "Firebase" (default) or "Huawei"
+  "osType": "iOS"
+}
+```
+
+| Field | Available options | Default |
+|---|---|---|
+| `pushServiceProvider` | `Firebase` (Firebase Cloud Messaging), `Huawei` (Huawei Push Kit) | `Firebase` |
+
+- Use the option exactly as spelled above. When you omit `pushServiceProvider`, the token is treated as a Firebase token, so always send `Huawei` for Huawei Push Kit tokens.
+- The field has a different name in the API and in the SDKs:
+
+  | Where you register the token | Field name | Example |
+  |---|---|---|
+  | REST API (this endpoint and the Create Customers Batch Job) | `pushServiceProvider` | `"pushServiceProvider": "Firebase"` |
+  | iOS SDK | `pushProvider` | `pushProvider: .firebase` |
+  | Android SDK | `pushProvider` | `.pushProvider(PushProvider.Firebase)` |
+  | Flutter SDK | `pushProvider` | `.pushProvider(PushProvider.firebase)` |
+  | React Native SDK | `pushProvider` | `pushProvider: PushProvider.firebase` |
+
+  Over REST, only `pushServiceProvider` is read. Any other name, such as `pushProvider`, is ignored and returned in the `x-gameball-unknown-fields` response header.
+- A customer can have several devices. Each new token is added, and tokens registered earlier keep receiving notifications until the push service reports them as invalid. Gameball has no API to remove a token, so a device keeps receiving the customer's notifications after the customer logs out.
+- Sending a token that is already registered has no effect.
+- The token is registered after the request returns, so a `200` response does not confirm the registration.
+
+<Note>
+`customerAttributes.devices` is unrelated to push notifications. It holds descriptive device and browser details (`userAgent`, `os`, `device`, `browser`), and push tokens never appear in it.
+</Note>

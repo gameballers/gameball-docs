@@ -12,3 +12,7 @@ The **Batch Customer API** allows clients to create or update multiple customer 
 <Info>
 **Security:** Requires **apiKey** and **secretKey** headers.
 </Info>
+
+<Note>
+To register a push token for a customer in the batch, send `deviceToken` with `pushServiceProvider` (`Firebase` or `Huawei`, default `Firebase`) on that customer, the same as in [Create/Update Customer](/api-reference/customers/management/create-customer#registering-a-push-token).
+</Note>

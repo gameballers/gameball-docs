@@ -17,7 +17,7 @@ const request: InitializeCustomerRequest = {
   customerId: 'customer-123',
   email: 'john@example.com',
   deviceToken: firebaseToken,            // FCM token
-  pushProvider: PushProvider.Firebase,   // or PushProvider.Huawei
+  pushProvider: PushProvider.firebase,   // or PushProvider.huawei
 };
 
 await GameballApp.getInstance().initializeCustomer(request);
@@ -39,7 +39,7 @@ messaging().onTokenRefresh(async (token) => {
   await GameballApp.getInstance().initializeCustomer({
     customerId: 'customer-123',
     deviceToken: token,
-    pushProvider: PushProvider.Firebase,
+    pushProvider: PushProvider.firebase,
   });
 });
 ```
@@ -52,11 +52,15 @@ import { GameballApp, PushProvider } from 'react-native-gameball';
 await GameballApp.getInstance().initializeCustomer({
   customerId: 'customer-123',
   deviceToken: hmsToken,
-  pushProvider: PushProvider.Huawei,
+  pushProvider: PushProvider.huawei,
 });
 ```
 
 <Tip>
 Call `initializeCustomer` after login/registration with the latest token to keep notifications working.
 </Tip>
+
+<Note>
+Registering a new token adds it to the customer's devices. Tokens registered earlier keep receiving notifications until Firebase or Huawei reports them as invalid. Gameball has no way to remove a token, so a device keeps receiving the customer's notifications after the customer logs out.
+</Note>
 

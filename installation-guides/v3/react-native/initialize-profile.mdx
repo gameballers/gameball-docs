@@ -92,8 +92,8 @@ Customer's mobile number with country code.
 Push notification token (required if pushProvider is set).
 </ParamField>
 
-<ParamField body="pushProvider" type="'Firebase' | 'Huawei'">
-Push notification provider (required if deviceToken is set).
+<ParamField body="pushProvider" type="PushProvider">
+Push notification provider: `PushProvider.firebase` or `PushProvider.huawei`. Required if `deviceToken` is set.
 </ParamField>
 
 <ParamField body="customerAttributes" type="CustomerAttributes">

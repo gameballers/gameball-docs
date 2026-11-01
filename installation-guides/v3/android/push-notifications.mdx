@@ -61,7 +61,7 @@ FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
 ```
 
 <Warning>
-  A push provider (**Firebase**) must always be set if you pass a `deviceToken`.
+  A push provider (`PushProvider.Firebase` or `PushProvider.Huawei`) must always be set if you pass a `deviceToken`.
 </Warning>
 
 ---
@@ -204,6 +204,10 @@ All configurations, message templates, rules, and segmentation are controlled di
     Keep notifications relevant and valuable to avoid opt-outs.
   </Step>
 </Steps>
+
+<Note>
+Registering a new token adds it to the customer's devices. Tokens registered earlier keep receiving notifications until Firebase or Huawei reports them as invalid. Gameball has no way to remove a token, so a device keeps receiving the customer's notifications after the customer logs out.
+</Note>
 
 ---
 

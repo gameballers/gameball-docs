@@ -3797,8 +3797,9 @@
                         "customerId": { "type": "string", "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be a database ID, random string, email, or anything that uniquely identifies the customer." },
                         "email": { "type": "string", "description": "Customer's email address. Required if your account uses email-based channel merging." },
                         "mobile": { "type": "string", "description": "Customer's mobile number. Required if your account uses mobile-based channel merging." },
-                        "deviceToken": { "type": "string", "description": "Token used to identify the device." },
-                        "osType": { "type": "string", "description": "Operating system type of the device." },
+                        "deviceToken": { "type": "string", "description": "Push notification token for the customer's device (an FCM token, or an HMS Push Kit token for Huawei), used to deliver mobile push campaigns. Send it with `pushServiceProvider`. Each new token is added to the customer's registered devices, and tokens registered earlier are kept." },
+                        "pushServiceProvider": { "type": "string", "enum": ["Firebase", "Huawei"], "default": "Firebase", "description": "Push service that issued `deviceToken`: `Firebase` or `Huawei`, spelled exactly as shown. Send it whenever you send `deviceToken`. When it is omitted, the token is treated as a Firebase token, so Huawei tokens registered without it never receive push notifications. In the mobile SDKs this field is called `pushProvider`." },
+                        "osType": { "type": "string", "description": "Operating system of the device, for example `iOS` or `Android`." },
                         "referrerCode": { 
                           "type": "string",
                           "description": "The referral code of an existing customer who is referring the customer being created. This is required in the create customer request to process the referral."
@@ -3872,9 +3873,18 @@
                               "type": "array",
                               "description": "List of UTM attributes associated with the customer."
                             },
-                            "devices": { 
+                            "devices": {
                               "type": "array",
-                              "description": "List of devices associated with the customer."
+                              "description": "Device and browser details describing the customer, for profile and segmentation purposes. Not used for push notifications: register push tokens with `deviceToken` and `pushServiceProvider`.",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "userAgent": { "type": "string", "description": "Browser or app user agent string." },
+                                  "os": { "type": "string", "description": "Operating system, for example `iOS`." },
+                                  "device": { "type": "string", "description": "Device model or type, for example `iPhone 15`." },
+                                  "browser": { "type": "string", "description": "Browser name, for example `Safari`." }
+                                }
+                              }
                             },
                             "paymentMethods": { 
                               "type": "array",
@@ -6194,13 +6204,19 @@
             "type": "string",
             "description": "Customer's mobile number. Required if your account uses mobile-based channel merging."
           },
-          "deviceToken": { 
+          "deviceToken": {
             "type": "string",
-            "description": "Token used to identify the device."
+            "description": "Push notification token for the customer's device (an FCM token, or an HMS Push Kit token for Huawei), used to deliver mobile push campaigns. Send it with `pushServiceProvider`. Each new token is added to the customer's registered devices, and tokens registered earlier are kept."
           },
-          "osType": { 
+          "pushServiceProvider": {
             "type": "string",
-            "description": "Operating system type of the device."
+            "enum": ["Firebase", "Huawei"],
+            "default": "Firebase",
+            "description": "Push service that issued `deviceToken`: `Firebase` or `Huawei`, spelled exactly as shown. Send it whenever you send `deviceToken`. When it is omitted, the token is treated as a Firebase token, so Huawei tokens registered without it never receive push notifications. In the mobile SDKs this field is called `pushProvider`."
+          },
+          "osType": {
+            "type": "string",
+            "description": "Operating system of the device, for example `iOS` or `Android`."
           },
           "customerAttributes": {
             "type": "object",
@@ -6267,9 +6283,18 @@
                 "type": "array",
                 "description": "List of UTM attributes associated with the customer."
               },
-              "devices": { 
+              "devices": {
                 "type": "array",
-                "description": "List of devices associated with the customer."
+                "description": "Device and browser details describing the customer, for profile and segmentation purposes. Not used for push notifications: register push tokens with `deviceToken` and `pushServiceProvider`.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "userAgent": { "type": "string", "description": "Browser or app user agent string." },
+                    "os": { "type": "string", "description": "Operating system, for example `iOS`." },
+                    "device": { "type": "string", "description": "Device model or type, for example `iPhone 15`." },
+                    "browser": { "type": "string", "description": "Browser name, for example `Safari`." }
+                  }
+                }
               },
               "paymentMethods": { 
                 "type": "array",
@@ -7167,7 +7192,16 @@
               },
               "devices": {
                 "type": "array",
-                "description": "List of devices associated with the customer."
+                "description": "Device and browser details describing the customer, for profile and segmentation purposes. Not used for push notifications: register push tokens with `deviceToken` and `pushServiceProvider`.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "userAgent": { "type": "string", "description": "Browser or app user agent string." },
+                    "os": { "type": "string", "description": "Operating system, for example `iOS`." },
+                    "device": { "type": "string", "description": "Device model or type, for example `iPhone 15`." },
+                    "browser": { "type": "string", "description": "Browser name, for example `Safari`." }
+                  }
+                }
               },
               "paymentMethods": {
                 "type": "array",
@@ -7300,7 +7334,16 @@
               },
               "devices": {
                 "type": "array",
-                "description": "List of devices associated with the customer."
+                "description": "Device and browser details describing the customer, for profile and segmentation purposes. Not used for push notifications: register push tokens with `deviceToken` and `pushServiceProvider`.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "userAgent": { "type": "string", "description": "Browser or app user agent string." },
+                    "os": { "type": "string", "description": "Operating system, for example `iOS`." },
+                    "device": { "type": "string", "description": "Device model or type, for example `iPhone 15`." },
+                    "browser": { "type": "string", "description": "Browser name, for example `Safari`." }
+                  }
+                }
               },
               "paymentMethods": {
                 "type": "array",

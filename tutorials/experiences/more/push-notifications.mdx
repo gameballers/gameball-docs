@@ -56,10 +56,10 @@ Gameball uses Firebase to deliver push notifications for mobile applications. Th
 </Step>
 
 <Step title="Register Device Token">
-  Register the device token with Gameball using the SDK's `registerDevice` method.
+  Register the device token with Gameball by passing `deviceToken` and `pushProvider` to the SDK's `initializeCustomer` method. To register it from your server instead, send `deviceToken` and `pushServiceProvider` to the [Create/Update Customer API](/api-reference/customers/management/create-customer#registering-a-push-token).
   
   <Note>
-  Device tokens are unique identifiers for each mobile device. You need to register them so Gameball knows where to send push notifications.
+  Device tokens are unique identifiers for each mobile device. You need to register them so Gameball knows where to send push notifications. Re-register whenever the push service issues a new token.
   </Note>
 </Step>
 
@@ -113,7 +113,7 @@ Gameball uses Firebase to deliver push notifications for mobile applications. Th
     </Accordion>
     
     <Accordion title="Register Device Token">
-      Register the device token with Gameball using `gameballApp.registerDevice`. Refer to the [Firebase documentation](https://firebase.google.com/docs/cloud-messaging/ios/client#access_the_registration_token) for accessing the registration token.
+      Register the device token with Gameball by calling `initializeCustomer` with `deviceToken` and `pushProvider: .firebase`. Refer to the [Firebase documentation](https://firebase.google.com/docs/cloud-messaging/ios/client#access_the_registration_token) for accessing the registration token.
     </Accordion>
   </AccordionGroup>
   

@@ -91,11 +91,11 @@ Task {
 </ParamField>
 
 <ParamField body="deviceToken" type="String">
-  Push notification token (Firebase FCM or Huawei Push Kit).
+  Push notification token (Firebase FCM or Huawei Push Kit). Required if `pushProvider` is set.
 </ParamField>
 
 <ParamField body="pushProvider" type="PushProvider">
-  Push provider (`.firebase` or `.huawei`).
+  Push provider: `.firebase` or `.huawei`. Required if `deviceToken` is set. The SDK sends it to the Gameball API as `pushServiceProvider`.
 </ParamField>
 
 <ParamField body="customerAttributes" type="CustomerAttributes">
