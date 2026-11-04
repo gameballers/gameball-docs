@@ -1,63 +1,171 @@
 ---
 title: "How Do I Set Up Digital Wallet Passes?"
-description: "Let customers save their Gameball loyalty card to Apple Wallet or Google Wallet as a branded digital pass."
+description: "Set up branded Apple Wallet and Google Wallet loyalty passes from your dashboard, and reach customers with location-based alerts and broadcast messages."
 ---
 
 | Platform | Plan | Channel |
 |---|---|---|
 | All | Upon Request | Mobile |
 
-Gameball supports **Apple Wallet and Google Wallet loyalty passes**, giving customers a native way to carry their loyalty card on their phones. Customers can save their pass to their wallet app, check their points balance, and scan it in-store — no app required.
+**Gameball's Digital Wallet passes** let customers save their loyalty card to Apple Wallet or Google Wallet, so they can check their points balance and scan the card in-store without installing an app. You design the pass, choose where it appears on customers' phones, and send announcements to everyone holding it, all from the **Wallet** page in your dashboard.
 
 <Note>
 Digital Wallet passes are an add-on feature, available upon request. Contact [support@gameball.co](mailto:support@gameball.co) or your account manager to enable it for your account.
 </Note>
 
-<Frame>
-  ![Digital Wallet — Apple Wallet and Google Wallet configuration in Gameball](/images/product-docs/apps-integrations/digital-wallet.png)
-</Frame>
-
 ---
 
 ## Benefits
 
-- **Always accessible** — customers carry their loyalty card alongside their boarding passes, credit cards, and tickets.
-- **Strengthen your brand** — the pass is fully branded with your logo, colors, and design.
-- **Real-time updates** — points balance and tier reflect automatically whenever they change.
-- **In-store ready** — the pass can be scanned at checkout to earn or redeem points instantly.
-- **No app required** — customers save and access their pass directly from their phone's native wallet.
+- **Always accessible:** customers carry their loyalty card alongside their boarding passes, credit cards, and tickets.
+- **Strengthen your brand:** the pass uses your logo, colors, and images.
+- **Real-time updates:** points balance and tier update automatically whenever they change.
+- **Location-based reminders:** the pass appears on the customer's phone when they are near one of your stores.
+- **Direct broadcasts:** send a notification to every customer holding your pass, with no app or email list required.
+- **In-store ready:** the pass can be scanned at checkout to earn or redeem points.
 
 ---
 
-## How Does It Work?
+## How Do I Open the Wallet Settings?
 
-<Tabs>
-<Tab title="Apple Wallet">
-- Each customer receives a **unique Apple Wallet pass** linked to their Gameball loyalty account.
-- The pass displays:
-  - Customer name
-  - Current points balance
-  - Tier / level
-  - QR code for in-store scanning
-  - Your branded design (logo, colors, theme)
-- Customers tap **"Add to Apple Wallet"** from your loyalty portal or scan a QR code to save the pass.
-- **Automatic sync:** points and tier updates reflect on the pass in near real-time.
-- **QR scanning:** the pass can be scanned at checkout for earning and redemption.
-</Tab>
+Click **Wallet** in the dashboard sidebar. The page shows two cards:
 
-<Tab title="Google Wallet">
-- Each customer can generate a **unique Google Wallet loyalty card** from their Gameball account.
-- The card displays:
-  - Customer name
-  - Current points balance
-  - Tier / level
-  - QR or barcode for scanning
-  - Your branded design (logo, colors, theme)
-- Customers tap **"Add to Google Wallet"** from your loyalty portal to save the card.
-- **Automatic sync:** points balance and tier updates reflect in near real-time.
-- **POS compatibility:** cards can be scanned at checkout to earn or redeem points instantly.
-</Tab>
-</Tabs>
+- **Apple Wallet:** passes distributed to customers on iOS.
+- **Google Wallet:** cards distributed to customers on Android.
+
+Each card shows a preview of your current pass and two buttons: **Edit** to design the pass, and **Broadcast** to send a message to customers who hold it.
+
+<Frame>
+<!-- IMAGE PLACEHOLDER: Wallet page showing the Apple Wallet and Google Wallet cards, each with a pass preview and Edit and Broadcast buttons -->
+</Frame>
+
+---
+
+## How Do I Design My Pass?
+
+Apple Wallet and Google Wallet share the same settings. Click **Edit** on either card to open the editor. Settings are grouped into three sections (**General**, **Content**, and **Branding**), and a **Live Preview** on the right updates as you make changes.
+
+<Steps>
+  <Step title="Set the general details">
+    Open the **General** section and configure:
+
+    - **Card title:** the name shown at the top of the pass, up to 60 characters.
+    - **Background color:** the color of the pass. Google Wallet uses a single background color and picks a readable text color for you.
+
+    If you have already configured your Apple Wallet pass, click **Copy from Apple configurations** in the Google Wallet editor to reuse those settings instead of starting from scratch.
+
+    <Frame>
+    ![Wallet pass editor showing the General section with card title and background color](/images/product-docs/apps-integrations/wallet-general-settings.png)
+    </Frame>
+  </Step>
+  <Step title="Choose what the pass shows">
+    Open the **Content** section and configure:
+
+    - **Card Row:** the two values shown on the front of the pass. For both the **Start cell** and **End cell**, choose what the cell **Shows** (for example, **Customer name** or **Points balance**) and enter the **Label** displayed above it. Set a cell to **Hidden** to leave it empty. In right-to-left languages, the start cell appears on the right.
+    - **Locations:** up to 10 places where the pass appears on the customer's phone. See [Location-Based Notifications](#location-based-notifications).
+    - **Links:** up to 10 tap-to-call, email, or web links shown on the pass.
+
+    <Frame>
+    ![Wallet pass editor showing the Content section with card row, locations, and links](/images/product-docs/apps-integrations/wallet-content-settings.png)
+    </Frame>
+  </Step>
+  <Step title="Upload your branding">
+    Open the **Branding** section and upload your images as PNG files:
+
+    - **Logo (660×660 px):** shown as a circle in the top-left corner of the pass. Use a square image with a transparent background.
+    - **Hero image (1032×336 px):** a wide image on the front of the pass, below the card values.
+    - **Details banner:** a banner image shown in the pass details.
+
+    <Frame>
+    ![Wallet pass editor showing the Branding section with logo and hero image uploads](/images/product-docs/apps-integrations/wallet-branding-settings.png)
+    </Frame>
+  </Step>
+  <Step title="Save and update existing passes">
+    Click **Save** to store your settings. Saving does not change the passes customers already have.
+
+    To push your changes to every pass already saved in customers' wallets, click **Update Cards**.
+  </Step>
+</Steps>
+
+<Info>
+The Live Preview is an approximate rendering. The final pass is drawn by Apple Wallet or Google Wallet, so small differences in layout and text color are expected.
+</Info>
+
+---
+
+## Location-Based Notifications
+
+Add up to 10 store locations in the **Locations** setting under **Content**. When a customer who holds your pass is near one of these places, their phone surfaces the pass automatically, reminding them to earn or redeem points while they are close to your store.
+
+The two wallets handle this differently:
+
+- **Apple Wallet** shows the pass on the lock screen with a custom message that you write for each location.
+- **Google Wallet** surfaces the card when the customer is nearby, but shows no custom message.
+
+<Tip>
+Add your highest-traffic stores first. Both wallets allow at most 10 locations per pass.
+</Tip>
+
+---
+
+## Broadcast Messages
+
+A broadcast sends a notification to every device holding your pass. Use it for announcements such as new offers, store openings, or limited-time promotions.
+
+<Steps>
+  <Step title="Open the broadcast screen">
+    On the **Wallet** page, click **Broadcast** on the Apple Wallet or Google Wallet card.
+  </Step>
+  <Step title="Compose your message">
+    Under **Compose Message**, enter:
+
+    - **Title:** a short headline, for example "Weekend offer."
+    - **Message:** the announcement text, up to 500 characters.
+
+    <Frame>
+    ![Google Wallet broadcast screen with title and message fields and the last sent message](/images/product-docs/apps-integrations/wallet-broadcast.png)
+    </Frame>
+  </Step>
+  <Step title="Send the message">
+    Click **Send Message**. The **Last Sent** panel shows your most recent broadcast and when it was sent.
+  </Step>
+</Steps>
+
+<Note>
+**One message every 24 hours:** Google Wallet allows one broadcast per 24 hours. Google Wallet displays both the title and the message in the notification, while Apple Wallet does not display the title.
+</Note>
+
+To return to the pass editor from the broadcast screen, click **Pass Configuration**.
+
+---
+
+## What Do Customers See?
+
+Each customer receives a unique pass linked to their Gameball account. The pass shows your branding, the values you chose in the card row (such as name and points balance), and a QR code for scanning at checkout.
+
+Customers tap **Add to Apple Wallet** or **Add to Google Wallet** from your loyalty portal to save the pass. Points and tier updates reflect on the pass automatically.
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Do I need to set up Apple Wallet and Google Wallet separately?">
+    Yes. Each wallet has its own pass, settings, and broadcasts. To save time, configure Apple Wallet first, then click **Copy from Apple configurations** in the Google Wallet editor.
+  </Accordion>
+  <Accordion title="Why don't my design changes show on customers' passes?">
+    **Save** only stores your settings. Click **Update Cards** to push the changes to passes customers have already saved.
+  </Accordion>
+  <Accordion title="How many store locations can I add?">
+    Up to 10 locations per pass.
+  </Accordion>
+  <Accordion title="Can I send a custom message when a customer is near my store?">
+    Only on Apple Wallet. Google Wallet surfaces the card near your locations but does not show a custom message.
+  </Accordion>
+  <Accordion title="How often can I send a broadcast?">
+    Google Wallet allows one broadcast every 24 hours.
+  </Accordion>
+</AccordionGroup>
 
 ---
 
