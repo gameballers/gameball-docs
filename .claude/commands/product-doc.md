@@ -217,7 +217,7 @@ Use these components correctly. Import nothing — they are globally available i
 - Alt text must be descriptive (e.g., "Configure Earn Rule" not "image1").
 - Image path format: `/images/product-docs/{section-directory}/{descriptive-name}.png`
 - Use `.gif` extension for animated demonstrations.
-- Add `<!-- IMAGE PLACEHOLDER: [description of what screenshot should show] -->` where a screenshot needs to be captured later.
+- Add `{/* IMAGE PLACEHOLDER: [description of what screenshot should show] */}` where a screenshot needs to be captured later.
 
 ### Steps: `<Steps>` / `<Step>`
 ```mdx
@@ -405,10 +405,10 @@ flowchart LR
 When you don't have actual screenshots but know an image should exist, add a placeholder:
 
 ```mdx
-<Frame>
-<!-- IMAGE PLACEHOLDER: Screenshot of the Earn Program configuration panel showing the points-per-currency setting -->
-</Frame>
+{/* IMAGE PLACEHOLDER: Screenshot of the Earn Program configuration panel showing the points-per-currency setting */}
 ```
+
+Never use HTML comments (`<!-- -->`). Mintlify fails to parse them and the deployment is rejected. Do not wrap the placeholder in `<Frame>`, which renders an empty frame.
 
 Add image placeholders for:
 - UI navigation paths (showing where to click)

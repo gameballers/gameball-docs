@@ -35,9 +35,7 @@ Click **Wallet** in the dashboard sidebar. The page shows two cards:
 
 Each card shows a preview of your current pass and two buttons: **Edit** to design the pass, and **Broadcast** to send a message to customers who hold it.
 
-<Frame>
-<!-- IMAGE PLACEHOLDER: Wallet page showing the Apple Wallet and Google Wallet cards, each with a pass preview and Edit and Broadcast buttons -->
-</Frame>
+{/* IMAGE PLACEHOLDER: Wallet page showing the Apple Wallet and Google Wallet cards, each with a pass preview and Edit and Broadcast buttons */}
 
 ---
 
@@ -102,15 +100,46 @@ The two wallets handle this differently:
 - **Apple Wallet** shows the pass on the lock screen with a custom message that you write for each location.
 - **Google Wallet** surfaces the card when the customer is nearby, but shows no custom message.
 
+### How Do I Add a Location?
+
+<Steps>
+  <Step title="Open the Locations setting">
+    On the **Wallet** page, click **Edit** on the Apple Wallet or Google Wallet card, then open the **Content** section and scroll to **Locations**.
+  </Step>
+  <Step title="Add a location">
+    Click **Add location**, then enter the store's **Latitude** and **Longitude**. The counter in the top-right corner shows how many of your 10 locations you have used.
+
+    <Frame>
+    ![Locations setting with latitude and longitude fields and a Remove button](/images/product-docs/apps-integrations/wallet-locations.png)
+    </Frame>
+  </Step>
+  <Step title="Save and update existing passes">
+    Click **Save**, then click **Update Cards** so the new location applies to passes customers already have.
+  </Step>
+</Steps>
+
+To delete a location, click **Remove** next to it, then save and update your cards.
+
 <Tip>
-Add your highest-traffic stores first. Both wallets allow at most 10 locations per pass.
+To find a store's coordinates, right-click its location in Google Maps. The latitude and longitude appear at the top of the menu, and you can click them to copy.
 </Tip>
+
+<Note>
+**At most 10 locations:** each pass supports up to 10 locations, so add your highest-traffic stores first.
+</Note>
 
 ---
 
 ## Broadcast Messages
 
-A broadcast sends a notification to every device holding your pass. Use it for announcements such as new offers, store openings, or limited-time promotions.
+A broadcast sends a push notification to every device holding your pass, with no app, email address, or phone number required. Use it for announcements such as new offers, store openings, or limited-time promotions.
+
+The two wallets display broadcasts differently:
+
+- **Apple Wallet** shows the message only. The title is not displayed.
+- **Google Wallet** shows both the title and the message.
+
+### How Do I Send a Broadcast?
 
 <Steps>
   <Step title="Open the broadcast screen">
@@ -127,12 +156,16 @@ A broadcast sends a notification to every device holding your pass. Use it for a
     </Frame>
   </Step>
   <Step title="Send the message">
-    Click **Send Message**. The **Last Sent** panel shows your most recent broadcast and when it was sent.
+    Click **Send Message**. The message goes to every customer holding the pass. The **Last Sent** panel then shows the title, message, and time of your most recent broadcast.
   </Step>
 </Steps>
 
+<Tip>
+Put the key information in the **Message** field rather than the title, so customers on Apple Wallet see the full announcement.
+</Tip>
+
 <Note>
-**One message every 24 hours:** Google Wallet allows one broadcast per 24 hours. Google Wallet displays both the title and the message in the notification, while Apple Wallet does not display the title.
+**One message every 24 hours:** Google Wallet allows one broadcast per 24 hours. Check the **Last Sent** panel to see when you can send again.
 </Note>
 
 To return to the pass editor from the broadcast screen, click **Pass Configuration**.
@@ -164,6 +197,9 @@ Customers tap **Add to Apple Wallet** or **Add to Google Wallet** from your loya
   </Accordion>
   <Accordion title="How often can I send a broadcast?">
     Google Wallet allows one broadcast every 24 hours.
+  </Accordion>
+  <Accordion title="Who receives a broadcast?">
+    Every customer who has saved your pass to that wallet. Apple Wallet and Google Wallet broadcasts are sent separately from each wallet's **Broadcast** button.
   </Accordion>
 </AccordionGroup>
 
