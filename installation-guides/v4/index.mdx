@@ -1,0 +1,88 @@
+---
+title: "Installation Guide (SDK v4)"
+description: "Step-by-step instructions to integrate Gameball SDK v4 with your application across supported platforms."
+---
+
+<Info>
+This guide is for **SDK v4**, which adds in-app messaging and purchase logging to the mobile SDKs. Every v3 call keeps its signature and behavior. For SDK v3 or v2 documentation, switch versions using the dropdown above.
+</Info>
+
+<CardGroup cols={2}>
+  <Card title="Web" icon="globe" href="/installation-guides/v4/web">
+    Integrate Gameball with your website or web application using the JavaScript SDK
+  </Card>
+
+  <Card title="Android" icon="android" href="/installation-guides/v4/android">
+    Integrate Gameball with your Android application using SDK v4.0.0
+  </Card>
+
+  <Card title="Flutter" icon="flutter" href="/installation-guides/v4/flutter">
+    Integrate Gameball with your Flutter application using SDK v4.0.0
+  </Card>
+
+  <Card title="React Native" icon="react" href="/installation-guides/v4/react-native">
+    Integrate Gameball with your React Native application using SDK v4.0.0
+  </Card>
+
+  <Card title="iOS" icon="apple" href="/installation-guides/v4/ios">
+    Integrate Gameball with your iOS application using SDK v4.0.0
+  </Card>
+
+  <Card title="POS" icon="cash-register" href="/installation-guides/v4/pos">
+    Integrate Gameball with your point-of-sale system using the REST API
+  </Card>
+</CardGroup>
+
+## What's New in SDK v4
+
+<CardGroup cols={2}>
+<Card title="In-App Messaging" icon="comment-dots">
+Display the slide-up, modal, and full-screen campaigns you create in the Gameball dashboard
+</Card>
+
+<Card title="Purchase Logging" icon="cart-shopping">
+Send purchases with `logPurchase` so campaigns can target and filter on them
+</Card>
+
+<Card title="New Platform Minimums" icon="mobile">
+iOS 15.0 and Android API 24 (Android 7.0) are now the minimum supported versions
+</Card>
+
+<Card title="Compatible with v3" icon="arrows-rotate">
+Every v3 call works unchanged, so upgrading needs no code changes
+</Card>
+</CardGroup>
+
+## What You'll Learn
+
+Each platform guide covers the essential integration steps:
+
+- **Getting Started** - Install the SDK and set up dependencies
+- **Initialize SDK** - Configure the SDK with the builder pattern
+- **Initialize Customer Profile** - Register customers and show the profile widget
+- **Track Customer Events** - Send customer actions and behaviors to Gameball
+- **Track Referrals** - Implement referral tracking
+- **In-App Messaging** - Display dashboard in-app campaigns in your app
+- **Go-Live Checklist** - Ensure everything is ready for production
+- **Migration Notes** - Upgrade from v3 to v4, or migrate from v2
+
+## Prerequisites
+
+Before starting your integration, make sure you have:
+
+- A Gameball account with API credentials
+- Your application's development environment set up
+- Basic understanding of your chosen platform's development workflow
+
+<Tip>
+SDK v4.0.0 is available for **Android**, **Flutter**, **React Native**, and **iOS**. The Web SDK with in-app messaging is not released yet.
+</Tip>
+
+## Upgrading from v3
+
+If you're currently using SDK v3, see the migration notes for your platform:
+
+- [iOS v3 to v4 Migration Guide](/installation-guides/v4/ios/migration-notes)
+- [Android v3 to v4 Migration Guide](/installation-guides/v4/android/migration-notes)
+- [Flutter v3 to v4 Migration Guide](/installation-guides/v4/flutter/migration-notes)
+- [React Native v3 to v4 Migration Guide](/installation-guides/v4/react-native/migration-notes)

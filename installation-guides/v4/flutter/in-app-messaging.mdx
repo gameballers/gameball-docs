@@ -1,5 +1,5 @@
 ---
-title: "How Do I Set Up In-App Messaging in the Flutter SDK (v3)?"
+title: "How Do I Set Up In-App Messaging in the Flutter SDK (v4)?"
 sidebarTitle: "In-App Messaging"
 description: "Display Gameball in-app campaigns in your Flutter app and control when and how they appear"
 ---
@@ -39,7 +39,7 @@ dependencies:
 ```
 
 <Warning>
-**Upgrading from 3.x?** SDK 4.0.0 raises the minimum platforms for the whole SDK to iOS 15.0 and Android API 24. Set `minSdk = 24` in `android/app/build.gradle`, set `platform :ios, '15.0'` in `ios/Podfile` and `IPHONEOS_DEPLOYMENT_TARGET = 15.0` for the Runner target, then run `pod install`. No Dart changes are needed: every 3.x call keeps its signature. See [Migration Notes](/installation-guides/v3/flutter/migration-notes).
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimum platforms for the whole SDK to iOS 15.0 and Android API 24. Set `minSdk = 24` in `android/app/build.gradle`, set `platform :ios, '15.0'` in `ios/Podfile` and `IPHONEOS_DEPLOYMENT_TARGET = 15.0` for the Runner target, then run `pod install`. No Dart changes are needed: every 3.x call keeps its signature. See [Migration Notes](/installation-guides/v4/flutter/migration-notes).
 </Warning>
 
 Call `init` first: until the API key is set, `startInAppMessaging` is ignored. Then identify the customer with `initializeCustomer`. For a new customer, start messaging from its callback, so the customer exists in Gameball before the first sync.
@@ -350,13 +350,13 @@ gameballInAppMessagingLogging = true;
   <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
     Campaign options, triggers, delivery rules, and analytics definitions.
   </Card>
-  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/flutter/track-events">
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v4/flutter/track-events">
     Send the events your campaigns are triggered by.
   </Card>
-  <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/flutter/push-notifications">
+  <Card title="Push Notifications" icon="bell" href="/installation-guides/v4/flutter/push-notifications">
     Reach customers when the app is closed.
   </Card>
-  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/flutter/go-live-checklist">
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v4/flutter/go-live-checklist">
     Verify the full Flutter integration before release.
   </Card>
 </CardGroup>

@@ -1,0 +1,121 @@
+---
+title: "How Do I Track Customer Events with the iOS SDK (v4)?"
+sidebarTitle: "Track Events"
+description: "Send customer events from the Gameball iOS SDK"
+---
+
+# Send Customer Events
+
+Use events to record customer actions (purchases, visits, interactions) and trigger Gameball automations and rewards.
+
+---
+
+## Basic Usage
+
+<div className="security-banner">
+  <div className="security-banner-icon">🔒</div>
+  <div className="security-banner-content">
+    <strong>Secure API Access:</strong> To benefit from v4.1 secure API endpoints, pass the <code>sessionToken</code> parameter when sending events (required in upcoming SDK v4). This enables automatic routing to v4.1 secure endpoints. <a href="/api-reference/introduction-v4.1">Learn more about v4.1 →</a>
+  </div>
+</div>
+
+<CodeGroup>
+
+```swift Swift (Completion Handler)
+import Gameball
+
+do {
+    let event = try Event(
+        events: [
+            "purchase": [
+                "amount": 120.50,
+                "currency": "USD",
+                "order_id": "order-123",
+                "items": 3,
+                "channel": "ios_app"
+            ]
+        ],
+        customerId: "customer-123"
+    )
+
+    GameballApp.getInstance().sendEvent(event) { success, errorMessage in
+        if success {
+            print("Event sent")
+        } else if let errorMessage = errorMessage {
+            print("Gameball event error: \(errorMessage)")
+        }
+    }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
+}
+```
+
+
+```swift Swift (Async/Await)
+import Gameball
+
+Task {
+    do {
+        let event = try Event(
+            events: [
+                "opened_app": [
+                    "platform": "iOS",
+                    "version": "1.3.0"
+                ]
+            ],
+            customerId: "customer-123"
+        )
+
+        let sent = try await GameballApp.getInstance().sendEvent(event)
+        print("Event sent: \(sent)")
+    } catch {
+        print("Validation/API error: \(error.localizedDescription)")
+    }
+}
+```
+
+</CodeGroup>
+
+---
+
+## Event Parameters
+
+<ParamField body="customerId" type="String" required>
+  Permanent identifier for the customer.
+</ParamField>
+
+<ParamField body="events" type="[String: [String: Any]]" required>
+  Dictionary of event names and metadata payloads.
+</ParamField>
+
+<ParamField body="email" type="String">
+  Customer email (optional).
+</ParamField>
+
+<ParamField body="mobile" type="String">
+  Customer mobile number (optional).
+</ParamField>
+
+<ParamField body="sessionToken" type="String">
+  Optional session token override for this request. Required in upcoming SDK v4.
+</ParamField>
+
+---
+
+## Best Practices
+
+<Steps>
+  <Step title="Keep names consistent">
+    Standardize event names and keys (e.g., snake_case).
+  </Step>
+  <Step title="Send after init">
+    Call `sendEvent` only after the SDK and customer are initialized.
+  </Step>
+  <Step title="Include identifiers">
+    Add order IDs, amounts, and channels to improve targeting.
+  </Step>
+  <Step title="Handle errors">
+    Surface validation and API errors for quick debugging.
+  </Step>
+</Steps>
+

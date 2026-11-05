@@ -1,0 +1,218 @@
+---
+title: "How Do I Set Up Push Notifications in the iOS SDK (v4)?"
+sidebarTitle: "Push Notifications"
+description: "Register Firebase or Huawei push tokens and handle Gameball-triggered notifications"
+---
+
+# Implement Push Notifications
+
+Gameball supports push delivery via **Firebase Cloud Messaging (FCM)** or **Huawei Push Kit**.\
+Use your push provider to fetch a device token, then register it with Gameball using `initializeCustomer`.
+
+---
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="SDK Responsibilities" icon="mobile">
+    • Request notification permission\
+    • Register provider token\
+    • Link token to Gameball customer\
+    • Handle Gameball payloads and deep links
+  </Card>
+  <Card title="Backend + Dashboard Responsibilities" icon="settings">
+    • Configure campaigns in Gameball dashboard\
+    • Define delivery rules and templates\
+    • Trigger messages from Gameball automations
+  </Card>
+</CardGroup>
+
+<Info>
+  Notifications cover rewards, tier progression, point expiration, referral milestones, and any campaign configured in the Gameball dashboard.
+</Info>
+
+---
+
+## Step 1: Request Permission
+
+```swift
+import UserNotifications
+
+func requestNotificationPermission() {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+        if granted {
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+}
+```
+
+---
+
+## Step 2: Get a Provider Token
+
+Fetch a device token from your push provider, then send it to Gameball with the matching `pushProvider` value.
+
+<CodeGroup>
+
+```swift Swift (Firebase FCM)
+import FirebaseMessaging
+import Gameball
+
+Messaging.messaging().token { token, error in
+    guard let token = token, error == nil else { return }
+
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .firebase
+        )
+
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Token registration error: \(error.localizedDescription)")
+    }
+}
+```
+
+```swift Swift (Huawei Push Kit)
+import AGConnectCore
+import AGConnectPush
+import Gameball
+
+AGCPush.getInstance().getToken { token, error in
+    guard let token = token, error == nil else { return }
+
+    do {
+        let request = try InitializeCustomerRequest(
+            customerId: "customer-123",
+            deviceToken: token,
+            pushProvider: .huawei
+        )
+
+        GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+    } catch {
+        print("Token registration error: \(error.localizedDescription)")
+    }
+}
+```
+
+</CodeGroup>
+
+<Tip>
+  Tokens can rotate. Re-register when the provider returns a new token.
+</Tip>
+
+---
+
+## Step 3: Handle Incoming Notifications
+
+Gameball notifications include `"source": "gameball"` to help you detect them.
+
+```swift
+import UserNotifications
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let userInfo = notification.request.content.userInfo
+        if userInfo["source"] as? String == "gameball" {
+            completionHandler([.banner, .sound, .badge])
+        } else {
+            completionHandler([])
+        }
+    }
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let userInfo = response.notification.request.content.userInfo
+        if userInfo["source"] as? String == "gameball" {
+            handleGameballNotification(userInfo)
+        }
+        completionHandler()
+    }
+
+    func handleGameballNotification(_ userInfo: [AnyHashable: Any]) {
+        if let deepLink = userInfo["deep_link"] as? String {
+            navigateToDeepLink(deepLink)
+        }
+    }
+
+    func navigateToDeepLink(_ deepLink: String) {
+        // Implement your deep linking logic
+    }
+}
+```
+
+---
+
+## SwiftUI Support
+
+Use an AppDelegate adaptor to keep the same permission and notification handling.
+
+```swift
+import SwiftUI
+import Gameball
+import UserNotifications
+
+@main
+struct YourApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
+
+# In-App Messages
+
+Gameball can display **in-app engagement messages** driven by campaigns:
+
+<CardGroup cols={2}>
+  <Card title="Profile Widget Popups" icon="window">
+    In-app notifications are triggered when customers open the profile widget.
+  </Card>
+  <Card title="Native In-App Messages" icon="message-square">
+    Reward updates, achievement notifications, and tier promotions.
+  </Card>
+</CardGroup>
+
+Configure in-app message templates through the Gameball dashboard.
+
+---
+
+# Best Practices
+
+<Steps>
+  <Step title="Request Permission Contextually">
+    Ask for notification permission after onboarding or when value is clear.
+  </Step>
+  <Step title="Register Token on Every Login">
+    Device tokens change; always update them when the app launches.
+  </Step>
+  <Step title="Test on Real Devices">
+    Simulators do not support push delivery; use physical devices for testing.
+  </Step>
+  <Step title="Deep Link Smartly">
+    Guide users to relevant app screens when they tap notifications.
+  </Step>
+</Steps>
+
+<Note>
+Registering a new token adds it to the customer's devices. Tokens registered earlier keep receiving notifications until Firebase or Huawei reports them as invalid. Gameball has no way to remove a token, so a device keeps receiving the customer's notifications after the customer logs out.
+</Note>
+
+---
+

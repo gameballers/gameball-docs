@@ -1,5 +1,5 @@
 ---
-title: "How Do I Set Up In-App Messaging in the iOS SDK (v3)?"
+title: "How Do I Set Up In-App Messaging in the iOS SDK (v4)?"
 sidebarTitle: "In-App Messaging"
 description: "Display Gameball in-app campaigns in your iOS app and control when and how they appear"
 ---
@@ -39,7 +39,7 @@ dependencies: [
 In Xcode, choose **File > Add Packages**, enter `https://github.com/gameballers/gameball-ios.git`, and select version 4.0.0 or later.
 
 <Warning>
-**Upgrading from 3.x?** SDK 4.0.0 raises the minimum deployment target to iOS 15.0. Set your app target's **Minimum Deployments** to 15.0, and `platform :ios, '15.0'` in your Podfile if you use CocoaPods for other dependencies. Every 3.x call keeps its signature and behavior. See [Migration Notes](/installation-guides/v3/ios/migration-notes).
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimum deployment target to iOS 15.0. Set your app target's **Minimum Deployments** to 15.0, and `platform :ios, '15.0'` in your Podfile if you use CocoaPods for other dependencies. Every 3.x call keeps its signature and behavior. See [Migration Notes](/installation-guides/v4/ios/migration-notes).
 </Warning>
 
 Initialize the SDK and identify the customer as you do today:
@@ -316,13 +316,13 @@ Messages carry stable accessibility identifiers, so your XCUITests do not depend
   <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
     Campaign options, triggers, delivery rules, and analytics definitions.
   </Card>
-  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/ios/track-events">
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v4/ios/track-events">
     Send the events your campaigns are triggered by.
   </Card>
-  <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/ios/push-notifications">
+  <Card title="Push Notifications" icon="bell" href="/installation-guides/v4/ios/push-notifications">
     Reach customers when the app is closed.
   </Card>
-  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/ios/go-live-checklist">
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v4/ios/go-live-checklist">
     Verify the full iOS integration before release.
   </Card>
 </CardGroup>

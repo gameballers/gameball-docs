@@ -121,21 +121,21 @@
 
 ## SDK Installation (v3)
 
-- [Installation Overview](https://docs.gameball.co/installation-guides/v3/index): Which SDK to use and how to get started
-- [Web SDK — Getting Started](https://docs.gameball.co/installation-guides/v3/web/getting-started): Install the Gameball JS widget on your website
-- [Web SDK — Track Events](https://docs.gameball.co/installation-guides/v3/web/track-events): Send custom events from your website
-- [Web SDK — Track Orders](https://docs.gameball.co/installation-guides/v3/web/track-orders): Submit purchase orders for points calculation
-- [Web SDK — Redemption](https://docs.gameball.co/installation-guides/v3/web/integrate-redemption): Integrate the redemption flow on web
-- [Web SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/web/in-app-messaging): Display in-app campaigns on web, React, Angular, and Ionic (not yet released)
-- [POS Integration](https://docs.gameball.co/installation-guides/v3/pos/index): Overview of POS loyalty integration
-- [iOS SDK](https://docs.gameball.co/installation-guides/v3/ios/index): Install and configure the Gameball iOS SDK
-- [iOS SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/ios/in-app-messaging): Display in-app campaigns in an iOS app (SDK 4.0.0+, beta)
-- [Android SDK](https://docs.gameball.co/installation-guides/v3/android/index): Install and configure the Gameball Android SDK
-- [Android SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/android/in-app-messaging): Display in-app campaigns in an Android app (SDK 4.0.0+, beta)
-- [Flutter SDK](https://docs.gameball.co/installation-guides/v3/flutter/index): Install and configure the Gameball Flutter SDK
-- [Flutter SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/flutter/in-app-messaging): Display in-app campaigns in a Flutter app (SDK 4.0.0+, beta)
-- [React Native SDK](https://docs.gameball.co/installation-guides/v3/react-native/index): Install and configure the Gameball React Native SDK
-- [React Native SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v3/react-native/in-app-messaging): Display in-app campaigns in a React Native app (SDK 4.0.0+, beta)
+- [Installation Overview](https://docs.gameball.co/installation-guides/v4/index): Which SDK to use and how to get started
+- [Web SDK — Getting Started](https://docs.gameball.co/installation-guides/v4/web/getting-started): Install the Gameball JS widget on your website
+- [Web SDK — Track Events](https://docs.gameball.co/installation-guides/v4/web/track-events): Send custom events from your website
+- [Web SDK — Track Orders](https://docs.gameball.co/installation-guides/v4/web/track-orders): Submit purchase orders for points calculation
+- [Web SDK — Redemption](https://docs.gameball.co/installation-guides/v4/web/integrate-redemption): Integrate the redemption flow on web
+- [Web SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v4/web/in-app-messaging): Display in-app campaigns on web, React, Angular, and Ionic (not yet released)
+- [POS Integration](https://docs.gameball.co/installation-guides/v4/pos/index): Overview of POS loyalty integration
+- [iOS SDK](https://docs.gameball.co/installation-guides/v4/ios/index): Install and configure the Gameball iOS SDK
+- [iOS SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v4/ios/in-app-messaging): Display in-app campaigns in an iOS app (SDK 4.0.0+, beta)
+- [Android SDK](https://docs.gameball.co/installation-guides/v4/android/index): Install and configure the Gameball Android SDK
+- [Android SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v4/android/in-app-messaging): Display in-app campaigns in an Android app (SDK 4.0.0+, beta)
+- [Flutter SDK](https://docs.gameball.co/installation-guides/v4/flutter/index): Install and configure the Gameball Flutter SDK
+- [Flutter SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v4/flutter/in-app-messaging): Display in-app campaigns in a Flutter app (SDK 4.0.0+, beta)
+- [React Native SDK](https://docs.gameball.co/installation-guides/v4/react-native/index): Install and configure the Gameball React Native SDK
+- [React Native SDK — In-App Messaging](https://docs.gameball.co/installation-guides/v4/react-native/in-app-messaging): Display in-app campaigns in a React Native app (SDK 4.0.0+, beta)
 
 ## Technical Tutorials
 

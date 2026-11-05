@@ -1,0 +1,486 @@
+---
+title: "How Do I Migrate to the iOS SDK v4?"
+sidebarTitle: "Migration Notes"
+description: "Upgrade from v3 to v4.0.0, or migrate from v2 to v4.0.0"
+---
+
+This guide walks you through upgrading from **Gameball iOS SDK v3** to **v4.0.0**, and migrating from **v2** to **v4.0.0**.
+
+## What's New in v4.0.0
+
+<Warning>
+  **Breaking change: iOS 15.0 minimum.** v4.0.0 raises the minimum supported iOS version to 15.0. Every v3.x call keeps its signature and behavior, so no Swift code changes are required.
+</Warning>
+
+### Highlights in v4.0.0
+
+- **In-App Messaging**: `startInAppMessaging()` displays the slide-up, modal, and full-screen campaigns you create in the Gameball dashboard, and `stopInAppMessaging()` stops it on logout. Nothing runs until you call `startInAppMessaging`, so upgrading without it changes nothing. See [In-App Messaging](/installation-guides/v4/ios/in-app-messaging).
+- **In-App Messaging Delegate**: `inAppMessagingDelegate` lets you postpone a message, handle a tap yourself, observe each selected message, and route `navigate` actions through your own router.
+- **Purchase Logging**: `logPurchase(customerId:productId:price:currency:quantity:properties:completion:sessionToken:)` sends a `purchase` event to Gameball that campaigns can target and filter on.
+- **Diagnostic Logging Switch**: `GameballInAppMessagingLogging` controls in-app messaging console logs. They are on in `DEBUG` builds and off in release builds.
+
+### Migrate v3.x → v4.0.0 (Breaking)
+
+- Raise your app target's minimum deployment to iOS 15.0. If you also use CocoaPods for other dependencies, set `platform :ios, '15.0'` in your Podfile and run `pod install`.
+- Update the SPM dependency to `from: "4.0.0"`.
+- (Optional) Adopt in-app messaging. See [In-App Messaging](/installation-guides/v4/ios/in-app-messaging).
+- (Optional) If you build `purchase` events yourself, replace them with `logPurchase` rather than sending both.
+
+<Info>
+  **Coming from v3.2.x or earlier?** v4.0.0 also includes the v3.3.x releases: per-call and global widget language (`ShowProfileRequest` `lang` and `setLanguage(_:)`), push notification click tracking (`handlePushClick`), and `initializeCustomer` always registering customers, with `isGuest` ignored. See the [release history](https://github.com/gameballers/gameball-ios/releases).
+</Info>
+
+---
+
+## What's New in v3.2.2
+
+<Info>
+  **Widget Events, Dismissal & External Links** — v3.2.x keeps all v3.x code compatible. Every new capability is opt-in, so an existing integration keeps working after a version bump.
+</Info>
+
+### Highlights in v3.2.2
+
+- **RTL Layout No Longer Leaks**: the widget's right-to-left layout direction is scoped to the widget's own view. Opening the widget in Arabic no longer flips your app's layout.
+
+### Highlights in v3.2.1
+
+- **Vector Close Button**: the close "X" is drawn as a vector tinted by `closeButtonColor` (default `#CECECE`), so it stays crisp at any screen scale.
+- **Smaller SDK Footprint**: 70 unused bundled images were removed. No public API or behavior change.
+
+### Highlights in v3.2.0
+
+- **Widget Event Channel**: `widgetEventCallback` on `ShowProfileRequest` receives events posted from the widget, such as `gameCompleted`.
+- **Host-Initiated Dismiss**: `GameballApp.getInstance().hideProfile()` dismisses the widget programmatically.
+- **Web-Initiated Close**: the widget can dismiss itself via `window.GameballWidget.closeWidget()`.
+- **External-Link Handling**: links tagged `gbExternalBrowser=true` open in the system browser, or in your own handler via `externalLinkCallback`.
+- **Channel Merging**: `ShowProfileRequest` accepts optional `mobile` and `email`.
+- **Diagnostic Logging**: the SDK records internal diagnostic logs to aid troubleshooting. No integration changes required.
+
+### Migrate v3.1.x → v3.2.2 (Non-Breaking)
+
+- Update the SPM dependency to `from: "3.2.2"`.
+- No code changes are required. Adopt the new widget capabilities only if you need them — see [Show Profile Widget](/installation-guides/v4/ios/show-profile).
+
+---
+
+### Highlights in v3.1.1
+
+- **Guest Mode Fix**: Profile widget works without a customer ID.
+- **Non-Throwing ShowProfileRequest**: Remove the `try` keyword when creating the request.
+- **Optional customerId**: Omit for guest experiences.
+- **Session Tokens**: Still supported for secure routing to v4.1.
+
+### Migrate v3.1.0 → v3.1.1 (Non-Breaking)
+
+- Update SPM dependency to `from: "3.1.1"`.
+- Drop `try` when creating `ShowProfileRequest` (initializer is non-throwing).
+- Use guest mode when `customerId` is not available:
+  ```swift
+  let guestRequest = ShowProfileRequest(showCloseButton: true)
+  GameballApp.getInstance().showProfile(guestRequest, presentationStyle: .pageSheet)
+  ```
+- Authenticated mode stays the same:
+  ```swift
+  let profileRequest = ShowProfileRequest(customerId: "customer_123")
+  GameballApp.getInstance().showProfile(profileRequest, presentationStyle: .fullScreen)
+  ```
+
+---
+
+## What's New in v3.0.0
+
+<CardGroup cols={2}>
+  <Card title="Modern Swift API" icon="code">
+    Native Swift API with improved type safety and better Swift idioms
+  </Card>
+  <Card title="Async/Await Support" icon="bolt">
+    Full async/await support alongside traditional callback-based APIs
+  </Card>
+  <Card title="Enhanced Type Safety" icon="shield">
+    Stronger typing and better compile-time checks with Swift generics
+  </Card>
+  <Card title="Improved Performance" icon="gauge-high">
+    Optimized SDK initialization and reduced memory footprint
+  </Card>
+</CardGroup>
+
+---
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2:**
+
+```swift
+// v2 constructed a Gameball instance directly
+let gameball = Gameball(
+    apiKey: "api-key",
+    lang: "en",
+    shop: "shop-id",
+    platform: "ios"
+)
+```
+
+**v3.2.2:**
+
+```swift
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    platform: "ios",
+    shop: "shop-id",
+    sessionToken: "session-token"  // Optional - New in v3.1.x
+)
+
+GameballApp.getInstance().`init`(config: config) { error in
+    if let error = error {
+        print("SDK init failed: \(error.localizedDescription)")
+    }
+}
+```
+
+---
+
+### 2. Customer Registration
+
+**v2:**
+
+```swift
+gameball.registerPlayer(
+    playerUniqueId: "customer-123",
+    referrerCode: "REF123",
+    playerAttributes: attributes
+) { gameballId, error in
+    // Handle response
+}
+```
+
+**v3.2.2:**
+
+```swift
+do {
+    let request = try InitializeCustomerRequest(
+        customerId: "customer-123",
+        customerAttributes: attributes,
+        referralCode: "REF123",
+        isGuest: false
+    )
+
+    GameballApp.getInstance().initializeCustomer(request) { response, errorMessage in
+        if let errorMessage = errorMessage {
+            print("Error: \(errorMessage)")
+        } else {
+            print("Customer initialized: \(response?.gameballId ?? \"\")")
+        }
+    }
+
+    // Optional: Override session token for this request
+    GameballApp.getInstance().initializeCustomer(
+        request,
+        sessionToken: "customer-token"
+    ) { _, _ in }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
+}
+```
+
+---
+
+### 3. Event Tracking
+
+**v2:**
+
+```swift
+// v2 sent an array of events, and params were [String: String]
+let event = Event(eventName: "purchase", params: ["amount": "99.99"])
+
+gameball.sendEvents(
+    playerUniqueId: "customer-123",
+    events: [event]
+) { success, errorDescription in
+    // Handle response
+}
+```
+
+**v3.2.2:**
+
+```swift
+do {
+    let event = try Event(
+        events: [
+            "purchase": [
+                "amount": 99.99
+            ]
+        ],
+        customerId: "customer-123"
+    )
+
+    GameballApp.getInstance().sendEvent(event) { success, errorMessage in
+        if success {
+            print("Event sent")
+        } else if let errorMessage = errorMessage {
+            print("Error: \(errorMessage)")
+        }
+    }
+
+    // Optional: Override session token for this request
+    GameballApp.getInstance().sendEvent(
+        event,
+        sessionToken: "customer-token"
+    ) { _, _ in }
+} catch {
+    print("Validation error: \(error.localizedDescription)")
+}
+```
+
+---
+
+### 4. Method Name Changes
+
+| **v2**                          | **v3.2.2**                                  |
+| :------------------------------ | :------------------------------------------ |
+| `Gameball(apiKey:…)` initializer | `GameballApp.getInstance().init(config:)`   |
+| `registerPlayer(playerUniqueId:…)` | `GameballApp.getInstance().initializeCustomer(_:completion:)` |
+| `sendEvents(playerUniqueId:events:)` | `GameballApp.getInstance().sendEvent(_:completion:)` |
+| `showProfile(playerUniqueId:…)` | `GameballApp.getInstance().showProfile(_:presentationStyle:)` |
+| `Event(eventName:params:)`      | `Event(events:customerId:)`                 |
+| `playerUniqueId`                | `customerId`                                |
+| `playerAttributes`              | `customerAttributes`                        |
+| `referrerCode`                  | `referralCode`                              |
+| `showCloseBtn`                  | `showCloseButton`                           |
+
+---
+
+### 5. Show Profile Widget
+
+**v2:**
+
+```swift
+gameball.showProfile(
+    playerUniqueId: "customer-123",
+    showCloseBtn: true
+) { viewController, errorMessage in
+    // v2 handed you the view controller to present yourself
+    if let vc = viewController {
+        self.present(vc, animated: true)
+    }
+}
+```
+
+**v3.2.2:**
+
+```swift
+let profileRequest = ShowProfileRequest(
+    customerId: "customer-123",
+    showCloseButton: true,
+    closeButtonColor: "#FF6B6B"
+)
+
+GameballApp.getInstance().showProfile(
+    profileRequest,
+    presentationStyle: .fullScreen
+) { _, _ in }
+
+// Optional: Override session token for this request
+GameballApp.getInstance().showProfile(
+    profileRequest,
+    presentationStyle: .fullScreen,
+    sessionToken: "customer-token"
+) { _, _ in }
+```
+
+---
+
+### 6. Error Handling
+
+**v2:**
+
+```swift
+gameball.sendEvents(playerUniqueId: "customer-123", events: [event]) { success, errorDescription in
+    if success != nil {
+        // Success
+    } else {
+        // Error — v2 surfaced it as an untyped `Any?`
+    }
+}
+```
+
+**v3.2.2:**
+
+```swift
+GameballApp.getInstance().sendEvent(event) { success, errorMessage in
+    if success {
+        // Success
+    } else if let errorMessage = errorMessage {
+        print(errorMessage)
+    }
+}
+```
+
+---
+
+### 7. Session Token Authentication (New in v3.1.x)
+
+```bash
+// Configure with session token
+let config = GameballConfig(
+    apiKey: "api-key",
+    lang: "en",
+    sessionToken: "session-token"  // Global token
+)
+GameballApp.getInstance().`init`(config: config)
+
+// Per-request token override
+GameballApp.getInstance().initializeCustomer(
+    request,
+    sessionToken: "override-token"
+) { _, _ in }
+```
+
+<Info>
+  Session tokens enable automatic v4.1 endpoint routing and enhanced security. The token is stored in memory with thread-safe access.
+</Info>
+
+---
+
+### 8. Async/Await Support (New in v3.0.0)
+
+```swift
+// Traditional callback
+GameballApp.getInstance().initializeCustomer(request) { _, _ in }
+
+// Async/await (v3.0.0+)
+Task {
+    do {
+        let response = try await GameballApp.getInstance().initializeCustomer(request)
+        // Handle success
+    } catch {
+        // Handle error
+    }
+}
+
+// With session token override (v3.1.x+)
+Task {
+    do {
+        let response = try await GameballApp.getInstance().initializeCustomer(
+            request,
+            sessionToken: "customer-token"
+        )
+        // Handle success
+    } catch {
+        // Handle error
+    }
+}
+```
+
+---
+
+## Migration Steps
+
+### From v3.x to v4.0.0
+
+<Steps>
+  <Step title="Raise Your Deployment Target">
+    In Xcode, select your app target, open **General**, and set **Minimum Deployments** to iOS 15.0. If you also use CocoaPods for other dependencies, set `platform :ios, '15.0'` in your Podfile and run `pod install`.
+  </Step>
+  <Step title="Update Dependency">
+    Update your Swift Package Manager dependency to **4.0.0**:
+
+    ```swift
+    .package(url: "https://github.com/gameballers/gameball-ios.git", from: "4.0.0")
+    ```
+  </Step>
+  <Step title="(Optional) Adopt In-App Messaging">
+    Call `startInAppMessaging()` once a customer is identified, and `stopInAppMessaging()` on logout. See [In-App Messaging](/installation-guides/v4/ios/in-app-messaging).
+  </Step>
+  <Step title="Test">
+    Verify that `initializeCustomer`, `sendEvent`, and `showProfile` behave as before. A build error such as `Compiling for iOS 12.0, but module 'Gameball' has a minimum deployment target of iOS 15.0` means your deployment target is still below 15.0.
+  </Step>
+</Steps>
+
+---
+
+### From v3.x to v3.2.2 (No Breaking Changes)
+
+<Info>
+  v3.2.x is fully backward compatible with earlier v3 releases. Simply update the dependency version. Session Token support and the new widget capabilities are optional.
+</Info>
+
+<Steps>
+  <Step title="Update Dependency">
+    Update your Swift Package Manager dependency to **3.2.2**.
+  </Step>
+  <Step title="(Optional) Add Session Token">
+    If you need enhanced security, add a session token to your configuration:
+
+    ```swift
+    let config = GameballConfig(
+        apiKey: "api-key",
+        lang: "en",
+        sessionToken: "your-session-token"
+    )
+    ```
+  </Step>
+  <Step title="Test">
+    Test your integration. All existing v3.0.0 code should work without changes.
+  </Step>
+</Steps>
+
+---
+
+### From v2.x to v4.0.0
+
+<Steps>
+  <Step title="Raise Your Deployment Target">
+    In Xcode, select your app target, open **General**, and set **Minimum Deployments** to iOS 15.0. If you also use CocoaPods for other dependencies, set `platform :ios, '15.0'` in your Podfile and run `pod install`.
+  </Step>
+  <Step title="Update Dependency">
+    Update your Swift Package Manager dependency to **4.0.0**:
+
+    ```swift
+    .package(url: "https://github.com/gameballers/gameball-ios.git", from: "4.0.0")
+    ```
+  </Step>
+  <Step title="Update Initialization">
+    Replace the `Gameball(apiKey:…)` initializer with `GameballConfig` + `GameballApp.getInstance().init(config:)`.
+  </Step>
+  <Step title="Update Customer Registration">
+    Replace `registerPlayer()` with `initializeCustomer()` using the new request type `InitializeCustomerRequest`.
+  </Step>
+  <Step title="Update Event Tracking">
+    Update event creation to use the `Event` model and pass it to `sendEvent`.
+  </Step>
+  <Step title="Update Error Handling">
+    Replace boolean success handlers with Result-based completion handlers to access detailed error information.
+  </Step>
+  <Step title="Update Show Profile">
+    Use the non-throwing `ShowProfileRequest` (guest mode optional) for displaying the profile widget.
+  </Step>
+  <Step title="Test Thoroughly">
+    Test all Gameball functionality (registration, events, profile, notifications, etc.) to ensure the migration is successful.
+  </Step>
+</Steps>
+
+---
+
+## Compatibility
+
+v4.0.0 requires:
+
+- **Minimum iOS**: iOS 15.0+
+- **Xcode**: 14.0+
+- **Swift**: 5.7+
+
+---
+
+## Additional Resources
+
+- **GitHub Repository:** https://github.com/gameballers/gameball-ios
+- **Release history:** see the [gameball-ios releases page](https://github.com/gameballers/gameball-ios/releases)
+- **Developer Docs:** [/](/)
+
+<Tip>
+  If you encounter issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+

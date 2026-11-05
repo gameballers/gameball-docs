@@ -1,12 +1,12 @@
 ---
 title: "How Do I Get Started with the Android SDK (v3)?"
 sidebarTitle: "Getting Started"
-description: "Install Gameball Android SDK v4.0.0 and set up your project"
+description: "Install Gameball Android SDK v3.2.1 and set up your project"
 ---
 
 # Installation & Setup
 
-This guide helps you set up your project and install the **Gameball Android SDK v4.0.0**.\
+This guide helps you set up your project and install the **Gameball Android SDK v3.2.1**.\
 After completing these steps, proceed to **Initialize the SDK** to start using Gameball in your app.
 
 ---
@@ -15,7 +15,7 @@ After completing these steps, proceed to **Initialize the SDK** to start using G
 
 Your project must meet the following minimum requirements:
 
-- **Minimum SDK Version:** 24 (Android 7.0)
+- **Minimum SDK Version:** 21 (Android 5.0)
 - **Target SDK Version:** 34
 - **Kotlin:** 2.0.0+
 - **AndroidX:** Required
@@ -24,10 +24,6 @@ Your project must meet the following minimum requirements:
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 ```
-
-<Note>
-**Upgrading from v3?** Version 4.0.0 raises the minimum SDK version to 24 (Android 7.0). Every v3 call works unchanged. See [Migration Notes](/installation-guides/v3/android/migration-notes).
-</Note>
 
 ---
 
@@ -60,7 +56,7 @@ In your **app-level** `build.gradle`:
 
 ```groovy
 dependencies {
-  implementation 'com.github.gameballers:gb-mobile-android:4.0.0'
+  implementation 'com.github.gameballers:gb-mobile-android:3.2.1'
 }
 ```
 
@@ -74,7 +70,7 @@ If you are using Maven:
 <dependency>
   <groupId>com.github.gameballers</groupId>
   <artifactId>gb-mobile-android</artifactId>
-  <version>4.0.0</version>
+  <version>3.2.1</version>
 </dependency>
 ```
 
@@ -105,7 +101,7 @@ If you are using ProGuard or R8, add the following rules to your [proguard-rules
 
 <AccordionGroup>
   <Accordion title="Dependency Not Found">
-    **Symptoms:** Gradle cannot resolve `com.github.gameballers:gb-mobile-android:4.0.0`. **Solutions:**
+    **Symptoms:** Gradle cannot resolve `com.github.gameballers:gb-mobile-android:3.2.1`. **Solutions:**
 
     - Ensure `jitpack.io` and Huawei repos are added under `repositories`.
     - Sync Gradle again from Android Studio.
@@ -133,12 +129,11 @@ The SDK logs useful information when BuildConfig.DEBUG is true.
 | `GameballApp`        | General SDK operations and lifecycle |
 | `LoggingInterceptor` | Network requests and responses       |
 | `HeaderInterceptor`  | Request headers and authentication   |
-| `GameballIAM`        | In-app messaging (v4.0.0+): why a campaign was shown or skipped |
 
 #### Example:
 
 ```bash
-adb logcat -s GameballApp LoggingInterceptor HeaderInterceptor GameballIAM
+adb logcat -s GameballApp LoggingInterceptor HeaderInterceptor
 ```
 
 <Tip>

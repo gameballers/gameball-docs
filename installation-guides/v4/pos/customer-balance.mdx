@@ -1,0 +1,77 @@
+---
+title: "How Do I Show the Customer Balance with Gameball POS (v4)?"
+sidebarTitle: "Show Customer Balance"
+description: "Retrieve and display an existing customer's loyalty balance during checkout"
+---
+
+Once a customer is identified, retrieve their loyalty balance so staff can show available points, their monetary value, and any points expiring soon. Surfacing the balance at checkout boosts redemption rates and reinforces the value of the program, creating a natural "use it before you lose it" prompt.
+
+## Retrieve the Balance
+
+Call the Get Customer Balance API as soon as the customer is identified, passing their `customerId`:
+
+<RequestExample>
+```bash cURL
+curl -X GET 'https://api.gameball.co/api/v4.0/integrations/customers/12345/balance' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success
+{
+  "totalPointsBalance": 1500,
+  "availablePointsBalance": 1200,
+  "availablePointsValue": 120.0,
+  "pendingPoints": 300,
+  "pendingPointsValue": 30.0,
+  "currency": "SAR",
+  "pointsName": "Reward Points",
+  "nextExpiringPointsAmount": 200,
+  "nextExpiringPointsValue": 20.0,
+  "nextExpiringPointsDate": "2024-12-01T00:00:00"
+}
+```
+</ResponseExample>
+
+## Fields to Display
+
+<ResponseField name="availablePointsBalance" type="number">
+  Points the customer can redeem immediately.
+</ResponseField>
+
+<ResponseField name="availablePointsValue" type="number">
+  Monetary equivalent of the available points, in the account currency.
+</ResponseField>
+
+<ResponseField name="pendingPoints" type="number">
+  Points earned but not yet confirmed (and therefore not yet redeemable).
+</ResponseField>
+
+<ResponseField name="nextExpiringPointsAmount" type="number">
+  Number of points expiring next. Pair with `nextExpiringPointsDate` to prompt urgency.
+</ResponseField>
+
+<ResponseField name="nextExpiringPointsDate" type="string">
+  Date the next batch of points expires.
+</ResponseField>
+
+<Note>
+**Behind the scenes**, Gameball returns the most up-to-date view of the customer's reward profile, calculating point values along with any pending or expiring balances.
+</Note>
+
+<Tip>
+Give your cashiers a ready-made prompt, for example: *"You have 1,200 reward points worth 120 SAR. Would you like to use them today? 200 points expire soon."*
+</Tip>
+
+## Tips & Gotchas
+
+- Always retrieve the balance **before** enabling redemption or prompting for point usage.
+- Display both the numeric balance and its monetary equivalent (`availablePointsValue`).
+- Use `nextExpiringPointsDate` and `nextExpiringPointsValue` to drive customer-facing urgency.
+- Rely on real-time calls. Only add caching if you're explicitly controlling refresh timing.
+
+## Next Step
+
+Ready to reward the purchase? Continue to [Track Orders & Earn Points](/installation-guides/v4/pos/track-orders).

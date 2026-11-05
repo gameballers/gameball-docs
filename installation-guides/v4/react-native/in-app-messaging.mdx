@@ -1,5 +1,5 @@
 ---
-title: "How Do I Set Up In-App Messaging in the React Native SDK (v3)?"
+title: "How Do I Set Up In-App Messaging in the React Native SDK (v4)?"
 sidebarTitle: "In-App Messaging"
 description: "Display Gameball in-app campaigns in your React Native app and control when and how they appear"
 ---
@@ -37,7 +37,7 @@ cd ios && pod install
 ```
 
 <Warning>
-**Upgrading from 3.x?** SDK 4.0.0 raises the minimums to iOS 15.0 and Android API 24. Every 3.x call keeps its signature and behavior. Coming from 3.1.x or earlier, also install the required peers listed above. See [Migration Notes](/installation-guides/v3/react-native/migration-notes).
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimums to iOS 15.0 and Android API 24. Every 3.x call keeps its signature and behavior. Coming from 3.1.x or earlier, also install the required peers listed above. See [Migration Notes](/installation-guides/v4/react-native/migration-notes).
 </Warning>
 
 Version 4.0.0 adds five methods (`startInAppMessaging`, `stopInAppMessaging`, `setOverlayOpen`, `onInAppMessage`, and `logPurchase`), one read-only property (`isInAppMessagingStarted`), one component (`<GameballInAppMessages />`), and a `debug` option on `init`.
@@ -348,13 +348,13 @@ Types `InAppMessage`, `MessageButton`, `ClickAction`, `MessageType`, `MessageLay
   <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
     Campaign options, triggers, delivery rules, and analytics definitions.
   </Card>
-  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/react-native/track-events">
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v4/react-native/track-events">
     Send the events your campaigns are triggered by.
   </Card>
-  <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/react-native/push-notifications">
+  <Card title="Push Notifications" icon="bell" href="/installation-guides/v4/react-native/push-notifications">
     Reach customers when the app is closed.
   </Card>
-  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/react-native/go-live-checklist">
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v4/react-native/go-live-checklist">
     Verify the full React Native integration before release.
   </Card>
 </CardGroup>

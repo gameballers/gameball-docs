@@ -1,0 +1,144 @@
+---
+title: "How Do I Get Started with the Flutter SDK (v4)?"
+sidebarTitle: "Getting Started"
+description: "Install Gameball Flutter SDK v4.0.0"
+---
+
+# Getting Started
+
+## Requirements
+
+- **Minimum Flutter Version**: 1.17.0
+- **Dart**: 3.4.4+
+- **Android**: API level 24+ (Android 7.0)
+- **iOS**: iOS 15.0+
+
+<Note>
+**Upgrading from v3?** Version 4.0.0 raises the minimum versions to iOS 15.0 and Android API 24. Every v3 call works unchanged. See [Migration Notes](/installation-guides/v4/flutter/migration-notes).
+</Note>
+
+## Install the SDK
+
+Add the dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  gameball_sdk: ^4.0.0
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
+
+## iOS Setup
+
+Make sure your iOS deployment target is at least 15.0. In your `ios/Podfile`:
+
+```ruby
+platform :ios, '15.0'
+```
+
+Set `IPHONEOS_DEPLOYMENT_TARGET` to 15.0 for the Runner target in Xcode as well.
+
+Run:
+
+```bash
+cd ios && pod install
+```
+
+<Info>
+After updating the Podfile, run `pod install` to ensure all iOS dependencies are properly configured.
+</Info>
+
+## Android Setup
+
+Ensure `INTERNET` permission is declared in `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+Your `android/app/build.gradle` should have minimum SDK version 24:
+
+```gradle
+android {
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 34
+    }
+}
+```
+
+## Verify Installation
+
+After installing, import the package in your Dart code to verify:
+
+```dart
+import 'package:gameball_sdk/gameball_sdk.dart';
+```
+
+If there are no import errors, you're ready to initialize the SDK!
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+<Accordion title="API Key Not Initialized Error">
+**Error:** `API key is not initialized. Call init() first`
+
+**Solution:** Ensure you call `gameballApp.init(config)` before any other SDK methods, preferably in your `main()` function before `runApp()`.
+</Accordion>
+
+<Accordion title="Invalid Customer ID Error">
+**Error:** `Customer ID cannot be empty`
+
+**Solution:** Provide a valid, non-empty customer ID in your requests. The customer ID should be a permanent identifier for the user.
+</Accordion>
+
+<Accordion title="Push Provider Validation Error">
+**Error:** `Device token is required when push provider is set`
+
+**Solution:** When setting a push provider, ensure you also provide a valid device token. Both must be set together.
+</Accordion>
+
+<Accordion title="Build Errors on iOS">
+**Symptoms:** Pod installation or build failures on iOS
+
+**Solutions:**
+- Clean build folder: `cd ios && xcodebuild clean`
+- Reinstall pods: `cd ios && pod install --repo-update`
+- Ensure iOS deployment target is at least 15.0
+</Accordion>
+
+<Accordion title="Build Errors on Android">
+**Symptoms:** Gradle build failures
+
+**Solutions:**
+- Clean gradle cache: `cd android && ./gradlew clean`
+- Verify minimum SDK version is 24 in `build.gradle`
+- Check React Native version compatibility
+</Accordion>
+</AccordionGroup>
+
+### Debug Logging
+
+Enable Flutter's debug logging to see detailed SDK operation logs:
+
+```bash
+flutter run --verbose
+```
+
+<Tip>
+For verbose logging during development, run your app with the `--verbose` flag to see detailed SDK logs and network operations.
+</Tip>
+
+In-app messaging logs separately, prefixed `[GameballIAM]`. See [In-App Messaging](/installation-guides/v4/flutter/in-app-messaging#logging-and-troubleshooting).
+
+## Next Steps
+
+- [Initialize SDK](/installation-guides/v4/flutter/initialize-sdk)
+- [Initialize Customer Profile](/installation-guides/v4/flutter/initialize-profile)
+

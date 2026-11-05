@@ -1,0 +1,379 @@
+---
+title: "How Do I Migrate to the Android SDK v4?"
+sidebarTitle: "Migration Notes"
+description: "Upgrade from v3 to v4.0.0, or migrate from v2 to v4.0.0"
+---
+
+This guide helps you upgrade from Gameball Android SDK v3 to v4.0.0, and migrate from v2 to v4.0.0.
+
+## What's New in v4.0.0
+
+<Warning>
+  **Breaking change: API 24 minimum.** v4.0.0 raises the minimum supported Android version to API 24 (Android 7.0). Every v3.x call keeps its signature and behavior, so no code changes are required beyond the minimum SDK.
+</Warning>
+
+### New in v4.0.0
+
+- **In-App Messaging**: `startInAppMessaging(customerId, options)` displays the slide-up, modal, and full-screen campaigns you create in the Gameball dashboard, and `stopInAppMessaging()` stops it on logout. Nothing runs until you call `startInAppMessaging`, so upgrading without it changes nothing. See [In-App Messaging](/installation-guides/v4/android/in-app-messaging)
+- **In-App Messaging Hooks**: `InAppMessagingOptions` takes `beforeDisplay`, `onAction`, `onNavigate`, and `observer` to postpone a message, handle a tap yourself, route `navigate` actions, and observe each selected message
+- **Purchase Logging**: `logPurchase(customerId, productId, price, currency, quantity, properties, callback, sessionToken)` sends a `purchase` event to Gameball that campaigns can target and filter on
+- **Diagnostic Logging Switch**: `GameballApp.inAppMessagingLogging` controls in-app messaging logcat output under the `GameballIAM` tag. It is on in debuggable builds and off in release builds
+
+### Migrate v3.x → v4.0.0 (Breaking)
+
+- Set `minSdk` to 24 in your app module's `build.gradle`.
+- Update the dependency to `com.github.gameballers:gb-mobile-android:4.0.0`.
+- (Optional) Adopt in-app messaging. See [In-App Messaging](/installation-guides/v4/android/in-app-messaging).
+- (Optional) If you build `purchase` events yourself, replace them with `logPurchase` rather than sending both.
+
+<Info>
+  **Coming from v3.2.x or earlier?** v4.0.0 also includes the v3.3.x releases: per-call and global widget language (`ShowProfileRequest` `lang` and `setLanguage(lang)`), push notification click tracking (`handlePushClick`), and `initializeCustomer` always registering customers, with `isGuest` ignored. See the [release history](https://github.com/gameballers/gb-mobile-android/releases).
+</Info>
+
+---
+
+## What's New in v3.2.1
+
+<Info>
+  **Widget Events, Dismissal & External Links** — v3.2.x keeps all v3.x code compatible. Every new capability is opt-in, so an existing integration keeps working after a version bump.
+</Info>
+
+### New in v3.2.1
+
+- **Widget Header No Longer Under the Status Bar**: widget content is padded by the status-bar and display-cutout height, so the header and close buttons stay tappable (previously seen on Pixel and Android 15)
+- **Status-Bar Icon Contrast**: the widget uses a dedicated theme with dark status-bar icons, keeping them visible over the widget's white top band
+
+### New in v3.2.0
+
+- **Widget Event Channel**: `widgetEventCallback` on `ShowProfileRequest` receives events posted from the widget, such as `gameCompleted`
+- **Host-Initiated Dismiss**: `GameballApp.hideProfile()` dismisses the widget programmatically
+- **Web-Initiated Close**: the widget can dismiss itself via `window.GameballWidget.closeWidget()`
+- **External-Link Handling**: links tagged `gbExternalBrowser=true` open in the system browser, or in your own handler via `externalLinkCallback`
+- **Channel Merging**: `ShowProfileRequest.builder()` accepts optional `mobile` and `email`
+- **Diagnostic Logging**: the SDK records internal diagnostic logs to aid troubleshooting. No integration changes required
+
+<Warning>
+  **Breaking change in v3.2.0:** `ShowProfileRequest.capturedLinkCallback` was renamed to `externalLinkCallback`, and it now fires only for links the widget tags with `gbExternalBrowser=true`. If you used `capturedLinkCallback`, rename it:
+
+  ```kotlin
+  // Before (v3.1.x)
+  .capturedLinkCallback(object : Callback<String> { /* … */ })
+
+  // After (v3.2.0+)
+  .externalLinkCallback(object : Callback<String> { /* … */ })
+  ```
+</Warning>
+
+### New in v3.1.x
+
+- **Widget URL Fix (3.1.2)**: eliminated a null `customerId` value from the widget URL
+- **Guest Mode Support**: Show profile widget without customer authentication
+- **Non-Throwing ShowProfileRequest**: Customer ID optional for guest mode
+- **Session Token Support**: Optional token-based authentication (from 3.1.0)
+- **Automatic Endpoint Versioning**: Routes to v4.1 API when token is present
+- **Per-Request Token Override**: Override global token on individual API calls
+- **Backward Compatible**: All v3.0.0 code works unchanged
+
+<CardGroup cols={2}>
+<Card title="Improved API" icon="code">
+Streamlined API with better Kotlin support and cleaner method names
+</Card>
+
+<Card title="Better Performance" icon="gauge-high">
+Optimized SDK initialization and reduced memory footprint
+</Card>
+
+<Card title="Enhanced Type Safety" icon="shield">
+Stronger typing and better compile-time checks
+</Card>
+
+<Card title="Simplified Configuration" icon="sliders">
+Easier configuration with builder pattern throughout
+</Card>
+</CardGroup>
+
+## Breaking Changes
+
+### 1. SDK Initialization
+
+**v2:**
+```kotlin
+GameballApp.getInstance(context).init(
+    "api-key",
+    "en",
+    "android",
+    "shop-id"
+)
+```
+
+**v3.2.1:**
+```kotlin
+val config = GameballConfig.builder()
+    .apiKey("api-key")
+    .lang("en")
+    .platform("android")
+    .shop("shop-id")
+    .sessionToken("session-token")  // Optional
+    .build()
+
+GameballApp.getInstance(context).init(config)
+```
+
+### 2. Customer Registration
+
+**v2:**
+```kotlin
+gameballApp.registerCustomer(
+    customerId,
+    customerAttributes,
+    referralCode,
+    isGuest,
+    callback
+)
+```
+
+**v3.2.1:**
+```kotlin
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId(customerId)
+    .customerAttributes(customerAttributes)
+    .referralCode(referralCode)
+    .build()
+
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    callback
+)
+
+// Optional: Override session token for this request
+GameballApp.getInstance(context).initializeCustomer(
+    customerRequest,
+    callback,
+    sessionToken = "customer-token"
+)
+```
+
+### 3. Event Tracking
+
+**v2:**
+```kotlin
+val event = Event.Builder()
+    .withCustomerId("customer-123")
+    .withEventName("purchase")
+    .withEventMetaData("total", 120)
+    .build()
+```
+
+**v3.2.1:**
+```kotlin
+val event = Event.builder()
+    .customerId("customer-123")
+    .eventName("purchase")
+    .build()
+
+GameballApp.getInstance(context).sendEvent(event, callback)
+
+// Optional: Override session token for this request
+GameballApp.getInstance(context).sendEvent(
+    event,
+    callback,
+    sessionToken = "customer-token"
+)
+```
+
+### 4. Method Name Changes
+
+| v2 | v3.2.1 |
+|--------|--------|
+| `registerCustomer()` | `initializeCustomer()` |
+| `Event.Builder()` | `Event.builder()` |
+| `withCustomerId()` | `customerId()` |
+| `withEventName()` | `eventName()` |
+| `withEventMetaData()` | `eventMetaData()` |
+| `CustomerRegisterResponse` | `InitializeCustomerResponse` |
+| `capturedLinkCallback` | `externalLinkCallback` |
+
+<Note>
+  `CustomerAttributes` is unchanged from v2 — no rename needed.
+
+  `capturedLinkCallback` survived v2 and v3.0–v3.1 unchanged and was renamed only in v3.2.0. If you are coming from v3.1.x rather than v2, this is the single rename you need — see the warning at the top of this page.
+</Note>
+
+### 5. Push Notifications
+
+**v2:**
+```kotlin
+gameballApp.initializeFirebase()
+```
+
+**v3.2.1:**
+```kotlin
+// Token is provided during customer initialization
+val customerRequest = InitializeCustomerRequest.builder()
+    .customerId("customer-123")
+    .deviceToken(fcmToken)
+    .pushProvider(PushProvider.Firebase)
+    .build()
+```
+
+## Migration Steps
+
+### From v3.x to v4.0.0
+
+<Steps>
+<Step title="Raise Your Minimum SDK">
+Set `minSdk` to 24 in your app module's `build.gradle`:
+
+```groovy
+android {
+    defaultConfig {
+        minSdk 24
+    }
+}
+```
+</Step>
+
+<Step title="Update Dependency">
+Update your `build.gradle` to use SDK v4.0.0:
+
+```groovy
+dependencies {
+    implementation 'com.github.gameballers:gb-mobile-android:4.0.0'
+}
+```
+</Step>
+
+<Step title="(Optional) Adopt In-App Messaging">
+Call `startInAppMessaging(customerId)` once the customer is known, and `stopInAppMessaging()` on logout. See [In-App Messaging](/installation-guides/v4/android/in-app-messaging).
+</Step>
+
+<Step title="Test">
+Verify that `initializeCustomer`, `sendEvent`, and `showProfile` behave as before. A build error such as `Manifest merger failed : uses-sdk:minSdkVersion 21 cannot be smaller than version 24` means `minSdk` is still below 24.
+</Step>
+</Steps>
+
+### From v3.1.x to v3.2.1
+
+<Info>
+v3.2.x is backward compatible with v3.1.x, with one exception: if you used `capturedLinkCallback`, rename it to `externalLinkCallback` (see the warning above). Every other v3.2.x capability is opt-in, so an existing integration keeps working after a version bump.
+</Info>
+
+<Steps>
+<Step title="Update Dependency">
+Update your `build.gradle` to use SDK v3.2.1:
+
+```groovy
+dependencies {
+    implementation 'com.github.gameballers:gb-mobile-android:3.2.1'
+}
+```
+</Step>
+
+<Step title="Rename capturedLinkCallback">
+If you passed `capturedLinkCallback` to `ShowProfileRequest`, rename it to `externalLinkCallback`. This is the only required code change.
+</Step>
+
+<Step title="(Optional) Adopt the New Widget Capabilities">
+Handle widget events, dismiss the widget from your app, or intercept external links:
+
+```kotlin
+val request = ShowProfileRequest.builder()
+    .customerId("customer-123")
+    .widgetEventCallback(widgetEventCallback)   // React to gameCompleted, etc.
+    .externalLinkCallback(externalLinkCallback) // Handle gbExternalBrowser links yourself
+    .mobile("+201234567890")                    // Channel merging
+    .email("customer@example.com")
+    .build()
+
+GameballApp.getInstance(this).hideProfile()     // Dismiss the widget programmatically
+```
+
+See [Show Profile Widget](/installation-guides/v4/android/show-profile) for the full reference.
+</Step>
+
+<Step title="(Optional) Add Session Token">
+If enhanced security is needed, add session token to your configuration:
+
+```kotlin
+val config = GameballConfig.builder()
+    .apiKey("api-key")
+    .lang("en")
+    .sessionToken("your-session-token")
+    .build()
+```
+</Step>
+
+<Step title="Test">
+Test your integration. Aside from the `capturedLinkCallback` rename, existing code works unchanged.
+</Step>
+</Steps>
+
+### From v2.x to v4.0.0
+
+<Steps>
+<Step title="Raise Your Minimum SDK">
+Set `minSdk` to 24 in your app module's `build.gradle`:
+
+```groovy
+android {
+    defaultConfig {
+        minSdk 24
+    }
+}
+```
+</Step>
+
+<Step title="Update Dependency">
+Update your `build.gradle` to use SDK v4.0.0:
+
+```groovy
+dependencies {
+    implementation 'com.github.gameballers:gb-mobile-android:4.0.0'
+}
+```
+</Step>
+
+<Step title="Update Initialization">
+Replace your SDK initialization code with the new `GameballConfig` builder pattern.
+</Step>
+
+<Step title="Update Customer Registration">
+Replace `registerCustomer()` with `initializeCustomer()` using the new request builder.
+</Step>
+
+<Step title="Update Event Tracking">
+Update event creation to drop the `with` prefix on builder methods (e.g., `.customerId()` instead of `.withCustomerId()`).
+</Step>
+
+<Step title="Update Push Notifications">
+Move device token registration to customer initialization instead of separate `initializeFirebase()` call.
+</Step>
+
+<Step title="Test Thoroughly">
+Test all Gameball functionality to ensure the migration is successful.
+</Step>
+</Steps>
+
+## Compatibility
+
+- **Minimum SDK**: Android API 24 (Android 7.0) as of v4.0.0
+- **Target SDK**: Android API 34
+- **Kotlin**: 2.0.0+
+- **AndroidX**: Required
+- **Gradle**: 7.0+
+
+## Additional Resources
+
+- SDK Repository: https://github.com/gameballers/gb-mobile-android
+- Release history: see the [gb-mobile-android releases page](https://github.com/gameballers/gb-mobile-android/releases)
+- Developer Docs: [/](/)
+
+<Tip>
+If you encounter any issues during migration, check the GitHub repository for known issues and solutions, or contact Gameball support.
+</Tip>
+
+## Next Steps
+
+- [Getting Started](/installation-guides/v4/android/getting-started)
+- [Go-Live Checklist](/installation-guides/v4/android/go-live-checklist)
+

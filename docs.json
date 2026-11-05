@@ -526,8 +526,204 @@
         "tab": "Installation",
         "versions": [
           {
-            "version": "SDK v3",
+            "version": "SDK v4",
             "default": true,
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "installation-guides/v4/index"
+                ]
+              },
+              {
+                "group": "Web & POS Integration",
+                "pages": [
+                  {
+                    "group": "Web",
+                    "pages": [
+                      "installation-guides/v4/web/index",
+                      "installation-guides/v4/web/getting-started",
+                      "installation-guides/v4/web/initialize-widget",
+                      "installation-guides/v4/web/customer-management",
+                      "installation-guides/v4/web/track-events",
+                      "installation-guides/v4/web/track-orders",
+                      "installation-guides/v4/web/integrate-redemption",
+                      "installation-guides/v4/web/track-referrals",
+                      "installation-guides/v4/web/in-app-messaging",
+                      "installation-guides/v4/web/go-live-checklist"
+                    ]
+                  },
+                  {
+                    "group": "POS",
+                    "pages": [
+                      "installation-guides/v4/pos/index",
+                      "installation-guides/v4/pos/getting-started",
+                      "installation-guides/v4/pos/customer-management",
+                      "installation-guides/v4/pos/customer-balance",
+                      "installation-guides/v4/pos/track-orders",
+                      "installation-guides/v4/pos/integrate-redemption",
+                      "installation-guides/v4/pos/refund-order",
+                      "installation-guides/v4/pos/fetch-order-details",
+                      "installation-guides/v4/pos/track-events",
+                      "installation-guides/v4/pos/track-referrals",
+                      "installation-guides/v4/pos/go-live-checklist"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Mobile Integration",
+                "pages": [
+                  {
+                    "group": "iOS",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guides/v4/ios/index",
+                          "installation-guides/v4/ios/getting-started",
+                          "installation-guides/v4/ios/initialize-sdk",
+                          "installation-guides/v4/ios/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guides/v4/ios/show-profile",
+                          "installation-guides/v4/ios/track-events"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guides/v4/ios/push-notifications",
+                          "installation-guides/v4/ios/track-referrals",
+                          "installation-guides/v4/ios/in-app-messaging"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guides/v4/ios/go-live-checklist",
+                          "installation-guides/v4/ios/migration-notes"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Android",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guides/v4/android/index",
+                          "installation-guides/v4/android/getting-started",
+                          "installation-guides/v4/android/initialize-sdk",
+                          "installation-guides/v4/android/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guides/v4/android/show-profile",
+                          "installation-guides/v4/android/track-events"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guides/v4/android/push-notifications",
+                          "installation-guides/v4/android/track-referrals",
+                          "installation-guides/v4/android/in-app-messaging"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guides/v4/android/go-live-checklist",
+                          "installation-guides/v4/android/migration-notes"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Flutter",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guides/v4/flutter/index",
+                          "installation-guides/v4/flutter/getting-started",
+                          "installation-guides/v4/flutter/initialize-sdk",
+                          "installation-guides/v4/flutter/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guides/v4/flutter/show-profile",
+                          "installation-guides/v4/flutter/track-events"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guides/v4/flutter/track-referrals",
+                          "installation-guides/v4/flutter/push-notifications",
+                          "installation-guides/v4/flutter/in-app-messaging"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guides/v4/flutter/go-live-checklist",
+                          "installation-guides/v4/flutter/migration-notes"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "React Native",
+                    "pages": [
+                      {
+                        "group": "Overview & Setup",
+                        "pages": [
+                          "installation-guides/v4/react-native/index",
+                          "installation-guides/v4/react-native/getting-started",
+                          "installation-guides/v4/react-native/initialize-sdk",
+                          "installation-guides/v4/react-native/initialize-profile"
+                        ]
+                      },
+                      {
+                        "group": "Core SDK Capabilities",
+                        "pages": [
+                          "installation-guides/v4/react-native/show-profile",
+                          "installation-guides/v4/react-native/track-events"
+                        ]
+                      },
+                      {
+                        "group": "Extended Features",
+                        "pages": [
+                          "installation-guides/v4/react-native/track-referrals",
+                          "installation-guides/v4/react-native/push-notifications",
+                          "installation-guides/v4/react-native/in-app-messaging"
+                        ]
+                      },
+                      {
+                        "group": "Deployment & Maintenance",
+                        "pages": [
+                          "installation-guides/v4/react-native/go-live-checklist",
+                          "installation-guides/v4/react-native/migration-notes"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "version": "SDK v3",
             "groups": [
               {
                 "group": "Overview",
@@ -549,7 +745,6 @@
                       "installation-guides/v3/web/track-orders",
                       "installation-guides/v3/web/integrate-redemption",
                       "installation-guides/v3/web/track-referrals",
-                      "installation-guides/v3/web/in-app-messaging",
                       "installation-guides/v3/web/go-live-checklist"
                     ]
                   },
@@ -597,8 +792,7 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/ios/push-notifications",
-                          "installation-guides/v3/ios/track-referrals",
-                          "installation-guides/v3/ios/in-app-messaging"
+                          "installation-guides/v3/ios/track-referrals"
                         ]
                       },
                       {
@@ -633,8 +827,7 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/android/push-notifications",
-                          "installation-guides/v3/android/track-referrals",
-                          "installation-guides/v3/android/in-app-messaging"
+                          "installation-guides/v3/android/track-referrals"
                         ]
                       },
                       {
@@ -669,8 +862,7 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/flutter/track-referrals",
-                          "installation-guides/v3/flutter/push-notifications",
-                          "installation-guides/v3/flutter/in-app-messaging"
+                          "installation-guides/v3/flutter/push-notifications"
                         ]
                       },
                       {
@@ -705,8 +897,7 @@
                         "group": "Extended Features",
                         "pages": [
                           "installation-guides/v3/react-native/track-referrals",
-                          "installation-guides/v3/react-native/push-notifications",
-                          "installation-guides/v3/react-native/in-app-messaging"
+                          "installation-guides/v3/react-native/push-notifications"
                         ]
                       },
                       {
@@ -4106,6 +4297,31 @@
     {
       "source": "/en/:path*",
       "destination": "/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/installation-guides/v3/web/in-app-messaging",
+      "destination": "/installation-guides/v4/web/in-app-messaging",
+      "permanent": true
+    },
+    {
+      "source": "/installation-guides/v3/ios/in-app-messaging",
+      "destination": "/installation-guides/v4/ios/in-app-messaging",
+      "permanent": true
+    },
+    {
+      "source": "/installation-guides/v3/android/in-app-messaging",
+      "destination": "/installation-guides/v4/android/in-app-messaging",
+      "permanent": true
+    },
+    {
+      "source": "/installation-guides/v3/flutter/in-app-messaging",
+      "destination": "/installation-guides/v4/flutter/in-app-messaging",
+      "permanent": true
+    },
+    {
+      "source": "/installation-guides/v3/react-native/in-app-messaging",
+      "destination": "/installation-guides/v4/react-native/in-app-messaging",
       "permanent": true
     }
   ]

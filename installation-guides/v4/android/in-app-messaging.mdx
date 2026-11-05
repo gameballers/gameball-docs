@@ -1,5 +1,5 @@
 ---
-title: "How Do I Set Up In-App Messaging in the Android SDK (v3)?"
+title: "How Do I Set Up In-App Messaging in the Android SDK (v4)?"
 sidebarTitle: "In-App Messaging"
 description: "Display Gameball in-app campaigns in your Android app and control when and how they appear"
 ---
@@ -50,10 +50,10 @@ dependencies {
 }
 ```
 
-For older Gradle setups, see [Getting Started](/installation-guides/v3/android/getting-started).
+For older Gradle setups, see [Getting Started](/installation-guides/v4/android/getting-started).
 
 <Warning>
-**Upgrading from 3.x?** SDK 4.0.0 raises the minimum SDK version to 24 (Android 7.0), so set `minSdk` to 24 or higher in your app module. Every 3.x call keeps its signature and behavior. See [Migration Notes](/installation-guides/v3/android/migration-notes).
+**Upgrading from 3.x?** SDK 4.0.0 raises the minimum SDK version to 24 (Android 7.0), so set `minSdk` to 24 or higher in your app module. Every 3.x call keeps its signature and behavior. See [Migration Notes](/installation-guides/v4/android/migration-notes).
 </Warning>
 
 Initialize the SDK in your `Application` and identify the customer as you do today. Both must happen before messaging starts.
@@ -405,13 +405,13 @@ If you minify, keep the SDK and Gson as the SDK's README already recommends:
   <Card title="In-App Messaging Campaigns" icon="comment-dots" href="/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns">
     Campaign options, triggers, delivery rules, and analytics definitions.
   </Card>
-  <Card title="Track Events" icon="chart-line" href="/installation-guides/v3/android/track-events">
+  <Card title="Track Events" icon="chart-line" href="/installation-guides/v4/android/track-events">
     Send the events your campaigns are triggered by.
   </Card>
-  <Card title="Push Notifications" icon="bell" href="/installation-guides/v3/android/push-notifications">
+  <Card title="Push Notifications" icon="bell" href="/installation-guides/v4/android/push-notifications">
     Reach customers when the app is closed.
   </Card>
-  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v3/android/go-live-checklist">
+  <Card title="Go-Live Checklist" icon="rocket" href="/installation-guides/v4/android/go-live-checklist">
     Verify the full Android integration before release.
   </Card>
 </CardGroup>

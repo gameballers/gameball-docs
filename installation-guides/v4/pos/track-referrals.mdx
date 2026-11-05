@@ -1,0 +1,55 @@
+---
+title: "How Do I Track Referrals with Gameball POS (v4)?"
+sidebarTitle: "Track Referrals"
+description: "Track customer referrals at your POS system"
+---
+
+Referral tracking rewards customers for bringing new shoppers to your store. When a new customer makes their first purchase and mentions a referrer, you include the referrer's code in the order, and Gameball rewards both parties based on your configured campaign rules.
+
+<Note>
+Referral tracking is optional. If you don't run a referral program, you can skip this page.
+</Note>
+
+## How It Works
+
+Referrals are handled through the [order submission](/installation-guides/v4/pos/track-orders) flow. On the new customer's **first** purchase, add a `referrerCode` to the order payload:
+
+<RequestExample>
+```bash cURL
+curl -X POST 'https://api.gameball.co/api/v4.0/integrations/orders' \
+  -H 'Content-Type: application/json' \
+  -H 'APIKey: YOUR_API_KEY' \
+  -H 'SecretKey: YOUR_SECRET_KEY' \
+  -d '{
+    "customerId": "mobile_966500001234",
+    "orderId": "POS_987654323",
+    "orderDate": "2025-09-29T15:20:00Z",
+    "totalPaid": 250,
+    "totalPrice": 250,
+    "referrerCode": "REF123456"
+  }'
+```
+</RequestExample>
+
+## Referral Flow
+
+<Steps>
+  <Step title="Identify the new customer">
+    Register the new customer with the [Create Customer](/installation-guides/v4/pos/customer-management) call (or let the order auto-create them).
+  </Step>
+  <Step title="Collect the referrer code">
+    Capture the referrer's code at checkout, entered manually by staff or scanned from a QR code.
+  </Step>
+  <Step title="Submit the order with the referrer">
+    Include `referrerCode` in the order payload on the customer's first purchase.
+  </Step>
+  <Step title="Gameball issues the rewards">
+    Referral rewards are processed automatically based on your configured campaign rules.
+  </Step>
+</Steps>
+
+## Tips & Gotchas
+
+- Referral rewards are configured in your Gameball dashboard.
+- Both the referrer and the new customer may receive rewards, depending on your campaign settings.
+- Referral tracking must occur during the new customer's **first** purchase.
