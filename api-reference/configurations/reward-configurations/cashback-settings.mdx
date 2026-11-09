@@ -7,8 +7,109 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 ## Cashback Configurations
 
-This API call retrieves your cashback configurations, providing essential details about how cashback rewards are structured and managed in Gameball. If the customerId is provided, the API will return any special cashback rules associated with the customer's tier, including potential bonuses or customized reward factors specific to that customer.
+This API returns everything that decides how many points a customer earns on an order: the default earning rule and which order lines it covers, tier rules, custom rules, and points multiplier campaigns. Use it to show customers what an order will earn before they place it.
+
+If `customerId` is provided, the response is narrowed to the rules and campaigns that apply to that customer. See [Filtering by customer](#filtering-by-customer).
 
 <Info>
 **Security:** Requires **apikey** header.
 </Info>
+
+### What the response contains
+
+| Field | What it is |
+|---|---|
+| `defaultCashbackRule` | The program's default rate, and through `eligibility`, which order lines earn under it. |
+| `tierCashbackRules` | A rate per tier. A customer in a listed tier earns with that rate instead of the default one. |
+| `customCashbackRules` | Rules that give matching order lines a different rate, optionally with a different rate per tier. |
+| `pointsMultiplierCampaigns` | Campaigns that multiply the points an order line earns, by a flat multiplier or by brackets of an order value. |
+
+Every rate (default, tier, and each custom rule reward) uses the same four fields. A customer earns `rewardWalletFactor` points for every `amountRewardThreshold` spent, and `rewardFactor` is that rate expressed as a percentage of the amount spent.
+
+### How an order line earns points
+
+Gameball works out the points for each order line in three steps:
+
+1. **Pick the base rate.** Use the customer's tier rule from `tierCashbackRules`, or `defaultCashbackRule` if their tier has none. The line earns only if `defaultCashbackRule.eligibility` allows it:
+   - `All`: every line earns.
+   - `Include`: only lines that match `conditions` earn.
+   - `Exclude`: every line earns except those that match `conditions`.
+
+   Under `Include` and `Exclude`, shipping always earns. `excludeShippingAndFees` and `excludeTaxes` remove those amounts from what earns.
+2. **Apply a custom rule.** If the line matches a rule in `customCashbackRules`, the rule's reward for the customer's tier replaces the base rate. If several rules match, the one that earns the most applies.
+3. **Apply a multiplier campaign.** If the line matches a campaign in `pointsMultiplierCampaigns`, the line's points are multiplied by the campaign's multiplier, and its score by `rankMultiplier`. If several campaigns match, the one with the highest multiplier applies.
+
+### Custom rule rewards per tier
+
+A custom rule has one entry in `rewards` per tier it was configured for:
+
+- A reward with `tierName: null` applies to every tier that has no reward of its own on that rule.
+- A reward with a tier name applies only to that tier, and overrides the `null` reward for it.
+
+```json
+"rewards": [
+  { "tierName": null,   "amountRewardThreshold": 1, "rewardWalletFactor": 2, "rewardRankFactor": 1, "rewardFactor": 20 },
+  { "tierName": "Gold", "amountRewardThreshold": 1, "rewardWalletFactor": 3, "rewardRankFactor": 1, "rewardFactor": 30 }
+]
+```
+
+Here, Gold customers earn 3 points per 1 spent on matching lines, and customers in every other tier earn 2.
+
+### Multiplier brackets
+
+A campaign's `multiplier` is either `Flat` or `Brackets`:
+
+- **`Flat`**: one multiplier, in `value`.
+- **`Brackets`**: the multiplier depends on the order value named in `basedOn`, for example `totalPrice`. Each bracket is `{ from, to, multiplier }`, and `to: null` means no upper limit.
+
+Brackets follow these rules:
+
+- **Both bounds are inclusive.** A bracket matches when `from <= value <= to`, or `value >= from` when `to` is `null`.
+- **On a shared bound, the higher multiplier wins.** A value equal to one bracket's `to` and the next bracket's `from` matches both, and the higher multiplier applies.
+- **A value outside every bracket gets no multiplier from that campaign.** The order earns at its normal rate.
+
+For example, with these brackets on `totalPrice`:
+
+```json
+"multiplier": {
+  "type": "Brackets",
+  "basedOn": "totalPrice",
+  "brackets": [
+    { "from": 1, "to": 5, "multiplier": 2 },
+    { "from": 5, "to": null, "multiplier": 3 }
+  ],
+  "rankMultiplier": 0
+}
+```
+
+| `totalPrice` | Multiplier |
+|---|---|
+| 0.5 | None. It's below every bracket, so the order earns at its normal rate. |
+| 3 | ×2 |
+| 5 | ×3. It matches both brackets, and the higher multiplier wins. |
+| 100 | ×3 |
+
+### Conditions and operators
+
+`conditions` (on `eligibility`, custom rules, and campaigns) use the field names you send in the [Order API](/api-reference/order/order-tracking) payload. Line-item fields start with `lineItems.`, for example `lineItems.sku`, `lineItems.collection` or `lineItems.category`. Other fields include `totalPrice`, `channel`, `merchant.uniqueId` and `extra.<key>`.
+
+`values` is a list of alternatives: a condition matches if the field matches any one of them.
+
+`logicalOperator` (on a condition) and `audienceOperator` (on a campaign) are always `AND` or `OR`. Both are `null` when there's nothing to combine:
+
+- `logicalOperator` is `null` when the list has a single condition.
+- `audienceOperator` is `null` when `audience` is empty or has a single entry. An empty `audience` means every customer.
+
+### Filtering by customer
+
+When you pass `customerId`:
+
+| Field | Returns |
+|---|---|
+| `tierCashbackRules` | Only the customer's tier. |
+| `customCashbackRules` | Only rules that reward the customer's tier, each with the single reward in `rewards` that applies to them: their tier's reward if there is one, otherwise the `null` reward. A rule with rewards only for other tiers is left out. |
+| `pointsMultiplierCampaigns` | Only the campaigns the customer can currently achieve, the same as [Campaigns Configurations](/api-reference/configurations/program-configurations/campaigns) with `customerId`. |
+
+`defaultCashbackRule` is the same with or without `customerId`.
+
+Campaign `name` and `description` are returned in the language of the `lang` header.

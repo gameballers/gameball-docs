@@ -3264,15 +3264,30 @@
     },
     "/api/v4.0/integrations/configurations/cashback": {
       "get": {
-        "description": "This API call retrieves your cashback configurations, providing essential details about how cashback rewards are structured and managed in Gameball. If the customerId is provided, the API will return any special cashback rules associated with the customer's tier, including potential bonuses or customized reward factors specific to that customer.",
-        "security": [{ "apiKey": [] }],
+        "description": "Retrieves how customers earn points on orders: the default earning rule and which order lines it covers, tier rules, custom rules, and points multiplier campaigns. Use it to show customers what an order will earn. If `customerId` is provided, the response is narrowed to the rules and campaigns that apply to that customer.",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "customerId",
             "in": "query",
-            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be database ID, random string, email or anything that uniquely identifies the customer. If provided, the response will return the cashback rules specific to this customer's tier, reflecting any special configurations or bonuses this customer is eligible for based on their tier cashback rules.",
+            "description": "Unique identifier for the customer that you can reference across the customer's whole lifetime. Could be database ID, random string, email or anything that uniquely identifies the customer. If provided: `tierCashbackRules` holds only the customer's tier; `customCashbackRules` holds only rules that reward the customer's tier, each with the single reward that applies to them; `pointsMultiplierCampaigns` holds only the campaigns the customer can currently achieve.",
             "required": false,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "description": "Language code for campaign names and descriptions, for example `en` or `ar`. Falls back to the default language when a campaign has no translation.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -3285,65 +3300,568 @@
                   "properties": {
                     "defaultCashbackRule": {
                       "type": "object",
-                      "description": "The default cashback rule applied to all customers if no tier-specific rules are available.",
+                      "description": "The program's default earning rule. It applies to every customer whose tier has no rule of its own in `tierCashbackRules`.",
                       "properties": {
                         "amountRewardThreshold": {
                           "type": "number",
-                          "description": "The minimum amount that must be spent by the customer to qualify for a cashback reward. Transactions below this threshold will not earn any cashback, incentivizing higher spending. Example: If the amountRewardThreshold is set to $50, a customer must spend at least $50 to be eligible for cashback rewards.",
+                          "description": "The spend unit points are earned per. The customer earns `rewardWalletFactor` points for every `amountRewardThreshold` spent: points = amount ÷ `amountRewardThreshold` × `rewardWalletFactor`. Example: `10` means points are earned per 10 units of currency.",
                           "example": 1.0
                         },
                         "rewardWalletFactor": {
                           "type": "number",
-                          "description": "The factor used to calculate the amount of loyalty points added to the customer's wallet based on the cashback amount earned from transactions. This factor determines how many points customers receive relative to the cashback they earn. Example: If a customer receives $10 in cashback and the rewardWalletFactor is 2, the customer will earn 20 loyalty points (2 times the cashback amount).",
+                          "description": "The points earned for every `amountRewardThreshold` spent. Example: with `amountRewardThreshold` 10 and `rewardWalletFactor` 2, an order of 100 earns 20 points.",
                           "example": 1.0
                         },
                         "rewardRankFactor": {
                           "type": "number",
-                          "description": "In case your tiering-up method is based on score, this factor determines the score rewarded for each unit of currency your customer spends. It directly impacts how quickly customers can progress through tiers in your loyalty program. Example: If the rewardRankFactor is set to 2, the customer earns 2 score points for every 1 USD spent.",
+                          "description": "If your tiers are based on score, the score earned for every `amountRewardThreshold` spent. It controls how fast customers move up tiers. Example: with `amountRewardThreshold` 1 and `rewardRankFactor` 2, every 1 unit of currency spent earns 2 score.",
                           "example": 1.0
                         },
                         "rewardFactor": {
                           "type": "number",
-                          "description": "It is a calculated value that determines the reward a customer earns relative to their spending. It considers the AmountRewardThreshold (Minimum Amount Required), RewardWalletFactor (Earning Rate), and RedemptionFactor (Monetary Value of Points). Formula: Reward Factor = (Amount Reward Threshold / Reward Wallet Factor) × Redemption Factor × 100. This indicates the percentage of what the customer earns as a cashback reward based on their spendings.",
+                          "description": "Calculated, read-only. What the rule is worth as a percentage of the amount spent: `rewardWalletFactor` ÷ `amountRewardThreshold` × the currency value of one point × 100. Example: 1 point per 1 unit spent, with 1 point worth 0.1, gives `10` (10%).",
                           "example": 10.0
+                        },
+                        "eligibility": {
+                          "type": "object",
+                          "description": "Which order lines earn under the default rule.",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "All",
+                                "Include",
+                                "Exclude"
+                              ],
+                              "description": "`All`: every line earns. `Include`: only lines that match `conditions` earn. `Exclude`: every line earns except those that match `conditions`. Under `Include` and `Exclude`, shipping always earns.",
+                              "example": "Include"
+                            },
+                            "conditions": {
+                              "type": "array",
+                              "description": "The conditions for `Include` / `Exclude`. Always empty when `type` is `All`.",
+                              "items": {
+                                "type": "object",
+                                "description": "One order condition.",
+                                "properties": {
+                                  "field": {
+                                    "type": "string",
+                                    "description": "The Order API field the condition reads, in the same names you send in the order payload. Line-item fields start with `lineItems.` (for example `lineItems.sku`, `lineItems.collection`, `lineItems.category`). Other examples: `totalPrice`, `channel`, `merchant.uniqueId`, `merchant.branch.uniqueId`, `extra.<key>`, `lineItems.extra.<key>`. Keys under `extra` keep the exact casing you configured.",
+                                    "example": "lineItems.collection"
+                                  },
+                                  "operator": {
+                                    "type": "string",
+                                    "description": "How the field is compared with `values`, for example `Equals`, `NotEquals`, `GreaterThan`, `LessThan`, `Between`, `Contains`.",
+                                    "example": "Equals"
+                                  },
+                                  "values": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "description": "The values compared against. Several values are alternatives: the condition matches if the field matches any one of them. `Between` carries `[min, max]`.",
+                                    "example": [
+                                      "summer",
+                                      "sale"
+                                    ]
+                                  },
+                                  "logicalOperator": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "enum": [
+                                      "AND",
+                                      "OR",
+                                      null
+                                    ],
+                                    "description": "How this condition combines with the other conditions in the same list: `AND` or `OR`. `null` when the list has only one condition, since there is nothing to combine it with.",
+                                    "example": null
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "excludeShippingAndFees": {
+                          "type": "boolean",
+                          "description": "`true` when shipping and other non-product fees on the order don't earn points.",
+                          "example": false
+                        },
+                        "excludeTaxes": {
+                          "type": "boolean",
+                          "description": "`true` when taxes on the order don't earn points.",
+                          "example": false
                         }
                       }
                     },
                     "tierCashbackRules": {
                       "type": "array",
-                      "description": "A list of tier-specific cashback rules, which override the default cashback rule for customers in a specific tier.",
+                      "description": "Tier-specific earning rules. A customer in a listed tier earns with that tier's rule instead of `defaultCashbackRule`. With `customerId`, only the customer's tier is returned.",
                       "items": {
                         "type": "object",
                         "properties": {
                           "tierName": {
                             "type": "string",
-                            "description": "The name of the tier that has its own cashback rule.",
+                            "description": "The name of the tier this rule applies to.",
                             "example": "Gold"
                           },
                           "amountRewardThreshold": {
                             "type": "number",
-                            "description": "The minimum amount that must be spent by the customer to qualify for a cashback reward. Transactions below this threshold will not earn any cashback, incentivizing higher spending. Example: If the amountRewardThreshold is set to $50, a customer must spend at least $50 to be eligible for cashback rewards.",
+                            "description": "The spend unit points are earned per. The customer earns `rewardWalletFactor` points for every `amountRewardThreshold` spent: points = amount ÷ `amountRewardThreshold` × `rewardWalletFactor`. Example: `10` means points are earned per 10 units of currency.",
                             "example": 1.0
                           },
                           "rewardWalletFactor": {
                             "type": "number",
-                            "description": "The factor used to calculate the amount of loyalty points added to the customer's wallet based on the cashback amount earned from transactions. This factor determines how many points customers receive relative to the cashback they earn. Example: If a customer receives $10 in cashback and the rewardWalletFactor is 2, the customer will earn 20 loyalty points (2 times the cashback amount).",
-                            "example": 20.0
+                            "description": "The points earned for every `amountRewardThreshold` spent. Example: with `amountRewardThreshold` 10 and `rewardWalletFactor` 2, an order of 100 earns 20 points.",
+                            "example": 1.0
                           },
                           "rewardRankFactor": {
                             "type": "number",
-                            "description": "In case your tiering-up method is based on score, this factor determines the score rewarded for each unit of currency your customer spends. It directly impacts how quickly customers can progress through tiers in your loyalty program. Example: If the rewardRankFactor is set to 2, the customer earns 2 score points for every 1 USD spent.",
+                            "description": "If your tiers are based on score, the score earned for every `amountRewardThreshold` spent. It controls how fast customers move up tiers. Example: with `amountRewardThreshold` 1 and `rewardRankFactor` 2, every 1 unit of currency spent earns 2 score.",
                             "example": 1.0
                           },
                           "rewardFactor": {
                             "type": "number",
-                            "description": "It is a calculated value that determines the reward a customer earns relative to their spending. It considers the AmountRewardThreshold (Minimum Amount Required), RewardWalletFactor (Earning Rate), and RedemptionFactor (Monetary Value of Points). Formula: Reward Factor = (Amount Reward Threshold / Reward Wallet Factor) × Redemption Factor × 100. This indicates the percentage of what the customer earns as a cashback reward based on their spendings.",
-                            "example": 0.0
+                            "description": "Calculated, read-only. What the rule is worth as a percentage of the amount spent: `rewardWalletFactor` ÷ `amountRewardThreshold` × the currency value of one point × 100. Example: 1 point per 1 unit spent, with 1 point worth 0.1, gives `10` (10%).",
+                            "example": 10.0
+                          }
+                        }
+                      }
+                    },
+                    "customCashbackRules": {
+                      "type": "array",
+                      "description": "Custom earning rules. When an order line matches a rule's `conditions`, the rule's reward replaces the default or tier rate for that line. If several rules match a line, the one that earns the most applies.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "Unique identifier of the rule.",
+                            "example": 55
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the rule.",
+                            "example": "Double points on shoes"
+                          },
+                          "conditions": {
+                            "type": "array",
+                            "description": "The order conditions a line must match for this rule to apply.",
+                            "items": {
+                              "type": "object",
+                              "description": "One order condition.",
+                              "properties": {
+                                "field": {
+                                  "type": "string",
+                                  "description": "The Order API field the condition reads, in the same names you send in the order payload. Line-item fields start with `lineItems.` (for example `lineItems.sku`, `lineItems.collection`, `lineItems.category`). Other examples: `totalPrice`, `channel`, `merchant.uniqueId`, `merchant.branch.uniqueId`, `extra.<key>`, `lineItems.extra.<key>`. Keys under `extra` keep the exact casing you configured.",
+                                  "example": "lineItems.collection"
+                                },
+                                "operator": {
+                                  "type": "string",
+                                  "description": "How the field is compared with `values`, for example `Equals`, `NotEquals`, `GreaterThan`, `LessThan`, `Between`, `Contains`.",
+                                  "example": "Equals"
+                                },
+                                "values": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "The values compared against. Several values are alternatives: the condition matches if the field matches any one of them. `Between` carries `[min, max]`.",
+                                  "example": [
+                                    "summer",
+                                    "sale"
+                                  ]
+                                },
+                                "logicalOperator": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "enum": [
+                                    "AND",
+                                    "OR",
+                                    null
+                                  ],
+                                  "description": "How this condition combines with the other conditions in the same list: `AND` or `OR`. `null` when the list has only one condition, since there is nothing to combine it with.",
+                                  "example": null
+                                }
+                              }
+                            }
+                          },
+                          "rewards": {
+                            "type": "array",
+                            "description": "The rule's reward per tier. With `customerId`, only the single reward that applies to that customer is returned.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "tierName": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "description": "The tier this reward applies to. `null` means every tier that has no tier-specific reward on this rule. A reward for a named tier overrides the `null` reward for that tier.",
+                                  "example": null
+                                },
+                                "amountRewardThreshold": {
+                                  "type": "number",
+                                  "description": "The spend unit points are earned per. The customer earns `rewardWalletFactor` points for every `amountRewardThreshold` spent: points = amount ÷ `amountRewardThreshold` × `rewardWalletFactor`. Example: `10` means points are earned per 10 units of currency.",
+                                  "example": 1.0
+                                },
+                                "rewardWalletFactor": {
+                                  "type": "number",
+                                  "description": "The points earned for every `amountRewardThreshold` spent. Example: with `amountRewardThreshold` 10 and `rewardWalletFactor` 2, an order of 100 earns 20 points.",
+                                  "example": 1.0
+                                },
+                                "rewardRankFactor": {
+                                  "type": "number",
+                                  "description": "If your tiers are based on score, the score earned for every `amountRewardThreshold` spent. It controls how fast customers move up tiers. Example: with `amountRewardThreshold` 1 and `rewardRankFactor` 2, every 1 unit of currency spent earns 2 score.",
+                                  "example": 1.0
+                                },
+                                "rewardFactor": {
+                                  "type": "number",
+                                  "description": "Calculated, read-only. What the rule is worth as a percentage of the amount spent: `rewardWalletFactor` ÷ `amountRewardThreshold` × the currency value of one point × 100. Example: 1 point per 1 unit spent, with 1 point worth 0.1, gives `10` (10%).",
+                                  "example": 10.0
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pointsMultiplierCampaigns": {
+                      "type": "array",
+                      "description": "Points multiplier campaigns. A campaign multiplies the points an order line earns under its default, tier or custom rule. If several campaigns match a line, the one with the highest multiplier applies. Without `customerId`, every multiplier campaign is returned with its `isActive` and `activation`. With `customerId`, only the campaigns that customer can currently achieve are returned, as in the Campaigns configuration API.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "Unique identifier of the campaign.",
+                            "example": 901
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the campaign, in the language of the `lang` header.",
+                            "example": "Double points weekend"
+                          },
+                          "description": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "Description of the campaign, in the language of the `lang` header."
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "description": "Whether the campaign is switched on.",
+                            "example": true
+                          },
+                          "activation": {
+                            "type": "object",
+                            "description": "When the campaign runs. Same shape as in the Campaigns configuration API.",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "description": "`Always Active` or `Scheduled`.",
+                                "example": "Scheduled"
+                              },
+                              "startDate": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time",
+                                "description": "When the campaign starts.",
+                                "example": "2026-11-06T00:00:00"
+                              },
+                              "endDate": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time",
+                                "description": "When the campaign ends.",
+                                "example": "2026-11-30T23:59:00"
+                              }
+                            }
+                          },
+                          "audience": {
+                            "type": "array",
+                            "description": "The customers this applies to, in the same shape as the [Campaigns configuration](/api-reference/configurations/program-configurations/campaigns) API. Empty means every customer.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "key": {
+                                  "type": "string",
+                                  "description": "The customer attribute checked, such as a tag or a custom attribute.",
+                                  "example": "tag"
+                                },
+                                "operator": {
+                                  "type": "string",
+                                  "description": "How the attribute is compared with `value`.",
+                                  "example": "Equals"
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "The value compared against.",
+                                  "example": "vip"
+                                }
+                              }
+                            }
+                          },
+                          "audienceOperator": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "AND",
+                              "OR",
+                              null
+                            ],
+                            "description": "How the `audience` entries combine: `AND` or `OR`. `null` when `audience` is empty or has a single entry.",
+                            "example": null
+                          },
+                          "conditions": {
+                            "type": "array",
+                            "description": "The order conditions a line must match for the multiplier to apply. Empty means every line.",
+                            "items": {
+                              "type": "object",
+                              "description": "One order condition.",
+                              "properties": {
+                                "field": {
+                                  "type": "string",
+                                  "description": "The Order API field the condition reads, in the same names you send in the order payload. Line-item fields start with `lineItems.` (for example `lineItems.sku`, `lineItems.collection`, `lineItems.category`). Other examples: `totalPrice`, `channel`, `merchant.uniqueId`, `merchant.branch.uniqueId`, `extra.<key>`, `lineItems.extra.<key>`. Keys under `extra` keep the exact casing you configured.",
+                                  "example": "lineItems.collection"
+                                },
+                                "operator": {
+                                  "type": "string",
+                                  "description": "How the field is compared with `values`, for example `Equals`, `NotEquals`, `GreaterThan`, `LessThan`, `Between`, `Contains`.",
+                                  "example": "Equals"
+                                },
+                                "values": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "description": "The values compared against. Several values are alternatives: the condition matches if the field matches any one of them. `Between` carries `[min, max]`.",
+                                  "example": [
+                                    "summer",
+                                    "sale"
+                                  ]
+                                },
+                                "logicalOperator": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "enum": [
+                                    "AND",
+                                    "OR",
+                                    null
+                                  ],
+                                  "description": "How this condition combines with the other conditions in the same list: `AND` or `OR`. `null` when the list has only one condition, since there is nothing to combine it with.",
+                                  "example": null
+                                }
+                              }
+                            }
+                          },
+                          "multiplier": {
+                            "type": "object",
+                            "description": "How the campaign multiplies points: `Flat` (one multiplier) or `Brackets` (a multiplier picked by an order value).",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "Flat",
+                                  "Brackets"
+                                ],
+                                "description": "`Flat` or `Brackets`.",
+                                "example": "Brackets"
+                              },
+                              "value": {
+                                "type": "number",
+                                "description": "The multiplier. Returned only when `type` is `Flat`.",
+                                "example": 2
+                              },
+                              "basedOn": {
+                                "type": "string",
+                                "description": "The Order API field the brackets are measured on, for example `totalPrice`. Returned only when `type` is `Brackets`.",
+                                "example": "totalPrice"
+                              },
+                              "brackets": {
+                                "type": "array",
+                                "description": "The brackets, in ascending order of `from`. Returned only when `type` is `Brackets`. Both bounds are inclusive. A value on a shared bound matches both brackets and the higher multiplier applies. A value outside every bracket gets no multiplier from this campaign.",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "from": {
+                                      "type": "number",
+                                      "description": "Lower bound, inclusive.",
+                                      "example": 0
+                                    },
+                                    "to": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "description": "Upper bound, inclusive. `null` means no upper limit.",
+                                      "example": 100
+                                    },
+                                    "multiplier": {
+                                      "type": "number",
+                                      "description": "The multiplier when `basedOn` falls in this bracket.",
+                                      "example": 2
+                                    }
+                                  }
+                                }
+                              },
+                              "rankMultiplier": {
+                                "type": "number",
+                                "description": "The multiplier applied to the score the line earns. `0` means the campaign doesn't change score.",
+                                "example": 1
+                              }
+                            }
                           }
                         }
                       }
                     }
                   }
+                },
+                "example": {
+                  "defaultCashbackRule": {
+                    "amountRewardThreshold": 1,
+                    "rewardWalletFactor": 1,
+                    "rewardRankFactor": 1,
+                    "rewardFactor": 10,
+                    "eligibility": {
+                      "type": "Include",
+                      "conditions": [
+                        {
+                          "field": "lineItems.collection",
+                          "operator": "Equals",
+                          "values": [
+                            "summer",
+                            "sale"
+                          ],
+                          "logicalOperator": "OR"
+                        },
+                        {
+                          "field": "channel",
+                          "operator": "Equals",
+                          "values": [
+                            "mobile"
+                          ],
+                          "logicalOperator": "OR"
+                        }
+                      ]
+                    },
+                    "excludeShippingAndFees": false,
+                    "excludeTaxes": false
+                  },
+                  "tierCashbackRules": [
+                    {
+                      "tierName": "Gold",
+                      "amountRewardThreshold": 1,
+                      "rewardWalletFactor": 2,
+                      "rewardRankFactor": 1,
+                      "rewardFactor": 20
+                    }
+                  ],
+                  "customCashbackRules": [
+                    {
+                      "id": 55,
+                      "name": "Double points on shoes",
+                      "conditions": [
+                        {
+                          "field": "lineItems.category",
+                          "operator": "Equals",
+                          "values": [
+                            "shoes"
+                          ],
+                          "logicalOperator": null
+                        }
+                      ],
+                      "rewards": [
+                        {
+                          "tierName": null,
+                          "amountRewardThreshold": 1,
+                          "rewardWalletFactor": 2,
+                          "rewardRankFactor": 1,
+                          "rewardFactor": 20
+                        },
+                        {
+                          "tierName": "Gold",
+                          "amountRewardThreshold": 1,
+                          "rewardWalletFactor": 3,
+                          "rewardRankFactor": 1,
+                          "rewardFactor": 30
+                        }
+                      ]
+                    }
+                  ],
+                  "pointsMultiplierCampaigns": [
+                    {
+                      "id": 901,
+                      "name": "Double points weekend",
+                      "description": null,
+                      "isActive": true,
+                      "activation": {
+                        "type": "Scheduled",
+                        "startDate": "2026-11-06T00:00:00",
+                        "endDate": "2026-11-08T23:59:00"
+                      },
+                      "audience": [],
+                      "audienceOperator": null,
+                      "conditions": [
+                        {
+                          "field": "channel",
+                          "operator": "Equals",
+                          "values": [
+                            "web",
+                            "mobile"
+                          ],
+                          "logicalOperator": null
+                        }
+                      ],
+                      "multiplier": {
+                        "type": "Flat",
+                        "value": 2,
+                        "rankMultiplier": 1
+                      }
+                    },
+                    {
+                      "id": 902,
+                      "name": "Spend more, earn more",
+                      "description": null,
+                      "isActive": true,
+                      "activation": {
+                        "type": "Always Active",
+                        "startDate": null,
+                        "endDate": null
+                      },
+                      "audience": [],
+                      "audienceOperator": null,
+                      "conditions": [],
+                      "multiplier": {
+                        "type": "Brackets",
+                        "basedOn": "totalPrice",
+                        "brackets": [
+                          {
+                            "from": 0,
+                            "to": 100,
+                            "multiplier": 2
+                          },
+                          {
+                            "from": 100,
+                            "to": null,
+                            "multiplier": 3
+                          }
+                        ],
+                        "rankMultiplier": 0
+                      }
+                    }
+                  ]
                 }
               }
             }
