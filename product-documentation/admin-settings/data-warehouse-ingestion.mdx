@@ -119,7 +119,7 @@ Five rules apply to every table. Most numbers that don't match the dashboard bre
 
 ## How the Tables Connect
 
-Every table joins to Members on `gameball_member_id` (new). The two sources tables join to Transactions on `gameball_transaction_id`, which they call `gameball_earn_transaction_id` (the earning) and `gameball_deduct_transaction_id` (the deduction).
+Every table joins to Members on `gameball_member_id`. The two sources tables join to Transactions on `gameball_transaction_id`, which they call `gameball_earn_transaction_id` (the earning) and `gameball_deduct_transaction_id` (the deduction).
 
 ```mermaid
 flowchart LR
@@ -143,10 +143,6 @@ flowchart LR
 
 Gameball shares **six tables** with your data warehouse. You choose which ones to enable during setup.
 
-<Note>
-**New columns**: Columns marked **(new)** arrive with the next update of the tables.
-</Note>
-
 <AccordionGroup>
   <Accordion title="Transactions" icon="arrow-right-arrow-left">
     One row per points movement: every time a customer gains points (`direction` = +) or loses them (`direction` = −). It is the main table for earned, redeemed, expired and outstanding points.
@@ -156,7 +152,7 @@ Gameball shares **six tables** with your data warehouse. You choose which ones t
     | `gameball_transaction_id` | Gameball's id for the movement. Joins to the two sources tables. |
     | `transaction_id` | Your own id for the order or event behind it. |
     | `customer_unique_id` | Your id for the customer. |
-    | `gameball_member_id` **(new)** | Gameball's id for the customer. Joins to Members. |
+    | `gameball_member_id` | Gameball's id for the customer. Joins to Members. |
     | `merchant_unique_id`, `branch_unique_id` | Your ids for the merchant and branch where it happened. Empty when no branch was sent with the activity. |
     | `transaction_type` | What the movement is (types below). |
     | `direction` | + for points gained, − for points lost. `points_amount` is always positive. |
@@ -221,7 +217,7 @@ Gameball shares **six tables** with your data warehouse. You choose which ones t
     | `gameball_earning_source_id` | Gameball's id for the row. |
     | `gameball_earn_transaction_id` | The earning it belongs to. Joins to `gameball_transaction_id` in Transactions. |
     | `customer_unique_id`, `order_id` | Your ids for the customer and the order (empty when the earning is not from an order). |
-    | `gameball_member_id` **(new)** | Gameball's id for the customer. Joins to Members. |
+    | `gameball_member_id` | Gameball's id for the customer. Joins to Members. |
     | `earning_source`, `earning_source_id` | What produced the points: General, Tier, Collection, Product, Variant or Custom Cashback; Campaign Cashback (the extra points a multiplier campaign added); Achievement Campaign; Level/Tier; Referral; Achievement; Refund; Migration; Manual. |
     | `gameball_cashback_rule_id`, `cashback_rule_name` | The cashback rule (cashback rows only). |
     | `gameball_campaign_id`, `campaign_name` | The campaign (campaign rows only). |
@@ -242,7 +238,7 @@ Gameball shares **six tables** with your data warehouse. You choose which ones t
     | `gameball_deduct_transaction_id` | The deduction (redemption, expiry, cancellation or manual deduction). Joins to `gameball_transaction_id` in Transactions. |
     | `gameball_earn_transaction_id` | The earning the points came from. Joins to `gameball_transaction_id` in Transactions and to Transaction earning sources. |
     | `customer_unique_id` | Your id for the customer. |
-    | `gameball_member_id` **(new)** | Gameball's id for the customer. Joins to Members. |
+    | `gameball_member_id` | Gameball's id for the customer. Joins to Members. |
     | `deduction_type` | redeemed, expired, cancelled or manual. |
     | `deducted_points` | Points taken from that earning by that deduction. |
     | `deducted_at` | When the deduction happened (UTC). |
@@ -259,24 +255,24 @@ Gameball shares **six tables** with your data warehouse. You choose which ones t
     | `gameball_unique_id` | Gameball's id for this coupon row. |
     | `coupon_code` | The code the customer types at checkout. A multi-use code appears on one row per use. |
     | `customer_unique_id` | Your id for the customer who received it. |
-    | `gameball_member_id` **(new)** | Gameball's id for the customer. Joins to Members. |
+    | `gameball_member_id` | Gameball's id for the customer. Joins to Members. |
     | `coupon_type` | Fixed, Percentage, Free Shipping, Free Product, Store Credit, Buy X Get Y and others. |
     | `coupon_source` | Where it is used or came from: Online, POS, Permanent, Reward Campaign, Automation. |
     | `coupon_sub_source` | Why it was given: Points Redemption, Reward Campaign, Level, Referral Reward, Automation. |
     | `amount` | The discount: an amount for fixed types, a percentage for percentage types (10 = 10%). |
-    | `max_discount` **(new)** | Cap on a percentage discount, in your currency. Empty when there is no cap. |
-    | `min_order_value` **(new)** | Minimum order value for the coupon to apply. |
-    | `usage_limit`, `is_multi_use` **(new)** | How many times the code can be used in total, and 1 when that is more than once. |
-    | `coupon_group_name`, `campaign_name` **(new)** | The coupon group, and the campaign that gave the coupon. |
-    | `order_id` **(new)** | Your order id the coupon was used on. Empty when not used, or when your orders don't carry the code. |
+    | `max_discount` | Cap on a percentage discount, in your currency. Empty when there is no cap. |
+    | `min_order_value` | Minimum order value for the coupon to apply. |
+    | `usage_limit`, `is_multi_use` | How many times the code can be used in total, and 1 when that is more than once. |
+    | `coupon_group_name`, `campaign_name` | The coupon group, and the campaign that gave the coupon. |
+    | `order_id` | Your order id the coupon was used on. Empty when not used, or when your orders don't carry the code. |
     | `total_paid_amount` | Money paid on that order. |
-    | `points_spent` **(new)** | Points the customer paid for the coupon, when it was bought with points. Only on the code's own row. |
-    | `gameball_transaction_id` **(new)** | The Discount Code transaction that paid those points. Joins to Transactions. |
+    | `points_spent` | Points the customer paid for the coupon, when it was bought with points. Only on the code's own row. |
+    | `gameball_transaction_id` | The Discount Code transaction that paid those points. Joins to Transactions. |
     | `current_state` | assigned (not used yet), held (reserved at an open checkout), used, expired or deleted. |
     | `created_at` | When the coupon was given to the customer (UTC). |
-    | `used_at` **(new)** | When it was used (UTC). |
-    | `expires_at` **(new)** | When it expires or expired (UTC). |
-    | `held_at` **(new)** | When it was reserved at a checkout (UTC). |
+    | `used_at` | When it was used (UTC). |
+    | `expires_at` | When it expires or expired (UTC). |
+    | `held_at` | When it was reserved at a checkout (UTC). |
     | `updated_at` | When the row last changed. |
     | `is_deleted` | 1 = the coupon row was withdrawn, for example returned on a refund. |
 
@@ -290,7 +286,7 @@ Gameball shares **six tables** with your data warehouse. You choose which ones t
     |---|---|
     | `gameball_achievement_id` | Gameball's id for the achievement. |
     | `customer_unique_id` | Your id for the customer. |
-    | `gameball_member_id` **(new)** | Gameball's id for the customer. Joins to Members. |
+    | `gameball_member_id` | Gameball's id for the customer. Joins to Members. |
     | `achievement_type` | The detailed kind: Purchase Reward, Challenge, Level, Leveling Down, Referral, Referred, Challenge Manually, Manual Leveling-up and others. |
     | `achievement_sub_type` | The broad group: Transaction, Campaign, Level, Referral, Manual. |
     | `campaign_name` | The campaign, when there is one. |
@@ -402,10 +398,10 @@ All from Coupons, keeping `is_deleted` = 0. Each row is one coupon given to one 
 | You want | How |
 |---|---|
 | Coupons given in a period | Rows with `created_at` in the period. |
-| Coupons used in a period **(new)** | Rows with `used_at` in the period. |
-| Coupons expiring or expired in a period **(new)** | Rows with `expires_at` in the period and `current_state` assigned or expired. |
+| Coupons used in a period | Rows with `used_at` in the period. |
+| Coupons expiring or expired in a period | Rows with `expires_at` in the period and `current_state` assigned or expired. |
 | State today | Rows by `current_state`: used, assigned (+ held), expired. |
-| Coupons bought with points, and the points paid **(new)** | Rows with `points_spent` filled; add up `points_spent`. `gameball_transaction_id` links each to its Discount Code transaction. |
+| Coupons bought with points, and the points paid | Rows with `points_spent` filled; add up `points_spent`. `gameball_transaction_id` links each to its Discount Code transaction. |
 | Usage rate | Used rows ÷ all rows given, for the same group of coupons. |
 | Orders and money from coupons | Used rows with an `order_id`; add up `total_paid_amount`. |
 
