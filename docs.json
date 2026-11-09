@@ -360,6 +360,7 @@
                   "product-documentation/admin-settings/configure-time-zone",
                   "product-documentation/admin-settings/configure-dashboard-language",
                   "product-documentation/admin-settings/create-user-assign-roles",
+                  "product-documentation/admin-settings/set-up-single-sign-on",
                   "product-documentation/admin-settings/track-user-activity",
                   "product-documentation/admin-settings/configure-firebase-push-notifications",
                   "product-documentation/admin-settings/update-fcm-to-http-v1",
