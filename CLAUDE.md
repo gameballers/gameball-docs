@@ -11,6 +11,8 @@ This is the Gameball product documentation repo, built with Mintlify (MDX files 
 
 **Never commit or push anything without showing the changes first and getting explicit approval.** Always present the full content or diff and wait for the user to say "push" before touching git.
 
+**Exception — `/release-docs`:** it runs unattended (often in a Claude Code cloud session), so it never pushes to `main`. It works on a `docs/release-{N}` branch and opens a pull request; the PR review is the approval.
+
 ---
 
 ## Workflow: /update-article
@@ -23,6 +25,16 @@ Processes documentation update tasks from ClickUp. Run `/update-article` to kick
 - **Completed Status:** `Complete`
 
 The skill reads each ClickUp task, finds the related Slack thread in `#product-questions`, enriches the task description with thread content, then creates or updates the relevant MDX article. One task at a time. Always show changes before pushing.
+
+---
+
+## Workflow: /release-docs
+
+Turns a product release into a docs PR. Started by the product team's `/release-linear` command in a Claude Code cloud session, or run by hand with `/release-docs <release notes>`.
+
+- Decides the impact of each released feature: no change, one article, several articles, a new article/section, or a wide change across the docs
+- Updates the pages (following `product-doc.md`), `docs.json`, `llms.txt`, the API reference and `changelog/product-updates/{year}.mdx`
+- Opens one PR per release on branch `docs/release-{N}` and posts it to **#product-docs** for review — never pushes to `main`
 
 ---
 
