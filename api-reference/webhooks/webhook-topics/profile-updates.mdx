@@ -8,6 +8,8 @@ description: "This webhook is triggered every time there's an update to a custom
 
 * **Sync Customer Points and VIP Tier:** Keep your CRM system up-to-date with the latest customer points and VIP tier information.
 * **Track Profile Changes:** Automatically update other systems or services when customer profile details change.
+* **Track Program Membership:** Know when a customer is excluded from or included back into your loyalty program, or deleted.
+* **Track Referrals:** See who referred a customer and how many customers they have referred.
 
 This webhook ensures that your systems reflect the most accurate and up-to-date customer information.
 
@@ -29,7 +31,14 @@ This webhook ensures that your systems reflect the most accurate and up-to-date 
     "referral_link": "www.example.com",
     "activated_points": 90,
     "pending_points": 10,
-    "total_points": 100
+    "total_points": 100,
+    "status": "included",
+    "is_deleted": false,
+    "referred_by_customer_id": "referrer_123",
+    "is_referral_activated": true,
+    "total_referrals": 3,
+    "active_referrals": 2,
+    "pending_referrals": 1
   }
 }
 ```
@@ -97,7 +106,56 @@ Points that are pending and will be activated later.
 The customer's total accumulated points, including both activated and pending points.
 </ResponseField>
 
+<ResponseField name="status" type="string">
+Whether the customer is part of your loyalty program. Possible values:
+
+* `included`: the customer is in the program and can earn and redeem.
+* `excluded`: the customer has been excluded from the program.
+
+This matches the [Update Customer Activation](/api-reference/customers/management/update-customer-activation) API: `included` is `isActive: true` and `excluded` is `isActive: false`.
+</ResponseField>
+
+<ResponseField name="is_deleted" type="boolean">
+`true` only on the final webhook sent when the customer is deleted. `false` on every other webhook.
+</ResponseField>
+
+<ResponseField name="referred_by_customer_id" type="string">
+The `customer_id` of the customer who referred this customer.
+
+* `null`: the customer was not referred.
+* `deleted_customer`: the customer was referred, but the referrer has since been deleted.
+</ResponseField>
+
+<ResponseField name="is_referral_activated" type="boolean">
+Whether this customer's own referral has been activated. `false` if the customer was not referred.
+</ResponseField>
+
+<ResponseField name="total_referrals" type="number">
+The number of customers this customer has referred. This is the sum of `active_referrals` and `pending_referrals`.
+</ResponseField>
+
+<ResponseField name="active_referrals" type="number">
+The number of referred customers whose referral has been activated.
+</ResponseField>
+
+<ResponseField name="pending_referrals" type="number">
+The number of referred customers whose referral has not been activated yet.
+</ResponseField>
+
 </Expandable>
 
 </ResponseField>
+
+## Customer Deletion
+
+When a customer is deleted, one final webhook is sent for that customer with `is_deleted` set to `true`. The other fields carry the customer's last known values. No further webhooks are sent for that customer.
+
+## Notes
+
+* **Referral counts update on the referrer's next webhook.** When a referred customer signs up or their referral is activated, the referrer's counts change, but that alone does not trigger a webhook for the referrer. The new counts appear the next time the referrer's profile is updated.
+* **Referral counts can be `null`.** In rare cases `total_referrals`, `active_referrals`, and `pending_referrals` are `null` when they could not be loaded for that webhook. Treat `null` as unknown, not as zero.
+
+<Note>
+The fields `status`, `is_deleted`, `referred_by_customer_id`, `is_referral_activated`, `total_referrals`, `active_referrals`, and `pending_referrals` are only available on **V4** webhooks. Webhooks on earlier versions keep their existing payload and do not receive a webhook when a customer is deleted.
+</Note>
 
