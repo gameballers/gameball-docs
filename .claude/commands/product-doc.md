@@ -1,6 +1,6 @@
 # Product Documentation Article Skill
 
-You are writing a **Gameball product documentation article** for the Mintlify-powered docs site at `/Users/ahmedelassy/Documents/GitHub/gameball-docs/`.
+You are writing a **Gameball product documentation article** for the Mintlify-powered docs site in this repository (paths below are relative to the repo root).
 
 The user will provide:
 - **$ARGUMENTS** — the topic, feature name, or a description of what the article should cover.
