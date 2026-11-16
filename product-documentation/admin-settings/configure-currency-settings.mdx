@@ -1,44 +1,65 @@
 ---
-title: "How Do I Configure Gameball Currency Settings?"
-description: "Match between your platform currency and Gameball currency."
+title: "How Do I Configure Currency Settings?"
+description: "Set up your base currency and enable multi-currency support so customers see loyalty values in their own currency."
 ---
 
-## Plan Availability
-
-**All Gameball customers**
+| Platform | Plan |
+|---|---|
+| All | All |
 
 ---
 
-## Configure Gameball Currency Settings
+## Single Currency Setup
 
-You can access the **Currency** settings section in **Gameball Admin Dashboard** through **Settings > Admin Settings > General > Currency Section**
+By default, Gameball operates in one currency. You set that currency once and it applies everywhere: earn and redeem programs, the widget, analytics, and exports.
 
-<Frame>
-  ![Currency Settings](/images/product-docs/admin-settings/currency-settings.png)
-</Frame>
+To configure your currency:
 
-Inside the Currency section you will find an option where you can change how the currency appears on Gameball's Widget to be as a symbol.
+1. Go to **Settings > Admin Settings > General**.
+2. Scroll to the **Currency** section.
+3. Choose your currency and whether to display it as a symbol (e.g. `$`) or a code (e.g. `USD`).
+4. Click **Save**.
 
-<Frame>
-  ![Currency Symbol](/images/product-docs/admin-settings/currency-symbol.png)
-</Frame>
+The chosen currency applies to all money fields across the dashboard and the Gameball widget.
 
-The chosen currency will be applied to all currency fields in the system:
+---
 
-<CardGroup cols={2}>
-  <Card title="Earn Program" icon="coins">
-    Total Rewarded Points Equivalence shown in your Earn Program.
-  </Card>
-  <Card title="Redeem Program" icon="ticket">
-    Total Redeemed Points Equivalence shown in your Redeem Program.
-  </Card>
-  <Card title="Earn Configurations" icon="sliders">
-    Points value for redemption in the default redemption rule of Earn Configurations.
-  </Card>
-  <Card title="Gameball Widget" icon="window">
-    Points Equivalence displayed inside the Gameball Widget for customers.
-  </Card>
-</CardGroup>
+## Multi-Currency Support
+
+If you sell to customers in more than one country, you can enable Multi-Currency so each shopper sees loyalty values — points equivalence, coupon amounts — in their own currency. Your rules, analytics, and liability always stay in your base currency.
+
+### Enabling Multi-Currency
+
+1. Go to **Settings > Admin Settings > General**.
+2. Scroll to the **Currency** section and turn on **Multi-currency**.
+3. Set your **Base currency** — this is the currency all internal calculations use.
+4. Click **Add currency** for each additional currency you accept, and enter your exchange rate as: `1 [base] = X [other currency]`.
+5. Click **Save**.
+
+<Note>
+You can edit exchange rates at any time. New rates apply from that point forward — past transactions keep the rate they were recorded with.
+</Note>
+
+### How Currency Conversion Works
+
+Once Multi-Currency is enabled:
+
+- **Orders and APIs:** When an order or API call includes a currency, Gameball converts the amount to your base currency using your rate and stores the original currency, the rate used, and the base amount. Order details and Recent Events show the conversion, for example: `1,000 AED @ 1.02 = 1,020 SAR`.
+- **Widget and mobile SDKs:** Points value and coupon amounts are shown in the shopper's currency automatically.
+- **Dashboard:** Every money input shows its equivalent in each enabled currency so your team always knows the base value.
+- **Salla stores:** Gameball follows the currency the shopper selected on the storefront.
+- **Exports and data warehouse:** Transaction exports include new columns for currency, exchange rate, and base amount.
+
+### Targeting Customers by Currency
+
+Two new customer attributes are available for use in segments, reward campaigns, communication campaigns, and automations:
+
+| Attribute | What it means |
+|---|---|
+| **Last order currency** | The currency used on the customer's most recent order |
+| **Current currency** | The currency the customer is currently browsing in |
+
+Learn how to use these in segments in [How to Segment Customers](/product-documentation/customer-segmentation/how-to-segment-customers).
 
 ---
 
@@ -48,8 +69,8 @@ The chosen currency will be applied to all currency fields in the system:
   <Card title="Configure Gameball Time Zone Settings" icon="clock" href="/product-documentation/admin-settings/configure-time-zone">
     Match your platform timezone with Gameball data timestamps.
   </Card>
-  <Card title="Manage your Gameball Player Attributes" icon="user-gear" href="/product-documentation/admin-settings/manage-customer-attributes">
-    Configure customer profile attributes for deeper segmentation insights.
+  <Card title="How to Segment Customers" icon="users" href="/product-documentation/customer-segmentation/how-to-segment-customers">
+    Use currency attributes and other rules to build precise customer segments.
   </Card>
   <Card title="Configure Gameball Dashboard Language Settings" icon="language" href="/product-documentation/admin-settings/configure-dashboard-language">
     Change the language of your Gameball dashboard to your preferred locale.
