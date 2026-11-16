@@ -90,6 +90,8 @@ With Gameball's couponing engine, you can manually create unique coupons to rewa
 
     You can combine cart-level and item-level restrictions. A "Sony audio" coupon, for example, would use Brand + Category at item level so it only applies when a Sony audio product is in the cart.
 
+    You can also add **order eligibility rules** to make the coupon available only when the current order qualifies. Use the rule builder to set conditions on order attributes — such as rental duration, quantity, or line-item value — using the same operators available in reward campaigns.
+
     <Frame>
       <img src="/images/product-docs/coupons/apply-coupon-settings.png" alt="Apply coupon settings" />
     </Frame>
@@ -183,6 +185,22 @@ Click the **three-dot icon** beside any coupon to access management shortcuts:
 <Frame>
   <img src="/images/product-docs/coupons/coupon-management-options.png" alt="Coupon management options" />
 </Frame>
+
+### Track Who Created Each Coupon
+
+The Coupons page records who created every coupon. A **Created by** column shows whether the coupon was created by a team member (their email), via the **API**, or by **Gameball support**. You can also filter the coupon list by creator and include the Created by field when exporting.
+
+---
+
+### Locked Coupons
+
+Coupons that are locked against an active booking or pending transaction appear as unavailable everywhere:
+
+- **Widget:** The coupon stays visible but is greyed out so customers can see it but cannot use it.
+- **Get Customer Coupons API:** Locked coupons are returned with a not-usable status.
+- **Customer profile (dashboard):** A **Locked** indicator shows the lock start time, expiry, and reference.
+
+---
 
 ### Configure Locking Coupon Duration
 
