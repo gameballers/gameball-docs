@@ -78,13 +78,22 @@ Introduce an element of chance with the Spin the Wheel template. Customers can e
 </Accordion>
 
 <Accordion title="Repeatability" icon="repeat">
-  By default, customers can spin the wheel **once per day**. A new opportunity to replay it begins at 00:00 AM based on the chosen time zone.
+  Control how many times a customer can play the game:
 
-  All Games campaigns support only the Limit per day/week/etc. [Learn more](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign).
+  | Option | Description |
+  |---|---|
+  | **Unlimited** | Customers can play as many times as they like. |
+  | **Limited to X times overall** | Caps the total number of plays per customer for the lifetime of the campaign. |
+  | **Time-based limit (per period)** | Sets a maximum number of plays per day, week, or month. The counter resets at the start of each period based on your account timezone. |
+  | **Combined (overall + per period)** | Applies both an overall cap and a per-period cap. Whichever limit is reached first blocks the next play. |
 
   <Frame>
     ![Repeatability settings](/images/product-docs/rewards-campaigns/templates/engagement-gamification/game-repeatability.png)
   </Frame>
+
+  <Note>
+  Raising a limit on a live campaign makes customers eligible to play again immediately.
+  </Note>
 </Accordion>
 
 <Accordion title="Platform Visibility" icon="desktop">
