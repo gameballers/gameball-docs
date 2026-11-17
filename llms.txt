@@ -73,6 +73,7 @@
 - [Analytics Overview](https://docs.gameball.co/product-documentation/analytics/introduction-to-gameball-analytics): What data is tracked and where to find it
 - [Member Analytics](https://docs.gameball.co/product-documentation/analytics/member-analytics): Customer enrollment and loyalty engagement metrics
 - [Campaign Performance](https://docs.gameball.co/product-documentation/analytics/track-your-campaign-performance): Track campaign reach and conversions
+- [Messaging Performance](https://docs.gameball.co/product-documentation/analytics/messaging-performance): Compare email, push, web, SMS, WhatsApp, and in-app results across channels and campaigns
 - [Purchase Behavior](https://docs.gameball.co/product-documentation/analytics/track-your-purchase-behaviour): Revenue and order insights for loyalty members
 - [Referral Performance](https://docs.gameball.co/product-documentation/analytics/track-your-referral-performance): Track referral program outcomes
 
