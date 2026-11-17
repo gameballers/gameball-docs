@@ -3,6 +3,38 @@ title: "Product Updates 2026"
 description: "Gameball product updates, new features, and improvements throughout 2026."
 ---
 
+<Update label="November 17 2026" description="Richer customer webhook & cashback API">
+
+## New Features
+
+### Customer Webhook: Status, Deletion and Referral Data
+
+The customer update webhook now tells you whether a customer is part of your loyalty program, who referred them, and how many customers they have referred. When a customer is deleted, you receive a final webhook that says so, so your own systems stay in sync without extra API calls. Available on all plans.
+
+* See whether each customer is included in or excluded from your loyalty program
+* Get notified when a customer is deleted, with a clear deleted flag on the final update
+* See who referred a customer and whether their referral is activated
+* Track each customer's total, active, and pending referrals
+* Existing fields don't change. The new fields are added on webhook version 4
+
+[Learn more](/api-reference/webhooks/webhook-topics/profile-updates)
+
+***
+
+## Other Improvements
+
+### Cashback Settings API Returns Full Earning Rules
+
+The Cashback Settings API now returns your default rule's eligibility (which products and collections it covers), your custom cashback rules, and your points multiplier campaigns. Developers can work out what an order will earn before checkout. Available on all plans. [Learn more](/api-reference/configurations/reward-configurations/cashback-settings)
+
+***
+
+### A Complete Guide to Your Data Warehouse Tables
+
+The [Data Warehouse article](/product-documentation/admin-settings/data-warehouse-ingestion) now covers all 6 shared tables and shows how to rebuild your dashboard numbers from them: points earned, redeemed, expired and expiring soon, outstanding balance, sources, and coupons. Open it from the new **Learn more** link on **Settings → Data warehouse integration**. Available on all plans.
+
+</Update>
+
 <Update label="November 4 2026" description="In-App Messaging, Multi-Currency, Redemption Groups, Game Improvements & More">
 
 ## New Features
