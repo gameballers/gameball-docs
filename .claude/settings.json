@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/check-llms-hook.ps1",
+            "command": "if command -v bash >/dev/null 2>&1; then bash .claude/check-llms-hook.sh; else powershell -NoProfile -ExecutionPolicy Bypass -File .claude/check-llms-hook.ps1; fi",
             "if": "Bash(git *)",
             "statusMessage": "Checking if llms.txt needs updating..."
           }
