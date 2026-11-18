@@ -7,9 +7,11 @@ description: "Learn about how Gameball's leaderboard work, and how you can hide 
 
 | **Platform** | **Plan** |
 |--------------|----------|
-| Shopify | Add-on for Pro / Available on Guru |
-| Non-Platform | Add-on (Contact Support) |
-| Salla | Add-on for Pro / Available on Guru |
+| Shopify | Pro & Guru |
+| Salla | Guru |
+| Non-Platform | Enterprise (Add-on on Growth) |
+
+{/* TODO: confirm plan availability. The release lists Shopify: Pro & Guru, Salla: Guru, Self-Serve: Enterprise (add-on on Growth). The previous table listed Pro as an add-on on Shopify and Salla. */}
 
 Leaderboards can be a great tool to create a competitive environment and encourage your customers to be more active. However, leaderboards could also be demotivating if deployed within the wrong crowd. Gameball gives you the option to use it or to completely remove it when it is not convenient.
 
@@ -27,11 +29,19 @@ To view the leaderboard, the customer needs to click on the **Progress bar** or 
   <img src="/images/product-docs/customer-widget/leaderboard-view.png" alt="Leaderboard view in widget" />
 </Frame>
 
+The leaderboard opens in under a second in your widget, down from around 16 seconds. Your existing leaderboard keeps every period, ranking depth, and API option it had before.
+
+---
+
+## How Are Customers Ranked?
+
+The leaderboard ranks customers on net totals. When an order is refunded or cancelled, Gameball takes it off the customer's score in the period of the original purchase, so the leaderboard reflects what customers actually kept.
+
 ---
 
 ## How Can a Customer Know Their Exact Rank?
 
-Customers can see their rank in comparison to the rest of the customers in the text above the customer list.
+Customers can see their rank in comparison to the rest of the customers in the text above the customer list. Customers see their exact rank when they are in the top 100.
 
 <Frame>
   <img src="/images/product-docs/customer-widget/leaderboard-rank-display.png" alt="Customer rank display on leaderboard" />
@@ -47,6 +57,14 @@ They can also filter the rank list according to:
 - Last month
 - This year
 - All-time
+
+---
+
+## How Many Customers Does the Leaderboard Rank?
+
+The leaderboard ranks up to 1,000 customers by default, and up to 10,000 when you need deeper rankings.
+
+{/* TODO: confirm how to enable the 10,000-customer ranking depth (setting, plan, or contact support). */}
 
 ---
 
@@ -69,6 +87,19 @@ They can also filter the rank list according to:
   Click **Save**, then refresh your website. You will find that the leaderboard tab has been completely removed (or restored).
 </Step>
 </Steps>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="What happens to a customer's rank when an order is refunded or cancelled?">
+    The refund or cancellation comes off the customer's score in the period of the original purchase, not the period when the refund happened.
+  </Accordion>
+  <Accordion title="Can I get leaderboard rankings through the API?">
+    Yes. The [Customer Leaderboard API](/api-reference/leaderboard/customer-leaderboard) returns rankings in milliseconds, with weekly, daily, and custom date ranges.
+  </Accordion>
+</AccordionGroup>
 
 ---
 

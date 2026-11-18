@@ -9,6 +9,10 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 This API retrieves the leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time. Results are ordered from the highest to the lowest rank, displaying each customer's rank, progress, and tier details.
 
+Rankings return in milliseconds and support weekly, daily, and custom date ranges through the `from` and `to` parameters. Rankings are based on net totals: refunds and cancellations are taken off the period of the original purchase. The leaderboard ranks up to 1,000 customers by default, and up to 10,000 when deeper rankings are enabled.
+
+{/* TODO: confirm whether the response or parameters changed with the new leaderboard engine, and how deeper rankings are enabled. */}
+
 <Info>
 **Security:** Requires **apikey** header.
 </Info>
