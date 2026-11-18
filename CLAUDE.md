@@ -38,6 +38,16 @@ Turns a product release into a docs PR. Started by the product team's `/release-
 
 ---
 
+## Workflow: /review-docs
+
+Interactive review of open release PRs (`docs/release-*` branches) → merge → deploy. Run `/review-docs`, or `/review-docs <PR number>` for one PR.
+
+- Lists each PR's changes as a short numbered list and runs automatic checks (broken links, missing or expiring images, `mint validate`, `docs.json`, `llms.txt`, leftover placeholders and HTML comments)
+- Opens each changed page on `localhost:3000` for the reviewer to approve or ask for a change. Edits go to the PR branch after the reviewer confirms the diff
+- Merges with `gh pr merge --merge` only after every item is approved and the reviewer confirms the merge, then confirms the Mintlify deploy and the live pages
+
+---
+
 ## Workflow: /accuracy-report
 
 Monthly GBKnowledge bot accuracy report. Run `/accuracy-report` to kick off.
