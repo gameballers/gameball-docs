@@ -1,0 +1,18 @@
+---
+title: "API Updates 2026"
+description: "Gameball API updates, version changes, and migration guides for 2026."
+---
+
+<Update label="November 17 2026" description="Customer webhook and Cashback Settings" tags={["API", "Webhooks"]}>
+
+## Customer Profile Webhook: Status, Deletion and Referral Data
+
+The customer profile webhook now includes `status`, `is_deleted`, `referred_by_customer_id`, `is_referral_activated`, `total_referrals`, `active_referrals`, and `pending_referrals`. A final webhook with `is_deleted` set to `true` is sent when a customer is deleted. These fields are available on webhook version 4. Earlier versions keep their existing payload. See [Customer Profile Updates](/api-reference/webhooks/webhook-topics/profile-updates).
+
+***
+
+## Cashback Settings API: Eligibility, Custom Rules and Multiplier Campaigns
+
+The [Cashback Settings API](/api-reference/configurations/reward-configurations/cashback-settings) now returns the default rule's eligibility, `customCashbackRules`, and `pointsMultiplierCampaigns`, so you can calculate what an order will earn before checkout.
+
+</Update>

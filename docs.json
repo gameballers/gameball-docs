@@ -167,7 +167,8 @@
                   "product-documentation/analytics/track-your-campaign-performance",
                   "product-documentation/analytics/track-your-purchase-behaviour",
                   "product-documentation/analytics/track-your-referral-performance",
-                  "product-documentation/analytics/export-your-points-data"
+                  "product-documentation/analytics/export-your-points-data",
+                  "product-documentation/analytics/messaging-performance"
                 ]
               },
               {
@@ -1441,6 +1442,7 @@
           {
             "group": "API Updates",
             "pages": [
+              "changelog/api-updates/2026",
               "changelog/api-updates/2025",
               "changelog/api-updates/2024"
             ]

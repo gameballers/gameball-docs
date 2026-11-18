@@ -3,6 +3,86 @@ title: "Product Updates 2026"
 description: "Gameball product updates, new features, and improvements throughout 2026."
 ---
 
+<Update label="November 18 2026" description="Push A/B Testing & Messaging Performance">
+
+## New Features
+
+### [A/B Test Your Push Notifications](/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns)
+
+Write several versions of the same push, split your audience between them, and keep a control group that gets nothing. After launch, the campaign page shows which version drove more conversions and how much better it did than the control group. Available on all plans.
+
+* Create two or more variants, each with its own text, image, tap action, and buttons
+* Split your audience by percentage, with every customer always getting the same variant
+* Optional control group that receives no push, so you can measure the real uplift
+* Compare customers, sent, conversions, conversion rate, and uplift in a table and a chart
+* Variants and the split are locked once the campaign is live
+
+***
+
+### [Messaging Performance](/product-documentation/analytics/messaging-performance)
+
+See how all your messaging performs in one place. The new Messaging Performance page under Analytics brings your outbound results together, so you can compare channels and campaigns without opening each campaign. Available on all plans.
+
+* Switch between Email, Push, Web, SMS, WhatsApp, and In-app
+* See the main numbers for a channel at a glance, with charts over time
+* Compare up to 10 campaigns by sends, impressions, reached customers, and conversion rate, plus clicks and click rate for Email, Web, and In-app
+* Find it under Analytics → Messaging Performance, for team members who can view both Analytics and Communication
+
+***
+
+### [Tap Actions, Buttons, and Images for Push Notifications](/product-documentation/communication-campaigns/create-and-configure-mobile-push-campaigns)
+
+Push campaigns now control what a push does, not just what it says. Campaigns that don't use the new settings send exactly the same push as before. Available on all plans.
+
+* Choose what a tap does: open the app, open a screen, or open a web page, inside the app if you prefer
+* Add up to 3 buttons, each with a label per campaign language and its own tap action
+* Attach an image to the push (Android only for now)
+* Set an expiry of up to 28 days
+* Target iOS, Android, or both, and send up to 20 custom data pairs to your app
+
+***
+
+### [Send In-App Step in Automations](/product-documentation/automation-campaigns/automation-actions)
+
+Automations can now reach customers inside your app. Add the new Send In-App step and customers who reach it see your in-app message on their next session, once. Available on all plans.
+
+* Add a Send In-App step to an automation and save it
+* Each customer sees the message once, not every session
+
+</Update>
+
+<Update label="November 17 2026" description="Richer customer webhook & cashback API">
+
+## New Features
+
+### Customer Webhook: Status, Deletion and Referral Data
+
+The customer update webhook now tells you whether a customer is part of your loyalty program, who referred them, and how many customers they have referred. When a customer is deleted, you receive a final webhook that says so, so your own systems stay in sync without extra API calls. Available on all plans.
+
+* See whether each customer is included in or excluded from your loyalty program
+* Get notified when a customer is deleted, with a clear deleted flag on the final update
+* See who referred a customer and whether their referral is activated
+* Track each customer's total, active, and pending referrals
+* Existing fields don't change. The new fields are added on webhook version 4
+
+[Learn more](/api-reference/webhooks/webhook-topics/profile-updates)
+
+***
+
+## Other Improvements
+
+### Cashback Settings API Returns Full Earning Rules
+
+The Cashback Settings API now returns your default rule's eligibility (which products and collections it covers), your custom cashback rules, and your points multiplier campaigns. Developers can work out what an order will earn before checkout. Available on all plans. [Learn more](/api-reference/configurations/reward-configurations/cashback-settings)
+
+***
+
+### A Complete Guide to Your Data Warehouse Tables
+
+The [Data Warehouse article](/product-documentation/admin-settings/data-warehouse-ingestion) now covers all 6 shared tables and shows how to rebuild your dashboard numbers from them: points earned, redeemed, expired and expiring soon, outstanding balance, sources, and coupons. Open it from the new **Learn more** link on **Settings → Data warehouse integration**. Available on all plans (add-on on Shopify and Salla).
+
+</Update>
+
 <Update label="November 16 2026" description="Campaign Status Tabs, Template Filters & Stamps Reward Preview">
 
 ## New Features
