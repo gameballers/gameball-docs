@@ -75,6 +75,7 @@
 - [Campaign Performance](https://docs.gameball.co/product-documentation/analytics/track-your-campaign-performance): Track campaign reach and conversions
 - [Purchase Behavior](https://docs.gameball.co/product-documentation/analytics/track-your-purchase-behaviour): Revenue and order insights for loyalty members
 - [Referral Performance](https://docs.gameball.co/product-documentation/analytics/track-your-referral-performance): Track referral program outcomes
+- [Messaging Performance](https://docs.gameball.co/product-documentation/analytics/messaging-performance): Compare email, push, web, SMS, WhatsApp, and in-app results across channels and campaigns
 
 ## Customer Widget
 

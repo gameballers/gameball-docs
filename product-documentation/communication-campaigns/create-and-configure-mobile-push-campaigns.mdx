@@ -139,10 +139,39 @@ Click **Save and Continue**.
   <Step title="Craft a Compelling Message">
     Craft a compelling message that grabs users' attention and encourages action, such as promoting new collections, products, sales, or promo codes.
   </Step>
+  <Step title="Control What the Push Does">
+    Set what happens when a customer interacts with the push. See [Tap Actions, Buttons, and Images](#tap-actions-buttons-and-images) below.
+  </Step>
   <Step title="Save and Continue">
     Click **Save and Continue**.
   </Step>
 </Steps>
+
+#### Tap Actions, Buttons, and Images
+
+Push campaigns control what a push **does**, not just what it says.
+
+<Frame>
+  ![Push Compose step with the When tapped, Custom data, and Action buttons settings](/images/product-docs/product-releases/CL26.11.04/CRM-54-push-tap-actions-buttons.png)
+</Frame>
+
+As you set up the push, the phone preview next to the settings shows how it looks on your customer's phone, including the title, the message, and the buttons.
+
+<Frame>
+  ![Phone preview of the push with the Shop now and Remind me later buttons](/images/product-docs/product-releases/CL26.11.04/CRM-54-push-customer-preview.png)
+</Frame>
+
+- **Tap action**: Choose what happens when the customer taps the push:
+  - Open the app
+  - Open a screen in the app
+  - Open a web page, inside the app if you prefer
+- **Buttons**: Add up to 3 buttons. Each button has a label for every campaign language and its own tap action.
+- **Image**: Attach an image to the push. Images are supported on Android only for now.
+- **Expiry**: Set an expiry of up to 28 days. A push that can't be delivered within this time is dropped.
+- **Platforms**: Target iOS, Android, or both.
+- **Custom data**: Send up to 20 custom data pairs to your app.
+
+Campaigns that don't use these settings send exactly the same push as before.
 
 ---
 
@@ -178,6 +207,56 @@ Click **Save and Continue**.
 
 ---
 
+## A/B Testing Your Push Notifications
+
+Write several versions of the same push, split your audience between them, and see which one wins. Push A/B testing works the same way as [in-app A/B testing](/product-documentation/communication-campaigns/create-and-configure-in-app-messaging-campaigns).
+
+<Frame>
+  ![Push A/B test results with a table and chart comparing variants and the control group](/images/product-docs/product-releases/CL26.11.04/CRM-55-push-ab-testing.png)
+</Frame>
+
+<Steps>
+  <Step title="Create Variants">
+    Create two or more variants of the push. Each variant has its own text, image, tap action, and buttons.
+  </Step>
+  <Step title="Split Your Audience">
+    Split your audience between the variants by percentage. Every customer always gets the same variant.
+  </Step>
+  <Step title="Add a Control Group (Optional)">
+    Keep a control group that receives no push, so you can measure the real uplift.
+  </Step>
+  <Step title="Launch and Compare Results">
+    After launch, open the campaign page to see which version drove more conversions and how much better it did than the control group. A table and a chart compare **customers**, **sent**, **conversions**, **conversion rate**, and **uplift** for each variant.
+  </Step>
+</Steps>
+
+---
+
+## Important Notes
+
+<Warning>
+**Variants Lock After Launch**: Once the campaign is live, the variants and the audience split are locked so the test stays clean. Plan your test before you set the campaign live.
+</Warning>
+
+<Note>
+**Image Support**: Push images are supported on Android only for now.
+</Note>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Do my existing push campaigns change?">
+    No. Campaigns that don't use the new tap action, button, image, expiry, or platform settings send exactly the same push as before.
+  </Accordion>
+  <Accordion title="Where can I compare push performance with other channels?">
+    Use the **Messaging Performance** page in Analytics. [Learn more](/product-documentation/analytics/messaging-performance)
+  </Accordion>
+</AccordionGroup>
+
+---
+
 ## Viewing and Managing Communication Campaigns
 
 - Access the Communication Campaign section in the Gameball Dashboard to view all configured campaigns, including mobile push.
@@ -199,7 +278,12 @@ Click **Save and Continue**.
 
 ---
 
+## Related Articles
+
 <CardGroup cols={3}>
+  <Card title="Messaging Performance" icon="chart-line" href="/product-documentation/analytics/messaging-performance">
+    Compare results across channels and campaigns in one place.
+  </Card>
   <Card title="Create and Configure Email Campaigns" icon="envelope" href="/product-documentation/communication-campaigns/create-and-configure-email-campaigns">
     Set up email campaigns to reach customers with personalized messages.
   </Card>
