@@ -1442,6 +1442,7 @@
           {
             "group": "API Updates",
             "pages": [
+              "changelog/api-updates/2026",
               "changelog/api-updates/2025",
               "changelog/api-updates/2024"
             ]
