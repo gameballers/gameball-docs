@@ -19,6 +19,7 @@ It can also be run by hand: `/release-docs <release notes>`.
 - Optionally, a **Screenshots** block with repo paths, already committed to the release branch by `/release-linear`:
   - `{ID} — /images/product-docs/product-releases/{REL}/{file}.png` for a single screenshot
   - `{ID} step {N} — {one-line action} — /images/product-docs/product-releases/{REL}/{file}.png` for a flow with several steps
+  - `{ID} part {N} — {caption} — /images/product-docs/product-releases/{REL}/{file}.png` for sections of one tall page (e.g. an analytics page)
 
 If `$ARGUMENTS` is empty, stop and say: "Nothing to document — pass the release notes, e.g. `/release-docs <release entry>`."
 
@@ -98,6 +99,7 @@ Follow `product-doc.md` for every page.
   ```
   Some screenshots already have a box, arrow or numbered badge drawn on them; don't describe the highlight in the text.
 - **Flows with several steps:** when an item has `step {N}` screenshots, document the flow as a `<Steps>` block with one `<Step>` per screenshot, using its one-line action as the step title and the screenshot inside the step. If the page already has a `<Steps>` block for this flow, update its steps instead of adding a new block.
+- **Tall pages split into parts:** don't stack the parts in one place. Put each part next to the text that explains that section (e.g. the KPI tiles part under "Key metrics", each chart under the paragraph that describes it). When the page is new, use the parts to shape its sections, one `##` or `###` per part, titled after its caption. Part 1 (title and filters) goes near the top, where you explain how to open the page.
 - **No screenshot for an item:** use the image-placeholder format from STEP 9 of `product-doc.md` and list each placeholder under "Needs your review".
 - **Never invent behaviour.** Document only what the release text states. If a detail the page needs isn't in the release (a limit, a default, an exact label), leave a clear `{/* TODO: confirm … */}` comment in the MDX and list it under "Needs your review".
 
