@@ -16,7 +16,10 @@ It can also be run by hand: `/release-docs <release notes>`.
 - **Release number and headline** — e.g. `#001 · Sign in to Gameball with your company login`
 - **Date**
 - One block per released item: **title**, **type** (New / Improved / Fixed), **surfaces** (Dashboard, Widget, APIs, Shopify, Salla), **plans**, the user-facing **description** and capability bullets, and the **Linear source link**
-- Optionally, **screenshot URLs** per item
+- Optionally, a **Screenshots** block with repo paths, already committed to the release branch by `/release-linear`:
+  - `{ID} — /images/product-docs/product-releases/{REL}/{file}.png` for a single screenshot
+  - `{ID} step {N} — {one-line action} — /images/product-docs/product-releases/{REL}/{file}.png` for a flow with several steps
+  - `{ID} part {N} — {caption} — /images/product-docs/product-releases/{REL}/{file}.png` for sections of one tall page (e.g. an analytics page)
 
 If `$ARGUMENTS` is empty, stop and say: "Nothing to document — pass the release notes, e.g. `/release-docs <release entry>`."
 
@@ -32,7 +35,7 @@ Set:
 ## STEP 0: Set up the branch
 
 1. You are at the repo root. `git fetch origin main` and start from the latest `main`: `git checkout -B {BRANCH} origin/main`.
-2. If the branch already exists on the remote (a re-run for the same release), check it out and continue on it instead of starting over.
+2. If the branch already exists on the remote, check it out and continue on it instead of starting over. This is the normal case when the release has screenshots: `/release-linear` creates the branch and commits them under `images/product-docs/product-releases/` before this runs. Keep that commit.
 
 ---
 
@@ -88,7 +91,16 @@ Follow `product-doc.md` for every page.
 - **Updating a page:** read it fully, change only what the release affects, and keep its structure, components and tone. Add a Common Questions entry if the change raises an obvious question.
 - **New page:** follow STEP 0–13 of `product-doc.md`, including `docs.json` (path format `product-documentation/{section}/{filename}`, no `.mdx`).
 - **Plans:** use the plan line from the release in the availability table. If the release says "All plans" or gives nothing, keep whatever the page already states and flag it under "Needs your review".
-- **Screenshots:** if the release gives a screenshot URL for an item, embed it with `<Frame>`. Otherwise use the image-placeholder format from STEP 9 of `product-doc.md` and list each placeholder under "Needs your review".
+- **Screenshots:** use only the repo paths from the Screenshots block, and check that each file exists on the branch. Never embed a Linear URL (`uploads.linear.app` and similar): those need a login and show as broken images. Embed each one with `<Frame>` and alt text describing what it shows:
+  ```mdx
+  <Frame>
+  ![Campaign editor with the new A/B testing toggle highlighted](/images/product-docs/product-releases/{REL}/CRM-55-push-ab-testing-annotated.png)
+  </Frame>
+  ```
+  Some screenshots already have a box, arrow or numbered badge drawn on them; don't describe the highlight in the text.
+- **Flows with several steps:** when an item has `step {N}` screenshots, document the flow as a `<Steps>` block with one `<Step>` per screenshot, using its one-line action as the step title and the screenshot inside the step. If the page already has a `<Steps>` block for this flow, update its steps instead of adding a new block.
+- **Tall pages split into parts:** don't stack the parts in one place. Put each part next to the text that explains that section (e.g. the KPI tiles part under "Key metrics", each chart under the paragraph that describes it). When the page is new, use the parts to shape its sections, one `##` or `###` per part, titled after its caption. Part 1 (title and filters) goes near the top, where you explain how to open the page.
+- **No screenshot for an item:** use the image-placeholder format from STEP 9 of `product-doc.md` and list each placeholder under "Needs your review".
 - **Never invent behaviour.** Document only what the release text states. If a detail the page needs isn't in the release (a limit, a default, an exact label), leave a clear `{/* TODO: confirm … */}` comment in the MDX and list it under "Needs your review".
 
 ---
