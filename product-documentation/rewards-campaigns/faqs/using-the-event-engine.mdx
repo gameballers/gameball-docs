@@ -113,6 +113,12 @@ For every chosen key in the case of using the event rule, you will find multiple
 
   Include will be triggered if the key-value contains the added rule value, and the customer's event should satisfy the included value. For example, if your rule is to reward customers when they buy a certain type of product like "Summer shirts", "Summer accessories", you can just select all products that **include** the word "Summer".
 
+  **Contains** and **Does not contain** conditions also accept a comma-separated list, such as "Nike, Adidas, Puma", so one rule can cover several vendors, SKUs, tags, or categories. Conditions with a single value work as before.
+
+  <Note>
+  Stamps and sequential missions read the value as plain text, so a comma-separated list does not apply to them.
+  </Note>
+
   **Use case: Order includes an item from a specific collection**
 
   Let customers win a reward when they complete an order that has at least one item that belongs to a specific collection, while it does not matter what other collections are under the same order.
