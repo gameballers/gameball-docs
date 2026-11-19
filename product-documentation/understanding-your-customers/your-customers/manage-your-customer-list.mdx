@@ -28,6 +28,8 @@ Once you access the **Customers** tab on your Gameball dashboard, you will see a
 | **Guest Tag** | Indicates that the customer placed an order as a guest and has not yet created an account on your platform. This tag is automatically displayed if the customer's status is identified as a guest. The [guest customers](/product-documentation/guides-strategies-faqs/supportive-guides/integrate-guest-customers) feature is available by default in Shopify or through custom integration with Gameball. |
 | **Tags and Segments** | Lists any tags manually added to the customer, and the segments they belong to, based on dynamic rules or RFM logic. |
 
+You can show, hide, and reorder these columns, and add others, as described in [Save Views and Choose Your Columns](#save-views-and-choose-your-columns).
+
 ### Actions Available on Each Row
 
 <Frame>
@@ -124,6 +126,72 @@ If a filter is applied, bulk actions will be applied **only to the filtered cust
 1. You cannot delete customers in bulk.
 2. There are some other bulk actions you can apply using the [batch creation API](/api-reference/batches/batch-creation).
 </Note>
+
+---
+
+## Save Views and Choose Your Columns
+
+A **saved view** stores the filters and sort order of your Customers list under a name, so you can reopen the same group of customers in one click. You can keep a view to yourself or share it with your whole team. Each view also keeps its own columns.
+
+### Save a View
+
+<Steps>
+  <Step title="Filter the list, then choose Save View">
+    Apply the filters and sort order you want, then click **Save View**.
+
+    <Frame>
+    ![Customers list with filters applied and the Save View button](/images/product-docs/product-releases/CL26.11.05/P-CRM-32-saved-views-columns-step-1-annotated.png)
+    </Frame>
+  </Step>
+  <Step title="Name the view and choose who can see it">
+    Enter a name for the view and choose whether to keep it to yourself or share it with everyone on your team.
+
+    <Frame>
+    ![Save view dialog with a name field and visibility options](/images/product-docs/product-releases/CL26.11.05/P-CRM-32-saved-views-columns-step-2.png)
+    </Frame>
+  </Step>
+  <Step title="Open any of your views in one click">
+    Select a view to see the customers who match it right now. You can set a default view that opens with the list.
+
+    <Frame>
+    ![List of saved views on the Customers page](/images/product-docs/product-releases/CL26.11.05/P-CRM-32-saved-views-columns-step-3-annotated.png)
+    </Frame>
+  </Step>
+  <Step title="Search inside the open view">
+    Search the customers in the open view by name, email, customer ID, or phone number.
+
+    <Frame>
+    ![Search field inside an open saved view](/images/product-docs/product-releases/CL26.11.05/P-CRM-32-saved-views-columns-step-4-annotated.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Note>
+You can save up to 50 views each. {/* TODO: confirm whether the 50-view limit applies per team member and whether it counts shared views */}
+</Note>
+
+### Choose Your Columns
+
+Choose which columns the list shows, and in what order, right in the table header. Each saved view keeps its own columns.
+
+<Steps>
+  <Step title="Edit the columns in the table header">
+    Drag a column to reorder it, or hide a column you do not need.
+
+    <Frame>
+    ![Table header with column controls](/images/product-docs/product-releases/CL26.11.05/P-CRM-32-saved-views-columns-step-5-annotated.png)
+    </Frame>
+  </Step>
+  <Step title="Add the columns you need">
+    Add extra columns such as status, last order, total spent, redemptions, referral code, and country.
+
+    <Frame>
+    ![Column picker with Last Order, Orders, and Country](/images/product-docs/product-releases/CL26.11.05/P-CRM-32-saved-views-columns-step-6-annotated.png)
+    </Frame>
+  </Step>
+</Steps>
+
+Saved views and column controls also work on the [Communication](/product-documentation/communication-campaigns/introduction-to-communication-campaigns#manage-your-campaign-list) and [Automations](/product-documentation/automation-campaigns/how-to-create-an-automation-campaign#manage-your-automation-list) lists. The [Reward Campaigns](/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide#manage-your-campaign-list) list supports column controls.
 
 ---
 
