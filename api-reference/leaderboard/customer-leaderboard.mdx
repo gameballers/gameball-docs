@@ -9,6 +9,19 @@ languages: ["curl", "javascript", "python", "csharp"]
 
 This API retrieves the leaderboard rankings of customers within your loyalty program in Gameball, either for a specific date range or for all time. Results are ordered from the highest to the lowest rank, displaying each customer's rank, progress, and tier details.
 
+<Note>
+The Leaderboard API is part of the **Advanced** leaderboard. It needs the **Advanced leaderboard** plan feature, on your plan or as an add-on, and an active subscription. The Normal leaderboard does not include it.
+</Note>
+
+Rankings are based on net totals: refunds and cancellations are taken off the period of the original purchase, and transactions blocked as fraud never count. Customers are ranked by your levels method (amount spent, points, orders, referrals, or score), and customers with the same result always appear in the same order.
+
+- Each request returns up to 50 rows.
+- Use `from` and `to` for custom date ranges. The range must start within the last 62 days.
+- Filter by `customerTag`, `rewardCampaignId`, or `rewardCampaignTag`.
+- The leaderboard ranks 1,000 customers by default, up to 10,000.
+
+{/* TODO: confirm what the API returns when `from` is older than 62 days or when the merchant is on Normal (error code and message), and whether the 50-row limit uses a paging parameter. The OpenAPI spec lists no paging parameter. */}
+
 <Info>
 **Security:** Requires **apikey** header.
 </Info>

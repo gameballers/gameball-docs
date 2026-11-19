@@ -3,6 +3,19 @@ title: "API Updates 2026"
 description: "Gameball API updates, version changes, and migration guides for 2026."
 ---
 
+<Update label="November 19 2026" description="Faster Leaderboard API" tags={["API"]}>
+
+## Leaderboard API: Millisecond Rankings and Net Totals
+
+The [Customer Leaderboard API](/api-reference/leaderboard/customer-leaderboard) now runs on the new leaderboard engine and is part of the Advanced leaderboard. Rankings use net totals, with refunds and cancellations taken off the period of the original purchase.
+
+* Request up to 50 rows at a time
+* Use custom date ranges that start within the last 62 days
+* Filter by customer tag, reward campaign, or campaign tag
+* Requires the **Advanced leaderboard** plan feature and an active subscription
+
+</Update>
+
 <Update label="November 17 2026" description="Customer webhook and Cashback Settings" tags={["API", "Webhooks"]}>
 
 ## Customer Profile Webhook: Status, Deletion and Referral Data
