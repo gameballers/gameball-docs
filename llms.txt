@@ -111,6 +111,7 @@
 ## Apps & Integrations
 
 - [Integrations Overview](https://docs.gameball.co/product-documentation/apps-integrations/introduction-to-apps-integrations): All supported third-party integrations
+- [Gameball MCP Server](https://docs.gameball.co/product-documentation/apps-integrations/gameball-mcp-server): Connect an AI assistant such as Claude, ChatGPT, or Cursor to a Gameball account over MCP
 - [Klaviyo](https://docs.gameball.co/product-documentation/apps-integrations/klaviyo-integration): Sync Gameball loyalty data with Klaviyo
 - [HubSpot](https://docs.gameball.co/product-documentation/apps-integrations/hubspot-integration): Sync loyalty events and customer data with HubSpot
 - [Shopify Flow](https://docs.gameball.co/product-documentation/apps-integrations/shopify-flow/introduction-to-shopify-flow): Automate loyalty actions using Shopify Flow

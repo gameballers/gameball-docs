@@ -1,0 +1,111 @@
+---
+title: "How Do I Connect an AI Assistant to Gameball with MCP?"
+description: "Connect Claude, ChatGPT, Cursor, or any MCP-compatible AI assistant to your Gameball account and manage your loyalty program by asking for what you need."
+---
+
+**Available for all Gameball customers**
+
+The **Gameball MCP Server** lets an AI assistant work with your Gameball account on your behalf. It uses the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), an open standard supported by assistants such as Claude, ChatGPT, and Cursor, so you can look up customers, adjust your program, and build campaigns in a conversation instead of clicking through the dashboard.
+
+```
+https://mcp-v2.gameball.co/v1.0/mcp
+```
+
+---
+
+## Why Connect an AI Assistant to Gameball?
+
+* **Work in plain language**: Ask "How many points does this customer have?" or "Create a tier for customers who spend over 500" and the assistant runs the matching Gameball actions.
+* **Stay in control of access**: You sign in with your own Gameball account and choose exactly which areas the assistant can read and which it can change.
+* **Use the assistant you already have**: Any AI app that supports remote MCP servers can connect. No API keys to copy and no code to write.
+
+---
+
+## How to Connect Your AI Assistant
+
+<Steps>
+  <Step title="Add Gameball as an MCP Server">
+    In your AI assistant, add a new remote MCP server (some apps call it a custom connector) and enter the server URL:
+
+    ```
+    https://mcp-v2.gameball.co/v1.0/mcp
+    ```
+
+    In Claude Code, run this command instead:
+
+    ```bash
+    claude mcp add --transport http gameball https://mcp-v2.gameball.co/v1.0/mcp
+    ```
+  </Step>
+  <Step title="Sign In to Gameball">
+    Start the connection from your assistant. A browser window opens the Gameball sign-in page. Log in with the same account you use for the Gameball dashboard.
+  </Step>
+  <Step title="Choose What the Assistant Can Access">
+    Review the list of permissions and select the ones you want to grant. Each area of your account has a separate read permission and write permission, so you can let the assistant view an area without letting it make changes.
+  </Step>
+  <Step title="Start Asking">
+    Return to your assistant and ask it what it can do with Gameball. It only sees the actions that match the permissions you granted.
+  </Step>
+</Steps>
+
+<Tip>
+Start with read permissions only. Add write permissions later, once you are comfortable with how the assistant works with your account.
+</Tip>
+
+---
+
+## What Your Assistant Can Do
+
+| Area | Examples |
+|---|---|
+| **Customers** | Look up a customer, review their activity, add or deduct points, update profile details, assign or remove tags, and update points or tags in bulk from a CSV file |
+| **Earning rules** | Review and change how customers earn points, including earning rules and exceptions |
+| **Redemption options** | Create, edit, activate, or remove the options customers redeem their points for |
+| **VIP tiers** | Create tiers, set thresholds and rewards, and adjust tier settings |
+| **Reward campaigns** | Create and edit campaigns, set their audience, schedule, and rewards, and turn them on or off |
+| **Communication campaigns** | Create email, SMS, and push campaigns, set their audience and content, schedule them, and turn them on or off |
+| **Program setup** | Manage tags, customer attributes, events, merchants, and branches |
+
+---
+
+## Important Notes
+
+<Warning>
+**Changes Are Live**: Actions taken with a write permission apply to your real program and customers, just like changes you make in the dashboard. Grant write permissions only for the areas you want the assistant to manage, and review what it plans to do before you confirm.
+</Warning>
+
+<Note>
+**Signing In Again**: Your assistant stays connected while you keep using it. If you do not use the connection for 30 days, sign in again to reconnect.
+</Note>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Which AI assistants can connect to Gameball?">
+    Any assistant that supports remote MCP servers with sign-in, including Claude, ChatGPT, Cursor, and Claude Code.
+  </Accordion>
+  <Accordion title="Does the assistant see my Gameball password?">
+    No. You sign in on the Gameball sign-in page, not inside the assistant. The assistant only receives access to the permissions you approve.
+  </Accordion>
+  <Accordion title="Can I change the permissions later?">
+    Yes. Disconnect Gameball in your assistant and connect again, then select a different set of permissions when you sign in.
+  </Accordion>
+  <Accordion title="Why does the assistant say it cannot do something?">
+    The action needs a permission you did not grant. Reconnect and select the read or write permission for that area.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Apps & Integrations" icon="puzzle-piece" href="/product-documentation/apps-integrations/introduction-to-apps-integrations">
+    Explore the other apps and tools you can connect to Gameball.
+  </Card>
+  <Card title="Integrate Zapier with Gameball" icon="bolt" href="/product-documentation/apps-integrations/zapier-integration">
+    Connect Gameball to other apps with automated workflows.
+  </Card>
+</CardGroup>
