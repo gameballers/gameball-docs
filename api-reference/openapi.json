@@ -4846,10 +4846,9 @@
                         "customerId": { "type": "string", "description": "Unique identifier for the customer." },
                         "events": {
                           "type": "object",
-                          "description": "Object containing event names as keys and their metadata as values.",
+                          "description": "One entry per event. The key is the event name, and the value is that event's metadata.",
                           "additionalProperties": {
-                            "type": "object",
-                            "description": "Event metadata containing relevant attributes for the event."
+                            "$ref": "#/components/schemas/EventMetadata"
                           }
                         }
                       }
@@ -6593,10 +6592,26 @@
                   },
                   "events": {
                     "type": "object",
-                    "description": "One entry per event to preview: the key is the event name, the value is that event's metadata object (or `{}` / `null` if none).",
+                    "description": "One entry per event to preview. The key is the event name, and the value is that event's metadata. Send `null` from the JSON editor when an event has no metadata. In the playground, edit the fields under an event name or add another event with **Add new property**.",
+                    "properties": {
+                      "add_review": {
+                        "type": "object",
+                        "description": "Example event. Event names are dynamic — add another property for each event you want to preview.",
+                        "properties": {
+                          "rating": {
+                            "type": "number",
+                            "description": "Example metadata field.",
+                            "example": 5
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string",
+                          "description": "Another metadata value for this event. Use the JSON editor to send a number or boolean."
+                        }
+                      }
+                    },
                     "additionalProperties": {
-                      "type": ["object", "null"],
-                      "additionalProperties": true
+                      "$ref": "#/components/schemas/EventMetadata"
                     },
                     "example": {
                       "add_review": { "rating": 5 }
@@ -7261,17 +7276,65 @@
         "required": ["notificationIds"],
         "properties": { "notificationIds": { "type": "array", "items": { "type": "string" } } }
       },
+      "EventMetadata": {
+        "type": "object",
+        "description": "Metadata for one event. Add a property for each metadata field.",
+        "additionalProperties": {
+          "type": "string",
+          "description": "Metadata value. Use the JSON editor to send a number or boolean."
+        }
+      },
       "EventRequest": {
         "type": "object",
         "required": ["customerId", "events"],
         "properties": {
-          "customerId": { "type": "string", "description": "Unique identifier for the customer" },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier for the customer",
+            "example": "1848877205"
+          },
           "events": {
             "type": "object",
-            "description": "A mapping of event names to metadata objects",
+            "description": "One entry per event. The key is the event name (for example, `write_review`). In the playground, edit the fields under an event or add another event with **Add new property**.",
+            "properties": {
+              "write_review": {
+                "type": "object",
+                "description": "Example event. Event names are dynamic — add another property for each event you send.",
+                "properties": {
+                  "product_id": {
+                    "type": "string",
+                    "description": "Example metadata field.",
+                    "example": "1653503260"
+                  },
+                  "review": {
+                    "type": "string",
+                    "description": "Example metadata field.",
+                    "example": "5 Stars Product"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "description": "Another metadata value for this event. Use the JSON editor to send a number or boolean."
+                }
+              }
+            },
             "additionalProperties": {
-              "type": "object",
-              "additionalProperties": true
+              "$ref": "#/components/schemas/EventMetadata"
+            },
+            "example": {
+              "write_review": {
+                "product_id": "1653503260",
+                "review": "5 Stars Product"
+              }
+            }
+          }
+        },
+        "example": {
+          "customerId": "1848877205",
+          "events": {
+            "write_review": {
+              "product_id": "1653503260",
+              "review": "5 Stars Product"
             }
           }
         }

@@ -13,6 +13,7 @@
       "proxy": true
     },
     "examples": {
+      "prefill": true,
       "languages": [
         "curl",
         "javascript",
