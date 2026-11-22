@@ -1,11 +1,11 @@
 ---
 title: "How Do I Connect an AI Assistant to Gameball with MCP?"
-description: "Connect Claude, ChatGPT, Cursor, or any MCP-compatible AI assistant to your Gameball account and manage your loyalty program by asking for what you need."
+description: "Connect Claude, ChatGPT, Gemini, Cursor, or any MCP-compatible AI assistant to your Gameball account and manage your loyalty program by asking for what you need."
 ---
 
 **Available for all Gameball customers**
 
-The **Gameball MCP Server** lets an AI assistant work with your Gameball account on your behalf. It uses the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), an open standard supported by assistants such as Claude, ChatGPT, and Cursor, so you can look up customers, adjust your program, and build campaigns in a conversation instead of clicking through the dashboard.
+The **Gameball MCP Server** lets an AI assistant work with your Gameball account on your behalf. It uses the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), an open standard supported by assistants such as Claude, ChatGPT, Gemini, and Cursor, so you can look up customers, adjust your program, and build campaigns in a conversation instead of clicking through the dashboard.
 
 ```
 https://mcp-v2.gameball.co/v1.0/mcp
@@ -23,22 +23,78 @@ https://mcp-v2.gameball.co/v1.0/mcp
 
 ## How to Connect Your AI Assistant
 
+Connecting takes two parts: add the Gameball server in your AI app, then sign in and choose what the assistant can access. Find your app below for the first part.
+
+<Note>
+AI apps rename their menus often. If a label below does not match what you see, look for the option to add a custom MCP server or custom connector.
+</Note>
+
+### Claude (Web and Desktop)
+
+1. Open **Customize > Connectors**.
+2. Select **Add**, then **Add custom connector**.
+3. Enter a name, such as `Gameball`, and the server URL `https://mcp-v2.gameball.co/v1.0/mcp`.
+4. Click **Continue**, then **Add**, then **Connect**.
+
+Custom connectors are available on every Claude plan. The Free plan allows one custom connector. On Team and Enterprise plans, an Owner adds the connector first under **Organization settings > Connectors**.
+
+### ChatGPT
+
+1. On ChatGPT web, go to **Plugins**, select the plus button, then **Add custom MCP server**.
+2. Enter a name, such as `Gameball`.
+3. Under **Connection**, enter the server URL `https://mcp-v2.gameball.co/v1.0/mcp`.
+4. Select the checkbox to confirm you want to continue, then click **Create as a plugin**.
+
+<Note>
+**Plan and Platform Limits**: ChatGPT supports custom MCP servers on the web only, not in the mobile apps. Business, Enterprise, and Edu workspaces get full access, where admins and owners create the connection. Pro accounts can connect with read access only, so actions that change your program are not available there.
+</Note>
+
+### Gemini
+
+1. In the Gemini web app, open **Settings > Connected Apps**.
+2. Add a custom app and enter the server URL `https://mcp-v2.gameball.co/v1.0/mcp`.
+
+Custom apps in Gemini are not available for every account, language, or region. If you do not see the option, use one of the other assistants listed here.
+
+### Cursor
+
+Add Gameball to your `~/.cursor/mcp.json` file, then open **Customize** in the Cursor sidebar and connect the server:
+
+```json
+{
+  "mcpServers": {
+    "gameball": {
+      "url": "https://mcp-v2.gameball.co/v1.0/mcp"
+    }
+  }
+}
+```
+
+### VS Code (GitHub Copilot)
+
+1. Open the Command Palette and run **MCP: Add Server**.
+2. Choose **HTTP (HTTP or Server-Sent Events)**.
+3. Enter the server URL `https://mcp-v2.gameball.co/v1.0/mcp` and a server ID, such as `gameball`.
+
+### Claude Code
+
+Run this command, then run `/mcp` and choose to authenticate the `gameball` server:
+
+```bash
+claude mcp add --transport http gameball https://mcp-v2.gameball.co/v1.0/mcp
+```
+
+### Other AI Apps
+
+Any app that supports remote MCP servers with sign-in can connect. Add a remote MCP server and enter the server URL `https://mcp-v2.gameball.co/v1.0/mcp`.
+
+---
+
+## Sign In and Choose Permissions
+
 <Steps>
-  <Step title="Add Gameball as an MCP Server">
-    In your AI assistant, add a new remote MCP server (some apps call it a custom connector) and enter the server URL:
-
-    ```
-    https://mcp-v2.gameball.co/v1.0/mcp
-    ```
-
-    In Claude Code, run this command instead:
-
-    ```bash
-    claude mcp add --transport http gameball https://mcp-v2.gameball.co/v1.0/mcp
-    ```
-  </Step>
   <Step title="Sign In to Gameball">
-    Start the connection from your assistant. A browser window opens the Gameball sign-in page. Log in with the same account you use for the Gameball dashboard.
+    When you connect the server, a browser window opens the Gameball sign-in page. Log in with the same account you use for the Gameball dashboard.
   </Step>
   <Step title="Choose What the Assistant Can Access">
     Review the list of permissions and select the ones you want to grant. Each area of your account has a separate read permission and write permission, so you can let the assistant view an area without letting it make changes.
@@ -84,7 +140,7 @@ Start with read permissions only. Add write permissions later, once you are comf
 
 <AccordionGroup>
   <Accordion title="Which AI assistants can connect to Gameball?">
-    Any assistant that supports remote MCP servers with sign-in, including Claude, ChatGPT, Cursor, and Claude Code.
+    Any assistant that supports remote MCP servers with sign-in. This page has steps for Claude, ChatGPT, Gemini, Cursor, VS Code with GitHub Copilot, and Claude Code.
   </Accordion>
   <Accordion title="Does the assistant see my Gameball password?">
     No. You sign in on the Gameball sign-in page, not inside the assistant. The assistant only receives access to the permissions you approve.
