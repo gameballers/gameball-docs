@@ -238,6 +238,16 @@ The campaign overview warns you when only some rewards have an email configured,
 
 ---
 
+## Campaign Details Page
+
+The campaign's details page shows the settings you make on the campaign's inner pages, such as each prize's winning chance, reward limit and daily supply cap. You can check what the campaign does without opening the editor. The same settings also show on the edit-page card that opens each inner page.
+
+<Frame>
+![Details page of a Spin the Wheel campaign showing each prize's winning chance, reward limit and supply cap](/images/product-docs/product-releases/CL26.11.11/P-NGT-10-configuration-summary.png)
+</Frame>
+
+---
+
 ## Customization
 
 You can fully customize each stage of the campaign through dedicated tabs representing the different screens in the flow:
@@ -247,7 +257,11 @@ You can fully customize each stage of the campaign through dedicated tabs repres
   Configure the banner that appears in the widget to promote the Spin the Wheel campaign.
 </Tab>
 
-<Tab title="Intro / Main Screen">
+<Tab title="Intro">
+  Turn on an optional start page that welcomes customers before the wheel. See [Start Page](#start-page) below.
+</Tab>
+
+<Tab title="Main Screen">
   Set up the main game screen with headlines, descriptions, and call-to-action messages.
 </Tab>
 
@@ -256,11 +270,11 @@ You can fully customize each stage of the campaign through dedicated tabs repres
 </Tab>
 
 <Tab title="Success Screen">
-  Customize the message and visuals shown when a customer wins.
+  Customize the message and visuals shown when a customer wins, including an optional heading above the win message and whether **Spin again** shows. See [Win Screen](#win-screen) below.
 </Tab>
 
 <Tab title="No Luck Screen">
-  Configure the message shown when a customer does not win.
+  Configure the message shown when a customer does not win, and choose whether **Spin again** shows.
 </Tab>
 </Tabs>
 
@@ -276,6 +290,35 @@ For each screen, you can tailor:
 <Frame>
   ![Spin the wheel customization details](/images/product-docs/rewards-campaigns/templates/engagement-gamification/spin-the-wheel-customization-2.png)
 </Frame>
+
+### Start Page
+
+Welcome customers with a start page before the wheel. Turn it on from the **Intro** tab in **Customize design**.
+
+- Add a title, a description, a button and an optional image. You can set each one in every language of the campaign.
+- Customers see the start page when they open the wheel from a link, its card or the games banner.
+- Customers who open the wheel from a popup or a calendar day go straight to the wheel and skip the start page.
+
+<Frame>
+![Intro tab in Customize design with a start page shown before the wheel](/images/product-docs/product-releases/CL26.11.11/P-NGT-49-spin-win-start-page.png)
+</Frame>
+
+### Win Screen
+
+Shape the win screen from the **Success Screen** tab and the **No Luck Screen** tab:
+
+- **Heading:** Add a heading above the win message, in **Normal** or **Large** size.
+- **Spin again:** Choose whether the **Spin again** button shows on the win screen and the No Luck screen. Hide it to keep the campaign to one spin per play.
+
+<Frame>
+![Win screen with a Large heading above the win message and the Spin again option](/images/product-docs/product-releases/CL26.11.11/P-NGT-49-spin-win-win-screen.png)
+</Frame>
+
+{/* TODO: confirm whether the Spin again setting is one switch for both screens or one per screen, and the exact label (the screenshot caption says "Play again"). */}
+
+<Note>
+Existing campaigns stay as they are: no start page, no heading, and **Spin again** still shown, until you change them.
+</Note>
 
 ---
 
@@ -310,6 +353,12 @@ If a customer no longer belongs to the game's target segment, the game is automa
 
 <Frame>
   ![Spin the wheel anonymous lead form](/images/product-docs/rewards-campaigns/templates/engagement-gamification/spin-the-wheel-lead-form.png)
+</Frame>
+
+You can also add yes / no customer attributes to the lead form. Customers see a checkbox, and ticking it sets the attribute on their profile. [Learn more](/product-documentation/rewards-campaigns/reward-campaign-url#lead-form-configuration-when-audience-is-anonymous)
+
+<Frame>
+![Lead form with a yes / no customer attribute shown as a checkbox](/images/product-docs/product-releases/CL26.11.11/P-NGT-49-lead-form-checkbox.png)
 </Frame>
 
 <Tip>
