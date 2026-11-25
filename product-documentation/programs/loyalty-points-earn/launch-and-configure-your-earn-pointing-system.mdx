@@ -16,58 +16,124 @@ Rewarding your customers with points is a powerful strategy to foster loyalty an
 ## Step-by-Step Instructions
 
 <Steps>
-<Step title="Navigate to Earn Points">
-From the left-side menu, go to **Programs** and click **Earn Points**. You will be directed to the **Points Earn** configuration page.
+<Step title="Navigate to Points for Orders">
+From the left-side menu, go to **Programs** and click **Earn Points**. The **Points for Orders** page opens on the **Configuration** tab.
 
-<Frame>
-  <img src="/images/product-docs/programs/loyalty-points-earn/new-earn-page.png" alt="Points Earn configuration page" />
-</Frame>
-
-Locate the **Active** toggle at the top right of the page and switch it on to activate the system.
+Set the status at the top of the page to **Active** to start rewarding orders.
 </Step>
 
-<Step title="Configure the Earn Rule">
-In the **Order Reward** section, click the **Place an order** card. A settings drawer will slide in from the right. Set:
+<Step title="Set the Base Rate">
+In the **Base Rate** card, click **Edit** and set how many points customers earn for every unit of currency they spend (for example, 1 point for every 1 USD spent). The card shows the rate and the equivalent cashback percentage, such as "1% back".
 
-- **Your customers will get** — the number of points per transaction
-- **For every** — the currency amount that earns those points (e.g., 2 points for every 1 USD spent)
-
-A preview shows the equivalent cashback percentage based on your current redemption value.
+{/* TODO: confirm the fields in the Base Rate edit drawer. No screenshot of it was included in the release. */}
 
 <Info>
 If you use **score** as your tiering-up method, you will see an additional field to assign the score customers will earn per amount spent. [Learn more about Score](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods).
 </Info>
 </Step>
+
+<Step title="Review Your Rates on One Page">
+The **Configuration** tab shows every rate that decides what an order earns:
+
+- **Base Rate:** what everyone earns, with a line showing how many exceptions don't earn points. Click **View** to see them.
+- **Tier Rates:** the rate for each VIP tier, if you use tiers. Click **Edit in Tiers** to change them from your tier settings.
+- **Special Rates:** rates for chosen products, collections or merchants. Products in a special rate earn that rate instead of the base rate.
+
+<Frame>
+![Points for Orders page with the Base Rate, Tier Rates and Special Rates cards and the widget preview](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-overview-with-tiers.png)
+</Frame>
+
+If you don't use VIP tiers, the **Tier Rates** card doesn't show.
+
+<Frame>
+![Points for Orders page without tiers, showing the Base Rate and Special Rates cards](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-overview-no-tiers.png)
+</Frame>
+</Step>
 </Steps>
 
 ---
 
-## Custom Rules
+## Widget Preview
 
-The **Custom** section lets you define different earning rules for different order attributes. Click **View Custom Rules** to configure rules based on order properties such as total price, payment method, or product category.
-
-[Learn more about Custom Earning Rules](/product-documentation/programs/loyalty-points-earn/custom-earning-rules)
+The **Widget preview** on the right of the page shows the widget's **Earn** screen as customers see it, with your current rate. Click **Change section titles in Widget settings** to rename the sections customers see.
 
 ---
 
-## Merchant Rules
+## Special Rates
 
-Set custom earning and redemption rules per merchant or brand, based on your business needs.
+A **special rate** gives matching products, or whole matching orders, a different rate. Products in a special rate earn that rate instead of the base rate and the tier rate. Click **Add Special Rate** to create one in three steps.
 
-[Learn more about Merchants' Rules](/product-documentation/programs/loyalty-points-earn/crossover-reward-program/gameball-merchants-crossover-rewards-experience)
+<Steps>
+<Step title="Orders and Products">
+Choose which orders and products earn this rate. Click **Add Condition** to pick a condition, then choose whether products earn the rate when they match **All** or **Any** of your conditions.
+
+Each condition shows what it applies to:
+
+- **Only matching products earn:** conditions on products, such as **Collection** or **Vendor**. Only the products that match earn the special rate.
+- **Whole order earns:** conditions on the order, such as **Order total (before discounts)**. Every product in a matching order earns the special rate.
+
+Separate several values with commas. The summary on the right lists your conditions, and other products earn the base rate.
+
+<Frame>
+![Orders and Products step with Collection, Vendor and Order total conditions matched with All](/images/product-docs/product-releases/CL26.11.09/P-COR-6-special-rate-step-1.png)
+</Frame>
+</Step>
+
+<Step title="Who and How Much">
+Set the rate in **Points per USD** or **% Back**. **Everyone** earns the rate you set. Click **Add A Tier** to give a chosen tier its own rate instead of Everyone's.
+
+The summary on the right shows what an example order earns for each group, in points and in currency.
+
+<Frame>
+![Who and How Much step with a rate for Everyone and a higher rate for Gold, and an example order summary](/images/product-docs/product-releases/CL26.11.09/P-COR-6-special-rate-step-2.png)
+</Frame>
+</Step>
+
+<Step title="Review and Save">
+Enter a **Rate name**. Only you see this name. Check what the rate applies to, its conditions and its rates, click **Edit** next to any of them to change it, then click **Save**.
+
+<Frame>
+![Review and Save step with the rate name, a summary of the conditions and rates, and the After you save note](/images/product-docs/product-releases/CL26.11.09/P-COR-6-special-rate-step-3.png)
+</Frame>
+</Step>
+</Steps>
+
+<Note>
+After you save, matching products earn the special rate instead of the base and tier rates. Only your exceptions stop it. Past orders don't change.
+</Note>
 
 ---
 
 ## Settings
 
-The **Settings** section lets you configure how points are issued and which orders qualify. Click any settings card to open a drawer and update it.
-
-<AccordionGroup>
-<Accordion title="Points Expiry" icon="clock">
-Define when earned points will expire. Click the **Points Expiry** card to open the settings drawer, then set the expiry duration and unit (days, months, or years).
+Click **Settings** at the top right of the page to open the settings for how points are earned and used. Click **Edit** on any section to change it.
 
 <Frame>
-  ![Points expiry settings drawer](/images/product-docs/programs/loyalty-points-earn/expiry-settings-points.png)
+![Settings drawer with Amount That Earns Points, Exceptions and When Points Can Be Used](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-settings.png)
+</Frame>
+
+<AccordionGroup>
+<Accordion title="Amount That Earns Points" icon="receipt">
+Set which part of the order earns points, for example **Product total, after discounts**, and what is left out.
+</Accordion>
+
+<Accordion title="Exceptions" icon="ban">
+Choose the orders or products that don't earn points. Add a condition from the picker, which groups conditions under **Popular**, **Order**, **Products** and **Merchant & branch**, or search for one. Each condition shows whether only the matching products are excluded or the whole order is excluded. Custom fields your store sends are under **Order** and **Products**.
+
+<Frame>
+![Exceptions drawer with the condition picker open on the Popular group](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-condition-picker.png)
+</Frame>
+
+Exceptions apply to every rate, including special rates. [Learn more about eligible orders](/product-documentation/programs/loyalty-points-earn/eligible-orders-for-earning)
+</Accordion>
+
+<Accordion title="When Points Can Be Used" icon="clock">
+- **Points can be used after:** the time customers have to return items before they can spend the points, in days.
+- **Points expire after:** how long points last, up to 20 years.
+- **Show to customers:** adds when points can be used and when they expire to **How points work** in the widget. The **What Customers See** preview shows the result.
+
+<Frame>
+![When Points Can Be Used drawer with the return time, expiry and the Show to customers switch](/images/product-docs/product-releases/CL26.11.09/P-COR-6-how-points-work-switch.png)
 </Frame>
 
 Points expiry is calculated from the exact moment points are earned. For example, with a 3-day expiry, points earned at 2:00 PM on January 1st expire at exactly 2:00 PM on January 4th (72 hours later).
@@ -78,22 +144,23 @@ Points expiry is calculated from the exact moment points are earned. For example
 - Expiry status is updated by a background job that runs **multiple times per day**. The dashboard may briefly show points as still active until the next job run, but redemption is blocked from the exact expiry moment.
 
 <Note>
-Points expiry and the return window interact: if a return window is configured, the expiry countdown starts only after points become active (i.e., after the return window ends), not from when they were earned.
+If points can only be used after a set time, the expiry countdown starts only after points become usable, not from when they were earned.
 </Note>
 </Accordion>
-
-<Accordion title="Earn Points Applies On" icon="layer-group">
-Define which collections or products qualify for earning points. Click **Edit** next to **Earn points applies on** to choose from:
-
-- All Products
-- Selected Collections
-- All Products except some collections
-</Accordion>
-
-<Accordion title="Return Window Duration" icon="rotate-left">
-Specify a time gap between when an order is placed and when points are issued. This helps manage potential product returns and ensures proper point issuance.
-</Accordion>
 </AccordionGroup>
+
+---
+
+## How Points Work for Customers
+
+Customers can tap **How points work** on the widget's **Earn** screen to open a sheet that explains:
+
+- **No points on:** the exceptions that don't earn points
+- **When you can use your points:** how long after an order points become usable, and when they expire, if **Show to customers** is on
+
+<Frame>
+![How points work sheet in the widget listing exceptions and when points can be used](/images/product-docs/product-releases/CL26.11.09/P-COR-6-how-points-work-sheet.png)
+</Frame>
 
 ---
 
@@ -124,11 +191,11 @@ Access in-depth analytics on how your Earn Points System is performing by clicki
 
 <AccordionGroup>
 <Accordion title="What happens if a customer returns a product after earning points?" icon="rotate-left">
-Use the **Return Window Duration** setting to delay point issuance, helping avoid rewarding points for refunded purchases.
+Use **Points can be used after** in **Settings > When Points Can Be Used** to delay when points can be spent, helping avoid rewarding points for refunded purchases.
 </Accordion>
 
 <Accordion title="Can I create different earn rules for different products?" icon="layer-group">
-Yes, use the **Earn Points Applies On** setting to filter by collection, or use the **Custom** section to set rules based on any order attribute.
+Yes. Click **Add Special Rate** to give chosen products, collections or merchants their own rate, or add **Exceptions** in **Settings** for products that don't earn points.
 </Accordion>
 
 <Accordion title="Can I have an order-level return window?" icon="receipt">
@@ -137,6 +204,10 @@ Yes, you can set a return window at the order level.
 To do this, include the `returnWindow` attribute inside the `cashbackConfigurations` object when creating the order using the **Order API**. This allows you to specify a custom return window per order — for example, 7 days for Order A and 10 days for Order B.
 
 If `returnWindow` is not set in the API request, the default duration from your Gameball settings will apply.
+</Accordion>
+
+<Accordion title="Did the new Points for Orders page change how points are calculated?" icon="calculator">
+No. The page shows your rates in a new way, but how points are calculated hasn't changed. [Learn more about points calculations](/product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules)
 </Accordion>
 </AccordionGroup>
 
