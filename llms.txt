@@ -37,6 +37,7 @@
 - [Campaign Setup Guide](https://docs.gameball.co/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide): Step-by-step guide to creating any campaign
 - [Campaign Insights](https://docs.gameball.co/product-documentation/rewards-campaigns/reward-campaigns-insights): Track performance of active campaigns
 - [Reward Types](https://docs.gameball.co/product-documentation/rewards-campaigns/faqs/understanding-rewards-types): Points, coupons, cashback — what each reward type means
+- [Place Order Campaign](https://docs.gameball.co/product-documentation/rewards-campaigns/start-from-scratch/create-place-order-reward-campaign): Reward customers every Nth order, with order, product and merchant conditions
 - [Action-Based Campaign](https://docs.gameball.co/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign): Campaign triggered by a customer action or event
 - [Time-Based Campaign](https://docs.gameball.co/product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign): Campaign that runs on a schedule
 - [Point Multiplier Campaign](https://docs.gameball.co/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign): Boost earning rate for a period or segment

@@ -193,6 +193,7 @@
                   {
                     "group": "Start from Scratch",
                     "pages": [
+                      "product-documentation/rewards-campaigns/start-from-scratch/create-place-order-reward-campaign",
                       "product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign",
                       "product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign",
                       "product-documentation/rewards-campaigns/start-from-scratch/create-recurring-customer-date-reward-campaign",
