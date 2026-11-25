@@ -257,6 +257,25 @@ Write several versions of the same push, split your audience between them, and s
 
 ---
 
+## Push Delivery and Engagement Metrics
+
+Gameball tracks what happens after you send a push:
+
+| Metric | What it shows |
+|---|---|
+| **Delivered** | The share of pushes that went through out of all the pushes attempted. Temporary provider errors, like a short outage, aren't counted as failures. |
+| **Clicked** | Customers who tapped your push. |
+| **Dismissed** | Customers who dismissed your push. |
+| **Influenced opens** | App opens that followed your push, even when the customer didn't tap it. |
+
+{/* TODO: confirm where these metrics appear in the dashboard (campaign details, campaigns list, or Messaging Performance). */}
+
+<Note>
+**SDK Required for Clicks and Dismissals**: Gameball tracks delivery itself, while the Gameball mobile SDK reports clicks and dismissals. Those numbers start filling in once your app is on the updated SDK. {/* TODO: confirm the minimum SDK version. */}
+</Note>
+
+---
+
 ## Viewing and Managing Communication Campaigns
 
 - Access the Communication Campaign section in the Gameball Dashboard to view all configured campaigns, including mobile push.
