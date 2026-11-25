@@ -120,6 +120,7 @@
 - [Segment](https://docs.gameball.co/product-documentation/apps-integrations/segment-integration): Send Segment events into Gameball
 - [Omnisend](https://docs.gameball.co/product-documentation/apps-integrations/omnisend-integration): Sync loyalty data with Omnisend email/SMS
 - [Google Wallet](https://docs.gameball.co/product-documentation/apps-integrations/google-wallet-integration): Issue loyalty cards to Google Wallet
+- [Gameball MCP](https://docs.gameball.co/product-documentation/apps-integrations/gameball-mcp-integration): Manage your Gameball account from your own AI agent
 
 ## SDK Installation (v3)
 

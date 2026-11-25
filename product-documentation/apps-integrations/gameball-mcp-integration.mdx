@@ -1,0 +1,97 @@
+---
+title: "How Do I Manage My Gameball Account from My Own AI Agent?"
+description: "Connect an AI agent like Claude to the Gameball MCP and run your campaigns, segments, tiers and settings by asking in plain words."
+---
+
+| Platform | Plan |
+|---|---|
+| Shopify | All Plans |
+| Salla | All Plans |
+| Non-platform Clients | All Plans |
+
+{/* TODO: confirm plan availability per platform. The release says "All plans" without a per-platform breakdown. */}
+
+**Gameball MCP** lets you connect your own AI agent, like Claude, to your Gameball account and run it by asking in plain words. Ask the agent to create a campaign, check a setting or change a tier, and the change happens in your Gameball account. It works on its own, without the dashboard chat.
+
+---
+
+## What Can My AI Agent Do?
+
+<AccordionGroup>
+  <Accordion title="Answer questions about your program data" icon="chart-line">
+    Ask questions like "Why did redemption drop last week?" and get answers from your own account data.
+  </Accordion>
+  <Accordion title="Create and manage reward campaigns" icon="gift">
+    Create reward campaigns, then change their reward, schedule, audience or budget and turn them on or off. A new campaign is saved off until you turn it on.
+  </Accordion>
+  <Accordion title="Create email, push and SMS campaigns" icon="envelope">
+    Create communication campaigns, write the message and schedule it.
+  </Accordion>
+  <Accordion title="Create segments and manage customer tags and points" icon="users">
+    Create segments, such as customers who haven't bought in 60 days, and add or remove customer tags and points.
+  </Accordion>
+  <Accordion title="View and change your program and account settings" icon="gear">
+    View and change your tiers, cashback rate and redemption options. Manage account settings like events, custom attributes, branches, tags, languages and collections.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## How to Connect Your AI Agent
+
+{/* TODO: confirm the connection steps (MCP server URL, authentication method and where to find it in the dashboard). The release doesn't state them. */}
+
+<Steps>
+  <Step title="Get the Gameball MCP connection details">
+    {/* TODO: confirm where to find the MCP server URL and credentials. */}
+  </Step>
+  <Step title="Add Gameball MCP to your AI agent">
+    Add Gameball as an MCP server in your AI agent's settings, using the connection details from the previous step.
+  </Step>
+  <Step title="Ask your agent to work on your account">
+    Describe what you want in plain words, for example "Create a segment of customers who haven't bought in 60 days."
+  </Step>
+</Steps>
+
+{/* IMAGE PLACEHOLDER: Screenshot of an AI agent connected to Gameball MCP running a request, such as creating a segment */}
+
+---
+
+## Important Notes
+
+<Note>
+**New Campaigns Are Saved Off**: A campaign your agent creates stays off until you turn it on.
+</Note>
+
+<Warning>
+**Customer Data Stays Private**: An outside AI agent can't look up a customer's profile.
+</Warning>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Do I need the dashboard chat to use Gameball MCP?">
+    No. Gameball MCP works on its own, without the dashboard chat.
+  </Accordion>
+  <Accordion title="Will my agent turn on a campaign it creates?">
+    No. A new campaign is saved off until you turn it on.
+  </Accordion>
+  <Accordion title="Can my agent look up a customer's profile?">
+    No. To keep customer data private, an outside AI agent can't look up a customer's profile. It can still add or remove customer tags and points.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Gameball Apps Integration" icon="puzzle-piece" href="/product-documentation/apps-integrations/introduction-to-apps-integrations">
+    Explore every app that connects to Gameball.
+  </Card>
+  <Card title="What Is Segmentation?" icon="users" href="/product-documentation/customer-segmentation/introduction-to-segmentation">
+    Learn how segments group your customers.
+  </Card>
+</CardGroup>
