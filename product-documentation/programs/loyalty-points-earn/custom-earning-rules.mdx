@@ -11,27 +11,23 @@ description: "Create customized point-earning rules based on order attributes to
 
 Gameball lets you create custom point-earning rules based on any order attribute. Rather than applying a single flat earning rate across all purchases, you can define specific conditions — such as order value, payment method, or product category — and assign different point rewards to each scenario.
 
-<Note>
-The **Points for Orders** page now shows your base rate, tier rates and special rates together. Click **Add Special Rate** to give matching products or orders their own rate in three steps. [Learn more about special rates](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system#special-rates)
-</Note>
-
-{/* TODO: confirm whether the Custom tab and Add Rule flow below still exist, or were replaced by Special Rates in CL26.11.09. */}
+Custom earning rules are now called **special rates**. Your existing custom rules are listed under **Special Rates** on the **Points for Orders** page and keep earning as before.
 
 ---
 
-## How to Set Up Custom Earning Rules
+## How to Set Up a Special Rate
 
 <Steps>
-<Step title="Navigate to Earn Points">
-  Go to **Programs > Earn Points** in your Gameball dashboard.
+<Step title="Navigate to Points for Orders">
+  Go to **Programs > Earn Points** in your Gameball dashboard. The **Points for Orders** page opens.
 </Step>
 
-<Step title="Open the Custom Tab">
-  Click on the **Custom** tab.
+<Step title="Add a Special Rate">
+  In the **Special Rates** card, click **Add Special Rate**.
 </Step>
 
-<Step title="Add a New Rule">
-  Click **Add Rule**, then define your conditions. You can filter by any order attribute, such as:
+<Step title="Orders and Products">
+  Click **Add Condition** and choose the attribute you want to match, such as:
 
   - Order total price
   - Product collection or category
@@ -49,37 +45,34 @@ The **Points for Orders** page now shows your base rate, tier rates and special 
   CSV uploads support up to 100 SKUs per file. Clear validation messages are shown for any file type, size, or format issues.
   </Note>
 
-  Conditions can be set at the order level or the line-item level. See the [Condition Attributes Reference](#condition-attributes-reference) section below for the full list of available attributes.
+  Each condition shows whether the **whole order** earns the rate (order conditions) or **only matching products** earn it (product conditions). See the [Condition Attributes Reference](#condition-attributes-reference) section below for more attributes.
 </Step>
 
-<Step title="Choose a Point Assignment Method">
-  Select how points are calculated for orders that match your conditions:
+<Step title="Who and How Much">
+  Set how many points matching products earn:
 
-  <AccordionGroup>
-    <Accordion title="Cashback Value (Percentage-Based)" icon="percent">
-      Award a percentage of the order total as points. For example, give 5% cashback for orders from a specific collection.
-    </Accordion>
+  - **Points per [currency]:** a number of points for every unit of currency spent. For example, 2 points for every 1 EGP spent on orders paid by credit card.
+  - **% back:** a percentage of the amount back as points. For example, 5% back on a specific collection. This option shows only when you've set a point value in Redemption.
 
-    <Accordion title="Cashback Value Based on Unit" icon="coins">
-      Award a fixed number of points per currency unit spent. For example, give 2 points for every 1 EGP spent on orders paid by credit card.
-    </Accordion>
+  **Everyone** earns the rate you set. Click **Add a Tier** to give a tier its own rate, for example a higher rate for Gold customers.
 
-    <Accordion title="Fixed Cashback Value" icon="lock">
-      Award a set number of points regardless of the order value. For example, give 10 points for any order above $50.
-    </Accordion>
-  </AccordionGroup>
+  <Note>
+  **Fixed Cashback Value** (a set number of points per product, whatever its price) can't be chosen for new rates. Existing fixed rates keep earning.
+  </Note>
 </Step>
 
-<Step title="Save">
-  Click **Save** to activate the rule. The rule will apply when all specified conditions are met.
+<Step title="Review and Save">
+  Enter a **Rate name**, check the summary, then click **Save**. Matching products earn the special rate instead of the base and tier rates. Past orders don't change.
 </Step>
 </Steps>
+
+[See the full Special Rates walkthrough](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system#special-rates)
 
 ---
 
 ## Combining Multiple Conditions
 
-You can stack multiple conditions within a single rule. All conditions must be met for the rule to apply.
+You can add several conditions to one special rate. Once you have two or more, choose whether products earn the rate when they match **all** or **any** of them.
 
 **Examples:**
 
@@ -91,7 +84,7 @@ You can stack multiple conditions within a single rule. All conditions must be m
 
 ## Condition Attributes Reference
 
-Beyond standard attributes like order total, payment method, and product category, the rule builder supports additional order-level and line-item-level attributes. These let you build more precise earning rules — including tier-specific ones. Each rule can be scoped to a specific **customer tier**, so Gold customers earn at a different rate than Silver customers for the exact same order condition. For example, a Gold tier customer who places an order with 5 or more items could earn 3× points, while a Silver tier customer earns 2× on the same order.
+Beyond standard attributes like order total, payment method, and product category, the condition picker supports additional order-level and line-item-level attributes. These let you build more precise special rates — including tier-specific ones. With **Add a Tier**, each rate can give a specific **customer tier** its own value, so Gold customers earn at a different rate than Silver customers for the exact same order condition. For example, a Gold tier customer who places an order with 5 or more items could earn 3× points, while a Silver tier customer earns 2× on the same order.
 
 ### Order-Level Attributes
 
@@ -127,13 +120,9 @@ These attributes apply to individual products within the order. Use them when yo
 
 ---
 
-## How Custom Rules Interact with Other Earn Rules
+## How Special Rates Interact with Other Earn Rules
 
-When multiple earning rules could apply to the same order, Gameball evaluates them based on rule priority. Custom rules take precedence over the default earn rule when their conditions are matched.
-
-<Note>
-Custom cashback rules and collection-based cashback rules cannot be active simultaneously. Enabling custom cashback deactivates the Merchant feature on the system.
-</Note>
+When multiple earning rules could apply to the same order, Gameball evaluates them based on rule priority. Products in a special rate earn that rate instead of the base rate and the tier rate. Only your **Exceptions** stop a special rate.
 
 ---
 

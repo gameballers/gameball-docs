@@ -11,15 +11,7 @@ description: "Customize your cashback program so that each collection you have i
 
 Customize your cashback system on Gameball to offer different cashback values for each collection in your store. This flexibility allows you to incentivize purchases from specific collections and enhance customer engagement.
 
-<Frame>
-  ![Collection-Based Cashback Overview](/images/product-docs/programs/loyalty-points-earn/collection-cashback-overview.png)
-</Frame>
-
-<Note>
-On the redesigned **Points for Orders** page, you can give a collection its own rate with **Add Special Rate**, using a **Collection** condition. [Learn more about special rates](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system#special-rates)
-</Note>
-
-{/* TODO: confirm whether the Collection-based Earning Rule setting below still exists after the CL26.11.09 Points for Orders redesign. */}
+On the **Points for Orders** page, you give a collection its own rate with a **special rate**, and you stop a collection from earning with an **exception**. The old **Collection-based Earning Rule** setting and its **Collection Rules** tab are gone. Your existing collection rules are listed under **Special Rates** and keep earning as before.
 
 ## Prerequisites
 
@@ -28,139 +20,57 @@ On the redesigned **Points for Orders** page, you can give a collection its own 
 
 ---
 
-## Configuring Collection-Based Earning
+## What Replaced Each Old Option
 
-<Steps>
-<Step title="Navigate to Earn Points">
-Navigate to **Earn Points** under **Programs** from your Gameball dashboard.
-
-<Frame>
-  ![Navigate to Earn Points](/images/product-docs/programs/loyalty-points-earn/navigate-earn-points.png)
-</Frame>
-</Step>
-
-<Step title="Edit Collection-based Earning Rule">
-Under **Settings**, click the **Edit Icon** beside **Collection-based Earning Rule**.
-
-<Frame>
-  ![Edit Collection-based Earning Rule](/images/product-docs/programs/loyalty-points-earn/edit-collection-earning-rule.png)
-</Frame>
-</Step>
-
-<Step title="Choose Cashback Option">
-A pop-up window will appear. Under **Cashback Options**, you will find four choices:
-
-<Frame>
-  ![Cashback Options](/images/product-docs/programs/loyalty-points-earn/cashback-options-popup.png)
-</Frame>
-
-<AccordionGroup>
-<Accordion title="All Products" icon="boxes-stacked">
-The default cashback rule applies to all products. You can add extra cashback rules for different levels.
-</Accordion>
-
-<Accordion title="Selected Collections" icon="filter">
-Cashback will only apply to the selected collections. Purchases from other collections will not be eligible for cashback.
-</Accordion>
-
-<Accordion title="All Products Except Some Collections" icon="ban">
-Cashback applies to all collections except the ones you exclude. Purchases from excluded collections will not earn cashback.
-</Accordion>
-
-<Accordion title="Custom Cashback" icon="sliders">
-You can define different cashback values for different collections. After saving, further configuration is required.
-</Accordion>
-</AccordionGroup>
-</Step>
-
-<Step title="Save Your Selection">
-After choosing your preferred cashback system, click **Save**.
-
-<Frame>
-  ![Save Cashback Selection](/images/product-docs/programs/loyalty-points-earn/save-cashback-selection.gif)
-</Frame>
-</Step>
-</Steps>
-
-<Note>
-- If you select **All Products**, **Selected Collections**, or **All Products Except Some Collections**, no further configuration is needed. Just ensure your default cashback rule is correctly set.
-- If you choose **Custom Cashback**, you deactivate the **Merchant** feature on the system. Cashback based on collections and crossover cashback cannot work simultaneously.
-</Note>
+| Old option | Now |
+|---|---|
+| **All Products** | Your **Base Rate**. Every product earns it unless an exception or a special rate applies. |
+| **All Products Except Some Collections** | **Settings › Exceptions**, with a **Collection** condition. |
+| **Custom Cashback** (Collection Rules) | **Add Special Rate**, with a **Collection** condition. |
+| **Selected Collections** (only these earn) | Can't be created any more. Existing setups keep earning. When you edit one, Gameball asks you to switch to exceptions. To get the same result, set your base rate to 0 and add a special rate for the collections that should earn. |
 
 ---
 
-## Create Different Cashback Values for Different Collections
+## Give a Collection Its Own Rate
 
 <Steps>
-<Step title="Access Collection Rules">
-After selecting **Custom Cashback** and clicking **Save**, a new tab called **Collection Rules** will appear.
-
-<Frame>
-  ![Collection Rules Tab](/images/product-docs/programs/loyalty-points-earn/collection-rules-tab.png)
-</Frame>
+<Step title="Navigate to Points for Orders">
+Go to **Programs > Earn Points** in your Gameball dashboard. The **Points for Orders** page opens.
 </Step>
 
-<Step title="Add a Collection Rule">
-Click **View Collections**, then **Add Collection Rule**.
-
-<Frame>
-  ![Add Collection Rule](/images/product-docs/programs/loyalty-points-earn/add-collection-rule.png)
-</Frame>
+<Step title="Add a Special Rate">
+In the **Special Rates** card, click **Add Special Rate**.
 </Step>
 
-<Step title="Configure the Cashback Rule">
-Configure your cashback rule:
-
-<Frame>
-  ![Configure Cashback Rule](/images/product-docs/programs/loyalty-points-earn/configure-cashback-rule.gif)
-</Frame>
-
-- **Select Collection/s:** Mark the collections for this rule.
-- **Collection Rule Name:** Name the rule for easy identification.
-- **Cashback Method:** Choose between:
-
-<AccordionGroup>
-<Accordion title="Cashback Value (Percentage-Based)" icon="percent">
-State the percentage of the cashback you want to grant for orders from that collection.
-</Accordion>
-
-<Accordion title="Cashback Value Based on Unit (Points-Based)" icon="coins">
-State the amount of points you want to give for every dollar they spend buying from the specified collection.
-</Accordion>
-
-<Accordion title="Fixed Cashback Value" icon="lock">
-Ideal if you want to offer **consistent point rewards per collection**, regardless of the product's price.
-
-<Info>
-**Fixed Cashback Value** is perfect for exclusive items. For example, if you want to reward 100 points per product in the "New Arrivals" collection, regardless of whether an item costs $20 or $200.
-
-To enable fixed cashback, you must send the following details **per item** in the Order API: Collection ID(s), Price, Discount, Taxes, and Product ID.
-</Info>
-
-**Fixed Cashback Key Rules:**
-- If an item belongs to multiple collections, Gameball will reward based on the **highest fixed point value**.
-- If multiple different items from the same collection are purchased, the fixed points reward applies per item.
-- The **fixed points reward will still respect active Points Multiplier Campaigns** (e.g., Double Points: 200 becomes 400).
-</Accordion>
-</AccordionGroup>
+<Step title="Choose the Collections">
+Click **Add Condition**, choose **Collection** under **Products**, and pick the collections. Only the matching products earn the special rate.
 </Step>
 
-<Step title="Enter Cashback Value and Save">
-Enter the cashback value.
+<Step title="Set the Rate">
+Set the rate in **Points per [currency]** or **% back**. **Everyone** earns the rate you set. Click **Add a Tier** to give a tier its own rate for the same collections.
 
-<Frame>
-  ![Enter Cashback Value](/images/product-docs/programs/loyalty-points-earn/enter-cashback-value.png)
-</Frame>
+<Note>
+**Fixed Cashback Value** (a set number of points per product, whatever its price) can't be chosen for new rates. Existing fixed rates keep earning.
+</Note>
+</Step>
 
-Click **Save**. Customers will now enjoy collection-specific cashback rates. The newly created rules will be visible under the **Collection Rules** tab.
+<Step title="Review and Save">
+Enter a **Rate name**, check the summary, then click **Save**. Products from the chosen collections now earn the special rate instead of the base and tier rates.
 </Step>
 </Steps>
 
-<Tip>
-- To add more rules for different collections, click **Add Collection Rule** and repeat the process.
-- To edit a rule, click the **Edit Icon**.
-- To delete a rule, click the **Bin Icon**.
-</Tip>
+[See the full Special Rates walkthrough](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system#special-rates)
+
+---
+
+## Stop a Collection from Earning Points
+
+1. On the **Points for Orders** page, click **Settings**.
+2. Click **Edit** next to **Exceptions**.
+3. Click **Add Condition**, choose **Collection**, and pick the collections that shouldn't earn points.
+4. Click **Save**.
+
+[Learn more about exceptions](/product-documentation/programs/loyalty-points-earn/eligible-orders-for-earning)
 
 ---
 
@@ -168,17 +78,7 @@ Click **Save**. Customers will now enjoy collection-specific cashback rates. The
 
 <AccordionGroup>
 <Accordion title="Can I reward customers on higher tiers with different cashback values under the same collection?" icon="crown">
-Yes. After creating a cashback rule for specific collections, you can modify the cashback value based on the customer's tier:
-
-1. Under the configured cashback rule, click **Add tier rule**.
-
-<Frame>
-  ![Add Tier Rule](/images/product-docs/programs/loyalty-points-earn/add-tier-rule.png)
-</Frame>
-
-2. Select the customer **tier**.
-3. Change the cashback value accordingly.
-4. Click **Save**.
+Yes. In the special rate's **Who and How Much** step, click **Add a Tier**, choose the tier, and set its rate.
 </Accordion>
 
 <Accordion title="What happens if an item belongs to multiple collections with different cashback rules?" icon="layer-group">
@@ -196,6 +96,9 @@ The points reward applies per item.
 
 <CardGroup cols={2}>
 <Card title="Launch and Configure Your Earn Pointing System" icon="rocket" href="/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system">
-  Configure your default cashback points rules.
+  Configure your base rate, special rates and settings.
+</Card>
+<Card title="Eligible Orders for Earning" icon="ban" href="/product-documentation/programs/loyalty-points-earn/eligible-orders-for-earning">
+  Choose the orders and products that don't earn points.
 </Card>
 </CardGroup>

@@ -23,12 +23,12 @@ Set the status at the top of the page to **Active** to start rewarding orders.
 </Step>
 
 <Step title="Set the Base Rate">
-In the **Base Rate** card, click **Edit** and set how many points customers earn for every unit of currency they spend (for example, 1 point for every 1 USD spent). The card shows the rate and the equivalent cashback percentage, such as "1% back".
+In the **Base Rate** card, click **Edit**. In **Edit Base Rate**, enter the points **Everyone** earns for every amount they spend (for example, 1 point for every 1 USD spent). The % back updates as you type, and an **Example** shows what an order earns. Click **Save**.
 
-{/* TODO: confirm the fields in the Base Rate edit drawer. No screenshot of it was included in the release. */}
+The card shows the rate and the equivalent cashback percentage, such as "1% back". The % back shows only when you've set a point value in Redemption.
 
 <Info>
-If you use **score** as your tiering-up method, you will see an additional field to assign the score customers will earn per amount spent. [Learn more about Score](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods).
+If you use **score** as your tiering-up method, set the score customers earn per amount spent in each tier's earning settings, in **Tiers**. [Learn more about Score](/product-documentation/programs/vip-tiers/tier-settings/tiering-up-methods).
 </Info>
 </Step>
 
@@ -36,17 +36,17 @@ If you use **score** as your tiering-up method, you will see an additional field
 The **Configuration** tab shows every rate that decides what an order earns:
 
 - **Base Rate:** what everyone earns, with a line showing how many exceptions don't earn points. Click **View** to see them.
-- **Tier Rates:** the rate for each VIP tier, if you use tiers. Click **Edit in Tiers** to change them from your tier settings.
+- **Tier Rates:** the rate for each VIP tier that has its own earning rate. Click **Edit in Tiers** to change them from your tier settings.
 - **Special Rates:** rates for chosen products, collections or merchants. Products in a special rate earn that rate instead of the base rate.
 
 <Frame>
 ![Points for Orders page with the Base Rate, Tier Rates and Special Rates cards and the widget preview](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-overview-with-tiers.png)
 </Frame>
 
-If you don't use VIP tiers, the **Tier Rates** card doesn't show.
+The **Tier Rates** card shows only when at least one tier has its own earning rate. If all your tiers earn the base rate, or you don't use tiers, the card doesn't show.
 
 <Frame>
-![Points for Orders page without tiers, showing the Base Rate and Special Rates cards](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-overview-no-tiers.png)
+![Points for Orders page without tier rates, showing the Base Rate and Special Rates cards](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-overview-no-tiers.png)
 </Frame>
 </Step>
 </Steps>
@@ -63,9 +63,19 @@ The **Widget preview** on the right of the page shows the widget's **Earn** scre
 
 A **special rate** gives matching products, or whole matching orders, a different rate. Products in a special rate earn that rate instead of the base rate and the tier rate. Click **Add Special Rate** to create one in three steps.
 
+Your custom earning rules, collection rules and merchant rates (formerly Merchant Rules) are all listed as special rates.
+
+<Note>
+Special rates depend on your plan:
+
+- If your plan doesn't include special rates, you see an upgrade card instead of the list.
+- If your plan includes merchant and branch rates only, **Add Special Rate** creates a merchant rate.
+- Rates your plan doesn't cover stay in the list and keep earning, but you can only view or delete them.
+</Note>
+
 <Steps>
 <Step title="Orders and Products">
-Choose which orders and products earn this rate. Click **Add Condition** to pick a condition, then choose whether products earn the rate when they match **All** or **Any** of your conditions.
+Choose which orders and products earn this rate. Click **Add Condition** to pick a condition. You need at least one. Once you have two or more, choose whether products earn the rate when they match **all** or **any** of your conditions.
 
 Each condition shows what it applies to:
 
@@ -80,7 +90,7 @@ Separate several values with commas. The summary on the right lists your conditi
 </Step>
 
 <Step title="Who and How Much">
-Set the rate in **Points per USD** or **% Back**. **Everyone** earns the rate you set. Click **Add A Tier** to give a chosen tier its own rate instead of Everyone's.
+Set the rate in **Points per USD** (your currency) or **% back**. The **% back** option shows only when you've set a point value in Redemption. **Everyone** earns the rate you set. Click **Add a Tier** to give a chosen tier its own rate instead of Everyone's. To give the rate only to the tiers you list, remove **Everyone**.
 
 The summary on the right shows what an example order earns for each group, in points and in currency.
 
@@ -114,11 +124,15 @@ Click **Settings** at the top right of the page to open the settings for how poi
 
 <AccordionGroup>
 <Accordion title="Amount That Earns Points" icon="receipt">
-Set which part of the order earns points, for example **Product total, after discounts**, and what is left out.
+Points are earned on the product total, after discounts. Choose whether to **Leave out taxes** and **Leave out shipping and fees**. An example receipt shows what earns points. The options you see depend on your plan.
 </Accordion>
 
 <Accordion title="Exceptions" icon="ban">
-Choose the orders or products that don't earn points. Add a condition from the picker, which groups conditions under **Popular**, **Order**, **Products** and **Merchant & branch**, or search for one. Each condition shows whether only the matching products are excluded or the whole order is excluded. Custom fields your store sends are under **Order** and **Products**.
+Choose the orders or products that don't earn points. Add a condition from the picker, which groups conditions under **Popular**, **Order**, **Products** and **Merchant & branch**, or search for one. Each condition shows whether the **whole order** is excluded or **only matching products** are excluded. Custom fields your store sends are under **Order** and **Products**. With two or more conditions, choose whether no points are given when an order or product matches **all** or **any** of them.
+
+Turn on **Show to customers** to add the exceptions, under **No points on**, to **How points work** in the widget.
+
+If you used to let only selected collections or products earn points, your setup keeps earning as before. When you edit it, Gameball asks you to switch to exceptions.
 
 <Frame>
 ![Exceptions drawer with the condition picker open on the Popular group](/images/product-docs/product-releases/CL26.11.09/P-COR-6-points-for-orders-condition-picker.png)
@@ -129,8 +143,8 @@ Exceptions apply to every rate, including special rates. [Learn more about eligi
 
 <Accordion title="When Points Can Be Used" icon="clock">
 - **Points can be used after:** the time customers have to return items before they can spend the points, in days.
-- **Points expire after:** how long points last, up to 20 years.
-- **Show to customers:** adds when points can be used and when they expire to **How points work** in the widget. The **What Customers See** preview shows the result.
+- **Points expire after:** how long points last, in days, months or years, up to 20 years.
+- **Show to customers:** adds when points can be used and when they expire to **How points work** in the widget. It's off by default. The **What Customers See** preview shows the result.
 
 <Frame>
 ![When Points Can Be Used drawer with the return time, expiry and the Show to customers switch](/images/product-docs/product-releases/CL26.11.09/P-COR-6-how-points-work-switch.png)
@@ -155,8 +169,10 @@ If points can only be used after a set time, the expiry countdown starts only af
 
 Customers can tap **How points work** on the widget's **Earn** screen to open a sheet that explains:
 
-- **No points on:** the exceptions that don't earn points
-- **When you can use your points:** how long after an order points become usable, and when they expire, if **Show to customers** is on
+- **No points on:** the exceptions that don't earn points. Collections, products, merchants and branches show as "Some collections", "Some products" and so on, without their names.
+- **When you can use your points:** how long after an order points become usable, and when they expire
+
+Each section shows only when its own **Show to customers** switch is on in **Settings**: one under **Exceptions** and one under **When Points Can Be Used**. Both are off by default. The **How points work** link appears only when at least one is on.
 
 <Frame>
 ![How points work sheet in the widget listing exceptions and when points can be used](/images/product-docs/product-releases/CL26.11.09/P-COR-6-how-points-work-sheet.png)

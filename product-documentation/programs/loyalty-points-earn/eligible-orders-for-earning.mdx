@@ -3,27 +3,26 @@ title: "How Do I Set Which Orders Are Eligible for Points Earning?"
 description: "Learn how to use order attributes and conditions to control which orders qualify for loyalty points in Gameball."
 ---
 
-Gameball lets you define exactly which orders qualify for points earning. Rather than rewarding all orders equally, you can build rules based on any order attribute — such as price, payment method, product category, or custom metadata.
+Gameball lets you define exactly which orders and products earn points. Every order earns your base rate unless it matches one of your **exceptions**: conditions on any order attribute, such as price, payment method, product category, or custom metadata.
 
 ---
 
-<Note>
-On the redesigned **Points for Orders** page, the orders and products that don't earn points are called **Exceptions**. Open **Settings** and click **Edit** next to **Exceptions** to change them. [Learn more](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system#settings)
-</Note>
-
-{/* TODO: confirm whether the Earn Points Applies On steps below still match the new Exceptions drawer from CL26.11.09. */}
-
-## How to Configure Eligible Orders
+## How to Set Up Exceptions
 
 <Steps>
-  <Step title="Navigate to Earn Points">
-    Go to **Programs > Earn Points** in your Gameball dashboard.
+  <Step title="Navigate to Points for Orders">
+    Go to **Programs > Earn Points** in your Gameball dashboard. The **Points for Orders** page opens.
   </Step>
-  <Step title="Open Settings">
-    Click **Settings**, then find the **Earn Points Applies On** section.
+  <Step title="Open Exceptions">
+    Click **Settings**, then click **Edit** next to **Exceptions**.
   </Step>
-  <Step title="Add a Rule">
-    Click **Add Rule** and choose the order attribute you want to filter by (e.g., `total_price`, `payment_method`, `product_category`, `sku`).
+  <Step title="Add a Condition">
+    Click **Add Condition** and choose the attribute you want to match. The picker groups attributes under **Popular**, **Order**, **Products** and **Merchant & branch**, and you can search for one. Custom fields your store sends are under **Order** and **Products**.
+
+    Each condition shows what it excludes:
+
+    - **Whole order excluded:** conditions on the order, such as order total or payment method. A matching order earns no points.
+    - **Only matching products excluded:** conditions on products, such as collection or SKU. Only the matching products earn no points.
 
     When **SKU** is selected as the condition field, an **Upload CSV** option appears alongside the text input. Upload a CSV file to populate multiple SKUs at once instead of typing them individually. SKUs are automatically added to the field after upload and remain editable. CSV uploads support up to 100 SKUs per file.
 
@@ -32,12 +31,16 @@ On the redesigned **Points for Orders** page, the orders and products that don't
     </Frame>
   </Step>
   <Step title="Choose an Operator and Value">
-    Select the appropriate operator and enter your target value (e.g., `total_price` **greater than** `50`).
+    Select the appropriate operator and enter your target value (e.g., `total_price` **less than** `50` to give no points on orders under 50).
   </Step>
   <Step title="Save">
-    Click **Save** to apply the rule.
+    Click **Save** to apply your exceptions. They apply to every rate, including special rates.
   </Step>
 </Steps>
+
+<Tip>
+Turn on **Show to customers** in **Exceptions** to list them under **No points on** in **How points work** in the widget.
+</Tip>
 
 ---
 
@@ -45,7 +48,7 @@ On the redesigned **Points for Orders** page, the orders and products that don't
 
 Beyond standard fields like product names and SKUs, you can use custom order data for more advanced targeting:
 
-- Payment methods (e.g., reward only credit card orders)
+- Payment methods (e.g., exclude cash on delivery orders)
 - Regional zones or store locations
 - Subscription tier or membership level
 - Product classifications or custom tags
@@ -83,50 +86,46 @@ For **line-item attributes**, the path starts directly from the extra field with
 | **Greater Than or Equal To** | Numeric value at or above threshold |
 | **Less Than** | Numeric value below threshold |
 | **Less Than or Equal To** | Numeric value at or below threshold |
-| **Exists** | Field is present in the order data |
-| **Does Not Exist** | Field is absent from the order data |
 | **Between** | Numeric value falls within a defined range |
 
 ---
 
 ## Combining Multiple Conditions
 
-You can combine multiple attribute rules using **AND** or **OR** logic:
+With two or more exceptions, choose whether no points are given when an order or product matches **all** or **any** of them:
 
-- **AND**: All conditions must be true for the order to qualify.
-- **OR**: Any one condition being true makes the order eligible.
+- **all**: an order or product earns no points only when it matches every condition.
+- **any**: an order or product earns no points when it matches at least one condition.
 
-**Example:** Reward only orders where `total_price > 50` **AND** `payment_method = credit_card`.
-
----
-
-## Rewarding All Orders Except Certain Ones
-
-To reward all orders except those matching specific conditions, choose the **"All except some attributes"** option. This inverts your rule — all orders qualify unless they match the defined exclusion criteria.
-
-**Shopify merchants** can use this to exclude specific types of purchases:
-
-- **Discounted items**: If discounted products are identifiable by a product ID, SKU, or product category, use exclusion mode with the corresponding attribute to prevent points from being awarded on those purchases.
-- **Gift card purchases**: If gift cards are listed as products in your Shopify store, you can exclude them by targeting their product ID or SKU in exclusion mode.
+**Example:** With **all**, give no points on orders where `total_price < 50` and `payment_method = cash_on_delivery`.
 
 <Note>
-Gameball does not automatically detect discounts or gift cards — exclusions work by matching order attributes you define. Make sure the products you want to exclude are identifiable by a consistent attribute (e.g., a specific SKU, product ID, or category).
+Exceptions only remove points. You can't choose a set of products that are the only ones to earn. If you used to let only selected collections or products earn points, your setup keeps earning as before; when you edit it, Gameball asks you to switch to exceptions. To get the same result, set your base rate to 0 and add a [special rate](/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system#special-rates) for the products that should earn.
+</Note>
+
+**Shopify merchants** can use exceptions to exclude specific types of purchases:
+
+- **Discounted items**: If discounted products are identifiable by a product ID, SKU, or product category, add an exception on the corresponding attribute to prevent points from being awarded on those purchases.
+- **Gift card purchases**: If gift cards are listed as products in your Shopify store, you can exclude them by targeting their product ID or SKU.
+
+<Note>
+Gameball does not automatically detect discounts or gift cards — exceptions work by matching order attributes you define. Make sure the products you want to exclude are identifiable by a consistent attribute (e.g., a specific SKU, product ID, or category).
 </Note>
 
 ---
 
 ## Common Examples
 
-| Goal | Rule |
+| Goal | Exception |
 |------|------|
-| Reward orders above a minimum value | `total_price` **greater than** `50` |
-| Reward only online orders, not POS | `channel_type` **equals** `online` |
-| Exclude a specific collection | Use exclusion mode, `collection_id` **equals** `[collection]` |
-| Reward a specific payment method | `payment_method` **equals** `paypal` |
-| Target a product category | `product_category` **equals** `electronics` |
-| Target specific products by SKU | `sku` **equals** one or more SKU values (upload via CSV for bulk) |
-| Exclude discounted items | Use exclusion mode, `product_id`, `sku`, or `product_category` **equals** the discounted product identifier |
-| Exclude gift card purchases (Shopify) | Use exclusion mode, `product_id` or `sku` **equals** the gift card's product ID — works when gift cards are listed as products in Shopify |
+| Give points only above a minimum order value | `total_price` **less than** `50` |
+| Give points only on online orders, not POS | `channel_type` **not equals** `online` |
+| Exclude a specific collection | `collection_id` **equals** `[collection]` |
+| Exclude a payment method | `payment_method` **equals** `cash_on_delivery` |
+| Exclude a product category | `product_category` **equals** `gift_cards` |
+| Exclude specific products by SKU | `sku` **equals** one or more SKU values (upload via CSV for bulk) |
+| Exclude discounted items | `product_id`, `sku`, or `product_category` **equals** the discounted product identifier |
+| Exclude gift card purchases (Shopify) | `product_id` or `sku` **equals** the gift card's product ID — works when gift cards are listed as products in Shopify |
 
 ---
 
@@ -134,7 +133,7 @@ Gameball does not automatically detect discounts or gift cards — exclusions wo
 
 <CardGroup cols={2}>
   <Card title="Launch and Configure Your Earn Pointing System" icon="rocket" href="/product-documentation/programs/loyalty-points-earn/launch-and-configure-your-earn-pointing-system">
-    Set up your base earn rule and pointing system configuration.
+    Set up your base rate, special rates and settings.
   </Card>
   <Card title="Understanding Loyalty Points Calculations" icon="calculator" href="/product-documentation/programs/loyalty-points-earn/understanding-loyalty-points-calculations-and-rules">
     Learn how Gameball prioritizes and calculates points across different rules.
