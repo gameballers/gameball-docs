@@ -77,7 +77,7 @@ Fill in the following:
 - **Applies to** — select Entire order or Specific Rule
 
 **Redemption Type**
-- Select a redemption type from the dropdown (e.g., Fixed Amount-based Discount, Percentage-based Discount, Free Shipping, Free Product)
+- Select a redemption type from the dropdown (e.g., Fixed Amount-based Discount, Percentage-based Discount, Free Shipping, Free Product, Gift card). To offer a gift card, follow [Offer Gift Cards as a Redemption Option](#offer-gift-cards-as-a-redemption-option).
 
 **Reward Name**
 - Enter the reward name in English (EN) and Arabic (AR) — up to 50 characters each
@@ -127,12 +127,81 @@ Learn more about setting up each type:
 7. **Percentage-Based Fees Discount (Non-Platform Only):** Customers can receive a coupon that applies a percentage discount to transaction fees.
 </Accordion>
 
+<Accordion title="Gift Cards" icon="gift">
+
+Customers can redeem their points for a digital gift card from a partner brand, such as Noon, Talabat or Carrefour. [Learn how to set it up](#offer-gift-cards-as-a-redemption-option).
+</Accordion>
+
 <Accordion title="POS Rewards (Shopify Only)" icon="cash-register">
 
 1. **POS Fixed Amount Coupon:** Redeem points for a specific amount off at point-of-sale.
 2. **POS Percentage Coupon:** Redeem points for a percentage discount at point-of-sale.
 </Accordion>
 </AccordionGroup>
+
+---
+
+## Offer Gift Cards as a Redemption Option
+
+Merit Incentives is a Gameball Partner Rewards partner, so your customers can spend their points on real digital gift cards from brands like Noon, Talabat and Carrefour. Gameball buys every card on its own Gameball master account, so you don't need a supplier contract. You pay from a prepaid Partner Rewards wallet that Gameball sets up for you, and each card is charged at face value.
+
+The face value is held when a customer redeems and charged only once the card is issued.
+
+{/* TODO: confirm how a merchant tops up the Partner Rewards wallet and where the wallet balance shows in the dashboard. */}
+{/* TODO: confirm the Shopify, Salla and non-platform availability for gift cards. The release says All plans. */}
+
+<Steps>
+  <Step title="Choose Gift card as the redemption type">
+    Go to **Programs** > **Redeem Points** and click **Add Redemption Option**. Under **Redemption Type**, select **Gift card**.
+
+    <Frame>
+    ![Redemption Type dropdown with Gift card selected](/images/product-docs/product-releases/CL26.11.13/P-COR-30-gift-cards-step-1-annotated.png)
+    </Frame>
+  </Step>
+  <Step title="Pick a card from the gift card catalog">
+    Search the catalog or filter it by category and currency, then select the card you want to offer.
+
+    <Frame>
+    ![Gift card catalog with search and filters](/images/product-docs/product-releases/CL26.11.13/P-COR-30-gift-cards-step-2.png)
+    </Frame>
+  </Step>
+  <Step title="Choose the card value">
+    Select the value of the card.
+
+    <Frame>
+    ![Card value selection for the chosen gift card](/images/product-docs/product-releases/CL26.11.13/P-COR-30-gift-cards-step-3.png)
+    </Frame>
+  </Step>
+  <Step title="Set the points cost">
+    Enter the **Points Amount** customers pay for the card. The chosen card shows below it, and you can click **Change** to pick a different one. Then click **Create**.
+
+    <Frame>
+    ![Redemption Value section with the points amount and the chosen gift card](/images/product-docs/product-releases/CL26.11.13/P-COR-30-gift-cards-step-4-annotated.png)
+    </Frame>
+  </Step>
+</Steps>
+
+You can also add a gift card as the reward for campaigns, challenges, referrals and levels.
+
+### What Customers See
+
+In the widget's **Redeem** tab, gift card rewards show the brand logo and a **Gift card** badge.
+
+<Frame>
+![Widget Redeem tab with gift card rewards showing the brand logo and a Gift card badge](/images/product-docs/product-releases/CL26.11.13/P-COR-30-gift-cards-widget-1-annotated.png)
+</Frame>
+
+Customers find their gift cards in the **Coupons** tab. Each card shows a status and opens in one tap once it is ready.
+
+| Status | Meaning |
+|---|---|
+| **Preparing** | The card is being issued. |
+| **Ready** | The customer can open the card with **Open gift card**. |
+| **Failed** | The card could not be issued. The customer's points are returned automatically. |
+
+<Frame>
+![Widget Coupons tab showing gift cards with Preparing, ready to open and Failed statuses](/images/product-docs/product-releases/CL26.11.13/P-COR-30-gift-cards-widget-2.png)
+</Frame>
 
 ---
 
