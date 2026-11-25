@@ -1,0 +1,135 @@
+---
+title: "How Do I Create a Place Order Reward Campaign?"
+description: "Learn how to reward customers for every Nth order they place, and narrow down which orders count with order, product and merchant conditions."
+---
+
+## Plan Availability
+
+Place Order campaigns are available on the same plans as Action-Based reward campaigns.
+
+<Tabs>
+<Tab title="Shopify & Salla">
+| Plan | Available |
+|---|---|
+| Pro & Guru | Yes |
+</Tab>
+
+<Tab title="Non-Platform">
+| Plan | Available |
+|---|---|
+| Growth | Yes |
+| Enterprise | Yes |
+</Tab>
+</Tabs>
+
+A **Place Order campaign** rewards your customers for placing orders. You choose how often customers get rewarded, for example every 3rd order, and add conditions so that only the orders you care about count, such as orders where the total paid is 500 or more.
+
+---
+
+## Create a Place Order Campaign
+
+<Steps>
+<Step title="Pick Place Order from Start from Scratch">
+  Log in to your **Gameball Dashboard**, navigate to **Campaigns** on the left side menu and click **Rewards**. Click **Create Reward Campaign**, then choose **Place Order**, the first option under **Start from Scratch**.
+
+  <Frame>
+  ![Reward Campaigns template gallery with Place Order under Start from Scratch](/images/product-docs/product-releases/CL26.11.10/COR-136-place-order-campaign-step-1-annotated.png)
+  </Frame>
+</Step>
+
+<Step title="Set how often customers get rewarded">
+  Under **Triggers**, the trigger is already set to **When a customer places an order**. In **Reward customers every**, enter the number of orders a customer must place to earn the reward.
+
+  For example, enter `3` to reward every 3rd order: the 3rd, 6th, 9th and so on, as long as the campaign's **Repeatability** allows it. With **Limited to 1 time overall**, only the 3rd order is rewarded. Only orders placed after the campaign goes live count.
+
+  At the top of the trigger, a note reads "Your store must send orders to Gameball as place_order for them to count." Click **View Order API docs** in the note to see how to send them.
+
+  <Note>
+  With a product condition, such as **Collection**, each matching item counts toward the number of orders. For example, with **Reward customers every 3 Orders** and a Collection condition, one order with 3 matching items earns the reward.
+  </Note>
+
+  <Frame>
+  ![Place Order trigger with Reward customers every 3 Orders and a Total Paid condition](/images/product-docs/product-releases/CL26.11.10/COR-136-place-order-campaign-step-2-annotated.png)
+  </Frame>
+</Step>
+
+<Step title="Add conditions to the orders that count">
+  Click **Add Condition** to open the condition picker, then choose a field, an operator and a value. For example, **Total Paid** **Equals Or Greater** `500` USD. Use the trash icon to remove a condition.
+
+  Fields in the picker are grouped into **Order**, **Products**, **Merchant & branch**, and **Other**, and you can search them by name, for example "order total" or "collection":
+
+  - **Order**: **Discount** (discounts applied to the whole order), **Total Paid** (what the customer paid for the whole order), **Channel** (where the order was placed, for example online store or mobile app), **Total Items** (items in the order, counting quantities), **Total Unique Items** (different products in the order) and **Coupon Codes** (coupon codes used on the order)
+  - **Products**: **Collection**, **Category**, **Product ID**, **SKU**, **Title**, **Vendor**, **Tags** and **Weight**
+  - **Merchant & branch**: **Merchants** (which of your merchants sold the order) and **Branch** (which branch sold the order)
+  - **Other**: any other key your store sends with the order, shown by its key name
+
+  Number fields offer **Equals Or Greater**, **Greater than**, **Less than or equal**, **Less than**, **Equals** and **Between**. Text fields offer **Equals**, **Is not**, **Contains** and **Does not contain**.
+
+  You can add up to 5 conditions. An order counts only if it matches **all** of them.
+
+  <Frame>
+  ![Condition picker grouped into Order, Products, Merchant & branch and Other](/images/product-docs/product-releases/CL26.11.10/COR-136-place-order-campaign-step-3.png)
+  </Frame>
+</Step>
+
+<Step title="Finish the rest of the setup">
+  Complete the remaining sections the same way as any reward campaign:
+
+  - **Audience**: All Customers or Specific Customers. Gameball shows how many customers are in your audience right now.
+  - **Window duration** (optional): Select **Add window duration for completing the required actions** to give customers a time limit for placing the required orders.
+  - **Repeatability**: **Unlimited**, **Limited to X times overall**, **Time-based limit (per period)**, or **Combined (overall + per period)**.
+  - **Activation**: **Always Active** or **Scheduled**.
+  - **Details**, **Rewards & Badges**, and **Notifications**.
+
+  [Learn more about each section](/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide)
+</Step>
+</Steps>
+
+<Tip>
+Once your campaign is configured, click **Save**, **Preview**, and then **Activate** it.
+</Tip>
+
+---
+
+## Important Notes
+
+<Warning>
+**Only `place_order` Orders Count**: The campaign counts only orders that reach Gameball as the reserved `place_order` event. Shopify and Salla stores send orders this way automatically, and other platforms send them with the Order API. Orders sent under any other event name don't count. [Learn how to send orders](/api-reference/order/order-tracking)
+</Warning>
+
+<Warning>
+**Don't Skip `place_order`**: If you set the **Auto-trigger** of `place_order` to **Skipped** in **Admin settings › Events**, Gameball stops firing it, and no orders count toward Place Order campaigns. [Learn more](/product-documentation/admin-settings/create-and-send-events)
+</Warning>
+
+<Note>
+If no order has reached Gameball yet, the builder shows **No orders have reached Gameball yet**, and you can save the campaign once your first order arrives.
+</Note>
+
+---
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Which orders count toward a Place Order campaign?">
+    Only orders sent to Gameball as `place_order` after the campaign goes live count, and only if they match every condition you add to the trigger.
+  </Accordion>
+  <Accordion title="Where do I see the place_order event?">
+    The `place_order` event is listed under **Gameball events** in **Admin settings › Events**. [Learn more](/product-documentation/admin-settings/create-and-send-events)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Set Up a Reward Campaign" icon="gear" href="/product-documentation/rewards-campaigns/reward-campaign-general-setup-guide">
+    Configure audience, repeatability, rewards, notifications and more.
+  </Card>
+  <Card title="Create an Action-Based Reward Campaign" icon="bolt" href="/product-documentation/rewards-campaigns/start-from-scratch/create-action-based-reward-campaign">
+    Reward customers for any event they complete, including custom events.
+  </Card>
+  <Card title="Create and Send Events" icon="list-check" href="/product-documentation/admin-settings/create-and-send-events">
+    See Gameball events and your custom events in Admin settings.
+  </Card>
+</CardGroup>

@@ -75,15 +75,20 @@ Let's say, for example, that you want to reward your customers when they visit a
   <Accordion title="Trigger" icon="bolt">
   Choose the rules that grant the customers the campaign's reward once achieved.
 
+  The event picker splits **Gameball events**, such as **Order placed**, from the **Custom events** you created, and you can search both. [Learn more](/product-documentation/rewards-campaigns/faqs/using-the-event-engine#choose-an-event)
+
   Let's say you want to reward the campaign's audience once they complete **1 order from Collection X, and 1 order from Collection Y**:
 
-  1. Select **Place Order** for the **Choose Event** dropdown menu.
-  2. Make your **After Counter** to **1** (this sets how many times the event should be achieved before rewarding the campaign).
-  3. **Add** a **Rule**, where the **Collection ID** equals **X**.
-  4. Add another Rule to complete the second part of the trigger. Click on **Add Rule**.
-  5. Select **Place Order** for the **Choose Event** dropdown menu.
-  6. Make your **After Counter** to **1**.
-  7. **Add** a **Rule**, where the **Collection ID** equals **Y**.
+  1. Click **Select an event** and choose **Order placed** under **Gameball events**.
+  2. Set **for** to **1** time(s). This sets how many times the event must happen before the customer is rewarded.
+  3. Click **Add Rule** and choose **Collection** (under **Products**), **Equals**, and collection **X**.
+  4. Add a second event to complete the trigger, and choose **Order placed** again.
+  5. Set **for** to **1** time(s).
+  6. Click **Add Rule** and choose **Collection**, **Equals**, and collection **Y**.
+
+  When your trigger uses **Order placed**, a note at the top of the trigger reminds you that your store must send orders to Gameball as `place_order` for them to count, and rule fields use the grouped condition picker. To reward every Nth order without building the trigger yourself, use a [Place Order campaign](/product-documentation/rewards-campaigns/start-from-scratch/create-place-order-reward-campaign).
+
+  {/* TODO: the GIF below shows the old event picker and needs to be re-recorded. */}
 
   <Note>
   Check this article about [using the event engine](/product-documentation/rewards-campaigns/start-from-scratch/setup-reward-campaign) to understand more about how to create a campaign trigger.
@@ -269,6 +274,7 @@ Now that you have created and configured your campaign, remember to press **Save
 <Note>
 There are other types of Reward Campaigns. Learn how to create and configure each of them below:
 
+- [Create & Configure a Place Order Reward Campaign](/product-documentation/rewards-campaigns/start-from-scratch/create-place-order-reward-campaign)
 - [Create & Configure a Time-based Reward Campaign](/product-documentation/rewards-campaigns/start-from-scratch/create-time-based-reward-campaign)
 - [Create & Configure a Points Multiplier Reward Campaign](/product-documentation/rewards-campaigns/start-from-scratch/create-point-multiplier-reward-campaign)
 </Note>

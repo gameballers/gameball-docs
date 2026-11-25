@@ -27,11 +27,22 @@ Events are the actions performed by your customers on your platform. Your platfo
 
 To configure these events on the **Gameball dashboard**, go to **Settings > Admin Settings > Integrations: Events**.
 
+On the events page, you can find all events sent to Gameball and their details, split into two lists:
+
+| List | What it shows |
+|---|---|
+| **Custom events** | The events you created and send from your platform. Click **Create Event** to add one, or **Events Logs** to see what your platform sends. |
+| **Gameball events** | The events Gameball provides, such as **Place Order** (`place_order`), `friend_referred` and `points_redeemed`. |
+
+Each list shows how many events it holds, with the columns **Event**, **Keys**, **Link Status** (**Linked** or **Not Linked**) and **Auto-trigger**. Only events that Gameball fires automatically have an **Auto-trigger** switch; other events, including all custom events, show "—". The same split appears in every event picker on the dashboard. [Learn more](/product-documentation/rewards-campaigns/faqs/using-the-event-engine#choose-an-event)
+
 <Frame>
-  ![Events Settings](/images/product-docs/admin-settings/events-settings.png)
+![Custom events list in Admin settings › Events](/images/product-docs/product-releases/CL26.11.10/COR-136-gameball-custom-events-part-1.png)
 </Frame>
 
-On the events page, you can find all events sent to Gameball and their details.
+<Frame>
+![Gameball events list with Auto-trigger toggles](/images/product-docs/product-releases/CL26.11.10/COR-136-gameball-custom-events-part-2.png)
+</Frame>
 
 ---
 
@@ -53,6 +64,10 @@ You can configure and edit event details before linking an event on the Gameball
   </Accordion>
 </AccordionGroup>
 
+<Note>
+You can't change the name or display name of a **Gameball event**, because Gameball sends it. You can still add keys to it.
+</Note>
+
 <Frame>
   ![Events Configuration](/images/product-docs/admin-settings/events-configuration.png)
 </Frame>
@@ -65,7 +80,9 @@ You can configure and edit event details before linking an event on the Gameball
   ![Internal Events](/images/product-docs/admin-settings/internal-events.png)
 </Frame>
 
-You have the ability to **enable or disable the internal events** that Gameball automatically fires (such as `place_order`, `view_product`, `order_refunded`, `add_to_cart`, etc.).
+You have the ability to **enable or disable the internal events** that Gameball automatically fires (such as `place_order`, `view_product_page`, `order_refunded`, `add_to_cart`, etc.).
+
+These events are listed under **Gameball events**. Use the switch in the **Auto-trigger** column to set each one to **Enabled** or **Skipped**. When an event is **Skipped**, Gameball stops firing it automatically, and campaigns that use it stop progressing. For example, if `place_order` is skipped, orders no longer count toward Place Order campaigns or purchase templates.
 
 ### Why This Matters
 
@@ -78,8 +95,8 @@ This gives you **complete control** over the events you track and process, allow
 ### Key Details
 
 <CardGroup cols={2}>
-  <Card title="Dedicated Settings Page" icon="toggle-on">
-    A dedicated settings page lists all auto-fired Gameball events with toggles to enable or disable them individually.
+  <Card title="One Place for All Events" icon="toggle-on">
+    The **Gameball events** list in **Admin settings › Events** shows every auto-fired Gameball event with its own **Auto-trigger** switch.
   </Card>
   <Card title="Real-Time Effect" icon="bolt">
     Changes apply in real time — once an event is disabled, it stops being fired immediately.
