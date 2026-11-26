@@ -172,11 +172,18 @@ This template uses the standard reward campaign setup. See the [Generic Setup Gu
   </Note>
 </Accordion>
 
+<Accordion title="When a Reward Reaches Its Limit" icon="scale-balanced">
+  When a reward reaches its limit, you choose what happens. The setting is at the top of the rewards page and applies to every reward in the campaign that has a **Reward Limit** or **Reward Supply Cap**.
+
+  - **Show No Luck instead:** Plays that land on the reward show No Luck. The other rewards keep the probability you set.
+  - **Share its probability with the other rewards:** The reward leaves the draw, and its probability is shared among the other rewards, No Luck included.
+</Accordion>
+
 <Accordion title="Reward Supply Cap" icon="gauge">
   Control how many times a reward can be won across all customers in a given period, without changing its odds.
 
   - Set a **daily**, **weekly**, or **monthly** cap per reward.
-  - When the cap is reached, plays that land on that reward show **No Luck** instead — the odds you set stay the same.
+  - When the cap is reached, what happens next depends on your **When a reward reaches its limit** setting: by default, plays that land on that reward show **No Luck** instead and the odds you set stay the same.
   - A **No Luck** reward is added automatically whenever any reward has a supply cap, and cannot be removed while caps exist.
   - Customers never see that a reward is capped.
 
