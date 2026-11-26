@@ -19,7 +19,8 @@ Gameball provides several reward types across various platforms, each designed t
 |-------------|---------------|----------|
 | **Online Only Rewards** | Points, Free Product, Free Shipping, Fixed Amount-based Discount (Available in Dynamic mode), Percentage-based Discount, Custom Rewards (Third-party), External Reward, Coupon Engine Rewards (Third-party redemption, External Reward API call, Percentage-based cashback coupon, Fixed Amount-based cashback coupon, Percentage-based fee discount) | All platforms |
 | **POS Rewards** | POS Fixed Amount-based Discount, POS Percentage-based Discount | Shopify |
-| **Shopify-Specific Rewards** | Store Credit, Recharge Fixed Amount-based Discount, Recharge Percentage-based Discount | Shopify |
+| **Wallet Balance Rewards** | Store Credit (Shopify), Customer Wallet (Salla) | Shopify, Salla |
+| **Shopify-Specific Rewards** | Recharge Fixed Amount-based Discount, Recharge Percentage-based Discount | Shopify |
 | **Recharge Rewards** | Fixed Amount-based Discount, Percentage-based Discount | Shopify - Recharge Subscription Users |
 
 ---
@@ -186,22 +187,32 @@ Gameball provides several reward types across various platforms, each designed t
   </Frame>
 </Accordion>
 
-<Accordion title="6. Store Credit" icon="credit-card">
-  <Note>This reward is available as a campaign reward only.</Note>
+<Accordion title="6. Wallet Balance (Store Credit on Shopify, Customer Wallet on Salla)" icon="credit-card">
+  Wallet balance is real money added to the customer's account in your store, ready to spend at checkout. It has fewer checkout restrictions than a coupon, and one deposit can be spent across one or more orders. Shopify calls it store credit and Salla calls it the customer wallet.
+
+  This reward is available as a **campaign reward** on Shopify and Salla, and as a **redemption option** that customers buy with points. [Learn how to add a wallet balance redemption option](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system).
 
   | Platform | Plan |
   |----------|------|
-  | Shopify only | Starter, Pro and Guru (Newly enrolled) |
+  | Shopify | Starter, Pro and Guru (Newly enrolled) |
+  | Salla | All Plans |
+
+  {/* TODO: confirm Salla plans for wallet balance */}
 
   **Reward Campaign:**
-  - **Credit Value:** Set the Credit value (e.g., $100).
-  - **Bonus Expiry**: Set a specific expiry for this reward, overriding the default expiry.
+  - **Credit Value:** Set the credit value (e.g., $100).
+  - **Bonus Expiry**: Set a specific expiry for this reward, overriding the default expiry. On Salla, wallet balance can expire after at most 5 years.
+  - On Salla, you can give wallet balance as a reward for campaigns (including welcome and birthday), tier upgrades and referrals.
 
   <Frame>
     <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-store-credit.png" alt="Store credit configuration" />
   </Frame>
 
-  To reward your customers with store credit, you need to complete the following steps:
+  <Frame>
+  ![Reward value page with Customer wallet selected and a 25 USD reward on Salla](/images/product-docs/product-releases/CL26.11.14/COR-30-wallet-balance-campaign-reward-annotated.png)
+  </Frame>
+
+  To reward your customers with store credit on Shopify, you need to complete the following steps:
 
   <Steps>
   <Step title="Enable Shopify store credit feature">
