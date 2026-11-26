@@ -187,30 +187,27 @@ Gameball provides several reward types across various platforms, each designed t
   </Frame>
 </Accordion>
 
-<Accordion title="6. Wallet Balance (Store Credit on Shopify, Customer Wallet on Salla)" icon="credit-card">
-  Wallet balance is real money added to the customer's account in your store, ready to spend at checkout. It has fewer checkout restrictions than a coupon, and one deposit can be spent across one or more orders. Shopify calls it store credit and Salla calls it the customer wallet.
+<Accordion title="6. Wallet Balance" icon="wallet">
+  Wallet balance is real money added to the customer's account in your store, ready to spend at checkout. One deposit can be spent across one or more orders. Shopify calls it store credit and Salla calls it the customer wallet.
 
-  This reward is available as a **campaign reward** on Shopify and Salla, and as a **redemption option** that customers buy with points. [Learn how to add a wallet balance redemption option](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system).
+  Customers can also buy wallet balance with points as a **redemption option**. [Learn how to add a wallet balance redemption option](/product-documentation/programs/loyalty-points-redeem/launch-and-configure-your-redeem-pointing-system).
 
   | Platform | Plan |
   |----------|------|
   | Shopify | Starter, Pro and Guru |
   | Salla | All Plans |
 
+  ### Shopify (Store Credit)
+
   **Reward Campaign:**
-  - **Credit Value:** Set the credit value (e.g., $100).
-  - **Bonus Expiry**: Set a specific expiry for this reward, overriding the default expiry. On Salla, wallet balance can expire after at most 5 years.
-  - On Salla, you can give wallet balance as a reward for campaigns (including welcome and birthday), tier upgrades and referrals.
+  - **Credit Value:** Set the Credit value (e.g., $100).
+  - **Bonus Expiry**: Set a specific expiry for this reward, overriding the default expiry.
 
   <Frame>
     <img src="/images/product-docs/rewards-campaigns/faqs/rewards-type-store-credit.png" alt="Store credit configuration" />
   </Frame>
 
-  <Frame>
-  ![Reward value page with Customer wallet selected and a 25 USD reward on Salla](/images/product-docs/product-releases/CL26.11.14/COR-30-wallet-balance-campaign-reward-annotated.png)
-  </Frame>
-
-  To reward your customers with store credit on Shopify, you need to complete the following steps:
+  To reward your customers with store credit, you need to complete the following steps:
 
   <Steps>
   <Step title="Enable Shopify store credit feature">
@@ -223,6 +220,38 @@ Gameball provides several reward types across various platforms, each designed t
 
   <Step title="Grant Gameball permission">
     Grant Gameball permission to use Shopify's store credit APIs.
+  </Step>
+  </Steps>
+
+  ### Salla (Customer Wallet)
+
+  You can give wallet balance as a reward for campaigns (including welcome and birthday), tier upgrades and referrals.
+
+  **Reward Campaign:**
+  - **Credit Value:** Set the credit value (e.g., $25).
+  - **Bonus Expiry**: Set a specific expiry for this reward, overriding the default expiry. Wallet balance can expire after at most 5 years.
+
+  <Frame>
+  ![Reward value page with Customer wallet selected and a 25 USD reward on Salla](/images/product-docs/product-releases/CL26.11.14/COR-30-wallet-balance-campaign-reward-annotated.png)
+  </Frame>
+
+  To reward your customers with the customer wallet, you need to complete the following steps:
+
+  <Steps>
+  <Step title="Grant Gameball permission">
+    When you select **Customer wallet** in a reward or redemption form, a banner asks you to give Gameball permission to add credit to customer wallets. Click **Grant access** and approve the request in Salla.
+
+    <Frame>
+    ![Setup check banner asking for permission to add credit to customer wallets in Salla](/images/product-docs/product-releases/CL26.11.14/COR-167-customer-wallet-salla-setup-check.png)
+    </Frame>
+  </Step>
+
+  <Step title="Activate the customer wallet in Salla">
+    In your Salla dashboard, go to **Settings > Customer Wallet** and click **Activate Customer Wallet**. Then return to Gameball and click **Recheck**.
+
+    <Frame>
+    ![Customer wallet settings in the Salla dashboard with Activate Customer Wallet switched on](/images/product-docs/product-releases/CL26.11.14/COR-167-customer-wallet-salla-settings.png)
+    </Frame>
   </Step>
   </Steps>
 </Accordion>
